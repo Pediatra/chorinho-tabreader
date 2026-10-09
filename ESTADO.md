@@ -1005,6 +1005,25 @@ CONTEÚDO da janela (contexto, contraste, o que mais cai dentro dela), não no t
 mais provável, ainda não medida: os negativos do treino vêm de **tablaturas marcadas**, todas com
 passo e render parecidos, enquanto o pipeline entrega render de canais que o detector nunca viu.
 
+## 2026-10-09 — o dono identificou o falso positivo: BARRA VERTICAL não é símbolo (e virou regra)
+
+Ele olhou o `shin izumi` e disse: *"essas barras que estão embaixo dos números na vertical não
+significam nada de importante, pode fazer o leitor desconsiderar"*. Era **exatamente** o que o
+detector aprovava lá (mediana 0,87). Medido:
+
+| | largura/altura (mediana) |
+| --- | --- |
+| barras que o detector aprovava no `shin izumi` (100 em 3 quadros) | **0,118** |
+| os **123 símbolos verdadeiros** dele | **1,706** |
+
+**Zero de 123** símbolos têm razão abaixo de 0,35. Regra determinística, **antes do modelo**:
+`RAZAO_MINIMA_SIMBOLO = 0,35` em `tab/caminhos.py`, aplicada no `reconhecer_linha`. Efeito na
+mesma amostra: `shin izumi` **41 → 6** guardados por quadro; `mr. tabs` **39 → 11**.
+
+Por que a `e_haste_fina` do delimitador não pegava: ela exige **perfil constante** (desvio ≤ 0,06)
+e estas barras têm desvio **0,218** — passavam. A regra nova usa só a razão, e só no caminho de
+SÍMBOLO (o algarismo `1`, que é estreito, não é afetado porque não é candidato a símbolo).
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

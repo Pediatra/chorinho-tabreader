@@ -26,7 +26,7 @@ import cv2
 import numpy as np
 import torch
 
-from .caminhos import LIMIAR_SIMBOLO, MODELO_PADRAO
+from .caminhos import LIMIAR_SIMBOLO, MODELO_PADRAO, RAZAO_MINIMA_SIMBOLO
 from .glyph_bench import GlifoCNN
 from .glyphset import normalizar
 from .tabseg import segmentar
@@ -310,8 +310,15 @@ def reconhecer_linha(
             # critério antigo era "não é algarismo", e o resíduo de uma tablatura é ~98 % linha,
             # borrão e dígito mal lido. O recorte usa a JANELA DO TREINO (2,4 x 1,6 passo,
             # centrado no token): moldura é entrada do modelo, não detalhe de implementação.
+            # BARRA VERTICAL NÃO É SÍMBOLO (instrução do dono sobre o `shin izumi`: "essas barras
+            # na vertical não significam nada de importante"). Medido: as barras que o detector
+            # aprovava lá têm razão mediana 0,118 e os 123 símbolos verdadeiros têm 1,706 — ZERO
+            # dos 123 abaixo de 0,35. Regra antes do modelo, porque é determinística e sem colateral.
+            razao = (tk.x1 - tk.x0 + 1) / max(1.0, float(tk.y1 - tk.y0 + 1))
+            if razao < RAZAO_MINIMA_SIMBOLO:
+                sufixo["recusado_por_forma"] = f"barra_vertical (razao {razao:.2f})"
             p_simbolo = None
-            if filtro_simbolo is not None:
+            if filtro_simbolo is not None and "recusado_por_forma" not in sufixo:
                 cx = (tk.x0 + tk.x1) // 2
                 cy = (tk.y0 + tk.y1) // 2
                 hx, hy = round(1.2 * g.passo), round(0.8 * g.passo)
@@ -319,7 +326,9 @@ def reconhecer_linha(
                 if rec.size:
                     p_simbolo = float(filtro_simbolo([rec])[0])
                     sufixo["prob_simbolo"] = round(p_simbolo, 3)
-            passa = p_simbolo is None or p_simbolo >= LIMIAR_SIMBOLO
+            passa = "recusado_por_forma" not in sufixo and (
+                p_simbolo is None or p_simbolo >= LIMIAR_SIMBOLO
+            )
             if passa:
                 nota["simbolo_cru"] = (
                     _guardar_cru(gray, tk, dir_simbolos, prefixo, sufixo)

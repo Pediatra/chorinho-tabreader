@@ -58,3 +58,12 @@ def acervo() -> Path:
 #: nada ganho. Fica aqui (e não em `tab.simbolo`) porque `reconhecer` e `simbolo` precisam dela e
 #: `simbolo` importa `digito`, que importa `reconhecer`: pôr em `simbolo` fecharia o ciclo.
 LIMIAR_SIMBOLO = 0.5
+
+
+#: Largura/altura mínima para um token poder ser símbolo. Instrução do dono do projeto sobre o
+#: `shin izumi`: *"essas barras que estão embaixo dos números na vertical não significam nada de
+#: importante, pode fazer o leitor desconsiderar"*. Medido: as barras que o detector aprovava lá
+#: têm razão mediana **0,118** (100 barras em 3 quadros) e os **123 símbolos verdadeiros** dele têm
+#: mediana **1,706** — **0 de 123** abaixo de 0,35. Regra determinística com zero colateral:
+#: símbolo de tablatura é LARGO (arco, seta, ligadura); barra vertical é lixo de render.
+RAZAO_MINIMA_SIMBOLO = 0.35
