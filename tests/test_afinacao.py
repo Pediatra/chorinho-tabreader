@@ -172,6 +172,15 @@ def test_agrupar_junta_o_mesmo_texto_em_instantes_diferentes() -> None:
     assert juntos[0]["score"] == 0.8
 
 
+def test_agrupar_nao_repete_instante() -> None:
+    """Dois blocos do mesmo quadro podem cair no mesmo grupo; o instante conta 1 vez."""
+    a = Bloco(100, 200, 400, 230, 8, 20.0, 0.1, 0.1, 0.2, 0.9, 200.0, 0.8)
+    b = Bloco(104, 202, 404, 232, 8, 20.0, 0.1, 0.1, 0.2, 0.9, 200.0, 0.7)
+    grupos = agrupar([(3.0, a), (3.0, b)])
+    assert len(grupos) == 1
+    assert grupos[0]["instantes"] == [3.0]
+
+
 def test_normalizar_casa_com_a_pasta_do_acervo() -> None:
     """`guitar dell'arte` (como o dono escreve) casa com a pasta acentuada."""
     assert normalizar("guitar dell'arte") == normalizar("guitar dell ́arte")

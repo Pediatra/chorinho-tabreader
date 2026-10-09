@@ -1,0 +1,7438 @@
+{
+ "instantes_s": [
+  3.0,
+  8.0,
+  15.0,
+  30.0,
+  45.0
+ ],
+ "parametros": {
+  "frac_topo": 1.0,
+  "top_k": 3,
+  "score_min": 0.0,
+  "min_componentes": 3,
+  "bimodal_min": 0.55,
+  "contraste_min": 45.0,
+  "aspecto_max": 35.0,
+  "altura_bloco_frac": 0.1,
+  "iou_nms": 0.3
+ },
+ "canais": {
+  "shin izumi": {
+   "n_videos": 5,
+   "n_com_candidato": 5,
+   "n_candidatos": 40,
+   "instantes_com_candidato": {
+    "15": 11,
+    "3": 12,
+    "30": 11,
+    "45": 13,
+    "8": 11
+   },
+   "melhores": [
+    {
+     "video": "shin izumi/【tab】moanin’ - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/30s_23.png",
+     "t": 30.0,
+     "instantes": [
+      30.0,
+      45.0
+     ],
+     "score": 0.971,
+     "y_rel": 0.654
+    },
+    {
+     "video": "shin izumi/【tab】someday my prince will come - fingerstyle guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/30s_34.png",
+     "t": 30.0,
+     "instantes": [
+      3.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.864,
+     "y_rel": 0.647
+    },
+    {
+     "video": "shin izumi/【tab】moanin’ - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/3s_24.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.849,
+     "y_rel": 0.651
+    },
+    {
+     "video": "shin izumi/【tab】moanin’ - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/30s_25.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.846,
+     "y_rel": 0.654
+    },
+    {
+     "video": "shin izumi/【tab】someday my prince will come - fingerstyle guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/45s_35.png",
+     "t": 45.0,
+     "instantes": [
+      3.0,
+      8.0,
+      45.0
+     ],
+     "score": 0.824,
+     "y_rel": 0.628
+    },
+    {
+     "video": "shin izumi/【tab】someday my prince will come - fingerstyle guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/8s_36.png",
+     "t": 8.0,
+     "instantes": [
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.819,
+     "y_rel": 0.65
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/15s_10.png",
+     "t": 15.0,
+     "instantes": [
+      3.0,
+      15.0
+     ],
+     "score": 0.817,
+     "y_rel": 0.659
+    },
+    {
+     "video": "shin izumi/【tab】a whole new world - aladdin - disney  - fingerstyle guitar  ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/3s_1.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.808,
+     "y_rel": 0.792
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/45s_11.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.798,
+     "y_rel": 0.651
+    },
+    {
+     "video": "shin izumi/【tab】moanin’ - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/15s_26.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.787,
+     "y_rel": 0.653
+    },
+    {
+     "video": "shin izumi/【tab】a whole new world - aladdin - disney  - fingerstyle guitar  ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/8s_2.png",
+     "t": 8.0,
+     "instantes": [
+      3.0,
+      8.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.785,
+     "y_rel": 0.754
+    },
+    {
+     "video": "shin izumi/【tab】a whole new world - aladdin - disney  - fingerstyle guitar  ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/45s_3.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.783,
+     "y_rel": 0.74
+    },
+    {
+     "video": "shin izumi/【tab】moanin’ - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/45s_27.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.781,
+     "y_rel": 0.624
+    },
+    {
+     "video": "shin izumi/【tab】moanin’ - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/45s_28.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.778,
+     "y_rel": 0.624
+    },
+    {
+     "video": "shin izumi/【tab】someday my prince will come - fingerstyle guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/15s_37.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.776,
+     "y_rel": 0.639
+    },
+    {
+     "video": "shin izumi/【tab】someday my prince will come - fingerstyle guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/30s_38.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.775,
+     "y_rel": 0.647
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/45s_12.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.771,
+     "y_rel": 0.625
+    },
+    {
+     "video": "shin izumi/【tab】a whole new world - aladdin - disney  - fingerstyle guitar  ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/45s_4.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.742,
+     "y_rel": 0.74
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/8s_13.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.735,
+     "y_rel": 0.803
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/8s_14.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.72,
+     "y_rel": 0.62
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/8s_15.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.715,
+     "y_rel": 0.803
+    },
+    {
+     "video": "shin izumi/【tab】someday my prince will come - fingerstyle guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/8s_39.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.715,
+     "y_rel": 0.626
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/30s_16.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.713,
+     "y_rel": 0.655
+    },
+    {
+     "video": "shin izumi/【tab】a whole new world - aladdin - disney  - fingerstyle guitar  ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/15s_5.png",
+     "t": 15.0,
+     "instantes": [
+      15.0,
+      30.0
+     ],
+     "score": 0.712,
+     "y_rel": 0.748
+    },
+    {
+     "video": "shin izumi/【tab】santa claus is comin’ to town - fingerstyle guitar - ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/3s_31.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.706,
+     "y_rel": 0.773
+    },
+    {
+     "video": "shin izumi/【tab】a whole new world - aladdin - disney  - fingerstyle guitar  ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/3s_6.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.703,
+     "y_rel": 0.791
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/45s_17.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.69,
+     "y_rel": 0.635
+    },
+    {
+     "video": "shin izumi/【tab】a whole new world - aladdin - disney  - fingerstyle guitar  ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/15s_7.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.677,
+     "y_rel": 0.837
+    },
+    {
+     "video": "shin izumi/【tab】a whole new world - aladdin - disney  - fingerstyle guitar  ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/30s_8.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.67,
+     "y_rel": 0.805
+    },
+    {
+     "video": "shin izumi/【tab】a whole new world - aladdin - disney  - fingerstyle guitar  ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/15s_9.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.666,
+     "y_rel": 0.816
+    },
+    {
+     "video": "shin izumi/【tab】moanin’ - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/8s_29.png",
+     "t": 8.0,
+     "instantes": [
+      8.0,
+      15.0
+     ],
+     "score": 0.662,
+     "y_rel": 0.226
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/30s_18.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.661,
+     "y_rel": 0.25
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/30s_19.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.594,
+     "y_rel": 0.853
+    },
+    {
+     "video": "shin izumi/【tab】someday my prince will come - fingerstyle guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/15s_40.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.591,
+     "y_rel": 0.1
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/3s_20.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.516,
+     "y_rel": 0.368
+    },
+    {
+     "video": "shin izumi/【tab】santa claus is comin’ to town - fingerstyle guitar - ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/45s_32.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.465,
+     "y_rel": 0.907
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/3s_21.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      15.0
+     ],
+     "score": 0.46,
+     "y_rel": 0.209
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/15s_22.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.386,
+     "y_rel": 0.133
+    },
+    {
+     "video": "shin izumi/【tab】santa claus is comin’ to town - fingerstyle guitar - ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/3s_33.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.345,
+     "y_rel": 0.338
+    },
+    {
+     "video": "shin izumi/【tab】moanin’ - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "png": "data/saida/afinacao/shin izumi/3s_30.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.338,
+     "y_rel": 0.227
+    }
+   ],
+   "videos": [
+    {
+     "video": "shin izumi/【tab】a whole new world - aladdin - disney  - fingerstyle guitar  ソロギター【タブ】.mp4",
+     "duracao_s": 179.0,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 9,
+     "candidatos": [
+      {
+       "x0": 156,
+       "y0": 846,
+       "x1": 269,
+       "y1": 865,
+       "n": 6,
+       "altura": 16.0,
+       "cv_altura": 0.108,
+       "cv_base": 0.023,
+       "razao_gap": 0.0,
+       "bimodal": 0.802,
+       "contraste": 176.0,
+       "score": 0.808,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/3s_1.png",
+       "y_rel": 0.792
+      },
+      {
+       "x0": 108,
+       "y0": 801,
+       "x1": 195,
+       "y1": 827,
+       "n": 7,
+       "altura": 18.9,
+       "cv_altura": 0.233,
+       "cv_base": 0.039,
+       "razao_gap": 0.0,
+       "bimodal": 0.825,
+       "contraste": 221.0,
+       "score": 0.785,
+       "t": 8.0,
+       "instantes": [
+        3.0,
+        8.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/8s_2.png",
+       "y_rel": 0.754
+      },
+      {
+       "x0": 686,
+       "y0": 788,
+       "x1": 741,
+       "y1": 811,
+       "n": 5,
+       "altura": 19.0,
+       "cv_altura": 0.067,
+       "cv_base": 0.042,
+       "razao_gap": 0.125,
+       "bimodal": 0.824,
+       "contraste": 223.0,
+       "score": 0.783,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/45s_3.png",
+       "y_rel": 0.74
+      },
+      {
+       "x0": 1313,
+       "y0": 787,
+       "x1": 1379,
+       "y1": 811,
+       "n": 4,
+       "altura": 19.8,
+       "cv_altura": 0.126,
+       "cv_base": 0.0,
+       "razao_gap": 0.16,
+       "bimodal": 0.815,
+       "contraste": 222.0,
+       "score": 0.742,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/45s_4.png",
+       "y_rel": 0.74
+      },
+      {
+       "x0": 1464,
+       "y0": 798,
+       "x1": 1508,
+       "y1": 818,
+       "n": 4,
+       "altura": 17.2,
+       "cv_altura": 0.161,
+       "cv_base": 0.05,
+       "razao_gap": 0.095,
+       "bimodal": 0.804,
+       "contraste": 188.0,
+       "score": 0.712,
+       "t": 15.0,
+       "instantes": [
+        15.0,
+        30.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/15s_5.png",
+       "y_rel": 0.748
+      },
+      {
+       "x0": 944,
+       "y0": 844,
+       "x1": 987,
+       "y1": 864,
+       "n": 4,
+       "altura": 17.2,
+       "cv_altura": 0.161,
+       "cv_base": 0.075,
+       "razao_gap": 0.095,
+       "bimodal": 0.801,
+       "contraste": 197.0,
+       "score": 0.703,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/3s_6.png",
+       "y_rel": 0.791
+      },
+      {
+       "x0": 1657,
+       "y0": 894,
+       "x1": 1716,
+       "y1": 913,
+       "n": 3,
+       "altura": 15.7,
+       "cv_altura": 0.15,
+       "cv_base": 0.06,
+       "razao_gap": 0.194,
+       "bimodal": 0.812,
+       "contraste": 164.0,
+       "score": 0.677,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/15s_7.png",
+       "y_rel": 0.837
+      },
+      {
+       "x0": 1740,
+       "y0": 860,
+       "x1": 1798,
+       "y1": 879,
+       "n": 4,
+       "altura": 14.2,
+       "cv_altura": 0.224,
+       "cv_base": 0.099,
+       "razao_gap": 0.083,
+       "bimodal": 0.808,
+       "contraste": 160.0,
+       "score": 0.67,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/30s_8.png",
+       "y_rel": 0.805
+      },
+      {
+       "x0": 286,
+       "y0": 872,
+       "x1": 345,
+       "y1": 891,
+       "n": 4,
+       "altura": 14.2,
+       "cv_altura": 0.229,
+       "cv_base": 0.104,
+       "razao_gap": 0.083,
+       "bimodal": 0.807,
+       "contraste": 160.0,
+       "score": 0.666,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/15s_9.png",
+       "y_rel": 0.816
+      }
+     ]
+    },
+    {
+     "video": "shin izumi/【tab】i got rhythm - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "duracao_s": 130.0,
+     "altura": 1080,
+     "vias": [
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2"
+     ],
+     "n_candidatos": 13,
+     "candidatos": [
+      {
+       "x0": 171,
+       "y0": 704,
+       "x1": 263,
+       "y1": 719,
+       "n": 5,
+       "altura": 14.8,
+       "cv_altura": 0.027,
+       "cv_base": 0.0,
+       "razao_gap": 0.071,
+       "bimodal": 0.825,
+       "contraste": 185.0,
+       "score": 0.817,
+       "t": 15.0,
+       "instantes": [
+        3.0,
+        15.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/15s_10.png",
+       "y_rel": 0.659
+      },
+      {
+       "x0": 1570,
+       "y0": 696,
+       "x1": 1659,
+       "y1": 710,
+       "n": 4,
+       "altura": 14.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.071,
+       "bimodal": 0.821,
+       "contraste": 179.0,
+       "score": 0.798,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/45s_11.png",
+       "y_rel": 0.651
+      },
+      {
+       "x0": 678,
+       "y0": 662,
+       "x1": 759,
+       "y1": 688,
+       "n": 3,
+       "altura": 26.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.043,
+       "bimodal": 0.837,
+       "contraste": 241.0,
+       "score": 0.771,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/45s_12.png",
+       "y_rel": 0.625
+      },
+      {
+       "x0": 568,
+       "y0": 857,
+       "x1": 648,
+       "y1": 877,
+       "n": 4,
+       "altura": 19.2,
+       "cv_altura": 0.022,
+       "cv_base": 0.0,
+       "razao_gap": 1.0,
+       "bimodal": 0.84,
+       "contraste": 197.0,
+       "score": 0.735,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/8s_13.png",
+       "y_rel": 0.803
+      },
+      {
+       "x0": 126,
+       "y0": 653,
+       "x1": 219,
+       "y1": 686,
+       "n": 5,
+       "altura": 23.0,
+       "cv_altura": 0.16,
+       "cv_base": 0.127,
+       "razao_gap": 0.056,
+       "bimodal": 0.842,
+       "contraste": 236.0,
+       "score": 0.72,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/8s_14.png",
+       "y_rel": 0.62
+      },
+      {
+       "x0": 400,
+       "y0": 857,
+       "x1": 480,
+       "y1": 877,
+       "n": 3,
+       "altura": 19.3,
+       "cv_altura": 0.024,
+       "cv_base": 0.0,
+       "razao_gap": 0.821,
+       "bimodal": 0.839,
+       "contraste": 196.1,
+       "score": 0.715,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/8s_15.png",
+       "y_rel": 0.803
+      },
+      {
+       "x0": 666,
+       "y0": 700,
+       "x1": 756,
+       "y1": 714,
+       "n": 3,
+       "altura": 14.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.0,
+       "bimodal": 0.831,
+       "contraste": 178.0,
+       "score": 0.713,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/30s_16.png",
+       "y_rel": 0.655
+      },
+      {
+       "x0": 1269,
+       "y0": 664,
+       "x1": 1341,
+       "y1": 707,
+       "n": 6,
+       "altura": 19.3,
+       "cv_altura": 0.071,
+       "cv_base": 0.395,
+       "razao_gap": 0.095,
+       "bimodal": 0.878,
+       "contraste": 239.0,
+       "score": 0.69,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/45s_17.png",
+       "y_rel": 0.635
+      },
+      {
+       "x0": 528,
+       "y0": 248,
+       "x1": 643,
+       "y1": 292,
+       "n": 4,
+       "altura": 29.2,
+       "cv_altura": 0.207,
+       "cv_base": 0.114,
+       "razao_gap": 0.216,
+       "bimodal": 0.78,
+       "contraste": 175.1,
+       "score": 0.661,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/30s_18.png",
+       "y_rel": 0.25
+      },
+      {
+       "x0": 770,
+       "y0": 911,
+       "x1": 876,
+       "y1": 932,
+       "n": 3,
+       "altura": 19.7,
+       "cv_altura": 0.048,
+       "cv_base": 0.024,
+       "razao_gap": 2.5,
+       "bimodal": 0.818,
+       "contraste": 169.8,
+       "score": 0.594,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/30s_19.png",
+       "y_rel": 0.853
+      },
+      {
+       "x0": 484,
+       "y0": 369,
+       "x1": 699,
+       "y1": 426,
+       "n": 5,
+       "altura": 33.6,
+       "cv_altura": 0.415,
+       "cv_base": 0.384,
+       "razao_gap": 0.074,
+       "bimodal": 0.79,
+       "contraste": 150.0,
+       "score": 0.516,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/3s_20.png",
+       "y_rel": 0.368
+      },
+      {
+       "x0": 1715,
+       "y0": 211,
+       "x1": 1784,
+       "y1": 240,
+       "n": 3,
+       "altura": 16.3,
+       "cv_altura": 0.388,
+       "cv_base": 0.225,
+       "razao_gap": 1.0,
+       "bimodal": 0.808,
+       "contraste": 117.0,
+       "score": 0.46,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        15.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/3s_21.png",
+       "y_rel": 0.209
+      },
+      {
+       "x0": 1524,
+       "y0": 107,
+       "x1": 1689,
+       "y1": 181,
+       "n": 4,
+       "altura": 26.8,
+       "cv_altura": 0.48,
+       "cv_base": 0.447,
+       "razao_gap": 0.865,
+       "bimodal": 0.757,
+       "contraste": 152.0,
+       "score": 0.386,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/15s_22.png",
+       "y_rel": 0.133
+      }
+     ]
+    },
+    {
+     "video": "shin izumi/【tab】moanin’ - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+     "duracao_s": 142.7,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 8,
+     "candidatos": [
+      {
+       "x0": 508,
+       "y0": 698,
+       "x1": 719,
+       "y1": 714,
+       "n": 11,
+       "altura": 15.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.03,
+       "razao_gap": 0.1,
+       "bimodal": 0.876,
+       "contraste": 237.0,
+       "score": 0.971,
+       "t": 30.0,
+       "instantes": [
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/30s_23.png",
+       "y_rel": 0.654
+      },
+      {
+       "x0": 106,
+       "y0": 695,
+       "x1": 206,
+       "y1": 711,
+       "n": 6,
+       "altura": 15.8,
+       "cv_altura": 0.024,
+       "cv_base": 0.0,
+       "razao_gap": 0.133,
+       "bimodal": 0.865,
+       "contraste": 235.0,
+       "score": 0.849,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/3s_24.png",
+       "y_rel": 0.651
+      },
+      {
+       "x0": 1739,
+       "y0": 698,
+       "x1": 1839,
+       "y1": 714,
+       "n": 6,
+       "altura": 15.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.033,
+       "razao_gap": 0.133,
+       "bimodal": 0.858,
+       "contraste": 238.0,
+       "score": 0.846,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/30s_25.png",
+       "y_rel": 0.654
+      },
+      {
+       "x0": 1216,
+       "y0": 698,
+       "x1": 1317,
+       "y1": 713,
+       "n": 4,
+       "altura": 14.5,
+       "cv_altura": 0.034,
+       "cv_base": 0.0,
+       "razao_gap": 0.125,
+       "bimodal": 0.879,
+       "contraste": 233.0,
+       "score": 0.787,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/15s_26.png",
+       "y_rel": 0.653
+      },
+      {
+       "x0": 1568,
+       "y0": 658,
+       "x1": 1660,
+       "y1": 690,
+       "n": 6,
+       "altura": 26.8,
+       "cv_altura": 0.111,
+       "cv_base": 0.115,
+       "razao_gap": 0.0,
+       "bimodal": 0.876,
+       "contraste": 244.0,
+       "score": 0.781,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/45s_27.png",
+       "y_rel": 0.624
+      },
+      {
+       "x0": 1332,
+       "y0": 658,
+       "x1": 1433,
+       "y1": 690,
+       "n": 6,
+       "altura": 26.8,
+       "cv_altura": 0.111,
+       "cv_base": 0.115,
+       "razao_gap": 0.061,
+       "bimodal": 0.873,
+       "contraste": 244.0,
+       "score": 0.778,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/45s_28.png",
+       "y_rel": 0.624
+      },
+      {
+       "x0": 1419,
+       "y0": 207,
+       "x1": 1657,
+       "y1": 281,
+       "n": 3,
+       "altura": 61.3,
+       "cv_altura": 0.02,
+       "cv_base": 0.081,
+       "razao_gap": 1.12,
+       "bimodal": 0.848,
+       "contraste": 135.0,
+       "score": 0.662,
+       "t": 8.0,
+       "instantes": [
+        8.0,
+        15.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/8s_29.png",
+       "y_rel": 0.226
+      },
+      {
+       "x0": 988,
+       "y0": 204,
+       "x1": 1082,
+       "y1": 287,
+       "n": 4,
+       "altura": 33.5,
+       "cv_altura": 0.465,
+       "cv_base": 0.419,
+       "razao_gap": 1.667,
+       "bimodal": 0.626,
+       "contraste": 138.0,
+       "score": 0.338,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/3s_30.png",
+       "y_rel": 0.227
+      }
+     ]
+    },
+    {
+     "video": "shin izumi/【tab】santa claus is comin’ to town - fingerstyle guitar - ソロギター【タブ】.mp4",
+     "duracao_s": 92.3,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 3,
+     "candidatos": [
+      {
+       "x0": 156,
+       "y0": 811,
+       "x1": 325,
+       "y1": 858,
+       "n": 5,
+       "altura": 39.4,
+       "cv_altura": 0.236,
+       "cv_base": 0.0,
+       "razao_gap": 0.647,
+       "bimodal": 0.89,
+       "contraste": 242.0,
+       "score": 0.706,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/3s_31.png",
+       "y_rel": 0.773
+      },
+      {
+       "x0": 1106,
+       "y0": 966,
+       "x1": 1202,
+       "y1": 994,
+       "n": 3,
+       "altura": 21.0,
+       "cv_altura": 0.272,
+       "cv_base": 0.304,
+       "razao_gap": 1.469,
+       "bimodal": 0.824,
+       "contraste": 187.7,
+       "score": 0.465,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/45s_32.png",
+       "y_rel": 0.907
+      },
+      {
+       "x0": 797,
+       "y0": 337,
+       "x1": 876,
+       "y1": 392,
+       "n": 4,
+       "altura": 28.5,
+       "cv_altura": 0.497,
+       "cv_base": 0.52,
+       "razao_gap": 0.529,
+       "bimodal": 0.601,
+       "contraste": 111.0,
+       "score": 0.345,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/3s_33.png",
+       "y_rel": 0.338
+      }
+     ]
+    },
+    {
+     "video": "shin izumi/【tab】someday my prince will come - fingerstyle guitar ソロギター【タブ】.mp4",
+     "duracao_s": 130.2,
+     "altura": 1080,
+     "vias": [
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2"
+     ],
+     "n_candidatos": 7,
+     "candidatos": [
+      {
+       "x0": 670,
+       "y0": 683,
+       "x1": 826,
+       "y1": 714,
+       "n": 10,
+       "altura": 24.0,
+       "cv_altura": 0.188,
+       "cv_base": 0.121,
+       "razao_gap": 0.077,
+       "bimodal": 0.878,
+       "contraste": 247.0,
+       "score": 0.864,
+       "t": 30.0,
+       "instantes": [
+        3.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/30s_34.png",
+       "y_rel": 0.647
+      },
+      {
+       "x0": 1270,
+       "y0": 662,
+       "x1": 1431,
+       "y1": 694,
+       "n": 9,
+       "altura": 24.7,
+       "cv_altura": 0.208,
+       "cv_base": 0.129,
+       "razao_gap": 0.088,
+       "bimodal": 0.898,
+       "contraste": 246.0,
+       "score": 0.824,
+       "t": 45.0,
+       "instantes": [
+        3.0,
+        8.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/45s_35.png",
+       "y_rel": 0.628
+      },
+      {
+       "x0": 82,
+       "y0": 695,
+       "x1": 155,
+       "y1": 709,
+       "n": 5,
+       "altura": 13.2,
+       "cv_altura": 0.03,
+       "cv_base": 0.0,
+       "razao_gap": 0.071,
+       "bimodal": 0.854,
+       "contraste": 238.0,
+       "score": 0.819,
+       "t": 8.0,
+       "instantes": [
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/8s_36.png",
+       "y_rel": 0.65
+      },
+      {
+       "x0": 1151,
+       "y0": 677,
+       "x1": 1263,
+       "y1": 703,
+       "n": 4,
+       "altura": 24.5,
+       "cv_altura": 0.061,
+       "cv_base": 0.018,
+       "razao_gap": 0.048,
+       "bimodal": 0.894,
+       "contraste": 248.0,
+       "score": 0.776,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/15s_37.png",
+       "y_rel": 0.639
+      },
+      {
+       "x0": 373,
+       "y0": 683,
+       "x1": 474,
+       "y1": 714,
+       "n": 6,
+       "altura": 25.3,
+       "cv_altura": 0.12,
+       "cv_base": 0.118,
+       "razao_gap": 0.074,
+       "bimodal": 0.899,
+       "contraste": 248.0,
+       "score": 0.775,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/30s_38.png",
+       "y_rel": 0.647
+      },
+      {
+       "x0": 804,
+       "y0": 664,
+       "x1": 873,
+       "y1": 688,
+       "n": 3,
+       "altura": 21.7,
+       "cv_altura": 0.152,
+       "cv_base": 0.0,
+       "razao_gap": 0.043,
+       "bimodal": 0.886,
+       "contraste": 248.0,
+       "score": 0.715,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/8s_39.png",
+       "y_rel": 0.626
+      },
+      {
+       "x0": 1485,
+       "y0": 90,
+       "x1": 1626,
+       "y1": 125,
+       "n": 5,
+       "altura": 15.6,
+       "cv_altura": 0.294,
+       "cv_base": 0.321,
+       "razao_gap": 0.053,
+       "bimodal": 0.823,
+       "contraste": 149.0,
+       "score": 0.591,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/shin izumi/15s_40.png",
+       "y_rel": 0.1
+      }
+     ]
+    }
+   ]
+  },
+  "sky guitar": {
+   "n_videos": 5,
+   "n_com_candidato": 5,
+   "n_candidatos": 23,
+   "instantes_com_candidato": {
+    "15": 13,
+    "3": 6,
+    "30": 11,
+    "45": 13,
+    "8": 13
+   },
+   "melhores": [
+    {
+     "video": "sky guitar/etude in am (f. carulli) - guitar lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/8s_12.png",
+     "t": 8.0,
+     "instantes": [
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.954,
+     "y_rel": 0.657
+    },
+    {
+     "video": "sky guitar/prelude bwv 1007 (cello suite no.1) - guitar lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/8s_16.png",
+     "t": 8.0,
+     "instantes": [
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.914,
+     "y_rel": 0.731
+    },
+    {
+     "video": "sky guitar/dream a little dream of me - tab & lesson.mp4",
+     "png": "data/saida/afinacao/sky guitar/3s_5.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.904,
+     "y_rel": 0.615
+    },
+    {
+     "video": "sky guitar/bloody mary (lady gaga) - fingerstyle lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/30s_1.png",
+     "t": 30.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.87,
+     "y_rel": 0.648
+    },
+    {
+     "video": "sky guitar/bloody mary (lady gaga) - fingerstyle lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/3s_2.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.845,
+     "y_rel": 0.573
+    },
+    {
+     "video": "sky guitar/dream a little dream of me - tab & lesson.mp4",
+     "png": "data/saida/afinacao/sky guitar/15s_6.png",
+     "t": 15.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.83,
+     "y_rel": 0.542
+    },
+    {
+     "video": "sky guitar/prelude bwv 1007 (cello suite no.1) - guitar lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/8s_17.png",
+     "t": 8.0,
+     "instantes": [
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.76,
+     "y_rel": 0.63
+    },
+    {
+     "video": "sky guitar/etude in am (f. carulli) - guitar lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/45s_13.png",
+     "t": 45.0,
+     "instantes": [
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.714,
+     "y_rel": 0.785
+    },
+    {
+     "video": "sky guitar/you are my sunshine - fingerstyle lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/8s_20.png",
+     "t": 8.0,
+     "instantes": [
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.705,
+     "y_rel": 0.747
+    },
+    {
+     "video": "sky guitar/prelude bwv 1007 (cello suite no.1) - guitar lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/8s_18.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.679,
+     "y_rel": 0.78
+    },
+    {
+     "video": "sky guitar/etude in am (f. carulli) - guitar lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/8s_14.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.598,
+     "y_rel": 0.239
+    },
+    {
+     "video": "sky guitar/dream a little dream of me - tab & lesson.mp4",
+     "png": "data/saida/afinacao/sky guitar/45s_7.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.589,
+     "y_rel": 0.545
+    },
+    {
+     "video": "sky guitar/you are my sunshine - fingerstyle lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/8s_21.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.586,
+     "y_rel": 0.253
+    },
+    {
+     "video": "sky guitar/prelude bwv 1007 (cello suite no.1) - guitar lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/30s_19.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.583,
+     "y_rel": 0.38
+    },
+    {
+     "video": "sky guitar/bloody mary (lady gaga) - fingerstyle lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/45s_3.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.577,
+     "y_rel": 0.287
+    },
+    {
+     "video": "sky guitar/etude in am (f. carulli) - guitar lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/15s_15.png",
+     "t": 15.0,
+     "instantes": [
+      15.0,
+      45.0
+     ],
+     "score": 0.567,
+     "y_rel": 0.644
+    },
+    {
+     "video": "sky guitar/dream a little dream of me - tab & lesson.mp4",
+     "png": "data/saida/afinacao/sky guitar/8s_8.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.531,
+     "y_rel": 0.48
+    },
+    {
+     "video": "sky guitar/dream a little dream of me - tab & lesson.mp4",
+     "png": "data/saida/afinacao/sky guitar/3s_9.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.526,
+     "y_rel": 0.589
+    },
+    {
+     "video": "sky guitar/dream a little dream of me - tab & lesson.mp4",
+     "png": "data/saida/afinacao/sky guitar/15s_10.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.506,
+     "y_rel": 0.534
+    },
+    {
+     "video": "sky guitar/bloody mary (lady gaga) - fingerstyle lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/15s_4.png",
+     "t": 15.0,
+     "instantes": [
+      3.0,
+      15.0
+     ],
+     "score": 0.503,
+     "y_rel": 0.034
+    },
+    {
+     "video": "sky guitar/dream a little dream of me - tab & lesson.mp4",
+     "png": "data/saida/afinacao/sky guitar/30s_11.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.49,
+     "y_rel": 0.023
+    },
+    {
+     "video": "sky guitar/you are my sunshine - fingerstyle lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/45s_22.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.488,
+     "y_rel": 0.838
+    },
+    {
+     "video": "sky guitar/you are my sunshine - fingerstyle lesson + tab.mp4",
+     "png": "data/saida/afinacao/sky guitar/15s_23.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.395,
+     "y_rel": 0.294
+    }
+   ],
+   "videos": [
+    {
+     "video": "sky guitar/bloody mary (lady gaga) - fingerstyle lesson + tab.mp4",
+     "duracao_s": 402.3,
+     "altura": 1080,
+     "vias": [
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2"
+     ],
+     "n_candidatos": 4,
+     "candidatos": [
+      {
+       "x0": 66,
+       "y0": 680,
+       "x1": 305,
+       "y1": 720,
+       "n": 10,
+       "altura": 26.7,
+       "cv_altura": 0.166,
+       "cv_base": 0.154,
+       "razao_gap": 0.0,
+       "bimodal": 0.92,
+       "contraste": 250.0,
+       "score": 0.87,
+       "t": 30.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/30s_1.png",
+       "y_rel": 0.648
+      },
+      {
+       "x0": 66,
+       "y0": 573,
+       "x1": 606,
+       "y1": 665,
+       "n": 9,
+       "altura": 62.0,
+       "cv_altura": 0.161,
+       "cv_base": 0.137,
+       "razao_gap": 0.115,
+       "bimodal": 0.968,
+       "contraste": 255.0,
+       "score": 0.845,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/3s_2.png",
+       "y_rel": 0.573
+      },
+      {
+       "x0": 1583,
+       "y0": 294,
+       "x1": 1684,
+       "y1": 326,
+       "n": 4,
+       "altura": 17.5,
+       "cv_altura": 0.276,
+       "cv_base": 0.148,
+       "razao_gap": 0.812,
+       "bimodal": 0.7,
+       "contraste": 164.0,
+       "score": 0.577,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/45s_3.png",
+       "y_rel": 0.287
+      },
+      {
+       "x0": 1676,
+       "y0": 0,
+       "x1": 1920,
+       "y1": 73,
+       "n": 6,
+       "altura": 34.5,
+       "cv_altura": 0.489,
+       "cv_base": 0.428,
+       "razao_gap": 0.222,
+       "bimodal": 0.876,
+       "contraste": 193.0,
+       "score": 0.503,
+       "t": 15.0,
+       "instantes": [
+        3.0,
+        15.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/15s_4.png",
+       "y_rel": 0.034
+      }
+     ]
+    },
+    {
+     "video": "sky guitar/dream a little dream of me - tab & lesson.mp4",
+     "duracao_s": 323.7,
+     "altura": 1080,
+     "vias": [
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2"
+     ],
+     "n_candidatos": 7,
+     "candidatos": [
+      {
+       "x0": 136,
+       "y0": 641,
+       "x1": 841,
+       "y1": 687,
+       "n": 28,
+       "altura": 29.9,
+       "cv_altura": 0.164,
+       "cv_base": 0.067,
+       "razao_gap": 0.043,
+       "bimodal": 0.96,
+       "contraste": 255.0,
+       "score": 0.904,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/3s_5.png",
+       "y_rel": 0.615
+      },
+      {
+       "x0": 138,
+       "y0": 555,
+       "x1": 1056,
+       "y1": 616,
+       "n": 22,
+       "altura": 46.1,
+       "cv_altura": 0.221,
+       "cv_base": 0.209,
+       "razao_gap": 0.054,
+       "bimodal": 0.972,
+       "contraste": 255.0,
+       "score": 0.83,
+       "t": 15.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/15s_6.png",
+       "y_rel": 0.542
+      },
+      {
+       "x0": 881,
+       "y0": 563,
+       "x1": 1046,
+       "y1": 614,
+       "n": 8,
+       "altura": 31.4,
+       "cv_altura": 0.44,
+       "cv_base": 0.433,
+       "razao_gap": 0.242,
+       "bimodal": 0.971,
+       "contraste": 255.0,
+       "score": 0.589,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/45s_7.png",
+       "y_rel": 0.545
+      },
+      {
+       "x0": 1365,
+       "y0": 499,
+       "x1": 1467,
+       "y1": 538,
+       "n": 4,
+       "altura": 19.5,
+       "cv_altura": 0.302,
+       "cv_base": 0.329,
+       "razao_gap": 0.457,
+       "bimodal": 0.79,
+       "contraste": 191.0,
+       "score": 0.531,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/8s_8.png",
+       "y_rel": 0.48
+      },
+      {
+       "x0": 1326,
+       "y0": 621,
+       "x1": 1415,
+       "y1": 652,
+       "n": 3,
+       "altura": 21.0,
+       "cv_altura": 0.339,
+       "cv_base": 0.081,
+       "razao_gap": 0.95,
+       "bimodal": 0.633,
+       "contraste": 143.0,
+       "score": 0.526,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/3s_9.png",
+       "y_rel": 0.589
+      },
+      {
+       "x0": 1378,
+       "y0": 557,
+       "x1": 1498,
+       "y1": 596,
+       "n": 3,
+       "altura": 21.3,
+       "cv_altura": 0.117,
+       "cv_base": 0.334,
+       "razao_gap": 1.5,
+       "bimodal": 0.783,
+       "contraste": 146.0,
+       "score": 0.506,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/15s_10.png",
+       "y_rel": 0.534
+      },
+      {
+       "x0": 1733,
+       "y0": 0,
+       "x1": 1898,
+       "y1": 50,
+       "n": 4,
+       "altura": 31.8,
+       "cv_altura": 0.454,
+       "cv_base": 0.31,
+       "razao_gap": 0.0,
+       "bimodal": 0.66,
+       "contraste": 154.0,
+       "score": 0.49,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/30s_11.png",
+       "y_rel": 0.023
+      }
+     ]
+    },
+    {
+     "video": "sky guitar/etude in am (f. carulli) - guitar lesson + tab.mp4",
+     "duracao_s": 423.6,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 4,
+     "candidatos": [
+      {
+       "x0": 156,
+       "y0": 665,
+       "x1": 1064,
+       "y1": 754,
+       "n": 10,
+       "altura": 70.4,
+       "cv_altura": 0.084,
+       "cv_base": 0.013,
+       "razao_gap": 0.084,
+       "bimodal": 0.976,
+       "contraste": 255.0,
+       "score": 0.954,
+       "t": 8.0,
+       "instantes": [
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/8s_12.png",
+       "y_rel": 0.657
+      },
+      {
+       "x0": 262,
+       "y0": 826,
+       "x1": 577,
+       "y1": 869,
+       "n": 18,
+       "altura": 18.7,
+       "cv_altura": 0.197,
+       "cv_base": 0.528,
+       "razao_gap": 0.143,
+       "bimodal": 0.939,
+       "contraste": 253.0,
+       "score": 0.714,
+       "t": 45.0,
+       "instantes": [
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/45s_13.png",
+       "y_rel": 0.785
+      },
+      {
+       "x0": 623,
+       "y0": 220,
+       "x1": 828,
+       "y1": 297,
+       "n": 7,
+       "altura": 35.1,
+       "cv_altura": 0.442,
+       "cv_base": 0.26,
+       "razao_gap": 0.095,
+       "bimodal": 0.735,
+       "contraste": 132.0,
+       "score": 0.598,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/8s_14.png",
+       "y_rel": 0.239
+      },
+      {
+       "x0": 740,
+       "y0": 686,
+       "x1": 832,
+       "y1": 704,
+       "n": 3,
+       "altura": 11.3,
+       "cv_altura": 0.083,
+       "cv_base": 0.25,
+       "razao_gap": 1.6,
+       "bimodal": 0.973,
+       "contraste": 255.0,
+       "score": 0.567,
+       "t": 15.0,
+       "instantes": [
+        15.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/15s_15.png",
+       "y_rel": 0.644
+      }
+     ]
+    },
+    {
+     "video": "sky guitar/prelude bwv 1007 (cello suite no.1) - guitar lesson + tab.mp4",
+     "duracao_s": 519.4,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 4,
+     "candidatos": [
+      {
+       "x0": 68,
+       "y0": 761,
+       "x1": 966,
+       "y1": 818,
+       "n": 19,
+       "altura": 49.2,
+       "cv_altura": 0.174,
+       "cv_base": 0.008,
+       "razao_gap": 0.157,
+       "bimodal": 0.958,
+       "contraste": 255.0,
+       "score": 0.914,
+       "t": 8.0,
+       "instantes": [
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/8s_16.png",
+       "y_rel": 0.731
+      },
+      {
+       "x0": 148,
+       "y0": 645,
+       "x1": 507,
+       "y1": 715,
+       "n": 4,
+       "altura": 69.0,
+       "cv_altura": 0.014,
+       "cv_base": 0.013,
+       "razao_gap": 0.786,
+       "bimodal": 0.97,
+       "contraste": 255.0,
+       "score": 0.76,
+       "t": 8.0,
+       "instantes": [
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/8s_17.png",
+       "y_rel": 0.63
+      },
+      {
+       "x0": 966,
+       "y0": 819,
+       "x1": 1201,
+       "y1": 866,
+       "n": 11,
+       "altura": 18.5,
+       "cv_altura": 0.277,
+       "cv_base": 0.53,
+       "razao_gap": 0.0,
+       "bimodal": 0.828,
+       "contraste": 185.0,
+       "score": 0.679,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/8s_18.png",
+       "y_rel": 0.78
+      },
+      {
+       "x0": 567,
+       "y0": 385,
+       "x1": 777,
+       "y1": 435,
+       "n": 5,
+       "altura": 23.0,
+       "cv_altura": 0.295,
+       "cv_base": 0.219,
+       "razao_gap": 0.321,
+       "bimodal": 0.605,
+       "contraste": 126.0,
+       "score": 0.583,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/30s_19.png",
+       "y_rel": 0.38
+      }
+     ]
+    },
+    {
+     "video": "sky guitar/you are my sunshine - fingerstyle lesson + tab.mp4",
+     "duracao_s": 175.2,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 4,
+     "candidatos": [
+      {
+       "x0": 73,
+       "y0": 781,
+       "x1": 587,
+       "y1": 833,
+       "n": 14,
+       "altura": 34.6,
+       "cv_altura": 0.436,
+       "cv_base": 0.299,
+       "razao_gap": 0.111,
+       "bimodal": 0.946,
+       "contraste": 255.0,
+       "score": 0.705,
+       "t": 8.0,
+       "instantes": [
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/8s_20.png",
+       "y_rel": 0.747
+      },
+      {
+       "x0": 519,
+       "y0": 258,
+       "x1": 613,
+       "y1": 288,
+       "n": 4,
+       "altura": 21.0,
+       "cv_altura": 0.226,
+       "cv_base": 0.292,
+       "razao_gap": 0.108,
+       "bimodal": 0.694,
+       "contraste": 194.0,
+       "score": 0.586,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/8s_21.png",
+       "y_rel": 0.253
+      },
+      {
+       "x0": 1159,
+       "y0": 891,
+       "x1": 1205,
+       "y1": 920,
+       "n": 3,
+       "altura": 13.3,
+       "cv_altura": 0.071,
+       "cv_base": 0.468,
+       "razao_gap": 1.438,
+       "bimodal": 0.821,
+       "contraste": 226.3,
+       "score": 0.488,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/45s_22.png",
+       "y_rel": 0.838
+      },
+      {
+       "x0": 1614,
+       "y0": 293,
+       "x1": 1769,
+       "y1": 341,
+       "n": 4,
+       "altura": 31.5,
+       "cv_altura": 0.48,
+       "cv_base": 0.421,
+       "razao_gap": 0.875,
+       "bimodal": 0.803,
+       "contraste": 135.0,
+       "score": 0.395,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/sky guitar/15s_23.png",
+       "y_rel": 0.294
+      }
+     ]
+    }
+   ]
+  },
+  "iwaki": {
+   "n_videos": 5,
+   "n_com_candidato": 5,
+   "n_candidatos": 39,
+   "instantes_com_candidato": {
+    "15": 10,
+    "3": 10,
+    "30": 11,
+    "45": 8,
+    "8": 14
+   },
+   "melhores": [
+    {
+     "video": "iwaki/chopin - prelude in e minor op. 28 no. 4 ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/3s_1.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0
+     ],
+     "score": 0.833,
+     "y_rel": 0.878
+    },
+    {
+     "video": "iwaki/chopin - prelude in e minor op. 28 no. 4 ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/30s_2.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.749,
+     "y_rel": 0.845
+    },
+    {
+     "video": "iwaki/chopin - prelude in e minor op. 28 no. 4 ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/30s_3.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.749,
+     "y_rel": 0.845
+    },
+    {
+     "video": "iwaki/chopin - prelude in e minor op. 28 no. 4 ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/45s_4.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.748,
+     "y_rel": 0.936
+    },
+    {
+     "video": "iwaki/chopin - prelude in e minor op. 28 no. 4 ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/30s_5.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.747,
+     "y_rel": 0.894
+    },
+    {
+     "video": "iwaki/wham! - last christmas ⧸ tab  for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/3s_33.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.724,
+     "y_rel": 0.713
+    },
+    {
+     "video": "iwaki/chopin - prelude in e minor op. 28 no. 4 ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/3s_6.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0
+     ],
+     "score": 0.723,
+     "y_rel": 0.916
+    },
+    {
+     "video": "iwaki/chopin - prelude in e minor op. 28 no. 4 ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/45s_7.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.718,
+     "y_rel": 0.936
+    },
+    {
+     "video": "iwaki/i play merry christmas mr. lawrence.mp4",
+     "png": "data/saida/afinacao/iwaki/3s_16.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.712,
+     "y_rel": 0.916
+    },
+    {
+     "video": "iwaki/fly me to the moon ⧸ tab for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/8s_9.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.704,
+     "y_rel": 0.487
+    },
+    {
+     "video": "iwaki/i play merry christmas mr. lawrence.mp4",
+     "png": "data/saida/afinacao/iwaki/45s_17.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.684,
+     "y_rel": 0.666
+    },
+    {
+     "video": "iwaki/i play merry christmas mr. lawrence.mp4",
+     "png": "data/saida/afinacao/iwaki/45s_18.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.661,
+     "y_rel": 0.651
+    },
+    {
+     "video": "iwaki/chopin - prelude in e minor op. 28 no. 4 ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/45s_8.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.658,
+     "y_rel": 0.953
+    },
+    {
+     "video": "iwaki/fly me to the moon ⧸ tab for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/8s_10.png",
+     "t": 8.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.657,
+     "y_rel": 0.629
+    },
+    {
+     "video": "iwaki/i play merry christmas mr. lawrence.mp4",
+     "png": "data/saida/afinacao/iwaki/15s_19.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.655,
+     "y_rel": 0.792
+    },
+    {
+     "video": "iwaki/i play merry christmas mr. lawrence.mp4",
+     "png": "data/saida/afinacao/iwaki/30s_20.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.655,
+     "y_rel": 0.337
+    },
+    {
+     "video": "iwaki/fly me to the moon ⧸ tab for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/3s_11.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.651,
+     "y_rel": 0.649
+    },
+    {
+     "video": "iwaki/i play merry christmas mr. lawrence.mp4",
+     "png": "data/saida/afinacao/iwaki/3s_21.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.649,
+     "y_rel": 0.464
+    },
+    {
+     "video": "iwaki/i play merry christmas mr. lawrence.mp4",
+     "png": "data/saida/afinacao/iwaki/3s_22.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.645,
+     "y_rel": 0.917
+    },
+    {
+     "video": "iwaki/fly me to the moon ⧸ tab for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/30s_12.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.643,
+     "y_rel": 0.401
+    },
+    {
+     "video": "iwaki/fly me to the moon ⧸ tab for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/15s_13.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.638,
+     "y_rel": 0.425
+    },
+    {
+     "video": "iwaki/fly me to the moon ⧸ tab for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/15s_14.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.635,
+     "y_rel": 0.656
+    },
+    {
+     "video": "iwaki/wham! - last christmas ⧸ tab  for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/30s_34.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.615,
+     "y_rel": 0.834
+    },
+    {
+     "video": "iwaki/spanish romance ( - jeux interdits - romance d'amour) ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/8s_26.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.612,
+     "y_rel": 0.226
+    },
+    {
+     "video": "iwaki/i play merry christmas mr. lawrence.mp4",
+     "png": "data/saida/afinacao/iwaki/15s_23.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.606,
+     "y_rel": 0.886
+    },
+    {
+     "video": "iwaki/i play merry christmas mr. lawrence.mp4",
+     "png": "data/saida/afinacao/iwaki/8s_24.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.589,
+     "y_rel": 0.512
+    },
+    {
+     "video": "iwaki/i play merry christmas mr. lawrence.mp4",
+     "png": "data/saida/afinacao/iwaki/30s_25.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.568,
+     "y_rel": 0.239
+    },
+    {
+     "video": "iwaki/wham! - last christmas ⧸ tab  for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/3s_35.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.567,
+     "y_rel": 0.623
+    },
+    {
+     "video": "iwaki/spanish romance ( - jeux interdits - romance d'amour) ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/8s_27.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.559,
+     "y_rel": 0.346
+    },
+    {
+     "video": "iwaki/wham! - last christmas ⧸ tab  for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/30s_36.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.559,
+     "y_rel": 0.469
+    },
+    {
+     "video": "iwaki/spanish romance ( - jeux interdits - romance d'amour) ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/8s_28.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.555,
+     "y_rel": 0.225
+    },
+    {
+     "video": "iwaki/spanish romance ( - jeux interdits - romance d'amour) ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/30s_29.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.544,
+     "y_rel": 0.737
+    },
+    {
+     "video": "iwaki/fly me to the moon ⧸ tab for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/15s_15.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.542,
+     "y_rel": 0.656
+    },
+    {
+     "video": "iwaki/spanish romance ( - jeux interdits - romance d'amour) ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/15s_30.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.533,
+     "y_rel": 0.745
+    },
+    {
+     "video": "iwaki/wham! - last christmas ⧸ tab  for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/8s_37.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.526,
+     "y_rel": 0.434
+    },
+    {
+     "video": "iwaki/spanish romance ( - jeux interdits - romance d'amour) ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/45s_31.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.522,
+     "y_rel": 0.876
+    },
+    {
+     "video": "iwaki/spanish romance ( - jeux interdits - romance d'amour) ｜ tab.mp4",
+     "png": "data/saida/afinacao/iwaki/45s_32.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.503,
+     "y_rel": 0.876
+    },
+    {
+     "video": "iwaki/wham! - last christmas ⧸ tab  for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/30s_38.png",
+     "t": 30.0,
+     "instantes": [
+      15.0,
+      30.0
+     ],
+     "score": 0.412,
+     "y_rel": 0.33
+    },
+    {
+     "video": "iwaki/wham! - last christmas ⧸ tab  for beginners.mp4",
+     "png": "data/saida/afinacao/iwaki/3s_39.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.4,
+     "y_rel": 0.762
+    }
+   ],
+   "videos": [
+    {
+     "video": "iwaki/chopin - prelude in e minor op. 28 no. 4 ｜ tab.mp4",
+     "duracao_s": 132.8,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 8,
+     "candidatos": [
+      {
+       "x0": 760,
+       "y0": 938,
+       "x1": 949,
+       "y1": 958,
+       "n": 8,
+       "altura": 19.6,
+       "cv_altura": 0.025,
+       "cv_base": 0.025,
+       "razao_gap": 1.308,
+       "bimodal": 0.906,
+       "contraste": 254.0,
+       "score": 0.833,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0
+       ],
+       "png": "data/saida/afinacao/iwaki/3s_1.png",
+       "y_rel": 0.878
+      },
+      {
+       "x0": 663,
+       "y0": 903,
+       "x1": 875,
+       "y1": 922,
+       "n": 5,
+       "altura": 19.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.556,
+       "bimodal": 0.923,
+       "contraste": 233.0,
+       "score": 0.749,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/iwaki/30s_2.png",
+       "y_rel": 0.845
+      },
+      {
+       "x0": 1060,
+       "y0": 903,
+       "x1": 1261,
+       "y1": 922,
+       "n": 5,
+       "altura": 19.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.556,
+       "bimodal": 0.925,
+       "contraste": 233.0,
+       "score": 0.749,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/iwaki/30s_3.png",
+       "y_rel": 0.845
+      },
+      {
+       "x0": 322,
+       "y0": 1001,
+       "x1": 564,
+       "y1": 1021,
+       "n": 7,
+       "altura": 19.7,
+       "cv_altura": 0.023,
+       "cv_base": 0.023,
+       "razao_gap": 2.269,
+       "bimodal": 0.919,
+       "contraste": 253.0,
+       "score": 0.748,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/iwaki/45s_4.png",
+       "y_rel": 0.936
+      },
+      {
+       "x0": 1462,
+       "y0": 955,
+       "x1": 1663,
+       "y1": 977,
+       "n": 5,
+       "altura": 22.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.556,
+       "bimodal": 0.903,
+       "contraste": 252.0,
+       "score": 0.747,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/iwaki/30s_5.png",
+       "y_rel": 0.894
+      },
+      {
+       "x0": 1123,
+       "y0": 980,
+       "x1": 1303,
+       "y1": 999,
+       "n": 5,
+       "altura": 19.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 2.0,
+       "bimodal": 0.931,
+       "contraste": 254.0,
+       "score": 0.723,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0
+       ],
+       "png": "data/saida/afinacao/iwaki/3s_6.png",
+       "y_rel": 0.916
+      },
+      {
+       "x0": 1668,
+       "y0": 1001,
+       "x1": 1758,
+       "y1": 1021,
+       "n": 4,
+       "altura": 19.5,
+       "cv_altura": 0.026,
+       "cv_base": 0.026,
+       "razao_gap": 1.231,
+       "bimodal": 0.914,
+       "contraste": 255.0,
+       "score": 0.718,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/iwaki/45s_7.png",
+       "y_rel": 0.936
+      },
+      {
+       "x0": 1490,
+       "y0": 1018,
+       "x1": 1641,
+       "y1": 1041,
+       "n": 5,
+       "altura": 18.2,
+       "cv_altura": 0.088,
+       "cv_base": 0.176,
+       "razao_gap": 1.346,
+       "bimodal": 0.882,
+       "contraste": 253.0,
+       "score": 0.658,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/iwaki/45s_8.png",
+       "y_rel": 0.953
+      }
+     ]
+    },
+    {
+     "video": "iwaki/fly me to the moon ⧸ tab for beginners.mp4",
+     "duracao_s": 40.8,
+     "altura": 1080,
+     "vias": [
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2"
+     ],
+     "n_candidatos": 7,
+     "candidatos": [
+      {
+       "x0": 609,
+       "y0": 511,
+       "x1": 707,
+       "y1": 540,
+       "n": 7,
+       "altura": 14.0,
+       "cv_altura": 0.183,
+       "cv_base": 0.282,
+       "razao_gap": 0.0,
+       "bimodal": 0.696,
+       "contraste": 163.0,
+       "score": 0.704,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/iwaki/8s_9.png",
+       "y_rel": 0.487
+      },
+      {
+       "x0": 1316,
+       "y0": 669,
+       "x1": 1422,
+       "y1": 690,
+       "n": 5,
+       "altura": 13.6,
+       "cv_altura": 0.088,
+       "cv_base": 0.269,
+       "razao_gap": 0.955,
+       "bimodal": 0.968,
+       "contraste": 255.0,
+       "score": 0.657,
+       "t": 8.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/iwaki/8s_10.png",
+       "y_rel": 0.629
+      },
+      {
+       "x0": 217,
+       "y0": 691,
+       "x1": 347,
+       "y1": 711,
+       "n": 4,
+       "altura": 15.2,
+       "cv_altura": 0.243,
+       "cv_base": 0.163,
+       "razao_gap": 0.1,
+       "bimodal": 0.936,
+       "contraste": 255.0,
+       "score": 0.651,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/iwaki/3s_11.png",
+       "y_rel": 0.649
+      },
+      {
+       "x0": 716,
+       "y0": 415,
+       "x1": 871,
+       "y1": 451,
+       "n": 4,
+       "altura": 17.8,
+       "cv_altura": 0.024,
+       "cv_base": 0.387,
+       "razao_gap": 0.13,
+       "bimodal": 0.813,
+       "contraste": 193.0,
+       "score": 0.643,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/iwaki/30s_12.png",
+       "y_rel": 0.401
+      },
+      {
+       "x0": 614,
+       "y0": 449,
+       "x1": 741,
+       "y1": 470,
+       "n": 3,
+       "altura": 14.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.205,
+       "razao_gap": 1.125,
+       "bimodal": 0.9,
+       "contraste": 203.0,
+       "score": 0.638,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/iwaki/15s_13.png",
+       "y_rel": 0.425
+      },
+      {
+       "x0": 1272,
+       "y0": 698,
+       "x1": 1376,
+       "y1": 718,
+       "n": 5,
+       "altura": 13.2,
+       "cv_altura": 0.088,
+       "cv_base": 0.273,
+       "razao_gap": 1.278,
+       "bimodal": 0.958,
+       "contraste": 255.0,
+       "score": 0.635,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/iwaki/15s_14.png",
+       "y_rel": 0.656
+      },
+      {
+       "x0": 846,
+       "y0": 698,
+       "x1": 947,
+       "y1": 718,
+       "n": 4,
+       "altura": 12.0,
+       "cv_altura": 0.102,
+       "cv_base": 0.325,
+       "razao_gap": 1.905,
+       "bimodal": 0.955,
+       "contraste": 255.0,
+       "score": 0.542,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/iwaki/15s_15.png",
+       "y_rel": 0.656
+      }
+     ]
+    },
+    {
+     "video": "iwaki/i play merry christmas mr. lawrence.mp4",
+     "duracao_s": 46.5,
+     "altura": 1080,
+     "vias": [
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2"
+     ],
+     "n_candidatos": 10,
+     "candidatos": [
+      {
+       "x0": 139,
+       "y0": 972,
+       "x1": 379,
+       "y1": 1006,
+       "n": 11,
+       "altura": 14.3,
+       "cv_altura": 0.205,
+       "cv_base": 0.542,
+       "razao_gap": 0.0,
+       "bimodal": 0.915,
+       "contraste": 255.0,
+       "score": 0.712,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/iwaki/3s_16.png",
+       "y_rel": 0.916
+      },
+      {
+       "x0": 1293,
+       "y0": 712,
+       "x1": 1542,
+       "y1": 727,
+       "n": 4,
+       "altura": 14.8,
+       "cv_altura": 0.029,
+       "cv_base": 0.0,
+       "razao_gap": 1.96,
+       "bimodal": 0.935,
+       "contraste": 255.0,
+       "score": 0.684,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/iwaki/45s_17.png",
+       "y_rel": 0.666
+      },
+      {
+       "x0": 1041,
+       "y0": 696,
+       "x1": 1216,
+       "y1": 711,
+       "n": 4,
+       "altura": 14.2,
+       "cv_altura": 0.03,
+       "cv_base": 0.03,
+       "razao_gap": 2.154,
+       "bimodal": 0.934,
+       "contraste": 255.0,
+       "score": 0.661,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/iwaki/45s_18.png",
+       "y_rel": 0.651
+      },
+      {
+       "x0": 1686,
+       "y0": 843,
+       "x1": 1757,
+       "y1": 868,
+       "n": 4,
+       "altura": 18.5,
+       "cv_altura": 0.204,
+       "cv_base": 0.196,
+       "razao_gap": 0.0,
+       "bimodal": 0.875,
+       "contraste": 255.0,
+       "score": 0.655,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/iwaki/15s_19.png",
+       "y_rel": 0.792
+      },
+      {
+       "x0": 1240,
+       "y0": 356,
+       "x1": 1316,
+       "y1": 371,
+       "n": 4,
+       "altura": 10.8,
+       "cv_altura": 0.077,
+       "cv_base": 0.138,
+       "razao_gap": 0.364,
+       "bimodal": 0.652,
+       "contraste": 71.0,
+       "score": 0.655,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/iwaki/30s_20.png",
+       "y_rel": 0.337
+      },
+      {
+       "x0": 759,
+       "y0": 483,
+       "x1": 895,
+       "y1": 520,
+       "n": 6,
+       "altura": 18.5,
+       "cv_altura": 0.158,
+       "cv_base": 0.319,
+       "razao_gap": 0.053,
+       "bimodal": 0.649,
+       "contraste": 117.0,
+       "score": 0.649,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/iwaki/3s_21.png",
+       "y_rel": 0.464
+      },
+      {
+       "x0": 710,
+       "y0": 976,
+       "x1": 890,
+       "y1": 1004,
+       "n": 7,
+       "altura": 15.1,
+       "cv_altura": 0.191,
+       "cv_base": 0.309,
+       "razao_gap": 1.071,
+       "bimodal": 0.88,
+       "contraste": 255.0,
+       "score": 0.645,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/iwaki/3s_22.png",
+       "y_rel": 0.917
+      },
+      {
+       "x0": 1049,
+       "y0": 943,
+       "x1": 1171,
+       "y1": 970,
+       "n": 5,
+       "altura": 15.0,
+       "cv_altura": 0.169,
+       "cv_base": 0.275,
+       "razao_gap": 1.107,
+       "bimodal": 0.896,
+       "contraste": 255.0,
+       "score": 0.606,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/iwaki/15s_23.png",
+       "y_rel": 0.886
+      },
+      {
+       "x0": 488,
+       "y0": 532,
+       "x1": 556,
+       "y1": 574,
+       "n": 4,
+       "altura": 29.8,
+       "cv_altura": 0.254,
+       "cv_base": 0.159,
+       "razao_gap": 0.706,
+       "bimodal": 0.765,
+       "contraste": 142.0,
+       "score": 0.589,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/iwaki/8s_24.png",
+       "y_rel": 0.512
+      },
+      {
+       "x0": 402,
+       "y0": 238,
+       "x1": 520,
+       "y1": 278,
+       "n": 7,
+       "altura": 14.1,
+       "cv_altura": 0.175,
+       "cv_base": 0.519,
+       "razao_gap": 0.231,
+       "bimodal": 0.629,
+       "contraste": 57.0,
+       "score": 0.568,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/iwaki/30s_25.png",
+       "y_rel": 0.239
+      }
+     ]
+    },
+    {
+     "video": "iwaki/spanish romance ( - jeux interdits - romance d'amour) ｜ tab.mp4",
+     "duracao_s": 94.3,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 7,
+     "candidatos": [
+      {
+       "x0": 839,
+       "y0": 236,
+       "x1": 895,
+       "y1": 252,
+       "n": 3,
+       "altura": 13.0,
+       "cv_altura": 0.126,
+       "cv_base": 0.158,
+       "razao_gap": 0.167,
+       "bimodal": 0.706,
+       "contraste": 60.0,
+       "score": 0.612,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/iwaki/8s_26.png",
+       "y_rel": 0.226
+      },
+      {
+       "x0": 1061,
+       "y0": 356,
+       "x1": 1122,
+       "y1": 392,
+       "n": 3,
+       "altura": 24.3,
+       "cv_altura": 0.07,
+       "cv_base": 0.191,
+       "razao_gap": 1.611,
+       "bimodal": 0.699,
+       "contraste": 138.0,
+       "score": 0.559,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/iwaki/8s_27.png",
+       "y_rel": 0.346
+      },
+      {
+       "x0": 1619,
+       "y0": 235,
+       "x1": 1700,
+       "y1": 252,
+       "n": 3,
+       "altura": 13.0,
+       "cv_altura": 0.063,
+       "cv_base": 0.166,
+       "razao_gap": 1.917,
+       "bimodal": 0.794,
+       "contraste": 116.2,
+       "score": 0.555,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/iwaki/8s_28.png",
+       "y_rel": 0.225
+      },
+      {
+       "x0": 343,
+       "y0": 780,
+       "x1": 971,
+       "y1": 811,
+       "n": 7,
+       "altura": 20.6,
+       "cv_altura": 0.309,
+       "cv_base": 0.309,
+       "razao_gap": 2.042,
+       "bimodal": 0.924,
+       "contraste": 255.0,
+       "score": 0.544,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/iwaki/30s_29.png",
+       "y_rel": 0.737
+      },
+      {
+       "x0": 1419,
+       "y0": 789,
+       "x1": 1580,
+       "y1": 820,
+       "n": 3,
+       "altura": 21.7,
+       "cv_altura": 0.278,
+       "cv_base": 0.299,
+       "razao_gap": 0.526,
+       "bimodal": 0.941,
+       "contraste": 255.0,
+       "score": 0.533,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/iwaki/15s_30.png",
+       "y_rel": 0.745
+      },
+      {
+       "x0": 843,
+       "y0": 933,
+       "x1": 896,
+       "y1": 959,
+       "n": 3,
+       "altura": 13.7,
+       "cv_altura": 0.138,
+       "cv_base": 0.448,
+       "razao_gap": 0.667,
+       "bimodal": 0.902,
+       "contraste": 255.0,
+       "score": 0.522,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/iwaki/45s_31.png",
+       "y_rel": 0.876
+      },
+      {
+       "x0": 729,
+       "y0": 934,
+       "x1": 782,
+       "y1": 959,
+       "n": 3,
+       "altura": 13.3,
+       "cv_altura": 0.177,
+       "cv_base": 0.46,
+       "razao_gap": 0.667,
+       "bimodal": 0.905,
+       "contraste": 254.0,
+       "score": 0.503,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/iwaki/45s_32.png",
+       "y_rel": 0.876
+      }
+     ]
+    },
+    {
+     "video": "iwaki/wham! - last christmas ⧸ tab  for beginners.mp4",
+     "duracao_s": 45.2,
+     "altura": 1080,
+     "vias": [
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2"
+     ],
+     "n_candidatos": 7,
+     "candidatos": [
+      {
+       "x0": 1345,
+       "y0": 762,
+       "x1": 1518,
+       "y1": 778,
+       "n": 3,
+       "altura": 15.7,
+       "cv_altura": 0.03,
+       "cv_base": 0.0,
+       "razao_gap": 0.756,
+       "bimodal": 0.913,
+       "contraste": 255.0,
+       "score": 0.724,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/iwaki/3s_33.png",
+       "y_rel": 0.713
+      },
+      {
+       "x0": 561,
+       "y0": 889,
+       "x1": 668,
+       "y1": 912,
+       "n": 3,
+       "altura": 22.7,
+       "cv_altura": 0.021,
+       "cv_base": 0.021,
+       "razao_gap": 2.464,
+       "bimodal": 0.891,
+       "contraste": 255.0,
+       "score": 0.615,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/iwaki/30s_34.png",
+       "y_rel": 0.834
+      },
+      {
+       "x0": 113,
+       "y0": 654,
+       "x1": 209,
+       "y1": 692,
+       "n": 7,
+       "altura": 17.1,
+       "cv_altura": 0.38,
+       "cv_base": 0.433,
+       "razao_gap": 0.227,
+       "bimodal": 0.804,
+       "contraste": 163.0,
+       "score": 0.567,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/iwaki/3s_35.png",
+       "y_rel": 0.623
+      },
+      {
+       "x0": 722,
+       "y0": 495,
+       "x1": 781,
+       "y1": 519,
+       "n": 3,
+       "altura": 14.3,
+       "cv_altura": 0.183,
+       "cv_base": 0.366,
+       "razao_gap": 0.1,
+       "bimodal": 0.898,
+       "contraste": 133.2,
+       "score": 0.559,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/iwaki/30s_36.png",
+       "y_rel": 0.469
+      },
+      {
+       "x0": 827,
+       "y0": 456,
+       "x1": 889,
+       "y1": 482,
+       "n": 3,
+       "altura": 15.3,
+       "cv_altura": 0.263,
+       "cv_base": 0.373,
+       "razao_gap": 0.147,
+       "bimodal": 0.852,
+       "contraste": 160.4,
+       "score": 0.526,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/iwaki/8s_37.png",
+       "y_rel": 0.434
+      },
+      {
+       "x0": 223,
+       "y0": 342,
+       "x1": 300,
+       "y1": 370,
+       "n": 3,
+       "altura": 14.0,
+       "cv_altura": 0.355,
+       "cv_base": 0.352,
+       "razao_gap": 0.853,
+       "bimodal": 0.681,
+       "contraste": 78.0,
+       "score": 0.412,
+       "t": 30.0,
+       "instantes": [
+        15.0,
+        30.0
+       ],
+       "png": "data/saida/afinacao/iwaki/30s_38.png",
+       "y_rel": 0.33
+      },
+      {
+       "x0": 145,
+       "y0": 811,
+       "x1": 291,
+       "y1": 836,
+       "n": 3,
+       "altura": 17.0,
+       "cv_altura": 0.346,
+       "cv_base": 0.346,
+       "razao_gap": 1.932,
+       "bimodal": 0.905,
+       "contraste": 255.0,
+       "score": 0.4,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/iwaki/3s_39.png",
+       "y_rel": 0.762
+      }
+     ]
+    }
+   ]
+  },
+  "guitar dell ́arte": {
+   "n_videos": 5,
+   "n_com_candidato": 5,
+   "n_candidatos": 25,
+   "instantes_com_candidato": {
+    "15": 5,
+    "3": 2,
+    "30": 4,
+    "45": 6,
+    "8": 8
+   },
+   "melhores": [
+    {
+     "video": "guitar dell ́arte/prelude from sonata 5 (weiss) guitar, sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/8s_23.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.903,
+     "y_rel": 0.644
+    },
+    {
+     "video": "guitar dell ́arte/prelude from sonata 5 (weiss) guitar, sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/8s_24.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.887,
+     "y_rel": 0.585
+    },
+    {
+     "video": "guitar dell ́arte/prelude from sonata 5 (weiss) guitar, sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/8s_25.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.868,
+     "y_rel": 0.526
+    },
+    {
+     "video": "guitar dell ́arte/por causa de você⧸don’t ever go away (a.c jobim) guitar, sheet, tab and tutorial.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/8s_18.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.845,
+     "y_rel": 0.692
+    },
+    {
+     "video": "guitar dell ́arte/por causa de você⧸don’t ever go away (a.c jobim) guitar, sheet, tab and tutorial.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/8s_19.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.832,
+     "y_rel": 0.633
+    },
+    {
+     "video": "guitar dell ́arte/por causa de você⧸don’t ever go away (a.c jobim) guitar, sheet, tab and tutorial.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/8s_20.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.827,
+     "y_rel": 0.573
+    },
+    {
+     "video": "guitar dell ́arte/moonlight serenade (g. miller), guitar lesson, sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/8s_15.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.762,
+     "y_rel": 0.52
+    },
+    {
+     "video": "guitar dell ́arte/l’hymne à l’amour (piaf et monnot), arrangement for guitar, tutorial with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/8s_8.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.711,
+     "y_rel": 0.487
+    },
+    {
+     "video": "guitar dell ́arte/killing me softly with his song (c. fox) easy fingerstyle with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/15s_1.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.706,
+     "y_rel": 0.87
+    },
+    {
+     "video": "guitar dell ́arte/killing me softly with his song (c. fox) easy fingerstyle with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/30s_2.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.667,
+     "y_rel": 0.66
+    },
+    {
+     "video": "guitar dell ́arte/killing me softly with his song (c. fox) easy fingerstyle with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/15s_3.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.64,
+     "y_rel": 0.87
+    },
+    {
+     "video": "guitar dell ́arte/l’hymne à l’amour (piaf et monnot), arrangement for guitar, tutorial with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/15s_9.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.632,
+     "y_rel": 0.678
+    },
+    {
+     "video": "guitar dell ́arte/killing me softly with his song (c. fox) easy fingerstyle with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/45s_4.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.627,
+     "y_rel": 0.31
+    },
+    {
+     "video": "guitar dell ́arte/killing me softly with his song (c. fox) easy fingerstyle with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/45s_5.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.61,
+     "y_rel": 0.699
+    },
+    {
+     "video": "guitar dell ́arte/killing me softly with his song (c. fox) easy fingerstyle with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/45s_6.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.606,
+     "y_rel": 0.885
+    },
+    {
+     "video": "guitar dell ́arte/l’hymne à l’amour (piaf et monnot), arrangement for guitar, tutorial with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/45s_10.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.561,
+     "y_rel": 0.144
+    },
+    {
+     "video": "guitar dell ́arte/killing me softly with his song (c. fox) easy fingerstyle with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/15s_7.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.559,
+     "y_rel": 0.648
+    },
+    {
+     "video": "guitar dell ́arte/por causa de você⧸don’t ever go away (a.c jobim) guitar, sheet, tab and tutorial.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/30s_21.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.519,
+     "y_rel": 0.219
+    },
+    {
+     "video": "guitar dell ́arte/l’hymne à l’amour (piaf et monnot), arrangement for guitar, tutorial with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/45s_11.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.51,
+     "y_rel": 0.635
+    },
+    {
+     "video": "guitar dell ́arte/l’hymne à l’amour (piaf et monnot), arrangement for guitar, tutorial with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/45s_12.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.501,
+     "y_rel": 0.688
+    },
+    {
+     "video": "guitar dell ́arte/l’hymne à l’amour (piaf et monnot), arrangement for guitar, tutorial with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/30s_13.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.491,
+     "y_rel": 0.033
+    },
+    {
+     "video": "guitar dell ́arte/l’hymne à l’amour (piaf et monnot), arrangement for guitar, tutorial with sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/15s_14.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.432,
+     "y_rel": 0.023
+    },
+    {
+     "video": "guitar dell ́arte/moonlight serenade (g. miller), guitar lesson, sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/3s_16.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.425,
+     "y_rel": 0.289
+    },
+    {
+     "video": "guitar dell ́arte/por causa de você⧸don’t ever go away (a.c jobim) guitar, sheet, tab and tutorial.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/3s_22.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.421,
+     "y_rel": 0.289
+    },
+    {
+     "video": "guitar dell ́arte/moonlight serenade (g. miller), guitar lesson, sheet and tab.mp4",
+     "png": "data/saida/afinacao/guitar dell ́arte/30s_17.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.388,
+     "y_rel": 0.694
+    }
+   ],
+   "videos": [
+    {
+     "video": "guitar dell ́arte/killing me softly with his song (c. fox) easy fingerstyle with sheet and tab.mp4",
+     "duracao_s": 97.9,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 7,
+     "candidatos": [
+      {
+       "x0": 695,
+       "y0": 930,
+       "x1": 774,
+       "y1": 950,
+       "n": 3,
+       "altura": 19.3,
+       "cv_altura": 0.024,
+       "cv_base": 0.024,
+       "razao_gap": 0.75,
+       "bimodal": 0.795,
+       "contraste": 170.1,
+       "score": 0.706,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/15s_1.png",
+       "y_rel": 0.87
+      },
+      {
+       "x0": 922,
+       "y0": 707,
+       "x1": 1026,
+       "y1": 719,
+       "n": 4,
+       "altura": 11.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.045,
+       "razao_gap": 1.905,
+       "bimodal": 0.815,
+       "contraste": 147.0,
+       "score": 0.667,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/30s_2.png",
+       "y_rel": 0.66
+      },
+      {
+       "x0": 864,
+       "y0": 933,
+       "x1": 913,
+       "y1": 947,
+       "n": 3,
+       "altura": 12.0,
+       "cv_altura": 0.118,
+       "cv_base": 0.104,
+       "razao_gap": 0.636,
+       "bimodal": 0.77,
+       "contraste": 148.0,
+       "score": 0.64,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/15s_3.png",
+       "y_rel": 0.87
+      },
+      {
+       "x0": 468,
+       "y0": 321,
+       "x1": 585,
+       "y1": 348,
+       "n": 8,
+       "altura": 12.1,
+       "cv_altura": 0.313,
+       "cv_base": 0.294,
+       "razao_gap": 0.24,
+       "bimodal": 0.669,
+       "contraste": 53.1,
+       "score": 0.627,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/45s_4.png",
+       "y_rel": 0.31
+      },
+      {
+       "x0": 1724,
+       "y0": 739,
+       "x1": 1920,
+       "y1": 770,
+       "n": 5,
+       "altura": 21.6,
+       "cv_altura": 0.35,
+       "cv_base": 0.206,
+       "razao_gap": 0.069,
+       "bimodal": 0.792,
+       "contraste": 247.0,
+       "score": 0.61,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/45s_5.png",
+       "y_rel": 0.699
+      },
+      {
+       "x0": 385,
+       "y0": 944,
+       "x1": 467,
+       "y1": 968,
+       "n": 5,
+       "altura": 15.2,
+       "cv_altura": 0.158,
+       "cv_base": 0.315,
+       "razao_gap": 0.778,
+       "bimodal": 0.805,
+       "contraste": 160.0,
+       "score": 0.606,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/45s_6.png",
+       "y_rel": 0.885
+      },
+      {
+       "x0": 662,
+       "y0": 691,
+       "x1": 739,
+       "y1": 709,
+       "n": 3,
+       "altura": 15.0,
+       "cv_altura": 0.144,
+       "cv_base": 0.031,
+       "razao_gap": 2.3,
+       "bimodal": 0.836,
+       "contraste": 134.8,
+       "score": 0.559,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/15s_7.png",
+       "y_rel": 0.648
+      }
+     ]
+    },
+    {
+     "video": "guitar dell ́arte/l’hymne à l’amour (piaf et monnot), arrangement for guitar, tutorial with sheet and tab.mp4",
+     "duracao_s": 337.9,
+     "altura": 1080,
+     "vias": [
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2"
+     ],
+     "n_candidatos": 7,
+     "candidatos": [
+      {
+       "x0": 462,
+       "y0": 484,
+       "x1": 1466,
+       "y1": 569,
+       "n": 14,
+       "altura": 55.6,
+       "cv_altura": 0.323,
+       "cv_base": 0.403,
+       "razao_gap": 0.158,
+       "bimodal": 0.962,
+       "contraste": 255.0,
+       "score": 0.711,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/8s_8.png",
+       "y_rel": 0.487
+      },
+      {
+       "x0": 684,
+       "y0": 718,
+       "x1": 800,
+       "y1": 746,
+       "n": 5,
+       "altura": 15.0,
+       "cv_altura": 0.152,
+       "cv_base": 0.263,
+       "razao_gap": 0.625,
+       "bimodal": 0.785,
+       "contraste": 152.0,
+       "score": 0.632,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/15s_9.png",
+       "y_rel": 0.678
+      },
+      {
+       "x0": 1385,
+       "y0": 144,
+       "x1": 1459,
+       "y1": 166,
+       "n": 3,
+       "altura": 15.3,
+       "cv_altura": 0.263,
+       "cv_base": 0.081,
+       "razao_gap": 1.231,
+       "bimodal": 0.862,
+       "contraste": 140.0,
+       "score": 0.561,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/45s_10.png",
+       "y_rel": 0.144
+      },
+      {
+       "x0": 767,
+       "y0": 672,
+       "x1": 851,
+       "y1": 700,
+       "n": 4,
+       "altura": 15.2,
+       "cv_altura": 0.485,
+       "cv_base": 0.057,
+       "razao_gap": 1.143,
+       "bimodal": 0.818,
+       "contraste": 132.4,
+       "score": 0.51,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/45s_11.png",
+       "y_rel": 0.635
+      },
+      {
+       "x0": 530,
+       "y0": 725,
+       "x1": 624,
+       "y1": 760,
+       "n": 4,
+       "altura": 15.2,
+       "cv_altura": 0.312,
+       "cv_base": 0.372,
+       "razao_gap": 0.606,
+       "bimodal": 0.871,
+       "contraste": 131.5,
+       "score": 0.501,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/45s_12.png",
+       "y_rel": 0.688
+      },
+      {
+       "x0": 1307,
+       "y0": 2,
+       "x1": 1442,
+       "y1": 70,
+       "n": 3,
+       "altura": 35.3,
+       "cv_altura": 0.498,
+       "cv_base": 0.189,
+       "razao_gap": 0.232,
+       "bimodal": 0.824,
+       "contraste": 189.0,
+       "score": 0.491,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/30s_13.png",
+       "y_rel": 0.033
+      },
+      {
+       "x0": 1704,
+       "y0": 0,
+       "x1": 1920,
+       "y1": 50,
+       "n": 3,
+       "altura": 37.3,
+       "cv_altura": 0.424,
+       "cv_base": 0.349,
+       "razao_gap": 0.755,
+       "bimodal": 0.839,
+       "contraste": 194.0,
+       "score": 0.432,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/15s_14.png",
+       "y_rel": 0.023
+      }
+     ]
+    },
+    {
+     "video": "guitar dell ́arte/moonlight serenade (g. miller), guitar lesson, sheet and tab.mp4",
+     "duracao_s": 311.6,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 3,
+     "candidatos": [
+      {
+       "x0": 616,
+       "y0": 515,
+       "x1": 1402,
+       "y1": 609,
+       "n": 12,
+       "altura": 64.6,
+       "cv_altura": 0.261,
+       "cv_base": 0.337,
+       "razao_gap": 0.135,
+       "bimodal": 0.968,
+       "contraste": 255.0,
+       "score": 0.762,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/8s_15.png",
+       "y_rel": 0.52
+      },
+      {
+       "x0": 66,
+       "y0": 293,
+       "x1": 244,
+       "y1": 331,
+       "n": 5,
+       "altura": 17.4,
+       "cv_altura": 0.449,
+       "cv_base": 0.382,
+       "razao_gap": 1.206,
+       "bimodal": 0.699,
+       "contraste": 146.0,
+       "score": 0.425,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/3s_16.png",
+       "y_rel": 0.289
+      },
+      {
+       "x0": 619,
+       "y0": 736,
+       "x1": 709,
+       "y1": 762,
+       "n": 3,
+       "altura": 18.7,
+       "cv_altura": 0.354,
+       "cv_base": 0.354,
+       "razao_gap": 1.233,
+       "bimodal": 0.594,
+       "contraste": 103.0,
+       "score": 0.388,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/30s_17.png",
+       "y_rel": 0.694
+      }
+     ]
+    },
+    {
+     "video": "guitar dell ́arte/por causa de você⧸don’t ever go away (a.c jobim) guitar, sheet, tab and tutorial.mp4",
+     "duracao_s": 308.8,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 5,
+     "candidatos": [
+      {
+       "x0": 152,
+       "y0": 716,
+       "x1": 1339,
+       "y1": 779,
+       "n": 36,
+       "altura": 34.0,
+       "cv_altura": 0.222,
+       "cv_base": 0.153,
+       "razao_gap": 0.077,
+       "bimodal": 0.945,
+       "contraste": 255.0,
+       "score": 0.845,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/8s_18.png",
+       "y_rel": 0.692
+      },
+      {
+       "x0": 152,
+       "y0": 652,
+       "x1": 1586,
+       "y1": 715,
+       "n": 47,
+       "altura": 31.8,
+       "cv_altura": 0.229,
+       "cv_base": 0.182,
+       "razao_gap": 0.077,
+       "bimodal": 0.942,
+       "contraste": 255.0,
+       "score": 0.832,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/8s_19.png",
+       "y_rel": 0.633
+      },
+      {
+       "x0": 152,
+       "y0": 588,
+       "x1": 1564,
+       "y1": 650,
+       "n": 46,
+       "altura": 33.3,
+       "cv_altura": 0.246,
+       "cv_base": 0.176,
+       "razao_gap": 0.078,
+       "bimodal": 0.944,
+       "contraste": 255.0,
+       "score": 0.827,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/8s_20.png",
+       "y_rel": 0.573
+      },
+      {
+       "x0": 1841,
+       "y0": 227,
+       "x1": 1920,
+       "y1": 247,
+       "n": 3,
+       "altura": 12.0,
+       "cv_altura": 0.136,
+       "cv_base": 0.275,
+       "razao_gap": 1.708,
+       "bimodal": 0.857,
+       "contraste": 180.0,
+       "score": 0.519,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/30s_21.png",
+       "y_rel": 0.219
+      },
+      {
+       "x0": 67,
+       "y0": 293,
+       "x1": 244,
+       "y1": 331,
+       "n": 5,
+       "altura": 17.6,
+       "cv_altura": 0.465,
+       "cv_base": 0.378,
+       "razao_gap": 1.176,
+       "bimodal": 0.697,
+       "contraste": 146.0,
+       "score": 0.421,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/3s_22.png",
+       "y_rel": 0.289
+      }
+     ]
+    },
+    {
+     "video": "guitar dell ́arte/prelude from sonata 5 (weiss) guitar, sheet and tab.mp4",
+     "duracao_s": 188.4,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 3,
+     "candidatos": [
+      {
+       "x0": 543,
+       "y0": 669,
+       "x1": 1340,
+       "y1": 722,
+       "n": 23,
+       "altura": 34.0,
+       "cv_altura": 0.132,
+       "cv_base": 0.07,
+       "razao_gap": 0.231,
+       "bimodal": 0.953,
+       "contraste": 255.0,
+       "score": 0.903,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/8s_23.png",
+       "y_rel": 0.644
+      },
+      {
+       "x0": 165,
+       "y0": 605,
+       "x1": 1734,
+       "y1": 659,
+       "n": 49,
+       "altura": 36.1,
+       "cv_altura": 0.14,
+       "cv_base": 0.11,
+       "razao_gap": 0.192,
+       "bimodal": 0.95,
+       "contraste": 255.0,
+       "score": 0.887,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/8s_24.png",
+       "y_rel": 0.585
+      },
+      {
+       "x0": 224,
+       "y0": 541,
+       "x1": 1679,
+       "y1": 595,
+       "n": 41,
+       "altura": 34.2,
+       "cv_altura": 0.18,
+       "cv_base": 0.12,
+       "razao_gap": 0.185,
+       "bimodal": 0.947,
+       "contraste": 255.0,
+       "score": 0.868,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/guitar dell ́arte/8s_25.png",
+       "y_rel": 0.526
+      }
+     ]
+    }
+   ]
+  },
+  "tv on guitar": {
+   "n_videos": 5,
+   "n_com_candidato": 5,
+   "n_candidatos": 50,
+   "instantes_com_candidato": {
+    "15": 15,
+    "3": 14,
+    "30": 14,
+    "45": 13,
+    "8": 14
+   },
+   "melhores": [
+    {
+     "video": "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/45s_20.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.904,
+     "y_rel": 0.452
+    },
+    {
+     "video": "tv on guitar/ruins (from undertale) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/45s_31.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.82,
+     "y_rel": 0.144
+    },
+    {
+     "video": "tv on guitar/ruins (from undertale) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/45s_32.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.816,
+     "y_rel": 0.133
+    },
+    {
+     "video": "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/45s_10.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.81,
+     "y_rel": 0.072
+    },
+    {
+     "video": "tv on guitar/ruins (from undertale) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_33.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0
+     ],
+     "score": 0.786,
+     "y_rel": 0.334
+    },
+    {
+     "video": "tv on guitar/ruins (from undertale) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_34.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.786,
+     "y_rel": 0.334
+    },
+    {
+     "video": "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_21.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.785,
+     "y_rel": 0.35
+    },
+    {
+     "video": "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/45s_22.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.779,
+     "y_rel": 0.39
+    },
+    {
+     "video": "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/45s_23.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.778,
+     "y_rel": 0.35
+    },
+    {
+     "video": "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_24.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.776,
+     "y_rel": 0.038
+    },
+    {
+     "video": "tv on guitar/athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_1.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0
+     ],
+     "score": 0.759,
+     "y_rel": 0.275
+    },
+    {
+     "video": "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/45s_11.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.759,
+     "y_rel": 0.072
+    },
+    {
+     "video": "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/8s_25.png",
+     "t": 8.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.749,
+     "y_rel": 0.317
+    },
+    {
+     "video": "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/15s_12.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.733,
+     "y_rel": 0.222
+    },
+    {
+     "video": "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_13.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.727,
+     "y_rel": 0.283
+    },
+    {
+     "video": "tv on guitar/athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_2.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.718,
+     "y_rel": 0.337
+    },
+    {
+     "video": "tv on guitar/athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/15s_3.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.718,
+     "y_rel": 0.337
+    },
+    {
+     "video": "tv on guitar/athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/15s_4.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.712,
+     "y_rel": 0.214
+    },
+    {
+     "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/8s_40.png",
+     "t": 8.0,
+     "instantes": [
+      8.0,
+      15.0,
+      45.0
+     ],
+     "score": 0.712,
+     "y_rel": 0.327
+    },
+    {
+     "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/45s_41.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.711,
+     "y_rel": 0.327
+    },
+    {
+     "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_42.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.702,
+     "y_rel": 0.327
+    },
+    {
+     "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/8s_43.png",
+     "t": 8.0,
+     "instantes": [
+      8.0,
+      15.0
+     ],
+     "score": 0.701,
+     "y_rel": 0.368
+    },
+    {
+     "video": "tv on guitar/athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/45s_5.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.7,
+     "y_rel": 0.336
+    },
+    {
+     "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_44.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.7,
+     "y_rel": 0.509
+    },
+    {
+     "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/8s_45.png",
+     "t": 8.0,
+     "instantes": [
+      8.0,
+      15.0
+     ],
+     "score": 0.696,
+     "y_rel": 0.327
+    },
+    {
+     "video": "tv on guitar/ruins (from undertale) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_35.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0
+     ],
+     "score": 0.695,
+     "y_rel": 0.334
+    },
+    {
+     "video": "tv on guitar/athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_6.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.691,
+     "y_rel": 0.137
+    },
+    {
+     "video": "tv on guitar/athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_7.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.685,
+     "y_rel": 0.275
+    },
+    {
+     "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_46.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.683,
+     "y_rel": 0.389
+    },
+    {
+     "video": "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/15s_14.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.678,
+     "y_rel": 0.18
+    },
+    {
+     "video": "tv on guitar/ruins (from undertale) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_36.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0
+     ],
+     "score": 0.671,
+     "y_rel": 0.32
+    },
+    {
+     "video": "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_26.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.647,
+     "y_rel": 0.098
+    },
+    {
+     "video": "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/15s_15.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.645,
+     "y_rel": 0.223
+    },
+    {
+     "video": "tv on guitar/ruins (from undertale) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/45s_37.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.641,
+     "y_rel": 0.32
+    },
+    {
+     "video": "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/15s_27.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.639,
+     "y_rel": 0.39
+    },
+    {
+     "video": "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_28.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.638,
+     "y_rel": 0.39
+    },
+    {
+     "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/45s_47.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.636,
+     "y_rel": 0.703
+    },
+    {
+     "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_48.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.629,
+     "y_rel": 0.11
+    },
+    {
+     "video": "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_16.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.624,
+     "y_rel": 0.326
+    },
+    {
+     "video": "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_17.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.624,
+     "y_rel": 0.359
+    },
+    {
+     "video": "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/15s_29.png",
+     "t": 15.0,
+     "instantes": [
+      15.0,
+      30.0
+     ],
+     "score": 0.615,
+     "y_rel": 0.713
+    },
+    {
+     "video": "tv on guitar/athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_8.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.566,
+     "y_rel": 0.662
+    },
+    {
+     "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_49.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.538,
+     "y_rel": 0.341
+    },
+    {
+     "video": "tv on guitar/ruins (from undertale) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_38.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.508,
+     "y_rel": 0.652
+    },
+    {
+     "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_50.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.502,
+     "y_rel": 0.985
+    },
+    {
+     "video": "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/3s_18.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.49,
+     "y_rel": 0.684
+    },
+    {
+     "video": "tv on guitar/athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_9.png",
+     "t": 30.0,
+     "instantes": [
+      30.0,
+      45.0
+     ],
+     "score": 0.488,
+     "y_rel": 0.696
+    },
+    {
+     "video": "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/15s_30.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.464,
+     "y_rel": 0.128
+    },
+    {
+     "video": "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/8s_19.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.456,
+     "y_rel": 0.977
+    },
+    {
+     "video": "tv on guitar/ruins (from undertale) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "png": "data/saida/afinacao/tv on guitar/30s_39.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.438,
+     "y_rel": 0.249
+    }
+   ],
+   "videos": [
+    {
+     "video": "tv on guitar/athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "duracao_s": 167.4,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 9,
+     "candidatos": [
+      {
+       "x0": 1202,
+       "y0": 263,
+       "x1": 1920,
+       "y1": 332,
+       "n": 6,
+       "altura": 58.7,
+       "cv_altura": 0.126,
+       "cv_base": 0.097,
+       "razao_gap": 0.484,
+       "bimodal": 0.938,
+       "contraste": 240.0,
+       "score": 0.759,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_1.png",
+       "y_rel": 0.275
+      },
+      {
+       "x0": 359,
+       "y0": 356,
+       "x1": 397,
+       "y1": 372,
+       "n": 4,
+       "altura": 14.5,
+       "cv_altura": 0.103,
+       "cv_base": 0.103,
+       "razao_gap": 0.154,
+       "bimodal": 0.861,
+       "contraste": 255.0,
+       "score": 0.718,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_2.png",
+       "y_rel": 0.337
+      },
+      {
+       "x0": 109,
+       "y0": 356,
+       "x1": 147,
+       "y1": 372,
+       "n": 4,
+       "altura": 14.5,
+       "cv_altura": 0.103,
+       "cv_base": 0.103,
+       "razao_gap": 0.154,
+       "bimodal": 0.862,
+       "contraste": 255.0,
+       "score": 0.718,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/15s_3.png",
+       "y_rel": 0.337
+      },
+      {
+       "x0": 929,
+       "y0": 205,
+       "x1": 1799,
+       "y1": 258,
+       "n": 11,
+       "altura": 24.7,
+       "cv_altura": 0.338,
+       "cv_base": 0.38,
+       "razao_gap": 0.017,
+       "bimodal": 0.87,
+       "contraste": 254.0,
+       "score": 0.712,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/15s_4.png",
+       "y_rel": 0.214
+      },
+      {
+       "x0": 1447,
+       "y0": 356,
+       "x1": 1525,
+       "y1": 369,
+       "n": 4,
+       "altura": 13.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.765,
+       "bimodal": 0.859,
+       "contraste": 247.7,
+       "score": 0.7,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/45s_5.png",
+       "y_rel": 0.336
+      },
+      {
+       "x0": 294,
+       "y0": 135,
+       "x1": 381,
+       "y1": 160,
+       "n": 4,
+       "altura": 19.5,
+       "cv_altura": 0.164,
+       "cv_base": 0.077,
+       "razao_gap": 0.417,
+       "bimodal": 0.894,
+       "contraste": 228.0,
+       "score": 0.691,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_6.png",
+       "y_rel": 0.137
+      },
+      {
+       "x0": 669,
+       "y0": 263,
+       "x1": 1320,
+       "y1": 332,
+       "n": 5,
+       "altura": 59.4,
+       "cv_altura": 0.133,
+       "cv_base": 0.088,
+       "razao_gap": 1.234,
+       "bimodal": 0.94,
+       "contraste": 242.0,
+       "score": 0.685,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_7.png",
+       "y_rel": 0.275
+      },
+      {
+       "x0": 1706,
+       "y0": 701,
+       "x1": 1756,
+       "y1": 728,
+       "n": 3,
+       "altura": 21.0,
+       "cv_altura": 0.309,
+       "cv_base": 0.2,
+       "razao_gap": 0.125,
+       "bimodal": 0.798,
+       "contraste": 205.0,
+       "score": 0.566,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_8.png",
+       "y_rel": 0.662
+      },
+      {
+       "x0": 1621,
+       "y0": 742,
+       "x1": 1689,
+       "y1": 762,
+       "n": 3,
+       "altura": 11.7,
+       "cv_altura": 0.146,
+       "cv_base": 0.214,
+       "razao_gap": 1.727,
+       "bimodal": 0.555,
+       "contraste": 102.0,
+       "score": 0.488,
+       "t": 30.0,
+       "instantes": [
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_9.png",
+       "y_rel": 0.696
+      }
+     ]
+    },
+    {
+     "video": "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
+     "duracao_s": 163.6,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 10,
+     "candidatos": [
+      {
+       "x0": 650,
+       "y0": 68,
+       "x1": 720,
+       "y1": 87,
+       "n": 5,
+       "altura": 18.2,
+       "cv_altura": 0.022,
+       "cv_base": 0.022,
+       "razao_gap": 0.167,
+       "bimodal": 0.868,
+       "contraste": 255.0,
+       "score": 0.81,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/45s_10.png",
+       "y_rel": 0.072
+      },
+      {
+       "x0": 127,
+       "y0": 69,
+       "x1": 168,
+       "y1": 87,
+       "n": 4,
+       "altura": 16.8,
+       "cv_altura": 0.078,
+       "cv_base": 0.03,
+       "razao_gap": 0.111,
+       "bimodal": 0.875,
+       "contraste": 255.0,
+       "score": 0.759,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/45s_11.png",
+       "y_rel": 0.072
+      },
+      {
+       "x0": 708,
+       "y0": 228,
+       "x1": 846,
+       "y1": 252,
+       "n": 4,
+       "altura": 23.2,
+       "cv_altura": 0.019,
+       "cv_base": 0.0,
+       "razao_gap": 1.222,
+       "bimodal": 0.935,
+       "contraste": 255.0,
+       "score": 0.733,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/15s_12.png",
+       "y_rel": 0.222
+      },
+      {
+       "x0": 35,
+       "y0": 293,
+       "x1": 95,
+       "y1": 318,
+       "n": 4,
+       "altura": 20.0,
+       "cv_altura": 0.184,
+       "cv_base": 0.022,
+       "razao_gap": 0.0,
+       "bimodal": 0.88,
+       "contraste": 255.0,
+       "score": 0.727,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_13.png",
+       "y_rel": 0.283
+      },
+      {
+       "x0": 470,
+       "y0": 151,
+       "x1": 1891,
+       "y1": 237,
+       "n": 30,
+       "altura": 43.5,
+       "cv_altura": 0.432,
+       "cv_base": 0.378,
+       "razao_gap": 0.024,
+       "bimodal": 0.902,
+       "contraste": 255.0,
+       "score": 0.678,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/15s_14.png",
+       "y_rel": 0.18
+      },
+      {
+       "x0": 1017,
+       "y0": 229,
+       "x1": 1110,
+       "y1": 252,
+       "n": 4,
+       "altura": 19.8,
+       "cv_altura": 0.285,
+       "cv_base": 0.0,
+       "razao_gap": 0.909,
+       "bimodal": 0.932,
+       "contraste": 255.0,
+       "score": 0.645,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/15s_15.png",
+       "y_rel": 0.223
+      },
+      {
+       "x0": 815,
+       "y0": 344,
+       "x1": 902,
+       "y1": 360,
+       "n": 3,
+       "altura": 16.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 2.5,
+       "bimodal": 0.844,
+       "contraste": 251.0,
+       "score": 0.624,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_16.png",
+       "y_rel": 0.326
+      },
+      {
+       "x0": 815,
+       "y0": 380,
+       "x1": 902,
+       "y1": 396,
+       "n": 3,
+       "altura": 16.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 2.5,
+       "bimodal": 0.84,
+       "contraste": 251.4,
+       "score": 0.624,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_17.png",
+       "y_rel": 0.359
+      },
+      {
+       "x0": 1131,
+       "y0": 713,
+       "x1": 1264,
+       "y1": 764,
+       "n": 3,
+       "altura": 30.7,
+       "cv_altura": 0.478,
+       "cv_base": 0.055,
+       "razao_gap": 1.19,
+       "bimodal": 0.83,
+       "contraste": 193.0,
+       "score": 0.49,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_18.png",
+       "y_rel": 0.684
+      },
+      {
+       "x0": 1006,
+       "y0": 1031,
+       "x1": 1108,
+       "y1": 1080,
+       "n": 3,
+       "altura": 36.7,
+       "cv_altura": 0.419,
+       "cv_base": 0.18,
+       "razao_gap": 1.0,
+       "bimodal": 0.683,
+       "contraste": 130.1,
+       "score": 0.456,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/8s_19.png",
+       "y_rel": 0.977
+      }
+     ]
+    },
+    {
+     "video": "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4",
+     "duracao_s": 240.9,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 11,
+     "candidatos": [
+      {
+       "x0": 1029,
+       "y0": 479,
+       "x1": 1205,
+       "y1": 498,
+       "n": 8,
+       "altura": 19.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.381,
+       "bimodal": 0.87,
+       "contraste": 249.0,
+       "score": 0.904,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/45s_20.png",
+       "y_rel": 0.452
+      },
+      {
+       "x0": 444,
+       "y0": 368,
+       "x1": 504,
+       "y1": 387,
+       "n": 4,
+       "altura": 19.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.381,
+       "bimodal": 0.874,
+       "contraste": 211.0,
+       "score": 0.785,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_21.png",
+       "y_rel": 0.35
+      },
+      {
+       "x0": 898,
+       "y0": 412,
+       "x1": 957,
+       "y1": 431,
+       "n": 4,
+       "altura": 19.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.5,
+       "bimodal": 0.89,
+       "contraste": 248.0,
+       "score": 0.779,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/45s_22.png",
+       "y_rel": 0.39
+      },
+      {
+       "x0": 898,
+       "y0": 368,
+       "x1": 957,
+       "y1": 387,
+       "n": 4,
+       "altura": 19.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.5,
+       "bimodal": 0.882,
+       "contraste": 249.0,
+       "score": 0.778,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/45s_23.png",
+       "y_rel": 0.35
+      },
+      {
+       "x0": 66,
+       "y0": 27,
+       "x1": 185,
+       "y1": 56,
+       "n": 6,
+       "altura": 21.5,
+       "cv_altura": 0.134,
+       "cv_base": 0.092,
+       "razao_gap": 0.129,
+       "bimodal": 0.902,
+       "contraste": 251.0,
+       "score": 0.776,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_24.png",
+       "y_rel": 0.038
+      },
+      {
+       "x0": 957,
+       "y0": 329,
+       "x1": 1040,
+       "y1": 356,
+       "n": 6,
+       "altura": 16.7,
+       "cv_altura": 0.175,
+       "cv_base": 0.134,
+       "razao_gap": 0.0,
+       "bimodal": 0.881,
+       "contraste": 208.0,
+       "score": 0.749,
+       "t": 8.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/8s_25.png",
+       "y_rel": 0.317
+      },
+      {
+       "x0": 1558,
+       "y0": 88,
+       "x1": 1760,
+       "y1": 123,
+       "n": 10,
+       "altura": 15.0,
+       "cv_altura": 0.364,
+       "cv_base": 0.541,
+       "razao_gap": 0.05,
+       "bimodal": 0.923,
+       "contraste": 249.0,
+       "score": 0.647,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_26.png",
+       "y_rel": 0.098
+      },
+      {
+       "x0": 1823,
+       "y0": 412,
+       "x1": 1913,
+       "y1": 431,
+       "n": 3,
+       "altura": 18.7,
+       "cv_altura": 0.025,
+       "cv_base": 0.0,
+       "razao_gap": 2.154,
+       "bimodal": 0.88,
+       "contraste": 243.0,
+       "score": 0.639,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/15s_27.png",
+       "y_rel": 0.39
+      },
+      {
+       "x0": 535,
+       "y0": 412,
+       "x1": 625,
+       "y1": 431,
+       "n": 3,
+       "altura": 18.7,
+       "cv_altura": 0.025,
+       "cv_base": 0.0,
+       "razao_gap": 2.154,
+       "bimodal": 0.876,
+       "contraste": 245.0,
+       "score": 0.638,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_28.png",
+       "y_rel": 0.39
+      },
+      {
+       "x0": 1702,
+       "y0": 762,
+       "x1": 1802,
+       "y1": 777,
+       "n": 4,
+       "altura": 14.2,
+       "cv_altura": 0.03,
+       "cv_base": 0.03,
+       "razao_gap": 2.333,
+       "bimodal": 0.805,
+       "contraste": 90.0,
+       "score": 0.615,
+       "t": 15.0,
+       "instantes": [
+        15.0,
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/15s_29.png",
+       "y_rel": 0.713
+      },
+      {
+       "x0": 561,
+       "y0": 124,
+       "x1": 724,
+       "y1": 152,
+       "n": 3,
+       "altura": 13.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.544,
+       "razao_gap": 1.917,
+       "bimodal": 0.87,
+       "contraste": 206.0,
+       "score": 0.464,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/15s_30.png",
+       "y_rel": 0.128
+      }
+     ]
+    },
+    {
+     "video": "tv on guitar/ruins (from undertale) guitar tab and standard notation ｜ tvonguitar.mp4",
+     "duracao_s": 175.7,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 9,
+     "candidatos": [
+      {
+       "x0": 240,
+       "y0": 148,
+       "x1": 291,
+       "y1": 164,
+       "n": 5,
+       "altura": 15.2,
+       "cv_altura": 0.026,
+       "cv_base": 0.0,
+       "razao_gap": 0.071,
+       "bimodal": 0.844,
+       "contraste": 255.0,
+       "score": 0.82,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/45s_31.png",
+       "y_rel": 0.144
+      },
+      {
+       "x0": 1107,
+       "y0": 136,
+       "x1": 1165,
+       "y1": 152,
+       "n": 5,
+       "altura": 15.6,
+       "cv_altura": 0.031,
+       "cv_base": 0.0,
+       "razao_gap": 0.15,
+       "bimodal": 0.874,
+       "contraste": 255.0,
+       "score": 0.816,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/45s_32.png",
+       "y_rel": 0.133
+      },
+      {
+       "x0": 1811,
+       "y0": 354,
+       "x1": 1857,
+       "y1": 367,
+       "n": 4,
+       "altura": 13.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.267,
+       "bimodal": 0.821,
+       "contraste": 255.0,
+       "score": 0.786,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_33.png",
+       "y_rel": 0.334
+      },
+      {
+       "x0": 195,
+       "y0": 354,
+       "x1": 241,
+       "y1": 367,
+       "n": 4,
+       "altura": 13.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.267,
+       "bimodal": 0.822,
+       "contraste": 255.0,
+       "score": 0.786,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_34.png",
+       "y_rel": 0.334
+      },
+      {
+       "x0": 883,
+       "y0": 354,
+       "x1": 966,
+       "y1": 367,
+       "n": 4,
+       "altura": 13.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.778,
+       "bimodal": 0.819,
+       "contraste": 252.1,
+       "score": 0.695,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_35.png",
+       "y_rel": 0.334
+      },
+      {
+       "x0": 1294,
+       "y0": 339,
+       "x1": 1390,
+       "y1": 352,
+       "n": 4,
+       "altura": 13.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 2.222,
+       "bimodal": 0.847,
+       "contraste": 235.0,
+       "score": 0.671,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_36.png",
+       "y_rel": 0.32
+      },
+      {
+       "x0": 1424,
+       "y0": 339,
+       "x1": 1491,
+       "y1": 352,
+       "n": 3,
+       "altura": 13.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 2.222,
+       "bimodal": 0.843,
+       "contraste": 240.0,
+       "score": 0.641,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/45s_37.png",
+       "y_rel": 0.32
+      },
+      {
+       "x0": 1426,
+       "y0": 672,
+       "x1": 1500,
+       "y1": 737,
+       "n": 5,
+       "altura": 25.6,
+       "cv_altura": 0.396,
+       "cv_base": 0.401,
+       "razao_gap": 0.033,
+       "bimodal": 0.752,
+       "contraste": 123.0,
+       "score": 0.508,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_38.png",
+       "y_rel": 0.652
+      },
+      {
+       "x0": 402,
+       "y0": 241,
+       "x1": 567,
+       "y1": 297,
+       "n": 3,
+       "altura": 38.3,
+       "cv_altura": 0.289,
+       "cv_base": 0.282,
+       "razao_gap": 2.147,
+       "bimodal": 0.945,
+       "contraste": 249.0,
+       "score": 0.438,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_39.png",
+       "y_rel": 0.249
+      }
+     ]
+    },
+    {
+     "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+     "duracao_s": 138.2,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 11,
+     "candidatos": [
+      {
+       "x0": 887,
+       "y0": 344,
+       "x1": 947,
+       "y1": 363,
+       "n": 3,
+       "altura": 19.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.125,
+       "bimodal": 0.892,
+       "contraste": 255.0,
+       "score": 0.712,
+       "t": 8.0,
+       "instantes": [
+        8.0,
+        15.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/8s_40.png",
+       "y_rel": 0.327
+      },
+      {
+       "x0": 480,
+       "y0": 344,
+       "x1": 540,
+       "y1": 363,
+       "n": 3,
+       "altura": 19.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.125,
+       "bimodal": 0.883,
+       "contraste": 250.0,
+       "score": 0.711,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/45s_41.png",
+       "y_rel": 0.327
+      },
+      {
+       "x0": 95,
+       "y0": 344,
+       "x1": 158,
+       "y1": 363,
+       "n": 3,
+       "altura": 18.7,
+       "cv_altura": 0.025,
+       "cv_base": 0.0,
+       "razao_gap": 1.115,
+       "bimodal": 0.89,
+       "contraste": 255.0,
+       "score": 0.702,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_42.png",
+       "y_rel": 0.327
+      },
+      {
+       "x0": 1011,
+       "y0": 388,
+       "x1": 1070,
+       "y1": 407,
+       "n": 3,
+       "altura": 18.7,
+       "cv_altura": 0.025,
+       "cv_base": 0.0,
+       "razao_gap": 1.125,
+       "bimodal": 0.886,
+       "contraste": 255.0,
+       "score": 0.701,
+       "t": 8.0,
+       "instantes": [
+        8.0,
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/8s_43.png",
+       "y_rel": 0.368
+      },
+      {
+       "x0": 1775,
+       "y0": 541,
+       "x1": 1850,
+       "y1": 558,
+       "n": 5,
+       "altura": 10.8,
+       "cv_altura": 0.091,
+       "cv_base": 0.227,
+       "razao_gap": 0.35,
+       "bimodal": 0.895,
+       "contraste": 201.0,
+       "score": 0.7,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_44.png",
+       "y_rel": 0.509
+      },
+      {
+       "x0": 1335,
+       "y0": 344,
+       "x1": 1397,
+       "y1": 363,
+       "n": 3,
+       "altura": 18.7,
+       "cv_altura": 0.025,
+       "cv_base": 0.0,
+       "razao_gap": 1.208,
+       "bimodal": 0.89,
+       "contraste": 255.0,
+       "score": 0.696,
+       "t": 8.0,
+       "instantes": [
+        8.0,
+        15.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/8s_45.png",
+       "y_rel": 0.327
+      },
+      {
+       "x0": 833,
+       "y0": 411,
+       "x1": 895,
+       "y1": 430,
+       "n": 3,
+       "altura": 18.7,
+       "cv_altura": 0.025,
+       "cv_base": 0.025,
+       "razao_gap": 1.25,
+       "bimodal": 0.869,
+       "contraste": 255.0,
+       "score": 0.683,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/30s_46.png",
+       "y_rel": 0.389
+      },
+      {
+       "x0": 224,
+       "y0": 737,
+       "x1": 427,
+       "y1": 782,
+       "n": 8,
+       "altura": 18.2,
+       "cv_altura": 0.297,
+       "cv_base": 0.38,
+       "razao_gap": 0.0,
+       "bimodal": 0.711,
+       "contraste": 103.0,
+       "score": 0.636,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/45s_47.png",
+       "y_rel": 0.703
+      },
+      {
+       "x0": 445,
+       "y0": 101,
+       "x1": 544,
+       "y1": 136,
+       "n": 3,
+       "altura": 29.7,
+       "cv_altura": 0.127,
+       "cv_base": 0.048,
+       "razao_gap": 1.417,
+       "bimodal": 0.918,
+       "contraste": 249.0,
+       "score": 0.629,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_48.png",
+       "y_rel": 0.11
+      },
+      {
+       "x0": 1201,
+       "y0": 354,
+       "x1": 1257,
+       "y1": 383,
+       "n": 3,
+       "altura": 14.7,
+       "cv_altura": 0.032,
+       "cv_base": 0.45,
+       "razao_gap": 1.05,
+       "bimodal": 0.876,
+       "contraste": 242.0,
+       "score": 0.538,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_49.png",
+       "y_rel": 0.341
+      },
+      {
+       "x0": 1054,
+       "y0": 1047,
+       "x1": 1179,
+       "y1": 1080,
+       "n": 3,
+       "altura": 26.3,
+       "cv_altura": 0.306,
+       "cv_base": 0.251,
+       "razao_gap": 0.783,
+       "bimodal": 0.722,
+       "contraste": 167.0,
+       "score": 0.502,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/tv on guitar/3s_50.png",
+       "y_rel": 0.985
+      }
+     ]
+    }
+   ]
+  },
+  "mr. tabs": {
+   "n_videos": 5,
+   "n_com_candidato": 5,
+   "n_candidatos": 45,
+   "instantes_com_candidato": {
+    "15": 13,
+    "3": 13,
+    "30": 14,
+    "45": 13,
+    "8": 13
+   },
+   "melhores": [
+    {
+     "video": "mr. tabs/mr. big - to be with you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ audimee.mp4",
+     "png": "data/saida/afinacao/mr. tabs/3s_23.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.956,
+     "y_rel": 0.663
+    },
+    {
+     "video": "mr. tabs/when someone yells ＂free bird＂ around the campfire as a joke and you're ready for it #shorts #guitar.mp4",
+     "png": "data/saida/afinacao/mr. tabs/45s_39.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.954,
+     "y_rel": 0.49
+    },
+    {
+     "video": "mr. tabs/when someone yells ＂free bird＂ around the campfire as a joke and you're ready for it #shorts #guitar.mp4",
+     "png": "data/saida/afinacao/mr. tabs/30s_40.png",
+     "t": 30.0,
+     "instantes": [
+      30.0,
+      45.0
+     ],
+     "score": 0.947,
+     "y_rel": 0.527
+    },
+    {
+     "video": "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
+     "png": "data/saida/afinacao/mr. tabs/8s_12.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.942,
+     "y_rel": 0.632
+    },
+    {
+     "video": "mr. tabs/when someone yells ＂free bird＂ around the campfire as a joke and you're ready for it #shorts #guitar.mp4",
+     "png": "data/saida/afinacao/mr. tabs/3s_41.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.92,
+     "y_rel": 0.719
+    },
+    {
+     "video": "mr. tabs/classical gas - mason williams - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+     "png": "data/saida/afinacao/mr. tabs/30s_1.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.896,
+     "y_rel": 0.691
+    },
+    {
+     "video": "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
+     "png": "data/saida/afinacao/mr. tabs/45s_13.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.882,
+     "y_rel": 0.877
+    },
+    {
+     "video": "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
+     "png": "data/saida/afinacao/mr. tabs/45s_14.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.879,
+     "y_rel": 0.854
+    },
+    {
+     "video": "mr. tabs/when someone yells ＂free bird＂ around the campfire as a joke and you're ready for it #shorts #guitar.mp4",
+     "png": "data/saida/afinacao/mr. tabs/30s_42.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.847,
+     "y_rel": 0.512
+    },
+    {
+     "video": "mr. tabs/pink floyd - wish you were here - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
+     "png": "data/saida/afinacao/mr. tabs/3s_31.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.819,
+     "y_rel": 0.803
+    },
+    {
+     "video": "mr. tabs/when someone yells ＂free bird＂ around the campfire as a joke and you're ready for it #shorts #guitar.mp4",
+     "png": "data/saida/afinacao/mr. tabs/15s_43.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.807,
+     "y_rel": 0.432
+    },
+    {
+     "video": "mr. tabs/mr. big - to be with you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ audimee.mp4",
+     "png": "data/saida/afinacao/mr. tabs/45s_24.png",
+     "t": 45.0,
+     "instantes": [
+      15.0,
+      45.0
+     ],
+     "score": 0.8,
+     "y_rel": 0.742
+    },
+    {
+     "video": "mr. tabs/pink floyd - wish you were here - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
+     "png": "data/saida/afinacao/mr. tabs/30s_32.png",
+     "t": 30.0,
+     "instantes": [
+      3.0,
+      30.0
+     ],
+     "score": 0.799,
+     "y_rel": 0.704
+    },
+    {
+     "video": "mr. tabs/when someone yells ＂free bird＂ around the campfire as a joke and you're ready for it #shorts #guitar.mp4",
+     "png": "data/saida/afinacao/mr. tabs/15s_44.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.798,
+     "y_rel": 0.432
+    },
+    {
+     "video": "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
+     "png": "data/saida/afinacao/mr. tabs/8s_15.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.789,
+     "y_rel": 0.659
+    },
+    {
+     "video": "mr. tabs/mr. big - to be with you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ audimee.mp4",
+     "png": "data/saida/afinacao/mr. tabs/15s_25.png",
+     "t": 15.0,
+     "instantes": [
+      3.0,
+      8.0,
+      15.0,
+      30.0,
+      45.0
+     ],
+     "score": 0.778,
+     "y_rel": 0.742
+    },
+    {
+     "video": "mr. tabs/mr. big - to be with you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ audimee.mp4",
+     "png": "data/saida/afinacao/mr. tabs/15s_26.png",
+     "t": 15.0,
+     "instantes": [
+      15.0,
+      30.0
+     ],
+     "score": 0.777,
+     "y_rel": 0.742
+    },
+    {
+     "video": "mr. tabs/classical gas - mason williams - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+     "png": "data/saida/afinacao/mr. tabs/15s_2.png",
+     "t": 15.0,
+     "instantes": [
+      15.0,
+      45.0
+     ],
+     "score": 0.775,
+     "y_rel": 0.718
+    },
+    {
+     "video": "mr. tabs/mr. big - to be with you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ audimee.mp4",
+     "png": "data/saida/afinacao/mr. tabs/45s_27.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.77,
+     "y_rel": 0.697
+    },
+    {
+     "video": "mr. tabs/mr. big - to be with you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ audimee.mp4",
+     "png": "data/saida/afinacao/mr. tabs/3s_28.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.768,
+     "y_rel": 0.697
+    },
+    {
+     "video": "mr. tabs/mr. big - to be with you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ audimee.mp4",
+     "png": "data/saida/afinacao/mr. tabs/30s_29.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.768,
+     "y_rel": 0.697
+    },
+    {
+     "video": "mr. tabs/classical gas - mason williams - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+     "png": "data/saida/afinacao/mr. tabs/45s_3.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.767,
+     "y_rel": 0.691
+    },
+    {
+     "video": "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
+     "png": "data/saida/afinacao/mr. tabs/30s_16.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.76,
+     "y_rel": 0.658
+    },
+    {
+     "video": "mr. tabs/pink floyd - wish you were here - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
+     "png": "data/saida/afinacao/mr. tabs/15s_33.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.758,
+     "y_rel": 0.705
+    },
+    {
+     "video": "mr. tabs/when someone yells ＂free bird＂ around the campfire as a joke and you're ready for it #shorts #guitar.mp4",
+     "png": "data/saida/afinacao/mr. tabs/3s_45.png",
+     "t": 3.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.754,
+     "y_rel": 0.692
+    },
+    {
+     "video": "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
+     "png": "data/saida/afinacao/mr. tabs/15s_17.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.753,
+     "y_rel": 0.659
+    },
+    {
+     "video": "mr. tabs/classical gas - mason williams - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+     "png": "data/saida/afinacao/mr. tabs/45s_4.png",
+     "t": 45.0,
+     "instantes": [
+      15.0,
+      45.0
+     ],
+     "score": 0.746,
+     "y_rel": 0.691
+    },
+    {
+     "video": "mr. tabs/pink floyd - wish you were here - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
+     "png": "data/saida/afinacao/mr. tabs/8s_34.png",
+     "t": 8.0,
+     "instantes": [
+      8.0,
+      30.0
+     ],
+     "score": 0.744,
+     "y_rel": 0.649
+    },
+    {
+     "video": "mr. tabs/pink floyd - wish you were here - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
+     "png": "data/saida/afinacao/mr. tabs/15s_35.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.724,
+     "y_rel": 0.827
+    },
+    {
+     "video": "mr. tabs/mr. big - to be with you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ audimee.mp4",
+     "png": "data/saida/afinacao/mr. tabs/8s_30.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.723,
+     "y_rel": 0.697
+    },
+    {
+     "video": "mr. tabs/pink floyd - wish you were here - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
+     "png": "data/saida/afinacao/mr. tabs/30s_36.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.719,
+     "y_rel": 0.827
+    },
+    {
+     "video": "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
+     "png": "data/saida/afinacao/mr. tabs/15s_18.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.718,
+     "y_rel": 0.809
+    },
+    {
+     "video": "mr. tabs/pink floyd - wish you were here - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
+     "png": "data/saida/afinacao/mr. tabs/45s_37.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.714,
+     "y_rel": 0.827
+    },
+    {
+     "video": "mr. tabs/pink floyd - wish you were here - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
+     "png": "data/saida/afinacao/mr. tabs/45s_38.png",
+     "t": 45.0,
+     "instantes": [
+      45.0
+     ],
+     "score": 0.705,
+     "y_rel": 0.852
+    },
+    {
+     "video": "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
+     "png": "data/saida/afinacao/mr. tabs/8s_19.png",
+     "t": 8.0,
+     "instantes": [
+      3.0,
+      8.0,
+      30.0
+     ],
+     "score": 0.697,
+     "y_rel": 0.402
+    },
+    {
+     "video": "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
+     "png": "data/saida/afinacao/mr. tabs/3s_20.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.684,
+     "y_rel": 0.854
+    },
+    {
+     "video": "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
+     "png": "data/saida/afinacao/mr. tabs/3s_21.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.675,
+     "y_rel": 0.831
+    },
+    {
+     "video": "mr. tabs/classical gas - mason williams - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+     "png": "data/saida/afinacao/mr. tabs/8s_5.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.663,
+     "y_rel": 0.81
+    },
+    {
+     "video": "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
+     "png": "data/saida/afinacao/mr. tabs/30s_22.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.656,
+     "y_rel": 0.309
+    },
+    {
+     "video": "mr. tabs/classical gas - mason williams - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+     "png": "data/saida/afinacao/mr. tabs/15s_6.png",
+     "t": 15.0,
+     "instantes": [
+      15.0
+     ],
+     "score": 0.636,
+     "y_rel": 0.785
+    },
+    {
+     "video": "mr. tabs/classical gas - mason williams - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+     "png": "data/saida/afinacao/mr. tabs/30s_7.png",
+     "t": 30.0,
+     "instantes": [
+      30.0
+     ],
+     "score": 0.63,
+     "y_rel": 0.784
+    },
+    {
+     "video": "mr. tabs/classical gas - mason williams - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+     "png": "data/saida/afinacao/mr. tabs/8s_8.png",
+     "t": 8.0,
+     "instantes": [
+      8.0
+     ],
+     "score": 0.607,
+     "y_rel": 0.695
+    },
+    {
+     "video": "mr. tabs/classical gas - mason williams - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+     "png": "data/saida/afinacao/mr. tabs/3s_9.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.495,
+     "y_rel": 0.695
+    },
+    {
+     "video": "mr. tabs/classical gas - mason williams - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+     "png": "data/saida/afinacao/mr. tabs/8s_10.png",
+     "t": 8.0,
+     "instantes": [
+      3.0,
+      8.0
+     ],
+     "score": 0.482,
+     "y_rel": 0.071
+    },
+    {
+     "video": "mr. tabs/classical gas - mason williams - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+     "png": "data/saida/afinacao/mr. tabs/3s_11.png",
+     "t": 3.0,
+     "instantes": [
+      3.0
+     ],
+     "score": 0.414,
+     "y_rel": 0.153
+    }
+   ],
+   "videos": [
+    {
+     "video": "mr. tabs/classical gas - mason williams - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+     "duracao_s": 154.2,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 11,
+     "candidatos": [
+      {
+       "x0": 1501,
+       "y0": 730,
+       "x1": 1896,
+       "y1": 762,
+       "n": 9,
+       "altura": 28.3,
+       "cv_altura": 0.141,
+       "cv_base": 0.018,
+       "razao_gap": 0.056,
+       "bimodal": 0.927,
+       "contraste": 214.0,
+       "score": 0.896,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/30s_1.png",
+       "y_rel": 0.691
+      },
+      {
+       "x0": 1654,
+       "y0": 760,
+       "x1": 1715,
+       "y1": 791,
+       "n": 3,
+       "altura": 31.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.125,
+       "bimodal": 0.924,
+       "contraste": 237.0,
+       "score": 0.775,
+       "t": 15.0,
+       "instantes": [
+        15.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/15s_2.png",
+       "y_rel": 0.718
+      },
+      {
+       "x0": 264,
+       "y0": 731,
+       "x1": 374,
+       "y1": 762,
+       "n": 5,
+       "altura": 25.2,
+       "cv_altura": 0.156,
+       "cv_base": 0.019,
+       "razao_gap": 0.105,
+       "bimodal": 0.928,
+       "contraste": 198.0,
+       "score": 0.767,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/45s_3.png",
+       "y_rel": 0.691
+      },
+      {
+       "x0": 769,
+       "y0": 731,
+       "x1": 1001,
+       "y1": 762,
+       "n": 4,
+       "altura": 28.2,
+       "cv_altura": 0.149,
+       "cv_base": 0.018,
+       "razao_gap": 0.029,
+       "bimodal": 0.94,
+       "contraste": 236.4,
+       "score": 0.746,
+       "t": 45.0,
+       "instantes": [
+        15.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/45s_4.png",
+       "y_rel": 0.691
+      },
+      {
+       "x0": 1558,
+       "y0": 866,
+       "x1": 1616,
+       "y1": 884,
+       "n": 3,
+       "altura": 16.0,
+       "cv_altura": 0.135,
+       "cv_base": 0.029,
+       "razao_gap": 0.846,
+       "bimodal": 0.883,
+       "contraste": 229.0,
+       "score": 0.663,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/8s_5.png",
+       "y_rel": 0.81
+      },
+      {
+       "x0": 1815,
+       "y0": 836,
+       "x1": 1917,
+       "y1": 859,
+       "n": 3,
+       "altura": 22.7,
+       "cv_altura": 0.021,
+       "cv_base": 0.021,
+       "razao_gap": 2.1,
+       "bimodal": 0.878,
+       "contraste": 233.0,
+       "score": 0.636,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/15s_6.png",
+       "y_rel": 0.785
+      },
+      {
+       "x0": 803,
+       "y0": 835,
+       "x1": 906,
+       "y1": 859,
+       "n": 3,
+       "altura": 23.0,
+       "cv_altura": 0.035,
+       "cv_base": 0.02,
+       "razao_gap": 2.1,
+       "bimodal": 0.877,
+       "contraste": 233.0,
+       "score": 0.63,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/30s_7.png",
+       "y_rel": 0.784
+      },
+      {
+       "x0": 433,
+       "y0": 740,
+       "x1": 482,
+       "y1": 761,
+       "n": 4,
+       "altura": 17.5,
+       "cv_altura": 0.257,
+       "cv_base": 0.223,
+       "razao_gap": 0.333,
+       "bimodal": 0.912,
+       "contraste": 240.0,
+       "score": 0.607,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/8s_8.png",
+       "y_rel": 0.695
+      },
+      {
+       "x0": 649,
+       "y0": 740,
+       "x1": 699,
+       "y1": 761,
+       "n": 3,
+       "altura": 16.3,
+       "cv_altura": 0.284,
+       "cv_base": 0.26,
+       "razao_gap": 1.312,
+       "bimodal": 0.923,
+       "contraste": 192.0,
+       "score": 0.495,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/3s_9.png",
+       "y_rel": 0.695
+      },
+      {
+       "x0": 1190,
+       "y0": 67,
+       "x1": 1290,
+       "y1": 87,
+       "n": 4,
+       "altura": 12.2,
+       "cv_altura": 0.234,
+       "cv_base": 0.333,
+       "razao_gap": 1.727,
+       "bimodal": 0.8,
+       "contraste": 171.0,
+       "score": 0.482,
+       "t": 8.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/8s_10.png",
+       "y_rel": 0.071
+      },
+      {
+       "x0": 1510,
+       "y0": 147,
+       "x1": 1588,
+       "y1": 184,
+       "n": 3,
+       "altura": 17.3,
+       "cv_altura": 0.481,
+       "cv_base": 0.377,
+       "razao_gap": 0.5,
+       "bimodal": 0.864,
+       "contraste": 149.8,
+       "score": 0.414,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/3s_11.png",
+       "y_rel": 0.153
+      }
+     ]
+    },
+    {
+     "video": "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
+     "duracao_s": 434.4,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 11,
+     "candidatos": [
+      {
+       "x0": 139,
+       "y0": 674,
+       "x1": 463,
+       "y1": 692,
+       "n": 17,
+       "altura": 17.0,
+       "cv_altura": 0.04,
+       "cv_base": 0.029,
+       "razao_gap": 0.133,
+       "bimodal": 0.88,
+       "contraste": 123.0,
+       "score": 0.942,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/8s_12.png",
+       "y_rel": 0.632
+      },
+      {
+       "x0": 129,
+       "y0": 937,
+       "x1": 592,
+       "y1": 958,
+       "n": 11,
+       "altura": 21.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.786,
+       "bimodal": 0.889,
+       "contraste": 184.0,
+       "score": 0.882,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/45s_13.png",
+       "y_rel": 0.877
+      },
+      {
+       "x0": 680,
+       "y0": 912,
+       "x1": 1229,
+       "y1": 933,
+       "n": 14,
+       "altura": 21.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.857,
+       "bimodal": 0.907,
+       "contraste": 225.0,
+       "score": 0.879,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/45s_14.png",
+       "y_rel": 0.854
+      },
+      {
+       "x0": 1101,
+       "y0": 698,
+       "x1": 1180,
+       "y1": 725,
+       "n": 6,
+       "altura": 20.5,
+       "cv_altura": 0.148,
+       "cv_base": 0.037,
+       "razao_gap": 0.16,
+       "bimodal": 0.917,
+       "contraste": 193.0,
+       "score": 0.789,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/8s_15.png",
+       "y_rel": 0.659
+      },
+      {
+       "x0": 766,
+       "y0": 696,
+       "x1": 841,
+       "y1": 726,
+       "n": 3,
+       "altura": 28.0,
+       "cv_altura": 0.029,
+       "cv_base": 0.017,
+       "razao_gap": 0.037,
+       "bimodal": 0.902,
+       "contraste": 242.0,
+       "score": 0.76,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/30s_16.png",
+       "y_rel": 0.658
+      },
+      {
+       "x0": 945,
+       "y0": 698,
+       "x1": 1040,
+       "y1": 725,
+       "n": 4,
+       "altura": 25.0,
+       "cv_altura": 0.139,
+       "cv_base": 0.0,
+       "razao_gap": 0.038,
+       "bimodal": 0.903,
+       "contraste": 195.0,
+       "score": 0.753,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/15s_17.png",
+       "y_rel": 0.659
+      },
+      {
+       "x0": 1567,
+       "y0": 863,
+       "x1": 1675,
+       "y1": 884,
+       "n": 5,
+       "altura": 17.8,
+       "cv_altura": 0.176,
+       "cv_base": 0.094,
+       "razao_gap": 0.286,
+       "bimodal": 0.897,
+       "contraste": 229.0,
+       "score": 0.718,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/15s_18.png",
+       "y_rel": 0.809
+      },
+      {
+       "x0": 1243,
+       "y0": 413,
+       "x1": 1584,
+       "y1": 456,
+       "n": 10,
+       "altura": 18.8,
+       "cv_altura": 0.248,
+       "cv_base": 0.371,
+       "razao_gap": 0.275,
+       "bimodal": 0.675,
+       "contraste": 96.0,
+       "score": 0.697,
+       "t": 8.0,
+       "instantes": [
+        3.0,
+        8.0,
+        30.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/8s_19.png",
+       "y_rel": 0.402
+      },
+      {
+       "x0": 1563,
+       "y0": 912,
+       "x1": 1625,
+       "y1": 933,
+       "n": 3,
+       "altura": 19.0,
+       "cv_altura": 0.149,
+       "cv_base": 0.074,
+       "razao_gap": 0.143,
+       "bimodal": 0.892,
+       "contraste": 230.0,
+       "score": 0.684,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/3s_20.png",
+       "y_rel": 0.854
+      },
+      {
+       "x0": 435,
+       "y0": 887,
+       "x1": 493,
+       "y1": 908,
+       "n": 3,
+       "altura": 18.3,
+       "cv_altura": 0.169,
+       "cv_base": 0.077,
+       "razao_gap": 0.133,
+       "bimodal": 0.889,
+       "contraste": 230.0,
+       "score": 0.675,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/3s_21.png",
+       "y_rel": 0.831
+      },
+      {
+       "x0": 1673,
+       "y0": 309,
+       "x1": 1791,
+       "y1": 358,
+       "n": 3,
+       "altura": 40.0,
+       "cv_altura": 0.159,
+       "cv_base": 0.041,
+       "razao_gap": 0.435,
+       "bimodal": 0.755,
+       "contraste": 146.0,
+       "score": 0.656,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/30s_22.png",
+       "y_rel": 0.309
+      }
+     ]
+    },
+    {
+     "video": "mr. tabs/mr. big - to be with you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ audimee.mp4",
+     "duracao_s": 203.0,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 8,
+     "candidatos": [
+      {
+       "x0": 26,
+       "y0": 707,
+       "x1": 221,
+       "y1": 726,
+       "n": 11,
+       "altura": 17.7,
+       "cv_altura": 0.025,
+       "cv_base": 0.016,
+       "razao_gap": 0.143,
+       "bimodal": 0.808,
+       "contraste": 207.8,
+       "score": 0.956,
+       "t": 3.0,
+       "instantes": [
+        3.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/3s_23.png",
+       "y_rel": 0.663
+      },
+      {
+       "x0": 1627,
+       "y0": 791,
+       "x1": 1893,
+       "y1": 811,
+       "n": 6,
+       "altura": 20.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.25,
+       "bimodal": 0.95,
+       "contraste": 241.0,
+       "score": 0.8,
+       "t": 45.0,
+       "instantes": [
+        15.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/45s_24.png",
+       "y_rel": 0.742
+      },
+      {
+       "x0": 862,
+       "y0": 785,
+       "x1": 1301,
+       "y1": 817,
+       "n": 10,
+       "altura": 22.4,
+       "cv_altura": 0.214,
+       "cv_base": 0.107,
+       "razao_gap": 1.55,
+       "bimodal": 0.952,
+       "contraste": 189.0,
+       "score": 0.778,
+       "t": 15.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/15s_25.png",
+       "y_rel": 0.742
+      },
+      {
+       "x0": 359,
+       "y0": 785,
+       "x1": 798,
+       "y1": 817,
+       "n": 10,
+       "altura": 22.4,
+       "cv_altura": 0.214,
+       "cv_base": 0.107,
+       "razao_gap": 1.55,
+       "bimodal": 0.949,
+       "contraste": 240.0,
+       "score": 0.777,
+       "t": 15.0,
+       "instantes": [
+        15.0,
+        30.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/15s_26.png",
+       "y_rel": 0.742
+      },
+      {
+       "x0": 1771,
+       "y0": 740,
+       "x1": 1864,
+       "y1": 766,
+       "n": 5,
+       "altura": 21.6,
+       "cv_altura": 0.167,
+       "cv_base": 0.0,
+       "razao_gap": 0.059,
+       "bimodal": 0.901,
+       "contraste": 241.0,
+       "score": 0.77,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/45s_27.png",
+       "y_rel": 0.697
+      },
+      {
+       "x0": 1600,
+       "y0": 740,
+       "x1": 1693,
+       "y1": 766,
+       "n": 5,
+       "altura": 21.6,
+       "cv_altura": 0.167,
+       "cv_base": 0.0,
+       "razao_gap": 0.088,
+       "bimodal": 0.904,
+       "contraste": 241.0,
+       "score": 0.768,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/3s_28.png",
+       "y_rel": 0.697
+      },
+      {
+       "x0": 1499,
+       "y0": 740,
+       "x1": 1592,
+       "y1": 766,
+       "n": 5,
+       "altura": 21.6,
+       "cv_altura": 0.167,
+       "cv_base": 0.0,
+       "razao_gap": 0.088,
+       "bimodal": 0.898,
+       "contraste": 241.0,
+       "score": 0.768,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/30s_29.png",
+       "y_rel": 0.697
+      },
+      {
+       "x0": 1109,
+       "y0": 740,
+       "x1": 1172,
+       "y1": 766,
+       "n": 3,
+       "altura": 23.7,
+       "cv_altura": 0.139,
+       "cv_base": 0.0,
+       "razao_gap": 0.0,
+       "bimodal": 0.891,
+       "contraste": 240.0,
+       "score": 0.723,
+       "t": 8.0,
+       "instantes": [
+        8.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/8s_30.png",
+       "y_rel": 0.697
+      }
+     ]
+    },
+    {
+     "video": "mr. tabs/pink floyd - wish you were here - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
+     "duracao_s": 326.9,
+     "altura": 1080,
+     "vias": [
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg",
+      "ffmpeg"
+     ],
+     "n_candidatos": 8,
+     "candidatos": [
+      {
+       "x0": 728,
+       "y0": 856,
+       "x1": 1065,
+       "y1": 878,
+       "n": 8,
+       "altura": 22.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.8,
+       "bimodal": 0.869,
+       "contraste": 226.0,
+       "score": 0.819,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/3s_31.png",
+       "y_rel": 0.803
+      },
+      {
+       "x0": 699,
+       "y0": 746,
+       "x1": 825,
+       "y1": 775,
+       "n": 6,
+       "altura": 24.7,
+       "cv_altura": 0.149,
+       "cv_base": 0.019,
+       "razao_gap": 0.105,
+       "bimodal": 0.923,
+       "contraste": 242.3,
+       "score": 0.799,
+       "t": 30.0,
+       "instantes": [
+        3.0,
+        30.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/30s_32.png",
+       "y_rel": 0.704
+      },
+      {
+       "x0": 1645,
+       "y0": 748,
+       "x1": 1711,
+       "y1": 774,
+       "n": 4,
+       "altura": 22.2,
+       "cv_altura": 0.112,
+       "cv_base": 0.0,
+       "razao_gap": 0.133,
+       "bimodal": 0.91,
+       "contraste": 241.0,
+       "score": 0.758,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/15s_33.png",
+       "y_rel": 0.705
+      },
+      {
+       "x0": 33,
+       "y0": 675,
+       "x1": 459,
+       "y1": 726,
+       "n": 24,
+       "altura": 16.6,
+       "cv_altura": 0.306,
+       "cv_base": 0.183,
+       "razao_gap": 0.273,
+       "bimodal": 0.6,
+       "contraste": 125.0,
+       "score": 0.744,
+       "t": 8.0,
+       "instantes": [
+        8.0,
+        30.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/8s_34.png",
+       "y_rel": 0.649
+      },
+      {
+       "x0": 1726,
+       "y0": 882,
+       "x1": 1920,
+       "y1": 904,
+       "n": 5,
+       "altura": 22.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.929,
+       "bimodal": 0.897,
+       "contraste": 230.0,
+       "score": 0.724,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/15s_35.png",
+       "y_rel": 0.827
+      },
+      {
+       "x0": 217,
+       "y0": 882,
+       "x1": 416,
+       "y1": 904,
+       "n": 5,
+       "altura": 22.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 2.0,
+       "bimodal": 0.894,
+       "contraste": 185.0,
+       "score": 0.719,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/30s_36.png",
+       "y_rel": 0.827
+      },
+      {
+       "x0": 1234,
+       "y0": 882,
+       "x1": 1327,
+       "y1": 904,
+       "n": 4,
+       "altura": 20.2,
+       "cv_altura": 0.15,
+       "cv_base": 0.064,
+       "razao_gap": 0.2,
+       "bimodal": 0.897,
+       "contraste": 185.0,
+       "score": 0.714,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/45s_37.png",
+       "y_rel": 0.827
+      },
+      {
+       "x0": 40,
+       "y0": 909,
+       "x1": 195,
+       "y1": 931,
+       "n": 4,
+       "altura": 22.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 1.733,
+       "bimodal": 0.891,
+       "contraste": 230.0,
+       "score": 0.705,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/45s_38.png",
+       "y_rel": 0.852
+      }
+     ]
+    },
+    {
+     "video": "mr. tabs/when someone yells ＂free bird＂ around the campfire as a joke and you're ready for it #shorts #guitar.mp4",
+     "duracao_s": 59.2,
+     "altura": 1080,
+     "vias": [
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2",
+      "cv2"
+     ],
+     "n_candidatos": 7,
+     "candidatos": [
+      {
+       "x0": 108,
+       "y0": 522,
+       "x1": 223,
+       "y1": 536,
+       "n": 10,
+       "altura": 14.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.5,
+       "bimodal": 0.839,
+       "contraste": 205.0,
+       "score": 0.954,
+       "t": 45.0,
+       "instantes": [
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/45s_39.png",
+       "y_rel": 0.49
+      },
+      {
+       "x0": 273,
+       "y0": 562,
+       "x1": 595,
+       "y1": 576,
+       "n": 10,
+       "altura": 14.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.286,
+       "bimodal": 0.884,
+       "contraste": 82.0,
+       "score": 0.947,
+       "t": 30.0,
+       "instantes": [
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/30s_40.png",
+       "y_rel": 0.527
+      },
+      {
+       "x0": 367,
+       "y0": 767,
+       "x1": 516,
+       "y1": 787,
+       "n": 8,
+       "altura": 20.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.133,
+       "bimodal": 0.878,
+       "contraste": 255.0,
+       "score": 0.92,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0,
+        15.0,
+        30.0,
+        45.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/3s_41.png",
+       "y_rel": 0.719
+      },
+      {
+       "x0": 0,
+       "y0": 546,
+       "x1": 271,
+       "y1": 560,
+       "n": 8,
+       "altura": 14.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.81,
+       "bimodal": 0.852,
+       "contraste": 64.0,
+       "score": 0.847,
+       "t": 30.0,
+       "instantes": [
+        30.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/30s_42.png",
+       "y_rel": 0.512
+      },
+      {
+       "x0": 85,
+       "y0": 460,
+       "x1": 225,
+       "y1": 473,
+       "n": 5,
+       "altura": 13.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.474,
+       "bimodal": 0.851,
+       "contraste": 189.0,
+       "score": 0.807,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/15s_43.png",
+       "y_rel": 0.432
+      },
+      {
+       "x0": 427,
+       "y0": 460,
+       "x1": 490,
+       "y1": 473,
+       "n": 4,
+       "altura": 13.0,
+       "cv_altura": 0.0,
+       "cv_base": 0.0,
+       "razao_gap": 0.083,
+       "bimodal": 0.825,
+       "contraste": 176.1,
+       "score": 0.798,
+       "t": 15.0,
+       "instantes": [
+        15.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/15s_44.png",
+       "y_rel": 0.432
+      },
+      {
+       "x0": 368,
+       "y0": 737,
+       "x1": 463,
+       "y1": 757,
+       "n": 4,
+       "altura": 18.8,
+       "cv_altura": 0.115,
+       "cv_base": 0.0,
+       "razao_gap": 0.114,
+       "bimodal": 0.874,
+       "contraste": 255.0,
+       "score": 0.754,
+       "t": 3.0,
+       "instantes": [
+        3.0,
+        8.0
+       ],
+       "png": "data/saida/afinacao/mr. tabs/3s_45.png",
+       "y_rel": 0.692
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

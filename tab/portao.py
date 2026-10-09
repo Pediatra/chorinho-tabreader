@@ -610,9 +610,9 @@ def treinar(
                 f"acc_treino={acc:.4f}",
                 flush=True,
             )
-    os.makedirs(saida, exist_ok=True)
     modelo.eval()
     if salvar:
+        os.makedirs(saida, exist_ok=True)
         torch.save(
             {"state_dict": modelo.state_dict(), "seed": seed, "extra": extra or {}},
             os.path.join(saida, "portao.pt"),

@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from tab.tabseg import _picos_de_linha
+from tab.tabseg import picos_de_linha
 
 
 def _tinta_com_linhas(linhas: list[int], altura: int = 60, largura: int = 120):
@@ -22,7 +22,7 @@ def _tinta_com_linhas(linhas: list[int], altura: int = 60, largura: int = 120):
 
 def test_pico_na_borda_e_descartado() -> None:
     """A linha em y=1 (borda) não pode contar como corda."""
-    picos = _picos_de_linha(_tinta_com_linhas([1, 20, 26, 32, 38, 44]))
+    picos = picos_de_linha(_tinta_com_linhas([1, 20, 26, 32, 38, 44]))
     ys = [round(y) for _v, y in picos]
     assert 1 not in ys, f"a borda entrou como corda: {ys}"
     assert len(ys) == 5, f"esperava as 5 linhas reais, veio {ys}"
@@ -30,13 +30,13 @@ def test_pico_na_borda_e_descartado() -> None:
 
 def test_cinco_linhas_mais_borda_nao_viram_seis_cordas() -> None:
     """É este o caso que enganava: 5 linhas de pauta + borda davam '6 cordas'."""
-    picos = _picos_de_linha(_tinta_com_linhas([1, 10, 16, 22, 28, 34]))
+    picos = picos_de_linha(_tinta_com_linhas([1, 10, 16, 22, 28, 34]))
     assert len([y for _v, y in picos]) == 5
 
 
 def test_linhas_no_meio_continuam_sendo_achadas() -> None:
     """O filtro não pode cegar o detector para linhas legítimas."""
-    picos = _picos_de_linha(_tinta_com_linhas([15, 25, 35, 45, 55]))
+    picos = picos_de_linha(_tinta_com_linhas([15, 25, 35, 45, 55]))
     ys = sorted(round(y) for _v, y in picos)
     assert len(ys) == 5, ys
     # a suavização de 3 amostras desloca o pico em até 1 px: o que importa é achar as 5

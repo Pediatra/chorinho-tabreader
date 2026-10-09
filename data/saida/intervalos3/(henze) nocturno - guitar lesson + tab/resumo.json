@@ -1,0 +1,101 @@
+{
+ "video": "(henze) nocturno - guitar lesson + tab.mp4",
+ "tem_notacao": true,
+ "amostras": [
+  {
+   "t": 130.3,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y318",
+   "uniformidade": 0.83,
+   "passo": 24.4,
+   "glifos": 29,
+   "largura_painel": 1784
+  },
+  {
+   "t": 162.9,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y318",
+   "uniformidade": 0.825,
+   "passo": 24.6,
+   "glifos": 28,
+   "largura_painel": 1784
+  },
+  {
+   "t": 195.5,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y318",
+   "uniformidade": 0.824,
+   "passo": 24.6,
+   "glifos": 28,
+   "largura_painel": 1784
+  },
+  {
+   "t": 228.1,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y318",
+   "uniformidade": 0.829,
+   "passo": 24.4,
+   "glifos": 33,
+   "largura_painel": 1784
+  },
+  {
+   "t": 260.7,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "meio",
+   "uniformidade": 0.852,
+   "passo": 24.6,
+   "glifos": 48,
+   "largura_painel": 1784
+  },
+  {
+   "t": 293.3,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y318",
+   "uniformidade": 0.831,
+   "passo": 24.4,
+   "glifos": 29,
+   "largura_painel": 1784
+  }
+ ],
+ "intervalos": [
+  {
+   "indice": 1,
+   "t0": 110.3,
+   "t1": 313.3,
+   "notas": 49,
+   "tempo": {
+    "medido": false,
+    "motivo": "marcador erratico no intervalo",
+    "serie": {
+     "pontos": 75,
+     "deslocamento_total_px": 1660,
+     "passo_mediano_px": 0,
+     "velocidade_px_s": 8.7,
+     "veredito": "erratico"
+    }
+   },
+   "musicxml": {
+    "titulo": "(henze) nocturno - guitar lesson + tab_int01",
+    "notas_exportadas": 48,
+    "notas_nao_exportadas": 1,
+    "motivo_nao_exportada": [
+     "harmonico"
+    ],
+    "tempo_medido": false,
+    "instantes_distintos": 0,
+    "pulso_s": null,
+    "bpm_derivado_do_pulso": null,
+    "duracao": "NÃO medida: 0 instante(s) distinto(s) para 48 notas — duração constante declarada, nada de ritmo inventado",
+    "compasso": "1 compasso por barline geométrica, sem pulso medido",
+    "afinacao": "padrão assumida",
+    "divisoes": 1024
+   }
+  }
+ ]
+}

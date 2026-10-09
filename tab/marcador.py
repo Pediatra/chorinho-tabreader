@@ -37,6 +37,7 @@ import argparse
 import itertools
 import json
 import os
+import subprocess
 import time
 
 import cv2
@@ -140,28 +141,246 @@ def mediana_do_histograma(hist: list[int], largura_bin: float = 5.0) -> float | 
     return None
 
 
-def _acumular(
-    deteccao: tuple[int, int, tuple[int, int]] | None,
-    t_s: float,
-    serie: list[tuple[float, int]],
-    larguras: list[int],
-    matizes: list[int],
-) -> None:
-    """Guarda uma detecção na série (e nada, quando o quadro não tem banda).
+def _montar(
+    deteccao: tuple[int, int, tuple[int, int]] | None, t_s: float
+) -> tuple[float, int, int, int] | None:
+    """Uma amostra do marcador (instante, centro, largura, matiz), ou None.
 
     Args:
         deteccao: ``(x0, x1, (matiz, sat))`` de ``detectar_cursor``, ou None.
         t_s: instante da amostra, em segundos.
-        serie: série ``(t, x)`` sendo montada; recebe o centro da banda.
-        larguras: larguras da banda sendo montadas; recebe ``x1 - x0 + 1``.
-        matizes: matizes das detecções; recebe o matiz mediano da banda.
+
+    Returns:
+        ``(t, x, largura, matiz)`` com ``x`` no centro da banda, ou None se o quadro não
+        tem banda nenhuma.
     """
     if deteccao is None:
-        return
+        return None
     x0, x1, (matiz, _sat) = deteccao
-    serie.append((round(t_s, 3), (x0 + x1) // 2))
-    larguras.append(x1 - x0 + 1)
-    matizes.append(matiz)
+    return (round(t_s, 3), (x0 + x1) // 2, x1 - x0 + 1, matiz)
+
+
+def _separar(
+    amostras: list[tuple[float, int, int, int] | None],
+) -> tuple[list[tuple[float, int]], list[int], list[int]]:
+    """Separa as amostras em série, larguras e matizes, descartando os quadros sem banda.
+
+    Args:
+        amostras: amostras como saem de ``_montar``.
+
+    Returns:
+        ``(serie, larguras, matizes)``.
+    """
+    boas = [a for a in amostras if a is not None]
+    return (
+        [(t, x) for t, x, _l, _m in boas],
+        [largura for _t, _x, largura, _m in boas],
+        [matiz for _t, _x, _l, matiz in boas],
+    )
+
+
+def _dimensoes(caminho: str) -> tuple[int, int] | None:
+    """Largura e altura do primeiro stream de vídeo, por ``ffprobe``.
+
+    Args:
+        caminho: vídeo.
+
+    Returns:
+        ``(largura, altura)`` ou None se o ``ffprobe`` não responder.
+    """
+    try:
+        proc = subprocess.run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-select_streams",
+                "v:0",
+                "-show_entries",
+                "stream=width,height",
+                "-of",
+                "csv=p=0",
+                caminho,
+            ],
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        largura, altura = proc.stdout.strip().splitlines()[0].split(",")[:2]
+        return int(largura), int(altura)
+    except Exception:
+        return None
+
+
+def _amostrar_cv2(
+    caminho: str,
+    t0_s: float,
+    n: int,
+    passo_s: float,
+    recorte: tuple[int, int],
+    orcamento_s: float,
+    inicio: float,
+) -> tuple[list[tuple[float, int, int, int] | None], str | None]:
+    """Amostra o vídeo em sequência com o OpenCV, pulando os quadros intermediários.
+
+    Args:
+        caminho: vídeo.
+        t0_s: instante da primeira amostra.
+        n: quantas amostras.
+        passo_s: passo entre amostras, em segundos.
+        recorte: ``(y0, y1)`` do recorte do painel.
+        orcamento_s: tempo máximo desta leitura.
+        inicio: instante em que a medição do vídeo começou.
+
+    Returns:
+        ``(amostras, erro)``; menos de ``n`` amostras quando o OpenCV falha no meio, e
+        ``erro`` ``orcamento_esgotado`` quando o tempo acabou antes do fim da janela.
+    """
+    y0, y1 = recorte
+    amostras: list[tuple[float, int, int, int] | None] = []
+    estourou = False
+    cap = cv2.VideoCapture(caminho)
+    try:
+        if not cap.isOpened():
+            return [], None
+        fps = float(cap.get(cv2.CAP_PROP_FPS) or 30.0)
+        passo_frames = max(1, round(passo_s * fps))
+        cap.set(cv2.CAP_PROP_POS_MSEC, max(0.0, t0_s) * 1000.0)
+        ok, quadro = cap.read()
+        while ok and quadro is not None and quadro.size and len(amostras) < n:
+            det = detectar_cursor(quadro[y0:y1, :])
+            amostras.append(_montar(det, t0_s + len(amostras) * passo_s))
+            if time.time() - inicio > orcamento_s:
+                estourou = True
+                break
+            for _ in range(passo_frames - 1):
+                if not cap.grab():
+                    break
+            ok, quadro = cap.read()
+    finally:
+        cap.release()
+    return amostras, ("orcamento_esgotado" if estourou else None)
+
+
+def _amostrar_ffmpeg(
+    caminho: str,
+    t0_s: float,
+    n: int,
+    passo_s: float,
+    recorte: tuple[int, int],
+    orcamento_s: float,
+    inicio: float,
+) -> tuple[list[tuple[float, int, int, int] | None], str | None]:
+    """Amostra o vídeo pelo ``ffmpeg``, decodificando a janela em uma passada só.
+
+    O caminho lento (um processo por amostra) foi medido em 128 s por vídeo AV1: são 241
+    seeks e, a cada seek, o decodificador volta ao *keyframe*. Aqui a janela é
+    decodificada **em uma passada**, com o filtro ``fps`` pedindo exatamente o passo
+    desejado — menos trabalho de decodificação e muito menos busca no HD (que é
+    compartilhado com outros agentes).
+
+    Args:
+        caminho: vídeo.
+        t0_s: instante da primeira amostra.
+        n: quantas amostras.
+        passo_s: passo entre amostras, em segundos.
+        recorte: ``(y0, y1)`` do recorte do painel.
+        orcamento_s: tempo máximo desta leitura.
+        inicio: instante em que a medição do vídeo começou.
+
+    Returns:
+        ``(amostras, erro)``. Quando a extração em passada única não devolve quadro
+        nenhum, cai para o caminho lento (um processo por amostra).
+    """
+    dims = _dimensoes(caminho)
+    y0, y1 = recorte
+    amostras: list[tuple[float, int, int, int] | None] = []
+    if dims is not None:
+        largura, altura = dims
+        tamanho = largura * altura * 3
+        proc = subprocess.Popen(
+            [
+                "ffmpeg",
+                "-v",
+                "error",
+                "-nostdin",
+                "-ss",
+                f"{max(0.0, t0_s):.3f}",
+                "-i",
+                caminho,
+                "-t",
+                f"{n * passo_s:.3f}",
+                "-vf",
+                f"fps={1.0 / passo_s:.6f}",
+                "-f",
+                "rawvideo",
+                "-pix_fmt",
+                "bgr24",
+                "-",
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+        )
+        saida = proc.stdout
+        try:
+            if saida is not None:
+                for k in range(n):
+                    bruto = saida.read(tamanho)
+                    if not bruto or len(bruto) < tamanho:
+                        break
+                    quadro = np.frombuffer(bruto, np.uint8).reshape(altura, largura, 3)
+                    det = detectar_cursor(quadro[y0:y1, :])
+                    amostras.append(_montar(det, t0_s + k * passo_s))
+                    if time.time() - inicio > orcamento_s:
+                        return amostras, "orcamento_esgotado"
+        finally:
+            if proc.poll() is None:
+                proc.kill()
+            if saida is not None:
+                saida.close()
+            proc.wait()
+    if amostras:
+        return amostras, None
+    return _amostrar_ffmpeg_lento(
+        caminho, t0_s, n, passo_s, recorte, orcamento_s, inicio
+    )
+
+
+def _amostrar_ffmpeg_lento(
+    caminho: str,
+    t0_s: float,
+    n: int,
+    passo_s: float,
+    recorte: tuple[int, int],
+    orcamento_s: float,
+    inicio: float,
+) -> tuple[list[tuple[float, int, int, int] | None], str | None]:
+    """Um processo ``ffmpeg`` por amostra — o caminho reserva, para quando a passada falha.
+
+    Args:
+        caminho: vídeo.
+        t0_s: instante da primeira amostra.
+        n: quantas amostras.
+        passo_s: passo entre amostras, em segundos.
+        recorte: ``(y0, y1)`` do recorte do painel.
+        orcamento_s: tempo máximo desta leitura.
+        inicio: instante em que a medição do vídeo começou.
+
+    Returns:
+        ``(amostras, erro)``; ``erro`` é ``sem_quadro`` quando nenhuma amostra veio.
+    """
+    y0, y1 = recorte
+    amostras: list[tuple[float, int, int, int] | None] = []
+    vazias = 0
+    for k in range(n):
+        quadro = _ffmpeg_em(caminho, t0_s + k * passo_s)
+        if quadro is None:
+            vazias += 1
+        det = detectar_cursor(quadro[y0:y1, :]) if quadro is not None else None
+        amostras.append(_montar(det, t0_s + k * passo_s))
+        if time.time() - inicio > orcamento_s:
+            return amostras, "orcamento_esgotado"
+    return amostras, ("sem_quadro" if n and vazias == n else None)
 
 
 def serie_do_video(
@@ -174,10 +393,11 @@ def serie_do_video(
 ) -> dict:
     """Monta a série densa ``x(t)`` do marcador, amostra a amostra.
 
-    A leitura é **sequencial** dentro da janela (um quadro a cada ``passo_s``, pulando os
-    intermediários com ``grab``), e não por seek a cada amostra: o seek custa ~80 ms por
-    amostra no OpenCV. Quando o OpenCV não abre ou não decodifica o arquivo (44 % do
-    acervo é AV1), o resto da série é lido pelo ``ffmpeg``, um quadro por vez.
+    A leitura é **sequencial** dentro da janela (um quadro a cada ``passo_s``), e não por
+    seek a cada amostra: o seek custa ~80 ms por amostra no OpenCV e obriga o
+    decodificador a voltar ao keyframe no ffmpeg. Quando o OpenCV não abre ou não
+    decodifica o arquivo (44 % do acervo é AV1), o resto da série é lido pelo ``ffmpeg``,
+    que decodifica a janela inteira de uma vez.
 
     Args:
         caminho: vídeo.
@@ -189,59 +409,33 @@ def serie_do_video(
 
     Returns:
         Dicionário com ``serie`` (pontos ``(t, x)``), ``larguras``, ``matizes``, ``via``
-        (``cv2``, ``ffmpeg`` ou ``cv2+ffmpeg``), ``n_lidas`` e ``erro``.
+        (``cv2``, ``ffmpeg`` ou ``cv2+ffmpeg``), ``n_lidas`` (amostras medidas, com ou sem
+        detecção) e ``erro``.
     """
-    y0, y1 = recorte
-    serie: list[tuple[float, int]] = []
-    larguras: list[int] = []
-    matizes: list[int] = []
-    lidas = 0
-    via = "cv2"
-    erro: str | None = None
     inicio = time.time()
-
-    cap = cv2.VideoCapture(caminho)
-    try:
-        fps = float(cap.get(cv2.CAP_PROP_FPS) or 30.0)
-        passo_frames = max(1, round(passo_s * fps))
-        if cap.isOpened():
-            cap.set(cv2.CAP_PROP_POS_MSEC, max(0.0, t0_s) * 1000.0)
-            ok, quadro = cap.read()
-            while ok and quadro is not None and quadro.size and lidas < n_previstas:
-                det = detectar_cursor(quadro[y0:y1, :])
-                _acumular(det, t0_s + lidas * passo_s, serie, larguras, matizes)
-                lidas += 1
-                if time.time() - inicio > orcamento_s:
-                    erro = "orcamento_esgotado"
-                    break
-                for _ in range(passo_frames - 1):
-                    if not cap.grab():
-                        break
-                ok, quadro = cap.read()
-    finally:
-        cap.release()
-
-    if erro is None and lidas < n_previstas:
-        via = "ffmpeg" if lidas == 0 else "cv2+ffmpeg"
-        sem_quadro = 0
-        for k in range(lidas, n_previstas):
-            quadro = _ffmpeg_em(caminho, t0_s + k * passo_s)
-            if quadro is None:
-                sem_quadro += 1
-            det = detectar_cursor(quadro[y0:y1, :]) if quadro is not None else None
-            _acumular(det, t0_s + k * passo_s, serie, larguras, matizes)
-            if time.time() - inicio > orcamento_s:
-                erro = "orcamento_esgotado"
-                break
-        if sem_quadro and sem_quadro == n_previstas - lidas:
-            erro = erro or "sem_quadro"
-
+    amostras, erro = _amostrar_cv2(
+        caminho, t0_s, n_previstas, passo_s, recorte, orcamento_s, inicio
+    )
+    via = "cv2"
+    if erro is None and len(amostras) < n_previstas:
+        resto, erro = _amostrar_ffmpeg(
+            caminho,
+            t0_s + len(amostras) * passo_s,
+            n_previstas - len(amostras),
+            passo_s,
+            recorte,
+            orcamento_s,
+            inicio,
+        )
+        via = "ffmpeg" if not amostras else "cv2+ffmpeg"
+        amostras = amostras + resto
+    serie, larguras, matizes = _separar(amostras)
     return {
         "serie": serie,
         "larguras": larguras,
         "matizes": matizes,
         "via": via,
-        "n_lidas": lidas,
+        "n_lidas": len(amostras),
         "erro": erro,
     }
 

@@ -112,6 +112,7 @@ def amostrar_presenca(
         quadro, via = ler_quadro(video, frac)
         registro: dict = {
             "t": round(duracao * frac, 1),
+            "frac": round(frac, 4),
             "via": via,
             "tem_notacao": False,
         }
@@ -160,6 +161,30 @@ def agrupar_intervalos(
             atual = Intervalo(t0=t - folga_s, t1=t + folga_s, amostras=[amostra])
     intervalos.append(atual)
     return intervalos
+
+
+def roi_das_cordas(candidato) -> tuple[int, int]:
+    """y absoluto do sistema de cordas (com margem) — não da faixa inteira.
+
+    A faixa (`meio` = 300–750 px) contém a tablatura **e o vídeo abaixo dela**. Montar a
+    série do marcador na faixa inteira pega elemento colorido do vídeo e o veredito sai
+    `erratico` (medido: 75 pontos, passo mediano 0). Nas cordas detectadas (318–487) a
+    série é o deslize limpo de ~8,5 px/s (380 pontos, veredito `salta`).
+
+    Args:
+        candidato: painel escolhido.
+
+    Returns:
+        ``(y0, y1)`` em coordenadas do quadro inteiro.
+    """
+    linhas = list(candidato.grade.linhas_y)
+    if not linhas:
+        return candidato.y0, candidato.y1
+    margem = int(round(candidato.grade.passo)) or 12
+    return (
+        max(0, candidato.y0 + min(linhas) - margem),
+        candidato.y0 + max(linhas) + margem,
+    )
 
 
 def serie_do_marcador(
@@ -227,15 +252,23 @@ def transcrever_intervalo(
     }
     if melhor is None:
         return resultado
-    quadro, via = ler_quadro(video, melhor["t"] / max(1.0, intervalo.t1))
+    frac = melhor.get("frac")
+    if frac is None:
+        resultado["erro"] = "amostra_sem_fracao"
+        return resultado
+    quadro, via = ler_quadro(video, frac)
     if quadro is None:
         resultado["erro"] = "quadro_ilegivel"
         return resultado
+    # O painel vem do MESMO instante da amostra. Escolher de novo podia devolver outra
+    # faixa (a escolha varia com o quadro) e a série do marcador saía de uma região
+    # diferente da que foi lida — medido: `erratico` com 75 pontos onde o painel certo dá
+    # `salta` com 380 e o deslize de ~8,5 px/s aparece inteiro.
     candidato = escolher(quadro)
     if candidato is None:
         resultado["erro"] = "painel_desapareceu"
         return resultado
-    roi_y = (candidato.y0, candidato.y1)
+    roi_y = roi_das_cordas(candidato)
     r = reconhecer_linha(
         candidato.roi,
         modelo,

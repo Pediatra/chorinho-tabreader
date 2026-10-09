@@ -1,0 +1,87 @@
+  época   3/12 perda=0.3886 acc_treino=0.7610
+  época   6/12 perda=0.1989 acc_treino=0.9301
+  época   9/12 perda=0.1492 acc_treino=0.9522
+  época  12/12 perda=0.1059 acc_treino=0.9559
+  época   3/12 perda=0.3336 acc_treino=0.8893
+  época   6/12 perda=0.2134 acc_treino=0.9410
+  época   9/12 perda=0.2367 acc_treino=0.9410
+  época  12/12 perda=0.1504 acc_treino=0.9410
+  época   3/12 perda=0.4522 acc_treino=0.9095
+  época   6/12 perda=0.2712 acc_treino=0.6784
+  época   9/12 perda=0.2267 acc_treino=0.9397
+  época  12/12 perda=0.1664 acc_treino=0.9548
+  época   3/12 perda=0.3219 acc_treino=0.8782
+  época   6/12 perda=0.1893 acc_treino=0.9410
+  época   9/12 perda=0.1833 acc_treino=0.9483
+  época  12/12 perda=0.1300 acc_treino=0.9557
+  época   3/12 perda=0.3193 acc_treino=0.9081
+  época   6/12 perda=0.2213 acc_treino=0.9375
+  época   9/12 perda=0.1589 acc_treino=0.9449
+  época  12/12 perda=0.1218 acc_treino=0.9412
+  época   3/12 perda=0.3722 acc_treino=0.9118
+  época   6/12 perda=0.1925 acc_treino=0.9449
+  época   9/12 perda=0.1629 acc_treino=0.9485
+  época  12/12 perda=0.1109 acc_treino=0.9522
+  época   3/12 perda=0.2741 acc_treino=0.9194
+  época   6/12 perda=0.2336 acc_treino=0.9231
+  época   9/12 perda=0.1219 acc_treino=0.9597
+  época  12/12 perda=0.0884 acc_treino=0.9817
+  época   3/12 perda=0.3179 acc_treino=0.9236
+  época   6/12 perda=0.1945 acc_treino=0.9382
+  época   9/12 perda=0.1484 acc_treino=0.9600
+  época  12/12 perda=0.1200 acc_treino=0.9636
+  época   3/12 perda=0.4726 acc_treino=0.9005
+  época   6/12 perda=0.2714 acc_treino=0.9162
+  época   9/12 perda=0.2298 acc_treino=0.9215
+  época  12/12 perda=0.1746 acc_treino=0.9267
+{
+ "cifra club": {
+  "acertos": 15,
+  "total": 15,
+  "positivos": 0
+ },
+ "guitar dell ́arte": {
+  "acertos": 15,
+  "total": 16,
+  "positivos": 0
+ },
+ "iwaki": {
+  "acertos": 83,
+  "total": 88,
+  "positivos": 18
+ },
+ "kimny's guitar": {
+  "acertos": 14,
+  "total": 16,
+  "positivos": 6
+ },
+ "leonardo ramos": {
+  "acertos": 15,
+  "total": 15,
+  "positivos": 7
+ },
+ "mr. tabs": {
+  "acertos": 15,
+  "total": 15,
+  "positivos": 7
+ },
+ "pablo romé": {
+  "acertos": 5,
+  "total": 14,
+  "positivos": 0
+ },
+ "paolo d'angelo": {
+  "acertos": 8,
+  "total": 12,
+  "positivos": 0
+ },
+ "sky guitar": {
+  "acertos": 63,
+  "total": 96,
+  "positivos": 65
+ },
+ "total": {
+  "acertos": 233,
+  "total": 287
+ }
+}

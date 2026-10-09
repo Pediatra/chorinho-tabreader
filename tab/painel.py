@@ -32,7 +32,7 @@ from dataclasses import dataclass
 import cv2
 import numpy as np
 
-from .tabseg import Grade, segmentar
+from .tabseg import Grade, binarizar, picos_de_linha, segmentar
 
 #: Faixas verticais onde o painel costuma estar (a posição varia por vídeo).
 FAIXAS: list[tuple[str, int, int]] = [
@@ -43,6 +43,12 @@ FAIXAS: list[tuple[str, int, int]] = [
 
 #: Mínimo de glifos para uma faixa ser considerada painel (evita região vazia).
 MIN_GLIFOS = 5
+
+#: Faixa de passo (distância entre cordas) medida no acervo: 14-45 px. Fora dela
+#: não é tablatura — medido: um grupo com passo 7,6 px era painel falso e um com
+#: 59,2 px era nome de acorde em texto (`violaodecria`).
+PASSO_MINIMO_PX = 14.0
+PASSO_MAXIMO_PX = 45.0
 
 
 @dataclass
@@ -119,6 +125,78 @@ def candidatos(frame: np.ndarray, min_glifos: int = MIN_GLIFOS) -> list[Candidat
                 score=(round(u, 3), g.glifos_centrados),
             )
         )
+    return achados
+
+
+def candidatos_quadro(
+    frame: np.ndarray,
+    min_glifos: int = MIN_GLIFOS,
+    passo_min: float = PASSO_MINIMO_PX,
+    passo_max: float = PASSO_MAXIMO_PX,
+    tolerancia: float = 1.6,
+    max_candidatos: int = 8,
+) -> list[Candidato]:
+    """Procura o painel no **quadro inteiro**: a faixa é resultado, não entrada.
+
+    As três faixas fixas (`FAIXAS`) **cortam o painel**. Medido no `sky guitar`
+    (`(henze) nocturno`, t=228 s): a partitura ocupa o `topo` inteiro e a tablatura começa
+    em `y≈342` e atravessa a fronteira `topo`/`meio` — **1 linha em cima, 5 embaixo**, e
+    nenhuma faixa contém as 6. Foi isso que fez 61 % do lido virar bolinha de nota
+    (decisão 0007).
+
+    Aqui se acha o grupo de 6 linhas **igualmente espaçadas** em qualquer altura, com o
+    passo na faixa medida no acervo (14–45 px), e só então se recorta.
+
+    Args:
+        frame: quadro inteiro.
+        min_glifos: mínimo de glifos para aceitar.
+        passo_min: passo mínimo aceitável, em px.
+        passo_max: passo máximo aceitável, em px.
+        tolerancia: razão máxima entre a maior e a menor lacuna do grupo de 6.
+        max_candidatos: quantos candidatos avaliar com `segmentar` (corta custo).
+
+    Returns:
+        Candidatos, sem ordenar e sem repetição de faixa.
+    """
+    tinta = binarizar(frame)
+    picos = [int(y) for _v, y in picos_de_linha(tinta)]
+    if len(picos) < 6:
+        return []
+    # 1) grupos de 6 linhas regulares — só geometria, sem custo de segmentação
+    faixas: list[tuple[float, int, int]] = []
+    for i in range(len(picos) - 5):
+        grupo = picos[i : i + 6]
+        passo = float(np.median([b - a for a, b in itertools.pairwise(grupo)]))
+        if not (passo_min <= passo <= passo_max):
+            continue
+        if not espacamento_regular(grupo, tolerancia=tolerancia):
+            continue
+        margem = round(passo)  # round() de float já devolve int (regra 8)
+        y0 = max(0, grupo[0] - margem)
+        y1 = min(frame.shape[0], grupo[-1] + margem)
+        if y1 - y0 < 60:
+            continue
+        faixas.append((passo, y0, y1))
+    # 2) uniformidade do fundo é barata (medida: 38 ms) e ordena quem merece segmentação
+    ordenadas: list[tuple[float, int, int]] = []
+    vistos: list[int] = []
+    for passo, y0, y1 in faixas:
+        if any(abs(y0 - v) < passo for v in vistos):
+            continue
+        vistos.append(y0)
+        ordenadas.append((uniformidade(frame[y0:y1, :]), y0, y1))
+    ordenadas.sort(reverse=True)
+    # 3) só os melhores pagam `segmentar` (medido: 52-758 ms por faixa)
+    achados: list[Candidato] = []
+    for _uniform, y0, y1 in ordenadas[:max_candidatos]:
+        roi = frame[y0:y1, :]
+        try:
+            g = segmentar(roi)
+        except Exception:  # nunca derrubar a varredura por uma faixa ruim
+            continue
+        c = criar(f"y{y0}", y0, y1, roi, g, min_glifos=min_glifos)
+        if c is not None:
+            achados.append(c)
     return achados
 
 
@@ -397,9 +475,13 @@ def escolher(frame: np.ndarray, min_glifos: int = MIN_GLIFOS) -> Candidato | Non
     Returns:
         O melhor candidato, ou None.
     """
-    esc = (
-        escolher_rapido(frame)
-        if min_glifos == MIN_GLIFOS
-        else melhor(candidatos(frame, min_glifos))
-    )
+    esc = melhor(candidatos_quadro(frame, min_glifos=min_glifos))
+    if esc is None:
+        # reserva: as três faixas fixas (cortam o painel em vídeo com partitura, mas
+        # ainda acham os canais em que a tablatura cabe inteira numa faixa)
+        esc = (
+            escolher_rapido(frame)
+            if min_glifos == MIN_GLIFOS
+            else melhor(candidatos(frame, min_glifos))
+        )
     return refinar(esc) if esc is not None else None

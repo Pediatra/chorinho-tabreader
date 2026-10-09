@@ -25,10 +25,16 @@ artefatos/*
 # Saidas grandes: o que se versiona e o RESUMO e a MONTAGEM, nao o recorte cru.
 # (Mesma politica dos pesos em artefatos/: dado bruto fica no disco, o indice fica no git.)
 data/saida/simbolos/*/
-data/saida/afinacao/
+data/saida/afinacao/*/
+!data/saida/afinacao/_mosaicos/
+data/saida/afinacao/_mosaicos/*/
 data/saida/portao_casos/
 data/saida/frames/_chk_*.png
 # Folhas de leitura e zooms: pesados e REGENERAVEIS pelos comandos documentados
 # (`tab.portao`/`tab.painel` geram as folhas; a rotulagem fica em data/gold/portao.json).
 data/saida/frames/folha_*.png
 data/saida/frames/zoom_*.png
+
+# O resumo e os mosaicos da afinacao sao o INDICE (pequenos); os recortes 4x ficam fora.
+!data/saida/afinacao/resumo.json
+!data/saida/afinacao/_mosaicos/*.png

@@ -24,6 +24,30 @@ Por isso a banda padrão é o **quadro inteiro** (``--frac-topo 1.0``). ``--frac
 O que continua limitado é a altura do bloco (componente entre 1 % e 8,5 % da altura do
 quadro; bloco até 10 %), para não pegar título gigante nem painel de tablatura.
 
+Medição da amostragem (5 vídeos por canal, ``--seed 0``, instantes 3/8/15/30/45 s,
+``--top-k 3``), **222 candidatos em 30 vídeos**, todos os vídeos com pelo menos um:
+
+===============  ======  =========  ======  =========  =============
+canal            vídeos  com cand.  cand.   cand./vídeo  y/H mediano
+===============  ======  =========  ======  =========  =============
+shin izumi            5          5      40          8,0          0,61
+sky guitar            5          5      23          4,6          0,52
+iwaki                 5          5      39          7,8          0,66
+guitar dell ́arte      5          5      25          5,0          0,53
+tv on guitar (ctrl)   5          5      50         10,0          0,36
+mr. tabs (ctrl)       5          5      45          9,0          0,67
+===============  ======  =========  ======  =========  =============
+
+**62 % dos candidatos (138/222) estão abaixo da metade do quadro** — a restrição da
+metade superior teria jogado fora a maioria, incluindo os dois acertos confirmados.
+Duas execuções da mesma amostra dão os mesmos totais (40/23/39/25/50/45).
+
+O que o detector **acerta**: ``Capo fret 4`` (shin izumi, t=3 s, score 0,81) e ``⑥=D``
+(iwaki/siciliana, t=3 s, 0,66), além de títulos e legendas. O que ele **também** pega,
+e o dono do projeto precisa saber: fileira de algarismos de tablatura (``10—10—10``,
+``2 (2)``), trecho de partitura, nome de acorde, diagrama de acorde (``X O X X X X``) e
+madeira do violão. Imagem lisa e madeira sintética dão **zero** candidato (testes).
+
 Uso:
     python -m tab.afinacao amostrar --canais "shin izumi" iwaki --por-canal 5
 """

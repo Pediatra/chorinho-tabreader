@@ -148,7 +148,7 @@ def _contraste_local_claro(
 # --------------------------------------------------------------------------- #
 
 
-def _picos_de_linha(
+def picos_de_linha(
     tinta: np.ndarray, fracao_min: float = 0.30, margem_borda: int = 3
 ) -> list[float]:
     """Picos do perfil horizontal de tinta (funciona com linha sólida e tracejada).
@@ -190,10 +190,10 @@ def candidatos_de_cordas(
     6). Escolher a primeira progressão regular erra — por isso devolvemos várias e a
     decisão fica com o conteúdo (ver `segmentar`).
     """
-    ys = [y for _, y in _picos_de_linha(tinta)]
+    ys = [y for _, y in picos_de_linha(tinta)]
     if len(ys) < n_cordas:
         return []
-    picos = sorted(_picos_de_linha(tinta), key=lambda t: -t[0])[:max_candidatos]
+    picos = sorted(picos_de_linha(tinta), key=lambda t: -t[0])[:max_candidatos]
     ys = sorted(y for _, y in picos)
     if len(ys) < n_cordas:
         return []
@@ -222,7 +222,7 @@ def achar_cordas(
     """
     if tinta.shape[0] < 8:
         return [], 0.0
-    picos = _picos_de_linha(tinta)
+    picos = picos_de_linha(tinta)
     if len(picos) < n_cordas:
         return [], 0.0
     picos = sorted(picos, key=lambda t: -t[0])[:max_candidatos]

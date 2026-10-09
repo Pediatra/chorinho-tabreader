@@ -89,7 +89,11 @@ def _tempo_da_transcricao(notas: list[dict]) -> float | None:
     do `raman`, por exemplo) derrubava o pulso de 2,0 s para 1,0 s no caso de teste —
     o lixo não tem tempo de execução e não pode definir o pulso da música.
     """
-    onsets = sorted(n["t_ini"] for n in notas if n.get("t_ini") is not None)
+    # ONSETS DISTINTOS: três notas do mesmo acorde têm o MESMO instante, e os intervalos
+    # entre elas são zero. Medido no `sky guitar` (`(henze) nocturno`): 48 notas em 22
+    # ataques davam pulso **0,0** (mediana dos intervalos incluindo os zeros) e o exportador
+    # declarava que não havia tempo. O pulso é o intervalo entre ATAQUES, não entre notas.
+    onsets = sorted({n["t_ini"] for n in notas if n.get("t_ini") is not None})
     if len(onsets) < 2:
         return None
     return statistics.median([b - a for a, b in itertools.pairwise(onsets)])
@@ -149,8 +153,16 @@ def exportar(
     # carimbadas no MESMO instante e o exportador teria escrito isso como se fosse
     # ritmo. É a mesma classe de erro do histórico "323 notas com tempo" (eram 3
     # instantes): o número existia, o significado não.
+    # Um violão tem SEIS cordas: no máximo 6 notas podem soar no mesmo instante. Se a
+    # média de notas por ataque passa disso, o tempo é degenerado (medido num vídeo: 144
+    # notas no MESMO instante). O critério antigo exigia METADE das notas com onset
+    # distinto, e reprovava música legítima: medido no `sky guitar` (`(henze) nocturno`),
+    # 48 notas em 22 ataques = 2,2 por ataque, que é acorde/dedilhado normal — e o JSON
+    # dizia `tempo medido` enquanto o MusicXML dizia que não. Dois lugares decidindo o
+    # mesmo, com regras diferentes, é o bug; a regra agora é uma só.
+    notas_por_ataque = len(notas) / max(1, distintos)
     tempo_util = (
-        pulso is not None and pulso > 0 and distintos >= max(2, len(notas) // 2)
+        pulso is not None and pulso > 0 and distintos >= 3 and notas_por_ataque <= 6.0
     )
     if not tempo_util:
         pulso = None
