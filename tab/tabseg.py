@@ -333,8 +333,75 @@ ALTURA_MIN_PASSOS = 0.20
 MARGEM_SISTEMA_PASSOS = 1.0
 
 
+def extensao_das_linhas(
+    roi: np.ndarray, linhas_y: list[int], espessura: int = 2, minimo: int = 4
+) -> tuple[int, int]:
+    """Onde as linhas de corda existem TODAS juntas, em x.
+
+    O painel é um **retângulo**, não uma tira de largura total. Medido no `sky guitar`
+    (t=88 s): a tablatura ocupa x≈20–520 e o resto da faixa `meio` é vídeo do braço —
+    os trastes e cordas entravam como "glifos" e o painel rendia 36 tokens, 19 deles
+    lixo, com os algarismos em confiança média 0,466.
+
+    Duas tentativas antes desta, as duas medidas e descartadas:
+
+    1. exigir tinta em QUALQUER linha: o braço também tem tinta nas mesmas alturas (as
+       cordas dele têm espaçamento parecido), e o recorte parou em 882 px onde a
+       tablatura tem ~520;
+    2. usar a uniformidade do fundo por coluna: o trecho mais liso do quadro é a
+       **margem vazia** ao lado da tablatura, e o recorte ia para 240 px de papel em
+       branco.
+
+    O que separa é exigir que **quase todas** as cordas estejam presentes na mesma
+    coluna — na tablatura as 6 linhas são contínuas, no braço não.
+
+    Args:
+        roi: recorte da faixa.
+        linhas_y: y das linhas detectadas (relativas ao recorte).
+        espessura: meia-espessura, em px, da faixa de linha considerada.
+        minimo: quantas das linhas precisam estar presentes na coluna.
+
+    Returns:
+        ``(x0, x1)`` do maior trecho contíguo válido.
+    """
+    cinza = roi if roi.ndim == 2 else cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+    _, tinta = cv2.threshold(cinza, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    if tinta.mean() > 127:  # fundo claro: a linha é escura
+        tinta = 255 - tinta
+    contagem = np.zeros(roi.shape[1], dtype=np.int16)
+    for ly in linhas_y:
+        a, b = max(0, ly - espessura), min(tinta.shape[0], ly + espessura + 1)
+        if b > a:
+            contagem += (tinta[a:b, :] > 127).any(axis=0).astype(np.int16)
+    ativo = contagem >= minimo
+    if not ativo.any():
+        return 0, roi.shape[1]
+    # maior trecho contíguo, tolerando buracos de até 2% da largura
+    tolerancia = max(4, int(0.02 * roi.shape[1]))
+    melhor = (0, 0)
+    inicio = None
+    buraco = 0
+    for x, a in enumerate(ativo):
+        if a:
+            if inicio is None:
+                inicio = x
+            buraco = 0
+        elif inicio is not None:
+            buraco += 1
+            if buraco > tolerancia:
+                if x - buraco - inicio > melhor[1] - melhor[0]:
+                    melhor = (inicio, x - buraco)
+                inicio = None
+    if inicio is not None and len(ativo) - inicio > melhor[1] - melhor[0]:
+        melhor = (inicio, len(ativo))
+    return int(melhor[0]), int(melhor[1])
+
+
 def delimitar_tokens(
-    glifos: list[Glifo], passo: float, linhas_y: list[int] | None = None
+    glifos: list[Glifo],
+    passo: float,
+    linhas_y: list[int] | None = None,
+    extensao: tuple[int, int] | None = None,
 ) -> tuple[list[Glifo], dict[str, int]]:
     """Só o que cabe DENTRO da tablatura; devolve os válidos e a contagem por motivo.
 
@@ -347,6 +414,9 @@ def delimitar_tokens(
         glifos: tokens da grade, já agrupados.
         passo: distância entre cordas, em px.
         linhas_y: y das 6 cordas (para a trava vertical); None desliga essa trava.
+        extensao: ``(x0, x1)`` onde as 6 cordas coexistem; token fora
+            disso é vídeo ao lado da tablatura (medido: 21 % dos tokens numa
+            amostra de 1.694 caíam fora; no gabarito, zero).
 
     Returns:
         ``(validos, motivos)`` — ``motivos`` conta as recusas por nome, para o relatório.
@@ -360,6 +430,8 @@ def delimitar_tokens(
     for g in glifos:
         altura = (g.y1 - g.y0 + 1) / passo
         largura = (g.x1 - g.x0 + 1) / passo
+        if extensao is not None and (g.x1 < extensao[0] or g.x0 > extensao[1]):
+            motivos["fora_da_extensao"] += 1
         if topo is not None and (g.y0 < topo or g.y1 > base):
             motivos["fora_do_sistema"] += 1
         elif altura > ALTURA_MAX_PASSOS:
@@ -412,6 +484,22 @@ def segmentar(img: np.ndarray, n_cordas: int = 6, debug: str | None = None) -> G
     assert usada is not None
     melhor.glifos_centrados = int(melhor_chave[0]) if melhor_chave else 0
     grade = melhor
+
+    # DELIMITADOR: a extração enxerga só o que cabe dentro da tablatura. Aqui, e não em
+    # `_segmentar_de_mascara`, porque é aqui que a IMAGEM existe (a extensão horizontal das
+    # cordas é medida nela). Antes disto a coleta guardava braço de violão, clave, texto e
+    # tira de linha como "símbolo".
+    grade.glifos, recusados = delimitar_tokens(
+        grade.glifos,
+        grade.passo,
+        grade.linhas_y,
+        extensao=extensao_das_linhas(img, grade.linhas_y) if grade.linhas_y else None,
+    )
+    grade.recusados = recusados
+    if recusados:
+        grade.avisos.append(
+            "delimite=" + ",".join(f"{k}:{v}" for k, v in sorted(recusados.items()))
+        )
 
     if debug:
         h, w = usada.shape
@@ -673,14 +761,6 @@ def _segmentar_de_mascara(
     )
     # DELIMITADOR: a extração enxerga só o que cabe dentro da tablatura. Antes disto a
     # coleta guardava braço de violão, clave, texto e tira de linha como "símbolo".
-    grade.glifos, recusados = delimitar_tokens(
-        grade.glifos, grade.passo, grade.linhas_y
-    )
-    grade.recusados = recusados
-    if recusados:
-        grade.avisos.append(
-            "delimite=" + ",".join(f"{k}:{v}" for k, v in sorted(recusados.items()))
-        )
     grade.glifos.sort(key=lambda g: (g.coluna, g.corda))
     return grade
 

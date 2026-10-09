@@ -32,7 +32,13 @@ from dataclasses import dataclass
 import cv2
 import numpy as np
 
-from .tabseg import Grade, mascaras_candidatas, picos_de_linha, segmentar
+from .tabseg import (
+    Grade,
+    extensao_das_linhas,
+    mascaras_candidatas,
+    picos_de_linha,
+    segmentar,
+)
 
 #: Faixas verticais onde o painel costuma estar (a posição varia por vídeo).
 FAIXAS: list[tuple[str, int, int]] = [
@@ -213,70 +219,6 @@ def candidatos_quadro(
         if c is not None:
             achados.append(c)
     return achados
-
-
-def extensao_das_linhas(
-    roi: np.ndarray, linhas_y: list[int], espessura: int = 2, minimo: int = 4
-) -> tuple[int, int]:
-    """Onde as linhas de corda existem TODAS juntas, em x.
-
-    O painel é um **retângulo**, não uma tira de largura total. Medido no `sky guitar`
-    (t=88 s): a tablatura ocupa x≈20–520 e o resto da faixa `meio` é vídeo do braço —
-    os trastes e cordas entravam como "glifos" e o painel rendia 36 tokens, 19 deles
-    lixo, com os algarismos em confiança média 0,466.
-
-    Duas tentativas antes desta, as duas medidas e descartadas:
-
-    1. exigir tinta em QUALQUER linha: o braço também tem tinta nas mesmas alturas (as
-       cordas dele têm espaçamento parecido), e o recorte parou em 882 px onde a
-       tablatura tem ~520;
-    2. usar a uniformidade do fundo por coluna: o trecho mais liso do quadro é a
-       **margem vazia** ao lado da tablatura, e o recorte ia para 240 px de papel em
-       branco.
-
-    O que separa é exigir que **quase todas** as cordas estejam presentes na mesma
-    coluna — na tablatura as 6 linhas são contínuas, no braço não.
-
-    Args:
-        roi: recorte da faixa.
-        linhas_y: y das linhas detectadas (relativas ao recorte).
-        espessura: meia-espessura, em px, da faixa de linha considerada.
-        minimo: quantas das linhas precisam estar presentes na coluna.
-
-    Returns:
-        ``(x0, x1)`` do maior trecho contíguo válido.
-    """
-    cinza = roi if roi.ndim == 2 else cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-    _, tinta = cv2.threshold(cinza, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    if tinta.mean() > 127:  # fundo claro: a linha é escura
-        tinta = 255 - tinta
-    contagem = np.zeros(roi.shape[1], dtype=np.int16)
-    for ly in linhas_y:
-        a, b = max(0, ly - espessura), min(tinta.shape[0], ly + espessura + 1)
-        if b > a:
-            contagem += (tinta[a:b, :] > 127).any(axis=0).astype(np.int16)
-    ativo = contagem >= minimo
-    if not ativo.any():
-        return 0, roi.shape[1]
-    # maior trecho contíguo, tolerando buracos de até 2% da largura
-    tolerancia = max(4, int(0.02 * roi.shape[1]))
-    melhor = (0, 0)
-    inicio = None
-    buraco = 0
-    for x, a in enumerate(ativo):
-        if a:
-            if inicio is None:
-                inicio = x
-            buraco = 0
-        elif inicio is not None:
-            buraco += 1
-            if buraco > tolerancia:
-                if x - buraco - inicio > melhor[1] - melhor[0]:
-                    melhor = (inicio, x - buraco)
-                inicio = None
-    if inicio is not None and len(ativo) - inicio > melhor[1] - melhor[0]:
-        melhor = (inicio, len(ativo))
-    return int(melhor[0]), int(melhor[1])
 
 
 def extensao_por_fundo(
