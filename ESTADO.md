@@ -2821,3 +2821,29 @@ token não cobre a marca).
 cru — tamanho em passos, posição em relação à corda — e dizer **por qual motivo** ele não virou token
 (`largo_demais` / `alto_demais` / `fora_da_extensao` / `haste_fina` / `sem_nitidez`), como eu fiz na
 rodada dos motivos.
+
+## 2026-10-09 — CORREÇÃO: no pixel exato os buracos NÃO têm tinta — a perda é a máscara, não o delimitador
+
+A rodada anterior disse "52 % dos buracos têm tinta". **Era artefato da janela**: eu procurei tinta num
+quadrado de **±0,4 passo (±8 px)** em volta da marca. Com o **pixel exato**:
+
+| nos 78 buracos confirmados como símbolo | n |
+| --- | --- |
+| **SEM tinta no pixel exato da marca** | **55** |
+| marca fora da ROI | 17 |
+| **não virou token** | **5** |
+| virou token (mas a marca não caiu nele) | 2 |
+
+Dos 5 que chegaram ao delimitador: `fora_da_extensao` 5, `largo_demais` 1, passaria 1. Tamanho do
+componente quando existe: w mediano **1,86 passo**, h mediano **0,72**.
+
+**Conclusão corrigida**: em **55 de 78** buracos **não há tinta nenhuma na máscara união+faixas** na
+posição da marca — o arco **não é capturado**. A perda, na maioria, **é a MÁSCARA/LIMIAR**, não o
+delimitador (a hipótese da rodada anterior está **derrubada**). O delimitador perde apenas ~5.
+
+**Décima primeira vez que um critério meu (agora o TAMANHO DA JANELA de busca) mede a coisa errada** — e
+é a segunda vez seguida no mesmo item, com a janela como culpada.
+
+**Próxima medição (ainda sem tocar no pipeline)**: medir, nesses 55 pontos, **qual limiar** capturaria o
+arco — comparar a distribuição dos tons no ponto com o fundo local — e **qual seria o custo** (quantos
+pixels a mais entrariam na máscara no painel inteiro). Só com o custo na mão vale mudar o limiar.
