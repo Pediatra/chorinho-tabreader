@@ -314,7 +314,20 @@ def melhor(achados: list[Candidato]) -> Candidato | None:
     return max(achados, key=lambda c: c.score) if achados else None
 
 
-def espacamento_regular(linhas_y: list[int], tolerancia: float = 1.6) -> bool:
+#: Razão máxima entre a maior e a menor lacuna do grupo de 6 linhas.
+#:
+#: A FOTO DO VIOLÃO passa com razão **1,6** (lacunas 32,27,26,25,40) — o limite exato — e dela
+#: vieram recortes de "partitura" na coleta. Apertei para 1,3 e MEDI o custo nos mesmos 34
+#: quadros: painel em **33/34** com 1,6 e em **26/34** com 1,3 — **7 quadros (21%) perderiam a
+#: notação** para consertar um caso de lixo. **Reprovado**: negócio ruim, com o número na mão.
+#: A constante fica (para não voltar a ser argumento fixo escondido) e o valor fica em 1,6.
+TOLERANCIA_ESPACAMENTO = 1.6
+
+
+def espacamento_regular(linhas_y: list[int], tolerancia: float | None = None) -> bool:
+    """As linhas estão igualmente espaçadas? (senão não é uma pauta de cordas)"""
+    if tolerancia is None:
+        tolerancia = TOLERANCIA_ESPACAMENTO
     """As linhas estão igualmente espaçadas? (senão não é uma pauta de cordas)
 
     Medido no `sky guitar` (`(henze) nocturno`, t=228 s): sem esta checagem o detector

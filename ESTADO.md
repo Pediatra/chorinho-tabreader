@@ -816,6 +816,26 @@ suposição de que seria "um" mecanismo:
 **O que NÃO fazer**: continuar procurando regra no token. Os 4 recortes são fragmentos de 8-13 px
 (cabeça de nota, haste), e a informação que separa está no PAINEL, não neles.
 
+## 2026-10-09 — apertar a tolerância de espaçamento: MEDIDO e REPROVADO (custa 21 % dos painéis)
+
+A foto do violão passa no teste de 6 linhas com razão **1,6** (lacunas 32,27,26,25,40) — o limite
+exato de `espacamento_regular`. Apertei para 1,3 e medi, nos MESMOS 34 quadros da amostra:
+
+| tolerância | quadros com painel |
+| --- | --- |
+| **1,6** (atual) | **33/34** |
+| 1,3 (proposta) | **26/34** — **7 quadros (21 %) perderiam a notação** |
+
+Consertava **um** caso de lixo e custava **21 % das detecções**. **Reprovado** — e o valor volta a
+1,6, agora como constante documentada (com o custo medido escrito ao lado) em vez de argumento
+fixo escondido. O caso concreto conferido: `espacamento_regular([291,323,350,376,401,441])` dá
+`True` em 1,6 e `False` em 1,3; e os painéis reais do gabarito seguem `True` em 1,3.
+
+Quarta hipótese reprovada neste goal (classificador genérico de lixo, regra da cruz, linhas de
+pauta no token, apertar a tolerância) — e as quatro custaram **zero**, porque morreram antes de
+virar código. A diferença desta: aqui eu tinha o conserto certo para o caso errado, e o número
+do custo foi o que barrou.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
