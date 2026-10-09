@@ -71,7 +71,14 @@ No `sky guitar` (`(henze) nocturno`, intervalo 110,3–313,3 s):
 | exportadas para MusicXML | 25 | 49 |
 | tempo | **não medido** | **medido: 39 instantes distintos**, 117–303 s |
 
-**Mas a leitura ainda não é confiável**: 94 das 143 notas (66 %) são não-algarismo e a
+**RESOLVIDO na mesma data** (`painel.candidatos_quadro` + série nas cordas detectadas +
+fração exata + pulso entre ataques distintos): no MESMO intervalo, a leitura foi de 49
+algarismos com confiança 0,43 para **48 de 48 com confiança 0,97**, casas 0–4, zero
+recusadas, e o tempo passou a ser medido de verdade (22 ataques, pulso 4,0 s). A causa
+raiz era o painel: as três faixas fixas **cortam** a tablatura, e a faixa inteira punha o
+vídeo dentro da série do marcador.
+
+**Antes disso, a leitura não era confiável**: 94 das 143 notas (66 %) são não-algarismo e a
 confiança mediana dos algarismos é 0,434 — porque a faixa escolhida contém **partitura e
 tablatura**, exatamente a armadilha que o dono do projeto descreveu. Ver
 [`docs/decisoes/0007`](docs/decisoes/0007-painel-com-partitura-e-tablatura.md). O tempo é

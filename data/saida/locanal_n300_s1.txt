@@ -30,3 +30,58 @@
   época   6/12 perda=0.4273 acc_treino=0.8160
   época   9/12 perda=0.3018 acc_treino=0.8491
   época  12/12 perda=0.2646 acc_treino=0.8949
+  época   3/12 perda=0.6016 acc_treino=0.6991
+  época   6/12 perda=0.3746 acc_treino=0.8850
+  época   9/12 perda=0.2663 acc_treino=0.8925
+  época  12/12 perda=0.2088 acc_treino=0.9191
+{
+ "cifra club": {
+  "acertos": 11,
+  "total": 15,
+  "positivos": 0
+ },
+ "guitar dell ́arte": {
+  "acertos": 12,
+  "total": 16,
+  "positivos": 0
+ },
+ "iwaki": {
+  "acertos": 74,
+  "total": 88,
+  "positivos": 18
+ },
+ "kimny's guitar": {
+  "acertos": 12,
+  "total": 16,
+  "positivos": 6
+ },
+ "leonardo ramos": {
+  "acertos": 7,
+  "total": 15,
+  "positivos": 7
+ },
+ "mr. tabs": {
+  "acertos": 11,
+  "total": 15,
+  "positivos": 7
+ },
+ "pablo romé": {
+  "acertos": 5,
+  "total": 14,
+  "positivos": 0
+ },
+ "paolo d'angelo": {
+  "acertos": 11,
+  "total": 12,
+  "positivos": 0
+ },
+ "sky guitar": {
+  "acertos": 41,
+  "total": 96,
+  "positivos": 65
+ },
+ "total": {
+  "acertos": 184,
+  "total": 287
+ }
+}

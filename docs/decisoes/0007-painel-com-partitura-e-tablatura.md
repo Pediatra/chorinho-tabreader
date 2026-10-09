@@ -86,3 +86,22 @@ Custo: a busca no quadro inteiro examina as mesmas linhas que hoje (o perfil de 
 uma conta só, sobre o quadro todo) — o que muda é o conjunto de grupos de 6 considerados.
 O `tab/varredura` mede **onde** há painel por instante; a mudança aqui é **como** o
 enquadramento é derivado.
+
+## RESOLVIDO (mesma data) — e o número antes/depois
+
+Implementada a busca no quadro inteiro (`painel.candidatos_quadro`), a série do marcador
+passou a ser montada nas **cordas detectadas** em vez da faixa inteira, a fração da amostra
+passou a ser exata e o pulso passou a ser medido entre **ataques distintos**. Mesmo vídeo,
+mesmo intervalo (110,3–313,3 s do `sky guitar` / `(henze) nocturno`):
+
+| medida | faixas fixas | **quadro inteiro** |
+| --- | --- | --- |
+| notas lidas | 143 | 48 |
+| algarismos | 49 (34 %) | **48 (100 %)** |
+| não-algarismos | 94 (66 %) | **0** |
+| confiança mediana | 0,43 | **0,97** |
+| casas lidas | 0, 7, 15, 19, 24… | **0, 1, 2, 3, 4** |
+| tempo | "medido" na região errada | **medido: 22 ataques, pulso 4,0 s** |
+
+O relatório do MusicXML declara `tempo_medido: true`, `pulso_s: 4.0`, `bpm 15` derivado e
+duração **inferida**. Zero notas recusadas.
