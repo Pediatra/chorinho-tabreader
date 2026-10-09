@@ -15,9 +15,13 @@ import json
 import cv2
 import numpy as np
 
-from .caminhos import GABARITO, MODELO_PADRAO, PARTES, acervo
+from .caminhos import GABARITO, MODELO_PADRAO, PARTES, SAIDA, acervo
 from .inventario import ler_quadro
 from .reconhecer import carregar_modelo, reconhecer_linha
+
+#: Quadros do gabarito cacheados: a métrica não pode depender de vídeo que pode sumir
+#: (medido: o vídeo do `raman korshun` foi apagado e 24 dos 96 glifos ficaram sem quadro).
+FRAMES_GOLD = SAIDA / "frames" / "gold"
 
 #: Recorte de onde a amostra da `sky guitar` foi rotulada.
 RECORTE_SKY = PARTES / "clipes" / "-6rawhontyg_000120_000200" / "linha_01_tablatura.png"
@@ -35,10 +39,30 @@ def imagem_da_amostra(am: dict) -> np.ndarray:
     Returns:
         Imagem BGR (ou em tons de cinza, no caso do recorte local).
     """
+    # O quadro é CACHEADO em disco. Motivo medido: o vídeo do `raman korshun` foi apagado do
+    # acervo (o dono do projeto reorganiza e apaga) e `ler_quadro` devolveu None — o
+    # avaliador estourava com TypeError e **24 dos 96 glifos do gabarito (25%) ficaram sem
+    # verificação**. O número oficial passou a depender de arquivo que pode desaparecer.
+    # Com o cache, o quadro lido uma vez fica ao lado do gabarito e a métrica sobrevive.
+    canal = str(am.get("canal", "canal")).replace("/", "_")
+    cache = FRAMES_GOLD / f"{canal}.png"
+    if cache.exists():
+        guardado = cv2.imread(str(cache), cv2.IMREAD_UNCHANGED)
+        if guardado is not None:
+            return guardado
     if not am.get("video") or am["video"].startswith("sky guitar"):
-        return cv2.imread(str(RECORTE_SKY), cv2.IMREAD_UNCHANGED)
+        recorte = cv2.imread(str(RECORTE_SKY), cv2.IMREAD_UNCHANGED)
+        if recorte is not None:
+            FRAMES_GOLD.mkdir(parents=True, exist_ok=True)
+            cv2.imwrite(str(cache), recorte)
+        return recorte
     frame, _ = ler_quadro(str(acervo() / am["video"]), 0.5)
-    return frame[620:1080, :] if am["faixa"] == "base" else frame[0:400, :]
+    if frame is None:
+        return None  # vídeo ausente: quem chama PULA e declara, não estoura
+    faixa = frame[620:1080, :] if am["faixa"] == "base" else frame[0:400, :]
+    FRAMES_GOLD.mkdir(parents=True, exist_ok=True)
+    cv2.imwrite(str(cache), faixa)
+    return faixa
 
 
 def avaliar_com_modelo(
@@ -68,6 +92,13 @@ def avaliar_com_modelo(
     linhas: list[tuple[str, int, int]] = []
     for am in dados["amostras"]:
         img = imagem_da_amostra(am)
+        if img is None:
+            # Vídeo ausente do acervo: PULA e DECLARA, com total negativo para o somatório
+            # não contar como erro. Foi o que aconteceu com o `raman korshun`, apagado pelo
+            # dono do projeto: antes disto o avaliador estourava e a aferição inteira caía.
+            # total 0 = não entra no somatório (o `main` conta e declara à parte)
+            linhas.append((f"{am.get('canal', '?')} SEM QUADRO", 0, 0))
+            continue
         r = reconhecer_linha(img, modelo, rotulos, dev)
         campo = "casa_recuperada" if usar_recuperada else "casa"
         previsto = [n.get(campo) or n["casa"] for n in r["notas"]]
@@ -109,10 +140,15 @@ def main() -> int:
     args = ap.parse_args()
 
     linhas = avaliar(args.modelo, usar_recuperada=args.recuperada)
-    acertos = sum(o for _, o, _ in linhas)
-    total = sum(t for _, _, t in linhas)
-    resumo = " ".join(f"{c.split()[0][:6]}={o}/{t}" for c, o, t in linhas)
+    validos = [(c, o, t) for c, o, t in linhas if t > 0]
+    pulados = [c for c, _o, t in linhas if t == 0]
+    acertos = sum(o for _, o, _ in validos)
+    total = sum(t for _, _, t in validos)
+    resumo = " ".join(f"{c.split()[0][:6]}={o}/{t}" for c, o, t in validos)
     print(f"RESULTADO {resumo} | TOTAL={acertos}/{total}={acertos / total:.3f}")
+    if pulados:
+        # Sem quadro não há aferição: declarar é obrigatório, contar como erro seria mentira.
+        print(f"PULADOS (quadro indisponível, fora da conta): {', '.join(pulados)}")
     return 0
 
 
