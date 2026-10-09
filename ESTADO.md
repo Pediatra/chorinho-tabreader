@@ -1638,6 +1638,26 @@ era o recorte, não era a coordenada: era **uma classe de negativo ausente**.
 longe de qualquer marca) e retreinar. É o mesmo padrão que funcionou antes — descobrir qual classe
 o modelo estava confundindo e pôr a classe no treino (foi assim com os "negativos difíceis").
 
+## 2026-10-09 — a classe da janela vazia no treino: falso positivo cai 30 % e o fim a fim sobe a 0,19
+
+Gerados **539 negativos de janela vazia** (regiões entre as cordas, longe de qualquer marca, tinta
+≤ 0,12 — o primeiro limiar que tentei, ≤ 0,05, era **impossível**: uma janela de 1,6 passo numa
+tablatura cujas cordas estão a 1 passo **sempre** contém uma linha, e só 31 passaram).
+
+| | sem os vazios | **com os 539 vazios** |
+| --- | --- | --- |
+| LOCA: precisão | 0,77–0,79 | **0,74–0,76** |
+| LOCA: falso positivo | 0,14–0,16 | **0,10–0,11** |
+| LOCA: recall | 0,85–0,88 | 0,83–0,86 |
+| **fim a fim: precisão** | 0,15 | **0,19** |
+| fim a fim: recall | 0,11 | 0,13 |
+
+**A classe que faltava era PARTE do problema** — o falso positivo do detector caiu ~30 % e o fim a
+fim subiu de 0,15 para 0,19 — **mas não é o problema todo**: 0,19 contra 0,74–0,76 do LOCA.
+
+**Próximo passo, o que já funcionou quatro vezes nesta noite**: **desenhar e olhar** os 108 aprovados
+que ainda não casam com marca nenhuma, e ver o que eles são. Não vou deduzir.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
