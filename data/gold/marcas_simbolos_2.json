@@ -1,0 +1,551 @@
+{
+ "como_usar": "marcas feitas clicando na imagem; x,y em pixels da imagem original",
+ "marcas": [
+  {
+   "imagem": "T03_paolo d'angelo.png",
+   "rotulo_imagem": "T03. paolo d'angelo | barcarolle i op. 60 ｜ f. kleynjans ｜ | t=0.5 | passo=15.4px",
+   "x": 1763,
+   "y": 29,
+   "significado": "arpejo ocupa verticalmente 3 cordas nesse caso"
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 30,
+   "y": 57,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 67,
+   "y": 48,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 156,
+   "y": 41,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 194,
+   "y": 54,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 253,
+   "y": 51,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 295,
+   "y": 40,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 423,
+   "y": 46,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 462,
+   "y": 56,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 520,
+   "y": 55,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 559,
+   "y": 42,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 649,
+   "y": 50,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 687,
+   "y": 70,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 747,
+   "y": 73,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 784,
+   "y": 23,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 1276,
+   "y": 42,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 1308,
+   "y": 65,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 1408,
+   "y": 39,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 1369,
+   "y": 67,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 1490,
+   "y": 34,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 1533,
+   "y": 65,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 1585,
+   "y": 72,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T04_paolo d'angelo.png",
+   "rotulo_imagem": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px",
+   "x": 1622,
+   "y": 33,
+   "significado": "nesse caso ocupa 2 cordas Essas setas indicam a direção da palhetada ou do rasgueado (strumming).    A seta apontada para baixo significa palhetar de cima para baixo (das cordas graves em direção às agudas). A seta apontada para cima significa palhetar de baixo para cima (das cordas agudas em direção às graves). Elas servem para definir a batida exata do ritmo da música."
+  },
+  {
+   "imagem": "T06_tv cifras.png",
+   "rotulo_imagem": "T06. tv cifras | (i can't get no) satisfaction - the  | t=0.5 | passo=35.2px",
+   "x": 681,
+   "y": 126,
+   "significado": "AULA DE GUITARRA FILTREI ERRADO, JA FOI APAGADO E CORRIGIDO IGNORE ESSA AULA E TABLATURA"
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 154,
+   "y": 38,
+   "significado": "É uma ligadura de prolongamento com nota sustentada. Tocas a 12ª casa no primeiro tempo e deixas o som a soar através da barra de compasso até ao `(12)`, sem palhetar a corda novamente. Os parênteses indicam que a nota é apenas a continuação do som anterior."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 274,
+   "y": 50,
+   "significado": "É uma ligadura de prolongamento com nota sustentada. Tocas a 12ª casa no primeiro tempo e deixas o som a soar através da barra de compasso até ao `(12)`, sem palhetar a corda novamente. Os parênteses indicam que a nota é apenas a continuação do som anterior."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 403,
+   "y": 72,
+   "significado": "Este símbolo é uma pausa de colcheia. Na tablatura e na partitura, ele indica um momento de silêncio com a duração exata de meio tempo numa métrica padrão (4/4). Quando este símbolo aparece, deves interromper a sonoridade das cordas e fazer uma breve pausa antes de tocar a nota seguinte."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 499,
+   "y": 77,
+   "significado": "Este símbolo é uma pausa de colcheia. Na tablatura e na partitura, ele indica um momento de silêncio com a duração exata de meio tempo numa métrica padrão (4/4). Quando este símbolo aparece, deves interromper a sonoridade das cordas e fazer uma breve pausa antes de tocar a nota seguinte."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 662,
+   "y": 99,
+   "significado": "arco de ligadura com slide em baixo"
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 658,
+   "y": 131,
+   "significado": "slide"
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 709,
+   "y": 104,
+   "significado": "É uma ligadura de prolongamento com nota sustentada.  É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 9ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(9)`. Não voltas a palhetar a corda em nenhum dos `(9)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 750,
+   "y": 99,
+   "significado": "É uma ligadura de prolongamento com nota sustentada.  É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 9ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(9)`. Não voltas a palhetar a corda em nenhum dos `(9)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 829,
+   "y": 100,
+   "significado": "É uma ligadura de prolongamento com nota sustentada.  É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 9ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(9)`. Não voltas a palhetar a corda em nenhum dos `(9)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 785,
+   "y": 110,
+   "significado": "É uma ligadura de prolongamento com nota sustentada.  É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 9ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(9)`. Não voltas a palhetar a corda em nenhum dos `(9)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 913,
+   "y": 110,
+   "significado": "É uma ligadura de prolongamento com nota sustentada.  É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 9ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(9)`. Não voltas a palhetar a corda em nenhum dos `(9)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 992,
+   "y": 104,
+   "significado": "É uma ligadura de prolongamento com nota sustentada.  É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 9ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(9)`. Não voltas a palhetar a corda em nenhum dos `(9)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 1123,
+   "y": 27,
+   "significado": "é um arco que nao liga duas notas, apenas uma então nesse caso Esta linha curva flutuante por cima do número 10 indica uma **ligadura de expressão (legato)** ou um **bend / release** que começa nessa nota.  Como a curva não liga diretamente a outro número explícito logo a seguir, ela sinaliza que deves tocar o 10 na 2ª corda com um ataque suave e articulado (ligado). Se fizer parte de um bend, indica a intenção de levantar ou soltar a corda mantendo o som fluido até alcançar a nota seguinte (o 10 no tempo posterior)."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 1265,
+   "y": 20,
+   "significado": "arco de ligadura com slide em baixo"
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 1261,
+   "y": 46,
+   "significado": "slide"
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 1521,
+   "y": 63,
+   "significado": "É uma ligadura de prolongamento com nota sustentada.  É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 9ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(9)`. Não voltas a palhetar a corda em nenhum dos `(9)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 1627,
+   "y": 69,
+   "significado": "É uma ligadura de prolongamento com nota sustentada.  É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 9ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(9)`. Não voltas a palhetar a corda em nenhum dos `(9)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 1757,
+   "y": 27,
+   "significado": "é um arco que nao liga duas notas, apenas uma então nesse caso Esta linha curva flutuante por cima do número 10 indica uma **ligadura de expressão (legato)** ou um **bend / release** que começa nessa nota.  Como a curva não liga diretamente a outro número explícito logo a seguir, ela sinaliza que deves tocar o 10 na 2ª corda com um ataque suave e articulado (ligado). Se fizer parte de um bend, indica a intenção de levantar ou soltar a corda mantendo o som fluido até alcançar a nota seguinte (o 10 no tempo posterior)."
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 1897,
+   "y": 21,
+   "significado": "arco de ligadura com slide em baixo"
+  },
+  {
+   "imagem": "T09_mr. tabs.png",
+   "rotulo_imagem": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px",
+   "x": 1893,
+   "y": 49,
+   "significado": "slide"
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 21,
+   "y": 134,
+   "significado": "É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 7ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(7)`. Não voltas a palhetar a corda em nenhum dos `(7)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 90,
+   "y": 127,
+   "significado": "É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 7ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(7)`. Não voltas a palhetar a corda em nenhum dos `(7)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 213,
+   "y": 28,
+   "significado": "Esta linha curva flutuante por cima do número 10 indica uma **ligadura de expressão (legato)** ou um **bend / release** que começa nessa nota.  Como a curva não liga diretamente a outro número explícito logo a seguir, ela sinaliza que deves tocar o 10 na 2ª corda com um ataque suave e articulado (ligado). Se fizer parte de um bend, indica a intenção de levantar ou soltar a corda mantendo o som fluido até alcançar a nota seguinte (o 10 no tempo posterior)."
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 353,
+   "y": 21,
+   "significado": "arco de ligadura com slide em baixo"
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 352,
+   "y": 48,
+   "significado": "slide"
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 596,
+   "y": 62,
+   "significado": "É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 9ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(9)`. Não voltas a palhetar a corda em nenhum dos `(9)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 718,
+   "y": 73,
+   "significado": "É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 9ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(9)`. Não voltas a palhetar a corda em nenhum dos `(9)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 842,
+   "y": 24,
+   "significado": "Esta linha curva flutuante por cima do número 10 indica uma **ligadura de expressão (legato)** ou um **bend / release** que começa nessa nota.  Como a curva não liga diretamente a outro número explícito logo a seguir, ela sinaliza que deves tocar o 10 na 2ª corda com um ataque suave e articulado (ligado). Se fizer parte de um bend, indica a intenção de levantar ou soltar a corda mantendo o som fluido até alcançar a nota seguinte (o 10 no tempo posterior)."
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 988,
+   "y": 21,
+   "significado": "arco de ligadura com slide em baixo"
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 982,
+   "y": 51,
+   "significado": "slide"
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 1243,
+   "y": 61,
+   "significado": "É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 9ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(9)`. Não voltas a palhetar a corda em nenhum dos `(9)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 1346,
+   "y": 78,
+   "significado": "É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.  Tocas na 9ª casa uma única vez no início e sustentas o som através de todas as ligaduras e notas entre parênteses `(9)`. Não voltas a palhetar a corda em nenhum dos `(9)` seguintes; eles estão ali apenas para indicar a contagem do tempo em que a nota continua a ressoar."
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 1478,
+   "y": 25,
+   "significado": "Esta linha curva flutuante por cima do número 10 indica uma **ligadura de expressão (legato)** ou um **bend / release** que começa nessa nota.  Como a curva não liga diretamente a outro número explícito logo a seguir, ela sinaliza que deves tocar o 10 na 2ª corda com um ataque suave e articulado (ligado). Se fizer parte de um bend, indica a intenção de levantar ou soltar a corda mantendo o som fluido até alcançar a nota seguinte (o 10 no tempo posterior)."
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 1612,
+   "y": 22,
+   "significado": "arco de ligadura com slide em baixo"
+  },
+  {
+   "imagem": "T10_mr. tabs.png",
+   "rotulo_imagem": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px",
+   "x": 1614,
+   "y": 47,
+   "significado": "slide"
+  },
+  {
+   "imagem": "T12_robert lunn.png",
+   "rotulo_imagem": "T12. robert lunn | 10 favorite guitar licks! - includes | t=0.55 | passo=19.0px",
+   "x": 251,
+   "y": 39,
+   "significado": "arpejo nas 5 cordas"
+  },
+  {
+   "imagem": "T13_serge kottelat.png",
+   "rotulo_imagem": "T13. serge kottelat | baden powell live 1970 – manhã de ca | t=0.35 | passo=14.6px",
+   "x": 615,
+   "y": 33,
+   "significado": "arpejo nas 3 cordas"
+  },
+  {
+   "imagem": "T13_serge kottelat.png",
+   "rotulo_imagem": "T13. serge kottelat | baden powell live 1970 – manhã de ca | t=0.35 | passo=14.6px",
+   "x": 545,
+   "y": 43,
+   "significado": "É uma ligadura de prolongamento entre a mesma nota. Tocas a 4ª casa uma única vez no primeiro tempo e deixas o som ressoar continuamente até ao segundo 4, sem palhetar ou atacar a corda novamente com a mão direita."
+  },
+  {
+   "imagem": "T13_serge kottelat.png",
+   "rotulo_imagem": "T13. serge kottelat | baden powell live 1970 – manhã de ca | t=0.35 | passo=14.6px",
+   "x": 977,
+   "y": 12,
+   "significado": "Slide"
+  },
+  {
+   "imagem": "T13_serge kottelat.png",
+   "rotulo_imagem": "T13. serge kottelat | baden powell live 1970 – manhã de ca | t=0.35 | passo=14.6px",
+   "x": 1105,
+   "y": 27,
+   "significado": "É um slide descendente (slide out/legato slide). Tocas a nota na 5ª casa e, em seguida, deslisas o dedo do braço do instrumento em direção às casas mais baixas (no sentido da mão/trastes mais graves) enquanto o som vai morrendo, sem definir um ponto de paragem fixo."
+  },
+  {
+   "imagem": "T13_serge kottelat.png",
+   "rotulo_imagem": "T13. serge kottelat | baden powell live 1970 – manhã de ca | t=0.35 | passo=14.6px",
+   "x": 1419,
+   "y": 57,
+   "significado": "É uma ligadura de prolongamento entre a mesma nota."
+  },
+  {
+   "imagem": "T13_serge kottelat.png",
+   "rotulo_imagem": "T13. serge kottelat | baden powell live 1970 – manhã de ca | t=0.35 | passo=14.6px",
+   "x": 1465,
+   "y": 35,
+   "significado": "quando um arco cobre três ou mais notas chama-se tecnicamente modernte É um ornamento rápido executado num único ataque da mão direita: tocas a corda solta (0), dás um martelado rápido na 1ª casa (1) com a mão esquerda (hammer-on) e puxas logo de seguida para a corda solta (0) outra vez (pull-off)."
+  },
+  {
+   "imagem": "T14_serge kottelat.png",
+   "rotulo_imagem": "T14. serge kottelat | baden powell live 1970 – manhã de ca | t=0.55 | passo=14.8px",
+   "x": 234,
+   "y": 41,
+   "significado": "ligadura de prolongamento entre a mesma nota."
+  },
+  {
+   "imagem": "T14_serge kottelat.png",
+   "rotulo_imagem": "T14. serge kottelat | baden powell live 1970 – manhã de ca | t=0.55 | passo=14.8px",
+   "x": 618,
+   "y": 27,
+   "significado": "arco com slide em cima"
+  },
+  {
+   "imagem": "T14_serge kottelat.png",
+   "rotulo_imagem": "T14. serge kottelat | baden powell live 1970 – manhã de ca | t=0.55 | passo=14.8px",
+   "x": 619,
+   "y": 17,
+   "significado": "slide"
+  },
+  {
+   "imagem": "T14_serge kottelat.png",
+   "rotulo_imagem": "T14. serge kottelat | baden powell live 1970 – manhã de ca | t=0.55 | passo=14.8px",
+   "x": 719,
+   "y": 29,
+   "significado": "mordente"
+  },
+  {
+   "imagem": "T14_serge kottelat.png",
+   "rotulo_imagem": "T14. serge kottelat | baden powell live 1970 – manhã de ca | t=0.55 | passo=14.8px",
+   "x": 1469,
+   "y": 59,
+   "significado": "ligadura de prolongamento entre a mesma nota."
+  },
+  {
+   "imagem": "T19_tv on guitar.png",
+   "rotulo_imagem": "T19. tv on guitar | athletic theme (from super mario wor | t=0.35 | passo=14.4px",
+   "x": 865,
+   "y": 28,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "T19_tv on guitar.png",
+   "rotulo_imagem": "T19. tv on guitar | athletic theme (from super mario wor | t=0.35 | passo=14.4px",
+   "x": 1461,
+   "y": 2,
+   "significado": "arco de ligadura quase sumindo cuidado pra no cortar coisa demais"
+  },
+  {
+   "imagem": "T19_tv on guitar.png",
+   "rotulo_imagem": "T19. tv on guitar | athletic theme (from super mario wor | t=0.35 | passo=14.4px",
+   "x": 1505,
+   "y": 3,
+   "significado": "arco de ligadura quase sumindo cuidado pra no cortar coisa demais"
+  },
+  {
+   "imagem": "T19_tv on guitar.png",
+   "rotulo_imagem": "T19. tv on guitar | athletic theme (from super mario wor | t=0.35 | passo=14.4px",
+   "x": 304,
+   "y": 0,
+   "significado": "arco de ligadura quase sumindo cuidado pra no cortar coisa demais"
+  },
+  {
+   "imagem": "T20_tv on guitar.png",
+   "rotulo_imagem": "T20. tv on guitar | athletic theme (from super mario wor | t=0.55 | passo=14.6px",
+   "x": 1413,
+   "y": 0,
+   "significado": "arco de ligadura quase sumindo cuidado pra no cortar coisa demais"
+  },
+  {
+   "imagem": "T20_tv on guitar.png",
+   "rotulo_imagem": "T20. tv on guitar | athletic theme (from super mario wor | t=0.55 | passo=14.6px",
+   "x": 149,
+   "y": 51,
+   "significado": "Esse símbolo é uma barra de repetição de fechamento ou fim de ritornelo (ritornello).  Descrição visual: É composto por dois pontos pretos alinhados verticalmente nos espaços centrais da tablatura, seguidos por uma linha vertical fina e uma linha vertical larga e grossa no final.  Como funciona na prática: Ele indica o fim de um trecho repetido. Quando chegas a este símbolo durante a leitura, deves voltar imediatamente até o símbolo correspondente com os pontos virados para a direita (o início do ritornelo) e tocar toda essa parte mais uma vez. Se não houver uma barra de início em nenhum lugar anterior, significa que deves voltar e repetir a música desde o primeiríssimo compasso."
+  },
+  {
+   "imagem": "T20_tv on guitar.png",
+   "rotulo_imagem": "T20. tv on guitar | athletic theme (from super mario wor | t=0.55 | passo=14.6px",
+   "x": 592,
+   "y": 1,
+   "significado": "arco de ligadura quase sumindo cuidado pra no cortar coisa demais"
+  }
+ ]
+}

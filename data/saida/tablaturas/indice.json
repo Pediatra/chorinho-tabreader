@@ -1,0 +1,191 @@
+[
+ {
+  "arq": "T01_leonardo ramos.png",
+  "canal": "leonardo ramos",
+  "video": "a media luz (tango) 🎸 edgardo donato ｜ arreg",
+  "frac": 0.5,
+  "passo": 37.4,
+  "glifos": 23,
+  "rotulo": "T01. leonardo ramos | a media luz (tango) 🎸 edgardo donato | t=0.5 | passo=37.4px"
+ },
+ {
+  "arq": "T02_leonardo ramos.png",
+  "canal": "leonardo ramos",
+  "video": "aire de carnavalito (danza norteña) 🎸 g. bia",
+  "frac": 0.5,
+  "passo": 30.4,
+  "glifos": 15,
+  "rotulo": "T02. leonardo ramos | aire de carnavalito (danza norteña)  | t=0.5 | passo=30.4px"
+ },
+ {
+  "arq": "T03_paolo d'angelo.png",
+  "canal": "paolo d'angelo",
+  "video": "barcarolle i op. 60 ｜ f. kleynjans ｜ guitar ",
+  "frac": 0.5,
+  "passo": 15.4,
+  "glifos": 71,
+  "rotulo": "T03. paolo d'angelo | barcarolle i op. 60 ｜ f. kleynjans ｜ | t=0.5 | passo=15.4px"
+ },
+ {
+  "arq": "T04_paolo d'angelo.png",
+  "canal": "paolo d'angelo",
+  "video": "blackbird ｜ the beatles ｜ guitar tab ｜ finge",
+  "frac": 0.5,
+  "passo": 20.0,
+  "glifos": 146,
+  "rotulo": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px"
+ },
+ {
+  "arq": "T05_transcriptor.png",
+  "canal": "transcriptor",
+  "video": "amores hallaras - 1° guitarra - tablatura ⧸ ",
+  "frac": 0.8,
+  "passo": 35.4,
+  "glifos": 76,
+  "rotulo": "T05. transcriptor | amores hallaras - 1° guitarra - tabl | t=0.8 | passo=35.4px"
+ },
+ {
+  "arq": "T06_tv cifras.png",
+  "canal": "tv cifras",
+  "video": "(i can't get no) satisfaction - the rolling ",
+  "frac": 0.5,
+  "passo": 35.2,
+  "glifos": 30,
+  "rotulo": "T06. tv cifras | (i can't get no) satisfaction - the  | t=0.5 | passo=35.2px"
+ },
+ {
+  "arq": "T07_iwaki.png",
+  "canal": "iwaki",
+  "video": "- therru's song - aoi teshima- tab.mp4",
+  "frac": 0.35,
+  "passo": 22.4,
+  "glifos": 56,
+  "rotulo": "T07. iwaki | - therru's song - aoi teshima- tab.m | t=0.35 | passo=22.4px"
+ },
+ {
+  "arq": "T08_iwaki.png",
+  "canal": "iwaki",
+  "video": "- therru's song - aoi teshima- tab.mp4",
+  "frac": 0.55,
+  "passo": 22.4,
+  "glifos": 40,
+  "rotulo": "T08. iwaki | - therru's song - aoi teshima- tab.m | t=0.55 | passo=22.4px"
+ },
+ {
+  "arq": "T09_mr. tabs.png",
+  "canal": "mr. tabs",
+  "video": "blind melon - no rain - guitar tab ｜ lesson ",
+  "frac": 0.35,
+  "passo": 24.6,
+  "glifos": 68,
+  "rotulo": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px"
+ },
+ {
+  "arq": "T10_mr. tabs.png",
+  "canal": "mr. tabs",
+  "video": "blind melon - no rain - guitar tab ｜ lesson ",
+  "frac": 0.55,
+  "passo": 24.6,
+  "glifos": 77,
+  "rotulo": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px"
+ },
+ {
+  "arq": "T11_robert lunn.png",
+  "canal": "robert lunn",
+  "video": "10 favorite guitar licks! - includes tab - r",
+  "frac": 0.35,
+  "passo": 19.2,
+  "glifos": 25,
+  "rotulo": "T11. robert lunn | 10 favorite guitar licks! - includes | t=0.35 | passo=19.2px"
+ },
+ {
+  "arq": "T12_robert lunn.png",
+  "canal": "robert lunn",
+  "video": "10 favorite guitar licks! - includes tab - r",
+  "frac": 0.55,
+  "passo": 19.0,
+  "glifos": 20,
+  "rotulo": "T12. robert lunn | 10 favorite guitar licks! - includes | t=0.55 | passo=19.0px"
+ },
+ {
+  "arq": "T13_serge kottelat.png",
+  "canal": "serge kottelat",
+  "video": "baden powell live 1970 – manhã de carnaval (",
+  "frac": 0.35,
+  "passo": 14.6,
+  "glifos": 65,
+  "rotulo": "T13. serge kottelat | baden powell live 1970 – manhã de ca | t=0.35 | passo=14.6px"
+ },
+ {
+  "arq": "T14_serge kottelat.png",
+  "canal": "serge kottelat",
+  "video": "baden powell live 1970 – manhã de carnaval (",
+  "frac": 0.55,
+  "passo": 14.8,
+  "glifos": 55,
+  "rotulo": "T14. serge kottelat | baden powell live 1970 – manhã de ca | t=0.55 | passo=14.8px"
+ },
+ {
+  "arq": "T15_shin izumi.png",
+  "canal": "shin izumi",
+  "video": "canon in d - パッヘルベル ｜ ソロギター [tab].mp4",
+  "frac": 0.35,
+  "passo": 21.6,
+  "glifos": 74,
+  "rotulo": "T15. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp | t=0.35 | passo=21.6px"
+ },
+ {
+  "arq": "T16_shin izumi.png",
+  "canal": "shin izumi",
+  "video": "canon in d - パッヘルベル ｜ ソロギター [tab].mp4",
+  "frac": 0.55,
+  "passo": 21.6,
+  "glifos": 63,
+  "rotulo": "T16. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp | t=0.55 | passo=21.6px"
+ },
+ {
+  "arq": "T17_sky guitar.png",
+  "canal": "sky guitar",
+  "video": "(aguado) etude in am - tab & lesson.mp4",
+  "frac": 0.35,
+  "passo": 24.4,
+  "glifos": 19,
+  "rotulo": "T17. sky guitar | (aguado) etude in am - tab & lesson. | t=0.35 | passo=24.4px"
+ },
+ {
+  "arq": "T18_sky guitar.png",
+  "canal": "sky guitar",
+  "video": "(aguado) etude in am - tab & lesson.mp4",
+  "frac": 0.55,
+  "passo": 24.4,
+  "glifos": 16,
+  "rotulo": "T18. sky guitar | (aguado) etude in am - tab & lesson. | t=0.55 | passo=24.4px"
+ },
+ {
+  "arq": "T19_tv on guitar.png",
+  "canal": "tv on guitar",
+  "video": "athletic theme (from super mario world) guit",
+  "frac": 0.35,
+  "passo": 14.4,
+  "glifos": 83,
+  "rotulo": "T19. tv on guitar | athletic theme (from super mario wor | t=0.35 | passo=14.4px"
+ },
+ {
+  "arq": "T20_tv on guitar.png",
+  "canal": "tv on guitar",
+  "video": "athletic theme (from super mario world) guit",
+  "frac": 0.55,
+  "passo": 14.6,
+  "glifos": 74,
+  "rotulo": "T20. tv on guitar | athletic theme (from super mario wor | t=0.55 | passo=14.6px"
+ },
+ {
+  "arq": "T21_ギタロー ⧸ guitarous.png",
+  "canal": "ギタロー ⧸ guitarous",
+  "video": "ffx ザナルカンドにて ソロギター 初心者向け タブ譜.mp4",
+  "frac": 0.55,
+  "passo": 22.4,
+  "glifos": 47,
+  "rotulo": "T21. ギタロー ⧸ guitarous | ffx ザナルカンドにて ソロギター 初心者向け タブ譜.mp4 | t=0.55 | passo=22.4px"
+ }
+]

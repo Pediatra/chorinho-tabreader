@@ -1,0 +1,131 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Marcar simbolos na tablatura</title>
+<style>
+ body{font-family:system-ui,sans-serif;margin:0;background:#1b1b1b;color:#eee}
+ header{position:sticky;top:0;background:#111;padding:8px 12px;border-bottom:1px solid #333;z-index:5}
+ #rot{font-weight:600}
+ #barra{margin-top:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px}
+ button{background:#333;color:#eee;border:1px solid #555;border-radius:4px;padding:4px 10px;cursor:pointer}
+ button:hover{background:#444}
+ #palco{position:relative;overflow:auto;height:60vh;background:#000;margin:8px 0}
+ canvas{display:block;image-rendering:pixelated}
+ #lista{max-height:30vh;overflow:auto;font-size:13px;padding:0 12px}
+ .m{display:flex;gap:6px;align-items:center;margin:3px 0}
+ .m b{color:#ff6b6b;width:22px;text-align:right}
+ .m code{color:#8ec07c;width:110px}
+ .m input{flex:1;background:#222;color:#eee;border:1px solid #555;border-radius:3px;padding:3px 6px}
+ .m button{padding:2px 6px}
+ small{color:#aaa}
+</style>
+<header>
+ <div id="rot"></div>
+ <div id="barra">
+  <button onclick="va(-1)">◀ anterior</button>
+  <button onclick="va(1)">próxima ▶</button>
+  <button onclick="zoom(-0.25)">− zoom</button>
+  <button onclick="zoom(0.25)">+ zoom</button>
+  <span id="z">100%</span>
+  <button onclick="limpar()">limpar marcas desta imagem</button>
+  <button onclick="salvar()"><b>salvar JSON</b></button>
+  <label style="font-size:12px">continuar de marcas anteriores: <input type="file" id="carregar" accept=".json"></label>
+  <span id="cont"></span>
+ </div>
+ <small>Clique em cima do símbolo. Cada clique vira um número no desenho; escreva o significado na lista abaixo. Troque de imagem quando terminar — as marcas ficam guardadas.</small>
+</header>
+<div id="palco"><canvas id="cv"></canvas></div>
+<div id="lista"></div>
+<script>
+const ITENS = [{"arq": "T01_leonardo ramos.png", "canal": "leonardo ramos", "video": "a media luz (tango) 🎸 edgardo donato ｜ arreg", "frac": 0.5, "passo": 37.4, "glifos": 23, "rotulo": "T01. leonardo ramos | a media luz (tango) 🎸 edgardo donato | t=0.5 | passo=37.4px"}, {"arq": "T02_leonardo ramos.png", "canal": "leonardo ramos", "video": "aire de carnavalito (danza norteña) 🎸 g. bia", "frac": 0.5, "passo": 30.4, "glifos": 15, "rotulo": "T02. leonardo ramos | aire de carnavalito (danza norteña)  | t=0.5 | passo=30.4px"}, {"arq": "T03_paolo d'angelo.png", "canal": "paolo d'angelo", "video": "barcarolle i op. 60 ｜ f. kleynjans ｜ guitar ", "frac": 0.5, "passo": 15.4, "glifos": 71, "rotulo": "T03. paolo d'angelo | barcarolle i op. 60 ｜ f. kleynjans ｜ | t=0.5 | passo=15.4px"}, {"arq": "T04_paolo d'angelo.png", "canal": "paolo d'angelo", "video": "blackbird ｜ the beatles ｜ guitar tab ｜ finge", "frac": 0.5, "passo": 20.0, "glifos": 146, "rotulo": "T04. paolo d'angelo | blackbird ｜ the beatles ｜ guitar tab | t=0.5 | passo=20.0px"}, {"arq": "T05_transcriptor.png", "canal": "transcriptor", "video": "amores hallaras - 1° guitarra - tablatura ⧸ ", "frac": 0.8, "passo": 35.4, "glifos": 76, "rotulo": "T05. transcriptor | amores hallaras - 1° guitarra - tabl | t=0.8 | passo=35.4px"}, {"arq": "T06_tv cifras.png", "canal": "tv cifras", "video": "(i can't get no) satisfaction - the rolling ", "frac": 0.5, "passo": 35.2, "glifos": 30, "rotulo": "T06. tv cifras | (i can't get no) satisfaction - the  | t=0.5 | passo=35.2px"}, {"arq": "T07_iwaki.png", "canal": "iwaki", "video": "- therru's song - aoi teshima- tab.mp4", "frac": 0.35, "passo": 22.4, "glifos": 56, "rotulo": "T07. iwaki | - therru's song - aoi teshima- tab.m | t=0.35 | passo=22.4px"}, {"arq": "T08_iwaki.png", "canal": "iwaki", "video": "- therru's song - aoi teshima- tab.mp4", "frac": 0.55, "passo": 22.4, "glifos": 40, "rotulo": "T08. iwaki | - therru's song - aoi teshima- tab.m | t=0.55 | passo=22.4px"}, {"arq": "T09_mr. tabs.png", "canal": "mr. tabs", "video": "blind melon - no rain - guitar tab ｜ lesson ", "frac": 0.35, "passo": 24.6, "glifos": 68, "rotulo": "T09. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.35 | passo=24.6px"}, {"arq": "T10_mr. tabs.png", "canal": "mr. tabs", "video": "blind melon - no rain - guitar tab ｜ lesson ", "frac": 0.55, "passo": 24.6, "glifos": 77, "rotulo": "T10. mr. tabs | blind melon - no rain - guitar tab ｜ | t=0.55 | passo=24.6px"}, {"arq": "T11_robert lunn.png", "canal": "robert lunn", "video": "10 favorite guitar licks! - includes tab - r", "frac": 0.35, "passo": 19.2, "glifos": 25, "rotulo": "T11. robert lunn | 10 favorite guitar licks! - includes | t=0.35 | passo=19.2px"}, {"arq": "T12_robert lunn.png", "canal": "robert lunn", "video": "10 favorite guitar licks! - includes tab - r", "frac": 0.55, "passo": 19.0, "glifos": 20, "rotulo": "T12. robert lunn | 10 favorite guitar licks! - includes | t=0.55 | passo=19.0px"}, {"arq": "T13_serge kottelat.png", "canal": "serge kottelat", "video": "baden powell live 1970 – manhã de carnaval (", "frac": 0.35, "passo": 14.6, "glifos": 65, "rotulo": "T13. serge kottelat | baden powell live 1970 – manhã de ca | t=0.35 | passo=14.6px"}, {"arq": "T14_serge kottelat.png", "canal": "serge kottelat", "video": "baden powell live 1970 – manhã de carnaval (", "frac": 0.55, "passo": 14.8, "glifos": 55, "rotulo": "T14. serge kottelat | baden powell live 1970 – manhã de ca | t=0.55 | passo=14.8px"}, {"arq": "T15_shin izumi.png", "canal": "shin izumi", "video": "canon in d - パッヘルベル ｜ ソロギター [tab].mp4", "frac": 0.35, "passo": 21.6, "glifos": 74, "rotulo": "T15. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp | t=0.35 | passo=21.6px"}, {"arq": "T16_shin izumi.png", "canal": "shin izumi", "video": "canon in d - パッヘルベル ｜ ソロギター [tab].mp4", "frac": 0.55, "passo": 21.6, "glifos": 63, "rotulo": "T16. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp | t=0.55 | passo=21.6px"}, {"arq": "T17_sky guitar.png", "canal": "sky guitar", "video": "(aguado) etude in am - tab & lesson.mp4", "frac": 0.35, "passo": 24.4, "glifos": 19, "rotulo": "T17. sky guitar | (aguado) etude in am - tab & lesson. | t=0.35 | passo=24.4px"}, {"arq": "T18_sky guitar.png", "canal": "sky guitar", "video": "(aguado) etude in am - tab & lesson.mp4", "frac": 0.55, "passo": 24.4, "glifos": 16, "rotulo": "T18. sky guitar | (aguado) etude in am - tab & lesson. | t=0.55 | passo=24.4px"}, {"arq": "T19_tv on guitar.png", "canal": "tv on guitar", "video": "athletic theme (from super mario world) guit", "frac": 0.35, "passo": 14.4, "glifos": 83, "rotulo": "T19. tv on guitar | athletic theme (from super mario wor | t=0.35 | passo=14.4px"}, {"arq": "T20_tv on guitar.png", "canal": "tv on guitar", "video": "athletic theme (from super mario world) guit", "frac": 0.55, "passo": 14.6, "glifos": 74, "rotulo": "T20. tv on guitar | athletic theme (from super mario wor | t=0.55 | passo=14.6px"}, {"arq": "T21_ギタロー ⧸ guitarous.png", "canal": "ギタロー ⧸ guitarous", "video": "ffx ザナルカンドにて ソロギター 初心者向け タブ譜.mp4", "frac": 0.55, "passo": 22.4, "glifos": 47, "rotulo": "T21. ギタロー ⧸ guitarous | ffx ザナルカンドにて ソロギター 初心者向け タブ譜.mp4 | t=0.55 | passo=22.4px"}];
+let atual = 0, escala = 1, marcas = {};   // marcas[arq] = [{x,y,txt}]
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+let img = new Image();
+
+function item(){ return ITENS[atual]; }
+function minhas(){ return marcas[item().arq] = marcas[item().arq] || []; }
+
+function carrega(){
+  img = new Image();
+  img.onload = () => { desenha(); };
+  img.src = item().arq;
+  document.getElementById('rot').textContent = item().rotulo;
+  lista();
+}
+function desenha(){
+  cv.width = img.naturalWidth * escala;
+  cv.height = img.naturalHeight * escala;
+  ctx.drawImage(img, 0, 0, cv.width, cv.height);
+  ctx.lineWidth = 1.5; ctx.font = 'bold 13px sans-serif';
+  minhas().forEach((m, i) => {
+    const x = m.x * escala, y = m.y * escala;
+    ctx.strokeStyle = '#ff3b30';
+    ctx.beginPath();
+    ctx.moveTo(x - 9, y); ctx.lineTo(x + 9, y);
+    ctx.moveTo(x, y - 9); ctx.lineTo(x, y + 9);
+    ctx.stroke();
+    ctx.beginPath(); ctx.arc(x, y, 11, 0, 6.2832); ctx.stroke();
+    ctx.fillStyle = '#ff3b30';
+    ctx.fillText(String(i + 1), x + 13, y - 11);
+  });
+}
+cv.addEventListener('click', (e) => {
+  const r = cv.getBoundingClientRect();
+  const x = Math.round((e.clientX - r.left) * (img.naturalWidth / cv.width));
+  const y = Math.round((e.clientY - r.top) * (img.naturalHeight / cv.height));
+  minhas().push({ x, y, txt: '' });
+  desenha(); lista();
+});
+function lista(){
+  const div = document.getElementById('lista');
+  div.innerHTML = '';
+  minhas().forEach((m, i) => {
+    const d = document.createElement('div'); d.className = 'm';
+    d.innerHTML = `<b>${i + 1}</b><code>x=${m.x} y=${m.y}</code>`;
+    const inp = document.createElement('input');
+    inp.placeholder = 'o que é este símbolo? (ex.: ligadura, nota presa, slide, harmônico...)';
+    inp.value = m.txt;
+    inp.oninput = () => { m.txt = inp.value; };
+    const b = document.createElement('button'); b.textContent = 'apagar';
+    b.onclick = () => { minhas().splice(i, 1); desenha(); lista(); };
+    d.appendChild(inp); d.appendChild(b); div.appendChild(d);
+  });
+  const total = Object.values(marcas).reduce((s, v) => s + v.length, 0);
+  document.getElementById('cont').textContent = `${minhas().length} nesta imagem | ${total} no total`;
+}
+function va(d){ atual = (atual + d + ITENS.length) % ITENS.length; carrega(); }
+function zoom(d){ escala = Math.min(4, Math.max(0.5, escala + d)); document.getElementById('z').textContent = Math.round(escala * 100) + '%'; desenha(); }
+function limpar(){ marcas[item().arq] = []; desenha(); lista(); }
+function salvar(){
+  const saida = { como_usar: 'marcas feitas clicando na imagem; x,y em pixels da imagem original',
+                  marcas: [] };
+  for (const it of ITENS) {
+    for (const m of (marcas[it.arq] || [])) {
+      if (m.txt && m.txt.trim()) saida.marcas.push({ imagem: it.arq, rotulo_imagem: it.rotulo, x: m.x, y: m.y, significado: m.txt.trim() });
+    }
+  }
+  const b = new Blob([JSON.stringify(saida, null, 1)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(b);
+  a.download = 'marcas_simbolos.json';
+  a.click();
+}
+document.getElementById('carregar').addEventListener('change', (ev) => {
+  const f = ev.target.files[0]; if (!f) return;
+  const fr = new FileReader();
+  fr.onload = () => {
+    try {
+      const d = JSON.parse(fr.result);
+      let n = 0;
+      for (const m of (d.marcas || [])) {
+        marcas[m.imagem] = marcas[m.imagem] || [];
+        marcas[m.imagem].push({ x: m.x, y: m.y, txt: m.significado || '' });
+        n++;
+      }
+      desenha(); lista();
+      alert(n + ' marcas anteriores carregadas. Elas somam com as novas.');
+    } catch (e) { alert('Nao consegui ler o arquivo: ' + e); }
+  };
+  fr.readAsText(f);
+});
+carrega();
+</script>
