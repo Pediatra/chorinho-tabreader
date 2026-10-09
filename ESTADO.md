@@ -1485,6 +1485,42 @@ errada (uma marca pode cobrir mais de um token, e uma marca no arco cai entre do
 concluo que a precisão é 0,12 nem que é 0,90** — o que eu tenho é: o modelo aprova a região certa,
 e a minha forma de casar isso com as marcas dele está sob suspeita.
 
+## 2026-10-09 — ENCONTRADO: os meus NEGATIVOS foram recortados do LUGAR ERRADO do quadro
+
+A caixa não aparecia no desenho nem com 3 px de espessura e 1900 px de largura. Isso só tinha uma
+explicação, e ela é grave:
+
+```
+iwaki: roi=(460, 1669)   roi_das_cordas=(876, 1066)
+       linhas_y = [283, 310, 337, 365, 392, 419]   <- espaco da ROI
+       glifos y de 298 a 432                        <- espaco da ROI
+```
+
+Os glifos e as linhas de corda estão no **espaço da ROI** (460 px de altura), e eu desenhava numa
+faixa de **190 px** — as caixas caíam **fora da imagem**.
+
+**E o mesmo erro está na construção do conjunto rotulado:**
+
+| | como eu fiz | certo |
+| --- | --- | --- |
+| **positivos** (marcas do dono) | `cinza[y0 + marca_y]` — **com** o offset ✓ | ✓ |
+| **negativos** (centro do glifo) | `cinza[cy]` — `cy` está no espaço da ROI e eu indexei o **quadro** ✗ | falta somar `y0` |
+
+**Os negativos foram recortados do lugar errado.** Isso explica TUDO o que estava sem explicação:
+
+- **LOCA 0,89–0,91**: os negativos eram pedaços de região errada, quase vazios — **fáceis demais**;
+- **fim a fim 0,12**: o modelo **nunca viu um negativo de verdade**;
+- e a insistência do "dígito" nas amostras: com negativos falsos, o modelo aprendeu a separar
+  "arcos" de "região errada", não "arcos" de "dígitos".
+
+**Achado pela regra 4** (olhar a imagem) — depois de eu escrever duas teorias erradas sobre imagens
+que não tinha aberto. É a terceira vez neste goal que abrir a imagem resolve o que a teoria não
+resolveu.
+
+**Próximo passo**: corrigir o recorte dos negativos (somar `y0`), regerar o conjunto, retreinar e
+medir de novo — LOCA e fim a fim. A expectativa honesta: o LOCA vai **cair** (os negativos deixam de
+ser fáceis) e o fim a fim deve **subir**. Se o LOCA cair muito, o número novo é o verdadeiro.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
