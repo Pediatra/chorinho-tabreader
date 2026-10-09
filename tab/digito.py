@@ -52,6 +52,15 @@ CROPS_SIMBOLOS = SAIDA.parent / "gold" / "simbolos_crops"
 #: Gabarito de símbolos (rótulos lidos no olho).
 GOLD_SIMBOLOS = SAIDA.parent / "gold" / "simbolos.json"
 
+#: Segunda folha de símbolos (amostra estratificada por canal, 17 canais).
+GOLD_SIMBOLOS_2 = SAIDA.parent / "gold" / "simbolos_2.json"
+
+#: O que é LIXO na taxonomia auditada pelo dono do projeto. As três classes vêm da
+#: leitura dele: `nada` (pedaço cinza/foto), `tablatura` (material de linha, incluindo
+#: as CRUZES de barline × corda) e `partitura` (pedaço de pauta de 5 linhas). Medido em
+#: duas amostras independentes: 54 % e 60 % da coleta é lixo.
+CLASSES_LIXO = frozenset({"nada", "tablatura", "partitura"})
+
 
 def preparar(img: np.ndarray) -> np.ndarray:
     """Recorte → entrada da rede (cinza, 32×32, 0..1).
@@ -84,7 +93,7 @@ class DigitoCNN(nn.Module):
         return self.fc2(F.relu(self.fc1(x.flatten(1))))
 
 
-def montar_conjunto() -> tuple[np.ndarray, np.ndarray, list[str]]:
+def montar_conjunto(tarefa: str = "digito") -> tuple[np.ndarray, np.ndarray, list[str]]:
     """Monta o conjunto a partir do que está ROTULADO (nada é inferido pelo modelo).
 
     Positivos: os algarismos rotulados do gabarito (extraídos dos quadros cacheados, na
@@ -117,23 +126,36 @@ def montar_conjunto() -> tuple[np.ndarray, np.ndarray, list[str]]:
             X.append(preparar(_recortar(cinza, t.x0, t.y0, t.x1, t.y1)))
             y.append(1)
             canais.append(am["canal"])
-    if GOLD_SIMBOLOS.exists():
-        gold = json.loads(GOLD_SIMBOLOS.read_text(encoding="utf-8"))
+    # Tarefa `digito`: positivo = algarismo; `lixo`: positivo = nada/tablatura/partitura.
+    # A leitura do DONO DO PROJETO manda quando existe (ele auditou a folha 1 e separou o que
+    # eu havia juntado). Sem ela, cai no meu rótulo; dúvida fica fora das duas tarefas.
+    for caminho_gold, pasta in (
+        (GOLD_SIMBOLOS, CROPS_SIMBOLOS),
+        (GOLD_SIMBOLOS_2, None),
+    ):
+        if not caminho_gold.exists():
+            continue
+        gold = json.loads(caminho_gold.read_text(encoding="utf-8"))
         for caso in gold["casos"]:
-            # A leitura do DONO DO PROJETO manda quando existe (ele auditou a mesma folha e
-            # separou o que eu havia juntado: `§` pedaço de tablatura, `{}` de partitura,
-            # `&` nada a ver). Sem ela, cai no meu rótulo e a dúvida fica fora.
             rotulo = caso.get("rotulo_dono") or caso["rotulo"]
             if rotulo == "duvida":
                 continue
-            arq = CROPS_SIMBOLOS / f"{caso['indice']:02d}.png"
+            arq = (
+                pasta / f"{caso['indice']:02d}.png"
+                if pasta is not None
+                else SAIDA / "simbolos" / caso["canal"] / caso["arquivo"]
+            )
             if not arq.exists():
                 continue
             img = cv2.imread(str(arq), cv2.IMREAD_GRAYSCALE)
             if img is None:
                 continue
+            if tarefa == "lixo":
+                alvo = 1 if rotulo in CLASSES_LIXO else 0
+            else:
+                alvo = 1 if rotulo == "algarismo" else 0
             X.append(preparar(img))
-            y.append(1 if rotulo == "algarismo" else 0)
+            y.append(alvo)
             canais.append(caso["canal"])
     return np.stack(X), np.array(y), canais
 
@@ -237,12 +259,14 @@ def main() -> int:
     """Treina (3 sementes para `artefatos/`) ou mede leave-one-channel-out."""
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("acao", choices=["treinar", "avaliar", "loca"])
+    ap.add_argument("--tarefa", choices=["digito", "lixo"], default="digito")
     ap.add_argument("--sementes", type=int, nargs="+", default=[1, 2, 3])
     ap.add_argument("--epocas", type=int, default=60)
     args = ap.parse_args()
 
-    X, y, canais = montar_conjunto()
+    X, y, canais = montar_conjunto(args.tarefa)
     print(
+        f"tarefa={args.tarefa} | "
         f"conjunto: {X.shape} | algarismos={int(y.sum())} não-algarismos={int((y == 0).sum())} "
         f"| {len(set(canais))} canais",
         flush=True,
@@ -250,7 +274,7 @@ def main() -> int:
     if args.acao == "treinar":
         for seed in args.sementes:
             modelo, _dev = treinar(X, y, list(range(len(y))), seed, args.epocas)
-            destino = ARTEFATOS / f"digito_{seed}"
+            destino = ARTEFATOS / f"{args.tarefa}_{seed}"
             os.makedirs(destino, exist_ok=True)
             torch.save(
                 {"state_dict": modelo.state_dict(), "seed": seed}, destino / "digito.pt"

@@ -559,6 +559,30 @@ em 17 canais, na taxonomia de 5 classes. É a base para trocar o binário "é al
 decisão de três vias: é algarismo → vira nota; é lixo (nada/tablatura/partitura) → **não vira
 símbolo**; o resto → símbolo de verdade, para mapear por canal.
 
+## 2026-10-09 — classificador de LIXO: medido e REPROVADO (0,665 de média)
+
+Com os 96 recortes rotulados (167 amostras na tarefa, porque o gabarito de algarismo entra
+como "útil"), treinei o binário **"isto é lixo?"** (lixo = `nada` + `tablatura` + `partitura`):
+
+| semente | LOCA (17 canais) |
+| --- | --- |
+| 1 | 104/167 = 0,623 |
+| 2 | 113/167 = 0,677 |
+| 3 | 116/167 = **0,695** |
+
+**Média 0,665 — reprovado**, contra 0,889 do discriminador de algarismo. E a quebra por canal
+mostra o defeito estrutural: `paolo d'angelo` dá **9/33, 4/33, 5/33** — as 33 amostras dele são
+quase todas algarismo (classe "útil"), e com o canal fora do treino o modelo chama de lixo
+quase tudo. O mesmo em `tv=3/10` e `violaode=0/1`.
+
+**Por que reprova**: a classe "útil" mistura duas coisas que não se parecem — **algarismo** e
+**símbolo** —, e a classe "lixo" mistura três. Um binário sobre quatro tipos heterogêneos não
+aprende a fronteira; o discriminador de algarismo funciona porque a pergunta dele é estreita.
+
+**O que isso deixa claro**: "parar de pegar lixo" não vai sair de um classificador genérico de
+lixo. Vai sair de **alvos mecânicos e frequentes**, medidos um a um — e o primeiro é a **cruz
+barline × corda, 15 % da coleta**, com 7 exemplos rotulados para testar a regra contra eles.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
