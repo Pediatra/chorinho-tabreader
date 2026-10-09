@@ -1677,6 +1677,26 @@ recall não é ganho: é mudança de lugar.
 ele aprova** e **os vazios que eu gerei** — se houver um separador, ele vira negativa dirigida; se não
 houver, o modelo está usando um sinal que eu ainda não identifiquei, e aí o caminho é outro.
 
+## 2026-10-09 — zoom de 5×: os aprovados são VAZIO mesmo — e a diferença é a POSIÇÃO na lacuna
+
+Ampliei 5× os 6 aprovados que não casam (recorte generoso de 4 passos de largura em volta de cada um).
+**Nenhum tem símbolo apagado**: são vazios, e a hipótese do "arco quase sumindo escondido" está
+refutada — embora o aviso do dono continue valendo para o caso geral.
+
+Mas os zooms mostram **uma diferença sistemática**:
+
+| | os que ele APROVA (0,94–0,96) | os meus 539 negativos |
+| --- | --- | --- |
+| posição na lacuna | **logo acima de uma linha** (assimétrico) | **no meio exato da lacuna** (simétrico) |
+
+E é essa assimetria que um **arco** tem: ele fica **em cima da linha**, não no meio. O modelo parece ter
+aprendido **"vazio encostado numa linha = arco"** — e eu só ensinei o caso simétrico, então ele nunca
+viu o negativo que precisava.
+
+**Próximo passo, medível**: gerar negativos com **múltiplos deslocamentos** dentro da lacuna (logo
+acima de cada linha, logo abaixo, no meio, a 1/4 e a 3/4) em vez de só o ponto médio — e retreinar.
+É o mesmo padrão das outras três correções: a classe não estava ausente, estava **incompleta**.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
