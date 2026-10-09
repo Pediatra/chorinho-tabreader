@@ -58,3 +58,31 @@ contém tablatura.
 - a **estrutura** por intervalo está certa: 6 amostras com notação viraram 1 intervalo
   contíguo de 110,3 a 313,3 s, com o painel, o passo e o mecanismo de tempo declarados;
 - o erro é de **recorte de conteúdo**, não de arquitetura.
+
+## Medição seguinte: as FAIXAS FIXAS cortam o painel
+
+Consertadas duas causas (borda do quadro entrando como corda e grupo de linhas com
+espaçamento irregular — lacunas 16, 16, 15, 17, **140** px), a leitura mal melhorou
+(49 → 56 algarismos, confiança mediana 0,43 → 0,45). Olhando **onde** as linhas ficam:
+
+| instante | faixa escolhida | linhas detectadas (relativas à faixa) | o que é |
+| --- | --- | --- | --- |
+| 228,1 s (antes) | `topo` (0–400) | `[1, 138, 154, 170, 185, 202]` | 5 da partitura + **borda** |
+| 228,1 s (depois) | `topo` (0–400) | `[138, 154, 170, 185, 202, 342]` | 5 da partitura + **1 da tablatura** |
+| 228,1 s (com regularidade) | `meio` (300–750) | `[278, 288, 303, 313, 325, 336]` | grupo de 10–15 px: a **região do vídeo** |
+
+A causa é estrutural: **as três faixas fixas não são o painel**. No `(henze) nocturno` a
+partitura ocupa o `topo` inteiro e a tablatura **começa em y≈342 e continua abaixo de
+400** — ou seja, a tablatura é **cortada pela fronteira entre `topo` e `meio`**: 1 linha
+cai no `topo`, as outras 5 no `meio`. Nenhuma faixa contém as 6 linhas da tablatura.
+
+Contra o que o dono do projeto descreveu — *"a tablatura varia entre topo e base, e **não
+muda de lugar durante o vídeo**"* —, procurar o painel em **três faixas fixas** é a
+modelagem errada. O certo é procurar o painel **no quadro inteiro**: achar o grupo de 6
+linhas **igualmente espaçadas** em qualquer posição vertical, com o passo na faixa medida
+(14–45 px), e só então recortar. A faixa vira **resultado** da busca, não entrada dela.
+
+Custo: a busca no quadro inteiro examina as mesmas linhas que hoje (o perfil de tinta é
+uma conta só, sobre o quadro todo) — o que muda é o conjunto de grupos de 6 considerados.
+O `tab/varredura` mede **onde** há painel por instante; a mudança aqui é **como** o
+enquadramento é derivado.
