@@ -1722,6 +1722,25 @@ aprovados agora, era 201 no começo). Eu refutei a hipótese do vazio assimétri
 modelo *antigo* aprovava. **Olhar de novo, com o modelo de agora**, é o passo que falta — e é o que
 resolveu cinco vezes nesta noite.
 
+## 2026-10-09 — OLHANDO (modelo atual, metade direita): ele aprova a FAIXA VAZIA ENTRE AS PAUTAS
+
+A metade esquerda do `C07` eu já tinha visto; a **direita** mostrou o resto. O quadro tem **duas
+pautas empilhadas** (a mesma música em duas versões), e os quadrados — **vermelhos e verdes** — estão
+**na faixa vazia entre as duas pautas**. As marcas do dono (azuis) estão nos arcos da pauta de cima.
+
+**Consequência dura**: os poucos "casamentos" do teste fim a fim eram **coincidência de x** — um
+quadrado na faixa vazia que por acaso alinha com uma marca do arco acima (a minha tolerância de 2
+passos em y dá esse crédito). O `0,18` não é subestimação: é **generoso**.
+
+**E explica por que os meus negativos vazios não bastaram**: eu amostrei vazio **dentro de uma pauta**
+(entre as 6 cordas). A faixa **entre pautas** é mais larga (2–3 passos), **nunca esteve no treino**, e
+é onde ele aprova.
+
+**Próximo passo, concreto**: incluir nos negativos as **faixas vazias largas** — entre pautas e fora
+delas — e não só as lacunas internas de uma pauta. É a terceira variação da mesma classe (vazio
+simétrico → vazio deslocado → vazio largo entre pautas), e as duas primeiras só moveram o falso
+positivo do LOCA, não o fim a fim.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
