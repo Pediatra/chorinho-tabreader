@@ -7,7 +7,13 @@ de devolver None em vez de carimbar um instante para todas as notas.
 
 from __future__ import annotations
 
-from tab.tempo import atribuir_tempos, duracoes_por_onset, resumo, tempo_de_x
+from tab.tempo import (
+    atribuir_tempos,
+    duracoes_por_onset,
+    patamares,
+    resumo,
+    tempo_de_x,
+)
 
 
 def _serie_deslizante() -> list[tuple[float, int]]:
@@ -82,3 +88,38 @@ def test_serie_erratica_nao_e_travessia() -> None:
 def test_serie_monotonica_continua_deslizando() -> None:
     """O caso bom não pode ser afetado pela checagem de sentido."""
     assert resumo(_serie_deslizante())["veredito"] == "desliza"
+
+
+def test_patamares_encontra_os_degraus() -> None:
+    """Cursor que salta: x parado por várias amostras, depois salto, e assim por diante."""
+    serie = [(0.0, 100), (0.25, 100), (0.5, 100), (0.75, 250), (1.0, 250), (1.25, 250)]
+    degraus = patamares(serie)
+    assert degraus == [(0.0, 0.5, 100), (0.75, 1.25, 250)]
+
+
+def test_cursor_que_salta_e_reconhecido() -> None:
+    """Três patamares avançando para o mesmo lado = `salta`, não `parado`."""
+    serie = []
+    for i, x in enumerate([100, 240, 380, 520]):
+        serie += [(i * 1.0 + d * 0.25, x) for d in range(3)]
+    assert resumo(serie)["veredito"] == "salta"
+
+
+def test_patamar_unico_continua_parado() -> None:
+    """Ficar parado num x só não é cursor que salta — é ruído parado."""
+    assert resumo([(i * 0.25, 300) for i in range(20)])["veredito"] == "parado"
+
+
+def test_trepida_nao_vira_erratico() -> None:
+    """Banda que anda devagar e trepida ±2 px não é artefato — é lenta."""
+    # 1 px por segundo: anda sempre para o mesmo lado, mas devagar demais para dar onset
+    lenta = [(i * 1.0, 300 + i) for i in range(40)]
+    assert resumo(lenta)["veredito"] == "lento"
+
+
+def test_playhead_de_nota_passa_a_velocidade() -> None:
+    """O caso bom continua `desliza`: ~60 px/s."""
+    rapida = [(i * 0.5, 100 + i * 30) for i in range(30)]  # 60 px/s
+    r = resumo(rapida)
+    assert r["veredito"] == "desliza"
+    assert r["velocidade_px_s"] >= 5.0

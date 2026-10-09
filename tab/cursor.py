@@ -28,14 +28,31 @@ def detectar_cursor(
     frame_bgr: np.ndarray,
     altura_min_frac: float = 0.5,
     largura_max_frac: float = 0.06,
-    matizes: tuple[int, int] = (85, 140),
+    matizes: tuple[int, int] | None = None,
 ) -> tuple[int, int, tuple[int, int]] | None:
     """Devolve (x0, x1, (matiz, sat)) da banda do cursor, ou None.
 
-    Duas travas aprendidas na marra: a "banda" tem de ser ESTREITA (<= 6 % da largura) e
-    ter matiz de banda de playback (azul/pálido). Sem elas o detector achava o corpo do
-    violão (medido: 149 px de largura, matiz 16 = laranja) e chamava aquilo de cursor,
-    contaminando toda a medição de cobertura de tempo."""
+    **Sem suposição de cor.** Aqui havia portão de matiz fixo (85–140, azul), herdado de
+    quando o cursor medido era azul (rodada 1). Medido no `asturias` (1044 s) com o portão
+    aberto: o marcador do `sky guitar` é **laranja/vermelho, matiz 13–14**, e o portão azul
+    **rejeitava o marcador certo** — é a causa da varredura ter achado cursor em 69 de
+    3.993 vídeos. O dono do projeto já avisou: *"sempre tem marcador, uma faixa, e não tem
+    cor fixa"*.
+
+    O que continua valendo como trava é a **geometria**: banda estreita (<= 6 % da largura)
+    e cromática (não preto/branco/cinza da partitura). Quem aceita ou recusa um candidato
+    passa a ser o **movimento** (`tab.tempo.resumo`): banda parada ou que aparece em
+    lugares sem relação é descartada, por mais colorida que seja.
+
+    Args:
+        frame_bgr: quadro (ou recorte do painel).
+        altura_min_frac: fração mínima da altura que a banda precisa cobrir.
+        largura_max_frac: fração máxima da largura da imagem para a banda.
+        matizes: portão de matiz OPCIONAL, para quem já sabe a cor daquele canal.
+
+    Returns:
+        ``(x0, x1, (matiz, sat))`` ou None.
+    """
     hsv = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2HSV)
     h, w = frame_bgr.shape[:2]
     sat = hsv[:, :, 1]
@@ -72,8 +89,8 @@ def detectar_cursor(
     largura = x1 - x0 + 1
     if largura > largura_max_frac * w:  # largo demais: é madeira/objeto, não banda
         return None
-    if not (matizes[0] <= m_med <= matizes[1]):  # matiz fora do azul de playback
-        return None
+    if matizes is not None and not (matizes[0] <= m_med <= matizes[1]):
+        return None  # portão de cor OPCIONAL (default: sem suposição de cor)
     return int(x0), int(x1), (m_med, s_med)
 
 
