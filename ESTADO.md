@@ -1521,6 +1521,31 @@ resolveu.
 medir de novo — LOCA e fim a fim. A expectativa honesta: o LOCA vai **cair** (os negativos deixam de
 ser fáceis) e o fim a fim deve **subir**. Se o LOCA cair muito, o número novo é o verdadeiro.
 
+## 2026-10-09 — negativos corrigidos: o LOCA CAIU como previsto (0,77–0,79) e o número é esse
+
+Regerados **todos** os negativos a partir da **ROI** (onde os glifos vivem) — 2.263 recortes: 506
+difíceis (não-algarismo) + 1.757 algarismos, rebalanceado para 856. Mesmo conjunto de positivos
+(523). Resultado, e eu tinha dito **antes** de medir que o LOCA ia cair:
+
+| semente | símbolos pegos | falso positivo | **precisão** |
+| --- | --- | --- | --- |
+| 1 | 454/523 (0,87) | 136/856 (16 %) | **0,77** |
+| 2 | 460/523 (0,88) | 124/856 (14 %) | **0,79** |
+| 3 | 444/523 (0,85) | 118/856 (14 %) | **0,79** |
+
+Antes (negativos furados): 0,89–0,91 de precisão e 0,96–0,98 de recall. **O recall também caiu**
+(0,85–0,88). Estes são os números verdadeiros: **precisão 0,77–0,79, recall 0,85–0,88**. O número
+piorou porque a medição ficou honesta — e é o que eu quero registrado, não o bonito.
+
+**E a minha segunda previsão estava ERRADA**: eu disse que o fim a fim ia subir. Deu **0,15** (era
+0,12). Não subiu.
+
+**Mas o `0,15` ainda NÃO é medida**: o meu teste compara os **tokens (coordenada da ROI)** com as
+**marcas (coordenada da FAIXA)**, e a faixa é um recorte **dentro** da ROI (para o `iwaki`, a faixa
+começa 256 px abaixo do topo da ROI). O token que eu vi em `y=13` da ROI está em `y=-243` da faixa —
+**acima da tablatura**. É o mesmo bug de espaço, agora dentro do meu teste. **Não registro `0,15`
+como precisão da coleta.**
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
