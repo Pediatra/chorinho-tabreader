@@ -315,6 +315,49 @@ def criar(
     )
 
 
+def escolher_rapido(frame: np.ndarray) -> Candidato | None:
+    """Como `escolher`, mas sem pagar `segmentar` em faixa que não serve.
+
+    Medido num quadro real (1920x1080): `segmentar` custa **52 ms** na faixa da
+    tablatura, **190 ms** na do meio e **758 ms** na faixa do braço — porque ali a
+    cascata de máscaras é tentada inteira e falha. Como a regra decidida é
+    *uniformidade primeiro*, dá para medir o fundo das três faixas (38 ms cada) e
+    rodar `segmentar` **em ordem decrescente de uniformidade, parando na primeira que
+    serve**: o resultado é o mesmo e o custo cai ~4x nos vídeos em que a primeira ou a
+    segunda faixa já serve.
+
+    Args:
+        frame: quadro inteiro.
+
+    Returns:
+        O melhor candidato, ou None.
+    """
+    medidas: list[tuple[float, str, int, int, np.ndarray]] = []
+    for nome, y0, y1 in FAIXAS:
+        y1 = min(y1, frame.shape[0])
+        if y1 - y0 < 60:
+            continue
+        roi = frame[y0:y1, :]
+        medidas.append((uniformidade(roi), nome, y0, y1, roi))
+    for u, nome, y0, y1, roi in sorted(medidas, key=lambda m: -m[0]):
+        try:
+            g = segmentar(roi)
+        except Exception:
+            continue
+        if len(g.linhas_y) != 6 or len(g.glifos) < MIN_GLIFOS:
+            continue
+        return Candidato(
+            nome=nome,
+            y0=y0,
+            y1=y1,
+            roi=roi,
+            grade=g,
+            uniformidade=u,
+            score=(round(u, 3), g.glifos_centrados),
+        )
+    return None
+
+
 def escolher(frame: np.ndarray, min_glifos: int = MIN_GLIFOS) -> Candidato | None:
     """Escolhe a faixa que é painel de tablatura (ou None se não houver).
 
@@ -328,6 +371,9 @@ def escolher(frame: np.ndarray, min_glifos: int = MIN_GLIFOS) -> Candidato | Non
     Returns:
         O melhor candidato, ou None.
     """
-    achados = candidatos(frame, min_glifos)
-    esc = melhor(achados)
+    esc = (
+        escolher_rapido(frame)
+        if min_glifos == MIN_GLIFOS
+        else melhor(candidatos(frame, min_glifos))
+    )
     return refinar(esc) if esc is not None else None

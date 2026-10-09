@@ -35,7 +35,7 @@ import numpy as np
 
 from .caminhos import SAIDA
 from .cursor import detectar_cursor
-from .painel import FAIXAS, Candidato, criar, melhor, refinar, uniformidade
+from .painel import FAIXAS, criar, refinar, uniformidade
 from .tabseg import segmentar
 
 # O OpenCV grita a cada vídeo AV1 (44% do acervo) e isso poluiria horas de log.
@@ -184,45 +184,53 @@ def medir_linhas(banda: np.ndarray) -> dict:
 
 
 def medir_quadro(frame: np.ndarray) -> dict:
-    """Mede as três faixas do quadro: tablatura, linhas e cursor.
+    """Mede as três faixas: tablatura, linhas, fundo e cursor.
 
-    Duas correções medidas nesta noite, as duas de critério:
+    Custo medido num quadro real (1920x1080): `segmentar` custa **52 ms** na faixa da
+    tablatura, **190 ms** na do meio e **758 ms** na do braço — ali a cascata de
+    máscaras é tentada inteira e falha. Rodar `segmentar` nas três faixas sempre é
+    pagar o pior caso.
 
-    1. a escolha da faixa passa por `painel.melhor` (uniformidade do fundo primeiro).
-       O critério antigo — mais glifos centrados — escolhia o **braço do violão** num
-       quadro real do `sky guitar`, onde a tablatura de verdade estava em `meio`;
-    2. o cursor é procurado **dentro do ROI da faixa**, não no quadro inteiro. O portão
-       do detector exige faixa com >= 50 % da altura DA IMAGEM: no quadro de 1080 px
-       isso é 540 px, e o cursor tem a altura do painel (~150 px). Medido: o acervo
-       inteiro deu cursor em 69 de 3.993 vídeos, quando o histórico dizia ~50 % dos
-       quadros.
+    Aqui as medidas BARATAS (`medir_linhas` 2 ms, `uniformidade` 38 ms) rodam nas três
+    faixas e ficam gravadas; `segmentar` roda **em ordem decrescente de uniformidade,
+    parando na primeira faixa que serve** — que é exatamente a regra de escolha
+    decidida, então o resultado é o mesmo por 3 a 8x menos custo.
 
     Args:
         frame: quadro inteiro.
 
     Returns:
-        Dicionário com a faixa escolhida, a máscara/passo/glifos e as medidas cruas
-        de cada faixa (uniformidade, picos, cursor) para análise posterior sem reabrir
-        o vídeo.
+        Dicionário com a faixa escolhida e as medidas cruas de cada faixa, para
+        análise posterior sem reabrir o vídeo.
     """
     faixas: dict[str, dict] = {}
-    candidatos: list[Candidato] = []
+    medidas: list[tuple[float, str, int, int, np.ndarray]] = []
     for nome, y0, y1 in FAIXAS:
         y1 = min(y1, frame.shape[0])
         if y1 - y0 < 60:
             continue
         roi = frame[y0:y1, :]
+        u = uniformidade(roi)
         registro: dict = {
             "linhas": medir_linhas(roi),
-            "uniformidade": round(uniformidade(roi), 3),
+            "uniformidade": round(u, 3),
         }
+        det = detectar_cursor(roi)
+        registro["cursor"] = bool(det)
+        if det:
+            registro["cursor_largura"] = int(det[1] - det[0] + 1)
+            registro["cursor_matiz"] = int(det[2][0])
+        faixas[nome] = registro
+        medidas.append((u, nome, y0, y1, roi))
+
+    out: dict = {"tab": False, "faixas": faixas}
+    for _u, nome, y0, y1, roi in sorted(medidas, key=lambda m: -m[0]):
         try:
             g = segmentar(roi)
         except Exception as exc:  # nunca derrubar a varredura
-            registro["erro"] = type(exc).__name__
-            faixas[nome] = registro
+            faixas[nome]["erro"] = type(exc).__name__
             continue
-        registro.update(
+        faixas[nome].update(
             {
                 "n_linhas": len(g.linhas_y),
                 "passo": round(g.passo, 1),
@@ -230,30 +238,25 @@ def medir_quadro(frame: np.ndarray) -> dict:
                 "centrados": g.glifos_centrados,
             }
         )
-        det = detectar_cursor(roi)
-        registro["cursor"] = bool(det)
-        if det:
-            registro["cursor_largura"] = int(det[1] - det[0] + 1)
-            registro["cursor_matiz"] = int(det[2][0])
-        faixas[nome] = registro
         c = criar(nome, y0, y1, roi, g)
-        if c is not None:
-            candidatos.append(c)
-
-    escolhido = melhor(candidatos)
-    if escolhido is not None:
-        # O painel é um retângulo: estreita ao trecho onde as linhas existem,
-        # senão o braço do violão entra como glifo (medido: 19 de 36 tokens).
-        escolhido = refinar(escolhido)
-    out: dict = {"tab": False, "faixas": faixas}
-    if escolhido is not None:
-        g = escolhido.grade
-        det = detectar_cursor(escolhido.roi)
+        if c is None:
+            continue
+        c = refinar(c)
+        faixas[nome]["refinado_largura"] = int(c.roi.shape[1])
+        faixas[nome].update(
+            {
+                "n_linhas_refinado": len(c.grade.linhas_y),
+                "passo_refinado": round(c.grade.passo, 1),
+                "glifos_refinado": len(c.grade.glifos),
+                "centrados_refinado": c.grade.glifos_centrados,
+            }
+        )
+        g = c.grade
         out.update(
             {
                 "tab": True,
-                "faixa": escolhido.nome,
-                "uniformidade": round(escolhido.uniformidade, 3),
+                "faixa": c.nome,
+                "uniformidade": round(c.uniformidade, 3),
                 "passo": round(g.passo, 1),
                 "mascara": g.avisos[0].replace("mascara=", "") if g.avisos else None,
                 "glifos": len(g.glifos),
@@ -261,13 +264,11 @@ def medir_quadro(frame: np.ndarray) -> dict:
                 "colunas": len({x.coluna for x in g.glifos}),
                 "cordas_com_nota": len({x.corda for x in g.glifos}),
                 "y_linhas": g.linhas_y,
-                "cursor": bool(det),
             }
         )
-        if det:
-            out["cursor_largura"] = int(det[1] - det[0] + 1)
-            out["cursor_matiz"] = int(det[2][0])
-    else:
+        faixas[nome]["escolhida"] = True
+        break
+    if not out["tab"]:
         out["cursor"] = any(f.get("cursor") for f in faixas.values())
     return out
 
