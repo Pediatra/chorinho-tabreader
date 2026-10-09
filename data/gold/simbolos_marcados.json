@@ -514,3754 +514,3754 @@
    "arquivo": "001_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 0,
-   "y0": 296,
-   "x1": 6,
-   "y1": 314
+   "cx": 3,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "002_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 0,
-   "y0": 325,
-   "x1": 3,
-   "y1": 336
+   "cx": 1,
+   "cy": 330,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "003_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 41,
-   "y0": 289,
-   "x1": 59,
-   "y1": 294
+   "cx": 50,
+   "cy": 291,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "004_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 41,
-   "y0": 296,
-   "x1": 60,
-   "y1": 315
+   "cx": 50,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "005_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 39,
-   "y0": 317,
-   "x1": 61,
-   "y1": 336
+   "cx": 50,
+   "cy": 326,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "006_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 44,
-   "y0": 337,
-   "x1": 61,
-   "y1": 343
+   "cx": 52,
+   "cy": 340,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "007_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 81,
-   "y0": 276,
-   "x1": 93,
-   "y1": 294
+   "cx": 87,
+   "cy": 285,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "008_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 81,
-   "y0": 296,
-   "x1": 93,
-   "y1": 314
+   "cx": 87,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "009_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 83,
-   "y0": 338,
-   "x1": 89,
-   "y1": 356
+   "cx": 86,
+   "cy": 347,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "010_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 118,
-   "y0": 276,
-   "x1": 130,
-   "y1": 294
+   "cx": 124,
+   "cy": 285,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "011_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 118,
-   "y0": 296,
-   "x1": 130,
-   "y1": 314
+   "cx": 124,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "012_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 144,
-   "y0": 338,
-   "x1": 155,
-   "y1": 356
+   "cx": 149,
+   "cy": 347,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "013_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 168,
-   "y0": 276,
-   "x1": 179,
-   "y1": 294
+   "cx": 173,
+   "cy": 285,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "014_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 168,
-   "y0": 317,
-   "x1": 179,
-   "y1": 335
+   "cx": 173,
+   "cy": 326,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "015_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 219,
-   "y0": 288,
-   "x1": 230,
-   "y1": 294
+   "cx": 224,
+   "cy": 291,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "016_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 215,
-   "y0": 296,
-   "x1": 236,
-   "y1": 315
+   "cx": 225,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "017_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 214,
-   "y0": 317,
-   "x1": 236,
-   "y1": 336
+   "cx": 225,
+   "cy": 326,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "018_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 219,
-   "y0": 337,
-   "x1": 236,
-   "y1": 343
+   "cx": 227,
+   "cy": 340,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "019_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 257,
-   "y0": 255,
-   "x1": 268,
-   "y1": 273
+   "cx": 262,
+   "cy": 264,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "020_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 257,
-   "y0": 276,
-   "x1": 268,
-   "y1": 294
+   "cx": 262,
+   "cy": 285,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "021_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 258,
-   "y0": 296,
-   "x1": 264,
-   "y1": 314
+   "cx": 261,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "022_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 257,
-   "y0": 358,
-   "x1": 268,
-   "y1": 376
+   "cx": 262,
+   "cy": 367,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "023_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 312,
-   "y0": 358,
-   "x1": 324,
-   "y1": 376
+   "cx": 318,
+   "cy": 367,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "024_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 342,
-   "y0": 276,
-   "x1": 353,
-   "y1": 294
+   "cx": 347,
+   "cy": 285,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "025_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 371,
-   "y0": 255,
-   "x1": 382,
-   "y1": 273
+   "cx": 376,
+   "cy": 264,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "026_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 425,
-   "y0": 276,
-   "x1": 437,
-   "y1": 294
+   "cx": 431,
+   "cy": 285,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "027_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 425,
-   "y0": 296,
-   "x1": 437,
-   "y1": 314
+   "cx": 431,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "028_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 425,
-   "y0": 317,
-   "x1": 437,
-   "y1": 334
+   "cx": 431,
+   "cy": 325,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "029_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 425,
-   "y0": 338,
-   "x1": 437,
-   "y1": 356
+   "cx": 431,
+   "cy": 347,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "030_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 481,
-   "y0": 317,
-   "x1": 493,
-   "y1": 334
+   "cx": 487,
+   "cy": 325,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "031_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 481,
-   "y0": 358,
-   "x1": 493,
-   "y1": 376
+   "cx": 487,
+   "cy": 367,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "032_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 520,
-   "y0": 296,
-   "x1": 531,
-   "y1": 315
+   "cx": 525,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "033_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 574,
-   "y0": 296,
-   "x1": 586,
-   "y1": 315
+   "cx": 580,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "034_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 574,
-   "y0": 317,
-   "x1": 584,
-   "y1": 328
+   "cx": 579,
+   "cy": 322,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "035_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 574,
-   "y0": 338,
-   "x1": 585,
-   "y1": 356
+   "cx": 579,
+   "cy": 347,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "036_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 630,
-   "y0": 317,
-   "x1": 641,
-   "y1": 335
+   "cx": 635,
+   "cy": 326,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "037_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 659,
-   "y0": 296,
-   "x1": 671,
-   "y1": 315
+   "cx": 665,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "038_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 688,
-   "y0": 296,
-   "x1": 700,
-   "y1": 314
+   "cx": 694,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "039_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 744,
-   "y0": 276,
-   "x1": 750,
-   "y1": 294
+   "cx": 747,
+   "cy": 285,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "040_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 743,
-   "y0": 296,
-   "x1": 754,
-   "y1": 314
+   "cx": 748,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "041_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 743,
-   "y0": 358,
-   "x1": 754,
-   "y1": 376
+   "cx": 748,
+   "cy": 367,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "042_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 799,
-   "y0": 296,
-   "x1": 810,
-   "y1": 314
+   "cx": 804,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "043_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 799,
-   "y0": 317,
-   "x1": 810,
-   "y1": 335
+   "cx": 804,
+   "cy": 326,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "044_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 799,
-   "y0": 338,
-   "x1": 810,
-   "y1": 356
+   "cx": 804,
+   "cy": 347,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "045_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 846,
-   "y0": 296,
-   "x1": 857,
-   "y1": 315
+   "cx": 851,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "046_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 903,
-   "y0": 296,
-   "x1": 914,
-   "y1": 314
+   "cx": 908,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "047_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 903,
-   "y0": 317,
-   "x1": 912,
-   "y1": 328
+   "cx": 907,
+   "cy": 322,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "048_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 903,
-   "y0": 358,
-   "x1": 914,
-   "y1": 376
+   "cx": 908,
+   "cy": 367,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "049_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 941,
-   "y0": 296,
-   "x1": 952,
-   "y1": 315
+   "cx": 946,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "050_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 978,
-   "y0": 296,
-   "x1": 989,
-   "y1": 315
+   "cx": 983,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "051_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 978,
-   "y0": 317,
-   "x1": 989,
-   "y1": 335
+   "cx": 983,
+   "cy": 326,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "052_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 978,
-   "y0": 358,
-   "x1": 989,
-   "y1": 376
+   "cx": 983,
+   "cy": 367,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "053_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1014,
-   "y0": 296,
-   "x1": 1026,
-   "y1": 314
+   "cx": 1020,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "054_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1069,
-   "y0": 296,
-   "x1": 1081,
-   "y1": 314
+   "cx": 1075,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "055_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1071,
-   "y0": 317,
-   "x1": 1077,
-   "y1": 334
+   "cx": 1074,
+   "cy": 325,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "056_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1127,
-   "y0": 338,
-   "x1": 1133,
-   "y1": 356
+   "cx": 1130,
+   "cy": 347,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "057_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1197,
-   "y0": 317,
-   "x1": 1207,
-   "y1": 328
+   "cx": 1202,
+   "cy": 322,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "058_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1199,
-   "y0": 338,
-   "x1": 1205,
-   "y1": 356
+   "cx": 1202,
+   "cy": 347,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "059_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1253,
-   "y0": 338,
-   "x1": 1265,
-   "y1": 356
+   "cx": 1259,
+   "cy": 347,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "060_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1291,
-   "y0": 276,
-   "x1": 1303,
-   "y1": 294
+   "cx": 1297,
+   "cy": 285,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "061_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1345,
-   "y0": 309,
-   "x1": 1362,
-   "y1": 315
+   "cx": 1353,
+   "cy": 312,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "062_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1350,
-   "y0": 317,
-   "x1": 1358,
-   "y1": 336
+   "cx": 1354,
+   "cy": 326,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "063_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1349,
-   "y0": 337,
-   "x1": 1358,
-   "y1": 346
+   "cx": 1353,
+   "cy": 341,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "064_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1375,
-   "y0": 296,
-   "x1": 1387,
-   "y1": 314
+   "cx": 1381,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "065_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1375,
-   "y0": 317,
-   "x1": 1386,
-   "y1": 335
+   "cx": 1380,
+   "cy": 326,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "066_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1375,
-   "y0": 338,
-   "x1": 1387,
-   "y1": 356
+   "cx": 1381,
+   "cy": 347,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "067_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1432,
-   "y0": 317,
-   "x1": 1444,
-   "y1": 335
+   "cx": 1438,
+   "cy": 326,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "068_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1469,
-   "y0": 296,
-   "x1": 1480,
-   "y1": 315
+   "cx": 1474,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "069_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1523,
-   "y0": 317,
-   "x1": 1535,
-   "y1": 335
+   "cx": 1529,
+   "cy": 326,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "070_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1523,
-   "y0": 338,
-   "x1": 1535,
-   "y1": 356
+   "cx": 1529,
+   "cy": 347,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "071_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1523,
-   "y0": 358,
-   "x1": 1535,
-   "y1": 376
+   "cx": 1529,
+   "cy": 367,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "072_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1579,
-   "y0": 317,
-   "x1": 1591,
-   "y1": 335
+   "cx": 1585,
+   "cy": 326,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "073_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1616,
-   "y0": 296,
-   "x1": 1628,
-   "y1": 314
+   "cx": 1622,
+   "cy": 305,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "074_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1671,
-   "y0": 317,
-   "x1": 1682,
-   "y1": 335
+   "cx": 1676,
+   "cy": 326,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "075_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1671,
-   "y0": 338,
-   "x1": 1682,
-   "y1": 356
+   "cx": 1676,
+   "cy": 347,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "076_kimny's guitar_04.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
-   "x0": 1726,
-   "y0": 317,
-   "x1": 1738,
-   "y1": 334
+   "cx": 1732,
+   "cy": 325,
+   "lado": 32,
+   "passo": 20.4
   },
   {
    "arquivo": "077_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 102,
-   "y0": 13,
-   "x1": 107,
-   "y1": 36
+   "cx": 104,
+   "cy": 24,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "078_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 94,
-   "y0": 36,
-   "x1": 104,
-   "y1": 59
+   "cx": 99,
+   "cy": 47,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "079_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 62,
-   "y0": 62,
-   "x1": 95,
-   "y1": 83
+   "cx": 78,
+   "cy": 72,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "080_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 68,
-   "y0": 98,
-   "x1": 71,
-   "y1": 110
+   "cx": 69,
+   "cy": 104,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "081_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 69,
-   "y0": 111,
-   "x1": 71,
-   "y1": 134
+   "cx": 70,
+   "cy": 122,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "082_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 69,
-   "y0": 135,
-   "x1": 71,
-   "y1": 158
+   "cx": 70,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "083_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 215,
-   "y0": 13,
-   "x1": 258,
-   "y1": 33
+   "cx": 236,
+   "cy": 23,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "084_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 201,
-   "y0": 37,
-   "x1": 229,
-   "y1": 59
+   "cx": 215,
+   "cy": 48,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "085_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 213,
-   "y0": 74,
-   "x1": 215,
-   "y1": 85
+   "cx": 214,
+   "cy": 79,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "086_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 212,
-   "y0": 87,
-   "x1": 216,
-   "y1": 110
+   "cx": 214,
+   "cy": 98,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "087_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 213,
-   "y0": 111,
-   "x1": 215,
-   "y1": 134
+   "cx": 214,
+   "cy": 122,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "088_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 213,
-   "y0": 135,
-   "x1": 215,
-   "y1": 158
+   "cx": 214,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "089_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 303,
-   "y0": 62,
-   "x1": 318,
-   "y1": 83
+   "cx": 310,
+   "cy": 72,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "090_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 308,
-   "y0": 98,
-   "x1": 312,
-   "y1": 110
+   "cx": 310,
+   "cy": 104,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "091_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 310,
-   "y0": 111,
-   "x1": 312,
-   "y1": 134
+   "cx": 311,
+   "cy": 122,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "092_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 310,
-   "y0": 135,
-   "x1": 312,
-   "y1": 158
+   "cx": 311,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "093_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 400,
-   "y0": 62,
-   "x1": 414,
-   "y1": 83
+   "cx": 407,
+   "cy": 72,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "094_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 406,
-   "y0": 99,
-   "x1": 408,
-   "y1": 110
+   "cx": 407,
+   "cy": 104,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "095_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 406,
-   "y0": 111,
-   "x1": 408,
-   "y1": 134
+   "cx": 407,
+   "cy": 122,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "096_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 406,
-   "y0": 135,
-   "x1": 408,
-   "y1": 158
+   "cx": 407,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "097_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 449,
-   "y0": 63,
-   "x1": 463,
-   "y1": 83
+   "cx": 456,
+   "cy": 73,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "098_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 455,
-   "y0": 98,
-   "x1": 460,
-   "y1": 110
+   "cx": 457,
+   "cy": 104,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "099_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 455,
-   "y0": 111,
-   "x1": 457,
-   "y1": 134
+   "cx": 456,
+   "cy": 122,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "100_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 455,
-   "y0": 135,
-   "x1": 457,
-   "y1": 158
+   "cx": 456,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "101_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 497,
-   "y0": 62,
-   "x1": 511,
-   "y1": 83
+   "cx": 504,
+   "cy": 72,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "102_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 503,
-   "y0": 98,
-   "x1": 506,
-   "y1": 110
+   "cx": 504,
+   "cy": 104,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "103_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 503,
-   "y0": 111,
-   "x1": 505,
-   "y1": 134
+   "cx": 504,
+   "cy": 122,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "104_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 503,
-   "y0": 135,
-   "x1": 505,
-   "y1": 158
+   "cx": 504,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "105_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 509,
-   "y0": 38,
-   "x1": 548,
-   "y1": 47
+   "cx": 528,
+   "cy": 42,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "106_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 545,
-   "y0": 63,
-   "x1": 559,
-   "y1": 83
+   "cx": 552,
+   "cy": 73,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "107_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 551,
-   "y0": 98,
-   "x1": 553,
-   "y1": 110
+   "cx": 552,
+   "cy": 104,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "108_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 551,
-   "y0": 111,
-   "x1": 553,
-   "y1": 134
+   "cx": 552,
+   "cy": 122,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "109_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 551,
-   "y0": 135,
-   "x1": 553,
-   "y1": 158
+   "cx": 552,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "110_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 593,
-   "y0": 87,
-   "x1": 607,
-   "y1": 108
+   "cx": 600,
+   "cy": 97,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "111_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 599,
-   "y0": 123,
-   "x1": 601,
-   "y1": 134
+   "cx": 600,
+   "cy": 128,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "112_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 599,
-   "y0": 135,
-   "x1": 601,
-   "y1": 158
+   "cx": 600,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "113_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 689,
-   "y0": 63,
-   "x1": 703,
-   "y1": 83
+   "cx": 696,
+   "cy": 73,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "114_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 695,
-   "y0": 98,
-   "x1": 697,
-   "y1": 110
+   "cx": 696,
+   "cy": 104,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "115_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 695,
-   "y0": 111,
-   "x1": 697,
-   "y1": 134
+   "cx": 696,
+   "cy": 122,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "116_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 695,
-   "y0": 135,
-   "x1": 697,
-   "y1": 158
+   "cx": 696,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "117_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 737,
-   "y0": 87,
-   "x1": 751,
-   "y1": 108
+   "cx": 744,
+   "cy": 97,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "118_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 743,
-   "y0": 123,
-   "x1": 745,
-   "y1": 134
+   "cx": 744,
+   "cy": 128,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "119_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 743,
-   "y0": 135,
-   "x1": 745,
-   "y1": 158
+   "cx": 744,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "120_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 785,
-   "y0": 87,
-   "x1": 799,
-   "y1": 107
+   "cx": 792,
+   "cy": 97,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "121_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 791,
-   "y0": 123,
-   "x1": 793,
-   "y1": 134
+   "cx": 792,
+   "cy": 128,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "122_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 791,
-   "y0": 148,
-   "x1": 793,
-   "y1": 158
+   "cx": 792,
+   "cy": 153,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "123_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 832,
-   "y0": 87,
-   "x1": 846,
-   "y1": 108
+   "cx": 839,
+   "cy": 97,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "124_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 880,
-   "y0": 87,
-   "x1": 894,
-   "y1": 107
+   "cx": 887,
+   "cy": 97,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "125_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 886,
-   "y0": 135,
-   "x1": 888,
-   "y1": 158
+   "cx": 887,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "126_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 928,
-   "y0": 112,
-   "x1": 942,
-   "y1": 133
+   "cx": 935,
+   "cy": 122,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "127_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 934,
-   "y0": 148,
-   "x1": 936,
-   "y1": 158
+   "cx": 935,
+   "cy": 153,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "128_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 976,
-   "y0": 87,
-   "x1": 990,
-   "y1": 107
+   "cx": 983,
+   "cy": 97,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "129_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 982,
-   "y0": 135,
-   "x1": 984,
-   "y1": 158
+   "cx": 983,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "130_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1024,
-   "y0": 87,
-   "x1": 1038,
-   "y1": 108
+   "cx": 1031,
+   "cy": 97,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "131_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1030,
-   "y0": 135,
-   "x1": 1032,
-   "y1": 158
+   "cx": 1031,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "132_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1071,
-   "y0": 63,
-   "x1": 1085,
-   "y1": 83
+   "cx": 1078,
+   "cy": 73,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "133_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1077,
-   "y0": 98,
-   "x1": 1079,
-   "y1": 110
+   "cx": 1078,
+   "cy": 104,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "134_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1077,
-   "y0": 111,
-   "x1": 1079,
-   "y1": 134
+   "cx": 1078,
+   "cy": 122,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "135_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1077,
-   "y0": 135,
-   "x1": 1079,
-   "y1": 158
+   "cx": 1078,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "136_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1131,
-   "y0": 38,
-   "x1": 1169,
-   "y1": 47
+   "cx": 1150,
+   "cy": 42,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "137_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1167,
-   "y0": 63,
-   "x1": 1181,
-   "y1": 83
+   "cx": 1174,
+   "cy": 73,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "138_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1215,
-   "y0": 87,
-   "x1": 1229,
-   "y1": 108
+   "cx": 1222,
+   "cy": 97,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "139_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1220,
-   "y0": 123,
-   "x1": 1222,
-   "y1": 134
+   "cx": 1221,
+   "cy": 128,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "140_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1220,
-   "y0": 135,
-   "x1": 1222,
-   "y1": 158
+   "cx": 1221,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "141_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1310,
-   "y0": 62,
-   "x1": 1324,
-   "y1": 83
+   "cx": 1317,
+   "cy": 72,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "142_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1522,
-   "y0": 62,
-   "x1": 1553,
-   "y1": 85
+   "cx": 1537,
+   "cy": 73,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "143_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1685,
-   "y0": 16,
-   "x1": 1732,
-   "y1": 36
+   "cx": 1708,
+   "cy": 26,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "144_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1676,
-   "y0": 40,
-   "x1": 1712,
-   "y1": 56
+   "cx": 1694,
+   "cy": 48,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "145_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1719,
-   "y0": 37,
-   "x1": 1745,
-   "y1": 58
+   "cx": 1732,
+   "cy": 47,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "146_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1730,
-   "y0": 74,
-   "x1": 1732,
-   "y1": 85
+   "cx": 1731,
+   "cy": 79,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "147_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1725,
-   "y0": 87,
-   "x1": 1732,
-   "y1": 110
+   "cx": 1728,
+   "cy": 98,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "148_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1730,
-   "y0": 111,
-   "x1": 1732,
-   "y1": 134
+   "cx": 1731,
+   "cy": 122,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "149_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1730,
-   "y0": 135,
-   "x1": 1732,
-   "y1": 158
+   "cx": 1731,
+   "cy": 146,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "150_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1779,
-   "y0": 13,
-   "x1": 1788,
-   "y1": 33
+   "cx": 1783,
+   "cy": 23,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "151_mr. tabs_06.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
-   "x0": 1839,
-   "y0": 13,
-   "x1": 1848,
-   "y1": 33
+   "cx": 1843,
+   "cy": 23,
+   "lado": 40,
+   "passo": 24.4
   },
   {
    "arquivo": "152_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 52,
-   "y0": 61,
-   "x1": 60,
-   "y1": 81
+   "cx": 56,
+   "cy": 71,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "153_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 49,
-   "y0": 133,
-   "x1": 63,
-   "y1": 153
+   "cx": 56,
+   "cy": 143,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "154_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 164,
-   "y0": 13,
-   "x1": 178,
-   "y1": 33
+   "cx": 171,
+   "cy": 23,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "155_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 164,
-   "y0": 37,
-   "x1": 178,
-   "y1": 58
+   "cx": 171,
+   "cy": 47,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "156_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 237,
-   "y0": 61,
-   "x1": 248,
-   "y1": 74
+   "cx": 242,
+   "cy": 67,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "157_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 309,
-   "y0": 13,
-   "x1": 323,
-   "y1": 33
+   "cx": 316,
+   "cy": 23,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "158_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 309,
-   "y0": 37,
-   "x1": 323,
-   "y1": 57
+   "cx": 316,
+   "cy": 47,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "159_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 318,
-   "y0": 85,
-   "x1": 331,
-   "y1": 105
+   "cx": 324,
+   "cy": 95,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "160_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 309,
-   "y0": 109,
-   "x1": 323,
-   "y1": 129
+   "cx": 316,
+   "cy": 119,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "161_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 382,
-   "y0": 85,
-   "x1": 392,
-   "y1": 98
+   "cx": 387,
+   "cy": 91,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "162_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 490,
-   "y0": 61,
-   "x1": 499,
-   "y1": 81
+   "cx": 494,
+   "cy": 71,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "163_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 488,
-   "y0": 133,
-   "x1": 501,
-   "y1": 153
+   "cx": 494,
+   "cy": 143,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "164_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 575,
-   "y0": 61,
-   "x1": 587,
-   "y1": 74
+   "cx": 581,
+   "cy": 67,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "165_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 637,
-   "y0": 61,
-   "x1": 683,
-   "y1": 81
+   "cx": 660,
+   "cy": 71,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "166_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 600,
-   "y0": 90,
-   "x1": 632,
-   "y1": 102
+   "cx": 616,
+   "cy": 96,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "167_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 753,
-   "y0": 61,
-   "x1": 765,
-   "y1": 81
+   "cx": 759,
+   "cy": 71,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "168_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 791,
-   "y0": 66,
-   "x1": 800,
-   "y1": 81
+   "cx": 795,
+   "cy": 73,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "169_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 812,
-   "y0": 66,
-   "x1": 828,
-   "y1": 81
+   "cx": 820,
+   "cy": 73,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "170_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 795,
-   "y0": 85,
-   "x1": 815,
-   "y1": 95
+   "cx": 805,
+   "cy": 90,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "171_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 840,
-   "y0": 61,
-   "x1": 853,
-   "y1": 81
+   "cx": 846,
+   "cy": 71,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "172_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 841,
-   "y0": 85,
-   "x1": 853,
-   "y1": 105
+   "cx": 847,
+   "cy": 95,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "173_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 841,
-   "y0": 133,
-   "x1": 853,
-   "y1": 153
+   "cx": 847,
+   "cy": 143,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "174_pablo romé_07.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
-   "x0": 948,
-   "y0": 61,
-   "x1": 959,
-   "y1": 81
+   "cx": 953,
+   "cy": 71,
+   "lado": 38,
+   "passo": 23.6
   },
   {
    "arquivo": "175_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 104,
-   "y0": 22,
-   "x1": 114,
-   "y1": 36
+   "cx": 109,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "176_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 93,
-   "y0": 82,
-   "x1": 102,
-   "y1": 96
+   "cx": 97,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "177_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 165,
-   "y0": 37,
-   "x1": 175,
-   "y1": 51
+   "cx": 170,
+   "cy": 44,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "178_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 201,
-   "y0": 22,
-   "x1": 210,
-   "y1": 36
+   "cx": 205,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "179_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 206,
-   "y0": 37,
-   "x1": 218,
-   "y1": 41
+   "cx": 212,
+   "cy": 39,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "180_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 237,
-   "y0": 8,
-   "x1": 246,
-   "y1": 23
+   "cx": 241,
+   "cy": 15,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "181_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 237,
-   "y0": 21,
-   "x1": 246,
-   "y1": 36
+   "cx": 241,
+   "cy": 28,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "182_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 230,
-   "y0": 37,
-   "x1": 242,
-   "y1": 41
+   "cx": 236,
+   "cy": 39,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "183_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 273,
-   "y0": 8,
-   "x1": 283,
-   "y1": 21
+   "cx": 278,
+   "cy": 14,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "184_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 347,
-   "y0": 8,
-   "x1": 359,
-   "y1": 12
+   "cx": 353,
+   "cy": 10,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "185_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 388,
-   "y0": 8,
-   "x1": 398,
-   "y1": 21
+   "cx": 393,
+   "cy": 14,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "186_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 377,
-   "y0": 67,
-   "x1": 387,
-   "y1": 81
+   "cx": 382,
+   "cy": 74,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "187_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 516,
-   "y0": 8,
-   "x1": 526,
-   "y1": 22
+   "cx": 521,
+   "cy": 15,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "188_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 516,
-   "y0": 67,
-   "x1": 526,
-   "y1": 81
+   "cx": 521,
+   "cy": 74,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "189_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 556,
-   "y0": 37,
-   "x1": 566,
-   "y1": 51
+   "cx": 561,
+   "cy": 44,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "190_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 595,
-   "y0": 22,
-   "x1": 605,
-   "y1": 36
+   "cx": 600,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "191_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 625,
-   "y0": 8,
-   "x1": 635,
-   "y1": 21
+   "cx": 630,
+   "cy": 14,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "192_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 691,
-   "y0": 8,
-   "x1": 696,
-   "y1": 21
+   "cx": 693,
+   "cy": 14,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "193_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 679,
-   "y0": 52,
-   "x1": 688,
-   "y1": 66
+   "cx": 683,
+   "cy": 59,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "194_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 715,
-   "y0": 37,
-   "x1": 724,
-   "y1": 51
+   "cx": 719,
+   "cy": 44,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "195_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 752,
-   "y0": 22,
-   "x1": 758,
-   "y1": 36
+   "cx": 755,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "196_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 787,
-   "y0": 37,
-   "x1": 797,
-   "y1": 51
+   "cx": 792,
+   "cy": 44,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "197_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 814,
-   "y0": 8,
-   "x1": 823,
-   "y1": 22
+   "cx": 818,
+   "cy": 15,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "198_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 841,
-   "y0": 22,
-   "x1": 850,
-   "y1": 36
+   "cx": 845,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "199_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 870,
-   "y0": 22,
-   "x1": 880,
-   "y1": 36
+   "cx": 875,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "200_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 949,
-   "y0": 22,
-   "x1": 958,
-   "y1": 36
+   "cx": 953,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "201_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 938,
-   "y0": 82,
-   "x1": 947,
-   "y1": 96
+   "cx": 942,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "202_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 974,
-   "y0": 52,
-   "x1": 983,
-   "y1": 66
+   "cx": 978,
+   "cy": 59,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "203_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1011,
-   "y0": 37,
-   "x1": 1017,
-   "y1": 51
+   "cx": 1014,
+   "cy": 44,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "204_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1046,
-   "y0": 52,
-   "x1": 1056,
-   "y1": 66
+   "cx": 1051,
+   "cy": 59,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "205_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1074,
-   "y0": 22,
-   "x1": 1080,
-   "y1": 36
+   "cx": 1077,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "206_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1101,
-   "y0": 37,
-   "x1": 1107,
-   "y1": 51
+   "cx": 1104,
+   "cy": 44,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "207_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1127,
-   "y0": 22,
-   "x1": 1137,
-   "y1": 36
+   "cx": 1132,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "208_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1206,
-   "y0": 22,
-   "x1": 1215,
-   "y1": 36
+   "cx": 1210,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "209_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1195,
-   "y0": 67,
-   "x1": 1205,
-   "y1": 81
+   "cx": 1200,
+   "cy": 74,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "210_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1231,
-   "y0": 52,
-   "x1": 1241,
-   "y1": 66
+   "cx": 1236,
+   "cy": 59,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "211_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1267,
-   "y0": 37,
-   "x1": 1276,
-   "y1": 51
+   "cx": 1271,
+   "cy": 44,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "212_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1303,
-   "y0": 52,
-   "x1": 1313,
-   "y1": 66
+   "cx": 1308,
+   "cy": 59,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "213_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1339,
-   "y0": 22,
-   "x1": 1349,
-   "y1": 36
+   "cx": 1344,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "214_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1375,
-   "y0": 52,
-   "x1": 1385,
-   "y1": 66
+   "cx": 1380,
+   "cy": 59,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "215_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1412,
-   "y0": 37,
-   "x1": 1421,
-   "y1": 51
+   "cx": 1416,
+   "cy": 44,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "216_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1448,
-   "y0": 52,
-   "x1": 1457,
-   "y1": 66
+   "cx": 1452,
+   "cy": 59,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "217_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1527,
-   "y0": 22,
-   "x1": 1537,
-   "y1": 36
+   "cx": 1532,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "218_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1516,
-   "y0": 82,
-   "x1": 1525,
-   "y1": 96
+   "cx": 1520,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "219_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1552,
-   "y0": 52,
-   "x1": 1561,
-   "y1": 66
+   "cx": 1556,
+   "cy": 59,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "220_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1588,
-   "y0": 37,
-   "x1": 1598,
-   "y1": 51
+   "cx": 1593,
+   "cy": 44,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "221_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1624,
-   "y0": 52,
-   "x1": 1634,
-   "y1": 66
+   "cx": 1629,
+   "cy": 59,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "222_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1660,
-   "y0": 37,
-   "x1": 1670,
-   "y1": 51
+   "cx": 1665,
+   "cy": 44,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "223_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1696,
-   "y0": 52,
-   "x1": 1706,
-   "y1": 66
+   "cx": 1701,
+   "cy": 59,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "224_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1732,
-   "y0": 22,
-   "x1": 1742,
-   "y1": 36
+   "cx": 1737,
+   "cy": 29,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "225_serge kottelat_10.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
-   "x0": 1768,
-   "y0": 37,
-   "x1": 1778,
-   "y1": 51
+   "cx": 1773,
+   "cy": 44,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "226_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 106,
-   "y0": 241,
-   "x1": 119,
-   "y1": 260
+   "cx": 112,
+   "cy": 250,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "227_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 112,
-   "y0": 263,
-   "x1": 115,
-   "y1": 283
+   "cx": 113,
+   "cy": 273,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "228_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 112,
-   "y0": 284,
-   "x1": 115,
-   "y1": 305
+   "cx": 113,
+   "cy": 294,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "229_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 112,
-   "y0": 305,
-   "x1": 115,
-   "y1": 324
+   "cx": 113,
+   "cy": 314,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "230_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 106,
-   "y0": 328,
-   "x1": 119,
-   "y1": 347
+   "cx": 112,
+   "cy": 337,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "231_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 167,
-   "y0": 219,
-   "x1": 202,
-   "y1": 236
+   "cx": 184,
+   "cy": 227,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "232_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 161,
-   "y0": 241,
-   "x1": 174,
-   "y1": 260
+   "cx": 167,
+   "cy": 250,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "233_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 166,
-   "y0": 263,
-   "x1": 169,
-   "y1": 281
+   "cx": 167,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "234_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 161,
-   "y0": 284,
-   "x1": 174,
-   "y1": 303
+   "cx": 167,
+   "cy": 293,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "235_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 166,
-   "y0": 308,
-   "x1": 169,
-   "y1": 326
+   "cx": 167,
+   "cy": 317,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "236_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 166,
-   "y0": 326,
-   "x1": 169,
-   "y1": 347
+   "cx": 167,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "237_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 237,
-   "y0": 241,
-   "x1": 250,
-   "y1": 260
+   "cx": 243,
+   "cy": 250,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "238_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 237,
-   "y0": 263,
-   "x1": 250,
-   "y1": 282
+   "cx": 243,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "239_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 242,
-   "y0": 287,
-   "x1": 245,
-   "y1": 305
+   "cx": 243,
+   "cy": 296,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "240_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 242,
-   "y0": 305,
-   "x1": 245,
-   "y1": 326
+   "cx": 243,
+   "cy": 315,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "241_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 242,
-   "y0": 326,
-   "x1": 245,
-   "y1": 347
+   "cx": 243,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "242_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 298,
-   "y0": 241,
-   "x1": 336,
-   "y1": 259
+   "cx": 317,
+   "cy": 250,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "243_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 291,
-   "y0": 263,
-   "x1": 304,
-   "y1": 282
+   "cx": 297,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "244_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 330,
-   "y0": 263,
-   "x1": 343,
-   "y1": 282
+   "cx": 336,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "245_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 298,
-   "y0": 286,
-   "x1": 301,
-   "y1": 305
+   "cx": 299,
+   "cy": 295,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "246_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 334,
-   "y0": 286,
-   "x1": 338,
-   "y1": 305
+   "cx": 336,
+   "cy": 295,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "247_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 298,
-   "y0": 305,
-   "x1": 301,
-   "y1": 326
+   "cx": 299,
+   "cy": 315,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "248_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 334,
-   "y0": 305,
-   "x1": 338,
-   "y1": 326
+   "cx": 336,
+   "cy": 315,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "249_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 298,
-   "y0": 326,
-   "x1": 301,
-   "y1": 347
+   "cx": 299,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "250_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 334,
-   "y0": 326,
-   "x1": 338,
-   "y1": 347
+   "cx": 336,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "251_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 375,
-   "y0": 241,
-   "x1": 409,
-   "y1": 257
+   "cx": 392,
+   "cy": 249,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "252_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 367,
-   "y0": 263,
-   "x1": 380,
-   "y1": 282
+   "cx": 373,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "253_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 406,
-   "y0": 263,
-   "x1": 419,
-   "y1": 282
+   "cx": 412,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "254_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 374,
-   "y0": 284,
-   "x1": 377,
-   "y1": 305
+   "cx": 375,
+   "cy": 294,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "255_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 410,
-   "y0": 286,
-   "x1": 414,
-   "y1": 305
+   "cx": 412,
+   "cy": 295,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "256_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 374,
-   "y0": 305,
-   "x1": 377,
-   "y1": 324
+   "cx": 375,
+   "cy": 314,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "257_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 410,
-   "y0": 305,
-   "x1": 414,
-   "y1": 326
+   "cx": 412,
+   "cy": 315,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "258_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 368,
-   "y0": 328,
-   "x1": 380,
-   "y1": 347
+   "cx": 374,
+   "cy": 337,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "259_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 410,
-   "y0": 326,
-   "x1": 414,
-   "y1": 347
+   "cx": 412,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "260_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 444,
-   "y0": 284,
-   "x1": 456,
-   "y1": 303
+   "cx": 450,
+   "cy": 293,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "261_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 444,
-   "y0": 306,
-   "x1": 456,
-   "y1": 325
+   "cx": 450,
+   "cy": 315,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "262_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 449,
-   "y0": 330,
-   "x1": 453,
-   "y1": 347
+   "cx": 451,
+   "cy": 338,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "263_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 482,
-   "y0": 263,
-   "x1": 495,
-   "y1": 282
+   "cx": 488,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "264_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 488,
-   "y0": 287,
-   "x1": 492,
-   "y1": 305
+   "cx": 490,
+   "cy": 296,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "265_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 488,
-   "y0": 305,
-   "x1": 492,
-   "y1": 326
+   "cx": 490,
+   "cy": 315,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "266_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 488,
-   "y0": 326,
-   "x1": 492,
-   "y1": 347
+   "cx": 490,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "267_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 528,
-   "y0": 241,
-   "x1": 565,
-   "y1": 257
+   "cx": 546,
+   "cy": 249,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "268_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 520,
-   "y0": 263,
-   "x1": 533,
-   "y1": 282
+   "cx": 526,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "269_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 558,
-   "y0": 263,
-   "x1": 571,
-   "y1": 282
+   "cx": 564,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "270_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 520,
-   "y0": 284,
-   "x1": 533,
-   "y1": 303
+   "cx": 526,
+   "cy": 293,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "271_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 564,
-   "y0": 286,
-   "x1": 568,
-   "y1": 305
+   "cx": 566,
+   "cy": 295,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "272_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 525,
-   "y0": 308,
-   "x1": 529,
-   "y1": 326
+   "cx": 527,
+   "cy": 317,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "273_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 564,
-   "y0": 305,
-   "x1": 568,
-   "y1": 326
+   "cx": 566,
+   "cy": 315,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "274_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 525,
-   "y0": 326,
-   "x1": 529,
-   "y1": 347
+   "cx": 527,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "275_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 564,
-   "y0": 326,
-   "x1": 568,
-   "y1": 347
+   "cx": 566,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "276_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 715,
-   "y0": 241,
-   "x1": 728,
-   "y1": 260
+   "cx": 721,
+   "cy": 250,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "277_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 721,
-   "y0": 263,
-   "x1": 724,
-   "y1": 283
+   "cx": 722,
+   "cy": 273,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "278_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 721,
-   "y0": 284,
-   "x1": 724,
-   "y1": 305
+   "cx": 722,
+   "cy": 294,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "279_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 721,
-   "y0": 305,
-   "x1": 724,
-   "y1": 324
+   "cx": 722,
+   "cy": 314,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "280_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 716,
-   "y0": 328,
-   "x1": 728,
-   "y1": 347
+   "cx": 722,
+   "cy": 337,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "281_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 776,
-   "y0": 219,
-   "x1": 811,
-   "y1": 236
+   "cx": 793,
+   "cy": 227,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "282_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 769,
-   "y0": 241,
-   "x1": 782,
-   "y1": 260
+   "cx": 775,
+   "cy": 250,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "283_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 774,
-   "y0": 262,
-   "x1": 778,
-   "y1": 281
+   "cx": 776,
+   "cy": 271,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "284_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 769,
-   "y0": 284,
-   "x1": 782,
-   "y1": 303
+   "cx": 775,
+   "cy": 293,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "285_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 774,
-   "y0": 308,
-   "x1": 778,
-   "y1": 326
+   "cx": 776,
+   "cy": 317,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "286_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 775,
-   "y0": 326,
-   "x1": 778,
-   "y1": 347
+   "cx": 776,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "287_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 845,
-   "y0": 241,
-   "x1": 859,
-   "y1": 260
+   "cx": 852,
+   "cy": 250,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "288_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 845,
-   "y0": 263,
-   "x1": 858,
-   "y1": 282
+   "cx": 851,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "289_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 850,
-   "y0": 286,
-   "x1": 854,
-   "y1": 305
+   "cx": 852,
+   "cy": 295,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "290_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 850,
-   "y0": 305,
-   "x1": 854,
-   "y1": 326
+   "cx": 852,
+   "cy": 315,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "291_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 850,
-   "y0": 326,
-   "x1": 854,
-   "y1": 347
+   "cx": 852,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "292_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1060,
-   "y0": 219,
-   "x1": 1093,
-   "y1": 236
+   "cx": 1076,
+   "cy": 227,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "293_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1053,
-   "y0": 242,
-   "x1": 1066,
-   "y1": 260
+   "cx": 1059,
+   "cy": 251,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "294_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1058,
-   "y0": 262,
-   "x1": 1062,
-   "y1": 281
+   "cx": 1060,
+   "cy": 271,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "295_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1052,
-   "y0": 284,
-   "x1": 1065,
-   "y1": 303
+   "cx": 1058,
+   "cy": 293,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "296_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1058,
-   "y0": 308,
-   "x1": 1062,
-   "y1": 326
+   "cx": 1060,
+   "cy": 317,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "297_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1058,
-   "y0": 326,
-   "x1": 1062,
-   "y1": 347
+   "cx": 1060,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "298_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1129,
-   "y0": 242,
-   "x1": 1142,
-   "y1": 260
+   "cx": 1135,
+   "cy": 251,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "299_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1129,
-   "y0": 263,
-   "x1": 1142,
-   "y1": 282
+   "cx": 1135,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "300_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1134,
-   "y0": 286,
-   "x1": 1137,
-   "y1": 305
+   "cx": 1135,
+   "cy": 295,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "301_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1134,
-   "y0": 305,
-   "x1": 1137,
-   "y1": 326
+   "cx": 1135,
+   "cy": 315,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "302_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1134,
-   "y0": 326,
-   "x1": 1137,
-   "y1": 347
+   "cx": 1135,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "303_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1332,
-   "y0": 220,
-   "x1": 1345,
-   "y1": 238
+   "cx": 1338,
+   "cy": 229,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "304_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1332,
-   "y0": 241,
-   "x1": 1345,
-   "y1": 260
+   "cx": 1338,
+   "cy": 250,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "305_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1332,
-   "y0": 263,
-   "x1": 1345,
-   "y1": 282
+   "cx": 1338,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "306_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1337,
-   "y0": 284,
-   "x1": 1340,
-   "y1": 305
+   "cx": 1338,
+   "cy": 294,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "307_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1337,
-   "y0": 305,
-   "x1": 1340,
-   "y1": 324
+   "cx": 1338,
+   "cy": 314,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "308_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1332,
-   "y0": 328,
-   "x1": 1345,
-   "y1": 347
+   "cx": 1338,
+   "cy": 337,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "309_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1386,
-   "y0": 284,
-   "x1": 1399,
-   "y1": 303
+   "cx": 1392,
+   "cy": 293,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "310_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1425,
-   "y0": 284,
-   "x1": 1438,
-   "y1": 303
+   "cx": 1431,
+   "cy": 293,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "311_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1391,
-   "y0": 308,
-   "x1": 1433,
-   "y1": 326
+   "cx": 1412,
+   "cy": 317,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "312_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1391,
-   "y0": 326,
-   "x1": 1394,
-   "y1": 347
+   "cx": 1392,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "313_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1430,
-   "y0": 326,
-   "x1": 1433,
-   "y1": 347
+   "cx": 1431,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "314_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1464,
-   "y0": 284,
-   "x1": 1475,
-   "y1": 295
+   "cx": 1469,
+   "cy": 289,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "315_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1469,
-   "y0": 308,
-   "x1": 1472,
-   "y1": 326
+   "cx": 1470,
+   "cy": 317,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "316_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1469,
-   "y0": 326,
-   "x1": 1472,
-   "y1": 347
+   "cx": 1470,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "317_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1500,
-   "y0": 262,
-   "x1": 1519,
-   "y1": 283
+   "cx": 1509,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "318_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1503,
-   "y0": 284,
-   "x1": 1513,
-   "y1": 301
+   "cx": 1508,
+   "cy": 292,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "319_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1541,
-   "y0": 284,
-   "x1": 1554,
-   "y1": 303
+   "cx": 1547,
+   "cy": 293,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "320_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1547,
-   "y0": 308,
-   "x1": 1551,
-   "y1": 326
+   "cx": 1549,
+   "cy": 317,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "321_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1547,
-   "y0": 326,
-   "x1": 1551,
-   "y1": 347
+   "cx": 1549,
+   "cy": 336,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "322_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1596,
-   "y0": 306,
-   "x1": 1609,
-   "y1": 325
+   "cx": 1602,
+   "cy": 315,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "323_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1601,
-   "y0": 330,
-   "x1": 1604,
-   "y1": 347
+   "cx": 1602,
+   "cy": 338,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "324_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1684,
-   "y0": 219,
-   "x1": 1692,
-   "y1": 238
+   "cx": 1688,
+   "cy": 228,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "325_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1723,
-   "y0": 219,
-   "x1": 1731,
-   "y1": 238
+   "cx": 1727,
+   "cy": 228,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "326_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1764,
-   "y0": 262,
-   "x1": 1783,
-   "y1": 283
+   "cx": 1773,
+   "cy": 272,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "327_shin izumi_11.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
-   "x0": 1767,
-   "y0": 284,
-   "x1": 1777,
-   "y1": 301
+   "cx": 1772,
+   "cy": 292,
+   "lado": 34,
+   "passo": 21.6
   },
   {
    "arquivo": "328_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 26,
-   "y0": 10,
-   "x1": 42,
-   "y1": 23
+   "cx": 34,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "329_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 30,
-   "y0": 83,
-   "x1": 38,
-   "y1": 96
+   "cx": 34,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "330_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 77,
-   "y0": 54,
-   "x1": 85,
-   "y1": 67
+   "cx": 81,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "331_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 74,
-   "y0": 69,
-   "x1": 90,
-   "y1": 81
+   "cx": 82,
+   "cy": 75,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "332_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 124,
-   "y0": 69,
-   "x1": 133,
-   "y1": 81
+   "cx": 128,
+   "cy": 75,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "333_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 171,
-   "y0": 39,
-   "x1": 180,
-   "y1": 52
+   "cx": 175,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "334_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 172,
-   "y0": 69,
-   "x1": 180,
-   "y1": 81
+   "cx": 176,
+   "cy": 75,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "335_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 219,
-   "y0": 54,
-   "x1": 227,
-   "y1": 67
+   "cx": 223,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "336_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 266,
-   "y0": 39,
-   "x1": 275,
-   "y1": 52
+   "cx": 270,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "337_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 266,
-   "y0": 54,
-   "x1": 273,
-   "y1": 61
+   "cx": 269,
+   "cy": 57,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "338_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 343,
-   "y0": 10,
-   "x1": 352,
-   "y1": 23
+   "cx": 347,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "339_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 344,
-   "y0": 83,
-   "x1": 352,
-   "y1": 96
+   "cx": 348,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "340_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 391,
-   "y0": 39,
-   "x1": 399,
-   "y1": 52
+   "cx": 395,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "341_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 391,
-   "y0": 54,
-   "x1": 399,
-   "y1": 67
+   "cx": 395,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "342_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 438,
-   "y0": 10,
-   "x1": 446,
-   "y1": 23
+   "cx": 442,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "343_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 438,
-   "y0": 83,
-   "x1": 446,
-   "y1": 96
+   "cx": 442,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "344_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 484,
-   "y0": 39,
-   "x1": 493,
-   "y1": 52
+   "cx": 488,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "345_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 484,
-   "y0": 54,
-   "x1": 493,
-   "y1": 67
+   "cx": 488,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "346_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 509,
-   "y0": 25,
-   "x1": 517,
-   "y1": 37
+   "cx": 513,
+   "cy": 31,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "347_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 534,
-   "y0": 10,
-   "x1": 543,
-   "y1": 23
+   "cx": 538,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "348_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 535,
-   "y0": 83,
-   "x1": 541,
-   "y1": 96
+   "cx": 538,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "349_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 556,
-   "y0": 10,
-   "x1": 564,
-   "y1": 23
+   "cx": 560,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "350_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 579,
-   "y0": 39,
-   "x1": 588,
-   "y1": 52
+   "cx": 583,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "351_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 579,
-   "y0": 54,
-   "x1": 588,
-   "y1": 67
+   "cx": 583,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "352_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 603,
-   "y0": 10,
-   "x1": 612,
-   "y1": 23
+   "cx": 607,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "353_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 628,
-   "y0": 83,
-   "x1": 633,
-   "y1": 96
+   "cx": 630,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "354_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 674,
-   "y0": 54,
-   "x1": 682,
-   "y1": 66
+   "cx": 678,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "355_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 674,
-   "y0": 69,
-   "x1": 682,
-   "y1": 81
+   "cx": 678,
+   "cy": 75,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "356_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 698,
-   "y0": 10,
-   "x1": 706,
-   "y1": 23
+   "cx": 702,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "357_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 710,
-   "y0": 18,
-   "x1": 725,
-   "y1": 21
+   "cx": 717,
+   "cy": 19,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "358_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 751,
-   "y0": 10,
-   "x1": 759,
-   "y1": 23
+   "cx": 755,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "359_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 751,
-   "y0": 83,
-   "x1": 759,
-   "y1": 96
+   "cx": 755,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "360_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 776,
-   "y0": 25,
-   "x1": 785,
-   "y1": 37
+   "cx": 780,
+   "cy": 31,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "361_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 801,
-   "y0": 39,
-   "x1": 809,
-   "y1": 52
+   "cx": 805,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "362_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 801,
-   "y0": 83,
-   "x1": 809,
-   "y1": 96
+   "cx": 805,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "363_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 851,
-   "y0": 10,
-   "x1": 859,
-   "y1": 23
+   "cx": 855,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "364_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 851,
-   "y0": 83,
-   "x1": 859,
-   "y1": 96
+   "cx": 855,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "365_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 900,
-   "y0": 83,
-   "x1": 909,
-   "y1": 96
+   "cx": 904,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "366_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 922,
-   "y0": 39,
-   "x1": 938,
-   "y1": 52
+   "cx": 930,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "367_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 953,
-   "y0": 83,
-   "x1": 966,
-   "y1": 96
+   "cx": 959,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "368_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 997,
-   "y0": 54,
-   "x1": 1010,
-   "y1": 66
+   "cx": 1003,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "369_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 996,
-   "y0": 69,
-   "x1": 1013,
-   "y1": 81
+   "cx": 1004,
+   "cy": 75,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "370_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1047,
-   "y0": 83,
-   "x1": 1060,
-   "y1": 96
+   "cx": 1053,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "371_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1097,
-   "y0": 54,
-   "x1": 1109,
-   "y1": 66
+   "cx": 1103,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "372_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1096,
-   "y0": 69,
-   "x1": 1112,
-   "y1": 81
+   "cx": 1104,
+   "cy": 75,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "373_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1124,
-   "y0": 10,
-   "x1": 1133,
-   "y1": 23
+   "cx": 1128,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "374_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1193,
-   "y0": 10,
-   "x1": 1209,
-   "y1": 23
+   "cx": 1201,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "375_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1193,
-   "y0": 54,
-   "x1": 1209,
-   "y1": 66
+   "cx": 1201,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "376_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1196,
-   "y0": 69,
-   "x1": 1205,
-   "y1": 81
+   "cx": 1200,
+   "cy": 75,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "377_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1193,
-   "y0": 83,
-   "x1": 1209,
-   "y1": 96
+   "cx": 1201,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "378_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1226,
-   "y0": 10,
-   "x1": 1242,
-   "y1": 23
+   "cx": 1234,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "379_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1258,
-   "y0": 10,
-   "x1": 1274,
-   "y1": 23
+   "cx": 1266,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "380_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1291,
-   "y0": 10,
-   "x1": 1307,
-   "y1": 23
+   "cx": 1299,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "381_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1323,
-   "y0": 10,
-   "x1": 1340,
-   "y1": 23
+   "cx": 1331,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "382_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1367,
-   "y0": 39,
-   "x1": 1375,
-   "y1": 52
+   "cx": 1371,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "383_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1389,
-   "y0": 10,
-   "x1": 1398,
-   "y1": 23
+   "cx": 1393,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "384_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1390,
-   "y0": 69,
-   "x1": 1398,
-   "y1": 81
+   "cx": 1394,
+   "cy": 75,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "385_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1413,
-   "y0": 10,
-   "x1": 1421,
-   "y1": 23
+   "cx": 1417,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "386_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1432,
-   "y0": 25,
-   "x1": 1448,
-   "y1": 37
+   "cx": 1440,
+   "cy": 31,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "387_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1436,
-   "y0": 69,
-   "x1": 1444,
-   "y1": 81
+   "cx": 1440,
+   "cy": 75,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "388_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1499,
-   "y0": 10,
-   "x1": 1507,
-   "y1": 23
+   "cx": 1503,
+   "cy": 16,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "389_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1498,
-   "y0": 24,
-   "x1": 1507,
-   "y1": 37
+   "cx": 1502,
+   "cy": 30,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "390_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1498,
-   "y0": 39,
-   "x1": 1507,
-   "y1": 52
+   "cx": 1502,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "391_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1498,
-   "y0": 54,
-   "x1": 1507,
-   "y1": 67
+   "cx": 1502,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "392_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1532,
-   "y0": 39,
-   "x1": 1541,
-   "y1": 52
+   "cx": 1536,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "393_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1532,
-   "y0": 54,
-   "x1": 1541,
-   "y1": 67
+   "cx": 1536,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "394_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1547,
-   "y0": 64,
-   "x1": 1552,
-   "y1": 68
+   "cx": 1549,
+   "cy": 66,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "395_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1556,
-   "y0": 64,
-   "x1": 1562,
-   "y1": 67
+   "cx": 1559,
+   "cy": 65,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "396_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1604,
-   "y0": 39,
-   "x1": 1612,
-   "y1": 52
+   "cx": 1608,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "397_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1604,
-   "y0": 54,
-   "x1": 1612,
-   "y1": 67
+   "cx": 1608,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "398_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1619,
-   "y0": 64,
-   "x1": 1624,
-   "y1": 67
+   "cx": 1621,
+   "cy": 65,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "399_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1628,
-   "y0": 64,
-   "x1": 1633,
-   "y1": 67
+   "cx": 1630,
+   "cy": 65,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "400_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1619,
-   "y0": 69,
-   "x1": 1640,
-   "y1": 82
+   "cx": 1629,
+   "cy": 75,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "401_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1632,
-   "y0": 83,
-   "x1": 1640,
-   "y1": 96
+   "cx": 1636,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "402_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1661,
-   "y0": 39,
-   "x1": 1670,
-   "y1": 52
+   "cx": 1665,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "403_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1661,
-   "y0": 54,
-   "x1": 1670,
-   "y1": 67
+   "cx": 1665,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "404_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1676,
-   "y0": 64,
-   "x1": 1682,
-   "y1": 67
+   "cx": 1679,
+   "cy": 65,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "405_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1686,
-   "y0": 64,
-   "x1": 1691,
-   "y1": 67
+   "cx": 1688,
+   "cy": 65,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "406_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1676,
-   "y0": 69,
-   "x1": 1698,
-   "y1": 82
+   "cx": 1687,
+   "cy": 75,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "407_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1690,
-   "y0": 83,
-   "x1": 1698,
-   "y1": 96
+   "cx": 1694,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "408_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1709,
-   "y0": 39,
-   "x1": 1717,
-   "y1": 52
+   "cx": 1713,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "409_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1709,
-   "y0": 54,
-   "x1": 1717,
-   "y1": 66
+   "cx": 1713,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "410_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1733,
-   "y0": 39,
-   "x1": 1741,
-   "y1": 52
+   "cx": 1737,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "411_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1733,
-   "y0": 54,
-   "x1": 1741,
-   "y1": 66
+   "cx": 1737,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "412_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1781,
-   "y0": 39,
-   "x1": 1789,
-   "y1": 52
+   "cx": 1785,
+   "cy": 45,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "413_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1781,
-   "y0": 54,
-   "x1": 1789,
-   "y1": 67
+   "cx": 1785,
+   "cy": 60,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "414_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1796,
-   "y0": 64,
-   "x1": 1801,
-   "y1": 67
+   "cx": 1798,
+   "cy": 65,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "415_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1805,
-   "y0": 64,
-   "x1": 1810,
-   "y1": 67
+   "cx": 1807,
+   "cy": 65,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "416_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1796,
-   "y0": 69,
-   "x1": 1817,
-   "y1": 82
+   "cx": 1806,
+   "cy": 75,
+   "lado": 24,
+   "passo": 14.6
   },
   {
    "arquivo": "417_tv on guitar_15.png",
    "canal": "tv on guitar",
    "imagem": "15_tv on guitar.png",
-   "x0": 1809,
-   "y0": 83,
-   "x1": 1817,
-   "y1": 96
+   "cx": 1813,
+   "cy": 89,
+   "lado": 24,
+   "passo": 14.6
   }
  ],
  "resumo_por_imagem": [
@@ -4374,5 +4374,6 @@
     "Este símbolo é uma pausa de colcheia. Na tablatura e na partitura, ele indica um momento de silêncio com a duração exata de meio tempo numa métrica padrão (4/4). Quando este símbolo aparece, deves interromper a sonoridade das cordas e fazer uma breve pausa antes de tocar a nota seguinte."
    ]
   }
- }
+ },
+ "negativos_como_foi_feito": "janela de 1,6 x passo CENTRADA no token — o MESMO enquadramento dos positivos (que sao centrados na marca do dono). Caixa justa mudaria a moldura entre as classes e o modelo aprenderia a moldura (regra 9)."
 }
