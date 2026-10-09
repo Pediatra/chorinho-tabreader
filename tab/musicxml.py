@@ -26,6 +26,7 @@ import itertools
 import json
 import os
 import statistics
+from collections import Counter
 from xml.etree import ElementTree as ET
 
 from .caminhos import SAIDA
@@ -96,7 +97,19 @@ def _tempo_da_transcricao(notas: list[dict]) -> float | None:
     onsets = sorted({n["t_ini"] for n in notas if n.get("t_ini") is not None})
     if len(onsets) < 2:
         return None
-    return statistics.median([b - a for a, b in itertools.pairwise(onsets)])
+    intervalos = [b - a for a, b in itertools.pairwise(onsets)]
+    # A MEDIANA não serve em vídeo-aula: o professor para para explicar. Medido no
+    # `sky guitar` (`(henze) nocturno`): intervalos de 1,0 s a 22,5 s, mediana 4,0 s — e a
+    # conferência no vídeo mostra o acorde SOB o marcador, ou seja, o tempo está certo e a
+    # pausa é que infla a mediana. O pulso musical é o intervalo mais FREQUENTE entre os
+    # curtos (abaixo da mediana), arredondado a 0,1 s.
+    mediana = statistics.median(intervalos)
+    curtos = [i for i in intervalos if i <= mediana]
+    contagem = Counter(round(i, 1) for i in curtos)
+    modal, quantas = contagem.most_common(1)[0]
+    if quantas >= 2 and modal > 0:
+        return modal
+    return mediana
 
 
 def _notas_exportaveis(r: dict) -> tuple[list[dict], list[dict]]:

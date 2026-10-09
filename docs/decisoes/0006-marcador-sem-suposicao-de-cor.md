@@ -58,3 +58,34 @@ positivo (elemento colorido e parado, como o do `sky guitar` #4) cai no veredito
   ser sem portão de cor;
 - o custo sobe: montar a série custa uma varredura de 0,25 s por amostra sobre o vídeo, o
   que só se paga no trecho de notação — não no vídeo inteiro.
+
+## VALIDADO no vídeo (mesma data): o marcador está sobre a nota atribuída
+
+O tempo por marcador foi conferido **olhando o quadro**, não pela coerência interna:
+`data/saida/frames/valida_tempo.png` mostra três ataques do `sky guitar`
+(`(henze) nocturno`) com o marcador desenhado (linha vermelha dentro da faixa azul) e as
+notas atribuídas àquele ataque (caixas verdes):
+
+| ataque | marcador | notas atribuídas | o que a imagem mostra |
+| --- | --- | --- | --- |
+| 136,3 s | x=1100 | 3 (cordas 1, 2 e 3; casas 0, 1, 2) | a faixa azul **sobre o acorde empilhado** |
+| 206,3 s | x=710 | 2 | idem, com duas notas |
+| 290,8 s | x=1643 | 1 | idem, com uma nota |
+
+Ou seja: **o instante atribuído é o instante em que aquelas notas estão sob o marcador**.
+
+## E o pulso não é a mediana (defeito que a validação revelou)
+
+Os intervalos entre ataques nesse vídeo vão de **1,0 s a 22,5 s** (mediana 4,0 s): é
+vídeo-**aula**, e o professor para para explicar. A mediana virava "BPM 15", que não é o
+tempo da música. O pulso passou a ser o **intervalo mais frequente entre os curtos**
+(abaixo da mediana), arredondado a 0,1 s: no mesmo vídeo dá **1,5 s → BPM 40**, que é
+plausível para uma demonstração lenta, e a duração continua declarada como INFERIDA.
+
+Comparação entre dois vídeos da MESMA peça (`henze | nocturno`), que era a contradição
+aberta:
+
+| vídeo | ataques | intervalos | mediana | **pulso (moda)** | mecanismo |
+| --- | --- | --- | --- | --- | --- |
+| `sky guitar` | 22 | 1,0–22,5 s | 4,00 s | **1,5 s (BPM 40)** | `salta` |
+| `iwaki` | 23 | 0,02–2,64 s | 0,91 s | **0,9 s (BPM 67)** | `desliza` |

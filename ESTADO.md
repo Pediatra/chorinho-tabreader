@@ -84,6 +84,18 @@ tablatura**, exatamente a armadilha que o dono do projeto descreveu. Ver
 [`docs/decisoes/0007`](docs/decisoes/0007-painel-com-partitura-e-tablatura.md). O tempo é
 utilizável e declarado; o **conteúdo** das notas não é, e está declarado como tal.
 
+## 2026-10-09 — o tempo por marcador foi CONFERIDO no vídeo
+
+`data/saida/frames/valida_tempo.png` desenha, em três ataques do `sky guitar`
+(`(henze) nocturno`), o marcador (linha vermelha na faixa azul) e as notas atribuídas
+àquele ataque (caixas verdes). Nos três, o marcador está **sobre as notas atribuídas** —
+o acorde de 3 notas em 136,3 s, duas notas em 206,3 s, uma em 290,8 s.
+
+A conferência revelou um defeito: em vídeo-**aula** o professor para para explicar, os
+intervalos vão de 1,0 s a 22,5 s e a **mediana** dava BPM 15. O pulso passou a ser o
+intervalo mais frequente entre os curtos: **1,5 s → BPM 40**, plausível para demonstração
+lenta. Ver [`docs/decisoes/0006`](docs/decisoes/0006-marcador-sem-suposicao-de-cor.md).
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
