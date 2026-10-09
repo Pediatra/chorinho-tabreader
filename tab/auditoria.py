@@ -34,7 +34,9 @@ def carregar(caminho_rotulos: str, caminho_itens: str) -> tuple[list[dict], dict
     Returns:
         ``(rotulos, itens_por_janela)``.
     """
-    rotulos = json.loads(pathlib.Path(caminho_rotulos).read_text(encoding="utf-8"))["rotulos"]
+    rotulos = json.loads(pathlib.Path(caminho_rotulos).read_text(encoding="utf-8"))[
+        "rotulos"
+    ]
     itens = json.loads(pathlib.Path(caminho_itens).read_text(encoding="utf-8"))["itens"]
     return rotulos, {x["janela"]: x for x in itens}
 

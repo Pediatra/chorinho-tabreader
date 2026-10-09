@@ -182,6 +182,11 @@ def _candidatos_do_simbolo(img: np.ndarray, g) -> list:
         Lista de tokens candidatos a símbolo.
     """
     linhas = list(g.linhas_y)
+    # CONTRASTE LOCAL: MEDIDO E **NEUTRO** NO FIM A FIM. Ele recupera tinta em 24 dos 62 buracos que o
+    # dono confirmou como símbolo (39 %) e **custa menos** (tinta 10,7 % do painel contra 17,6 %;
+    # componentes 105 x 179) — mas **não vira candidato perto da marca**: precisão 0,197 -> 0,200 e
+    # recall 0,216 -> 0,210, um ganho de 0,003 contra uma perda de 0,006. Não é ganho, então está
+    # DESLIGADO. Fica registrado para não ser retentado sem uma medição nova.
     uniao = _sem_faixas(_uniao_mascaras(img), linhas, g.passo)
     lim_x = (g.barlines_x[0] + int(g.passo * 2.2)) if g.barlines_x else 0
     return agrupar_tokens(

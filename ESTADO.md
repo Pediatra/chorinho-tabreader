@@ -2868,3 +2868,28 @@ há sinal capturável. **Não se consertam mexendo no limiar**, e ficam registra
 **contraste local** na máscara do símbolo e medir **as duas coisas juntas** — quantos dos 39 % passam a
 ter candidato **e quanto de tinta falsa entra no painel inteiro** (o custo). Foi a falta dessa segunda
 metade que me fez inundar o pipeline quando liguei o caminho do símbolo.
+
+## 2026-10-09 — contraste local: recupera 39 % dos buracos, custa menos — e é NEUTRO no fim a fim
+
+Medi as **duas metades** antes de mexer no código (era a promessa):
+
+| | recupera nos buracos | tinta no painel | componentes |
+| --- | --- | --- | --- |
+| máscara atual (união + faixas) | — | 17,6 % | 179 (C02) / 160 (C04) |
+| **contraste local (K=40)** | **24 de 62 (39 %)** | **10,7 %** | **105 / 52** |
+
+**O contraste local é mais BARATO** (menos tinta, menos componentes) e recupera 39 % dos buracos — o medo
+de inundar o pipeline estava **errado**. MAS, ligado no caminho do símbolo:
+
+| | referência `_6` | contraste local |
+| --- | --- | --- |
+| precisão | 0,197 | **0,200** |
+| recall | 0,216 | **0,210** |
+
+**+0,003 num eixo, −0,006 no outro: NÃO É GANHO → desligado** (o código fica comentado com a medição).
+O gabarito de algarismo fica intacto (0,917 / 0,986 / 0,944).
+
+**O que isso ensina**: recuperar a tinta **não basta** — o componente recuperado **ainda não vira
+candidato perto da marca**. A perda tem uma **segunda etapa** que eu ainda não localizei: entre ter tinta
+e ter candidato na posição, algo descarta ou desloca. É a próxima pergunta, e agora ela está **estreitada**
+(a tinta existe; o candidato não aparece).
