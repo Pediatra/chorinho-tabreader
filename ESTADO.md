@@ -1057,6 +1057,31 @@ recorte centrado no token mostra o algarismo.
 
 Próximo alvo, portanto: o caminho de `alvos`/`simbolo_cru` quando o token É (ou CONTÉM) algarismo.
 
+## 2026-10-09 — recorte do componente: implementado, medido, e NÃO resolveu os 58 %
+
+Diagnóstico primeiro (medido, 51 símbolos guardados em 6 quadros):
+
+| tipo | n |
+| --- | --- |
+| **dígito COM símbolo no mesmo token** (`partes > 1`) | **47 (92 %)** |
+| dígito puro (`partes = 1`) | 4 |
+
+Implementei o conserto óbvio: `_guardar_cru` aceita uma **caixa explícita** e o reconhecedor passa
+o **componente que não é algarismo** (medido: recortar o token inteiro mostrava o dígito e escondia
+o símbolo). Gate verde, sem erro de execução.
+
+**E a verificação no olho REPROVOU**: amostra aleatória de 48 recortes da coleta nova (5 canais,
+3 vídeos × 2 instantes) continua com **28 de 48 algarismos = 58 %** — o mesmo número de antes.
+
+**Por que não resolveu** (dedução a partir do que foi medido): dentro de um token fundido, "o
+componente que não é algarismo" pode ser **outro algarismo mal classificado** — num `11` fundido os
+dois componentes são dígitos, e o classificador por componente erra um deles, que então é escolhido
+como "o símbolo". Ou seja: **o problema não está no RECORTE, está na DECISÃO de quem é candidato**.
+
+**Conserto certo, para a próxima rodada**: o candidato a símbolo tem de ser um **componente cuja
+classe seja de símbolo** (`tecnica`, `harmonico`, …) — decidido **no nível do componente**, não do
+token. Hoje o caminho guarda quando o token tem componentes extras, e é isso que traz o algarismo.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

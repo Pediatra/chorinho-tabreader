@@ -119,7 +119,7 @@ def _top3(probs: np.ndarray, rotulos: list[str]) -> list[tuple[str, float]]:
 
 
 def _guardar_cru(
-    gray: np.ndarray, tk, destino_dir: str, prefixo: str, sufixo: dict
+    gray: np.ndarray, tk, destino_dir: str, prefixo: str, sufixo: dict, caixa=None
 ) -> dict:
     """Grava o recorte cru do token em PNG (ampliado) e devolve o registro dele.
 
@@ -133,11 +133,15 @@ def _guardar_cru(
         destino_dir: diretório raiz dos recortes.
         prefixo: subpasta (normalmente canal ou vídeo).
         sufixo: campos extras que entram no registro.
+        caixa: ``(x0, y0, x1, y1)`` a recortar em vez do token. Serve para gravar **o componente
+            do símbolo** quando o token é dígito + símbolo (medido: 47 de 51 recortes que
+            *pareciam* algarismo eram isso) — recortar o token inteiro mostrava o algarismo.
 
     Returns:
         Registro do símbolo, com caminho e hash; nunca descarta o recorte.
     """
-    crop = _recortar(gray, tk.x0, tk.y0, tk.x1, tk.y1, margem=2)
+    x0, y0, x1, y1 = caixa or (tk.x0, tk.y0, tk.x1, tk.y1)
+    crop = _recortar(gray, x0, y0, x1, y1, margem=2)
     if crop.size == 0:
         return {"png": None, "hash": None, **sufixo}
     ampliado = cv2.resize(crop, None, fx=4, fy=4, interpolation=cv2.INTER_NEAREST)
@@ -310,6 +314,14 @@ def reconhecer_linha(
             # critério antigo era "não é algarismo", e o resíduo de uma tablatura é ~98 % linha,
             # borrão e dígito mal lido. O recorte usa a JANELA DO TREINO (2,4 x 1,6 passo,
             # centrado no token): moldura é entrada do modelo, não detalhe de implementação.
+            # COMPONENTE DO SÍMBOLO: dentro de um token fundido, o símbolo é o componente que NÃO
+            # é algarismo. Medido: 47 dos 51 recortes que pareciam algarismo eram dígito+símbolo
+            # no mesmo token, e recortar o token inteiro mostrava o algarismo e escondia o símbolo.
+            caixa_simbolo = None
+            for pos, (cx0, cy0, cx1, cy1) in comp_de.get(i, []):
+                if rotulos[int(np.argmax(probs_comp[pos]))] not in ALGARISMOS:
+                    caixa_simbolo = (cx0, cy0, cx1, cy1)
+                    break
             # BARRA VERTICAL NÃO É SÍMBOLO (instrução do dono sobre o `shin izumi`: "essas barras
             # na vertical não significam nada de importante"). Medido: as barras que o detector
             # aprovava lá têm razão mediana 0,118 e os 123 símbolos verdadeiros têm 1,706 — ZERO
@@ -330,8 +342,12 @@ def reconhecer_linha(
                 p_simbolo is None or p_simbolo >= LIMIAR_SIMBOLO
             )
             if passa:
+                if caixa_simbolo is not None:
+                    sufixo["recorte_do_componente"] = True
                 nota["simbolo_cru"] = (
-                    _guardar_cru(gray, tk, dir_simbolos, prefixo, sufixo)
+                    _guardar_cru(
+                        gray, tk, dir_simbolos, prefixo, sufixo, caixa=caixa_simbolo
+                    )
                     if dir_simbolos
                     else sufixo
                 )
