@@ -1593,6 +1593,27 @@ Conversão conferida antes de usar: a ROI é `frame[y_roi0:y_roi1]` e o `roi_das
 faixa em coordenada do **quadro**; no `iwaki` as linhas 283–419 da ROI viram 903–1039 no quadro e o
 `roi_das_cordas` dá 876–1066 — margem de exatamente 1 passo nos dois lados.
 
+## 2026-10-09 — com a trava da faixa: fim a fim vai de 0,10 para 0,15 (e a distância segue)
+
+| | sem trava | **com a trava da faixa** |
+| --- | --- | --- |
+| tokens aprovados | 201 | **133** (−68 fora da faixa) |
+| **precisão fim a fim** | 0,10 | **0,15** |
+| recall fim a fim | 0,11 | 0,11 |
+
+A trava fez **exatamente o que devia** — removeu 68 aprovações fora da faixa das cordas — e a
+precisão subiu de 0,10 para 0,15. **Mas não fechou a distância** para os 0,77–0,79 do LOCA.
+
+**O que sobra, e agora com um suspeito único**: a minha **associação marca↔token** no teste fim a
+fim é a única peça que eu **nunca validei olhando**. Ela foi feita por proximidade (1,2 passo em x,
+2,0 em y) e é onde os dois últimos bugs de espaço apareceram. Duas vezes nesta noite eu escrevi
+teoria sobre imagem que não abri e achei o erro em um minuto ao abrir.
+
+**Próximo passo, e é o mesmo que resolveu duas vezes**: desenhar as **marcas** e os **tokens
+aprovados com a trava** no MESMO quadro e **olhar** se eles caem juntos. Se caírem, o `0,15` é bug do
+meu casamento e o número verdadeiro é outro; se não caírem, o modelo aprova outra coisa — e eu vou
+**ver** o quê, em vez de deduzir.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
