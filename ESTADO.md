@@ -1281,6 +1281,37 @@ entre os 28 vídeos marcados e os 51 que a coleta usa. Isso fecha a explicação
 mostra que o caminho não é mexer no modelo — é **cobertura de vídeo**, como a lição 6 do projeto
 diz desde o começo.
 
+## 2026-10-09 — as marcas nos vídeos DA COLETA: precisão 89–91 % (era 27 %)
+
+O dono mandou **200 marcas em 22 tablaturas (C01–C27)** — e com uma ordem: *"leia tudo, não me
+engane novamente"*. Li a lista **inteira**, sem resumo por frequência, e por isso vi coisas que os
+resumos esconderiam:
+
+- **`traço a ser ignorado` (24 marcas)** e **`TAB` / `TAB TEXTO` (7)** — ele NOMEOU os negativos.
+  Foram para o conjunto como negativos, não positivos;
+- **duas reclamações de qualidade, e as duas são ERRO MEU de extração**:
+  `C05_iwaki` — *"isso é uma partitura, algo de errado não está certo"* (eu extraí uma PAUTA achando
+  que era tablatura) → **excluída**;
+  `C14_robert lunn` — *"o recorte dessa tablatura está errado, tá faltando a última linha"* (o meu
+  `roi_das_cordas` cortou a 6ª corda) → **excluída**;
+- tipos que eu não tinha: **vibrato (`~`)**, **appoggiatura/grace note** (o "14 pequeno"), **notas
+  fantasma em parênteses**, **harmônico natural em bloco (oval envolvendo o acorde)**, **harmônico
+  com `<>`**, **slide off**, **pausas de semínima** (o "Z"/"3" estilizado), **compasso 5/4**,
+  **h → hammer on**, e a **ligadura de sustentação cruzando compasso** (arcos grandes do 67 para o 68).
+
+**Conjunto**: 523 positivos (era 356) × 880 negativos (530 difíceis + 350 fáceis), de 22 tablaturas
+dos vídeos da coleta. LOCA:
+
+| semente | símbolos pegos | falso positivo | **precisão** |
+| --- | --- | --- | --- |
+| 1 | 511/523 (0,98) | 51/880 (6 %) | **0,91** |
+| 2 | 504/523 (0,96) | 61/880 (7 %) | **0,89** |
+| 3 | 508/523 (0,97) | 51/880 (6 %) | **0,91** |
+
+**89–91 % de precisão nos vídeos que a coleta usa**, contra **27 %** medidos antes — e o recall
+segue 0,96–0,98. A distância entre "onde foi treinado" e "onde é usado" era o problema inteiro, e
+ela fechou.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
