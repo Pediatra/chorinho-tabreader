@@ -1,0 +1,532 @@
+{
+ "passo": 25.0,
+ "linhas_y": [
+  49,
+  74,
+  98,
+  124,
+  148,
+  174
+ ],
+ "barlines_x": [
+  10,
+  14,
+  511,
+  642,
+  899,
+  1287,
+  1676
+ ],
+ "notas": [
+  {
+   "ordem": 1,
+   "corda": 1,
+   "casa": "0",
+   "tecnica": null,
+   "x": 150,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 2,
+   "corda": 5,
+   "casa": "3",
+   "tecnica": null,
+   "x": 150,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 3,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 211,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 4,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 273,
+   "confianca": 0.752,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 5,
+   "corda": 1,
+   "casa": "0",
+   "tecnica": null,
+   "x": 332,
+   "confianca": 0.995,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 6,
+   "corda": 1,
+   "casa": "3",
+   "tecnica": null,
+   "x": 392,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 7,
+   "corda": 1,
+   "casa": "5",
+   "tecnica": null,
+   "x": 453,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "iwaki/ed464b6db6e874be.png",
+    "hash": "ed464b6db6e874be",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.64,
+     0.56
+    ],
+    "componentes": [
+     [
+      0,
+      11,
+      16,
+      23
+     ],
+     [
+      1,
+      0,
+      15,
+      9
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.998
+     ],
+     [
+      "tecnica",
+      0.002
+     ],
+     [
+      "15",
+      0.0
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.944
+     ],
+     [
+      "harmonico",
+      0.041
+     ],
+     [
+      "5",
+      0.008
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.944
+   }
+  },
+  {
+   "ordem": 8,
+   "corda": 1,
+   "casa": "3",
+   "tecnica": null,
+   "x": 538,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 9,
+   "corda": 4,
+   "casa": "0",
+   "tecnica": null,
+   "x": 538,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 10,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 599,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 11,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 660,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 12,
+   "corda": 1,
+   "casa": "1",
+   "tecnica": null,
+   "x": 722,
+   "confianca": 0.863,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 13,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 781,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 14,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 841,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 15,
+   "corda": 1,
+   "casa": "1",
+   "tecnica": null,
+   "x": 928,
+   "confianca": 0.863,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 16,
+   "corda": 6,
+   "casa": "3",
+   "tecnica": null,
+   "x": 926,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 17,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 987,
+   "confianca": 0.996,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 18,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1048,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 19,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1108,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 20,
+   "corda": 1,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1171,
+   "confianca": 0.691,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 21,
+   "corda": 1,
+   "casa": "7",
+   "tecnica": null,
+   "x": 1230,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 22,
+   "corda": 1,
+   "casa": "5",
+   "tecnica": null,
+   "x": 1315,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "png": "iwaki/05f4f0ed8e939047.png",
+    "hash": "05f4f0ed8e939047",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.64,
+     0.56
+    ],
+    "componentes": [
+     [
+      0,
+      11,
+      16,
+      23
+     ],
+     [
+      1,
+      0,
+      15,
+      9
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.998
+     ],
+     [
+      "tecnica",
+      0.001
+     ],
+     [
+      "harmonico",
+      0.001
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.472
+     ],
+     [
+      "0",
+      0.412
+     ],
+     [
+      "tecnica",
+      0.061
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.878
+   }
+  },
+  {
+   "ordem": 23,
+   "corda": 5,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1315,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 24,
+   "corda": 4,
+   "casa": "5",
+   "tecnica": null,
+   "x": 1376,
+   "confianca": 0.991,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "iwaki/8eb5bafa5a7164dc.png",
+    "hash": "8eb5bafa5a7164dc",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.68,
+     0.56
+    ],
+    "componentes": [
+     [
+      0,
+      10,
+      17,
+      22
+     ],
+     [
+      1,
+      0,
+      15,
+      8
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.991
+     ],
+     [
+      "tecnica",
+      0.008
+     ],
+     [
+      "harmonico",
+      0.0
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.859
+     ],
+     [
+      "harmonico",
+      0.116
+     ],
+     [
+      "5",
+      0.021
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.859
+   }
+  },
+  {
+   "ordem": 25,
+   "corda": 3,
+   "casa": "5",
+   "tecnica": null,
+   "x": 1436,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "iwaki/cad29a58dc15efad.png",
+    "hash": "cad29a58dc15efad",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.64,
+     0.52
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      16,
+      23
+     ],
+     [
+      1,
+      0,
+      14,
+      10
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.999
+     ],
+     [
+      "tecnica",
+      0.001
+     ],
+     [
+      "15",
+      0.0
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.899
+     ],
+     [
+      "harmonico",
+      0.079
+     ],
+     [
+      "tecnica",
+      0.013
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.899
+   }
+  },
+  {
+   "ordem": 26,
+   "corda": 1,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1496,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 27,
+   "corda": 4,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1496,
+   "confianca": 0.891,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 28,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1556,
+   "confianca": 0.495,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 29,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1620,
+   "confianca": 0.573,
+   "corrigido_pela_forma": false
+  }
+ ],
+ "tempo": {
+  "medido": false,
+  "motivo": "marcador parado na janela varrida",
+  "serie": {
+   "pontos": 65,
+   "deslocamento_total_px": 38,
+   "passo_mediano_px": 0,
+   "veredito": "parado"
+  }
+ },
+ "video": "henze ｜ nocturno - guitar lesson + tab.mp4",
+ "painel": "meio",
+ "quadro_em_s": 113.5,
+ "lido_via": "cv2",
+ "janelas_com_cursor": [
+  [
+   113.5,
+   121.0
+  ],
+  [
+   134.5,
+   143.0
+  ]
+ ],
+ "segundos_com_cursor": 16.0
+}

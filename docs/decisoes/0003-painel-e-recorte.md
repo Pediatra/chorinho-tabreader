@@ -27,8 +27,11 @@ rodadas 42–45 — mas nunca entrou no código.
 `detectar_cursor` tem portão de altura (>= 50 % da imagem). Chamado no **quadro**
 (1080 px), exige faixa de 540 px; o cursor tem a altura do **painel** (~150 px).
 Resultado medido: cursor em **69 de 3.993** vídeos, quando o histórico falava de ~50 %
-dos quadros. Procurando **dentro do ROI da faixa**, o mesmo vídeo passou a dar
-`janelas_com_cursor: [[0.5, 4.0], [5.0, 10.0]]`.
+dos quadros. Procurando **dentro do ROI da faixa**, as janelas passaram a aparecer — mas
+**a verificação visual derrubou a conclusão**: a série `x(t)` daquele vídeo mostra uma
+banda **parada** em x=0–99 por 5 s (borda do painel) e bandas em **x≈900–1084**, fora do
+painel, que tem 0–594. Não era cursor: era artefato, e aquele vídeo **não tem
+marcador**. Corrigir onde o detector olha era necessário e não é suficiente.
 
 ### Erro 3 (o mais profundo) — a máscara depende da largura do recorte
 
@@ -88,8 +91,9 @@ nos três algarismos.
 
 ## O que continua aberto (bloqueio do MVP)
 
-**A resolução do onset por nota.** O cursor é encontrado, as janelas existem, mas
-`tempos_do_cursor` devolve o **mesmo instante** para notas diferentes: 3 instantes
-distintos para 36 notas, e 1 para 3. O critério de pronto do dono do projeto é "um vídeo
-inteiro correto", e sem onset por nota o MusicXML sai com duração constante declarada —
-honesto, porém não é a transcrição com tempo. É o próximo alvo.
+**O tempo por nota — e o obstáculo é a fonte, não o código.** `tempos_do_cursor` devolve
+o mesmo instante para notas diferentes porque **não há marcador para medir** naquele
+vídeo. A lição que fica: **presença e semântica do marcador são POR VÍDEO**, não por
+canal — a varredura de 1 instante por vídeo mede presença, não confiabilidade. Antes de
+melhorar a resolução do onset é preciso **saber se existe marcador** naquele trecho, e
+para os vídeos sem marcador a fonte de tempo é **áudio** (autorizado) ou marcação manual.

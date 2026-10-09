@@ -1,0 +1,66 @@
+"""Tempo por travessia: o marcador que desliza dá onset; o que fica parado não dá.
+
+Medido no `iwaki/henze`: banda de 6 px, matiz 102, ~16 px por 0,25 s (≈65 px/s), sem
+saltos. Medido no `sky guitar` #4: banda parada em x=0–99 por 5 s — e ali o módulo tem
+de devolver None em vez de carimbar um instante para todas as notas.
+"""
+
+from __future__ import annotations
+
+from tab.tempo import atribuir_tempos, duracoes_por_onset, resumo, tempo_de_x
+
+
+def _serie_deslizante() -> list[tuple[float, int]]:
+    """O marcador andando 20 px a cada 0,25 s, de x=100 a x=500."""
+    return [(i * 0.25, 100 + i * 20) for i in range(21)]
+
+
+def test_travessia_interpola_entre_amostras() -> None:
+    """Cruzar x=110 é 0,125 s depois do ponto em x=100."""
+    assert tempo_de_x(_serie_deslizante(), 110) == 0.125
+
+
+def test_travessia_acha_o_instante_de_cada_nota() -> None:
+    """Três notas em x diferentes recebem três instantes diferentes."""
+    tempos = atribuir_tempos([100, 200, 300], _serie_deslizante())
+    assert tempos == [0.0, 1.25, 2.5]
+    assert len(set(tempos)) == 3
+
+
+def test_x_fora_da_serie_nao_recebe_tempo() -> None:
+    """Sem travessia não há tempo — nada de instante inventado."""
+    assert tempo_de_x(_serie_deslizante(), 5000) is None
+
+
+def test_marcador_parado_nao_gera_onsets() -> None:
+    """Banda parada (o caso do `sky guitar` #4) não descreve travessia."""
+    parada = [(i * 0.25, 0) for i in range(20)]
+    assert tempo_de_x(parada, 0) == 0.0  # o único x que ela cobre
+    assert tempo_de_x(parada, 300) is None
+    assert resumo(parada)["veredito"] == "parado"
+
+
+def test_serie_vazia_ou_curta() -> None:
+    """Sem marcador, o resumo diz isso em vez de fingir movimento."""
+    assert resumo([])["veredito"] == "sem_marcador"
+    assert resumo([(0.0, 10), (1.0, 12)])["veredito"] == "sem_marcador"
+
+
+def test_resumo_reconhece_deslize() -> None:
+    """A série do `iwaki/henze` é classificada como deslize."""
+    r = resumo(_serie_deslizante())
+    assert r["veredito"] == "desliza"
+    assert r["passo_mediano_px"] == 20
+    assert r["deslocamento_total_px"] == 400
+
+
+def test_duracoes_sao_intervalos_e_a_ultima_e_nula() -> None:
+    """Duração = intervalo até o próximo onset; a última não tem próximo."""
+    assert duracoes_por_onset([0.0, 1.25, 2.5]) == [1.25, 1.25, None]
+    assert duracoes_por_onset([0.0, None, 2.5]) == [None, None, None]
+
+
+def test_salto_grande_nao_e_interpolado() -> None:
+    """Troca de trecho (salto de +200 px) não pode virar travessia contínua."""
+    serie = [(0.0, 100), (0.25, 120), (0.50, 320), (0.75, 340)]
+    assert tempo_de_x(serie, 220) is None

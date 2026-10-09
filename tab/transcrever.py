@@ -22,6 +22,7 @@ from .cursor import detectar_cursor
 from .inventario import FAIXAS, ler_quadro
 from .painel import escolher
 from .reconhecer import carregar_modelo, completar, reconhecer_linha
+from .tempo import atribuir_tempos, resumo
 
 
 def achar_painel(frame):
@@ -252,7 +253,7 @@ def main() -> int:
     if m is None:
         print("nenhuma pauta de tablatura encontrada", file=sys.stderr)
         return 3
-    nome, roi, g0 = m.nome, m.roi, m.grade
+    nome, roi = m.nome, m.roi
     limites = {f[0]: (f[1], f[2]) for f in FAIXAS}
     y0 = limites[nome][0]
     y1 = min(limites[nome][1], frame.shape[0])
@@ -267,26 +268,35 @@ def main() -> int:
         dir_simbolos=args.simbolos or None,
         prefixo=os.path.basename(os.path.dirname(os.path.abspath(args.video))),
     )
-    tokens = sorted(g0.glifos, key=lambda x: (x.coluna, x.corda))
     janelas = varrer_cursor(args.video, (y0, y1), t_max=args.varredura)
+    # TEMPO POR TRAVESSIA. Medido no `iwaki/henze`: o marcador desliza ~65 px/s, então o
+    # onset da nota é quando ele cruza o x dela — invertível. O `tempos_do_cursor`
+    # antigo devolvia o MESMO instante para notas diferentes (3 instantes para 36 notas,
+    # 1 para 3), que é a classe do erro histórico "323 notas com tempo" (eram 3).
+    # A janela de tempo tem de ser onde o marcador ESTÁ ativo, não onde o
+    # `--inicio` caiu: medido no `iwaki/henze`, as janelas ativas estavam em
+    # 113,5–143 s e o `--inicio 0.48` apontava para 164 s, onde ele está parado.
     if janelas:
-        t_ini = janelas[0][0]
-        tempos = tempos_do_cursor(args.video, (y0, y1), tokens, t_ini, args.janela)
-        r = completar(r, tempos)
+        t0 = janelas[0][0]
+    serie = serie_cursor(args.video, (y0, y1), t0, args.janela, passo_s=0.25)
+    veredito = resumo(serie)
+    if veredito["veredito"] == "desliza":
+        onsets = atribuir_tempos([n["x"] for n in r["notas"]], serie)
+        r = completar(r, [(t, None) if t is not None else None for t in onsets])
         r["tempo"] = {
             "medido": True,
-            "mecanismo": "faixa vertical (cursor)",
-            "onset": "inicio do patamar do cursor",
+            "mecanismo": "travessia do marcador (banda que desliza)",
+            "onset": "instante em que o marcador cruza o x da nota",
+            "duracoes": "inferidas (intervalo até o próximo onset)",
+            "serie": veredito,
         }
     else:
-        # NÃO atribuir tempo quando não há marcador. Medido nesta noite: antes disto o
-        # pipeline carimbava o MESMO instante em 144 notas (a classe do erro histórico
-        # "323 notas com tempo" que eram 3 instantes). Nota sem tempo é dívida; nota com
-        # tempo falso é mentira.
+        # NÃO atribuir tempo sem travessia. Nota sem tempo é dívida; nota com tempo
+        # falso é mentira.
         r["tempo"] = {
             "medido": False,
-            "motivo": "nenhuma janela com cursor na varredura",
-            "varredura_s": args.varredura,
+            "motivo": f"marcador {veredito['veredito']} na janela varrida",
+            "serie": veredito,
         }
     r.update(
         {

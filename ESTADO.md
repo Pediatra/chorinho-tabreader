@@ -58,7 +58,7 @@ mudou, com o número que sustenta cada item:
 | --- | --- |
 | **varredura do acervo novo** | **96,5 % com tablatura** (3.855/3.993), em 69,5 min |
 | **cursor no quadro inteiro** | 69 de 3.993 — o portão exige faixa de ≥50 % da **imagem** (540 px) e o cursor tem a altura do painel (~150 px) |
-| **cursor no ROI da faixa** | o mesmo vídeo passa a dar `[[0.5, 4.0], [5.0, 10.0]]` |
+| **cursor no ROI da faixa** | muda onde o detector olha, mas **não basta**: no mesmo vídeo as detecções eram **artefato** (banda parada em x=0–99 por 5 s na borda do painel e bandas em x≈900–1084, fora do painel, que é 0–594). Aquele vídeo **não tem marcador** |
 | **escolha do painel** | o critério antigo (glifos centrados) escolhia o **braço do violão**; com uniformidade do fundo (0,888 × 0,842) escolhe a tablatura — `tab/painel.py`, implementação única |
 | **recorte em x** | exigir 4+ das 6 cordas na mesma coluna estreita o painel ao retângulo real |
 | **efeito do recorte na máscara** | mesmo quadro: recorte de 570 px → máscara `otsu` → **3 algarismos reais**; recorte de 1920 px → `contraste_k31_d25` → 36 tokens, **33 de lixo** |
@@ -67,10 +67,22 @@ mudou, com o número que sustenta cada item:
 | **recuperar a casa de dentro do símbolo** | medido e **reprovado**: 0,889 → 0,687 |
 | **MusicXML** | exportador pronto (score-partwise 4.0, clef TAB, `staff-tuning`, `technical`), com a duração inferida **declarada** |
 
-**Bloqueio do MVP:** a **resolução do onset por nota**. O cursor é encontrado e as
-janelas existem, mas notas diferentes recebem o mesmo instante (3 instantes para 36
-notas; 1 para 3). O MusicXML sai com duração constante **declarada** — honesto, mas não
-é a transcrição com tempo. É o próximo alvo.
+**Tempo por travessia (novo, `tab/tempo.py`):** medido no `iwaki/henze`, o marcador
+**desliza** ~17 px por 0,25 s (65 px/s, banda de 6 px, matiz 102) — então o onset é
+**invertível**: a nota começa quando ele cruza o `x` dela. Em diagnóstico controlado isso
+deu **8 instantes distintos** onde o método antigo dava 1. A integração no pipeline ainda
+não fecha: na janela 113–153 s daquele vídeo o detector devolve uma banda **parada**
+(deslocamento 38 px em 65 amostras), e o pipeline declara `tempo.medido: false` —
+conservador de propósito, porque tempo errado é pior que tempo ausente. 8 testes cobrem o
+método (interpolação, x fora da série, marcador parado, salto entre trechos).
+
+**Bloqueio do MVP:** o **tempo por nota**, e o obstáculo real é anterior ao código:
+**a presença e a semântica do marcador são POR VÍDEO, não por canal**. No vídeo do
+`sky guitar` medido, a série `x(t)` do "cursor" é uma banda PARADA na borda do painel
+por 5 s mais bandas fora do painel — não há marcador nenhum ali. O que existe de
+confiável para esse caso é **áudio** (autorizado pelo dono do projeto) ou a marcação
+manual. O MusicXML sai hoje com duração constante **declarada** — honesto, e é o teto
+do que se pode afirmar sem marcador.
 
 ## O que o JSON entrega
 
