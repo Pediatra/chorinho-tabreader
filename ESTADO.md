@@ -2333,3 +2333,30 @@ chamada com faixas não existe mais, e o gabarito voltou a 0,917/0,986/0,944).
 **O que fica**: a união (neutra no gabarito) e a **direção certa medida** — o caminho é união + uma
 faixa que **poupe o dígito**. Próximo passo: faixa mais estreita, ou apagá-la **só onde a linha é
 fina**, ou aplicá-la **só no caminho do símbolo** (deixando o caminho do algarismo intacto).
+
+## 2026-10-09 — SEPARAR OS DOIS CAMINHOS: o símbolo acha 149 de 163 marcas, com a forma de arco
+
+A ideia que a assimetria da rodada 10 apontou: o símbolo e o algarismo querem processamentos
+**diferentes** da mesma imagem. Medi a metade que importa, **sem tocar no caminho do dígito** (por isso
+o gabarito fica intacto por construção): os glifos do **caminho do símbolo** = união das máscaras +
+faixas apagadas.
+
+| no caminho do símbolo, na posição das marcas | n |
+| --- | --- |
+| **tem token** | **149** |
+| sem token | 14 |
+| fora da ROI | 25 |
+
+E **a forma dos tokens prova**: 2,4 × 1,0 · 2,5 × 1,0 · 2,7 × 0,9 · 3,1 × 1,0 passos — **largos e
+baixos**, que é a assinatura de um **arco** (contra o pipeline de hoje: **0 marcas julgadas** e só
+**10 de 189** com componente dentro de token).
+
+**Ou seja: o conserto é este** — dar ao filtro de símbolo um caminho de candidatos próprio
+(união + faixas), deixando a grade do algarismo (máscara escolhida) **intacta**. O recall de 0,41 que eu
+medi na rodada 10 veio de fazer isso **destruindo o dígito**; aqui a mesma cobertura aparece **sem**
+tocar no dígito.
+
+**Próximo passo (implementação)**: `reconhecer_linha` passa a julgar os tokens do caminho do símbolo
+**além** dos da grade — os primeiros para o filtro de símbolo, os segundos para o algarismo. Medir o
+fim a fim e o gabarito juntos: o gabarito **tem de ficar** em 0,917/0,986/0,944 (o caminho do dígito não
+muda) e o recall deve subir.
