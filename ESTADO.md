@@ -1234,6 +1234,37 @@ Conferido depois de corrigir: `{videos_amostrados: 6, videos_com_tablatura_marca
 canais_sem_nenhuma_marca: []}`. **Número certo com legenda certa** — porque número certo com
 legenda errada é a mesma armadilha que me fez acusar o `mr. tabs` de ler 5 % de algarismo.
 
+## 2026-10-09 — TRÊS bugs meus no mesmo campo, e o número que ele passou a mostrar
+
+O campo `cobertura_de_marcas` levou três correções minhas na mesma rodada, e as três são a mesma
+lição — **número certo com legenda errada é a armadilha que já me pegou quatro vezes**:
+
+1. `basename` de um lado só (os índices guardam o vídeo em formatos diferentes) → dizia 0 de 6 onde
+   havia 3;
+2. listava em `canais_sem_nenhuma_marca` o canal de **qualquer** vídeo sem marca → dizia "cifra
+   club, mr. tabs" com 3 de 6 marcados;
+3. **deduplicava só os marcados**, então vídeo sem marca contava 2× (os 2 instantes da amostra) →
+   `videos_amostrados: 82` para **51** vídeos de verdade.
+
+Corrigido e conferido (`51` vídeos, `20` com tablatura entregue, fração **0,392**, nenhum canal sem
+marca). E o mais importante: **esse número era 1 antes de eu extrair as tablaturas dos próprios
+vídeos da coleta** — ou seja, o alinhamento treino/teste, que era 1 de 51, já subiu para 20 de 51
+**sem o dono marcar nada ainda**, só por eu ter ido buscar os vídeos certos.
+
+## Tentativa de trava de FORMA (sem o dono), medida e NÃO conclusiva
+
+Procurei uma assinatura geométrica que separasse os 356 símbolos dos negativos, como a barra
+vertical separou (razão < 0,35):
+
+| feature | POSITIVOS (mediana) | NEGATIVOS (mediana) | separa? |
+| --- | --- | --- | --- |
+| aspecto w/h | 1,52 | 1,50 | **não** |
+| tinta (fração) | 0,173 | 0,327 | parcial (p10 se sobrepõe: 0,133 × 0,107) |
+| componentes | 4 | 2 | parcial |
+
+Nenhuma separa sozinha. Uma **combinação** (tinta baixa **e** ≥3 componentes) poderia separar, mas
+isso exige varredura que eu **não rodei** — e não vou apresentar como se tivesse.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

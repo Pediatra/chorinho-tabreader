@@ -424,27 +424,32 @@ def cobertura_de_marcas(amostra: dict[str, list[dict]]) -> dict:
                 )
         except OSError, ValueError, TypeError:
             continue
-    total = com_marca = 0
-    por_canal: dict[str, list[int]] = {}
+    # Conta VÍDEOS ÚNICOS, não frames: a amostra tem 2 instantes por vídeo, e a primeira versão
+    # deste campo dizia "videos_amostrados: 102" para 51 vídeos — número certo, legenda errada,
+    # que é a armadilha que já me pegou quatro vezes neste projeto.
+    vistos: dict[str, list[int]] = {}
+    ja: set[tuple[str, str]] = set()
     for canal, itens in amostra.items():
-        conta = por_canal.setdefault(str(canal), [0, 0])
+        conta = vistos.setdefault(str(canal), [0, 0])
         for it in itens:
-            total += 1
-            conta[0] += 1
+            chave = (str(canal), pathlib.Path(str(it.get("arquivo", ""))).name[:24])
             if (
-                str(canal),
-                pathlib.Path(str(it.get("arquivo", ""))).name[:24],
-            ) in marcados:
-                com_marca += 1
+                chave in ja
+            ):  # deduplica TODO vídeo (antes eu deduplicava só os marcados, e
+                continue  # vídeo sem marca contava 2x: 82 "vídeos" para 51 de verdade)
+            ja.add(chave)
+            conta[0] += 1
+            if chave in marcados:
                 conta[1] += 1
-    # Nome honesto: canal SEM NENHUMA marca entre os vídeos amostrados. Antes eu listava o canal
-    # de qualquer vídeo sem marca, e o campo dizia "cifra club, mr. tabs" quando 3 de 6 estavam
-    # marcados — número certo com legenda errada.
-    sem_marca = sorted(c for c, (tot, mar) in por_canal.items() if tot and mar == 0)
+    total = sum(v[0] for v in vistos.values())
+    n_marca = sum(v[1] for v in vistos.values())
+    # Nome honesto: o que existe hoje é a tablatura ENTREGUE para marcar (o índice), não
+    # necessariamente a marcada (o ouro). Chamar de "marcada" seria a legenda errada de novo.
+    sem_marca = sorted(c for c, (tot, mar) in vistos.items() if tot and mar == 0)
     return {
         "videos_amostrados": total,
-        "videos_com_tablatura_marcada": com_marca,
-        "fracao": round(com_marca / total, 3) if total else 0.0,
+        "videos_com_tablatura_entregue": n_marca,
+        "fracao": round(n_marca / total, 3) if total else 0.0,
         "canais_sem_nenhuma_marca": sem_marca,
     }
 
