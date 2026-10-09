@@ -1,0 +1,133 @@
+# Perfil dos canais — o que o dono do projeto descreveu, e o que já foi medido.
+#
+# Regra: o que veio da descrição entra como `esperado` com `confirmado`, e só vira
+# `confirmado: medido` quando a medição sustentar. Descrição é hipótese; hipótese que
+# não se confirma é informação tão útil quanto a que se confirma (ver `docs/decisoes/`).
+#
+# `símbolos`: o dono do projeto decidiu (2026-10-09) que o significado será dado DEPOIS,
+# olhando imagem. O pipeline só precisa **separar e guardar** os símbolos de cada canal
+# (`simbolo_cru` no JSON + PNG deduplicado por hash em `data/saida/simbolos/`).
+
+versao: 1
+atualizado: 2026-10-09
+
+canais:
+
+  "cifra club":
+    fonte: dono do projeto
+    posicao:
+      esperado: base            # "100% dos vídeos fica na parte de baixo"
+      muda_de_lugar: false
+      confirmado: pendente
+    tem_tablatura: parcial      # "tem vídeos que não tem tablatura"
+    partitura: false
+    marcador:
+      tipo: cor_por_algarismo   # "não é uma faixa, as notas vão mudando de cor"
+      cor: laranja
+      caminho: false            # não anda: a cor acumula no algarismo já tocado
+      medido: "41/41 onsets, 8 instantes distintos, intervalo mediano 1,80 s (rodadas 47-50)"
+      confirmado: medido
+    armadilhas:
+      - "acordes ficam à direita da tablatura ou em cima — não confundir com casa"
+      - "tem fala do professor junto do violão; usar áudio exige cuidado"
+    simbolos:
+      acao: separar_e_guardar
+
+  "sky guitar":
+    fonte: dono do projeto
+    posicao:
+      esperado: varia entre topo e base, e NÃO muda durante o vídeo
+      muda_de_lugar: false
+      confirmado: pendente
+    tem_tablatura: parcial      # "primeira parte é só execução; a segunda tem partitura e tab"
+    partitura: true
+    marcador:
+      tipo: faixa_vertical
+      cor: "não tem cor fixa"
+      medido: >
+        com portão de matiz fixo (85-140) nunca foi detectada; com o portão ABERTO, no
+        `asturias` aparece em x≈308-312 com matiz 13-14 e saturação ~110, só na segunda
+        metade (t=522-939 de 1044 s)
+      confirmado: medido
+    armadilhas:
+      - "pegar todos os números pode trazer números da PARTITURA como se fossem da tablatura"
+      - "a tablatura só aparece da metade para o fim: 20 de 20 vídeos chamados de 'sem tablatura' por um instante único têm tablatura em algum instante"
+    simbolos:
+      acao: separar_e_guardar
+
+  "guitar dell ́arte":
+    fonte: dono do projeto
+    posicao:
+      esperado: base (90% dos vídeos), às vezes topo
+      muda_de_lugar: false
+      confirmado: pendente
+    partitura: true
+    marcador:
+      tipo: faixa_vertical
+      cor: azul                 # "uma faixa azul, mas já vi vídeos que não tem marcador"
+      confirmado: pendente
+    armadilhas:
+      - "números da partitura podem ser confundidos com os da tablatura"
+      - >
+        notas fantasmas: ao passar da primeira para a segunda tablatura, notas do fim da
+        primeira podem reaparecer no começo da segunda — nota que não existe
+      - "primeira parte é só execução; a segunda é a execução lenta com partitura e tab"
+    simbolos:
+      acao: separar_e_guardar
+
+  violaodecria:
+    fonte: dono do projeto
+    posicao:
+      esperado: sem ponto fixo — formato TikTok, a tablatura aparece em pontos diferentes
+      muda_de_lugar: true
+      confirmado: pendente
+    tem_tablatura: parcial      # "nem todos os vídeos têm tablatura"
+    tem_violao: parcial         # "nem todos são de violão" (peguei um de TECLADO)
+    partitura: false
+    marcador:
+      tipo: nenhum              # "0 vídeos com marcador"
+      confirmado: pendente
+    armadilhas:
+      - "tablatura simplificada, como se fosse feita no bloco de notas"
+      - "aparece mensagem de pergunta do TikTok na tela do vídeo"
+    simbolos:
+      acao: separar_e_guardar
+
+  iwaki:
+    fonte: dono do projeto
+    posicao:
+      esperado: base            # "está em baixo em todos os vídeos"
+      muda_de_lugar: false
+      confirmado: pendente
+    partitura: true
+    marcador:
+      tipo: nenhum              # "não tem marcador visível"
+      medido: "6 vídeos x 7 instantes = 0 detecções"
+      confirmado: medido
+    armadilhas:
+      - "números da partitura podem ser confundidos com os da tablatura"
+    simbolos:
+      acao: separar_e_guardar
+
+  "shin izumi":
+    fonte: dono do projeto
+    posicao:
+      esperado: base
+      muda_de_lugar: false
+      confirmado: pendente
+    partitura: false
+    marcador:
+      tipo: nenhum
+      confirmado: pendente
+    armadilhas:
+      - >
+        a tablatura mais difícil do acervo: números DENTRO de bolinhas, às vezes vários
+        números em círculos em casas diferentes da mesma corda, um em cima do outro
+        formando um elíptico; e muitos símbolos/riscos ligando números, alguns sem
+        relação com técnica
+      - "no começo aparece o compasso (4/4) e o capotraste como 'fret capo (casa)'"
+    afinacao_na_tela:
+      esperado: true            # "no começo da imagem vem indicando 4/4 e o capotraste"
+      onde: comeco_do_video
+    simbolos:
+      acao: separar_e_guardar
