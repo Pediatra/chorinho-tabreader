@@ -53,3 +53,37 @@ achados_da_auditoria:
   - "8% da amostra (4 de 48) ainda é PEDAÇO DE PARTITURA: o delimitador não a exclui em todos os painéis"
   - "25% (12 de 48) é material de linha da tablatura, incluindo as 5 CRUZES (barline x corda) que cabem na caixa e escapam das regras de tamanho"
   - "33% (16 de 48) era algarismo puro guardado como símbolo — o alvo do discriminador"
+
+# ---------------------------------------------------------------------------
+# Vocabulário observado POR CANAL (o que já apareceu nas duas folhas lidas no olho).
+# Isto é COBERTURA, não significado: a coluna `significado_oficial` só recebe valor quando o
+# dono do projeto confirma. Símbolo sem significado é dívida declarada, não erro.
+vocabulario_por_canal:
+  mr. tabs:
+    visto:
+      - "(n)  algarismo entre parênteses — nota presa (CONFIRMADO pelo dono)"
+      - "(-  abertura de parêntese com uma linha da tablatura atravessando"
+    lixo_dominante: "hastes de barline e pedaços de corda (§)"
+  shin izumi:
+    visto:
+      - "fragmento de arco (ligadura cortada, sem as pontas)"
+      - "diagonal — candidato a slide (não confirmado)"
+      - "rabisco vertical (não identificado)"
+    lixo_dominante: "hastes, fotos borradas e algarismos (§ e &)"
+  tv on guitar:
+    visto: ["nada de símbolo identificado nas duas folhas"]
+    lixo_dominante: "algarismos guardados como símbolo (o maior foco de falso símbolo medido)"
+  violaodecria:
+    visto: ["nada de símbolo identificado"]
+    lixo_dominante: "nomes de acorde em TEXTO e fotos (não é tablatura)"
+  cifra club:
+    visto: ["nada de símbolo identificado"]
+    lixo_dominante: "gradiente de fundo e pedaços de corda"
+  # Os demais canais apareceram nas folhas com algarismo e/ou lixo; símbolo ainda não.
+
+# O que o mapa ainda NÃO tem, dito sem rodeio:
+# - sigla de canal com vocabulário próprio mapeado: 1 (mr. tabs, e só um símbolo);
+# - canais amostrados com algum símbolo visto: 2 (mr. tabs, shin izumi);
+# - canais amostrados sem nenhum símbolo identificado: 15.
+# Conclusão: o vocabulário por canal está no COMEÇO. Símbolo de verdade é ~2% da coleta, e a
+# coleta precisa parar de guardar lixo antes de valer a pena ampliar a leitura.
