@@ -1312,6 +1312,33 @@ dos vídeos da coleta. LOCA:
 segue 0,96–0,98. A distância entre "onde foi treinado" e "onde é usado" era o problema inteiro, e
 ela fechou.
 
+## 2026-10-09 — coleta com o modelo alinhado: precisão no olho 29 %, e o motivo é o RECORTE SALVO
+
+A coleta rodou com o detector treinado nos vídeos dela (523 positivos, precisão 0,89–0,91 no LOCA):
+**942 símbolos em 4.646 tokens (20,3 %)**. Amostra de 48 no olho:
+
+| categoria | medição no olho |
+| --- | --- |
+| símbolo de verdade (arcos, slides, `X`, `(2)`, ornamento) | ~14 de 48 = **29 %** |
+| algarismo guardado como símbolo | ~28 de 48 = **58 %** |
+| lixo/notação | ~4 de 48 = 8 % |
+
+**O LOCA diz 89–91 % e a coleta mostra 29 %** — a mesma contradição de sempre, agora com o par
+treino/teste já alinhado por vídeo. E a explicação, desta vez, é a que eu deveria ter visto antes:
+
+> **A decisão é feita na JANELA LARGA (2,4 × 1,6 passo, centrada no token) e o PNG salvo é a CAIXA
+> JUSTA do token.** Num token fundido de dígito + símbolo, a janela contém o arco (e o detector
+> aprova com razão), mas a caixa justa contém o DÍGITO. O que eu julgo na amostra é o recorte
+> salvo — então eu estou julgando o recorte errado, não a decisão.
+
+Isso reconcilia **tudo**: o LOCA alto (mede a decisão), a amostra cheia de dígito (mede o recorte),
+e as duas tentativas anteriores de "recortar o componente" (que falharam porque escolhiam o
+componente pela CLASSE, e um dígito de um `11` fundido era escolhido como símbolo).
+
+**Próximo passo, medível**: salvar **a mesma janela que o detector julgou** (ou o componente
+aprovado **com a vizinhança**), em vez da caixa justa do token — e remedir no olho. Se a amostra
+passar a mostrar arcos em vez de dígitos, a precisão da coleta é a do LOCA.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
