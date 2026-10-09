@@ -397,6 +397,36 @@ def extensao_das_linhas(
     return int(melhor[0]), int(melhor[1])
 
 
+#: Nitidez mínima de um recorte para ele poder ser símbolo — variância do laplaciano.
+#: Medido nos rótulos auditados, nas DUAS escalas (o ampliado 4x NEAREST infla a variância, e
+#: por isso o limiar tem de ser declarado na escala em que será usado):
+#:
+#:     4x:  nada 4-3690 (mediana 120) | algarismo min 488   | símbolo min 430
+#:     1x:  nada 22-6327 (mediana 275) | algarismo min 2030 | símbolo min 1608
+#:
+#: Em 1x, 600 fica 2,7x abaixo do mínimo útil e bem acima da mediana do lixo. Nos rótulos da
+#: folha 1: pega ~metade do `nada` com ZERO algarismo ou símbolo morto. O `nada` é foto borrada
+#: e fundo — não tem traço, então não tem alta frequência.
+NITIDEZ_MINIMA = 600.0
+
+
+def e_sem_nitidez(cinza: np.ndarray, g: Glifo, limiar: float = NITIDEZ_MINIMA) -> bool:
+    """O recorte é borrado/fundo demais para ser símbolo?
+
+    Args:
+        cinza: imagem em tons de cinza do recorte (não a máscara).
+        g: token a julgar.
+        limiar: variância mínima do laplaciano.
+
+    Returns:
+        True se o token não tem nitidez de traço.
+    """
+    recorte = cinza[g.y0 : g.y1 + 1, g.x0 : g.x1 + 1]
+    if recorte.size < 9:
+        return False
+    return float(cv2.Laplacian(recorte, cv2.CV_64F).var()) < limiar
+
+
 def e_haste_fina(
     tinta: np.ndarray, g: Glifo, razao_max: float = 0.35, desvio_max: float = 0.06
 ) -> bool:
@@ -439,6 +469,7 @@ def delimitar_tokens(
     linhas_y: list[int] | None = None,
     extensao: tuple[int, int] | None = None,
     tinta: np.ndarray | None = None,
+    cinza: np.ndarray | None = None,
 ) -> tuple[list[Glifo], dict[str, int]]:
     """Só o que cabe DENTRO da tablatura; devolve os válidos e a contagem por motivo.
 
@@ -452,6 +483,7 @@ def delimitar_tokens(
         passo: distância entre cordas, em px.
         linhas_y: y das 6 cordas (para a trava vertical); None desliga essa trava.
         tinta: máscara booleana do recorte (para a haste fina); None desliga essa trava.
+        cinza: tons de cinza do recorte (para a nitidez); None desliga essa trava.
         extensao: ``(x0, x1)`` onde as 6 cordas coexistem; token fora
             disso é vídeo ao lado da tablatura (medido: 21 % dos tokens numa
             amostra de 1.694 caíam fora; no gabarito, zero).
@@ -468,7 +500,9 @@ def delimitar_tokens(
     for g in glifos:
         altura = (g.y1 - g.y0 + 1) / passo
         largura = (g.x1 - g.x0 + 1) / passo
-        if tinta is not None and e_haste_fina(tinta, g):
+        if cinza is not None and e_sem_nitidez(cinza, g):
+            motivos["sem_nitidez"] += 1
+        elif tinta is not None and e_haste_fina(tinta, g):
             motivos["haste_fina"] += 1
         elif extensao is not None and (g.x1 < extensao[0] or g.x0 > extensao[1]):
             motivos["fora_da_extensao"] += 1
@@ -535,6 +569,7 @@ def segmentar(img: np.ndarray, n_cordas: int = 6, debug: str | None = None) -> G
         grade.linhas_y,
         extensao=extensao_das_linhas(img, grade.linhas_y) if grade.linhas_y else None,
         tinta=usada,
+        cinza=_para_cinza(img),
     )
     grade.recusados = recusados
     if recusados:

@@ -657,6 +657,33 @@ recusas acima, não no total.
 elas existem no `Grade.recusados` e nos avisos do `segmentar`, mas não chegam ao artefato final.
 "nada some em silêncio" ainda não vale no inventário; é dívida declarada.
 
+## 2026-10-09 — segunda regra que passa: NITIDEZ (o `nada` é borrado, não tem traço)
+
+O maior pedaço restante era o `nada` (~29 % da coleta: foto borrada e fundo). A suspeita
+registrada era **nitidez**, não forma — e ela se confirma. Variância do laplaciano, nos
+rótulos auditados, **nas duas escalas** (o ampliado 4× NEAREST da auditoria infla a variância,
+e por isso o limiar tem de ser declarado na escala em que vai ser usado):
+
+| grupo | 1× mín | 1× mediana | 4× mín | 4× mediana |
+| --- | --- | --- | --- | --- |
+| **`nada`** | **22** | **275** | 4 | 120 |
+| `simbolo` | 1608 | 11327 | 430 | 2449 |
+| `algarismo` | 2030 | 18928 | 488 | 2810 |
+| `tablatura` | 751 | 36109 | 114 | 3235 |
+
+Varredura em 4× (n=96): L=100 pega 44 % do lixo com **0 de 40** úteis mortos; L=200 → 64 %;
+**L=400 → 76 % com 0 de 40**; L=800 → 92 %, mas mata **5 de 40** (12 %). Em 1× (n=48), o mínimo
+útil é 1608 e a mediana do lixo é 275.
+
+**Escolhido 600 em 1×**: 2,7× abaixo do mínimo útil e bem acima da mediana do lixo. Entrou como
+`tabseg.e_sem_nitidez` com o motivo `sem_nitidez`.
+
+**Conferido depois de entrar**: os 3 modelos oficiais dão os mesmos números (0,917 / 0,986 /
+0,944) e a trava de deslocamento **não disparou** — nenhum glifo do gabarito tem nitidez abaixo
+de 600. É a **segunda regra geométrica que passa** no teste contra a verdade (a primeira foi a
+haste fina, na rodada passada), e as duas compartilham o mesmo método: alvo estreito, medição
+antes do código, e critério de zero colateral.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
