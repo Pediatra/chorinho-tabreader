@@ -684,6 +684,25 @@ de 600. É a **segunda regra geométrica que passa** no teste contra a verdade (
 haste fina, na rodada passada), e as duas compartilham o mesmo método: alvo estreito, medição
 antes do código, e critério de zero colateral.
 
+## 2026-10-09 — as quatro travas medidas juntas: 43 % do que entraria é recusado
+
+Medido nos mesmos quadros da coleta (50 quadros com tablatura, 2.491 tokens mantidos):
+
+| motivo | tokens recusados | % das recusas |
+| --- | --- | --- |
+| `fora_da_extensao` (fora da tablatura, em x) | 854 | 45 % |
+| **`sem_nitidez`** (regra desta rodada) | **673** | **35 %** |
+| `largo_demais` (tira de linha, texto) | 290 | 15 % |
+| `haste_fina` (regra da rodada passada) | 93 | 5 % |
+| **total** | **1.910** | |
+
+**43 % dos tokens candidatos são recusados** (1.910 de 4.401), e o gabarito não perdeu um glifo.
+
+**Validação cruzada que fecha**: a nitidez recusa **673 de 2.491 = 27 %** dos tokens mantidos, e
+a leitura no olho das duas folhas dizia que o `nada` era **29 %** da coleta. Dois caminhos
+independentes — uma regra geométrica e uma amostra rotulada à mão — dando o mesmo número. Isso
+é o tipo de concordância que dá confiança na regra, e não a média de acerto.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
