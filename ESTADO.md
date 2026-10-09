@@ -1265,6 +1265,22 @@ vertical separou (razão < 0,35):
 Nenhuma separa sozinha. Uma **combinação** (tinta baixa **e** ≥3 componentes) poderia separar, mas
 isso exige varredura que eu **não rodei** — e não vou apresentar como se tivesse.
 
+## 2026-10-09 — o número que resume o goal: precisão 77–91 % no treino, 27 % na coleta
+
+Consolidação dos dois lados da mesma medida (não é medição nova — é juntar o que já estava medido):
+
+| onde | recall | **precisão** |
+| --- | --- | --- |
+| vídeos **marcados** pelo dono (onde o detector foi treinado) | 0,96–0,97 | **0,77 / 0,77 / 0,91** (sementes 1/2/3) |
+| vídeos da **coleta** (que ele não marcou) | — | **0,27** (13 de 48 no olho) |
+
+Precisão = TP/(TP+FP), dos números do último LOCA (342/102, 346/103, 341/32).
+
+**O detector não é ruim: ele é ruim ONDE NÃO FOI TREINADO.** 27 % contra 77–91 % é a distância
+entre os 28 vídeos marcados e os 51 que a coleta usa. Isso fecha a explicação do goal inteiro e
+mostra que o caminho não é mexer no modelo — é **cobertura de vídeo**, como a lição 6 do projeto
+diz desde o começo.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
