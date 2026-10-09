@@ -2571,3 +2571,43 @@ registrado: **o arco encosta na corda**, então a caixa dele cruza a linha com f
 disponíveis (limiar, forma, posição) estão medidas: o limiar não tem joelho, a forma é monotônica (e a
 altura é inerte), e a posição piora os dois lados. **O limite é a discriminação do modelo na
 distribuição deste pool** — e mexer no modelo está fora do goal.
+
+## 2026-10-09 — AUDITORIA: a discrepância 30 x 178 NÃO EXISTE (erro meu de leitura) e a tolerância inflava o "149"
+
+O dono mandou auditar antes de mexer no classificador, e a auditoria derrubou **duas conclusões minhas**:
+
+**1) As duas grades são a MESMA.** Comparei a grade do `Candidato` (`c.grade`) com `segmentar(c.roi)`, que é
+o que o `reconhecer_linha` usa por dentro: passo, `linhas_y` e número de glifos **idênticos**, e
+**535 candidatos por cada caminho** em 8 imagens. Logo a página de auditoria mostra **o que o pipeline
+julga** — a suspeita de que ela mostrava outra coisa está **refutada por medição**.
+
+**2) E a "discrepância 30 x 178" era eu lendo errado o meu próprio número**: **178 = 149 da primeira
+passada (algarismos) + 29 da segunda passada** — e a segunda passada julga exatamente os **30
+candidatos** da página (dos quais ~29 aprovados). **Os dois números sempre foram consistentes.**
+Oitava vez que o elo fraco é a minha verificação, não o sistema.
+
+**3) E uma terceira, que corrige um número que eu já tinha apresentado como achado**: o "149 de 163
+marcas ganham token" vinha de uma tolerância de **±1 passo EM CADA EIXO** (até ~2 passos de folga).
+Com distância real até a marca mais próxima:
+
+| | |
+| --- | --- |
+| candidatos com forma (18 tablaturas) | **30** |
+| **a menos de 1 passo de uma marca do dono** | **19 (63 %)** |
+| distância mediana | 0,78 passo |
+| p75 | 2,67 passos |
+| mais de 6 passos | 3 |
+
+**Portanto o quadro real é**: a segunda passada **só gera 30 candidatos** nas 18 tablaturas, e **19**
+deles ficam em cima de uma marca — ou seja, **~170 das 189 marcas não têm candidato nenhum**. É esse o
+"fraco" que o dono viu **no olho**, e ele estava certo: **o caminho do símbolo quase não propõe
+candidato em cima do arco.**
+
+**Também corrigi a página de auditoria**, a pedido dele: recorte de ±3,2 × ±2,2 passos (o anterior
+cortava o símbolo) e **duas caixas com significados diferentes** — **amarela = a janela que o modelo
+vê** (é por ela que se classifica), **verde = o candidato bruto**, que costuma ser um **fragmento**
+(tira de linha ou dígito) e por isso **não cobre o símbolo**. Ele tinha razão nas duas observações.
+
+**Próximo passo (B do goal)**: por que o caminho do símbolo gera só 30 candidatos onde há 189 marcas —
+medir se o arco existe como componente cru na posição da marca **na máscara união+faixas** e, se existe,
+por que não sobrevive ao `agrupar_tokens`/filtro de forma.
