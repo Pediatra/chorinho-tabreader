@@ -1,0 +1,20 @@
+[
+ {
+  "arq": "C14_corrigido_robert_lunn.png",
+  "canal": "robert lunn",
+  "video": "a second past midnight - includes tab - classical guitar.mp4",
+  "frac": 0.85,
+  "passo": 31.0,
+  "nota": "recorte refeito com 0,6 passo extra de margem (faltava a 6a corda)",
+  "rotulo": "C14_corrigido_robert_lunn.png | robert lunn | recorte refeito com 0,6 passo extra de margem (faltava a 6a corda)"
+ },
+ {
+  "arq": "C05_corrigido_iwaki_0_3.png",
+  "canal": "iwaki",
+  "video": "julia florida - barrios ｜ tab.mp4",
+  "frac": 0.3,
+  "passo": 27.4,
+  "nota": "substitui a que era PAUTA; instante 0.3, passo 27.4, 35 glifos",
+  "rotulo": "C05_corrigido_iwaki_0_3.png | iwaki | substitui a que era PAUTA; instante 0.3, passo 27.4, 35 glifos"
+ }
+]

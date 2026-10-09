@@ -1741,6 +1741,26 @@ delas — e não só as lacunas internas de uma pauta. É a terceira variação 
 simétrico → vazio deslocado → vazio largo entre pautas), e as duas primeiras só moveram o falso
 positivo do LOCA, não o fim a fim.
 
+## 2026-10-09 — os DOIS erros de extração que o dono apontou: CORRIGIDOS e conferidos no olho
+
+**C14 (`robert lunn`)** — ele escreveu *"o recorte dessa tablatura está errado tá faltando a última
+linha"*. Causa: o `roi_das_cordas` usa margem de **1 passo** em volta das linhas detectadas, e a 6ª
+corda ficou fora. Refiz com **0,6 passo extra** em cada lado: faixa de **217 → 255 px**, e as 6 cordas
+aparecem (conferido na imagem: a 6ª linha entrou, com `tambora`, `N.H.` e os `x` visíveis).
+
+**C05 (`iwaki`)** — ele escreveu *"isso é uma partitura, algo de errado não está certo"*. Causa: o
+detector de painel escolheu uma **pauta de 5 linhas** e eu entreguei como tablatura. Procurei outro
+instante daquele vídeo e achei em `frac=0,3`: **passo 27,4, 35 glifos**, e a imagem confirma uma
+**tablatura de verdade** (`7`, `9`, `11`, `(12)`, `5`, `2`, `4`, `3`, `0`, `8`).
+
+Os dois recortes corrigidos estão em `data/saida/correcoes/` com uma ferramenta própria
+(`marcar.html`) — e o dono pode remarcá-los com o mesmo gesto de sempre.
+
+**Achado de bônus, que me pouparia tempo antes**: o `Candidato` **já tem** os campos `y0`/`y1` — a
+origem da ROI no quadro. Eu vinha **deduzindo** esse valor (`altura_do_quadro − altura_da_ROI`) em vez
+de ler o campo. A dedução estava certa (conferida no `iwaki` por margem exata), mas era um risco
+desnecessário: **o dado estava no objeto**.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
