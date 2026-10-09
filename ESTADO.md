@@ -1382,6 +1382,26 @@ das marcas), e eu não medi essa diferença — é o que falta medir antes de qu
 **Não vou fechar o goal com 27 %**, e também não vou apresentar o 89–91 % do LOCA como se fosse a
 precisão da coleta: são duas medidas diferentes, e a que importa para o produto é a segunda.
 
+## 2026-10-09 — o que faltava medir: os recortes da coleta são MISTURA (e o modelo aprova negativo)
+
+Comparei as três populações pela mesma feature (tinta = fração de pixels de tinta na janela):
+
+| conjunto | aspecto (mediana) | **tinta (mediana)** | interquartil |
+| --- | --- | --- | --- |
+| POSITIVOS do gabarito (símbolos) | 1,56 | **0,174** | 0,154–0,197 |
+| NEGATIVOS do gabarito | 1,50 | **0,332** | 0,241–0,415 |
+| **RECORTES DA COLETA** | 1,58 | **0,232** | 0,195–0,278 |
+
+A coleta fica **entre** os dois: é uma **mistura**, e a mediana é compatível com os ~27 % de símbolo
+que eu contei no olho. Conclusão medida: **no pipeline o modelo aprova recortes que se parecem com
+os NEGATIVOS do gabarito** — os mesmos que ele rejeita 94 % das vezes no gabarito.
+
+Então o problema **não é o tipo de objeto**: nas duas pontas são janelas de token das MESMAS
+tablaturas. É a **decisão** que não se reproduz. E o teste que isola isso é direto e ainda não foi
+feito: **pegar UM negativo do gabarito (dígito, que o modelo rejeita) e o MESMO token no pipeline,
+e comparar as duas probabilidades**. Se divergirem, há algo diferente no caminho de inferência
+(pré-processamento, ROI, conversão de cor) — e não no modelo nem nos dados.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
