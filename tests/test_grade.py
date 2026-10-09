@@ -46,3 +46,20 @@ def test_limite_exato_do_gap() -> None:
     """O limite é inclusivo: gap de exatamente 0,25 passo funde, 1 px a mais separa."""
     assert len(agrupar_tokens([_glifo(100, 108), _glifo(113, 120)], PASSO)) == 1
     assert len(agrupar_tokens([_glifo(100, 108), _glifo(114, 120)], PASSO)) == 2
+
+
+def test_fundir_preserva_as_caixas_dos_componentes() -> None:
+    """Um token fundido guarda onde cada pedaço estava.
+
+    Sem isto, um `<7>` vira a classe `harmonico` e a casa 7 se perde para sempre: o
+    símbolo era descartado no instante em que o token era montado.
+    """
+    tokens = agrupar_tokens([_glifo(100, 108), _glifo(110, 118)], PASSO)
+    assert len(tokens) == 1
+    assert tokens[0].componentes == ((100, 0, 108, 10), (110, 0, 118, 10))
+
+
+def test_token_simples_registra_o_proprio_componente() -> None:
+    """Token de um componente só também tem uma caixa registrada (nunca vazio)."""
+    tokens = agrupar_tokens([_glifo(100, 108)], PASSO)
+    assert tokens[0].componentes == ((100, 0, 108, 10),)

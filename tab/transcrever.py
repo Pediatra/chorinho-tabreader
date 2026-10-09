@@ -17,7 +17,7 @@ import sys
 import cv2
 import numpy as np
 
-from .caminhos import MODELO_PADRAO
+from .caminhos import MODELO_PADRAO, SAIDA
 from .cursor import detectar_cursor
 from .inventario import FAIXAS, ler_quadro
 from .reconhecer import carregar_modelo, completar, reconhecer_linha
@@ -226,6 +226,11 @@ def main() -> int:
         help="segundos a varrer atrás do cursor",
     )
     ap.add_argument("--modelo", default=str(MODELO_PADRAO))
+    ap.add_argument(
+        "--simbolos",
+        default=str(SAIDA / "simbolos"),
+        help="diretório dos recortes crus de símbolo ('' desliga)",
+    )
     ap.add_argument("--json")
     args = ap.parse_args()
 
@@ -250,7 +255,15 @@ def main() -> int:
     y1 = min(limites[nome][1], frame.shape[0])
 
     modelo, rotulos, dev = carregar_modelo(args.modelo)
-    r = reconhecer_linha(roi, modelo, rotulos, dev)
+    # Símbolo não se descarta: o ponta a ponta também grava o recorte cru.
+    r = reconhecer_linha(
+        roi,
+        modelo,
+        rotulos,
+        dev,
+        dir_simbolos=args.simbolos or None,
+        prefixo=os.path.basename(os.path.dirname(os.path.abspath(args.video))),
+    )
     tokens = sorted(g0.glifos, key=lambda x: (x.coluna, x.corda))
     janelas = varrer_cursor(args.video, (y0, y1), t_max=args.varredura)
     t_ini = janelas[0][0] if janelas else t0

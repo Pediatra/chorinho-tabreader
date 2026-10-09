@@ -55,6 +55,7 @@ de +0,038 e +0,046 estão dentro desse ruído e não deveriam ter sido tratados 
 | --- | --- |
 | **tablatura** (corda, casa, coluna, compasso) | 0,892; corda e coluna robustas |
 | **técnica** | classe treinada e estável; **sem ganho de acerto** (o modelo já lê o algarismo com o slide junto) |
+| **símbolo cru** | **implementado**: todo token não numérico (e todo token fundido) sai com recorte em PNG deduplicado por hash, caixas dos componentes, larguras em passo e top-3 de classes |
 | **tempo** | **dois mecanismos**, um medido em cada caso (abaixo) |
 | **partitura** (5 linhas) | **fora** desta cadeia — exige OMR próprio |
 
@@ -98,6 +99,8 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | relabelar gabarito por proxy geométrico (`partes>=2`) | **−0,1**, duas vezes (revertida) |
 | classe `junk` no treino | troca entre canais, não ganho (0,805 = 0,805) |
 | `lim_x` por margem de barline | apagaria **506 glifos (4,3%)** em 60 linhas |
+| **recuperar a casa de dentro do símbolo fundido** (`casa_recuperada`) | **−0,20** (0,889 → 0,687), pior nas 3 sementes; `paolo` 25→10 |
+| margem simétrica no recorte do classificador | **−0,02** com os MESMOS pesos (0,865 → 0,844): pré-processamento é entrada do modelo |
 
 ## Lições metodológicas (custaram rodadas)
 

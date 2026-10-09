@@ -40,8 +40,10 @@ docker compose run --rm chorinho python -m tab.avaliar
 - **GPU por CDI**: o daemon deste host **não** tem o runtime `nvidia` registrado, e
   registrar exigiria `sudo`. `gpus: all` no `compose.yaml` funciona assim mesmo —
   verificado: `torch.cuda.is_available() == True` na RTX 3060 Ti;
-- **acervo** montado em `/acervo`, **somente leitura**: são 3.781 vídeos / 190 GB / 13
-  canais em `/run/media/gabriel/3014CD4714CD1130/chorinho`. Nunca escreva lá;
+- **acervo** montado em `/acervo`, **somente leitura**: **3.908 vídeos / 183 GB / 17
+  canais** em `/run/media/gabriel/3014CD4714CD1130/chorinho`, e **ainda crescendo** (o
+  dono do projeto segue baixando). Nunca escreva lá; para varrer, use `tab.varredura`,
+  que lê por instante e é retomável;
 - **`ffmpeg` e `fonts-liberation` são dependências de trabalho, não enfeite**:
   `ffmpeg` porque **44% do acervo é AV1** e o OpenCV não decodifica (sem ele quase
   metade do acervo passa em branco); as fontes porque são o **dado** do gerador
@@ -108,7 +110,11 @@ Regras de arrumação:
 8. **Antes de remover um `int()`/`round()`, meça o tipo real.** RUF046 sugeria remover
    `int(round(...))`; só é seguro porque medi que `round()` de escalar numpy devolve
    `int` neste numpy. Índice de matriz e JSON dependem disso.
-9. **Registre o que falhou** na tabela "não repetir" do `ESTADO.md`, para não gastar de novo.
+9. **O recorte é parte da medição.** Troquei a margem do recorte do classificador (de 1 px só
+   em cima/à esquerda para simétrica) e os **mesmos pesos** passaram a dar 0,844 onde davam
+   0,865. Pré-processamento não é detalhe de implementação: é **entrada do modelo**, e mexer
+   nele invalida comparação com o histórico.
+10. **Registre o que falhou** na tabela "não repetir" do `ESTADO.md`, para não gastar de novo.
 
 ## Decisão de dado: símbolo NÃO se descarta
 
@@ -158,7 +164,7 @@ make test     # pytest tests/ -q
 | **casa** | o número na corda (a pestana pisada) |
 | **ligada** | nota presa/ligada, desenhada como `(6)` ou arco |
 | **harmônico** | `<7>` ou losango |
-| **acervo** | os 3.781 vídeos, 190 GB, 13 canais, montados em `/acervo` |
+| **acervo** | os 3.908 vídeos (crescendo), 183 GB, 17 canais, montados em `/acervo` |
 | **rollout** | rodar o pipeline em muitos vídeos, com decisão por vídeo |
 
 ## Limites conhecidos (não prometa além disto)

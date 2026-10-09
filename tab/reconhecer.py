@@ -15,6 +15,7 @@ Uso:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import itertools
 import json
 import os
@@ -29,6 +30,9 @@ from .caminhos import MODELO_PADRAO
 from .glyph_bench import GlifoCNN
 from .glyphset import normalizar
 from .tabseg import segmentar
+
+#: Classes que são algarismo (a casa). Todo o resto é símbolo e tem de ser guardado.
+ALGARISMOS = frozenset(str(n) for n in range(0, 25))
 
 
 def compativel(classe: str, tk, passo: float) -> bool:
@@ -58,42 +62,133 @@ def carregar_modelo(caminho: str):
     return m, rot, dev
 
 
-def reconhecer_linha(img: np.ndarray, modelo, rotulos, dev) -> dict:
+def _recortar(
+    gray: np.ndarray, x0: int, y0: int, x1: int, y1: int, margem: int = 0
+) -> np.ndarray:
+    """Recorte do token, com a convenção EXATA do classificador.
+
+    Cuidado que custou uma medição: a convenção antiga era 1 px de margem em cima e à
+    esquerda e NENHUMA embaixo/à direita (`gray[y0-1 : y1+1, x0-1 : x1+1]`). Eu havia
+    trocado por margem simétrica e os MESMOS pesos passaram a dar 0,844 onde davam
+    0,865. O recorte é parte da medição: mexer nele é mexer no número. O parâmetro
+    `margem` existe só para o PNG de auditoria, que não entra na classificação.
+
+    Args:
+        gray: imagem em tons de cinza.
+        x0, y0, x1, y1: caixa do token.
+        margem: margem extra para o PNG (0 = convenção do classificador).
+
+    Returns:
+        O recorte.
+    """
+    if margem:
+        return gray[
+            max(0, y0 - margem) : y1 + margem + 1, max(0, x0 - margem) : x1 + margem + 1
+        ]
+    return gray[max(0, y0 - 1) : y1 + 1, max(0, x0 - 1) : x1 + 1]
+
+
+def _probs(recortes: list[np.ndarray], modelo, dev) -> np.ndarray:
+    """Probabilidade por classe para uma lista de recortes, numa passada só."""
+    X = [normalizar(c) for c in recortes]
+    X = [x if x is not None else np.zeros((24, 16), np.uint8) for x in X]
+    xt = torch.tensor(np.stack(X)[:, None].astype(np.float32) / 255.0).to(dev)
+    with torch.no_grad():
+        return torch.softmax(modelo(xt), 1).cpu().numpy()
+
+
+def _top3(probs: np.ndarray, rotulos: list[str]) -> list[tuple[str, float]]:
+    """As três classes mais prováveis, com a probabilidade de cada uma."""
+    ordem = np.argsort(-probs)
+    return [(rotulos[int(k)], round(float(probs[int(k)]), 3)) for k in ordem[:3]]
+
+
+def _guardar_cru(
+    gray: np.ndarray, tk, destino_dir: str, prefixo: str, sufixo: dict
+) -> dict:
+    """Grava o recorte cru do token em PNG (ampliado) e devolve o registro dele.
+
+    Deduplica por hash do conteúdo: símbolos idênticos viram UM arquivo, com o
+    número de ocorrências implícito. É assim que o vocabulário de um canal se
+    forma sozinho, sem eu precisar reabrir vídeo.
+
+    Args:
+        gray: imagem em tons de cinza de onde o token veio.
+        tk: token (glifo fundido) a preservar.
+        destino_dir: diretório raiz dos recortes.
+        prefixo: subpasta (normalmente canal ou vídeo).
+        sufixo: campos extras que entram no registro.
+
+    Returns:
+        Registro do símbolo, com caminho e hash; nunca descarta o recorte.
+    """
+    crop = _recortar(gray, tk.x0, tk.y0, tk.x1, tk.y1, margem=2)
+    if crop.size == 0:
+        return {"png": None, "hash": None, **sufixo}
+    ampliado = cv2.resize(crop, None, fx=4, fy=4, interpolation=cv2.INTER_NEAREST)
+    ok, png = cv2.imencode(".png", ampliado)
+    if not ok:
+        return {"png": None, "hash": None, **sufixo}
+    digest = hashlib.sha1(png.tobytes()).hexdigest()[:16]
+    relativo = os.path.join(prefixo, f"{digest}.png") if prefixo else f"{digest}.png"
+    caminho = os.path.join(destino_dir, relativo)
+    os.makedirs(os.path.dirname(caminho), exist_ok=True)
+    if not os.path.exists(caminho):
+        with open(caminho, "wb") as fh:
+            fh.write(png.tobytes())
+    return {"png": relativo, "hash": digest, **sufixo}
+
+
+def reconhecer_linha(
+    img: np.ndarray,
+    modelo,
+    rotulos,
+    dev,
+    dir_simbolos: str | None = None,
+    prefixo: str = "",
+) -> dict:
+    """Lê uma linha de tablatura: geometria + classificação + símbolo cru.
+
+    O símbolo **nunca é descartado**. Um `<7>` fundido num único token vira a classe
+    `harmonico` e perderia a casa 7; por isso: (a) as caixas dos componentes são
+    preservadas no token (`Glifo.componentes`), (b) a casa é procurada de novo DENTRO
+    do símbolo, em cada componente, e vai para `casa_recuperada`, e (c) o recorte cru
+    é gravado em PNG (`dir_simbolos`) para o mapa por canal ser construído depois,
+    sem reabrir vídeo.
+
+    Args:
+        img: imagem da linha (BGR ou cinza).
+        modelo: classificador de glifos.
+        rotulos: classes na ordem de saída do modelo.
+        dev: dispositivo do modelo.
+        dir_simbolos: se dado, grava o PNG dos tokens que carregam símbolo.
+        prefixo: subpasta dos PNGs (canal ou vídeo).
+
+    Returns:
+        Dicionário com passo, linhas, barlines e a lista de notas.
+    """
     g = segmentar(img)
     gray = img if img.ndim == 2 else cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     tokens = sorted(g.glifos, key=lambda x: (x.coluna, x.corda))
     if not tokens:
         return {"passo": g.passo, "linhas_y": g.linhas_y, "notas": []}
-    X = [
-        normalizar(gray[max(0, t.y0 - 1) : t.y1 + 1, max(0, t.x0 - 1) : t.x1 + 1])
-        for t in tokens
-    ]
-    X = [x if x is not None else np.zeros((24, 16), np.uint8) for x in X]
-    xt = torch.tensor(np.stack(X)[:, None].astype(np.float32) / 255.0).to(dev)
-    with torch.no_grad():
-        probs = torch.softmax(modelo(xt), 1).cpu().numpy()
+    probs = _probs(
+        [_recortar(gray, t.x0, t.y0, t.x1, t.y1) for t in tokens], modelo, dev
+    )
     # Assinatura de lixo POR VIDEO: fracao de tokens estreitos (< 0.3 passo). Medido:
     # apenas o canal raman korshun apresenta isso (28%); iwaki/sky/paolo dao 0%.
     # Onde ha assinatura, token estreito e recusado em vez de virar "1" ou "harmonico".
     estreitos = sum(1 for t in tokens if (t.x1 - t.x0) < 0.30 * g.passo)
     assinatura = estreitos / max(1, len(tokens))
     recusar = assinatura > 0.10
-    notas = []
+
+    # 1a passada: classe de cada token, com o portao de forma.
+    classes: list[tuple[str, bool]] = []
     for i, tk in enumerate(tokens):
-        classe, corrigido = None, False
         if recusar and (tk.x1 - tk.x0) < 0.30 * g.passo:
-            notas.append(
-                {
-                    "ordem": i + 1,
-                    "corda": int(tk.corda),
-                    "casa": "junk",
-                    "tecnica": None,
-                    "x": int(tk.x0),
-                    "confianca": 0.0,
-                    "corrigido_pela_forma": True,
-                }
-            )
+            classes.append(("junk", True))
             continue
+        classe, corrigido = None, False
         for k in np.argsort(-probs[i]):
             if compativel(rotulos[k], tk, g.passo):
                 classe = rotulos[k]
@@ -101,18 +196,74 @@ def reconhecer_linha(img: np.ndarray, modelo, rotulos, dev) -> dict:
                 break
         if classe is None:
             classe = rotulos[int(np.argmax(probs[i]))]
-        tecnica = "harmonico" if classe == "harmonico" else None
-        notas.append(
-            {
-                "ordem": i + 1,
-                "corda": int(tk.corda),
-                "casa": classe,
-                "tecnica": tecnica,
-                "x": int(tk.x0),
-                "confianca": round(float(probs[i][int(np.argmax(probs[i]))]), 3),
-                "corrigido_pela_forma": corrigido,
+        classes.append((classe, corrigido))
+
+    # 2a passada: dentro de símbolo (ou de token fundido), procurar a casa.
+    alvos = [
+        i
+        for i, tk in enumerate(tokens)
+        if classes[i][0] not in ALGARISMOS or tk.partes > 1
+    ]
+    recortes: list[np.ndarray] = []
+    comp_de: dict[int, list[tuple[int, tuple[int, int, int, int]]]] = {}
+    for i in alvos:
+        tk = tokens[i]
+        caixas = list(tk.componentes or ((tk.x0, tk.y0, tk.x1, tk.y1),))
+        pares: list[tuple[int, tuple[int, int, int, int]]] = []
+        for caixa in caixas:
+            pares.append((len(recortes), caixa))
+            recortes.append(_recortar(gray, *caixa))
+        comp_de[i] = pares
+    probs_comp = _probs(recortes, modelo, dev) if recortes else np.zeros((0, 1))
+
+    notas = []
+    for i, tk in enumerate(tokens):
+        classe, corrigido = classes[i]
+        nota: dict = {
+            "ordem": i + 1,
+            "corda": int(tk.corda),
+            "casa": classe,
+            "tecnica": "harmonico" if classe == "harmonico" else None,
+            "x": int(tk.x0),
+            "confianca": round(float(probs[i][int(np.argmax(probs[i]))]), 3),
+            "corrigido_pela_forma": corrigido,
+        }
+        if i in alvos:
+            casa_rec, conf_rec, topo = None, 0.0, None
+            for pos, (cx0, _, cx1, _) in comp_de[i]:
+                argmax = int(np.argmax(probs_comp[pos]))
+                classe_comp = rotulos[argmax]
+                if classe_comp in ALGARISMOS and (cx1 - cx0) >= 0.22 * g.passo:
+                    conf = float(probs_comp[pos][argmax])
+                    if conf > conf_rec:
+                        casa_rec, conf_rec = classe_comp, conf
+                if topo is None:
+                    topo = _top3(probs_comp[pos], rotulos)
+            caixas = tk.componentes or ((tk.x0, tk.y0, tk.x1, tk.y1),)
+            sufixo = {
+                "partes": tk.partes,
+                "partes_digito": tk.partes_digito,
+                "larguras_passo": [
+                    round((cx1 - cx0) / g.passo, 2) for cx0, _, cx1, _ in caixas
+                ],
+                "componentes": [
+                    (cx0 - tk.x0, cy0 - tk.y0, cx1 - tk.x0, cy1 - tk.y0)
+                    for cx0, cy0, cx1, cy1 in caixas
+                ],
+                "classe": classe,
+                "top3": _top3(probs[i], rotulos),
+                "top3_componente": topo,
+                "casa_recuperada": casa_rec,
+                "confianca_recuperada": round(conf_rec, 3),
             }
-        )
+            if casa_rec is not None:
+                nota["casa_recuperada"] = casa_rec
+            nota["simbolo_cru"] = (
+                _guardar_cru(gray, tk, dir_simbolos, prefixo, sufixo)
+                if dir_simbolos
+                else sufixo
+            )
+        notas.append(nota)
     return {
         "passo": round(g.passo, 2),
         "linhas_y": g.linhas_y,

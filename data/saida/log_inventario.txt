@@ -1,0 +1,34 @@
+canais: 17 | vídeos: 3993 | instantes: 1
+
+=== cifra club: 341 vídeos, 0 já feitos, 341 pendentes -> inventario_cifra club.jsonl
+  [10/341] abertura - miraculous： as aventuras de ladyb tab=[True] via=ffmpeg
+  [20/341] alucinação - belchior ｜ como tocar no violão tab=[True] via=ffmpeg
+  [30/341] aprenda a tocar joão e maria versão completa tab=[True] via=ffmpeg
+  [40/341] banho é bom - castelo rá-tim-bum ｜ como toca tab=[True] via=ffmpeg
+  [50/341] bondade de deus - isaías saad (simplificada) tab=[True] via=ffmpeg
+  [60/341] chove chuva - jorge ben jor (completa) ｜ com tab=[True] via=ffmpeg
+  [70/341] consagração - aline barros (simplificada) ｜  tab=[True] via=ffmpeg
+  [80/341] crazy  - gnarls barkley (completa) ｜ como to tab=[True] via=ffmpeg
+  [90/341] deixe-me ir - 1kilo (aula completa) ｜ como t tab=[True] via=cv2
+  [100/341] djavan ensina como tocar a música 'solitude' tab=[True] via=cv2
+  [110/341] emaús - morada (simplificada) ｜ como tocar n tab=[True] via=ffmpeg
+  [120/341] espírito, enche a minha vida - ministério ko tab=[True] via=ffmpeg
+  [130/341] eva - banda eva ｜ como tocar no violão (simp tab=[True] via=ffmpeg
+  [140/341] future days - pearl jam ｜ como tocar no viol tab=[True] via=ffmpeg
+  [150/341] isaías 53 - projeto sola (simplificada) ｜ co tab=[True] via=ffmpeg
+  [160/341] let her go - passenger (aula violão completa tab=[True] via=cv2
+  [170/341] lô borges – um girassol da cor de seu cabelo tab=[True] via=ffmpeg
+  [180/341] me leva pra casa⧸ escrito nas estrelas⧸ saud tab=[True] via=ffmpeg
+  [190/341] monalisa - jorge vercillo (simplificada) ｜ c tab=[False] via=ffmpeg
+  [200/341] não - tim bernardes (completa) ｜ aula de vio tab=[True] via=ffmpeg
+  [210/341] o escudo - voz da verdade (completa) ｜ como  tab=[True] via=ffmpeg
+  [220/341] o xote das meninas - luiz gonzaga (completa) tab=[True] via=ffmpeg
+  [230/341] ordinary - alex warren (simplificada) ｜ como tab=[True] via=ffmpeg
+  [240/341] papel machê - joão bosco (simplificada) ｜ co tab=[True] via=ffmpeg
+  [250/341] preciso de ti - diante do trono (completa) ｜ tab=[True] via=ffmpeg
+  [260/341] quem é esse - julliany souza (simplificada)  tab=[True] via=ffmpeg
+  [270/341] shallow - lady gaga (feat. bradley cooper) ( tab=[True] via=ffmpeg
+  [280/341] sublime - florianópolis house of prayer (sim tab=[True] via=ffmpeg
+  [290/341] tentei te esquecer - matogrosso & mathias (c tab=[True] via=ffmpeg
+  [300/341] tu és + águas purificadoras - fhop (completa tab=[True] via=ffmpeg
+  [310/341] vim para adorar-te ｜ adoração e adoradores ( tab=[True] via=ffmpeg

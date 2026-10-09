@@ -42,6 +42,10 @@ class Glifo:
     area: int
     partes: int = 1  # quantos componentes foram fundidos neste token
     partes_digito: int = 1  # quantas partes têm "haste" (traço vertical longo)
+    # Caixas dos componentes que formaram este token. Sem isto, um `<7>` fundido
+    # vira a classe `harmonico` e a CASA 7 se perde para sempre: o símbolo era
+    # descartado no instante em que o token era montado, não na classificação.
+    componentes: tuple[tuple[int, int, int, int], ...] = ()
 
     @property
     def cx(self) -> float:
@@ -548,7 +552,10 @@ def agrupar_tokens(glifos: list[Glifo], passo: float, gap: float = 0.25) -> list
 def _fundir(gs: list[Glifo], passo: float = 0.0) -> Glifo:
     hastes = sum(1 for g in gs if getattr(g, "partes_digito", 1) >= 1)
     if len(gs) == 1:
-        return gs[0]
+        unico = gs[0]
+        if not unico.componentes:
+            unico.componentes = ((unico.x0, unico.y0, unico.x1, unico.y1),)
+        return unico
     return Glifo(
         x0=min(g.x0 for g in gs),
         y0=min(g.y0 for g in gs),
@@ -559,6 +566,7 @@ def _fundir(gs: list[Glifo], passo: float = 0.0) -> Glifo:
         area=sum(g.area for g in gs),
         partes=len(gs),
         partes_digito=hastes,
+        componentes=tuple((g.x0, g.y0, g.x1, g.y1) for g in gs),
     )
 
 
