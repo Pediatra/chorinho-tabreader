@@ -18,13 +18,25 @@ O que este módulo mede, por vídeo:
   - ``duvida`` quando a medida não sustenta veredito (amostragem incompleta, poucas
     detecções, banda larga demais, movimento dominado por saltos).
 
-Recorte: ``fr[300:750, :]`` é o **padrão** (o mesmo já usado na medição anterior — trocar
-o recorte invalida a comparação, regra 9 do AGENTS.md). A alternativa ``--painel auto``
-escolhe a faixa pelo fundo (``tab.painel.candidatos``) antes de amostrar, e foi **medida e
-reprovada** no próprio caso disputado: no ``henze`` ela elege a faixa ``base`` (620–1080,
-o vídeo das mãos e do braço) e devolve ``sem_marcador`` onde o recorte fixo acha 141
-detecções e veredito ``desliza``. Fica como opção, não como padrão. O recorte usado e a via
-de leitura (``cv2`` ou ``ffmpeg``) ficam gravados em cada linha.
+Recorte: **dois** por vídeo, porque um só dá falso negativo — medido, não suposto:
+
+  - ``fixo`` = ``fr[300:750, :]``, o mesmo da medição anterior (trocar o recorte invalida
+    a comparação, regra 9 do AGENTS.md). É ele que pega o playhead que atravessa partitura
+    **e** tablatura (o ``henze``: 141 detecções, ``desliza``);
+  - ``justo`` = recorte colado nas linhas do painel, achado por ``tab.painel.candidatos``
+    (y da primeira à última corda, mais folga). É ele que pega o playhead da **altura da
+    tablatura**: no `sky guitar` (`aguado`) o recorte fixo tem 450 px e o portão de altura
+    do detector exige banda de 225 px, então a faixa azul (~140 px) é **rejeitada** e o
+    detector cai no objeto colorido mais cheio — o corpo do violão e a mão (matiz 17) — e
+    o veredito sai ``erratico``. Com o recorte justo (y = 118–347) a mesma série vira
+    ``salta``, matiz 109, com a escada de patamares que a rodada 1 descreveu.
+
+  O veredito do vídeo é o do recorte utilizável; com os dois utilizáveis, ganha o de banda
+  mais estreita (mais parecido com cursor); sem nenhum utilizável, vale o ``justo``. Os
+  dois vereditos ficam gravados na linha, e a escolha também.
+
+A via de leitura (``cv2`` ou ``ffmpeg``) fica gravada em cada linha, e o ``ffmpeg``
+decodifica a janela **uma vez** para os dois recortes.
 
 Uso:
     python -m tab.marcador --canais "sky guitar" iwaki --por-canal 8
@@ -61,6 +73,13 @@ FRAC_INICIO = 0.55
 
 #: Recorte vertical padrão do quadro — o mesmo da medição anterior do marcador.
 RECORTE_PADRAO = (300, 750)
+
+#: Nome dos dois recortes medidos por vídeo: o fixo e o colado nas linhas do painel.
+CROP_FIXO = "fixo"
+CROP_JUSTO = "justo"
+
+#: Folga do recorte justo, de cada lado, em fração do passo entre cordas.
+MARGEM_JUSTO_FRAC = 0.75
 
 #: Orçamento de leitura por vídeo, em segundos. O `ffmpeg` gasta ~0,4 s por quadro em
 #: AV1 (44 % do acervo); um vídeo que estoure o orçamento vira `duvida`, não trava a fila.
@@ -519,6 +538,70 @@ def julgar(
         "matiz_p90": float(np.percentile(matizes, 90)) if matizes else None,
         "matiz_hist": histograma_matiz(matizes),
     }
+
+
+def escolher_veredito(por_crop: dict[str, dict]) -> tuple[str, str, str]:
+    """Qual recorte responde pelo vídeo, e por quê.
+
+    Regras, todas explícitas para poderem ser contestadas: recorte utilizável
+    (``desliza``/``salta``) ganha de recorte não utilizável; com dois utilizáveis, ganha o
+    de **banda mais estreita** (o cursor medido no acervo tem 5–7 px, objeto colorido tem
+    dezenas); sem nenhum utilizável, vale o ``justo``, que é o mais colado na notação.
+
+    Args:
+        por_crop: nome do recorte -> resultado de ``julgar``.
+
+    Returns:
+        ``(recorte_escolhido, veredito, motivo_escolha)``.
+    """
+    utilizaveis = {
+        nome: r for nome, r in por_crop.items() if r["veredito"] in {"desliza", "salta"}
+    }
+    if len(utilizaveis) > 1:
+        escolhido = min(
+            utilizaveis,
+            key=lambda n: (utilizaveis[n]["largura_mediana_px"] or 1e9, n),
+        )
+        return escolhido, por_crop[escolhido]["veredito"], "banda_mais_estreita"
+    if len(utilizaveis) == 1:
+        escolhido = next(iter(utilizaveis))
+        return escolhido, por_crop[escolhido]["veredito"], "unico_utilizavel"
+    escolhido = CROP_JUSTO if CROP_JUSTO in por_crop else next(iter(por_crop))
+    return escolhido, por_crop[escolhido]["veredito"], "sem_utilizavel"
+
+
+def recorte_justo(
+    quadro: np.ndarray, margem_frac: float = MARGEM_JUSTO_FRAC
+) -> tuple[int, int] | None:
+    """Recorte em y colado nas linhas do painel, achado por ``tab.painel``.
+
+    O recorte fixo ``fr[300:750]`` tem 450 px de altura e o portão do detector exige banda
+    de 50 % disso (225 px). O playhead do `sky guitar` tem a **altura da tablatura**
+    (~140 px, medido no `aguado`): ele é rejeitado, e o detector cai no candidato mais
+    cheio — o corpo do violão e a mão, matiz 17 — produzindo ``erratico`` onde há marcador.
+    Colar o recorte nas cordas do painel resolve: 229 px de altura, e a faixa azul cobre
+    quase tudo.
+
+    Args:
+        quadro: quadro inteiro.
+        margem_frac: folga de cada lado, em fração do passo entre cordas.
+
+    Returns:
+        ``(y0, y1)`` do recorte, ou None se o quadro não tem painel de 6 linhas.
+    """
+    try:
+        cand = melhor(candidatos(quadro))
+    except Exception:
+        return None
+    if cand is None or len(cand.grade.linhas_y) < 2:
+        return None
+    linhas = cand.grade.linhas_y
+    margem = max(8, round(margem_frac * cand.passo))
+    y0 = max(0, cand.y0 + min(linhas) - margem)
+    y1 = min(quadro.shape[0], cand.y0 + max(linhas) + margem)
+    if y1 - y0 < 30:
+        return None
+    return int(y0), int(y1)
 
 
 def medir_video(

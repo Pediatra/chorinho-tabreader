@@ -1,0 +1,8 @@
+  época   3/12 perda=0.3269 acc_treino=0.8799
+  época   6/12 perda=0.1234 acc_treino=0.9597
+  época   9/12 perda=0.0626 acc_treino=0.9914
+  época  12/12 perda=0.0231 acc_treino=0.9859
+  época   3/12 perda=0.2933 acc_treino=0.8958
+  época   6/12 perda=0.0895 acc_treino=0.9884
+  época   9/12 perda=0.0421 acc_treino=0.9768
+  época  12/12 perda=0.0196 acc_treino=0.9948

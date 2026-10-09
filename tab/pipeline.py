@@ -180,7 +180,7 @@ def roi_das_cordas(candidato) -> tuple[int, int]:
     linhas = list(candidato.grade.linhas_y)
     if not linhas:
         return candidato.y0, candidato.y1
-    margem = int(round(candidato.grade.passo)) or 12
+    margem = round(candidato.grade.passo) or 12  # round() de float já é int (regra 8)
     return (
         max(0, candidato.y0 + min(linhas) - margem),
         candidato.y0 + max(linhas) + margem,

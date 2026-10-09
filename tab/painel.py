@@ -447,7 +447,7 @@ def escolher_rapido(frame: np.ndarray) -> Candidato | None:
             continue
         roi = frame[y0:y1, :]
         medidas.append((uniformidade(roi), nome, y0, y1, roi))
-    for u, nome, y0, y1, roi in sorted(medidas, key=lambda m: -m[0]):
+    for _uniform, nome, y0, y1, roi in sorted(medidas, key=lambda m: -m[0]):
         try:
             g = segmentar(roi)
         except Exception:
