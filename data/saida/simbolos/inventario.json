@@ -1,5 +1,5 @@
 {
- "gerado_em": "2026-10-09T16:21:09+00:00",
+ "gerado_em": "2026-10-09T16:31:26+00:00",
  "modelo": "/app/artefatos/oficial_2/glifo_sint.pt",
  "raiz": "/acervo",
  "fracoes": [
@@ -10,75 +10,70 @@
   "canais": 17,
   "quadros": 102,
   "quadros_com_tablatura": 97,
-  "tokens": 4610,
-  "simbolos": 2233,
-  "fracao": 0.4844
+  "tokens": 4573,
+  "simbolos": 2188,
+  "fracao": 0.4785
  },
  "por_canal": {
   "cifra club": {
    "quadros": 6,
    "quadros_com_tablatura": 5,
-   "tokens": 129,
-   "simbolos": 78,
-   "fracao": 0.6047,
+   "tokens": 126,
+   "simbolos": 77,
+   "fracao": 0.6111,
    "simbolos_sem_hash": 0,
-   "passo_mediano": 28.4,
+   "passo_mediano": 27.2,
    "quadros_passo_plausivel": 3,
-   "simbolos_passo_plausivel": 67,
+   "simbolos_passo_plausivel": 66,
    "classes": {
-    "junk": 39,
-    "harmonico": 22,
-    "tecnica": 11,
+    "junk": 40,
+    "harmonico": 17,
+    "tecnica": 14,
     "17": 2,
+    "1": 2,
     "5": 1,
-    "4": 1,
-    "14": 1,
-    "24": 1
+    "14": 1
    },
    "larguras_passo": {
     "0.14": 2,
     "0.17": 1,
-    "0.18": 8,
-    "0.21": 23,
-    "0.25": 16,
-    "0.28": 4,
-    "0.29": 3,
+    "0.18": 9,
+    "0.21": 3,
+    "0.22": 20,
+    "0.26": 16,
+    "0.29": 8,
     "0.31": 1,
-    "0.32": 2,
+    "0.33": 1,
     "0.34": 3,
-    "0.35": 1,
     "0.36": 5,
     "0.38": 3,
-    "0.39": 1,
+    "0.40": 1,
     "0.42": 1,
-    "0.46": 1,
-    "0.49": 2,
-    "0.56": 1,
+    "0.48": 1,
+    "0.51": 1,
     "0.57": 2,
-    "0.60": 1,
-    "0.70": 1,
+    "0.62": 1,
     "0.71": 3,
+    "0.74": 1,
     "0.79": 1,
-    "0.81": 1,
+    "0.85": 2,
     "0.86": 2,
-    "0.92": 1,
+    "0.96": 1,
     "0.99": 1,
-    "1.16": 1,
+    "1.18": 1,
     "1.21": 1,
-    "1.34": 1,
+    "1.32": 1,
     "1.36": 1,
     "1.38": 1,
+    "1.47": 1,
     "1.50": 1,
-    "1.51": 2,
-    "1.55": 2,
-    "1.62": 1,
-    "1.76": 1,
+    "1.58": 3,
     "1.79": 1,
-    "1.83": 1,
-    "1.87": 1,
-    "1.93": 1
+    "1.84": 2,
+    "1.93": 1,
+    "1.95": 1
    },
-   "hashes_distintos": 78,
+   "hashes_distintos": 77,
    "hashes": [
     {
      "hash": "1de95c7bb370873b",
@@ -305,39 +300,39 @@
      "png": "cifra club/29eb5ed556e902c9.png"
     },
     {
-     "hash": "5637b0b679ef8b71",
+     "hash": "9d11736770aae957",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "cifra club/5637b0b679ef8b71.png"
+     "classe": "1",
+     "png": "cifra club/9d11736770aae957.png"
     },
     {
-     "hash": "e19f5042a9081d1b",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "cifra club/e19f5042a9081d1b.png"
-    },
-    {
-     "hash": "26c862274b88e9ba",
+     "hash": "5fc8b1cd071b804f",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "cifra club/26c862274b88e9ba.png"
+     "png": "cifra club/5fc8b1cd071b804f.png"
     },
     {
-     "hash": "58727c56dd9e4e09",
+     "hash": "1aafed4c2547f3a7",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "tecnica",
+     "png": "cifra club/1aafed4c2547f3a7.png"
+    },
+    {
+     "hash": "905a9780787cf918",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "17",
-     "png": "cifra club/58727c56dd9e4e09.png"
+     "png": "cifra club/905a9780787cf918.png"
     },
     {
-     "hash": "b2110e8c5f6f1a4a",
+     "hash": "1a58df5d185f041a",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "cifra club/b2110e8c5f6f1a4a.png"
+     "png": "cifra club/1a58df5d185f041a.png"
     },
     {
      "hash": "28f5c7620611ef0c",
@@ -347,18 +342,18 @@
      "png": "cifra club/28f5c7620611ef0c.png"
     },
     {
-     "hash": "7615ea9d042e2bcd",
+     "hash": "0f1060e46955730b",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/7615ea9d042e2bcd.png"
+     "png": "cifra club/0f1060e46955730b.png"
     },
     {
-     "hash": "3644997befa40f27",
+     "hash": "150621ae2df130f5",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "cifra club/3644997befa40f27.png"
+     "classe": "junk",
+     "png": "cifra club/150621ae2df130f5.png"
     },
     {
      "hash": "acca87b689ec5cd1",
@@ -368,228 +363,221 @@
      "png": "cifra club/acca87b689ec5cd1.png"
     },
     {
-     "hash": "8a8aa6a504eb25c9",
+     "hash": "6c41066af109ead8",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/8a8aa6a504eb25c9.png"
+     "png": "cifra club/6c41066af109ead8.png"
     },
     {
-     "hash": "fe9e0ac5404fc370",
+     "hash": "3f452f4eb272cff2",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/fe9e0ac5404fc370.png"
+     "png": "cifra club/3f452f4eb272cff2.png"
     },
     {
-     "hash": "2656f9cebd02b7a6",
+     "hash": "b5f0c1a183d7d788",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/2656f9cebd02b7a6.png"
+     "png": "cifra club/b5f0c1a183d7d788.png"
     },
     {
-     "hash": "f3f159146c05acdc",
+     "hash": "1a17ea86c21c0e78",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/f3f159146c05acdc.png"
+     "png": "cifra club/1a17ea86c21c0e78.png"
     },
     {
-     "hash": "283ed9c2a4af16f6",
+     "hash": "15fa41c56b7be5c9",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/283ed9c2a4af16f6.png"
+     "png": "cifra club/15fa41c56b7be5c9.png"
     },
     {
-     "hash": "be4516a61e87c08c",
+     "hash": "d898e2574b9c4963",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/be4516a61e87c08c.png"
+     "png": "cifra club/d898e2574b9c4963.png"
     },
     {
-     "hash": "850bef01aafb694e",
+     "hash": "667131d3163a1838",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/850bef01aafb694e.png"
+     "png": "cifra club/667131d3163a1838.png"
     },
     {
-     "hash": "011a9c7695fb3b55",
+     "hash": "cce6a61911abe4ea",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/011a9c7695fb3b55.png"
+     "png": "cifra club/cce6a61911abe4ea.png"
     },
     {
-     "hash": "1325a2c88995c613",
+     "hash": "f2ad344f1d07a937",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/1325a2c88995c613.png"
+     "png": "cifra club/f2ad344f1d07a937.png"
     },
     {
-     "hash": "63b0f9fd8a41a73c",
+     "hash": "0a35049008c944f4",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/63b0f9fd8a41a73c.png"
+     "png": "cifra club/0a35049008c944f4.png"
     },
     {
-     "hash": "59f2bbcedead5064",
+     "hash": "f14bf993cd31fab2",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/59f2bbcedead5064.png"
+     "png": "cifra club/f14bf993cd31fab2.png"
     },
     {
-     "hash": "3955a762fcd8aae2",
+     "hash": "cad4c6d98972d5a7",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/3955a762fcd8aae2.png"
+     "png": "cifra club/cad4c6d98972d5a7.png"
     },
     {
-     "hash": "0b53f0d07cd990ba",
+     "hash": "c429f5669429fc2b",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/0b53f0d07cd990ba.png"
+     "png": "cifra club/c429f5669429fc2b.png"
     },
     {
-     "hash": "9c7383eeabdc7572",
+     "hash": "e460a4d63d12b50c",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/9c7383eeabdc7572.png"
+     "png": "cifra club/e460a4d63d12b50c.png"
     },
     {
-     "hash": "af7fc727fb1c2fda",
+     "hash": "c212298bfe563f02",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/af7fc727fb1c2fda.png"
+     "png": "cifra club/c212298bfe563f02.png"
     },
     {
-     "hash": "59b0295cda0b5081",
+     "hash": "1e54da334f23b426",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/59b0295cda0b5081.png"
+     "png": "cifra club/1e54da334f23b426.png"
     },
     {
-     "hash": "73b89ca7f12a6398",
+     "hash": "ed1fc7dc560ed0fd",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "cifra club/73b89ca7f12a6398.png"
+     "png": "cifra club/ed1fc7dc560ed0fd.png"
     },
     {
-     "hash": "8f6242345a3d0c8b",
+     "hash": "079cd57794c2ec60",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/8f6242345a3d0c8b.png"
+     "png": "cifra club/079cd57794c2ec60.png"
     },
     {
-     "hash": "27de533bb1e3c6f2",
+     "hash": "8cea75556cf6d860",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/27de533bb1e3c6f2.png"
+     "png": "cifra club/8cea75556cf6d860.png"
     },
     {
-     "hash": "a172a081b9d25077",
+     "hash": "52177399019d615c",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/a172a081b9d25077.png"
+     "png": "cifra club/52177399019d615c.png"
     },
     {
-     "hash": "acc9532046927ab1",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "cifra club/acc9532046927ab1.png"
-    },
-    {
-     "hash": "60f845d2accc8317",
+     "hash": "3fbd16a45a5084d3",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/60f845d2accc8317.png"
+     "png": "cifra club/3fbd16a45a5084d3.png"
     },
     {
-     "hash": "490f2cea1068489d",
+     "hash": "f52ded4a6adaa9f3",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/490f2cea1068489d.png"
+     "png": "cifra club/f52ded4a6adaa9f3.png"
     },
     {
-     "hash": "fbbc66ec13470a6c",
+     "hash": "49d0a844f5b06f89",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/fbbc66ec13470a6c.png"
+     "png": "cifra club/49d0a844f5b06f89.png"
     },
     {
-     "hash": "b3fa67c0b1dc4af4",
+     "hash": "b517a00a39f1e759",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/b3fa67c0b1dc4af4.png"
+     "png": "cifra club/b517a00a39f1e759.png"
     },
     {
-     "hash": "487d1df565fca982",
+     "hash": "16661e6819e48047",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/487d1df565fca982.png"
+     "png": "cifra club/16661e6819e48047.png"
     },
     {
-     "hash": "9d6ed8bbe251194f",
+     "hash": "b731f195865ce3c8",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "cifra club/9d6ed8bbe251194f.png"
+     "png": "cifra club/b731f195865ce3c8.png"
     },
     {
-     "hash": "2c87dd776d544eba",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "junk",
-     "png": "cifra club/2c87dd776d544eba.png"
-    },
-    {
-     "hash": "2d1a2a7bf456c16e",
+     "hash": "d45174b0dbd0ab7d",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "tecnica",
-     "png": "cifra club/2d1a2a7bf456c16e.png"
+     "png": "cifra club/d45174b0dbd0ab7d.png"
     },
     {
-     "hash": "1bdacbe2ec749f69",
+     "hash": "b0a779ed566482b4",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "14",
-     "png": "cifra club/1bdacbe2ec749f69.png"
+     "png": "cifra club/b0a779ed566482b4.png"
     },
     {
-     "hash": "f792477a2e2023f1",
+     "hash": "1c185e8d1b5c72e7",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "cifra club/f792477a2e2023f1.png"
+     "classe": "junk",
+     "png": "cifra club/1c185e8d1b5c72e7.png"
     },
     {
-     "hash": "bb8878c484dfa9f6",
+     "hash": "a16fa445f6836104",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "cifra club/bb8878c484dfa9f6.png"
+     "classe": "junk",
+     "png": "cifra club/a16fa445f6836104.png"
+    },
+    {
+     "hash": "bd84cac042d3e5ac",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "1",
+     "png": "cifra club/bd84cac042d3e5ac.png"
     },
     {
      "hash": "65494fca56fe0eed",
@@ -599,211 +587,134 @@
      "png": "cifra club/65494fca56fe0eed.png"
     },
     {
-     "hash": "d0df2edea52b0ccb",
+     "hash": "5bf6ec6755428a9f",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "24",
-     "png": "cifra club/d0df2edea52b0ccb.png"
+     "classe": "tecnica",
+     "png": "cifra club/5bf6ec6755428a9f.png"
     },
     {
-     "hash": "bb5cb8f700325e24",
+     "hash": "1734725e19e3c8ec",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "cifra club/bb5cb8f700325e24.png"
+     "png": "cifra club/1734725e19e3c8ec.png"
     },
     {
-     "hash": "56b1479611c0d473",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "junk",
-     "png": "cifra club/56b1479611c0d473.png"
-    },
-    {
-     "hash": "58b603435951ecfa",
+     "hash": "22766f0d3c2b82a4",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "cifra club/58b603435951ecfa.png"
+     "png": "cifra club/22766f0d3c2b82a4.png"
+    },
+    {
+     "hash": "f7350bab7bdf7d70",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "tecnica",
+     "png": "cifra club/f7350bab7bdf7d70.png"
     }
    ]
   },
   "guitar dell ́arte": {
    "quadros": 6,
    "quadros_com_tablatura": 6,
-   "tokens": 311,
-   "simbolos": 194,
-   "fracao": 0.6238,
+   "tokens": 305,
+   "simbolos": 184,
+   "fracao": 0.6033,
    "simbolos_sem_hash": 0,
-   "passo_mediano": 17.1,
-   "quadros_passo_plausivel": 5,
-   "simbolos_passo_plausivel": 189,
+   "passo_mediano": 15.8,
+   "quadros_passo_plausivel": 6,
+   "simbolos_passo_plausivel": 184,
    "classes": {
     "0": 46,
     "2": 41,
     "4": 34,
-    "3": 19,
     "5": 19,
-    "harmonico": 14,
-    "8": 4,
-    "7": 4,
-    "tecnica": 4,
+    "3": 18,
+    "harmonico": 7,
     "6": 3,
+    "8": 3,
+    "7": 3,
     "1": 3,
+    "tecnica": 2,
     "9": 2,
+    "junk": 1,
+    "24": 1,
     "17": 1
    },
    "larguras_passo": {
     "0.13": 3,
-    "0.18": 1,
     "0.19": 4,
     "0.20": 1,
-    "0.23": 1,
-    "0.27": 5,
+    "0.25": 1,
+    "0.27": 4,
+    "0.31": 1,
     "0.39": 3,
-    "0.45": 4,
+    "0.45": 2,
     "0.46": 3,
     "0.48": 5,
-    "0.50": 1,
     "0.52": 10,
     "0.53": 24,
-    "0.55": 1,
     "0.58": 2,
     "0.59": 14,
     "0.64": 13,
     "0.65": 11,
     "0.66": 1,
-    "0.68": 1,
     "0.69": 18,
     "0.71": 31,
     "0.72": 35,
     "0.74": 4,
-    "0.77": 1,
     "0.78": 67,
     "0.79": 54,
+    "0.80": 1,
     "0.84": 22,
-    "0.86": 22,
+    "0.86": 24,
     "0.91": 2,
     "0.92": 2,
-    "0.95": 1,
+    "0.93": 1,
     "0.97": 1,
+    "0.99": 1,
     "1.04": 1,
-    "1.14": 1,
-    "1.18": 1,
-    "1.23": 1,
-    "1.32": 1,
-    "1.41": 1,
-    "1.55": 1,
-    "1.58": 1,
-    "1.71": 1,
-    "1.84": 1
+    "1.17": 1,
+    "1.79": 1
    },
-   "hashes_distintos": 194,
+   "hashes_distintos": 184,
    "hashes": [
     {
-     "hash": "78f8b37464f71310",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "guitar dell ́arte/78f8b37464f71310.png"
-    },
-    {
-     "hash": "51b29c3203803f18",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "guitar dell ́arte/51b29c3203803f18.png"
-    },
-    {
-     "hash": "2b1ab369d39b197a",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "guitar dell ́arte/2b1ab369d39b197a.png"
-    },
-    {
-     "hash": "44730b92dcec1084",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "guitar dell ́arte/44730b92dcec1084.png"
-    },
-    {
-     "hash": "3e50592ff14b2ec3",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "guitar dell ́arte/3e50592ff14b2ec3.png"
-    },
-    {
-     "hash": "1aab9112d95f4ab6",
+     "hash": "9dea1d11609824e5",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "guitar dell ́arte/1aab9112d95f4ab6.png"
+     "png": "guitar dell ́arte/9dea1d11609824e5.png"
     },
     {
-     "hash": "0ec4c673d02ac36f",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "guitar dell ́arte/0ec4c673d02ac36f.png"
-    },
-    {
-     "hash": "3ad222a07d56f58a",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "3",
-     "png": "guitar dell ́arte/3ad222a07d56f58a.png"
-    },
-    {
-     "hash": "f98a35741bce42e5",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "8",
-     "png": "guitar dell ́arte/f98a35741bce42e5.png"
-    },
-    {
-     "hash": "f87c3ea7a134b99f",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "guitar dell ́arte/f87c3ea7a134b99f.png"
-    },
-    {
-     "hash": "558768a67771fbff",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "7",
-     "png": "guitar dell ́arte/558768a67771fbff.png"
-    },
-    {
-     "hash": "69c281bfd0ec4da0",
+     "hash": "60eeaafd2d2ef43f",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "tecnica",
-     "png": "guitar dell ́arte/69c281bfd0ec4da0.png"
+     "png": "guitar dell ́arte/60eeaafd2d2ef43f.png"
     },
     {
-     "hash": "2c592ad4612a22e9",
+     "hash": "2803b0be1c071638",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "tecnica",
-     "png": "guitar dell ́arte/2c592ad4612a22e9.png"
+     "classe": "junk",
+     "png": "guitar dell ́arte/2803b0be1c071638.png"
     },
     {
-     "hash": "a6f08e4cb6356076",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "tecnica",
-     "png": "guitar dell ́arte/a6f08e4cb6356076.png"
-    },
-    {
-     "hash": "ff4085af51ba5ade",
+     "hash": "9f67c0635015cd8a",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "guitar dell ́arte/ff4085af51ba5ade.png"
+     "png": "guitar dell ́arte/9f67c0635015cd8a.png"
+    },
+    {
+     "hash": "bc3cc81d0860ed59",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "24",
+     "png": "guitar dell ́arte/bc3cc81d0860ed59.png"
     },
     {
      "hash": "9e6e44a4d1499e77",
@@ -2063,72 +1974,74 @@
   "iwaki": {
    "quadros": 6,
    "quadros_com_tablatura": 6,
-   "tokens": 120,
-   "simbolos": 56,
-   "fracao": 0.4667,
+   "tokens": 116,
+   "simbolos": 55,
+   "fracao": 0.4741,
    "simbolos_sem_hash": 0,
-   "passo_mediano": 25.6,
+   "passo_mediano": 24.2,
    "quadros_passo_plausivel": 5,
-   "simbolos_passo_plausivel": 53,
+   "simbolos_passo_plausivel": 52,
    "classes": {
-    "harmonico": 19,
+    "harmonico": 15,
     "6": 7,
     "tecnica": 7,
     "5": 5,
     "4": 5,
     "0": 4,
+    "1": 3,
     "9": 3,
-    "1": 2,
-    "junk": 2,
+    "7": 2,
     "3": 1,
-    "12": 1
+    "12": 1,
+    "21": 1,
+    "17": 1
    },
    "larguras_passo": {
     "0.18": 1,
     "0.20": 2,
     "0.22": 7,
-    "0.23": 4,
-    "0.26": 1,
+    "0.23": 1,
     "0.27": 1,
-    "0.33": 9,
+    "0.33": 8,
     "0.37": 4,
     "0.38": 1,
     "0.40": 2,
-    "0.43": 1,
     "0.44": 1,
+    "0.45": 1,
     "0.48": 5,
+    "0.49": 3,
     "0.50": 2,
     "0.51": 1,
     "0.52": 1,
-    "0.53": 1,
+    "0.53": 3,
     "0.54": 1,
     "0.55": 4,
     "0.58": 4,
-    "0.59": 7,
+    "0.59": 6,
     "0.60": 2,
     "0.62": 8,
     "0.63": 2,
-    "0.66": 2,
+    "0.66": 3,
     "0.67": 4,
     "0.69": 1,
-    "0.70": 1,
-    "0.74": 1,
-    "0.79": 1,
+    "0.70": 2,
+    "0.74": 3,
     "0.80": 1,
     "0.86": 1,
     "0.87": 1,
+    "0.94": 2,
     "0.96": 1,
+    "0.98": 1,
     "1.02": 1,
     "1.17": 1,
     "1.23": 1,
     "1.26": 1,
     "1.27": 1,
-    "1.32": 3,
-    "1.61": 1,
+    "1.35": 1,
     "1.67": 1,
     "1.77": 1
    },
-   "hashes_distintos": 56,
+   "hashes_distintos": 55,
    "hashes": [
     {
      "hash": "11147c16d9b38aa0",
@@ -2467,150 +2380,134 @@
      "png": "iwaki/4dd379badbecb94e.png"
     },
     {
-     "hash": "43875a81b1caea06",
+     "hash": "8fda944ce6b6d053",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "iwaki/8fda944ce6b6d053.png"
+    },
+    {
+     "hash": "38392304cba61fdc",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "1",
+     "png": "iwaki/38392304cba61fdc.png"
+    },
+    {
+     "hash": "79d621f5df5a4e9b",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "21",
+     "png": "iwaki/79d621f5df5a4e9b.png"
+    },
+    {
+     "hash": "cb041c57ef0a682d",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "iwaki/cb041c57ef0a682d.png"
+    },
+    {
+     "hash": "c631163071a8cb00",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "tecnica",
-     "png": "iwaki/43875a81b1caea06.png"
+     "png": "iwaki/c631163071a8cb00.png"
     },
     {
-     "hash": "67b5f2a3fa7cd70b",
+     "hash": "9e4632fb22bea606",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "iwaki/67b5f2a3fa7cd70b.png"
+     "png": "iwaki/9e4632fb22bea606.png"
     },
     {
-     "hash": "d77f25c105fe4d08",
+     "hash": "a7c12254d10744f5",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "iwaki/d77f25c105fe4d08.png"
-    },
-    {
-     "hash": "92c265b457e71e88",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "iwaki/92c265b457e71e88.png"
-    },
-    {
-     "hash": "71031ccf4ce8cd64",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "junk",
-     "png": "iwaki/71031ccf4ce8cd64.png"
-    },
-    {
-     "hash": "6fe1dc19468efe11",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "junk",
-     "png": "iwaki/6fe1dc19468efe11.png"
-    },
-    {
-     "hash": "e84937a9f37fa4b6",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "iwaki/e84937a9f37fa4b6.png"
-    },
-    {
-     "hash": "37f7e4b0ce6d790a",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "iwaki/37f7e4b0ce6d790a.png"
+     "classe": "17",
+     "png": "iwaki/a7c12254d10744f5.png"
     }
    ]
   },
   "kimny's guitar": {
    "quadros": 6,
    "quadros_com_tablatura": 6,
-   "tokens": 250,
-   "simbolos": 92,
-   "fracao": 0.368,
+   "tokens": 245,
+   "simbolos": 79,
+   "fracao": 0.3224,
    "simbolos_sem_hash": 0,
-   "passo_mediano": 18.3,
-   "quadros_passo_plausivel": 6,
-   "simbolos_passo_plausivel": 92,
+   "passo_mediano": 17.6,
+   "quadros_passo_plausivel": 5,
+   "simbolos_passo_plausivel": 63,
    "classes": {
-    "harmonico": 27,
+    "harmonico": 25,
     "5": 13,
-    "17": 11,
-    "tecnica": 10,
-    "7": 10,
+    "7": 9,
+    "tecnica": 8,
+    "junk": 7,
     "0": 5,
-    "junk": 4,
     "4": 4,
-    "14": 3,
-    "1": 2,
+    "17": 3,
+    "14": 1,
+    "1": 1,
     "6": 1,
     "21": 1,
-    "12": 1
+    "19": 1
    },
    "larguras_passo": {
     "0.19": 4,
     "0.21": 3,
+    "0.23": 1,
     "0.24": 6,
-    "0.25": 1,
+    "0.26": 1,
     "0.27": 2,
     "0.28": 1,
-    "0.29": 6,
-    "0.31": 1,
-    "0.34": 6,
+    "0.29": 5,
+    "0.32": 1,
+    "0.34": 5,
     "0.35": 1,
     "0.38": 3,
-    "0.39": 2,
+    "0.41": 1,
     "0.42": 1,
-    "0.43": 1,
-    "0.44": 8,
+    "0.43": 3,
+    "0.44": 2,
     "0.48": 3,
     "0.49": 2,
-    "0.50": 2,
-    "0.53": 17,
+    "0.53": 16,
     "0.55": 1,
-    "0.56": 3,
-    "0.58": 18,
-    "0.62": 7,
-    "0.63": 5,
+    "0.58": 16,
+    "0.61": 2,
+    "0.62": 1,
+    "0.63": 2,
+    "0.64": 7,
     "0.67": 11,
-    "0.68": 4,
-    "0.69": 3,
+    "0.68": 3,
+    "0.70": 1,
     "0.72": 2,
-    "0.73": 1,
-    "0.75": 3,
+    "0.75": 2,
     "0.77": 1,
-    "0.78": 2,
-    "0.81": 1,
     "0.82": 2,
-    "0.83": 1,
+    "0.84": 1,
+    "0.85": 1,
     "0.87": 1,
-    "0.88": 1,
-    "0.92": 1,
+    "0.90": 1,
+    "0.96": 4,
     "0.99": 1,
-    "1.00": 3,
+    "1.05": 1,
+    "1.06": 4,
     "1.10": 1,
-    "1.12": 2,
     "1.16": 2,
-    "1.17": 2,
-    "1.19": 3,
-    "1.25": 2,
-    "1.26": 1,
-    "1.31": 1,
-    "1.36": 1,
-    "1.38": 4,
-    "1.44": 1,
-    "1.46": 1,
-    "1.50": 1,
-    "1.55": 1,
-    "1.65": 1,
-    "1.75": 2,
+    "1.19": 1,
+    "1.38": 2,
+    "1.49": 1,
+    "1.70": 2,
+    "1.74": 1,
+    "1.81": 3,
     "1.83": 1,
-    "1.84": 1,
     "1.88": 2
    },
-   "hashes_distintos": 92,
+   "hashes_distintos": 79,
    "hashes": [
     {
      "hash": "c9e89a1218b8386e",
@@ -2984,348 +2881,254 @@
      "png": "kimny's guitar/e5be4ec2611169ee.png"
     },
     {
-     "hash": "be3ee875abf24363",
+     "hash": "a30bec32313d02bb",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "kimny's guitar/be3ee875abf24363.png"
+     "png": "kimny's guitar/a30bec32313d02bb.png"
     },
     {
-     "hash": "631e56dcfbc46294",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "kimny's guitar/631e56dcfbc46294.png"
-    },
-    {
-     "hash": "b0cf530cb612fc82",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "kimny's guitar/b0cf530cb612fc82.png"
-    },
-    {
-     "hash": "42f8cf6795b87b15",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "kimny's guitar/42f8cf6795b87b15.png"
-    },
-    {
-     "hash": "4c27983b111d00c5",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "14",
-     "png": "kimny's guitar/4c27983b111d00c5.png"
-    },
-    {
-     "hash": "77fb3aa60a2f0b24",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "17",
-     "png": "kimny's guitar/77fb3aa60a2f0b24.png"
-    },
-    {
-     "hash": "4d21585eef7e5bd8",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "7",
-     "png": "kimny's guitar/4d21585eef7e5bd8.png"
-    },
-    {
-     "hash": "59bdd725f80385fb",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "7",
-     "png": "kimny's guitar/59bdd725f80385fb.png"
-    },
-    {
-     "hash": "03ff24e185fe0e11",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "7",
-     "png": "kimny's guitar/03ff24e185fe0e11.png"
-    },
-    {
-     "hash": "7b095a7654b9806b",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "17",
-     "png": "kimny's guitar/7b095a7654b9806b.png"
-    },
-    {
-     "hash": "0c68ddaf8ce39708",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "kimny's guitar/0c68ddaf8ce39708.png"
-    },
-    {
-     "hash": "1ac280576c12bbfc",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "kimny's guitar/1ac280576c12bbfc.png"
-    },
-    {
-     "hash": "5cd8c913a2e6b9bb",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "17",
-     "png": "kimny's guitar/5cd8c913a2e6b9bb.png"
-    },
-    {
-     "hash": "ed63a4388c5fbde1",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "kimny's guitar/ed63a4388c5fbde1.png"
-    },
-    {
-     "hash": "dadcd8c01f5644ab",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "14",
-     "png": "kimny's guitar/dadcd8c01f5644ab.png"
-    },
-    {
-     "hash": "a351e97e5d4de83e",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "7",
-     "png": "kimny's guitar/a351e97e5d4de83e.png"
-    },
-    {
-     "hash": "b886ea7c73a1b1e3",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "kimny's guitar/b886ea7c73a1b1e3.png"
-    },
-    {
-     "hash": "5b0cca8065086413",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "17",
-     "png": "kimny's guitar/5b0cca8065086413.png"
-    },
-    {
-     "hash": "e1623d98fe3dabdb",
+     "hash": "bb6236c88e6042b6",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "tecnica",
-     "png": "kimny's guitar/e1623d98fe3dabdb.png"
+     "png": "kimny's guitar/bb6236c88e6042b6.png"
     },
     {
-     "hash": "7ad66b094a1b3da9",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "tecnica",
-     "png": "kimny's guitar/7ad66b094a1b3da9.png"
-    },
-    {
-     "hash": "a7ae72039b8efb9f",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "17",
-     "png": "kimny's guitar/a7ae72039b8efb9f.png"
-    },
-    {
-     "hash": "e5d3a24b9ec877d9",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "12",
-     "png": "kimny's guitar/e5d3a24b9ec877d9.png"
-    },
-    {
-     "hash": "d039837acc445688",
+     "hash": "1a1c00ecbe78edee",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "kimny's guitar/d039837acc445688.png"
+     "png": "kimny's guitar/1a1c00ecbe78edee.png"
     },
     {
-     "hash": "92720d5b10931cda",
+     "hash": "5840578899664ab3",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "kimny's guitar/5840578899664ab3.png"
+    },
+    {
+     "hash": "bf4c0b755e21887d",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "kimny's guitar/92720d5b10931cda.png"
+     "png": "kimny's guitar/bf4c0b755e21887d.png"
     },
     {
-     "hash": "18711cdb6701417b",
+     "hash": "4e4daacb8dfbb311",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "kimny's guitar/18711cdb6701417b.png"
+     "png": "kimny's guitar/4e4daacb8dfbb311.png"
     },
     {
-     "hash": "c87bdeec8396af3f",
+     "hash": "0ba0653fa73de2d8",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "kimny's guitar/c87bdeec8396af3f.png"
+     "classe": "junk",
+     "png": "kimny's guitar/0ba0653fa73de2d8.png"
     },
     {
-     "hash": "b1aa93b0a2a0289a",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "tecnica",
-     "png": "kimny's guitar/b1aa93b0a2a0289a.png"
-    },
-    {
-     "hash": "1362965048bccd9b",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "kimny's guitar/1362965048bccd9b.png"
-    },
-    {
-     "hash": "1897a594f12aa54e",
+     "hash": "d88e9a89079564f0",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "7",
-     "png": "kimny's guitar/1897a594f12aa54e.png"
+     "png": "kimny's guitar/d88e9a89079564f0.png"
     },
     {
-     "hash": "c115f8c9af5abc27",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "17",
-     "png": "kimny's guitar/c115f8c9af5abc27.png"
-    },
-    {
-     "hash": "0be749b18f8b1410",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "17",
-     "png": "kimny's guitar/0be749b18f8b1410.png"
-    },
-    {
-     "hash": "b301571443d6ee1a",
+     "hash": "cb8c52b5b1f3b7f0",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "kimny's guitar/b301571443d6ee1a.png"
+     "png": "kimny's guitar/cb8c52b5b1f3b7f0.png"
     },
     {
-     "hash": "95dbfdb464be8fe2",
+     "hash": "794dffd32ce6724d",
      "n": 1,
      "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "kimny's guitar/794dffd32ce6724d.png"
+    },
+    {
+     "hash": "86fe6eed3a7fd063",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "19",
+     "png": "kimny's guitar/86fe6eed3a7fd063.png"
+    },
+    {
+     "hash": "f5e608fd7c2067e3",
+     "n": 1,
+     "n_passo_plausivel": 0,
      "classe": "17",
-     "png": "kimny's guitar/95dbfdb464be8fe2.png"
+     "png": "kimny's guitar/f5e608fd7c2067e3.png"
     },
     {
-     "hash": "fbb5c94999eeed1e",
+     "hash": "d797ef98b35850cf",
      "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "1",
-     "png": "kimny's guitar/fbb5c94999eeed1e.png"
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "kimny's guitar/d797ef98b35850cf.png"
     },
     {
-     "hash": "87e88aef7c7bb34c",
+     "hash": "e6fd3da23311023b",
      "n": 1,
-     "n_passo_plausivel": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "kimny's guitar/e6fd3da23311023b.png"
+    },
+    {
+     "hash": "a6ed34a4a548ee8e",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "kimny's guitar/a6ed34a4a548ee8e.png"
+    },
+    {
+     "hash": "15e087009b17242c",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "kimny's guitar/15e087009b17242c.png"
+    },
+    {
+     "hash": "7b2fa6ba27a9c54e",
+     "n": 1,
+     "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "kimny's guitar/87e88aef7c7bb34c.png"
+     "png": "kimny's guitar/7b2fa6ba27a9c54e.png"
     },
     {
-     "hash": "8f07b16dc0be28a1",
+     "hash": "051f2608eb9ac1bf",
      "n": 1,
-     "n_passo_plausivel": 1,
+     "n_passo_plausivel": 0,
      "classe": "17",
-     "png": "kimny's guitar/8f07b16dc0be28a1.png"
+     "png": "kimny's guitar/051f2608eb9ac1bf.png"
     },
     {
-     "hash": "b3c2aa0e341664e8",
+     "hash": "1dedcbeb661dfefb",
      "n": 1,
-     "n_passo_plausivel": 1,
+     "n_passo_plausivel": 0,
      "classe": "17",
-     "png": "kimny's guitar/b3c2aa0e341664e8.png"
+     "png": "kimny's guitar/1dedcbeb661dfefb.png"
     },
     {
-     "hash": "555c5fde8ab70f06",
+     "hash": "b015ebd0a2bdb939",
      "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "17",
-     "png": "kimny's guitar/555c5fde8ab70f06.png"
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "kimny's guitar/b015ebd0a2bdb939.png"
     },
     {
-     "hash": "220251a5fdff265b",
+     "hash": "b61eda391f81a0fe",
      "n": 1,
-     "n_passo_plausivel": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "kimny's guitar/b61eda391f81a0fe.png"
+    },
+    {
+     "hash": "7261c9cdb5deb9c0",
+     "n": 1,
+     "n_passo_plausivel": 0,
      "classe": "7",
-     "png": "kimny's guitar/220251a5fdff265b.png"
+     "png": "kimny's guitar/7261c9cdb5deb9c0.png"
+    },
+    {
+     "hash": "1eb7ff631756d5a8",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "kimny's guitar/1eb7ff631756d5a8.png"
+    },
+    {
+     "hash": "d98b54c74c18d083",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "kimny's guitar/d98b54c74c18d083.png"
+    },
+    {
+     "hash": "ac4682ce48522806",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "kimny's guitar/ac4682ce48522806.png"
+    },
+    {
+     "hash": "8b5b52f251cdb624",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "kimny's guitar/8b5b52f251cdb624.png"
     }
    ]
   },
   "leonardo ramos": {
    "quadros": 6,
    "quadros_com_tablatura": 6,
-   "tokens": 221,
-   "simbolos": 96,
-   "fracao": 0.4344,
+   "tokens": 209,
+   "simbolos": 91,
+   "fracao": 0.4354,
    "simbolos_sem_hash": 0,
    "passo_mediano": 31.6,
-   "quadros_passo_plausivel": 6,
-   "simbolos_passo_plausivel": 96,
+   "quadros_passo_plausivel": 5,
+   "simbolos_passo_plausivel": 53,
    "classes": {
-    "harmonico": 27,
-    "4": 26,
-    "5": 12,
-    "1": 11,
-    "17": 4,
-    "9": 3,
-    "tecnica": 3,
-    "8": 2,
+    "4": 29,
+    "harmonico": 25,
+    "5": 10,
+    "1": 8,
+    "7": 5,
+    "8": 3,
     "6": 2,
+    "9": 2,
+    "tecnica": 2,
     "21": 2,
-    "12": 2,
-    "7": 2
+    "15": 2,
+    "3": 1
    },
    "larguras_passo": {
-    "0.13": 1,
-    "0.20": 1,
-    "0.27": 1,
+    "0.16": 1,
+    "0.24": 1,
+    "0.32": 1,
     "0.36": 1,
-    "0.40": 5,
+    "0.40": 2,
     "0.41": 1,
     "0.44": 1,
     "0.46": 2,
-    "0.47": 5,
+    "0.47": 1,
+    "0.48": 3,
     "0.49": 4,
     "0.50": 2,
     "0.51": 1,
-    "0.53": 3,
-    "0.56": 5,
+    "0.53": 1,
+    "0.56": 10,
     "0.57": 2,
     "0.59": 4,
-    "0.60": 13,
+    "0.60": 6,
     "0.62": 5,
     "0.63": 16,
-    "0.65": 1,
+    "0.65": 7,
     "0.66": 9,
-    "0.67": 11,
     "0.68": 1,
     "0.70": 9,
     "0.71": 4,
-    "0.73": 29,
+    "0.73": 25,
     "0.74": 3,
     "0.76": 4,
     "0.79": 5,
-    "0.80": 8,
-    "0.87": 3,
-    "0.93": 2,
-    "1.00": 2,
-    "1.20": 2,
-    "1.27": 3,
-    "1.33": 1,
-    "1.60": 6,
-    "1.67": 4,
-    "1.80": 2,
-    "1.87": 3,
-    "1.93": 1
+    "0.81": 15,
+    "0.89": 14,
+    "0.97": 6,
+    "1.05": 5,
+    "1.13": 3,
+    "1.45": 1,
+    "1.53": 1,
+    "1.60": 1,
+    "1.77": 1
    },
-   "hashes_distintos": 96,
+   "hashes_distintos": 91,
    "hashes": [
     {
      "hash": "33d5983598a6b2eb",
@@ -3699,374 +3502,350 @@
      "png": "leonardo ramos/4a4f76da1ef776ba.png"
     },
     {
-     "hash": "df858bfe4881b4ca",
+     "hash": "cdfd529e0da6ac8a",
      "n": 1,
-     "n_passo_plausivel": 1,
+     "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "leonardo ramos/df858bfe4881b4ca.png"
+     "png": "leonardo ramos/cdfd529e0da6ac8a.png"
     },
     {
-     "hash": "e94f18e73f236057",
+     "hash": "1538e2a63683f174",
      "n": 1,
-     "n_passo_plausivel": 1,
+     "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "leonardo ramos/e94f18e73f236057.png"
+     "png": "leonardo ramos/1538e2a63683f174.png"
     },
     {
-     "hash": "b0ead76a6810b027",
+     "hash": "33ff222fe2d888a3",
      "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/b0ead76a6810b027.png"
-    },
-    {
-     "hash": "4b5a4d5cd3f972d3",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/4b5a4d5cd3f972d3.png"
-    },
-    {
-     "hash": "fc4f20a775adb803",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/fc4f20a775adb803.png"
-    },
-    {
-     "hash": "c2d4a47b0eae09d4",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "5",
-     "png": "leonardo ramos/c2d4a47b0eae09d4.png"
-    },
-    {
-     "hash": "44fda4b70c4b7a3b",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "5",
-     "png": "leonardo ramos/44fda4b70c4b7a3b.png"
-    },
-    {
-     "hash": "8fb4439a1dbcae0a",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "21",
-     "png": "leonardo ramos/8fb4439a1dbcae0a.png"
-    },
-    {
-     "hash": "4a9a0799f5c1d441",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "tecnica",
-     "png": "leonardo ramos/4a9a0799f5c1d441.png"
-    },
-    {
-     "hash": "a2fec80257430faa",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/a2fec80257430faa.png"
-    },
-    {
-     "hash": "08d510dc4a864de0",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "17",
-     "png": "leonardo ramos/08d510dc4a864de0.png"
-    },
-    {
-     "hash": "55ca76a9ab175ccc",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "12",
-     "png": "leonardo ramos/55ca76a9ab175ccc.png"
-    },
-    {
-     "hash": "562b610c580516f1",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "12",
-     "png": "leonardo ramos/562b610c580516f1.png"
-    },
-    {
-     "hash": "e4c3b274ecf89396",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/e4c3b274ecf89396.png"
-    },
-    {
-     "hash": "d6e6d5777d58d407",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "1",
-     "png": "leonardo ramos/d6e6d5777d58d407.png"
-    },
-    {
-     "hash": "21f6b21d0bed948b",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/21f6b21d0bed948b.png"
-    },
-    {
-     "hash": "27f62c06a0c5af3f",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "1",
-     "png": "leonardo ramos/27f62c06a0c5af3f.png"
-    },
-    {
-     "hash": "3944c89c98f0646a",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "9",
-     "png": "leonardo ramos/3944c89c98f0646a.png"
-    },
-    {
-     "hash": "e7637bc984af433b",
-     "n": 1,
-     "n_passo_plausivel": 1,
+     "n_passo_plausivel": 0,
      "classe": "7",
-     "png": "leonardo ramos/e7637bc984af433b.png"
+     "png": "leonardo ramos/33ff222fe2d888a3.png"
     },
     {
-     "hash": "e937ff81fa2ea506",
+     "hash": "ef668add280c0bc6",
      "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "1",
-     "png": "leonardo ramos/e937ff81fa2ea506.png"
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/ef668add280c0bc6.png"
     },
     {
-     "hash": "4b23e5d5dd451f38",
+     "hash": "1cd3151fa6be5e0c",
      "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "1",
-     "png": "leonardo ramos/4b23e5d5dd451f38.png"
+     "n_passo_plausivel": 0,
+     "classe": "3",
+     "png": "leonardo ramos/1cd3151fa6be5e0c.png"
     },
     {
-     "hash": "b4726dc428c5f7f9",
+     "hash": "74f37017e67e8b0b",
      "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "1",
-     "png": "leonardo ramos/b4726dc428c5f7f9.png"
-    },
-    {
-     "hash": "893c6325553a825d",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "1",
-     "png": "leonardo ramos/893c6325553a825d.png"
-    },
-    {
-     "hash": "981b46e518531ab6",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "17",
-     "png": "leonardo ramos/981b46e518531ab6.png"
-    },
-    {
-     "hash": "e062ebdac0b8795d",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "17",
-     "png": "leonardo ramos/e062ebdac0b8795d.png"
-    },
-    {
-     "hash": "b1012f05d1676d2d",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "1",
-     "png": "leonardo ramos/b1012f05d1676d2d.png"
-    },
-    {
-     "hash": "531b04285c6a2981",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "1",
-     "png": "leonardo ramos/531b04285c6a2981.png"
-    },
-    {
-     "hash": "acdfe790973083a4",
-     "n": 1,
-     "n_passo_plausivel": 1,
+     "n_passo_plausivel": 0,
      "classe": "21",
-     "png": "leonardo ramos/acdfe790973083a4.png"
+     "png": "leonardo ramos/74f37017e67e8b0b.png"
     },
     {
-     "hash": "3c79bb9b94628121",
+     "hash": "26718dd30c189767",
      "n": 1,
-     "n_passo_plausivel": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/26718dd30c189767.png"
+    },
+    {
+     "hash": "8791ed2ca0cfda85",
+     "n": 1,
+     "n_passo_plausivel": 0,
      "classe": "1",
-     "png": "leonardo ramos/3c79bb9b94628121.png"
+     "png": "leonardo ramos/8791ed2ca0cfda85.png"
     },
     {
-     "hash": "b2581be88435baeb",
+     "hash": "ee11c3d5f0f5f892",
      "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/b2581be88435baeb.png"
+     "n_passo_plausivel": 0,
+     "classe": "8",
+     "png": "leonardo ramos/ee11c3d5f0f5f892.png"
     },
     {
-     "hash": "e271fe72b22b8d1c",
+     "hash": "961b32311c2bcfa8",
      "n": 1,
-     "n_passo_plausivel": 1,
+     "n_passo_plausivel": 0,
+     "classe": "21",
+     "png": "leonardo ramos/961b32311c2bcfa8.png"
+    },
+    {
+     "hash": "c9eb0137c0244194",
+     "n": 1,
+     "n_passo_plausivel": 0,
      "classe": "1",
-     "png": "leonardo ramos/e271fe72b22b8d1c.png"
+     "png": "leonardo ramos/c9eb0137c0244194.png"
     },
     {
-     "hash": "d747fcfdc7564e47",
+     "hash": "fdd815b775a8200a",
      "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "1",
-     "png": "leonardo ramos/d747fcfdc7564e47.png"
+     "n_passo_plausivel": 0,
+     "classe": "4",
+     "png": "leonardo ramos/fdd815b775a8200a.png"
     },
     {
-     "hash": "e304bc350be9f52a",
+     "hash": "8584e76865e2f262",
      "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/e304bc350be9f52a.png"
-    },
-    {
-     "hash": "b26b24c84f8b223a",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "17",
-     "png": "leonardo ramos/b26b24c84f8b223a.png"
-    },
-    {
-     "hash": "7dccb9e580445a34",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "5",
-     "png": "leonardo ramos/7dccb9e580445a34.png"
-    },
-    {
-     "hash": "68fc6f2f7f167d1d",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/68fc6f2f7f167d1d.png"
-    },
-    {
-     "hash": "212f6d9575692dad",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "7",
-     "png": "leonardo ramos/212f6d9575692dad.png"
-    },
-    {
-     "hash": "9a78ea3a00fb7d20",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/9a78ea3a00fb7d20.png"
-    },
-    {
-     "hash": "57c8f4c70d2a088c",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/57c8f4c70d2a088c.png"
-    },
-    {
-     "hash": "a3fadc1acc998896",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/a3fadc1acc998896.png"
-    },
-    {
-     "hash": "ba517d35bb056d48",
-     "n": 1,
-     "n_passo_plausivel": 1,
+     "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "leonardo ramos/ba517d35bb056d48.png"
+     "png": "leonardo ramos/8584e76865e2f262.png"
     },
     {
-     "hash": "98d9e7f8e07b9e7b",
+     "hash": "7a2ff24666a58985",
      "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/98d9e7f8e07b9e7b.png"
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "leonardo ramos/7a2ff24666a58985.png"
     },
     {
-     "hash": "97962289a6502ff7",
+     "hash": "a7e2b19d58eaea7f",
      "n": 1,
-     "n_passo_plausivel": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "leonardo ramos/a7e2b19d58eaea7f.png"
+    },
+    {
+     "hash": "2064530c0323754c",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "1",
+     "png": "leonardo ramos/2064530c0323754c.png"
+    },
+    {
+     "hash": "2da447dcd7a477cb",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "leonardo ramos/2da447dcd7a477cb.png"
+    },
+    {
+     "hash": "0940616de4420e12",
+     "n": 1,
+     "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "leonardo ramos/97962289a6502ff7.png"
+     "png": "leonardo ramos/0940616de4420e12.png"
+    },
+    {
+     "hash": "628f778547e35c3a",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/628f778547e35c3a.png"
+    },
+    {
+     "hash": "7d554fa599b80939",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "1",
+     "png": "leonardo ramos/7d554fa599b80939.png"
+    },
+    {
+     "hash": "3100ce3dd2f785b6",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "15",
+     "png": "leonardo ramos/3100ce3dd2f785b6.png"
+    },
+    {
+     "hash": "cbf376005d111de8",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "4",
+     "png": "leonardo ramos/cbf376005d111de8.png"
+    },
+    {
+     "hash": "958765730f445753",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "1",
+     "png": "leonardo ramos/958765730f445753.png"
+    },
+    {
+     "hash": "99afb6fa32baddaa",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "1",
+     "png": "leonardo ramos/99afb6fa32baddaa.png"
+    },
+    {
+     "hash": "add4674957aca73b",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "4",
+     "png": "leonardo ramos/add4674957aca73b.png"
+    },
+    {
+     "hash": "6d0a0df9ec892fb0",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "1",
+     "png": "leonardo ramos/6d0a0df9ec892fb0.png"
+    },
+    {
+     "hash": "4bfc1dd5b77f9c53",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/4bfc1dd5b77f9c53.png"
+    },
+    {
+     "hash": "404804b8b13849e1",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "1",
+     "png": "leonardo ramos/404804b8b13849e1.png"
+    },
+    {
+     "hash": "75d77283efb806e3",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/75d77283efb806e3.png"
+    },
+    {
+     "hash": "28cb26920f4f9e46",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "15",
+     "png": "leonardo ramos/28cb26920f4f9e46.png"
+    },
+    {
+     "hash": "adaa9052f6017551",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "5",
+     "png": "leonardo ramos/adaa9052f6017551.png"
+    },
+    {
+     "hash": "71ff1582ce2edb1e",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/71ff1582ce2edb1e.png"
+    },
+    {
+     "hash": "911bdbc82287374d",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "leonardo ramos/911bdbc82287374d.png"
+    },
+    {
+     "hash": "88583777fffd2177",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/88583777fffd2177.png"
+    },
+    {
+     "hash": "27a7f03ec96c708e",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/27a7f03ec96c708e.png"
+    },
+    {
+     "hash": "9f072c991997e01b",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/9f072c991997e01b.png"
+    },
+    {
+     "hash": "133a353bb0081edb",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/133a353bb0081edb.png"
+    },
+    {
+     "hash": "f08cdd86b1fe6603",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/f08cdd86b1fe6603.png"
     }
    ]
   },
   "mr. tabs": {
    "quadros": 6,
    "quadros_com_tablatura": 6,
-   "tokens": 630,
-   "simbolos": 309,
-   "fracao": 0.4905,
+   "tokens": 635,
+   "simbolos": 318,
+   "fracao": 0.5008,
    "simbolos_sem_hash": 0,
    "passo_mediano": 24.6,
    "quadros_passo_plausivel": 6,
-   "simbolos_passo_plausivel": 309,
+   "simbolos_passo_plausivel": 318,
    "classes": {
-    "junk": 250,
-    "harmonico": 29,
+    "junk": 245,
+    "harmonico": 33,
     "5": 9,
-    "tecnica": 7,
-    "7": 5,
-    "2": 2,
-    "4": 2,
-    "6": 2,
-    "3": 1,
-    "21": 1,
-    "9": 1
+    "tecnica": 9,
+    "7": 7,
+    "2": 3,
+    "4": 3,
+    "6": 3,
+    "3": 2,
+    "1": 2,
+    "10": 1,
+    "0": 1
    },
    "larguras_passo": {
     "0.08": 372,
-    "0.12": 15,
+    "0.12": 16,
     "0.15": 1,
+    "0.16": 2,
     "0.19": 4,
-    "0.20": 1,
+    "0.20": 2,
     "0.23": 1,
     "0.24": 3,
+    "0.25": 3,
     "0.27": 1,
     "0.29": 2,
     "0.31": 18,
-    "0.33": 8,
+    "0.33": 3,
     "0.34": 3,
     "0.35": 2,
-    "0.37": 1,
-    "0.41": 1,
+    "0.37": 5,
+    "0.41": 4,
     "0.42": 1,
     "0.45": 1,
     "0.49": 3,
     "0.50": 7,
-    "0.53": 2,
+    "0.53": 3,
     "0.54": 2,
-    "0.57": 16,
+    "0.57": 14,
     "0.58": 12,
-    "0.61": 5,
+    "0.61": 8,
+    "0.66": 1,
     "0.69": 2,
+    "0.70": 1,
     "0.73": 4,
-    "0.74": 1,
     "0.76": 3,
     "0.77": 1,
-    "0.78": 1,
+    "0.78": 2,
     "0.80": 2,
     "0.82": 1,
+    "0.86": 1,
+    "0.90": 2,
     "0.95": 2,
-    "1.02": 3,
-    "1.07": 1,
-    "1.11": 4,
+    "1.11": 5,
+    "1.15": 1,
     "1.19": 1,
-    "1.52": 1,
+    "1.23": 1,
+    "1.35": 1,
+    "1.48": 1,
+    "1.52": 2,
     "1.56": 1,
-    "1.67": 1
+    "1.60": 1,
+    "1.64": 1,
+    "1.67": 1,
+    "1.68": 1
    },
-   "hashes_distintos": 309,
+   "hashes_distintos": 318,
    "hashes": [
     {
      "hash": "5fdb0050c045092d",
@@ -5525,11 +5304,11 @@
      "png": "mr. tabs/37c5313fb9a3cc10.png"
     },
     {
-     "hash": "dbce8c315679a921",
+     "hash": "0625c94dd559908a",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "mr. tabs/dbce8c315679a921.png"
+     "png": "mr. tabs/0625c94dd559908a.png"
     },
     {
      "hash": "a620c1e1f1863ab6",
@@ -5546,11 +5325,11 @@
      "png": "mr. tabs/a6e0a0fa9847ed3a.png"
     },
     {
-     "hash": "e28c99d451b72246",
+     "hash": "8b60671bb041fa13",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "mr. tabs/e28c99d451b72246.png"
+     "png": "mr. tabs/8b60671bb041fa13.png"
     },
     {
      "hash": "887d925570149233",
@@ -5560,6 +5339,13 @@
      "png": "mr. tabs/887d925570149233.png"
     },
     {
+     "hash": "345fadb144e5a4a4",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "10",
+     "png": "mr. tabs/345fadb144e5a4a4.png"
+    },
+    {
      "hash": "5861af470a3dc584",
      "n": 1,
      "n_passo_plausivel": 1,
@@ -5567,18 +5353,18 @@
      "png": "mr. tabs/5861af470a3dc584.png"
     },
     {
-     "hash": "4cacfd415a97729d",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "mr. tabs/4cacfd415a97729d.png"
-    },
-    {
-     "hash": "11a8456e897c2c43",
+     "hash": "04ceecc79c9600b8",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "tecnica",
-     "png": "mr. tabs/11a8456e897c2c43.png"
+     "png": "mr. tabs/04ceecc79c9600b8.png"
+    },
+    {
+     "hash": "35786b6cfd596167",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "0",
+     "png": "mr. tabs/35786b6cfd596167.png"
     },
     {
      "hash": "33809a8ea0131276",
@@ -5588,25 +5374,25 @@
      "png": "mr. tabs/33809a8ea0131276.png"
     },
     {
-     "hash": "a154da76a1c3df47",
+     "hash": "d3ee3db6966f8037",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "21",
-     "png": "mr. tabs/a154da76a1c3df47.png"
+     "classe": "3",
+     "png": "mr. tabs/d3ee3db6966f8037.png"
     },
     {
-     "hash": "aa62d1bd368fb730",
+     "hash": "0dbe6d36f1d78c54",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "mr. tabs/aa62d1bd368fb730.png"
+     "png": "mr. tabs/0dbe6d36f1d78c54.png"
     },
     {
-     "hash": "bc1e62680d8d26d5",
+     "hash": "afc3535a40a81830",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "mr. tabs/bc1e62680d8d26d5.png"
+     "png": "mr. tabs/afc3535a40a81830.png"
     },
     {
      "hash": "b6f7d8eae2544404",
@@ -5616,11 +5402,11 @@
      "png": "mr. tabs/b6f7d8eae2544404.png"
     },
     {
-     "hash": "314c8e29a8ef53b0",
+     "hash": "bc0f214898788a10",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "mr. tabs/314c8e29a8ef53b0.png"
+     "png": "mr. tabs/bc0f214898788a10.png"
     },
     {
      "hash": "0174a89e9bc3c39b",
@@ -5630,11 +5416,11 @@
      "png": "mr. tabs/0174a89e9bc3c39b.png"
     },
     {
-     "hash": "b8cccc28cde5d56a",
+     "hash": "8e1300f6863f1cac",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "mr. tabs/b8cccc28cde5d56a.png"
+     "png": "mr. tabs/8e1300f6863f1cac.png"
     },
     {
      "hash": "ce3630e67b838c62",
@@ -5651,25 +5437,39 @@
      "png": "mr. tabs/bc71f573c7832f09.png"
     },
     {
-     "hash": "ff72e41388bbe111",
+     "hash": "b4ac304a838c1ff0",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "junk",
-     "png": "mr. tabs/ff72e41388bbe111.png"
+     "classe": "2",
+     "png": "mr. tabs/b4ac304a838c1ff0.png"
     },
     {
-     "hash": "7f100e1554de4d04",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "tecnica",
-     "png": "mr. tabs/7f100e1554de4d04.png"
-    },
-    {
-     "hash": "97ad02ea9bdf1c8a",
+     "hash": "be28ce3d1dbb6d3b",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "mr. tabs/97ad02ea9bdf1c8a.png"
+     "png": "mr. tabs/be28ce3d1dbb6d3b.png"
+    },
+    {
+     "hash": "c80ab35c8a2267c6",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "mr. tabs/c80ab35c8a2267c6.png"
+    },
+    {
+     "hash": "0d82174227971a20",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "tecnica",
+     "png": "mr. tabs/0d82174227971a20.png"
+    },
+    {
+     "hash": "eaf07d086bfc357a",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "mr. tabs/eaf07d086bfc357a.png"
     },
     {
      "hash": "7c20da937162e384",
@@ -5679,18 +5479,25 @@
      "png": "mr. tabs/7c20da937162e384.png"
     },
     {
-     "hash": "34d12b26f6acbf71",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "mr. tabs/34d12b26f6acbf71.png"
-    },
-    {
-     "hash": "a36a1f60f4f3b448",
+     "hash": "45af8db162c34692",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "mr. tabs/a36a1f60f4f3b448.png"
+     "png": "mr. tabs/45af8db162c34692.png"
+    },
+    {
+     "hash": "ccfebb7a16f519e0",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "mr. tabs/ccfebb7a16f519e0.png"
+    },
+    {
+     "hash": "fbb7bb5a27ea400a",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "tecnica",
+     "png": "mr. tabs/fbb7bb5a27ea400a.png"
     },
     {
      "hash": "eefff5335b72c889",
@@ -5700,11 +5507,11 @@
      "png": "mr. tabs/eefff5335b72c889.png"
     },
     {
-     "hash": "2bfb17ab476cf8ad",
+     "hash": "921a3d60794efa6a",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "mr. tabs/2bfb17ab476cf8ad.png"
+     "png": "mr. tabs/921a3d60794efa6a.png"
     },
     {
      "hash": "e6f5305f4e8b6f87",
@@ -5714,6 +5521,13 @@
      "png": "mr. tabs/e6f5305f4e8b6f87.png"
     },
     {
+     "hash": "6de18ce12b6dc2c3",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "6",
+     "png": "mr. tabs/6de18ce12b6dc2c3.png"
+    },
+    {
      "hash": "ef0289eb8baf2d43",
      "n": 1,
      "n_passo_plausivel": 1,
@@ -5721,53 +5535,81 @@
      "png": "mr. tabs/ef0289eb8baf2d43.png"
     },
     {
-     "hash": "547359f47ab38f34",
+     "hash": "c9e0cb686993e877",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "mr. tabs/547359f47ab38f34.png"
+     "png": "mr. tabs/c9e0cb686993e877.png"
     },
     {
-     "hash": "9eed485a49bf8e9b",
+     "hash": "06f2cd12eb99d4f8",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "9",
-     "png": "mr. tabs/9eed485a49bf8e9b.png"
+     "classe": "harmonico",
+     "png": "mr. tabs/06f2cd12eb99d4f8.png"
     },
     {
-     "hash": "c499146f7242a91e",
+     "hash": "5cf36791bc4ca734",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "mr. tabs/5cf36791bc4ca734.png"
+    },
+    {
+     "hash": "b1bb3e6308ff80e4",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "mr. tabs/b1bb3e6308ff80e4.png"
+    },
+    {
+     "hash": "c3b3c85887e5f10b",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "tecnica",
+     "png": "mr. tabs/c3b3c85887e5f10b.png"
+    },
+    {
+     "hash": "8d7deb65ad238de7",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "mr. tabs/8d7deb65ad238de7.png"
+    },
+    {
+     "hash": "297559b5c32f8e8c",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "4",
+     "png": "mr. tabs/297559b5c32f8e8c.png"
+    },
+    {
+     "hash": "7bdb34e37f30a87e",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "mr. tabs/7bdb34e37f30a87e.png"
+    },
+    {
+     "hash": "d0d487dee1ba8e8f",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "1",
+     "png": "mr. tabs/d0d487dee1ba8e8f.png"
+    },
+    {
+     "hash": "436e54dcf7b7c990",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "1",
+     "png": "mr. tabs/436e54dcf7b7c990.png"
+    },
+    {
+     "hash": "407e263110b8f589",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "mr. tabs/c499146f7242a91e.png"
-    },
-    {
-     "hash": "e1ed404fff89f793",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "junk",
-     "png": "mr. tabs/e1ed404fff89f793.png"
-    },
-    {
-     "hash": "6caaf6b63e6c0bd7",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "junk",
-     "png": "mr. tabs/6caaf6b63e6c0bd7.png"
-    },
-    {
-     "hash": "680f2c2623e5ca27",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "junk",
-     "png": "mr. tabs/680f2c2623e5ca27.png"
-    },
-    {
-     "hash": "58e0fa80a99e8800",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "junk",
-     "png": "mr. tabs/58e0fa80a99e8800.png"
+     "png": "mr. tabs/407e263110b8f589.png"
     },
     {
      "hash": "1dc7fedae00c037d",
@@ -5784,11 +5626,11 @@
      "png": "mr. tabs/c6e37ba5cfc1aa68.png"
     },
     {
-     "hash": "631565cb936341a2",
+     "hash": "a0d2de1b83fe43e1",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "mr. tabs/631565cb936341a2.png"
+     "png": "mr. tabs/a0d2de1b83fe43e1.png"
     },
     {
      "hash": "a348ad516680a58b",
@@ -5805,11 +5647,11 @@
      "png": "mr. tabs/7b5248379df4b21e.png"
     },
     {
-     "hash": "40fed83392d778ab",
+     "hash": "8d26afde144de894",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "mr. tabs/40fed83392d778ab.png"
+     "png": "mr. tabs/8d26afde144de894.png"
     },
     {
      "hash": "494f7c87f546008c",
@@ -5826,11 +5668,11 @@
      "png": "mr. tabs/05c9b57e1b2d00de.png"
     },
     {
-     "hash": "17f5ea06423486b6",
+     "hash": "c2cc9f679a7efbd4",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "mr. tabs/17f5ea06423486b6.png"
+     "png": "mr. tabs/c2cc9f679a7efbd4.png"
     },
     {
      "hash": "5e28c0c4176ae2bb",
@@ -5847,11 +5689,11 @@
      "png": "mr. tabs/440c1154b158cd42.png"
     },
     {
-     "hash": "67e34c9a757d9556",
+     "hash": "880facf62df282a1",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "mr. tabs/67e34c9a757d9556.png"
+     "png": "mr. tabs/880facf62df282a1.png"
     },
     {
      "hash": "78c933b5ccf8aaea",
@@ -6236,83 +6078,91 @@
   "pablo romé": {
    "quadros": 6,
    "quadros_com_tablatura": 6,
-   "tokens": 199,
-   "simbolos": 109,
-   "fracao": 0.5477,
+   "tokens": 202,
+   "simbolos": 102,
+   "fracao": 0.505,
    "simbolos_sem_hash": 0,
    "passo_mediano": 16.5,
    "quadros_passo_plausivel": 3,
-   "simbolos_passo_plausivel": 28,
+   "simbolos_passo_plausivel": 26,
    "classes": {
-    "harmonico": 51,
-    "17": 19,
-    "tecnica": 14,
-    "7": 9,
-    "junk": 7,
-    "14": 4,
+    "harmonico": 45,
+    "7": 17,
+    "17": 17,
+    "tecnica": 12,
+    "junk": 5,
+    "14": 1,
     "21": 1,
     "0": 1,
     "6": 1,
     "4": 1,
-    "15": 1
+    "5": 1
    },
    "larguras_passo": {
-    "0.12": 2,
     "0.15": 1,
+    "0.17": 3,
     "0.21": 3,
-    "0.24": 3,
-    "0.30": 1,
+    "0.24": 1,
+    "0.25": 2,
+    "0.27": 2,
+    "0.34": 6,
     "0.38": 1,
-    "0.40": 14,
+    "0.39": 1,
     "0.41": 5,
+    "0.42": 5,
     "0.45": 2,
     "0.48": 1,
-    "0.50": 4,
+    "0.50": 1,
+    "0.51": 6,
     "0.54": 6,
-    "0.57": 2,
-    "0.60": 1,
+    "0.59": 3,
     "0.61": 1,
     "0.62": 1,
-    "0.64": 1,
     "0.65": 1,
     "0.66": 1,
-    "0.67": 1,
     "0.68": 2,
     "0.69": 3,
     "0.70": 1,
+    "0.76": 8,
     "0.77": 1,
     "0.80": 3,
     "0.81": 8,
-    "0.85": 1,
+    "0.85": 5,
     "0.87": 1,
-    "0.90": 1,
     "0.92": 3,
+    "0.93": 1,
     "0.95": 3,
     "1.00": 2,
+    "1.02": 6,
     "1.08": 5,
+    "1.10": 2,
     "1.15": 3,
+    "1.17": 1,
     "1.20": 1,
     "1.22": 7,
     "1.23": 1,
+    "1.27": 2,
     "1.30": 1,
-    "1.33": 1,
     "1.35": 8,
+    "1.36": 2,
     "1.38": 1,
-    "1.40": 5,
+    "1.40": 2,
+    "1.44": 3,
     "1.49": 2,
-    "1.50": 1,
     "1.54": 1,
     "1.55": 1,
-    "1.60": 4,
+    "1.57": 2,
+    "1.61": 1,
     "1.62": 2,
     "1.65": 1,
-    "1.70": 15,
+    "1.69": 3,
+    "1.70": 1,
     "1.76": 2,
     "1.77": 2,
-    "1.80": 9,
-    "1.90": 9
+    "1.78": 1,
+    "1.86": 1
    },
-   "hashes_distintos": 109,
+   "hashes_distintos": 102,
    "hashes": [
     {
      "hash": "8ed274ccfdf2cb73",
@@ -6455,291 +6305,256 @@
      "png": "pablo romé/6f12e43b1adbbc6a.png"
     },
     {
-     "hash": "7d4756d1dc9fcd48",
+     "hash": "5da25d9d63f51a48",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "pablo romé/7d4756d1dc9fcd48.png"
+     "png": "pablo romé/5da25d9d63f51a48.png"
     },
     {
-     "hash": "75891b3bfb1ab398",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/75891b3bfb1ab398.png"
-    },
-    {
-     "hash": "7bc54b68a7193c3b",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/7bc54b68a7193c3b.png"
-    },
-    {
-     "hash": "11103a8dfb50a5e0",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/11103a8dfb50a5e0.png"
-    },
-    {
-     "hash": "7ceab429f483daeb",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/7ceab429f483daeb.png"
-    },
-    {
-     "hash": "2758981b02f7599e",
+     "hash": "bef9c937d5391298",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "pablo romé/2758981b02f7599e.png"
+     "png": "pablo romé/bef9c937d5391298.png"
     },
     {
-     "hash": "a51df54946b04831",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/a51df54946b04831.png"
-    },
-    {
-     "hash": "2d9594a3be8aaedf",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/2d9594a3be8aaedf.png"
-    },
-    {
-     "hash": "9558cc0d8d8326a2",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "pablo romé/9558cc0d8d8326a2.png"
-    },
-    {
-     "hash": "81ada6a3f34be87c",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/81ada6a3f34be87c.png"
-    },
-    {
-     "hash": "cd04b33f84a0f1e2",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "pablo romé/cd04b33f84a0f1e2.png"
-    },
-    {
-     "hash": "d226f8b23bc98aab",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/d226f8b23bc98aab.png"
-    },
-    {
-     "hash": "9428c6f9eb95556c",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/9428c6f9eb95556c.png"
-    },
-    {
-     "hash": "26fb778752844849",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/26fb778752844849.png"
-    },
-    {
-     "hash": "7dd80fc9a960011c",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/7dd80fc9a960011c.png"
-    },
-    {
-     "hash": "6a798c7b38b55b7c",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/6a798c7b38b55b7c.png"
-    },
-    {
-     "hash": "0629f90febbd2553",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "15",
-     "png": "pablo romé/0629f90febbd2553.png"
-    },
-    {
-     "hash": "cf45ce8d7799b77a",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "14",
-     "png": "pablo romé/cf45ce8d7799b77a.png"
-    },
-    {
-     "hash": "e6076a5019d9e9be",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/e6076a5019d9e9be.png"
-    },
-    {
-     "hash": "9c52b45c0ab8cc36",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "pablo romé/9c52b45c0ab8cc36.png"
-    },
-    {
-     "hash": "0325e4103425baf2",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "pablo romé/0325e4103425baf2.png"
-    },
-    {
-     "hash": "bb90e38bbe9f765b",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/bb90e38bbe9f765b.png"
-    },
-    {
-     "hash": "adde574e1d3b0569",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "pablo romé/adde574e1d3b0569.png"
-    },
-    {
-     "hash": "b3f4aeed73b44d60",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "pablo romé/b3f4aeed73b44d60.png"
-    },
-    {
-     "hash": "ea9a5851acb9e954",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "pablo romé/ea9a5851acb9e954.png"
-    },
-    {
-     "hash": "84bb06e670246640",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "pablo romé/84bb06e670246640.png"
-    },
-    {
-     "hash": "8703cd666381c7aa",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "pablo romé/8703cd666381c7aa.png"
-    },
-    {
-     "hash": "c765966ec3865b2c",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/c765966ec3865b2c.png"
-    },
-    {
-     "hash": "43e7041e94ba42bd",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "14",
-     "png": "pablo romé/43e7041e94ba42bd.png"
-    },
-    {
-     "hash": "e5f7598397ee36b9",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/e5f7598397ee36b9.png"
-    },
-    {
-     "hash": "239c6438d9e66f98",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/239c6438d9e66f98.png"
-    },
-    {
-     "hash": "add017ee446b7950",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/add017ee446b7950.png"
-    },
-    {
-     "hash": "d5e1215b309e2517",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/d5e1215b309e2517.png"
-    },
-    {
-     "hash": "e295ed188978ce22",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "14",
-     "png": "pablo romé/e295ed188978ce22.png"
-    },
-    {
-     "hash": "984cc7f5d6c18862",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/984cc7f5d6c18862.png"
-    },
-    {
-     "hash": "6c67d9c01ff0cc32",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/6c67d9c01ff0cc32.png"
-    },
-    {
-     "hash": "5c7501e44c88b038",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "pablo romé/5c7501e44c88b038.png"
-    },
-    {
-     "hash": "6dc45f9674e1a8c1",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "pablo romé/6dc45f9674e1a8c1.png"
-    },
-    {
-     "hash": "f7b236174d4fde7f",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/f7b236174d4fde7f.png"
-    },
-    {
-     "hash": "69224238a7240d80",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "pablo romé/69224238a7240d80.png"
-    },
-    {
-     "hash": "ea80c008dfb67042",
+     "hash": "e65c3bd507085947",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "7",
-     "png": "pablo romé/ea80c008dfb67042.png"
+     "png": "pablo romé/e65c3bd507085947.png"
+    },
+    {
+     "hash": "4eae17dca2d497f6",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "5",
+     "png": "pablo romé/4eae17dca2d497f6.png"
+    },
+    {
+     "hash": "5ad5b993acd6b3b2",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "pablo romé/5ad5b993acd6b3b2.png"
+    },
+    {
+     "hash": "9493b7a08f2c7e38",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "pablo romé/9493b7a08f2c7e38.png"
+    },
+    {
+     "hash": "1fe270b545a5e853",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/1fe270b545a5e853.png"
+    },
+    {
+     "hash": "a22ed407c6228bc0",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "17",
+     "png": "pablo romé/a22ed407c6228bc0.png"
+    },
+    {
+     "hash": "dc2ff4e5e4f2dc5e",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "pablo romé/dc2ff4e5e4f2dc5e.png"
+    },
+    {
+     "hash": "63e330f6e5ce03f2",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/63e330f6e5ce03f2.png"
+    },
+    {
+     "hash": "ac39a8232595fe14",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/ac39a8232595fe14.png"
+    },
+    {
+     "hash": "be92712ed55da570",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "pablo romé/be92712ed55da570.png"
+    },
+    {
+     "hash": "ddd5e9d93556c983",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "pablo romé/ddd5e9d93556c983.png"
+    },
+    {
+     "hash": "25691750fec2600d",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "17",
+     "png": "pablo romé/25691750fec2600d.png"
+    },
+    {
+     "hash": "e5936c4836a8a139",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/e5936c4836a8a139.png"
+    },
+    {
+     "hash": "e7b5440e5eff5395",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "17",
+     "png": "pablo romé/e7b5440e5eff5395.png"
+    },
+    {
+     "hash": "450cc62359d67f8b",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/450cc62359d67f8b.png"
+    },
+    {
+     "hash": "ebbbf528fd485d57",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/ebbbf528fd485d57.png"
+    },
+    {
+     "hash": "44c9c24ffb4aa9bc",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "17",
+     "png": "pablo romé/44c9c24ffb4aa9bc.png"
+    },
+    {
+     "hash": "6fe26a74011dd1e1",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "pablo romé/6fe26a74011dd1e1.png"
+    },
+    {
+     "hash": "a2a0b4d13fcea070",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "pablo romé/a2a0b4d13fcea070.png"
+    },
+    {
+     "hash": "01c8489ec13646b6",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/01c8489ec13646b6.png"
+    },
+    {
+     "hash": "f2d5fe7fb9f84709",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/f2d5fe7fb9f84709.png"
+    },
+    {
+     "hash": "736ec7619c9f1001",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/736ec7619c9f1001.png"
+    },
+    {
+     "hash": "b8b0c2a5a9820971",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/b8b0c2a5a9820971.png"
+    },
+    {
+     "hash": "8d218eb7d9515c38",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/8d218eb7d9515c38.png"
+    },
+    {
+     "hash": "4b5d491ec2bf9fb8",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "tecnica",
+     "png": "pablo romé/4b5d491ec2bf9fb8.png"
+    },
+    {
+     "hash": "73bc310109476156",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/73bc310109476156.png"
+    },
+    {
+     "hash": "87accec92c7d55f7",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/87accec92c7d55f7.png"
+    },
+    {
+     "hash": "e20e6c69e787047e",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "tecnica",
+     "png": "pablo romé/e20e6c69e787047e.png"
+    },
+    {
+     "hash": "381a89cc4c233d40",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/381a89cc4c233d40.png"
+    },
+    {
+     "hash": "f706c7a45cd2ef7b",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/f706c7a45cd2ef7b.png"
+    },
+    {
+     "hash": "babb53b343ed05ad",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/babb53b343ed05ad.png"
+    },
+    {
+     "hash": "7aebea9d5f69c114",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "pablo romé/7aebea9d5f69c114.png"
+    },
+    {
+     "hash": "c560432fb6dc8e8e",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "tecnica",
+     "png": "pablo romé/c560432fb6dc8e8e.png"
+    },
+    {
+     "hash": "fe4d172e7b2c4f31",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "tecnica",
+     "png": "pablo romé/fe4d172e7b2c4f31.png"
     },
     {
      "hash": "b3c9d24690217e45",
@@ -7029,53 +6844,39 @@
      "png": "pablo romé/1dd011792134e890.png"
     },
     {
-     "hash": "21d87ccb3988d06f",
+     "hash": "32cfcec1dab7d6c2",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "pablo romé/32cfcec1dab7d6c2.png"
+    },
+    {
+     "hash": "099007bf1a56ff8e",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "pablo romé/21d87ccb3988d06f.png"
+     "png": "pablo romé/099007bf1a56ff8e.png"
     },
     {
-     "hash": "5ddd878d937932ea",
+     "hash": "32ece7f16c592a12",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "pablo romé/32ece7f16c592a12.png"
+    },
+    {
+     "hash": "d0c5cbcbbfc078f1",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "pablo romé/5ddd878d937932ea.png"
+     "png": "pablo romé/d0c5cbcbbfc078f1.png"
     },
     {
-     "hash": "53f111d6afb86c48",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "junk",
-     "png": "pablo romé/53f111d6afb86c48.png"
-    },
-    {
-     "hash": "1844e8b7b8541b94",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "tecnica",
-     "png": "pablo romé/1844e8b7b8541b94.png"
-    },
-    {
-     "hash": "bbfb43dd63d281c0",
+     "hash": "cd7b600970a43523",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "pablo romé/bbfb43dd63d281c0.png"
-    },
-    {
-     "hash": "ca6d3bd60628dec8",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "junk",
-     "png": "pablo romé/ca6d3bd60628dec8.png"
-    },
-    {
-     "hash": "1a2ac3169f04f0f4",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "junk",
-     "png": "pablo romé/1a2ac3169f04f0f4.png"
+     "png": "pablo romé/cd7b600970a43523.png"
     }
    ]
   },
@@ -8057,174 +7858,154 @@
   "robert lunn": {
    "quadros": 6,
    "quadros_com_tablatura": 5,
-   "tokens": 259,
-   "simbolos": 182,
-   "fracao": 0.7027,
+   "tokens": 244,
+   "simbolos": 163,
+   "fracao": 0.668,
    "simbolos_sem_hash": 0,
    "passo_mediano": 17.8,
    "quadros_passo_plausivel": 3,
-   "simbolos_passo_plausivel": 47,
+   "simbolos_passo_plausivel": 65,
    "classes": {
-    "junk": 53,
-    "harmonico": 52,
-    "tecnica": 20,
-    "7": 17,
-    "17": 10,
-    "0": 10,
-    "2": 8,
+    "harmonico": 45,
+    "7": 30,
+    "tecnica": 17,
+    "5": 15,
+    "0": 12,
+    "17": 11,
+    "junk": 10,
+    "2": 9,
     "3": 4,
-    "1": 1,
-    "19": 1,
+    "1": 2,
+    "24": 2,
     "15": 1,
-    "24": 1,
+    "19": 1,
     "14": 1,
     "21": 1,
     "12": 1,
-    "5": 1
+    "8": 1
    },
    "larguras_passo": {
     "0.10": 18,
-    "0.11": 5,
-    "0.15": 22,
+    "0.11": 6,
+    "0.16": 13,
     "0.19": 2,
-    "0.22": 43,
-    "0.23": 2,
-    "0.25": 1,
-    "0.27": 2,
-    "0.28": 1,
-    "0.29": 34,
-    "0.32": 1,
-    "0.34": 4,
+    "0.20": 1,
+    "0.22": 2,
+    "0.23": 1,
+    "0.24": 19,
+    "0.26": 1,
+    "0.31": 2,
+    "0.32": 33,
+    "0.33": 3,
     "0.35": 8,
-    "0.37": 8,
+    "0.37": 1,
     "0.39": 1,
+    "0.40": 15,
+    "0.41": 1,
     "0.42": 2,
-    "0.44": 9,
-    "0.46": 1,
-    "0.48": 2,
-    "0.51": 5,
-    "0.52": 2,
+    "0.48": 8,
+    "0.51": 11,
+    "0.52": 3,
     "0.55": 1,
-    "0.56": 2,
-    "0.57": 2,
-    "0.58": 5,
-    "0.59": 3,
+    "0.56": 13,
+    "0.58": 4,
     "0.61": 1,
-    "0.62": 18,
-    "0.63": 2,
-    "0.65": 2,
-    "0.66": 3,
-    "0.67": 21,
+    "0.62": 34,
+    "0.65": 4,
+    "0.67": 24,
+    "0.68": 1,
+    "0.70": 1,
     "0.71": 1,
-    "0.72": 1,
-    "0.73": 1,
-    "0.74": 4,
-    "0.81": 5,
-    "0.82": 1,
+    "0.73": 8,
+    "0.76": 1,
+    "0.81": 7,
     "0.84": 1,
-    "0.85": 1,
-    "0.87": 3,
-    "0.88": 9,
-    "0.93": 1,
-    "0.95": 1,
-    "0.96": 9,
-    "1.03": 5,
-    "1.10": 8,
-    "1.18": 17,
-    "1.25": 8,
-    "1.27": 1,
-    "1.28": 2,
-    "1.32": 2,
-    "1.33": 1,
-    "1.40": 1,
-    "1.47": 1,
-    "1.54": 5,
+    "0.89": 2,
+    "0.92": 1,
+    "0.97": 7,
+    "1.03": 1,
+    "1.05": 6,
+    "1.07": 1,
+    "1.11": 1,
+    "1.13": 10,
+    "1.14": 1,
+    "1.16": 2,
+    "1.21": 6,
+    "1.29": 9,
+    "1.37": 9,
+    "1.45": 2,
+    "1.53": 1,
     "1.55": 1,
-    "1.62": 2,
-    "1.65": 1,
-    "1.69": 3,
-    "1.76": 5,
-    "1.84": 2,
-    "1.94": 1
+    "1.61": 2,
+    "1.68": 1,
+    "1.79": 1,
+    "1.85": 6,
+    "1.94": 2
    },
-   "hashes_distintos": 182,
+   "hashes_distintos": 163,
    "hashes": [
     {
-     "hash": "68335d44ada118e3",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "robert lunn/68335d44ada118e3.png"
-    },
-    {
-     "hash": "42aee7179b25ba40",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "robert lunn/42aee7179b25ba40.png"
-    },
-    {
-     "hash": "df6495970e1f40ce",
+     "hash": "38023a0f7d0ded5b",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/df6495970e1f40ce.png"
+     "png": "robert lunn/38023a0f7d0ded5b.png"
     },
     {
-     "hash": "19389623d3f8e1b9",
+     "hash": "9ed7a97acd7ce7e3",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/19389623d3f8e1b9.png"
+     "png": "robert lunn/9ed7a97acd7ce7e3.png"
     },
     {
-     "hash": "fa8ed74ed4bdb4f7",
+     "hash": "63af6cd4277e5cc5",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/fa8ed74ed4bdb4f7.png"
+     "png": "robert lunn/63af6cd4277e5cc5.png"
     },
     {
-     "hash": "c43a4ff3b536ac49",
+     "hash": "dedac762ff351f79",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/c43a4ff3b536ac49.png"
+     "png": "robert lunn/dedac762ff351f79.png"
     },
     {
-     "hash": "aed385a398266f0e",
+     "hash": "9f6eda6b1b2cf754",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/aed385a398266f0e.png"
+     "png": "robert lunn/9f6eda6b1b2cf754.png"
     },
     {
-     "hash": "f381816764f5ed08",
+     "hash": "abab0063e3c60dc2",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/f381816764f5ed08.png"
+     "png": "robert lunn/abab0063e3c60dc2.png"
     },
     {
-     "hash": "d3dfa655091002bb",
+     "hash": "02ba7ec8785cd364",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/d3dfa655091002bb.png"
+     "png": "robert lunn/02ba7ec8785cd364.png"
     },
     {
-     "hash": "6a510113dc39a59b",
+     "hash": "10715f310f33fd98",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/6a510113dc39a59b.png"
+     "classe": "harmonico",
+     "png": "robert lunn/10715f310f33fd98.png"
     },
     {
-     "hash": "ad5427698f6707eb",
+     "hash": "aaf59204a04ed366",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "7",
-     "png": "robert lunn/ad5427698f6707eb.png"
+     "png": "robert lunn/aaf59204a04ed366.png"
     },
     {
      "hash": "c2807094ff2e181b",
@@ -8234,60 +8015,60 @@
      "png": "robert lunn/c2807094ff2e181b.png"
     },
     {
-     "hash": "230c9e283772b88f",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/230c9e283772b88f.png"
-    },
-    {
-     "hash": "4db6f858c34211af",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/4db6f858c34211af.png"
-    },
-    {
-     "hash": "028dbb9eebac539f",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/028dbb9eebac539f.png"
-    },
-    {
-     "hash": "4873c53067bc8d92",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/4873c53067bc8d92.png"
-    },
-    {
-     "hash": "a8887b60854736cd",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/a8887b60854736cd.png"
-    },
-    {
-     "hash": "fe653e84aef0a6eb",
+     "hash": "832725cfa859fbab",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "1",
-     "png": "robert lunn/fe653e84aef0a6eb.png"
+     "png": "robert lunn/832725cfa859fbab.png"
     },
     {
-     "hash": "87159b11d4ab7903",
+     "hash": "0d3cf0e26ca3edc3",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/0d3cf0e26ca3edc3.png"
+    },
+    {
+     "hash": "d3f37a1b5c130c15",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/87159b11d4ab7903.png"
+     "png": "robert lunn/d3f37a1b5c130c15.png"
     },
     {
-     "hash": "f32189450e6aa16a",
+     "hash": "7a5fa23aa6dcb06f",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "tecnica",
+     "png": "robert lunn/7a5fa23aa6dcb06f.png"
+    },
+    {
+     "hash": "fed5e20123079eb5",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "15",
+     "png": "robert lunn/fed5e20123079eb5.png"
+    },
+    {
+     "hash": "090917a0698bebd1",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/f32189450e6aa16a.png"
+     "png": "robert lunn/090917a0698bebd1.png"
+    },
+    {
+     "hash": "68ae79205622423a",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "robert lunn/68ae79205622423a.png"
+    },
+    {
+     "hash": "87878ecf2f277ead",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "robert lunn/87878ecf2f277ead.png"
     },
     {
      "hash": "05c030d439f9a44a",
@@ -8437,214 +8218,130 @@
      "png": "robert lunn/dee4e99d844429e6.png"
     },
     {
-     "hash": "dba6edb60473820a",
+     "hash": "39a248efc9fdfe75",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/dba6edb60473820a.png"
+     "classe": "17",
+     "png": "robert lunn/39a248efc9fdfe75.png"
     },
     {
-     "hash": "30be1eeb1c2b4dad",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/30be1eeb1c2b4dad.png"
-    },
-    {
-     "hash": "bbc446d649dca6f7",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/bbc446d649dca6f7.png"
-    },
-    {
-     "hash": "bd55d52dd11e665d",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/bd55d52dd11e665d.png"
-    },
-    {
-     "hash": "cd72f4dd6fcc184a",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/cd72f4dd6fcc184a.png"
-    },
-    {
-     "hash": "069c8eb3630be441",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/069c8eb3630be441.png"
-    },
-    {
-     "hash": "be96ed70e7ae6d33",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/be96ed70e7ae6d33.png"
-    },
-    {
-     "hash": "61a0bb4b2ba7b23a",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/61a0bb4b2ba7b23a.png"
-    },
-    {
-     "hash": "beba6283d42df9f2",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/beba6283d42df9f2.png"
-    },
-    {
-     "hash": "57dccd01a562abd1",
+     "hash": "0376a2d3704849a7",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "7",
-     "png": "robert lunn/57dccd01a562abd1.png"
+     "png": "robert lunn/0376a2d3704849a7.png"
     },
     {
-     "hash": "2abaf6d3f930dc49",
+     "hash": "fe98edc26af8d626",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/fe98edc26af8d626.png"
+    },
+    {
+     "hash": "36675e49a66680b0",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "robert lunn/36675e49a66680b0.png"
+    },
+    {
+     "hash": "4b63a9a6c61d678c",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/4b63a9a6c61d678c.png"
+    },
+    {
+     "hash": "043733a3dece59a0",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "5",
+     "png": "robert lunn/043733a3dece59a0.png"
+    },
+    {
+     "hash": "ff0b469dd08abf53",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/ff0b469dd08abf53.png"
+    },
+    {
+     "hash": "48d42ddb6baf6b88",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "robert lunn/2abaf6d3f930dc49.png"
+     "png": "robert lunn/48d42ddb6baf6b88.png"
     },
     {
-     "hash": "9b06e9fe2ae99f06",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "15",
-     "png": "robert lunn/9b06e9fe2ae99f06.png"
-    },
-    {
-     "hash": "f1ce83de4976fe52",
+     "hash": "a25ba1eaa2624657",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "robert lunn/f1ce83de4976fe52.png"
+     "png": "robert lunn/a25ba1eaa2624657.png"
     },
     {
-     "hash": "7623312e1d3a72ca",
+     "hash": "594ca0e07e0c6d5b",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "robert lunn/7623312e1d3a72ca.png"
+     "png": "robert lunn/594ca0e07e0c6d5b.png"
     },
     {
-     "hash": "b49db48b2579220a",
+     "hash": "18b9715e9b5e8860",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/b49db48b2579220a.png"
+     "classe": "7",
+     "png": "robert lunn/18b9715e9b5e8860.png"
     },
     {
-     "hash": "e65fb5028e9d121c",
+     "hash": "72296199e0e5962f",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/e65fb5028e9d121c.png"
+     "classe": "harmonico",
+     "png": "robert lunn/72296199e0e5962f.png"
     },
     {
-     "hash": "8174ae24eab4048d",
+     "hash": "cc18f3dbeb32dbeb",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/8174ae24eab4048d.png"
+     "classe": "17",
+     "png": "robert lunn/cc18f3dbeb32dbeb.png"
     },
     {
-     "hash": "e671cfa64d5c8384",
+     "hash": "2aeeb0856d58d16d",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "24",
-     "png": "robert lunn/e671cfa64d5c8384.png"
+     "png": "robert lunn/2aeeb0856d58d16d.png"
     },
     {
-     "hash": "77027b3bf530ecf1",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/77027b3bf530ecf1.png"
-    },
-    {
-     "hash": "b57752dff4ec5426",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "robert lunn/b57752dff4ec5426.png"
-    },
-    {
-     "hash": "bac7a83ecc9d8f15",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "robert lunn/bac7a83ecc9d8f15.png"
-    },
-    {
-     "hash": "3d4a61ad730956e4",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/3d4a61ad730956e4.png"
-    },
-    {
-     "hash": "70eac96821a38326",
+     "hash": "6cd02dccc67b3589",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/70eac96821a38326.png"
+     "png": "robert lunn/6cd02dccc67b3589.png"
     },
     {
-     "hash": "34e2bda69aa8c9c8",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "robert lunn/34e2bda69aa8c9c8.png"
-    },
-    {
-     "hash": "ad4a7657aa60caa1",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "robert lunn/ad4a7657aa60caa1.png"
-    },
-    {
-     "hash": "7ae314577b22a1ad",
+     "hash": "18ddc445e8efc25c",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "7",
-     "png": "robert lunn/7ae314577b22a1ad.png"
+     "png": "robert lunn/18ddc445e8efc25c.png"
     },
     {
-     "hash": "846aee23dd7dd560",
+     "hash": "4f077a3955416d00",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/846aee23dd7dd560.png"
+     "classe": "harmonico",
+     "png": "robert lunn/4f077a3955416d00.png"
     },
     {
-     "hash": "9f7744abea26f2f7",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/9f7744abea26f2f7.png"
-    },
-    {
-     "hash": "a400dfd0a385c0d7",
+     "hash": "9d09102ef740fa6d",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "robert lunn/a400dfd0a385c0d7.png"
-    },
-    {
-     "hash": "187712327a666668",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "robert lunn/187712327a666668.png"
+     "png": "robert lunn/9d09102ef740fa6d.png"
     },
     {
      "hash": "1c823d2f0132bf03",
@@ -8654,11 +8351,11 @@
      "png": "robert lunn/1c823d2f0132bf03.png"
     },
     {
-     "hash": "e264ab67ea60e702",
+     "hash": "8fb4e1c3ab842deb",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "2",
-     "png": "robert lunn/e264ab67ea60e702.png"
+     "classe": "tecnica",
+     "png": "robert lunn/8fb4e1c3ab842deb.png"
     },
     {
      "hash": "53113294dffc8f60",
@@ -8668,39 +8365,25 @@
      "png": "robert lunn/53113294dffc8f60.png"
     },
     {
-     "hash": "5d382bd01be6f06d",
+     "hash": "24050330a30af274",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/5d382bd01be6f06d.png"
+     "png": "robert lunn/24050330a30af274.png"
     },
     {
-     "hash": "fc8b1d41e0e1d8bf",
+     "hash": "14a05487c85497cc",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "24",
+     "png": "robert lunn/14a05487c85497cc.png"
+    },
+    {
+     "hash": "2ada63e0c60b5038",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/fc8b1d41e0e1d8bf.png"
-    },
-    {
-     "hash": "5b8c8732abd595ea",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/5b8c8732abd595ea.png"
-    },
-    {
-     "hash": "1030e879965d5a0c",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "robert lunn/1030e879965d5a0c.png"
-    },
-    {
-     "hash": "a0c1e7b506a10e1d",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/a0c1e7b506a10e1d.png"
+     "png": "robert lunn/2ada63e0c60b5038.png"
     },
     {
      "hash": "82c78fadb485843f",
@@ -8710,53 +8393,53 @@
      "png": "robert lunn/82c78fadb485843f.png"
     },
     {
-     "hash": "c2bc7d3a9fbfbf1d",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/c2bc7d3a9fbfbf1d.png"
-    },
-    {
-     "hash": "a12417b4046ad0bf",
+     "hash": "57ec28c29a559c87",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "17",
-     "png": "robert lunn/a12417b4046ad0bf.png"
+     "png": "robert lunn/57ec28c29a559c87.png"
     },
     {
-     "hash": "52e6330c517a4767",
+     "hash": "e5c46ef43824cfba",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/52e6330c517a4767.png"
+     "classe": "7",
+     "png": "robert lunn/e5c46ef43824cfba.png"
     },
     {
-     "hash": "7e112de3a56cecff",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/7e112de3a56cecff.png"
-    },
-    {
-     "hash": "79dd77f4394ddee4",
+     "hash": "8109fe90f15ea965",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/79dd77f4394ddee4.png"
+     "png": "robert lunn/8109fe90f15ea965.png"
     },
     {
-     "hash": "629473c4a29e1a46",
+     "hash": "a414c6530428392e",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/629473c4a29e1a46.png"
+     "classe": "7",
+     "png": "robert lunn/a414c6530428392e.png"
     },
     {
-     "hash": "69d9e4fcb90a9375",
+     "hash": "cad7d0f532b9f9d5",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/69d9e4fcb90a9375.png"
+     "classe": "harmonico",
+     "png": "robert lunn/cad7d0f532b9f9d5.png"
+    },
+    {
+     "hash": "2af0929a5c36178a",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "17",
+     "png": "robert lunn/2af0929a5c36178a.png"
+    },
+    {
+     "hash": "3c4bc7904b9d5b26",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "robert lunn/3c4bc7904b9d5b26.png"
     },
     {
      "hash": "83b445167623dc10",
@@ -8766,13 +8449,6 @@
      "png": "robert lunn/83b445167623dc10.png"
     },
     {
-     "hash": "bce5d59ea021d2b7",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "robert lunn/bce5d59ea021d2b7.png"
-    },
-    {
      "hash": "4e99fab69d97a6b0",
      "n": 1,
      "n_passo_plausivel": 0,
@@ -8780,108 +8456,45 @@
      "png": "robert lunn/4e99fab69d97a6b0.png"
     },
     {
-     "hash": "5461a8aa90404b9b",
+     "hash": "0990c0b10c4bfbee",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "robert lunn/5461a8aa90404b9b.png"
+     "png": "robert lunn/0990c0b10c4bfbee.png"
     },
     {
-     "hash": "fd0da32cf6423f3d",
+     "hash": "28f31e5cca0f118c",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "robert lunn/fd0da32cf6423f3d.png"
+     "classe": "17",
+     "png": "robert lunn/28f31e5cca0f118c.png"
     },
     {
-     "hash": "6a946de9e4f8d012",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/6a946de9e4f8d012.png"
-    },
-    {
-     "hash": "acb6106ea7eae852",
+     "hash": "babd5c6930ee1d50",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/acb6106ea7eae852.png"
+     "png": "robert lunn/babd5c6930ee1d50.png"
     },
     {
-     "hash": "9ee77449736eb230",
+     "hash": "353704afdb9c1750",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/9ee77449736eb230.png"
-    },
-    {
-     "hash": "d55153ff996abcce",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/d55153ff996abcce.png"
-    },
-    {
-     "hash": "e90c4f7d66123ef7",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/e90c4f7d66123ef7.png"
-    },
-    {
-     "hash": "afc62a9110731afc",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/afc62a9110731afc.png"
-    },
-    {
-     "hash": "9c54ed8fb91d8558",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/9c54ed8fb91d8558.png"
-    },
-    {
-     "hash": "77aab7b222502e40",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "robert lunn/77aab7b222502e40.png"
-    },
-    {
-     "hash": "3a214ab46d2a7048",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "robert lunn/3a214ab46d2a7048.png"
+     "classe": "17",
+     "png": "robert lunn/353704afdb9c1750.png"
     },
     {
      "hash": "0cb4df76f94b3557",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
+     "classe": "7",
      "png": "robert lunn/0cb4df76f94b3557.png"
-    },
-    {
-     "hash": "19094cc0b5a557bd",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/19094cc0b5a557bd.png"
-    },
-    {
-     "hash": "c1cf0e03f2069433",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/c1cf0e03f2069433.png"
     },
     {
      "hash": "8e06ff584dd6682f",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
+     "classe": "7",
      "png": "robert lunn/8e06ff584dd6682f.png"
     },
     {
@@ -8892,53 +8505,46 @@
      "png": "robert lunn/03323294f41e7ef8.png"
     },
     {
+     "hash": "fae83738717fad04",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/fae83738717fad04.png"
+    },
+    {
+     "hash": "cf779fbb58adfcdf",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/cf779fbb58adfcdf.png"
+    },
+    {
      "hash": "63908124340a3205",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
+     "classe": "7",
      "png": "robert lunn/63908124340a3205.png"
     },
     {
-     "hash": "6c6c7710f4931dc8",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/6c6c7710f4931dc8.png"
-    },
-    {
-     "hash": "6dca26a0f6b03abd",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/6dca26a0f6b03abd.png"
-    },
-    {
-     "hash": "8d1d4b50b230314a",
+     "hash": "2c7920f14e5e8990",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/8d1d4b50b230314a.png"
+     "png": "robert lunn/2c7920f14e5e8990.png"
     },
     {
-     "hash": "6eea18948d61aa29",
+     "hash": "7da6802dc8a3a5f2",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/6eea18948d61aa29.png"
+     "png": "robert lunn/7da6802dc8a3a5f2.png"
     },
     {
-     "hash": "7db47c1aa0609c2b",
+     "hash": "c2bcf5f5c8344782",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/7db47c1aa0609c2b.png"
-    },
-    {
-     "hash": "a285f3e0cc24fbd7",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/a285f3e0cc24fbd7.png"
+     "classe": "17",
+     "png": "robert lunn/c2bcf5f5c8344782.png"
     },
     {
      "hash": "c4e47e17468f35d4",
@@ -8948,165 +8554,130 @@
      "png": "robert lunn/c4e47e17468f35d4.png"
     },
     {
-     "hash": "a9dff9423e6a172e",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "robert lunn/a9dff9423e6a172e.png"
-    },
-    {
-     "hash": "8fc733daf2b2e487",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "robert lunn/8fc733daf2b2e487.png"
-    },
-    {
-     "hash": "ef26b4698547046d",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/ef26b4698547046d.png"
-    },
-    {
-     "hash": "acc3a38b11b1ee34",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/acc3a38b11b1ee34.png"
-    },
-    {
-     "hash": "bf35aae6b15dcded",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/bf35aae6b15dcded.png"
-    },
-    {
-     "hash": "1bebd48b366cf7d6",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "robert lunn/1bebd48b366cf7d6.png"
-    },
-    {
-     "hash": "21cf3dfb7c1f5b19",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/21cf3dfb7c1f5b19.png"
-    },
-    {
-     "hash": "c667ae94aedde02c",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/c667ae94aedde02c.png"
-    },
-    {
-     "hash": "7ffe10253a68291c",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/7ffe10253a68291c.png"
-    },
-    {
-     "hash": "0b844b73f507920d",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/0b844b73f507920d.png"
-    },
-    {
-     "hash": "c8dcc46924d02dbc",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "0",
-     "png": "robert lunn/c8dcc46924d02dbc.png"
-    },
-    {
-     "hash": "e0069aaedc8beac2",
+     "hash": "5124e1388e53d558",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "robert lunn/e0069aaedc8beac2.png"
+     "png": "robert lunn/5124e1388e53d558.png"
     },
     {
-     "hash": "90af1a4293230685",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/90af1a4293230685.png"
-    },
-    {
-     "hash": "523e384d9631fa90",
+     "hash": "2061cf670bff624b",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "7",
-     "png": "robert lunn/523e384d9631fa90.png"
+     "png": "robert lunn/2061cf670bff624b.png"
     },
     {
-     "hash": "a4975fe1f5e42091",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/a4975fe1f5e42091.png"
-    },
-    {
-     "hash": "73197bf9f31e2b5f",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "robert lunn/73197bf9f31e2b5f.png"
-    },
-    {
-     "hash": "29fbef7d3b493693",
+     "hash": "17c062d42f0cdcbe",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/29fbef7d3b493693.png"
+     "png": "robert lunn/17c062d42f0cdcbe.png"
     },
     {
-     "hash": "46ff189addf0c2c0",
+     "hash": "d9717e105df84320",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "tecnica",
+     "png": "robert lunn/d9717e105df84320.png"
+    },
+    {
+     "hash": "3145930c9d3c0f40",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/3145930c9d3c0f40.png"
+    },
+    {
+     "hash": "d8687774ea307055",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "0",
+     "png": "robert lunn/d8687774ea307055.png"
+    },
+    {
+     "hash": "ed41e9496a18fee8",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "1",
+     "png": "robert lunn/ed41e9496a18fee8.png"
+    },
+    {
+     "hash": "f2d912b3a44ae03d",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "tecnica",
+     "png": "robert lunn/f2d912b3a44ae03d.png"
+    },
+    {
+     "hash": "ff87af037b279a5f",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "robert lunn/ff87af037b279a5f.png"
+    },
+    {
+     "hash": "ba0e0f74d2ac7390",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "robert lunn/ba0e0f74d2ac7390.png"
+    },
+    {
+     "hash": "c902cc4711c3a1c5",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "robert lunn/c902cc4711c3a1c5.png"
+    },
+    {
+     "hash": "164f241e5ff29bab",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/164f241e5ff29bab.png"
+    },
+    {
+     "hash": "473eb0c1697287f8",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/473eb0c1697287f8.png"
+    },
+    {
+     "hash": "b0115b80e5a61c16",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/b0115b80e5a61c16.png"
+    },
+    {
+     "hash": "02c50e1279c2690d",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "robert lunn/02c50e1279c2690d.png"
+    },
+    {
+     "hash": "1b91817132bb4be4",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "21",
-     "png": "robert lunn/46ff189addf0c2c0.png"
+     "png": "robert lunn/1b91817132bb4be4.png"
     },
     {
-     "hash": "2b6653eee23d8bb0",
+     "hash": "cbdcdd4fb6d8c6a5",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/2b6653eee23d8bb0.png"
+     "classe": "12",
+     "png": "robert lunn/cbdcdd4fb6d8c6a5.png"
     },
     {
-     "hash": "9668148f2fa00f27",
+     "hash": "1cf97c3ff6819912",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/9668148f2fa00f27.png"
-    },
-    {
-     "hash": "77562793a2ff0b76",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "robert lunn/77562793a2ff0b76.png"
-    },
-    {
-     "hash": "ffc21cf371a92a17",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/ffc21cf371a92a17.png"
-    },
-    {
-     "hash": "e415dce28cb1b275",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "robert lunn/e415dce28cb1b275.png"
+     "classe": "17",
+     "png": "robert lunn/1cf97c3ff6819912.png"
     },
     {
      "hash": "c088e6ef87652156",
@@ -9116,11 +8687,11 @@
      "png": "robert lunn/c088e6ef87652156.png"
     },
     {
-     "hash": "bc4801dadfa1f539",
+     "hash": "c5b10e042e1e8588",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "17",
-     "png": "robert lunn/bc4801dadfa1f539.png"
+     "png": "robert lunn/c5b10e042e1e8588.png"
     },
     {
      "hash": "5875b7047521719e",
@@ -9130,116 +8701,81 @@
      "png": "robert lunn/5875b7047521719e.png"
     },
     {
-     "hash": "0a9ceacd0a0faf58",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/0a9ceacd0a0faf58.png"
-    },
-    {
-     "hash": "ba9b62220c2a2f1a",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/ba9b62220c2a2f1a.png"
-    },
-    {
-     "hash": "97bb34023f391602",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "robert lunn/97bb34023f391602.png"
-    },
-    {
-     "hash": "0470f43dc7250045",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "robert lunn/0470f43dc7250045.png"
-    },
-    {
-     "hash": "4a028e8ee7d4ae83",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "robert lunn/4a028e8ee7d4ae83.png"
-    },
-    {
-     "hash": "5c6f708cad6dae2f",
+     "hash": "07199e8bc2763996",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "robert lunn/5c6f708cad6dae2f.png"
+     "png": "robert lunn/07199e8bc2763996.png"
     },
     {
-     "hash": "c9020ce79db1811e",
+     "hash": "bc022ec98dda531c",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "17",
-     "png": "robert lunn/c9020ce79db1811e.png"
+     "png": "robert lunn/bc022ec98dda531c.png"
+    },
+    {
+     "hash": "226767166f6961b3",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "robert lunn/226767166f6961b3.png"
+    },
+    {
+     "hash": "f612f9d3e6d4084c",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/f612f9d3e6d4084c.png"
+    },
+    {
+     "hash": "9f8ade6b15f35697",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/9f8ade6b15f35697.png"
+    },
+    {
+     "hash": "2b1079cd84f6cf67",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/2b1079cd84f6cf67.png"
     },
     {
      "hash": "92ca744a7deaac3f",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "junk",
+     "classe": "7",
      "png": "robert lunn/92ca744a7deaac3f.png"
     },
     {
-     "hash": "c34cc086a49f844b",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "robert lunn/c34cc086a49f844b.png"
-    },
-    {
-     "hash": "ad01d586df7a4747",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/ad01d586df7a4747.png"
-    },
-    {
-     "hash": "9679d6bdc10ba782",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "12",
-     "png": "robert lunn/9679d6bdc10ba782.png"
-    },
-    {
-     "hash": "46b4299d0ba11baf",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/46b4299d0ba11baf.png"
-    },
-    {
-     "hash": "b6be7d1712d7e01a",
+     "hash": "11d266d9b030e19a",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "7",
-     "png": "robert lunn/b6be7d1712d7e01a.png"
+     "png": "robert lunn/11d266d9b030e19a.png"
     },
     {
-     "hash": "4b4f794ce93af9f3",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/4b4f794ce93af9f3.png"
-    },
-    {
-     "hash": "b72c37b6b8a29801",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "junk",
-     "png": "robert lunn/b72c37b6b8a29801.png"
-    },
-    {
-     "hash": "97bed050e1e7a9e1",
+     "hash": "c645436b3aae1515",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "7",
-     "png": "robert lunn/97bed050e1e7a9e1.png"
+     "png": "robert lunn/c645436b3aae1515.png"
+    },
+    {
+     "hash": "411739ba38f46e83",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/411739ba38f46e83.png"
+    },
+    {
+     "hash": "ed3889ceb0ab248b",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "robert lunn/ed3889ceb0ab248b.png"
     },
     {
      "hash": "b6a4da3a00d3d617",
@@ -9410,11 +8946,137 @@
      "png": "robert lunn/251bbc6a56bd7889.png"
     },
     {
-     "hash": "50807e871f30082c",
+     "hash": "358ba9efc421a87f",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "tecnica",
-     "png": "robert lunn/50807e871f30082c.png"
+     "classe": "0",
+     "png": "robert lunn/358ba9efc421a87f.png"
+    },
+    {
+     "hash": "a036228c97ebc371",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "2",
+     "png": "robert lunn/a036228c97ebc371.png"
+    },
+    {
+     "hash": "cc3956c7b6392a44",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "2",
+     "png": "robert lunn/cc3956c7b6392a44.png"
+    },
+    {
+     "hash": "0494cd4b929cb585",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/0494cd4b929cb585.png"
+    },
+    {
+     "hash": "636956a6525d97b1",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "0",
+     "png": "robert lunn/636956a6525d97b1.png"
+    },
+    {
+     "hash": "3a38120bc87c8605",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/3a38120bc87c8605.png"
+    },
+    {
+     "hash": "597f626ab023223c",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/597f626ab023223c.png"
+    },
+    {
+     "hash": "11dbc251bbcd026b",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/11dbc251bbcd026b.png"
+    },
+    {
+     "hash": "f4500547e8298152",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "8",
+     "png": "robert lunn/f4500547e8298152.png"
+    },
+    {
+     "hash": "9b3d9c1bf41c9de6",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/9b3d9c1bf41c9de6.png"
+    },
+    {
+     "hash": "52ef2be764ffc44e",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/52ef2be764ffc44e.png"
+    },
+    {
+     "hash": "1e09698ad76d6e8b",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/1e09698ad76d6e8b.png"
+    },
+    {
+     "hash": "3f9dd4078e2d6b6a",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "robert lunn/3f9dd4078e2d6b6a.png"
+    },
+    {
+     "hash": "e6f2f6988170f350",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/e6f2f6988170f350.png"
+    },
+    {
+     "hash": "be1beaaff78edb26",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/be1beaaff78edb26.png"
+    },
+    {
+     "hash": "a71c2f5d8337e8d2",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/a71c2f5d8337e8d2.png"
+    },
+    {
+     "hash": "5b95f50596fb440a",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/5b95f50596fb440a.png"
+    },
+    {
+     "hash": "9c8d9104b2ecd221",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/9c8d9104b2ecd221.png"
+    },
+    {
+     "hash": "3388ca1bf260a7a4",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "5",
+     "png": "robert lunn/3388ca1bf260a7a4.png"
     },
     {
      "hash": "d229009b98c91b40",
@@ -12546,8 +12208,9 @@
     "0.36": 11,
     "0.39": 3,
     "0.41": 3,
+    "0.42": 1,
     "0.43": 4,
-    "0.45": 24,
+    "0.45": 23,
     "0.46": 2,
     "0.48": 3,
     "0.49": 1,
@@ -12558,11 +12221,11 @@
     "0.65": 3,
     "0.70": 10,
     "0.75": 1,
+    "0.83": 1,
     "0.89": 2,
-    "0.91": 1,
-    "1.02": 1,
-    "1.48": 1,
-    "1.70": 1
+    "0.94": 1,
+    "1.35": 1,
+    "1.56": 1
    },
    "hashes_distintos": 136,
    "hashes": [
@@ -13523,157 +13186,136 @@
   "tv cifras": {
    "quadros": 6,
    "quadros_com_tablatura": 3,
-   "tokens": 50,
-   "simbolos": 40,
-   "fracao": 0.8,
+   "tokens": 46,
+   "simbolos": 37,
+   "fracao": 0.8043,
    "simbolos_sem_hash": 0,
-   "passo_mediano": 11.8,
+   "passo_mediano": 13.2,
    "quadros_passo_plausivel": 1,
    "simbolos_passo_plausivel": 4,
    "classes": {
-    "harmonico": 19,
-    "17": 7,
+    "harmonico": 18,
     "7": 6,
+    "17": 4,
+    "tecnica": 3,
     "3": 2,
-    "tecnica": 2,
+    "12": 1,
     "15": 1,
-    "1": 1,
     "4": 1,
     "junk": 1
    },
    "larguras_passo": {
     "0.29": 1,
-    "0.42": 3,
-    "0.51": 2,
+    "0.38": 1,
+    "0.45": 1,
     "0.56": 4,
-    "0.59": 2,
+    "0.61": 5,
     "0.67": 2,
     "0.68": 1,
-    "0.76": 3,
+    "0.76": 1,
     "0.78": 7,
-    "0.85": 1,
     "0.89": 4,
+    "0.91": 1,
+    "0.98": 2,
     "1.00": 6,
-    "1.02": 2,
-    "1.10": 3,
+    "1.06": 1,
     "1.11": 3,
+    "1.14": 1,
+    "1.21": 3,
     "1.22": 7,
-    "1.27": 4,
+    "1.29": 3,
     "1.33": 2,
     "1.36": 1,
     "1.42": 2,
-    "1.44": 4,
+    "1.44": 1,
     "1.56": 1,
-    "1.61": 1,
-    "1.69": 1,
-    "1.86": 1
+    "1.82": 1
    },
-   "hashes_distintos": 40,
+   "hashes_distintos": 37,
    "hashes": [
     {
-     "hash": "f3119557ff7d8378",
+     "hash": "b82cf525523f643f",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "tv cifras/f3119557ff7d8378.png"
+     "png": "tv cifras/b82cf525523f643f.png"
     },
     {
-     "hash": "bad69bb6fadff26c",
+     "hash": "01bd7bf452fbf211",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "17",
-     "png": "tv cifras/bad69bb6fadff26c.png"
+     "png": "tv cifras/01bd7bf452fbf211.png"
     },
     {
-     "hash": "03ed0d90d4d9dfc1",
+     "hash": "7e64afcf5135f8de",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "tv cifras/03ed0d90d4d9dfc1.png"
+     "classe": "tecnica",
+     "png": "tv cifras/7e64afcf5135f8de.png"
     },
     {
-     "hash": "33abde9bdb028825",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "tv cifras/33abde9bdb028825.png"
-    },
-    {
-     "hash": "4fec4648a782ae96",
+     "hash": "7345f5aeb89597f0",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "17",
-     "png": "tv cifras/4fec4648a782ae96.png"
+     "png": "tv cifras/7345f5aeb89597f0.png"
     },
     {
-     "hash": "e6d1d16da2fa7f69",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "tv cifras/e6d1d16da2fa7f69.png"
-    },
-    {
-     "hash": "cd74342507b8fcd2",
+     "hash": "4c8919d6132d1da2",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "7",
-     "png": "tv cifras/cd74342507b8fcd2.png"
+     "png": "tv cifras/4c8919d6132d1da2.png"
     },
     {
-     "hash": "fc243349f0169400",
+     "hash": "4bff548b44753de1",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "tv cifras/4bff548b44753de1.png"
+    },
+    {
+     "hash": "8ed27216d95f94c6",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "12",
+     "png": "tv cifras/8ed27216d95f94c6.png"
+    },
+    {
+     "hash": "941b9e858790a2cc",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "17",
-     "png": "tv cifras/fc243349f0169400.png"
+     "png": "tv cifras/941b9e858790a2cc.png"
     },
     {
-     "hash": "c83f657f44fdd888",
+     "hash": "014e8dab16f67cf7",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "tv cifras/c83f657f44fdd888.png"
+     "classe": "harmonico",
+     "png": "tv cifras/014e8dab16f67cf7.png"
     },
     {
-     "hash": "8c67d9a6dcfc59ba",
+     "hash": "cfa932fd5506c47b",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "tv cifras/cfa932fd5506c47b.png"
+    },
+    {
+     "hash": "04e5a75aa2542ba2",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "15",
-     "png": "tv cifras/8c67d9a6dcfc59ba.png"
+     "png": "tv cifras/04e5a75aa2542ba2.png"
     },
     {
-     "hash": "480f886f010b6837",
+     "hash": "224bfa600150f3ce",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "7",
-     "png": "tv cifras/480f886f010b6837.png"
-    },
-    {
-     "hash": "a839ff4c4caeab0c",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "tv cifras/a839ff4c4caeab0c.png"
-    },
-    {
-     "hash": "d00d28054596bea0",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "tv cifras/d00d28054596bea0.png"
-    },
-    {
-     "hash": "fc6ec8df73816605",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "tv cifras/fc6ec8df73816605.png"
-    },
-    {
-     "hash": "769e3af05a54486c",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "1",
-     "png": "tv cifras/769e3af05a54486c.png"
+     "png": "tv cifras/224bfa600150f3ce.png"
     },
     {
      "hash": "01045e3f83e1d056",
@@ -14798,8 +14440,8 @@
    "quadros_passo_plausivel": 3,
    "simbolos_passo_plausivel": 26,
    "classes": {
-    "tecnica": 29,
-    "harmonico": 25,
+    "tecnica": 28,
+    "harmonico": 26,
     "1": 4,
     "12": 3,
     "4": 3,
@@ -14813,29 +14455,29 @@
     "7": 1
    },
    "larguras_passo": {
-    "0.10": 1,
-    "0.12": 7,
-    "0.14": 2,
-    "0.17": 3,
+    "0.12": 5,
+    "0.14": 4,
+    "0.15": 1,
+    "0.17": 4,
     "0.21": 2,
     "0.25": 1,
     "0.26": 2,
     "0.28": 1,
     "0.34": 15,
     "0.35": 2,
-    "0.37": 8,
+    "0.37": 5,
     "0.38": 2,
-    "0.39": 1,
     "0.40": 1,
-    "0.41": 1,
-    "0.42": 9,
+    "0.42": 11,
     "0.44": 2,
     "0.45": 1,
-    "0.46": 4,
+    "0.46": 2,
     "0.47": 2,
+    "0.49": 1,
     "0.51": 10,
-    "0.52": 2,
+    "0.52": 1,
     "0.53": 3,
+    "0.54": 1,
     "0.57": 2,
     "0.58": 2,
     "0.59": 9,
@@ -14845,11 +14487,12 @@
     "0.76": 1,
     "0.79": 1,
     "0.80": 1,
+    "0.83": 1,
     "0.84": 1,
     "0.85": 6,
-    "0.86": 2,
-    "0.90": 3,
-    "0.91": 2,
+    "0.86": 1,
+    "0.90": 1,
+    "0.91": 3,
     "0.95": 1,
     "1.02": 1,
     "1.08": 3,
@@ -14972,60 +14615,60 @@
      "png": "violaodecria/09604b5f38a92888.png"
     },
     {
-     "hash": "11aef9a0771df381",
+     "hash": "0cf25268fe51b65b",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "violaodecria/11aef9a0771df381.png"
+     "png": "violaodecria/0cf25268fe51b65b.png"
     },
     {
-     "hash": "fdb66ee889e1e83c",
+     "hash": "82e9341ababf6f6e",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "4",
-     "png": "violaodecria/fdb66ee889e1e83c.png"
+     "png": "violaodecria/82e9341ababf6f6e.png"
     },
     {
-     "hash": "4114c7e069af032d",
+     "hash": "68f78eac6a21622f",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "violaodecria/4114c7e069af032d.png"
+     "png": "violaodecria/68f78eac6a21622f.png"
     },
     {
-     "hash": "b028a6712bd77a5d",
+     "hash": "41b6eecac37d7624",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "violaodecria/b028a6712bd77a5d.png"
+     "png": "violaodecria/41b6eecac37d7624.png"
     },
     {
-     "hash": "9d0a4070aa5158aa",
+     "hash": "912e230dc1531508",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "violaodecria/9d0a4070aa5158aa.png"
+     "png": "violaodecria/912e230dc1531508.png"
     },
     {
-     "hash": "3611e4c43daf2de8",
+     "hash": "cdf6e5b9ff0ee4ba",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "violaodecria/3611e4c43daf2de8.png"
+     "png": "violaodecria/cdf6e5b9ff0ee4ba.png"
     },
     {
-     "hash": "b165d2d84e0b062d",
+     "hash": "84f12a08c885b71a",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "violaodecria/b165d2d84e0b062d.png"
+     "png": "violaodecria/84f12a08c885b71a.png"
     },
     {
-     "hash": "8f69265f14455c9e",
+     "hash": "317fe89436cc1486",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "violaodecria/8f69265f14455c9e.png"
+     "classe": "harmonico",
+     "png": "violaodecria/317fe89436cc1486.png"
     },
     {
      "hash": "d2f582eea074a93f",
@@ -15403,40 +15046,38 @@
   "ギタロー ⧸ guitarous": {
    "quadros": 6,
    "quadros_com_tablatura": 6,
-   "tokens": 242,
-   "simbolos": 197,
-   "fracao": 0.814,
+   "tokens": 246,
+   "simbolos": 202,
+   "fracao": 0.8211,
    "simbolos_sem_hash": 0,
-   "passo_mediano": 17.8,
+   "passo_mediano": 17.5,
    "quadros_passo_plausivel": 6,
-   "simbolos_passo_plausivel": 197,
+   "simbolos_passo_plausivel": 202,
    "classes": {
-    "junk": 137,
+    "junk": 141,
     "0": 17,
-    "harmonico": 10,
     "2": 10,
+    "harmonico": 7,
     "3": 7,
     "4": 6,
     "1": 4,
     "7": 4,
-    "tecnica": 1,
-    "17": 1
+    "tecnica": 4,
+    "17": 2
    },
    "larguras_passo": {
     "0.10": 24,
-    "0.12": 1,
     "0.13": 2,
-    "0.15": 99,
+    "0.15": 102,
     "0.19": 62,
     "0.20": 7,
     "0.21": 17,
-    "0.23": 1,
     "0.25": 3,
-    "0.26": 43,
+    "0.26": 44,
     "0.28": 2,
     "0.30": 4,
+    "0.31": 2,
     "0.32": 4,
-    "0.35": 1,
     "0.39": 2,
     "0.42": 1,
     "0.45": 2,
@@ -15445,28 +15086,28 @@
     "0.54": 1,
     "0.58": 2,
     "0.59": 1,
+    "0.61": 1,
     "0.64": 4,
     "0.65": 2,
+    "0.66": 1,
     "0.69": 19,
-    "0.70": 1,
     "0.71": 9,
     "0.74": 8,
     "0.76": 13,
+    "0.77": 1,
     "0.78": 14,
     "0.79": 1,
     "0.84": 1,
     "0.90": 1,
-    "0.98": 1,
+    "0.97": 1,
+    "1.02": 1,
     "1.19": 1,
-    "1.25": 1,
-    "1.45": 1,
-    "1.48": 4,
-    "1.52": 2,
-    "1.60": 1,
-    "1.80": 1,
-    "1.88": 1
+    "1.33": 1,
+    "1.58": 1,
+    "1.68": 1,
+    "1.94": 2
    },
-   "hashes_distintos": 197,
+   "hashes_distintos": 202,
    "hashes": [
     {
      "hash": "8baf89b91b184929",
@@ -16792,60 +16433,95 @@
      "png": "ギタロー ⧸ guitarous/4ff5fec5b59ea3be.png"
     },
     {
-     "hash": "b245d60b3a36d19b",
+     "hash": "ab4bc59b5cea31c4",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "ギタロー ⧸ guitarous/b245d60b3a36d19b.png"
+     "classe": "tecnica",
+     "png": "ギタロー ⧸ guitarous/ab4bc59b5cea31c4.png"
     },
     {
-     "hash": "0edcc157344d3bb5",
+     "hash": "251cd7f9d45475c0",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "ギタロー ⧸ guitarous/0edcc157344d3bb5.png"
+     "png": "ギタロー ⧸ guitarous/251cd7f9d45475c0.png"
     },
     {
-     "hash": "3fde1f89f6259a1d",
+     "hash": "e048dab70e820dcc",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "ギタロー ⧸ guitarous/3fde1f89f6259a1d.png"
+     "classe": "17",
+     "png": "ギタロー ⧸ guitarous/e048dab70e820dcc.png"
     },
     {
-     "hash": "2ee6b0853f7d5255",
+     "hash": "80d97a346d26f192",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "ギタロー ⧸ guitarous/2ee6b0853f7d5255.png"
+     "classe": "junk",
+     "png": "ギタロー ⧸ guitarous/80d97a346d26f192.png"
     },
     {
-     "hash": "c80339b414410d3e",
+     "hash": "8a54e73457ba0c7f",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "ギタロー ⧸ guitarous/c80339b414410d3e.png"
+     "png": "ギタロー ⧸ guitarous/8a54e73457ba0c7f.png"
     },
     {
-     "hash": "c7cbf62e5b8da7ff",
+     "hash": "c503f1e1d7fbab0a",
      "n": 1,
      "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "ギタロー ⧸ guitarous/c7cbf62e5b8da7ff.png"
+     "classe": "junk",
+     "png": "ギタロー ⧸ guitarous/c503f1e1d7fbab0a.png"
     },
     {
-     "hash": "1227e4faf549a334",
+     "hash": "8cea9d8027fcb6c0",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "ギタロー ⧸ guitarous/1227e4faf549a334.png"
+     "png": "ギタロー ⧸ guitarous/8cea9d8027fcb6c0.png"
     },
     {
-     "hash": "f2616c1dc3d8cda0",
+     "hash": "9250258446da4d99",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "ギタロー ⧸ guitarous/f2616c1dc3d8cda0.png"
+     "png": "ギタロー ⧸ guitarous/9250258446da4d99.png"
+    },
+    {
+     "hash": "010fd2a11e7a6bf5",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "tecnica",
+     "png": "ギタロー ⧸ guitarous/010fd2a11e7a6bf5.png"
+    },
+    {
+     "hash": "6b44726c69600882",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "tecnica",
+     "png": "ギタロー ⧸ guitarous/6b44726c69600882.png"
+    },
+    {
+     "hash": "b0c75f8e2eea585d",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "ギタロー ⧸ guitarous/b0c75f8e2eea585d.png"
+    },
+    {
+     "hash": "ba4267f791787a10",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "ギタロー ⧸ guitarous/ba4267f791787a10.png"
+    },
+    {
+     "hash": "8e24f2036662cb3f",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "ギタロー ⧸ guitarous/8e24f2036662cb3f.png"
     }
    ]
   }
@@ -16919,9 +16595,9 @@
     "tab": true,
     "faixa": "topo",
     "uniformidade": 0.912,
-    "passo": 28.4,
-    "tokens": 57,
-    "n_simbolos": 46,
+    "passo": 27.2,
+    "tokens": 54,
+    "n_simbolos": 45,
     "erro": null
    }
   ],
@@ -16931,11 +16607,11 @@
     "frac": 0.65,
     "via": "cv2",
     "tab": true,
-    "faixa": "topo",
-    "uniformidade": 0.969,
-    "passo": 7.6,
-    "tokens": 5,
-    "n_simbolos": 5,
+    "faixa": "meio",
+    "uniformidade": 0.962,
+    "passo": 15.2,
+    "tokens": 7,
+    "n_simbolos": 0,
     "erro": null
    },
    {
@@ -16944,10 +16620,10 @@
     "via": "cv2",
     "tab": true,
     "faixa": "meio",
-    "uniformidade": 0.93,
-    "passo": 22.0,
-    "tokens": 15,
-    "n_simbolos": 10,
+    "uniformidade": 0.835,
+    "passo": 16.2,
+    "tokens": 7,
+    "n_simbolos": 5,
     "erro": null
    },
    {
@@ -17065,11 +16741,11 @@
     "frac": 0.85,
     "via": "ffmpeg",
     "tab": true,
-    "faixa": "meio",
-    "uniformidade": 0.954,
-    "passo": 30.4,
-    "tokens": 13,
-    "n_simbolos": 8,
+    "faixa": "topo",
+    "uniformidade": 0.914,
+    "passo": 24.4,
+    "tokens": 9,
+    "n_simbolos": 7,
     "erro": null
    }
   ],
@@ -17127,11 +16803,11 @@
     "frac": 0.65,
     "via": "cv2",
     "tab": true,
-    "faixa": "topo",
-    "uniformidade": 0.892,
-    "passo": 20.6,
-    "tokens": 29,
-    "n_simbolos": 19,
+    "faixa": "meio",
+    "uniformidade": 0.885,
+    "passo": 34.4,
+    "tokens": 23,
+    "n_simbolos": 10,
     "erro": null
    },
    {
@@ -17141,9 +16817,9 @@
     "tab": true,
     "faixa": "topo",
     "uniformidade": 0.899,
-    "passo": 16.0,
-    "tokens": 35,
-    "n_simbolos": 20,
+    "passo": 9.4,
+    "tokens": 36,
+    "n_simbolos": 16,
     "erro": null
    }
   ],
@@ -17215,9 +16891,9 @@
     "tab": true,
     "faixa": "meio",
     "uniformidade": 0.932,
-    "passo": 15.0,
-    "tokens": 68,
-    "n_simbolos": 43,
+    "passo": 12.4,
+    "tokens": 56,
+    "n_simbolos": 38,
     "erro": null
    }
   ],
@@ -17278,8 +16954,8 @@
     "faixa": "base",
     "uniformidade": 0.936,
     "passo": 24.4,
-    "tokens": 96,
-    "n_simbolos": 48,
+    "tokens": 101,
+    "n_simbolos": 57,
     "erro": null
    },
    {
@@ -17327,9 +17003,9 @@
     "tab": true,
     "faixa": "base",
     "uniformidade": 0.902,
-    "passo": 10.0,
-    "tokens": 67,
-    "n_simbolos": 41,
+    "passo": 11.8,
+    "tokens": 70,
+    "n_simbolos": 36,
     "erro": null
    },
    {
@@ -17363,9 +17039,9 @@
     "tab": true,
     "faixa": "topo",
     "uniformidade": 0.839,
-    "passo": 42.0,
+    "passo": 33.2,
     "tokens": 9,
-    "n_simbolos": 7,
+    "n_simbolos": 5,
     "erro": null
    }
   ],
@@ -17451,9 +17127,9 @@
     "tab": true,
     "faixa": "topo",
     "uniformidade": 0.943,
-    "passo": 60.0,
-    "tokens": 25,
-    "n_simbolos": 20,
+    "passo": 45.8,
+    "tokens": 22,
+    "n_simbolos": 18,
     "erro": null
    },
    {
@@ -17475,9 +17151,9 @@
     "tab": true,
     "faixa": "meio",
     "uniformidade": 0.863,
-    "passo": 13.6,
-    "tokens": 137,
-    "n_simbolos": 115,
+    "passo": 12.4,
+    "tokens": 124,
+    "n_simbolos": 80,
     "erro": null
    },
    {
@@ -17511,9 +17187,9 @@
     "tab": true,
     "faixa": "y602",
     "uniformidade": 0.861,
-    "passo": 17.4,
-    "tokens": 27,
-    "n_simbolos": 2,
+    "passo": 17.8,
+    "tokens": 28,
+    "n_simbolos": 20,
     "erro": null
    }
   ],
@@ -17747,7 +17423,7 @@
     "tab": true,
     "faixa": "meio",
     "uniformidade": 0.953,
-    "passo": 8.8,
+    "passo": 9.6,
     "tokens": 6,
     "n_simbolos": 4,
     "erro": null
@@ -17821,9 +17497,9 @@
     "tab": true,
     "faixa": "topo",
     "uniformidade": 0.891,
-    "passo": 11.8,
-    "tokens": 22,
-    "n_simbolos": 15,
+    "passo": 13.2,
+    "tokens": 18,
+    "n_simbolos": 12,
     "erro": null
    },
    {
@@ -18102,10 +17778,10 @@
     "via": "cv2",
     "tab": true,
     "faixa": "topo",
-    "uniformidade": 0.782,
-    "passo": 25.6,
-    "tokens": 12,
-    "n_simbolos": 8,
+    "uniformidade": 0.823,
+    "passo": 19.6,
+    "tokens": 16,
+    "n_simbolos": 13,
     "erro": null
    }
   ]

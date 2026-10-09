@@ -318,6 +318,38 @@ Lição que se soma à nº 6 do `AGENTS.md`: **o gargalo é cobertura de dado, n
 visão** — seis regras geométricas medidas neste projeto deram zero ou negativo, e esta
 seria a sétima.
 
+## 2026-10-09 — delimitador COMPLETO (tamanho + extensão horizontal): número final
+
+Coleta refeita com o delimitador completo, depois de a trava de extensão horizontal entrar:
+
+| coleta | símbolos | tokens | fração |
+| --- | --- | --- | --- |
+| original (a que o dono viu, com a clave) | 3.223 | 5.150 | 62,6 % |
+| só com as regras de tamanho | 2.233 | 4.610 | 48,4 % |
+| **com tamanho + extensão horizontal** | **2.188** | **4.573** | **47,9 %** |
+
+**−32 % de símbolos** contra a original, com a leitura **inalterada** (0,917 / 0,986 / 0,944)
+e o gabarito sem perder um glifo sequer. As três coletas ficam em disco para auditoria:
+`data/saida/simbolos_antes/` (original), `data/saida/simbolos_tamanho/` (só tamanho) e
+`data/saida/simbolos/` (final).
+
+**Regras do delimitador, todas medidas** (em `tab/tabseg.delimitar_tokens`):
+
+1. **y**: o token tem de caber no sistema das 6 cordas (margem de 1 passo) — `fora_do_sistema`;
+2. **tamanho**: `largura/passo ≤ 2,0`, `altura/passo ≤ 2,0`, `altura/passo ≥ 0,20`. Medido:
+   algarismos ficam em largura/passo 0,12–1,39 e o lixo começa em 2,69 — o lixo é **largo**
+   (tira de linha, texto, braço), não alto. Motivos: `alto_demais`, `largo_demais`,
+   `baixo_demais`;
+3. **x**: o token tem de estar dentro da extensão onde as 6 cordas coexistem (21 % dos tokens
+   de uma amostra de 1.694 caíam fora) — `fora_da_extensao`. O rótulo `T A B` já era removido
+   por regra anterior, verificada;
+4. **relatório**: toda recusa é contada por motivo em `Grade.recusados`, aparece nos avisos
+   (`delimite=largo_demais:3,...`) e no `to_json` — nada some em silêncio.
+
+**O que continua sendo dívida, e não foi resolvido aqui**: o lixo residual é **fragmento de
+foto borrada** (corpo, mão, sombra do braço), não fragmento de linha. A regra de retidão foi
+medida e **reprovada** (jogaria fora `44` e `1⌒`), e o critério que falta é **nitidez**.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
