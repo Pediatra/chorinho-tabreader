@@ -2516,3 +2516,32 @@ mostrou que **o caminho passa pela forma, não pelo limiar**.
 **Próxima medição**: varrer a **forma** (largura mínima em {1,0; 1,2; 1,5} passo × altura máxima em
 {1,0; 1,5; 2,0} passo) e escolher o ponto de operação **com critério declarado** — o recall alvo é
 0,41 e a precisão tem de ficar acima do baseline (0,180) para o ganho ser real.
+
+## 2026-10-09 — varredura da FORMA: a largura decide, a altura é inerte, e o ponto fica em 1,5
+
+`forma_simbolo` parametrizada (largura mínima, altura máxima) e a curva medida no limiar 0,5:
+
+| largura mín. | altura máx. | aprovados | batem | precisão | recall |
+| --- | --- | --- | --- | --- | --- |
+| 1,0 | 1,0 | 263 | 43 | 0,163 | 0,228 |
+| 1,0 | 1,5 | 264 | 43 | 0,163 | 0,228 |
+| 1,2 | 1,5 | 220 | 39 | 0,177 | 0,206 |
+| **1,5** | **1,5** | 178 | 35 | **0,197** | 0,185 |
+| 1,2 | 2,0 | 220 | 39 | 0,177 | 0,206 |
+| 1,0 | 2,0 | 264 | 43 | 0,163 | 0,228 |
+
+**Dois achados**: a **altura é inerte** (1,0 / 1,5 / 2,0 dão os mesmos números) — só a **largura**
+separa; e o trade-off é **monotônico** na largura, sem ponto mágico.
+
+**Aplicando o critério declarado ANTES de medir** (precisão acima de 0,180 **e** recall acima de 0,140):
+largura 1,0 dá 0,163 (**abaixo do baseline** — deslocamento, não ganho); 1,2 dá 0,177 (ainda abaixo);
+**1,5 dá 0,197 e 0,185 — é o ponto escolhido, e é o que está ligado**.
+
+**E o alvo do goal (recall 0,41) não é alcançável por estas duas alavancas**: o pool aberto chega a
+0,402 **com precisão 0,054**, abaixo do baseline — ou seja, "chegar lá" custaria mais do que o pipeline
+que já existia. **O limite não é o limiar nem a forma: é a discriminação do modelo na distribuição
+deste pool.**
+
+**Terceira alavanca, ainda não testada, e é geométrica e barata**: **o arco fica ENTRE duas cordas**
+(e não sobre uma). Exigir que a caixa do candidato **não cruze** uma linha de corda corta pedaço de
+linha e dígito — que são justamente os falsos. Medir: quantos candidatos sobram, e recall/precisão.

@@ -202,6 +202,7 @@ def reconhecer_linha(
     faixa_y: tuple[int, int] | None = None,
     julgar_todos: bool = False,
     limiar_simbolo2: float | None = None,
+    forma_simbolo: tuple[float, float] = (1.5, 1.5),
 ) -> dict:
     """Lê uma linha de tablatura: geometria + classificação + símbolo cru.
 
@@ -461,7 +462,9 @@ def reconhecer_linha(
             # (2,4x1,0 a 3,1x1,0 passos). O caminho do símbolo gera ~110 candidatos por quadro e
             # muitos têm "forma de arco" sem ser o arco — pedaço de linha (alto e fino) e topo de
             # dígito (estreito). Barrar aqui custa zero do gabarito: o caminho do algarismo é outro.
-            if (tk.x1 - tk.x0) < 1.5 * g.passo or (tk.y1 - tk.y0) > 1.5 * g.passo:
+            if (tk.x1 - tk.x0) < forma_simbolo[0] * g.passo or (
+                tk.y1 - tk.y0
+            ) > forma_simbolo[1] * g.passo:
                 continue
             # JANELA NA BORDA DE CIMA, não no centro da caixa. Medido: com o centro, o filtro aprova
             # **31 %** dos candidatos na posição das marcas (mediana 0,208); com o topo da caixa,
