@@ -193,3 +193,59 @@ aviso_de_medicao:
       Arco de BAIXO CONTRASTE é justamente o que uma janela de recorte apertada perde. Se a
       janela de 1,6 × passo estiver cortando esses arcos, o detector aprende a não vê-los e o erro
       só aparece depois, na transcrição. Medir antes de confiar.
+
+# ---------------------------------------------------------------------------
+# VOCABULÁRIO COMPLETO — 241 marcas do dono em 37 tablaturas (3 arquivos).
+# MÉTODO CORRIGIDO POR ELE: ler TODOS os significados distintos, nunca só os mais frequentes.
+# Com `most_common` eu perdi `mordente` (1 marca no arquivo anterior), bend, trémolo e ritornello.
+# Frequência não é importância.
+vocabulario_completo:
+  arco_de_ligadura:
+    texto_do_dono: "arco de ligadura (43 marcas)"
+    regra_h_vs_p: "10 -> 7 (descendo) é PULL-OFF; 7 -> 10 (subindo) é HAMMER-ON"
+    direcao_do_arco: "para cima ou para baixo tem o MESMO significado"
+  arco_com_barra_no_meio:
+    nome: slide
+    texto_do_dono: "não é mais pull off ou hammer on, é um slide"
+  mordente:
+    texto_do_dono: "quando um arco cobre três ou mais notas chama-se tecnicamente mordente — ornamento rápido num único tempo"
+    nota: "EU JA TINHA ESSE DADO e não vi, porque resumi por frequência (1 marca em T14_serge)"
+  bend_ou_ligadura_de_expressao:
+    texto_do_dono: "linha curva flutuante por cima do número 10 indica ligadura de expressão (legato) ou bend"
+  tremolo:
+    texto_do_dono: "3 traços inclinados por baixo do acorde = trémolo (tremolo picking)"
+  slide_in:
+    texto_do_dono: "slide ascendente de entrada (slide-in): pequena linha subindo até a nota"
+  slide_out:
+    texto_do_dono: "slide descendente de saída (slide-out / slide off)"
+  ligadura_de_prolongamento:
+    curta: "mesma nota sustentada por um tempo"
+    longa: "prolongado ao longo de vários tempos e compassos — o dado por nota tem de guardar a DURAÇÃO"
+  nota_presa_entre_parenteses:
+    texto_do_dono: "(4) pull-off ligado a uma nota que JÁ VEM RESSOANDO; (9) = não tocar de novo, deixar soar"
+  pull_off_de_nota_ressonante:
+    texto_do_dono: "toca a nota anterior e, sem palhetar, soa a de chegada"
+  ornamento_ondulado:
+    texto_do_dono: "símbolos ondulados ao lado do 3 (e do 2) = apoyatura / grace note com slide"
+  setas_de_palhetada:
+    texto_do_dono: "indicam a direção da palhetada ou do rasgueado; 'seta longa' atravessa o acorde (varrido/arpejo rápido); ocupa 1, 2 ou mais cordas"
+  arpejo_vertical:
+    texto_do_dono: "linha vertical sobre N cordas = arpejo dessas N cordas, de cima para baixo"
+  notas_abafadas:
+    nome: muted notes
+    texto_do_dono: "manter os dedos da mão esquerda apenas encostados nas cordas, sem apertar contra os trastes"
+  algarismo_pequeno:
+    texto_do_dono: "quando o número fica pequeno: essa casa deve ser tocada de forma quase instantânea (grace note)"
+  # NOTAÇÃO (não é técnica — guardar SEPARADO do símbolo da nota):
+  pausas:
+    tipos: "colcheia, semínima, mínima pontuada, semibreve"
+    texto_do_dono: "indica silêncio com a duração exata; interrompe a sonoridade das cordas"
+  formula_de_compasso:
+    texto_do_dono: "3/4 e 4/4 — métrica, não técnica"
+  barra_de_repeticao:
+    nome: ritornello
+    texto_do_dono: "barra de repetição de fechamento / ritornello duplo (linhas com pontos dos dois lados)"
+  # O QUE NÃO É SÍMBOLO (instrução explícita dele):
+  nao_e_simbolo:
+    rotulo_tab: "T A B não é símbolo nenhum — é texto de alguns canais, fica na vertical ocupando as cordas. NÃO confundir com símbolo."
+    aula_ignorada: "T06 tv cifras — 'AULA FILTREI ERRADO, JA FOI APAGADO E CORRIGIDO IGNORE ESSA AULA E TABLATURA'"
