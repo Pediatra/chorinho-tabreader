@@ -2360,3 +2360,35 @@ tocar no dígito.
 **além** dos da grade — os primeiros para o filtro de símbolo, os segundos para o algarismo. Medir o
 fim a fim e o gabarito juntos: o gabarito **tem de ficar** em 0,917/0,986/0,944 (o caminho do dígito não
 muda) e o recall deve subir.
+
+## 2026-10-09 — FECHAMENTO DO GOAL: o diagnóstico está fechado; a ligação dos dois caminhos é o que falta
+
+**A pergunta do goal — ONDE o símbolo (o arco) se perde antes de chegar ao filtro — está RESPONDIDA
+com medição e imagem**, e não era em nenhum dos lugares que eu suspeitei primeiro:
+
+| suspeito | veredito |
+| --- | --- |
+| o classificador de símbolo | **não** — LOCA 0,74–0,79 e leave-one-**vídeo**-out 0,79–0,81 |
+| o delimitador | **não** — ele recusa corretamente o que é barra e o que é gigante |
+| a lista `alvos` | parcialmente — o critério "não é dígito" **escondia 100 % das marcas** (corrigido: `julgar_todos`) |
+| a fusão arco-linha | **não é a causa** — apagar as faixas na `otsu` deu neutro |
+| a seleção da máscara | **é parte** — na `otsu` o arco **não existe**; na união ele existe mas vira gigante de 85 passos |
+| **a raiz** | **as duas coisas querem processamentos opostos**: o algarismo quer a máscara escolhida (a `otsu`, que não tem o arco); o símbolo quer união + faixas (que afoga o dígito) |
+
+**Medições que sustentam**: das 189 marcas, **0** eram julgadas pelo filtro (o arco não é token); no
+caminho do símbolo (união + faixas) **149 de 163** marcas passam a ter token, com a **forma de arco**
+(2,4×1,0 · 2,5×1,0 · 2,7×0,9 · 3,1×1,0 passos); e ligar isso **destruindo o dígito** dá recall 0,41 com
+**gabarito `total=0`** — logo o caminho é separar, não unificar.
+
+**O QUE FALTA, com receita exata para não se perder** (é a única tarefa aberta):
+
+1. `reconhecer_linha` ganha uma **segunda passada**, depois do laço dos tokens: os candidatos do
+   **caminho do símbolo** (`_sem_faixas(_uniao_mascaras(roi), linhas, passo)` → `_glifos_por_faixa` →
+   `agrupar_tokens`), julgados **só pelo `filtro_simbolo`** e emitidos como nota com `casa=None` e
+   `origem="simbolo"` — **sem** passar pelo classificador de algarismo;
+2. a passada atual (grade da máscara escolhida) fica **intacta** — é ela que sustenta o gabarito;
+3. critério de aceitação **duplo**: gabarito **0,917 / 0,986 / 0,944** (tem de ficar) **e** recall fim a
+   fim acima de **0,41**, medido com `julgar_todos=True`.
+
+**Estado da árvore**: ruff limpo, 120 testes, união ligada (neutra no gabarito), faixas **desligadas**
+(quebram o dígito). Nada pela metade.
