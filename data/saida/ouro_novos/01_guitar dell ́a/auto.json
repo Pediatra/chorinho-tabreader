@@ -1,0 +1,261 @@
+{
+ "video": "guitar dell ́arte/etude in e minor (j. ferrer) - guitar lesson, sheet and tab.mp4",
+ "instante_frac": 0.5,
+ "via": "cv2",
+ "faixa": "meio",
+ "y0_roi": 379,
+ "passo": 11.2,
+ "linhas_y": [
+  392,
+  405,
+  417,
+  426,
+  440,
+  448
+ ],
+ "glifos": [
+  {
+   "corda": 5,
+   "x0": 203,
+   "x1": 212,
+   "y0": 56,
+   "y1": 63,
+   "coluna": 0,
+   "casa": null
+  },
+  {
+   "corda": 5,
+   "x0": 357,
+   "x1": 360,
+   "y0": 64,
+   "y1": 67,
+   "coluna": 1,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 357,
+   "x1": 360,
+   "y0": 64,
+   "y1": 67,
+   "coluna": 1,
+   "casa": null
+  },
+  {
+   "corda": 5,
+   "x0": 634,
+   "x1": 664,
+   "y0": 64,
+   "y1": 67,
+   "coluna": 2,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 634,
+   "x1": 664,
+   "y0": 64,
+   "y1": 67,
+   "coluna": 2,
+   "casa": null
+  },
+  {
+   "corda": 4,
+   "x0": 949,
+   "x1": 1016,
+   "y0": 50,
+   "y1": 53,
+   "coluna": 3,
+   "casa": null
+  },
+  {
+   "corda": 5,
+   "x0": 949,
+   "x1": 1017,
+   "y0": 64,
+   "y1": 67,
+   "coluna": 3,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 949,
+   "x1": 1017,
+   "y0": 64,
+   "y1": 67,
+   "coluna": 3,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 1498,
+   "x1": 1503,
+   "y0": 66,
+   "y1": 69,
+   "coluna": 6,
+   "casa": null
+  },
+  {
+   "corda": 1,
+   "x0": 1556,
+   "x1": 1570,
+   "y0": 8,
+   "y1": 19,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 1,
+   "x0": 1581,
+   "x1": 1593,
+   "y0": 8,
+   "y1": 19,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 2,
+   "x0": 1536,
+   "x1": 1559,
+   "y0": 21,
+   "y1": 32,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 2,
+   "x0": 1570,
+   "x1": 1583,
+   "y0": 21,
+   "y1": 32,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 3,
+   "x0": 1535,
+   "x1": 1573,
+   "y0": 33,
+   "y1": 44,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 3,
+   "x0": 1583,
+   "x1": 1593,
+   "y0": 33,
+   "y1": 44,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 4,
+   "x0": 1527,
+   "x1": 1541,
+   "y0": 42,
+   "y1": 53,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 4,
+   "x0": 1552,
+   "x1": 1572,
+   "y0": 42,
+   "y1": 53,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 4,
+   "x0": 1576,
+   "x1": 1588,
+   "y0": 42,
+   "y1": 53,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 5,
+   "x0": 1515,
+   "x1": 1529,
+   "y0": 56,
+   "y1": 67,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 5,
+   "x0": 1541,
+   "x1": 1554,
+   "y0": 56,
+   "y1": 67,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 5,
+   "x0": 1564,
+   "x1": 1586,
+   "y0": 56,
+   "y1": 67,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 5,
+   "x0": 1589,
+   "x1": 1593,
+   "y0": 62,
+   "y1": 67,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 1512,
+   "x1": 1522,
+   "y0": 64,
+   "y1": 71,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 1537,
+   "x1": 1547,
+   "y0": 64,
+   "y1": 71,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 1560,
+   "x1": 1570,
+   "y0": 64,
+   "y1": 71,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 1578,
+   "x1": 1586,
+   "y0": 64,
+   "y1": 67,
+   "coluna": 7,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 1589,
+   "x1": 1593,
+   "y0": 64,
+   "y1": 67,
+   "coluna": 7,
+   "casa": null
+  }
+ ]
+}

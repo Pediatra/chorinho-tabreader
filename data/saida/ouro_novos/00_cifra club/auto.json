@@ -1,0 +1,135 @@
+{
+ "video": "cifra club/livre estou (do filme ＂frozen＂) ｜ como tocar no violão.mp4",
+ "instante_frac": 0.85,
+ "via": "ffmpeg",
+ "faixa": "meio",
+ "y0_roi": 33,
+ "passo": 31.8,
+ "linhas_y": [
+  71,
+  102,
+  133,
+  161,
+  197,
+  230
+ ],
+ "glifos": [
+  {
+   "corda": 6,
+   "x0": 26,
+   "x1": 120,
+   "y0": 183,
+   "y1": 207,
+   "coluna": 0,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 150,
+   "x1": 199,
+   "y0": 183,
+   "y1": 207,
+   "coluna": 1,
+   "casa": null
+  },
+  {
+   "corda": 2,
+   "x0": 276,
+   "x1": 282,
+   "y0": 64,
+   "y1": 78,
+   "coluna": 2,
+   "casa": null
+  },
+  {
+   "corda": 5,
+   "x0": 212,
+   "x1": 253,
+   "y0": 170,
+   "y1": 179,
+   "coluna": 2,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 220,
+   "x1": 264,
+   "y0": 183,
+   "y1": 212,
+   "coluna": 2,
+   "casa": null
+  },
+  {
+   "corda": 1,
+   "x0": 321,
+   "x1": 342,
+   "y0": 30,
+   "y1": 53,
+   "coluna": 3,
+   "casa": null
+  },
+  {
+   "corda": 4,
+   "x0": 352,
+   "x1": 364,
+   "y0": 128,
+   "y1": 143,
+   "coluna": 3,
+   "casa": null
+  },
+  {
+   "corda": 5,
+   "x0": 348,
+   "x1": 381,
+   "y0": 150,
+   "y1": 179,
+   "coluna": 3,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 351,
+   "x1": 411,
+   "y0": 183,
+   "y1": 212,
+   "coluna": 3,
+   "casa": null
+  },
+  {
+   "corda": 2,
+   "x0": 406,
+   "x1": 415,
+   "y0": 65,
+   "y1": 73,
+   "coluna": 4,
+   "casa": null
+  },
+  {
+   "corda": 6,
+   "x0": 426,
+   "x1": 511,
+   "y0": 203,
+   "y1": 212,
+   "coluna": 5,
+   "casa": null
+  },
+  {
+   "corda": 1,
+   "x0": 1415,
+   "x1": 1501,
+   "y0": 44,
+   "y1": 53,
+   "coluna": 6,
+   "casa": null
+  },
+  {
+   "corda": 2,
+   "x0": 1415,
+   "x1": 1507,
+   "y0": 55,
+   "y1": 84,
+   "coluna": 6,
+   "casa": null
+  }
+ ]
+}

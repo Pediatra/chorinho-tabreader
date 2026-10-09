@@ -49,6 +49,16 @@ desta rodada não é o número: é ele **agora ser reprodutível**. Quatro corre
 Números medidos antes de 2026-10-08 têm **ruído de até ~0,05 embutido**: ganhos históricos
 de +0,038 e +0,046 estão dentro desse ruído e não deveriam ter sido tratados como ganho.
 
+## CORREÇÃO (2026-10-09): o "96,5 % com tablatura" está inflado
+
+Gerando montagem para os canais novos, o detector escolheu **piano**
+(`violaodecria`), **cabeça do violão com tarraxas** (`shin izumi`) e **corpo do violão**
+(`cifra club`) — e chamou os três de tablatura. Os números por canal daquela varredura
+**não são medida de tablatura** até o portão ser corrigido: ver
+[`docs/decisoes/0005-portao-de-tablatura-aprendido.md`](docs/decisoes/0005-portao-de-tablatura-aprendido.md).
+Quatro discriminadores feitos à mão foram testados e **os quatro falharam** (uniformidade,
+fração de algarismos, confiança do classificador, espessura de linha).
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

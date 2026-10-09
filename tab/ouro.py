@@ -20,29 +20,26 @@ import cv2
 import numpy as np
 
 from .caminhos import SAIDA, acervo
-from .inventario import FAIXAS, ler_quadro
-from .tabseg import segmentar
+from .inventario import ler_quadro
+from .painel import escolher
 
 RAIZ = acervo()
 
 
 def melhor_faixa(frame: np.ndarray):
-    melhor = None
-    for nome, y0, y1 in FAIXAS:
-        y1 = min(y1, frame.shape[0])
-        if y1 - y0 < 60:
-            continue
-        roi = frame[y0:y1, :]
-        try:
-            g = segmentar(roi)
-        except Exception:
-            continue
-        if len(g.linhas_y) != 6 or not g.glifos:
-            continue
-        score = (g.glifos_centrados, len(g.glifos))
-        if melhor is None or score > melhor[0]:
-            melhor = (score, nome, y0, roi, g)
-    return melhor
+    """Painel de tablatura do quadro — a MESMA escolha do pipeline (`tab.painel`).
+
+    Aqui havia uma cópia do critério antigo (glifos centrados), que num quadro real do
+    `sky guitar` escolhia o **braço do violão** em vez da tablatura. Montagem de gabarito
+    feita na faixa errada é gabarito errado — e o gabarito é a verdade do projeto.
+
+    Args:
+        frame: quadro inteiro.
+
+    Returns:
+        O candidato escolhido (`.nome`, `.roi`, `.grade`) ou None.
+    """
+    return escolher(frame)
 
 
 def main() -> int:
@@ -51,7 +48,10 @@ def main() -> int:
     ap.add_argument("--saida", default=str(SAIDA / "ouro"))
     ap.add_argument("--n", type=int, default=6)
     ap.add_argument("--por-canal", type=int, default=1)
-    ap.add_argument("--instante", type=float, default=0.5)
+    ap.add_argument("--canais", nargs="*", default=None)
+    # Vários instantes: medido no `sky guitar`, a tablatura aparece da metade para o
+    # fim, então procurar em 0,5/0,7/0,85 custa pouco e evita montagem sem tablatura.
+    ap.add_argument("--instantes", nargs="+", type=float, default=[0.5, 0.7, 0.85])
     ap.add_argument("--seed", type=int, default=7)
     args = ap.parse_args()
     os.makedirs(args.saida, exist_ok=True)
@@ -62,6 +62,8 @@ def main() -> int:
         for d in sorted(glob.glob(os.path.join(args.raiz, "*")))
         if os.path.isdir(d) and os.path.basename(d) != "derived"
     ]
+    if args.canais:
+        canais = [d for d in canais if os.path.basename(d) in args.canais]
     feitos = 0
     indice = []
     for canal in canais:
@@ -74,13 +76,23 @@ def main() -> int:
         for v in rng.sample(vids, min(len(vids), 12)):
             if feitos >= args.n or sucessos_canal >= args.por_canal:
                 break
-            frame, via = ler_quadro(v, args.instante)
-            if frame is None:
-                continue
-            m = melhor_faixa(frame)
+            m, frac_usada, via = None, None, None
+            for frac in args.instantes:
+                quadro, via_lido = ler_quadro(v, frac)
+                if quadro is None:
+                    continue
+                candidato = melhor_faixa(quadro)
+                if candidato is None:
+                    continue
+                chave = (round(candidato.uniformidade, 3), len(candidato.grade.glifos))
+                if m is None or chave > (
+                    round(m.uniformidade, 3),
+                    len(m.grade.glifos),
+                ):
+                    m, frac_usada, via = candidato, frac, via_lido
             if m is None:
                 continue
-            _, faixa, _, roi, g = m
+            faixa, roi, g = m.nome, m.roi, m.grade
             nome = f"{feitos:02d}_{os.path.basename(canal)[:14].strip()}"
             pasta = os.path.join(args.saida, nome)
             os.makedirs(pasta, exist_ok=True)
@@ -107,7 +119,7 @@ def main() -> int:
                 )
             auto = {
                 "video": os.path.relpath(v, args.raiz),
-                "instante_frac": args.instante,
+                "instante_frac": frac_usada,
                 "via": via,
                 "faixa": faixa,
                 "y0_roi": l0,

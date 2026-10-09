@@ -1,0 +1,30 @@
+[
+ {
+  "amostra": "00_cifra club",
+  "video": "cifra club/livre estou (do filme ＂frozen＂) ｜ como tocar no violão.mp4",
+  "faixa": "meio",
+  "passo": 31.8,
+  "n_glifos": 13
+ },
+ {
+  "amostra": "01_guitar dell ́a",
+  "video": "guitar dell ́arte/etude in e minor (j. ferrer) - guitar lesson, sheet and tab.mp4",
+  "faixa": "meio",
+  "passo": 11.2,
+  "n_glifos": 27
+ },
+ {
+  "amostra": "02_shin izumi",
+  "video": "shin izumi/【tab】change the world - eric clapton - fingerstyle guitar ソロギター【タブ】.mp4",
+  "faixa": "topo",
+  "passo": 19.6,
+  "n_glifos": 29
+ },
+ {
+  "amostra": "03_violaodecria",
+  "video": "violaodecria/cartel do 900 - mc kevin, ig, rick, menor da vg, hariel e don juan #c... [7346930985751104773].mp4",
+  "faixa": "base",
+  "passo": 38.2,
+  "n_glifos": 15
+ }
+]
