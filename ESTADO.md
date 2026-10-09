@@ -2672,3 +2672,31 @@ grossa.
 **Próxima medição**: quantização **grossa** no dedupe (0,8 / 1,2 / 1,6 passo — a janela tem 2,4 passos
 de largura, então janelas a menos de 1,2 passo de distância **se sobrepõem** e mostram o mesmo arco).
 Medir candidatos, marcas cobertas, precisão e recall, com o baseline 0,180/0,140 na mesa.
+
+## 2026-10-09 — dedupe com quantização GROSSA: também NÃO resolve (a hipótese está morta)
+
+Filtro de forma **desligado** e quantização varrida (a janela tem 2,4 passos de largura):
+
+| quantização | aprovados | batem | precisão | recall |
+| --- | --- | --- | --- | --- |
+| 0,8 | 1.370 | 75 | 0,055 | 0,397 |
+| 1,2 | 1.289 | 73 | 0,057 | 0,386 |
+| 1,6 | 1.030 | 70 | 0,068 | 0,370 |
+| **2,4** (= a largura da janela) | **835** | 63 | **0,075** | 0,333 |
+
+**Mesmo deduplicando janelas que se sobrepõem 100 %**, a precisão fica em **0,075** — longe do baseline
+(0,180). **O dedupe não é a alavanca.** Os candidatos estão genuinamente espalhados: o pool é cheio de
+coisa com cara de arco, e é por isso que a precisão só se sustenta **descartando candidatos por forma**.
+
+**Conclusão de (B), medida de ponta a ponta**: o **filtro de forma é um mal necessário** — é a única
+alavanca que mantém a precisão no baseline, e **é ele que cria os 170 buracos** (147 dos 163 candidatos
+em cima de marcas são descartados por ele). As quatro alavancas testadas — limiar, forma, posição e
+dedupe — estão **esgotadas**, e o que sobra é a discriminação do modelo neste pool.
+
+## (C) página de auditoria — FEITO a pedido do dono
+
+- **ordem corrigida**: os candidatos que caem **em cima de uma marca do dono vêm primeiro** (é o que
+  valida o modelo); os "sem marca" vão para o fim;
+- **filtro** "mostrar só os SEM marca do dono" — a auditoria do falso positivo, isolável num clique;
+- recorte de ±3,2 × ±2,2 passos e **duas caixas explicadas**: **amarela = a janela que o modelo vê**
+  (classifique por ela), **verde = o candidato bruto** (um fragmento, não o símbolo).

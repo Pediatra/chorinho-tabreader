@@ -203,6 +203,7 @@ def reconhecer_linha(
     julgar_todos: bool = False,
     limiar_simbolo2: float | None = None,
     forma_simbolo: tuple[float, float] = (1.5, 1.5),
+    quantizacao_simbolo: float = 0.5,
 ) -> dict:
     """Lê uma linha de tablatura: geometria + classificação + símbolo cru.
 
@@ -471,7 +472,10 @@ def reconhecer_linha(
             # filtro nenhum (precisão 0,053, recall 0,392) — as janelas são distintas nessa escala.
             # Para o dedupe valer, a quantização tem de ser grossa (a janela tem 2,4 passos de
             # largura). Medir 0,8 / 1,2 / 1,6 passo é o próximo passo.
-            chave = (round(tk.x0 / (0.5 * g.passo)), round(tk.y0 / (0.5 * g.passo)))
+            chave = (
+                round(tk.x0 / (quantizacao_simbolo * g.passo)),
+                round(tk.y0 / (quantizacao_simbolo * g.passo)),
+            )
             if (tk.x1 - tk.x0) < forma_simbolo[0] * g.passo or (
                 tk.y1 - tk.y0
             ) > forma_simbolo[1] * g.passo:
