@@ -1,0 +1,98 @@
+  época   3/12 perda=0.4424 acc_treino=0.9470
+  época   6/12 perda=0.3115 acc_treino=0.9757
+  época   9/12 perda=0.2394 acc_treino=0.9859
+  época  12/12 perda=0.1854 acc_treino=0.9842
+  época   3/12 perda=0.1520 acc_treino=0.9825
+  época   6/12 perda=0.0617 acc_treino=0.9910
+  época   9/12 perda=0.0322 acc_treino=0.9915
+  época  12/12 perda=0.0294 acc_treino=0.9927
+  época   3/12 perda=0.0781 acc_treino=0.9823
+  época   6/12 perda=0.0393 acc_treino=0.9882
+  época   9/12 perda=0.0176 acc_treino=0.9976
+  época  12/12 perda=0.0092 acc_treino=0.9971
+  época   3/12 perda=0.1355 acc_treino=0.9842
+  época   6/12 perda=0.0597 acc_treino=0.9848
+  época   9/12 perda=0.0333 acc_treino=0.9904
+  época  12/12 perda=0.0201 acc_treino=0.9949
+  época   3/12 perda=0.4185 acc_treino=0.9746
+  época   6/12 perda=0.3241 acc_treino=0.9633
+  época   9/12 perda=0.2275 acc_treino=0.9836
+  época  12/12 perda=0.1780 acc_treino=0.9893
+  época   3/12 perda=0.4705 acc_treino=0.9458
+  época   6/12 perda=0.3332 acc_treino=0.9424
+  época   9/12 perda=0.2155 acc_treino=0.9898
+  época  12/12 perda=0.1807 acc_treino=0.9881
+  época   3/12 perda=0.1491 acc_treino=0.9820
+  época   6/12 perda=0.0549 acc_treino=0.9763
+  época   9/12 perda=0.0324 acc_treino=0.9791
+  época  12/12 perda=0.0420 acc_treino=0.9870
+  época   3/12 perda=0.1643 acc_treino=0.9713
+  época   6/12 perda=0.0599 acc_treino=0.9752
+  época   9/12 perda=0.0298 acc_treino=0.9910
+  época  12/12 perda=0.0189 acc_treino=0.9927
+  época   3/12 perda=0.5715 acc_treino=0.9775
+  época   6/12 perda=0.4019 acc_treino=0.9852
+  época   9/12 perda=0.2796 acc_treino=0.9781
+  época  12/12 perda=0.3089 acc_treino=0.8610
+{
+ "cifra club": {
+  "acertos": 15,
+  "total": 15,
+  "positivos": 0,
+  "acertos_positivos": 0
+ },
+ "guitar dell ́arte": {
+  "acertos": 15,
+  "total": 16,
+  "positivos": 0,
+  "acertos_positivos": 0
+ },
+ "iwaki": {
+  "acertos": 82,
+  "total": 88,
+  "positivos": 18,
+  "acertos_positivos": 13
+ },
+ "kimny's guitar": {
+  "acertos": 14,
+  "total": 16,
+  "positivos": 6,
+  "acertos_positivos": 5
+ },
+ "leonardo ramos": {
+  "acertos": 11,
+  "total": 15,
+  "positivos": 7,
+  "acertos_positivos": 3
+ },
+ "mr. tabs": {
+  "acertos": 15,
+  "total": 15,
+  "positivos": 7,
+  "acertos_positivos": 7
+ },
+ "pablo romé": {
+  "acertos": 5,
+  "total": 14,
+  "positivos": 0,
+  "acertos_positivos": 0
+ },
+ "paolo d'angelo": {
+  "acertos": 7,
+  "total": 12,
+  "positivos": 0,
+  "acertos_positivos": 0
+ },
+ "sky guitar": {
+  "acertos": 63,
+  "total": 96,
+  "positivos": 65,
+  "acertos_positivos": 32
+ },
+ "total": {
+  "acertos": 227,
+  "total": 287,
+  "positivos": 103,
+  "acertos_positivos": 60
+ }
+}

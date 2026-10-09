@@ -26,6 +26,7 @@
     "sem_marcador": 8
    },
    "videos_com_painel": 8,
+   "videos_com_banda_visivel": 0,
    "marcador_utilizavel": 0,
    "n_deteccoes": 0,
    "matiz_mediana_por_video": null,
@@ -44,9 +45,9 @@
    }
   },
   "guitar dell ́arte": {
-   "videos": 8,
+   "videos": 9,
    "por_veredito": {
-    "desliza": 1,
+    "desliza": 2,
     "salta": 0,
     "parado": 0,
     "lento": 0,
@@ -59,7 +60,7 @@
     "desliza": 0,
     "salta": 0,
     "parado": 0,
-    "lento": 0,
+    "lento": 1,
     "erratico": 7,
     "sem_marcador": 1,
     "sem_painel": 0,
@@ -68,15 +69,16 @@
    "por_veredito_resumo": {
     "erratico": 2,
     "sem_marcador": 5,
-    "desliza": 1
+    "desliza": 2
    },
-   "videos_com_painel": 8,
-   "marcador_utilizavel": 1,
-   "n_deteccoes": 534,
+   "videos_com_painel": 9,
+   "videos_com_banda_visivel": 2,
+   "marcador_utilizavel": 2,
+   "n_deteccoes": 664,
    "matiz_mediana_por_video": 18.0,
-   "matiz_mediana_global": 17.5,
-   "velocidade_mediana_px_s": 15.2,
-   "velocidade_trechos_mediana_px_s": 29.0,
+   "matiz_mediana_global": 62.5,
+   "velocidade_mediana_px_s": 18.25,
+   "velocidade_trechos_mediana_px_s": 36.0,
    "por_arquivo": {
     "guitar dell ́arte/10 wonderful folk songs! guitar arrangements.mp4": "erratico",
     "guitar dell ́arte/bebita (j. sagreras), guitar lesson, sheet and tab.mp4": "sem_marcador",
@@ -85,18 +87,19 @@
     "guitar dell ́arte/moon river, easy fingerstyle (h. mancini), guitar sheet and tab.mp4": "sem_marcador",
     "guitar dell ́arte/pure imagination, guitar lesson, sheet and tab.mp4": "sem_marcador",
     "guitar dell ́arte/summer of 42 (l’été 42), m. legrand. arrangement for guitar with tutorial, sheet and tab.mp4": "desliza",
-    "guitar dell ́arte/concordancias no. 1 (w. henze) performance, sheet and tab.mp4": "sem_marcador"
+    "guitar dell ́arte/concordancias no. 1 (w. henze) performance, sheet and tab.mp4": "sem_marcador",
+    "guitar dell ́arte/zamba sofia (j. cardoso) with tutorial, free sheet and tab🎶🎵.mp4": "desliza"
    }
   },
   "iwaki": {
-   "videos": 8,
+   "videos": 9,
    "por_veredito": {
     "desliza": 1,
     "salta": 0,
     "parado": 0,
     "lento": 0,
     "erratico": 0,
-    "sem_marcador": 6,
+    "sem_marcador": 7,
     "sem_painel": 0,
     "duvida": 1
    },
@@ -106,15 +109,16 @@
     "parado": 0,
     "lento": 0,
     "erratico": 1,
-    "sem_marcador": 6,
+    "sem_marcador": 7,
     "sem_painel": 0,
     "duvida": 0
    },
    "por_veredito_resumo": {
-    "sem_marcador": 6,
+    "sem_marcador": 7,
     "desliza": 2
    },
-   "videos_com_painel": 8,
+   "videos_com_painel": 9,
+   "videos_com_banda_visivel": 2,
    "marcador_utilizavel": 1,
    "n_deteccoes": 459,
    "matiz_mediana_por_video": 102.5,
@@ -129,7 +133,8 @@
     "iwaki/merry christmas mr lawrence ⧸ ryuichi sakamoto ｜ tab.mp4": "sem_marcador",
     "iwaki/s.l.weiss - ciacona in g minor.mp4": "sem_marcador",
     "iwaki/tico-tico no fubá ｜ tab.mp4": "sem_marcador",
-    "iwaki/henze ｜ nocturno - guitar lesson + tab.mp4": "desliza"
+    "iwaki/henze ｜ nocturno - guitar lesson + tab.mp4": "desliza",
+    "iwaki/情熱大陸｜葉加瀬太郎 ｜ tab ｜ クラシックギター ｜ チュートリアル.mp4": "sem_marcador"
    }
   },
   "shin izumi": {
@@ -159,6 +164,7 @@
     "erratico": 2
    },
    "videos_com_painel": 8,
+   "videos_com_banda_visivel": 0,
    "marcador_utilizavel": 0,
    "n_deteccoes": 37,
    "matiz_mediana_por_video": 11.25,
@@ -177,9 +183,9 @@
    }
   },
   "sky guitar": {
-   "videos": 8,
+   "videos": 9,
    "por_veredito": {
-    "desliza": 2,
+    "desliza": 3,
     "salta": 1,
     "parado": 1,
     "lento": 0,
@@ -193,7 +199,7 @@
     "salta": 0,
     "parado": 0,
     "lento": 0,
-    "erratico": 8,
+    "erratico": 9,
     "sem_marcador": 0,
     "sem_painel": 0,
     "duvida": 0
@@ -201,16 +207,17 @@
    "por_veredito_resumo": {
     "parado": 1,
     "erratico": 2,
-    "desliza": 3,
+    "desliza": 4,
     "salta": 2
    },
-   "videos_com_painel": 8,
-   "marcador_utilizavel": 3,
-   "n_deteccoes": 1446,
-   "matiz_mediana_por_video": 108.5,
+   "videos_com_painel": 9,
+   "videos_com_banda_visivel": 9,
+   "marcador_utilizavel": 4,
+   "n_deteccoes": 1687,
+   "matiz_mediana_por_video": 109.0,
    "matiz_mediana_global": 107.5,
-   "velocidade_mediana_px_s": 18.85,
-   "velocidade_trechos_mediana_px_s": 1.0,
+   "velocidade_mediana_px_s": 17.3,
+   "velocidade_trechos_mediana_px_s": 0.0,
    "por_arquivo": {
     "sky guitar/(aguado) etude in am - tab & lesson.mp4": "parado",
     "sky guitar/baby shark -  fingerstyle tutorial + tab.mp4": "erratico",
@@ -219,7 +226,8 @@
     "sky guitar/lullaby (mozart) - guitar lesson + tab.mp4": "salta",
     "sky guitar/reflection (mulan) - fingerstyle lesson + tab.mp4": "duvida",
     "sky guitar/the little drummer boy - fingerstyle lesson + tab.mp4": "erratico",
-    "sky guitar/(henze) nocturno - guitar lesson + tab.mp4": "duvida"
+    "sky guitar/(henze) nocturno - guitar lesson + tab.mp4": "duvida",
+    "sky guitar/＂intermezzo＂ from cavalleria rusticana - guitar lesson + tab.mp4": "desliza"
    }
   },
   "violaodecria": {
@@ -250,6 +258,7 @@
     "sem_marcador": 3
    },
    "videos_com_painel": 8,
+   "videos_com_banda_visivel": 3,
    "marcador_utilizavel": 0,
    "n_deteccoes": 179,
    "matiz_mediana_por_video": 13.0,
@@ -268,8 +277,8 @@
    }
   }
  },
- "total_videos": 48,
- "total_utilizavel": 5,
+ "total_videos": 51,
+ "total_utilizavel": 7,
  "parametros": {
   "passo_s": 0.5,
   "janela_s": 120.0,

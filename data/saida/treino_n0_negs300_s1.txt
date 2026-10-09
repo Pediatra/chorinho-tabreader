@@ -1,0 +1,118 @@
+conjunto: (587, 1, 64, 256) | tablatura 103 de 587 | real 103 pos / 184 neg
+  época   3/12 perda=0.2596 acc_treino=0.8467
+  época   6/12 perda=0.1271 acc_treino=0.9659
+  época   9/12 perda=0.0977 acc_treino=0.9796
+  época  12/12 perda=0.0891 acc_treino=0.9813
+
+modelo salvo em artefatos/portao_sonegs_300_1
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+[av1 @ 0x5627ad558080] Your platform doesn't support hardware accelerated AV1 decoding.
+[av1 @ 0x5627ad558080] Failed to get pixel format.
+[av1 @ 0x5627ad558080] Get current frame error
+{
+ "casos": [
+  {
+   "caso": "sky4_t88.png",
+   "verdade": "tablatura",
+   "p_tablatura": 0.668,
+   "acertou": true
+  },
+  {
+   "caso": "sky4_t120.png",
+   "verdade": "tablatura",
+   "p_tablatura": 0.981,
+   "acertou": true
+  },
+  {
+   "caso": "asturias_t417.png",
+   "verdade": "tablatura",
+   "p_tablatura": 0.967,
+   "acertou": true
+  },
+  {
+   "caso": "03_violaodecria",
+   "verdade": "nao_tablatura",
+   "p_tablatura": 0.0,
+   "acertou": true
+  },
+  {
+   "caso": "02_shin izumi",
+   "verdade": "nao_tablatura",
+   "p_tablatura": 0.671,
+   "acertou": false
+  },
+  {
+   "caso": "00_cifra club",
+   "verdade": "nao_tablatura",
+   "p_tablatura": 0.0,
+   "acertou": true
+  },
+  {
+   "caso": "01_guitar dell ́a",
+   "verdade": "nao_tablatura",
+   "p_tablatura": 0.357,
+   "acertou": true
+  }
+ ],
+ "acertos": 6,
+ "total": 7
+}

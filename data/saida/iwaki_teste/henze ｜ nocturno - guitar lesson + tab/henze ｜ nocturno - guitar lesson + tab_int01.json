@@ -1,0 +1,526 @@
+{
+ "t0": 117.0,
+ "t1": 328.2,
+ "amostras": [
+  {
+   "t": 137.0,
+   "frac": 0.4,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y324",
+   "uniformidade": 0.858,
+   "passo": 24.8,
+   "glifos": 27,
+   "largura_painel": 1688
+  },
+  {
+   "t": 171.2,
+   "frac": 0.5,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y323",
+   "uniformidade": 0.859,
+   "passo": 25.0,
+   "glifos": 28,
+   "largura_painel": 1688
+  },
+  {
+   "t": 205.5,
+   "frac": 0.6,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y340",
+   "uniformidade": 0.861,
+   "passo": 25.0,
+   "glifos": 29,
+   "largura_painel": 1688
+  },
+  {
+   "t": 239.7,
+   "frac": 0.7,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y339",
+   "uniformidade": 0.856,
+   "passo": 25.0,
+   "glifos": 31,
+   "largura_painel": 1688
+  },
+  {
+   "t": 274.0,
+   "frac": 0.8,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y324",
+   "uniformidade": 0.844,
+   "passo": 24.8,
+   "glifos": 47,
+   "largura_painel": 1688
+  },
+  {
+   "t": 308.2,
+   "frac": 0.9,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y323",
+   "uniformidade": 0.857,
+   "passo": 25.0,
+   "glifos": 29,
+   "largura_painel": 1688
+  }
+ ],
+ "notas": [
+  {
+   "ordem": 1,
+   "corda": 1,
+   "casa": "0",
+   "tecnica": null,
+   "x": 117,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 2,
+   "corda": 5,
+   "casa": "0",
+   "tecnica": null,
+   "x": 117,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 3,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 179,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 4,
+   "corda": 2,
+   "casa": "2",
+   "tecnica": null,
+   "x": 242,
+   "confianca": 0.939,
+   "corrigido_pela_forma": false,
+   "t_ini": 135.529
+  },
+  {
+   "ordem": 5,
+   "corda": 1,
+   "casa": "0",
+   "tecnica": null,
+   "x": 304,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false,
+   "t_ini": 136.469
+  },
+  {
+   "ordem": 6,
+   "corda": 1,
+   "casa": "6",
+   "tecnica": null,
+   "x": 367,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "iwaki/df07b6e81993717a.png",
+    "hash": "df07b6e81993717a",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.56,
+     0.6
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      14,
+      10
+     ],
+     [
+      0,
+      11,
+      15,
+      23
+     ]
+    ],
+    "classe": "6",
+    "top3": [
+     [
+      "6",
+      0.998
+     ],
+     [
+      "tecnica",
+      0.001
+     ],
+     [
+      "harmonico",
+      0.001
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.657
+     ],
+     [
+      "6",
+      0.246
+     ],
+     [
+      "0",
+      0.053
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.994
+   },
+   "t_ini": 137.371
+  },
+  {
+   "ordem": 7,
+   "corda": 1,
+   "casa": "5",
+   "tecnica": null,
+   "x": 429,
+   "confianca": 0.887,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "iwaki/63105839cd211a81.png",
+    "hash": "63105839cd211a81",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.6,
+     0.52
+    ],
+    "componentes": [
+     [
+      0,
+      11,
+      15,
+      23
+     ],
+     [
+      1,
+      0,
+      14,
+      10
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.887
+     ],
+     [
+      "tecnica",
+      0.112
+     ],
+     [
+      "harmonico",
+      0.001
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.645
+     ],
+     [
+      "5",
+      0.163
+     ],
+     [
+      "harmonico",
+      0.149
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.645
+   },
+   "t_ini": 138.279
+  },
+  {
+   "ordem": 8,
+   "corda": 1,
+   "casa": "3",
+   "tecnica": null,
+   "x": 516,
+   "confianca": 0.983,
+   "corrigido_pela_forma": false,
+   "t_ini": 117.613
+  },
+  {
+   "ordem": 9,
+   "corda": 4,
+   "casa": "0",
+   "tecnica": null,
+   "x": 516,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "t_ini": 117.613
+  },
+  {
+   "ordem": 10,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 579,
+   "confianca": 0.875,
+   "corrigido_pela_forma": false,
+   "t_ini": 118.542
+  },
+  {
+   "ordem": 11,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 641,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "t_ini": 119.106
+  },
+  {
+   "ordem": 12,
+   "corda": 1,
+   "casa": "1",
+   "tecnica": null,
+   "x": 705,
+   "confianca": 0.963,
+   "corrigido_pela_forma": false,
+   "t_ini": 120.091
+  },
+  {
+   "ordem": 13,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 766,
+   "confianca": 0.927,
+   "corrigido_pela_forma": false,
+   "t_ini": 121.0
+  },
+  {
+   "ordem": 14,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 828,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false,
+   "t_ini": 121.941
+  },
+  {
+   "ordem": 15,
+   "corda": 1,
+   "casa": "0",
+   "tecnica": null,
+   "x": 926,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "t_ini": 123.406
+  },
+  {
+   "ordem": 16,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 926,
+   "confianca": 0.997,
+   "corrigido_pela_forma": false,
+   "t_ini": 123.406
+  },
+  {
+   "ordem": 17,
+   "corda": 3,
+   "casa": "1",
+   "tecnica": null,
+   "x": 927,
+   "confianca": 0.891,
+   "corrigido_pela_forma": false,
+   "t_ini": 123.422
+  },
+  {
+   "ordem": 18,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 926,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "t_ini": 123.406
+  },
+  {
+   "ordem": 19,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 988,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "t_ini": 124.19
+  },
+  {
+   "ordem": 20,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1052,
+   "confianca": 0.957,
+   "corrigido_pela_forma": false,
+   "t_ini": 124.938
+  },
+  {
+   "ordem": 21,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1113,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "t_ini": 125.838
+  },
+  {
+   "ordem": 22,
+   "corda": 3,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1115,
+   "confianca": 0.874,
+   "corrigido_pela_forma": false,
+   "t_ini": 125.868
+  },
+  {
+   "ordem": 23,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1113,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "t_ini": 125.838
+  },
+  {
+   "ordem": 24,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1175,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false,
+   "t_ini": 126.779
+  },
+  {
+   "ordem": 25,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1240,
+   "confianca": 0.82,
+   "corrigido_pela_forma": false,
+   "t_ini": 127.735
+  },
+  {
+   "ordem": 26,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1326,
+   "confianca": 0.928,
+   "corrigido_pela_forma": false,
+   "t_ini": 129.03
+  },
+  {
+   "ordem": 27,
+   "corda": 5,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1326,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "t_ini": 129.03
+  },
+  {
+   "ordem": 28,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1388,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "t_ini": 129.772
+  },
+  {
+   "ordem": 29,
+   "corda": 5,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1451,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "t_ini": 130.516
+  },
+  {
+   "ordem": 30,
+   "corda": 5,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1513,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "t_ini": 131.456
+  },
+  {
+   "ordem": 31,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1607,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "t_ini": 132.891
+  }
+ ],
+ "painel": "y339",
+ "uniformidade": 0.856,
+ "passo": 25.0,
+ "largura_painel": 1688,
+ "lido_via": "cv2",
+ "tempo": {
+  "medido": true,
+  "mecanismo": "marcador: desliza",
+  "instantes_distintos": 23,
+  "serie": {
+   "pontos": 423,
+   "deslocamento_total_px": 1550,
+   "passo_mediano_px": 30,
+   "velocidade_px_s": 7.3,
+   "veredito": "desliza"
+  }
+ },
+ "indice": 1,
+ "rotulo": "henze ｜ nocturno - guitar lesson + tab_int01",
+ "musicxml_relatorio": {
+  "titulo": "henze ｜ nocturno - guitar lesson + tab_int01",
+  "notas_exportadas": 31,
+  "notas_nao_exportadas": 0,
+  "motivo_nao_exportada": [],
+  "tempo_medido": true,
+  "instantes_distintos": 23,
+  "pulso_s": 0.91,
+  "bpm_derivado_do_pulso": 65.9,
+  "duracao": "INFERIDA (intervalo até o próximo onset; a última usa o pulso)",
+  "compasso": "derivado da barline geométrica dividida pelo pulso medido",
+  "afinacao": "padrão assumida",
+  "divisoes": 1024
+ }
+}

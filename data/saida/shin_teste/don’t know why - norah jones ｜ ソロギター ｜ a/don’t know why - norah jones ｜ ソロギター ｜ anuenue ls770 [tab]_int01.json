@@ -1,0 +1,4302 @@
+{
+ "t0": 28.1,
+ "t1": 128.2,
+ "amostras": [
+  {
+   "t": 48.1,
+   "frac": 0.4,
+   "via": "ffmpeg",
+   "tem_notacao": true,
+   "faixa": "y836",
+   "uniformidade": 0.855,
+   "passo": 21.6,
+   "glifos": 70,
+   "largura_painel": 1920
+  },
+  {
+   "t": 60.1,
+   "frac": 0.5,
+   "via": "ffmpeg",
+   "tem_notacao": true,
+   "faixa": "y822",
+   "uniformidade": 0.847,
+   "passo": 21.2,
+   "glifos": 73,
+   "largura_painel": 1844
+  },
+  {
+   "t": 72.1,
+   "frac": 0.6,
+   "via": "ffmpeg",
+   "tem_notacao": true,
+   "faixa": "y850",
+   "uniformidade": 0.853,
+   "passo": 21.4,
+   "glifos": 82,
+   "largura_painel": 1845
+  },
+  {
+   "t": 84.1,
+   "frac": 0.7,
+   "via": "ffmpeg",
+   "tem_notacao": true,
+   "faixa": "y825",
+   "uniformidade": 0.864,
+   "passo": 21.2,
+   "glifos": 87,
+   "largura_painel": 1856
+  },
+  {
+   "t": 96.2,
+   "frac": 0.8,
+   "via": "ffmpeg",
+   "tem_notacao": true,
+   "faixa": "y835",
+   "uniformidade": 0.853,
+   "passo": 21.6,
+   "glifos": 62,
+   "largura_painel": 1856
+  },
+  {
+   "t": 108.2,
+   "frac": 0.9,
+   "via": "ffmpeg",
+   "tem_notacao": true,
+   "faixa": "y836",
+   "uniformidade": 0.855,
+   "passo": 21.2,
+   "glifos": 78,
+   "largura_painel": 1840
+  }
+ ],
+ "notas": [
+  {
+   "ordem": 1,
+   "corda": 5,
+   "casa": "0",
+   "tecnica": null,
+   "x": 83,
+   "confianca": 0.99,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 2,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 87,
+   "confianca": 0.821,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/51c2c7f4a7c888b5.png",
+    "hash": "51c2c7f4a7c888b5",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      6
+     ],
+     [
+      0,
+      7,
+      3,
+      16
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.821
+     ],
+     [
+      "harmonico",
+      0.073
+     ],
+     [
+      "6",
+      0.024
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.481
+     ],
+     [
+      "9",
+      0.226
+     ],
+     [
+      "10",
+      0.168
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 3,
+   "corda": 1,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 129,
+   "confianca": 0.896,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "shin izumi/ea52fa18c5fa8c41.png",
+    "hash": "ea52fa18c5fa8c41",
+    "partes": 2,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.42,
+     0.42
+    ],
+    "componentes": [
+     [
+      0,
+      8,
+      9,
+      15
+     ],
+     [
+      6,
+      0,
+      15,
+      7
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.896
+     ],
+     [
+      "tecnica",
+      0.061
+     ],
+     [
+      "7",
+      0.028
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.393
+     ],
+     [
+      "4",
+      0.286
+     ],
+     [
+      "7",
+      0.232
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 4,
+   "corda": 2,
+   "casa": "5",
+   "tecnica": null,
+   "x": 219,
+   "confianca": 0.985,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "png": "shin izumi/66a4077c512a1f30.png",
+    "hash": "66a4077c512a1f30",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.52,
+     0.52
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      11,
+      8
+     ],
+     [
+      0,
+      9,
+      11,
+      18
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.985
+     ],
+     [
+      "tecnica",
+      0.011
+     ],
+     [
+      "harmonico",
+      0.003
+     ]
+    ],
+    "top3_componente": [
+     [
+      "5",
+      0.833
+     ],
+     [
+      "harmonico",
+      0.113
+     ],
+     [
+      "15",
+      0.038
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.833
+   }
+  },
+  {
+   "ordem": 5,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 223,
+   "confianca": 0.223,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/085f5b3c66a26489.png",
+    "hash": "085f5b3c66a26489",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.09,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      2,
+      8
+     ],
+     [
+      0,
+      9,
+      3,
+      20
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.223
+     ],
+     [
+      "1",
+      0.212
+     ],
+     [
+      "harmonico",
+      0.197
+     ]
+    ],
+    "top3_componente": [
+     [
+      "9",
+      0.339
+     ],
+     [
+      "tecnica",
+      0.314
+     ],
+     [
+      "10",
+      0.104
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 6,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 223,
+   "confianca": 0.352,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/c10f5263d696a154.png",
+    "hash": "c10f5263d696a154",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.09,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      2,
+      10
+     ],
+     [
+      0,
+      11,
+      2,
+      21
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "10",
+      0.352
+     ],
+     [
+      "harmonico",
+      0.231
+     ],
+     [
+      "21",
+      0.147
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.55
+     ],
+     [
+      "10",
+      0.346
+     ],
+     [
+      "tecnica",
+      0.063
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 7,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 223,
+   "confianca": 0.222,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/3cbb3da13f4e3b99.png",
+    "hash": "3cbb3da13f4e3b99",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.09,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      2,
+      10
+     ],
+     [
+      0,
+      11,
+      3,
+      20
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.222
+     ],
+     [
+      "1",
+      0.211
+     ],
+     [
+      "harmonico",
+      0.182
+     ]
+    ],
+    "top3_componente": [
+     [
+      "10",
+      0.638
+     ],
+     [
+      "0",
+      0.235
+     ],
+     [
+      "tecnica",
+      0.091
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 8,
+   "corda": 6,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 217,
+   "confianca": 0.862,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "shin izumi/c5102b1d77ee3f7a.png",
+    "hash": "c5102b1d77ee3f7a",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.71
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      15,
+      18
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.862
+     ],
+     [
+      "14",
+      0.066
+     ],
+     [
+      "21",
+      0.032
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.862
+     ],
+     [
+      "14",
+      0.066
+     ],
+     [
+      "21",
+      0.032
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 9,
+   "corda": 1,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 306,
+   "confianca": 0.14,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "png": "shin izumi/0804d5bf8df2e21f.png",
+    "hash": "0804d5bf8df2e21f",
+    "partes": 1,
+    "partes_digito": 0,
+    "larguras_passo": [
+     1.56
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      33,
+      7
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "4",
+      0.14
+     ],
+     [
+      "1",
+      0.118
+     ],
+     [
+      "5",
+      0.117
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.14
+     ],
+     [
+      "1",
+      0.118
+     ],
+     [
+      "5",
+      0.117
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.14
+   }
+  },
+  {
+   "ordem": 10,
+   "corda": 5,
+   "casa": "0",
+   "tecnica": null,
+   "x": 354,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 11,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 358,
+   "confianca": 0.831,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/bba2d3e7f8a1df8f.png",
+    "hash": "bba2d3e7f8a1df8f",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      6
+     ],
+     [
+      0,
+      7,
+      3,
+      16
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.831
+     ],
+     [
+      "4",
+      0.126
+     ],
+     [
+      "harmonico",
+      0.023
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.761
+     ],
+     [
+      "0",
+      0.072
+     ],
+     [
+      "9",
+      0.039
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 12,
+   "corda": 4,
+   "casa": "5",
+   "tecnica": null,
+   "x": 422,
+   "confianca": 0.993,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 13,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 427,
+   "confianca": 0.832,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/ee9feb61849eab64.png",
+    "hash": "ee9feb61849eab64",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      6
+     ],
+     [
+      0,
+      7,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.832
+     ],
+     [
+      "4",
+      0.091
+     ],
+     [
+      "harmonico",
+      0.044
+     ]
+    ],
+    "top3_componente": [
+     [
+      "14",
+      0.43
+     ],
+     [
+      "4",
+      0.294
+     ],
+     [
+      "1",
+      0.164
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 14,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 427,
+   "confianca": 0.624,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/71eac4fce66939d7.png",
+    "hash": "71eac4fce66939d7",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      11
+     ],
+     [
+      0,
+      12,
+      3,
+      21
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.624
+     ],
+     [
+      "harmonico",
+      0.084
+     ],
+     [
+      "4",
+      0.064
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.905
+     ],
+     [
+      "harmonico",
+      0.038
+     ],
+     [
+      "4",
+      0.021
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 15,
+   "corda": 3,
+   "casa": "6",
+   "tecnica": null,
+   "x": 490,
+   "confianca": 0.981,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "shin izumi/1c2326df4add4297.png",
+    "hash": "1c2326df4add4297",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.57,
+     0.57
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      12,
+      7
+     ],
+     [
+      0,
+      8,
+      12,
+      17
+     ]
+    ],
+    "classe": "6",
+    "top3": [
+     [
+      "6",
+      0.981
+     ],
+     [
+      "harmonico",
+      0.015
+     ],
+     [
+      "8",
+      0.002
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.718
+     ],
+     [
+      "2",
+      0.123
+     ],
+     [
+      "6",
+      0.087
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.994
+   }
+  },
+  {
+   "ordem": 16,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 496,
+   "confianca": 0.852,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/6378cc3d1f1e2264.png",
+    "hash": "6378cc3d1f1e2264",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      8
+     ],
+     [
+      0,
+      9,
+      3,
+      19
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.852
+     ],
+     [
+      "harmonico",
+      0.045
+     ],
+     [
+      "4",
+      0.024
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.407
+     ],
+     [
+      "harmonico",
+      0.131
+     ],
+     [
+      "6",
+      0.119
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 17,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 496,
+   "confianca": 0.565,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/ba794540bfa4739e.png",
+    "hash": "ba794540bfa4739e",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      10
+     ],
+     [
+      0,
+      11,
+      3,
+      20
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.565
+     ],
+     [
+      "harmonico",
+      0.149
+     ],
+     [
+      "21",
+      0.073
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.582
+     ],
+     [
+      "19",
+      0.083
+     ],
+     [
+      "6",
+      0.078
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 18,
+   "corda": 6,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 489,
+   "confianca": 0.864,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "shin izumi/ad67b21c3cb6a216.png",
+    "hash": "ad67b21c3cb6a216",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.71
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      15,
+      18
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.864
+     ],
+     [
+      "21",
+      0.062
+     ],
+     [
+      "14",
+      0.041
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.864
+     ],
+     [
+      "21",
+      0.062
+     ],
+     [
+      "14",
+      0.041
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 19,
+   "corda": 1,
+   "casa": "0",
+   "tecnica": null,
+   "x": 558,
+   "confianca": 0.988,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 20,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 563,
+   "confianca": 0.488,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/52cbbe3ec0fa650e.png",
+    "hash": "52cbbe3ec0fa650e",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      9
+     ],
+     [
+      0,
+      10,
+      3,
+      19
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.488
+     ],
+     [
+      "harmonico",
+      0.146
+     ],
+     [
+      "21",
+      0.054
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.952
+     ],
+     [
+      "harmonico",
+      0.023
+     ],
+     [
+      "12",
+      0.009
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 21,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 563,
+   "confianca": 0.225,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/3ce5d96d91966f07.png",
+    "hash": "3ce5d96d91966f07",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      9
+     ],
+     [
+      0,
+      10,
+      3,
+      21
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.225
+     ],
+     [
+      "0",
+      0.197
+     ],
+     [
+      "harmonico",
+      0.177
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.372
+     ],
+     [
+      "21",
+      0.219
+     ],
+     [
+      "7",
+      0.105
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 22,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 563,
+   "confianca": 0.516,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/3859d399ae2ee903.png",
+    "hash": "3859d399ae2ee903",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.09,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      2,
+      10
+     ],
+     [
+      0,
+      11,
+      2,
+      19
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "harmonico",
+      0.516
+     ],
+     [
+      "10",
+      0.154
+     ],
+     [
+      "21",
+      0.138
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.55
+     ],
+     [
+      "10",
+      0.346
+     ],
+     [
+      "tecnica",
+      0.063
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 23,
+   "corda": 5,
+   "casa": "0",
+   "tecnica": null,
+   "x": 558,
+   "confianca": 0.992,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 24,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 563,
+   "confianca": 0.426,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/5f112fee5f6a243c.png",
+    "hash": "5f112fee5f6a243c",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      6
+     ],
+     [
+      0,
+      7,
+      3,
+      16
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.426
+     ],
+     [
+      "harmonico",
+      0.315
+     ],
+     [
+      "21",
+      0.068
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.45
+     ],
+     [
+      "21",
+      0.246
+     ],
+     [
+      "15",
+      0.11
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 25,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 667,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 26,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 672,
+   "confianca": 0.669,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/d6e86fc9a1a75da5.png",
+    "hash": "d6e86fc9a1a75da5",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      9,
+      3,
+      20
+     ],
+     [
+      1,
+      0,
+      3,
+      8
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.669
+     ],
+     [
+      "harmonico",
+      0.073
+     ],
+     [
+      "21",
+      0.052
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.659
+     ],
+     [
+      "harmonico",
+      0.117
+     ],
+     [
+      "21",
+      0.077
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 27,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 673,
+   "confianca": 0.516,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/733a0850a684d965.png",
+    "hash": "733a0850a684d965",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.09,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      2,
+      10
+     ],
+     [
+      0,
+      11,
+      2,
+      19
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "harmonico",
+      0.516
+     ],
+     [
+      "10",
+      0.154
+     ],
+     [
+      "21",
+      0.138
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.55
+     ],
+     [
+      "10",
+      0.346
+     ],
+     [
+      "tecnica",
+      0.063
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 28,
+   "corda": 5,
+   "casa": "5",
+   "tecnica": null,
+   "x": 668,
+   "confianca": 0.979,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 29,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 673,
+   "confianca": 0.307,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/561f17425d7fcb67.png",
+    "hash": "561f17425d7fcb67",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      2,
+      9
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "10",
+      0.307
+     ],
+     [
+      "0",
+      0.302
+     ],
+     [
+      "tecnica",
+      0.165
+     ]
+    ],
+    "top3_componente": [
+     [
+      "10",
+      0.307
+     ],
+     [
+      "0",
+      0.302
+     ],
+     [
+      "tecnica",
+      0.165
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 30,
+   "corda": 4,
+   "casa": "4",
+   "tecnica": null,
+   "x": 735,
+   "confianca": 0.981,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "shin izumi/60079630c0428ccb.png",
+    "hash": "60079630c0428ccb",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.47,
+     0.57
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      11
+     ],
+     [
+      0,
+      12,
+      12,
+      18
+     ]
+    ],
+    "classe": "4",
+    "top3": [
+     [
+      "4",
+      0.981
+     ],
+     [
+      "24",
+      0.013
+     ],
+     [
+      "tecnica",
+      0.004
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.522
+     ],
+     [
+      "24",
+      0.336
+     ],
+     [
+      "harmonico",
+      0.117
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.719
+   }
+  },
+  {
+   "ordem": 31,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 741,
+   "confianca": 0.972,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/141e7c1584bef60e.png",
+    "hash": "141e7c1584bef60e",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      10
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.972
+     ],
+     [
+      "4",
+      0.013
+     ],
+     [
+      "harmonico",
+      0.005
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.972
+     ],
+     [
+      "4",
+      0.013
+     ],
+     [
+      "harmonico",
+      0.005
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 32,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 741,
+   "confianca": 0.64,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/6b9afd569fce76cb.png",
+    "hash": "6b9afd569fce76cb",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      3,
+      21
+     ],
+     [
+      1,
+      0,
+      3,
+      11
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.64
+     ],
+     [
+      "harmonico",
+      0.091
+     ],
+     [
+      "9",
+      0.04
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.973
+     ],
+     [
+      "4",
+      0.012
+     ],
+     [
+      "harmonico",
+      0.004
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 33,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 803,
+   "confianca": 0.974,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 34,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 808,
+   "confianca": 0.852,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/841c7725db58e463.png",
+    "hash": "841c7725db58e463",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      8
+     ],
+     [
+      0,
+      9,
+      3,
+      19
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.852
+     ],
+     [
+      "harmonico",
+      0.045
+     ],
+     [
+      "4",
+      0.024
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.407
+     ],
+     [
+      "harmonico",
+      0.131
+     ],
+     [
+      "6",
+      0.119
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 35,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 808,
+   "confianca": 0.565,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/be81b857b18ec847.png",
+    "hash": "be81b857b18ec847",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      10
+     ],
+     [
+      0,
+      11,
+      3,
+      20
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.565
+     ],
+     [
+      "harmonico",
+      0.149
+     ],
+     [
+      "21",
+      0.073
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.582
+     ],
+     [
+      "19",
+      0.083
+     ],
+     [
+      "6",
+      0.078
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 36,
+   "corda": 6,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 802,
+   "confianca": 0.909,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "shin izumi/61a02aa8ee273250.png",
+    "hash": "61a02aa8ee273250",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.71
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      15,
+      18
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.909
+     ],
+     [
+      "14",
+      0.044
+     ],
+     [
+      "21",
+      0.027
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.909
+     ],
+     [
+      "14",
+      0.044
+     ],
+     [
+      "21",
+      0.027
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 37,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 871,
+   "confianca": 0.981,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 38,
+   "corda": 4,
+   "casa": "3",
+   "tecnica": null,
+   "x": 872,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 39,
+   "corda": 5,
+   "casa": "5",
+   "tecnica": null,
+   "x": 872,
+   "confianca": 0.982,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "png": "shin izumi/648aefefe0d3437b.png",
+    "hash": "648aefefe0d3437b",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.52,
+     0.57
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      11,
+      7
+     ],
+     [
+      0,
+      8,
+      12,
+      18
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.982
+     ],
+     [
+      "tecnica",
+      0.011
+     ],
+     [
+      "15",
+      0.006
+     ]
+    ],
+    "top3_componente": [
+     [
+      "5",
+      0.651
+     ],
+     [
+      "harmonico",
+      0.288
+     ],
+     [
+      "15",
+      0.042
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.651
+   }
+  },
+  {
+   "ordem": 40,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 877,
+   "confianca": 0.821,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/5a27ffd7358143b7.png",
+    "hash": "5a27ffd7358143b7",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      6
+     ],
+     [
+      0,
+      7,
+      3,
+      16
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.821
+     ],
+     [
+      "harmonico",
+      0.073
+     ],
+     [
+      "6",
+      0.024
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.481
+     ],
+     [
+      "9",
+      0.226
+     ],
+     [
+      "10",
+      0.168
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 41,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 892,
+   "confianca": 0.203,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "shin izumi/700d5e8a57e7643d.png",
+    "hash": "700d5e8a57e7643d",
+    "partes": 1,
+    "partes_digito": 0,
+    "larguras_passo": [
+     1.51
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      32,
+      7
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "1",
+      0.203
+     ],
+     [
+      "7",
+      0.148
+     ],
+     [
+      "2",
+      0.131
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.203
+     ],
+     [
+      "7",
+      0.148
+     ],
+     [
+      "2",
+      0.131
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.203
+   }
+  },
+  {
+   "ordem": 42,
+   "corda": 4,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 891,
+   "confianca": 0.513,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "shin izumi/8a1347de177b65da.png",
+    "hash": "8a1347de177b65da",
+    "partes": 1,
+    "partes_digito": 0,
+    "larguras_passo": [
+     1.6
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      34,
+      9
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.513
+     ],
+     [
+      "harmonico",
+      0.373
+     ],
+     [
+      "19",
+      0.059
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.513
+     ],
+     [
+      "harmonico",
+      0.373
+     ],
+     [
+      "19",
+      0.059
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 43,
+   "corda": 5,
+   "casa": "4",
+   "tecnica": null,
+   "x": 939,
+   "confianca": 0.982,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 44,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 944,
+   "confianca": 0.395,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/ec0f2613f155ba4b.png",
+    "hash": "ec0f2613f155ba4b",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      9
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "7",
+      0.395
+     ],
+     [
+      "harmonico",
+      0.12
+     ],
+     [
+      "15",
+      0.116
+     ]
+    ],
+    "top3_componente": [
+     [
+      "7",
+      0.395
+     ],
+     [
+      "harmonico",
+      0.12
+     ],
+     [
+      "15",
+      0.116
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 45,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1007,
+   "confianca": 0.989,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 46,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1013,
+   "confianca": 0.644,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/45516416ccb16603.png",
+    "hash": "45516416ccb16603",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.09,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      2,
+      7
+     ],
+     [
+      0,
+      8,
+      2,
+      18
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "harmonico",
+      0.644
+     ],
+     [
+      "10",
+      0.171
+     ],
+     [
+      "tecnica",
+      0.097
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.896
+     ],
+     [
+      "12",
+      0.027
+     ],
+     [
+      "21",
+      0.02
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 47,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1012,
+   "confianca": 0.635,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/282fbe3879ddcb97.png",
+    "hash": "282fbe3879ddcb97",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.19,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      11,
+      4,
+      21
+     ],
+     [
+      1,
+      0,
+      3,
+      10
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.635
+     ],
+     [
+      "harmonico",
+      0.103
+     ],
+     [
+      "21",
+      0.045
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.87
+     ],
+     [
+      "harmonico",
+      0.044
+     ],
+     [
+      "6",
+      0.029
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 48,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1013,
+   "confianca": 0.319,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/1381f2cb461ebbce.png",
+    "hash": "1381f2cb461ebbce",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.09,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      2,
+      11
+     ],
+     [
+      0,
+      12,
+      2,
+      21
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "harmonico",
+      0.319
+     ],
+     [
+      "10",
+      0.309
+     ],
+     [
+      "tecnica",
+      0.168
+     ]
+    ],
+    "top3_componente": [
+     [
+      "10",
+      0.628
+     ],
+     [
+      "0",
+      0.265
+     ],
+     [
+      "tecnica",
+      0.075
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 49,
+   "corda": 4,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1076,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 50,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1079,
+   "confianca": 0.834,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/e93b6e63bf90a356.png",
+    "hash": "e93b6e63bf90a356",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ],
+     [
+      0,
+      8,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.834
+     ],
+     [
+      "4",
+      0.134
+     ],
+     [
+      "harmonico",
+      0.017
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.88
+     ],
+     [
+      "14",
+      0.065
+     ],
+     [
+      "4",
+      0.037
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 51,
+   "corda": 6,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 1073,
+   "confianca": 0.976,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "shin izumi/2799d838a9fa8e85.png",
+    "hash": "2799d838a9fa8e85",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.75
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      16,
+      18
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.976
+     ],
+     [
+      "15",
+      0.013
+     ],
+     [
+      "21",
+      0.005
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.976
+     ],
+     [
+      "15",
+      0.013
+     ],
+     [
+      "21",
+      0.005
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 52,
+   "corda": 5,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 1092,
+   "confianca": 0.649,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "shin izumi/b39f47b33bc68e04.png",
+    "hash": "b39f47b33bc68e04",
+    "partes": 1,
+    "partes_digito": 0,
+    "larguras_passo": [
+     2.22
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      47,
+      9
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.649
+     ],
+     [
+      "harmonico",
+      0.341
+     ],
+     [
+      "19",
+      0.008
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.649
+     ],
+     [
+      "harmonico",
+      0.341
+     ],
+     [
+      "19",
+      0.008
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 53,
+   "corda": 4,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1143,
+   "confianca": 0.995,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 54,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1148,
+   "confianca": 0.762,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/91a7a4753a8a0adb.png",
+    "hash": "91a7a4753a8a0adb",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      6
+     ],
+     [
+      0,
+      7,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.762
+     ],
+     [
+      "4",
+      0.157
+     ],
+     [
+      "harmonico",
+      0.039
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.649
+     ],
+     [
+      "14",
+      0.208
+     ],
+     [
+      "4",
+      0.047
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 55,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1148,
+   "confianca": 0.608,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/0b452b689dfa5a11.png",
+    "hash": "0b452b689dfa5a11",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      11
+     ],
+     [
+      0,
+      12,
+      3,
+      21
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.608
+     ],
+     [
+      "harmonico",
+      0.09
+     ],
+     [
+      "4",
+      0.055
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.915
+     ],
+     [
+      "harmonico",
+      0.037
+     ],
+     [
+      "4",
+      0.016
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 56,
+   "corda": 4,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 1253,
+   "confianca": 0.567,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "2",
+   "simbolo_cru": {
+    "png": "shin izumi/ae74bc47871d6ff6.png",
+    "hash": "ae74bc47871d6ff6",
+    "partes": 3,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.28,
+     0.57,
+     0.28
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      6,
+      19
+     ],
+     [
+      7,
+      0,
+      19,
+      18
+     ],
+     [
+      21,
+      0,
+      27,
+      19
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.567
+     ],
+     [
+      "harmonico",
+      0.245
+     ],
+     [
+      "24",
+      0.175
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.457
+     ],
+     [
+      "6",
+      0.214
+     ],
+     [
+      "1",
+      0.17
+     ]
+    ],
+    "casa_recuperada": "2",
+    "confianca_recuperada": 0.976
+   }
+  },
+  {
+   "ordem": 57,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1266,
+   "confianca": 0.87,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/18047a022caf61ee.png",
+    "hash": "18047a022caf61ee",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.19
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      9
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.87
+     ],
+     [
+      "harmonico",
+      0.044
+     ],
+     [
+      "6",
+      0.029
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.87
+     ],
+     [
+      "harmonico",
+      0.044
+     ],
+     [
+      "6",
+      0.029
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 58,
+   "corda": 6,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1260,
+   "confianca": 0.986,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 59,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1311,
+   "confianca": 0.861,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "shin izumi/d8b2a4fe9e422a8b.png",
+    "hash": "d8b2a4fe9e422a8b",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      5,
+      13
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.861
+     ],
+     [
+      "7",
+      0.09
+     ],
+     [
+      "4",
+      0.017
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.861
+     ],
+     [
+      "7",
+      0.09
+     ],
+     [
+      "4",
+      0.017
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.861
+   }
+  },
+  {
+   "ordem": 60,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1337,
+   "confianca": 0.99,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 61,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1342,
+   "confianca": 0.447,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/6d1a513fac4688ec.png",
+    "hash": "6d1a513fac4688ec",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ],
+     [
+      0,
+      8,
+      3,
+      18
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "harmonico",
+      0.447
+     ],
+     [
+      "1",
+      0.226
+     ],
+     [
+      "0",
+      0.051
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.862
+     ],
+     [
+      "21",
+      0.034
+     ],
+     [
+      "12",
+      0.028
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 62,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1342,
+   "confianca": 0.211,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/e0c31236c3711614.png",
+    "hash": "e0c31236c3711614",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      10
+     ],
+     [
+      0,
+      11,
+      3,
+      21
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.211
+     ],
+     [
+      "1",
+      0.211
+     ],
+     [
+      "harmonico",
+      0.141
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.387
+     ],
+     [
+      "21",
+      0.207
+     ],
+     [
+      "7",
+      0.108
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 63,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1342,
+   "confianca": 0.212,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/8afac836d08203aa.png",
+    "hash": "8afac836d08203aa",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      11
+     ],
+     [
+      0,
+      12,
+      3,
+      21
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.212
+     ],
+     [
+      "0",
+      0.206
+     ],
+     [
+      "harmonico",
+      0.163
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.284
+     ],
+     [
+      "21",
+      0.182
+     ],
+     [
+      "15",
+      0.109
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 64,
+   "corda": 2,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1407,
+   "confianca": 0.98,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 65,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1413,
+   "confianca": 0.26,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/40db7e2b67fb42e2.png",
+    "hash": "40db7e2b67fb42e2",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      8
+     ],
+     [
+      0,
+      9,
+      3,
+      20
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.26
+     ],
+     [
+      "harmonico",
+      0.166
+     ],
+     [
+      "1",
+      0.152
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.258
+     ],
+     [
+      "21",
+      0.249
+     ],
+     [
+      "15",
+      0.141
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 66,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1413,
+   "confianca": 0.201,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/c51c7eaa4d4158fd.png",
+    "hash": "c51c7eaa4d4158fd",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      10
+     ],
+     [
+      0,
+      11,
+      3,
+      21
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.201
+     ],
+     [
+      "1",
+      0.157
+     ],
+     [
+      "6",
+      0.146
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.415
+     ],
+     [
+      "21",
+      0.277
+     ],
+     [
+      "15",
+      0.121
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 67,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1413,
+   "confianca": 0.256,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/86f9ff68543be2b9.png",
+    "hash": "86f9ff68543be2b9",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      10
+     ],
+     [
+      0,
+      11,
+      3,
+      20
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.256
+     ],
+     [
+      "1",
+      0.182
+     ],
+     [
+      "harmonico",
+      0.128
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.387
+     ],
+     [
+      "21",
+      0.207
+     ],
+     [
+      "7",
+      0.108
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 68,
+   "corda": 6,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 1406,
+   "confianca": 0.888,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "shin izumi/3710109bd477b9d6.png",
+    "hash": "3710109bd477b9d6",
+    "partes": 1,
+    "partes_digito": 0,
+    "larguras_passo": [
+     0.71
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      15,
+      18
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.888
+     ],
+     [
+      "24",
+      0.039
+     ],
+     [
+      "14",
+      0.039
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.888
+     ],
+     [
+      "24",
+      0.039
+     ],
+     [
+      "14",
+      0.039
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 69,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1478,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 70,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1484,
+   "confianca": 0.332,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/cac4ed16a2151efc.png",
+    "hash": "cac4ed16a2151efc",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      8
+     ],
+     [
+      0,
+      9,
+      3,
+      20
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.332
+     ],
+     [
+      "harmonico",
+      0.164
+     ],
+     [
+      "1",
+      0.126
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.476
+     ],
+     [
+      "21",
+      0.244
+     ],
+     [
+      "15",
+      0.111
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 71,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1484,
+   "confianca": 0.201,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/6ffeec4d087eef95.png",
+    "hash": "6ffeec4d087eef95",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      10
+     ],
+     [
+      0,
+      11,
+      3,
+      21
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.201
+     ],
+     [
+      "1",
+      0.157
+     ],
+     [
+      "6",
+      0.146
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.415
+     ],
+     [
+      "21",
+      0.277
+     ],
+     [
+      "15",
+      0.121
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 72,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1484,
+   "confianca": 0.256,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/18e8e7452d433661.png",
+    "hash": "18e8e7452d433661",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      10
+     ],
+     [
+      0,
+      11,
+      3,
+      20
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.256
+     ],
+     [
+      "1",
+      0.182
+     ],
+     [
+      "harmonico",
+      0.128
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.387
+     ],
+     [
+      "21",
+      0.207
+     ],
+     [
+      "7",
+      0.108
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 73,
+   "corda": 6,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1478,
+   "confianca": 0.988,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 74,
+   "corda": 2,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1498,
+   "confianca": 0.206,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "shin izumi/307c544efc197e9e.png",
+    "hash": "307c544efc197e9e",
+    "partes": 1,
+    "partes_digito": 0,
+    "larguras_passo": [
+     1.65
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      35,
+      9
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "7",
+      0.206
+     ],
+     [
+      "0",
+      0.175
+     ],
+     [
+      "5",
+      0.119
+     ]
+    ],
+    "top3_componente": [
+     [
+      "7",
+      0.206
+     ],
+     [
+      "0",
+      0.175
+     ],
+     [
+      "5",
+      0.119
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.206
+   }
+  },
+  {
+   "ordem": 75,
+   "corda": 5,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1548,
+   "confianca": 0.99,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 76,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1553,
+   "confianca": 0.426,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/f8b3ef9c3dbfcf55.png",
+    "hash": "f8b3ef9c3dbfcf55",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      6
+     ],
+     [
+      0,
+      7,
+      3,
+      16
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.426
+     ],
+     [
+      "harmonico",
+      0.315
+     ],
+     [
+      "21",
+      0.068
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.45
+     ],
+     [
+      "21",
+      0.246
+     ],
+     [
+      "15",
+      0.11
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 77,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1619,
+   "confianca": 0.988,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 78,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1624,
+   "confianca": 0.447,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/428d6f6a0307d851.png",
+    "hash": "428d6f6a0307d851",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ],
+     [
+      0,
+      8,
+      3,
+      18
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "harmonico",
+      0.447
+     ],
+     [
+      "1",
+      0.226
+     ],
+     [
+      "0",
+      0.051
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.862
+     ],
+     [
+      "21",
+      0.034
+     ],
+     [
+      "12",
+      0.028
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 79,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1624,
+   "confianca": 0.211,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/f840ced643d58883.png",
+    "hash": "f840ced643d58883",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      10
+     ],
+     [
+      0,
+      11,
+      3,
+      21
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.211
+     ],
+     [
+      "1",
+      0.211
+     ],
+     [
+      "harmonico",
+      0.141
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.387
+     ],
+     [
+      "21",
+      0.207
+     ],
+     [
+      "7",
+      0.108
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 80,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1624,
+   "confianca": 0.222,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/c847786aa8b1ffe5.png",
+    "hash": "c847786aa8b1ffe5",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      11
+     ],
+     [
+      0,
+      12,
+      3,
+      21
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.222
+     ],
+     [
+      "0",
+      0.211
+     ],
+     [
+      "harmonico",
+      0.188
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.284
+     ],
+     [
+      "21",
+      0.182
+     ],
+     [
+      "15",
+      0.109
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 81,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1639,
+   "confianca": 0.209,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "shin izumi/73147f1fe4fcfaa4.png",
+    "hash": "73147f1fe4fcfaa4",
+    "partes": 1,
+    "partes_digito": 0,
+    "larguras_passo": [
+     1.7
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      36,
+      8
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "1",
+      0.209
+     ],
+     [
+      "2",
+      0.153
+     ],
+     [
+      "7",
+      0.148
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.209
+     ],
+     [
+      "2",
+      0.153
+     ],
+     [
+      "7",
+      0.148
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.209
+   }
+  },
+  {
+   "ordem": 82,
+   "corda": 6,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 1688,
+   "confianca": 0.782,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "shin izumi/cd49f1c99612904d.png",
+    "hash": "cd49f1c99612904d",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.71
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      15,
+      18
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.782
+     ],
+     [
+      "14",
+      0.109
+     ],
+     [
+      "24",
+      0.048
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.782
+     ],
+     [
+      "14",
+      0.109
+     ],
+     [
+      "24",
+      0.048
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 83,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1760,
+   "confianca": 0.99,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 84,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1766,
+   "confianca": 0.303,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/99bf0e46518bd810.png",
+    "hash": "99bf0e46518bd810",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      8
+     ],
+     [
+      0,
+      9,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.303
+     ],
+     [
+      "6",
+      0.154
+     ],
+     [
+      "8",
+      0.127
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.714
+     ],
+     [
+      "19",
+      0.087
+     ],
+     [
+      "21",
+      0.076
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 85,
+   "corda": 5,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1760,
+   "confianca": 0.99,
+   "corrigido_pela_forma": false
+  },
+  {
+   "ordem": 86,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1766,
+   "confianca": 0.327,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "shin izumi/3bdd358dababcd89.png",
+    "hash": "3bdd358dababcd89",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.14,
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      6
+     ],
+     [
+      0,
+      7,
+      3,
+      16
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.327
+     ],
+     [
+      "harmonico",
+      0.263
+     ],
+     [
+      "0",
+      0.088
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.287
+     ],
+     [
+      "6",
+      0.263
+     ],
+     [
+      "harmonico",
+      0.168
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 87,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1781,
+   "confianca": 0.173,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "png": "shin izumi/ef3ffcd469ba65e7.png",
+    "hash": "ef3ffcd469ba65e7",
+    "partes": 1,
+    "partes_digito": 0,
+    "larguras_passo": [
+     2.74
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      58,
+      8
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "4",
+      0.173
+     ],
+     [
+      "1",
+      0.148
+     ],
+     [
+      "5",
+      0.146
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.173
+     ],
+     [
+      "1",
+      0.148
+     ],
+     [
+      "5",
+      0.146
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.173
+   }
+  }
+ ],
+ "painel": "y825",
+ "uniformidade": 0.864,
+ "passo": 21.2,
+ "largura_painel": 1856,
+ "lido_via": "ffmpeg",
+ "tempo": {
+  "medido": false,
+  "motivo": "marcador sem_marcador no intervalo",
+  "serie": {
+   "pontos": 0,
+   "veredito": "sem_marcador"
+  }
+ },
+ "indice": 1,
+ "rotulo": "don’t know why - norah jones ｜ ソロギター ｜ anuenue ls770 [tab]_int01",
+ "musicxml_relatorio": {
+  "titulo": "don’t know why - norah jones ｜ ソロギター ｜ anuenue ls770 [tab]_int01",
+  "notas_exportadas": 27,
+  "notas_nao_exportadas": 60,
+  "motivo_nao_exportada": [
+   "harmonico",
+   "junk",
+   "tecnica"
+  ],
+  "tempo_medido": false,
+  "instantes_distintos": 0,
+  "pulso_s": null,
+  "bpm_derivado_do_pulso": null,
+  "duracao": "NÃO medida: 0 instante(s) distinto(s) para 27 notas — duração constante declarada, nada de ritmo inventado",
+  "compasso": "1 compasso por barline geométrica, sem pulso medido",
+  "afinacao": "padrão assumida",
+  "divisoes": 1024
+ }
+}

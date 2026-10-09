@@ -1,0 +1,107 @@
+{
+ "video": "henze ｜ nocturno - guitar lesson + tab.mp4",
+ "tem_notacao": true,
+ "amostras": [
+  {
+   "t": 137.0,
+   "frac": 0.4,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y324",
+   "uniformidade": 0.858,
+   "passo": 24.8,
+   "glifos": 27,
+   "largura_painel": 1688
+  },
+  {
+   "t": 171.2,
+   "frac": 0.5,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y323",
+   "uniformidade": 0.859,
+   "passo": 25.0,
+   "glifos": 28,
+   "largura_painel": 1688
+  },
+  {
+   "t": 205.5,
+   "frac": 0.6,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y340",
+   "uniformidade": 0.861,
+   "passo": 25.0,
+   "glifos": 29,
+   "largura_painel": 1688
+  },
+  {
+   "t": 239.7,
+   "frac": 0.7,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y339",
+   "uniformidade": 0.856,
+   "passo": 25.0,
+   "glifos": 31,
+   "largura_painel": 1688
+  },
+  {
+   "t": 274.0,
+   "frac": 0.8,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y324",
+   "uniformidade": 0.844,
+   "passo": 24.8,
+   "glifos": 47,
+   "largura_painel": 1688
+  },
+  {
+   "t": 308.2,
+   "frac": 0.9,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "y323",
+   "uniformidade": 0.857,
+   "passo": 25.0,
+   "glifos": 29,
+   "largura_painel": 1688
+  }
+ ],
+ "intervalos": [
+  {
+   "indice": 1,
+   "t0": 117.0,
+   "t1": 328.2,
+   "notas": 31,
+   "tempo": {
+    "medido": true,
+    "mecanismo": "marcador: desliza",
+    "instantes_distintos": 23,
+    "serie": {
+     "pontos": 423,
+     "deslocamento_total_px": 1550,
+     "passo_mediano_px": 30,
+     "velocidade_px_s": 7.3,
+     "veredito": "desliza"
+    }
+   },
+   "musicxml": {
+    "titulo": "henze ｜ nocturno - guitar lesson + tab_int01",
+    "notas_exportadas": 31,
+    "notas_nao_exportadas": 0,
+    "motivo_nao_exportada": [],
+    "tempo_medido": true,
+    "instantes_distintos": 23,
+    "pulso_s": 0.91,
+    "bpm_derivado_do_pulso": 65.9,
+    "duracao": "INFERIDA (intervalo até o próximo onset; a última usa o pulso)",
+    "compasso": "derivado da barline geométrica dividida pelo pulso medido",
+    "afinacao": "padrão assumida",
+    "divisoes": 1024
+   }
+  }
+ ]
+}
+salvo em data/saida/iwaki_teste/henze ｜ nocturno - guitar lesson + tab

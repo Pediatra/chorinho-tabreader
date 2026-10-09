@@ -212,6 +212,30 @@ Dois erros meus que os testes pegaram: série **totalmente parada** não é `err
 `parado`; `erratico` é para a série que só tem saltos grandes), e `not todos` estava errado
 porque `todos` é uma **lista de zeros** (truthy) — o certo é `not any(todos)`.
 
+## 2026-10-09 — levantamento de marcador: tabela FINAL (regra e recorte consertados)
+
+`tab.marcador`, 6 canais × 8 vídeos, janela de 120 s a partir de 0,55 da duração,
+**recorte do painel** e a regra de monotonicidade corrigida:
+
+| canal | desliza | salta | parado | erratico | sem_marc | dúvida | **utilizável** | banda visível | matiz |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **`sky guitar`** | 3 | 1 | 1 | 2 | 0 | 2 | **4/8** | 9 | 108 |
+| `guitar dell'arte` | 2 | 0 | 0 | 2 | 5 | 0 | **2/8** | 2 | 62 |
+| `iwaki` | 1 | 0 | 0 | 0 | 7 | 1 | **1/8** | 2 | 102 |
+| `cifra club` | 0 | 0 | 0 | 0 | 8 | 0 | 0/8 | 0 | — |
+| `shin izumi` | 0 | 0 | 0 | 2 | 6 | 0 | 0/8 | 0 | 8 |
+| `violaodecria` | 0 | 0 | 2 | 3 | 3 | 0 | 0/8 | 3 | 12 |
+
+**No mesmo instante, mesma janela e MESMA REGRA, o recorte fixo `[300:750]` dava 9
+`erratico` e 0 utilizável no `sky guitar`; o recorte do painel dá 4 utilizáveis.** É a
+medida limpa do conserto: o que era método virou 4 vídeos, e o que sobra (`parado`,
+`erratico`, `dúvida`) é julgamento sobre a banda certa.
+
+Três canais dão **0 utilizável e isso está certo**, conferido contra a descrição do dono do
+projeto: `cifra club` (o marcador é **cor no algarismo**; um detector de faixa não vê, por
+construção), `shin izumi` e `violaodecria` (não têm marcador). `iwaki` com 1/8 é a
+divergência que fica aberta: o dono diz nenhum, a medição acha um (`desliza`, matiz 102).
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

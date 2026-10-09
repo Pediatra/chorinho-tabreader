@@ -6,3 +6,83 @@
   época   6/12 perda=0.0895 acc_treino=0.9884
   época   9/12 perda=0.0421 acc_treino=0.9768
   época  12/12 perda=0.0196 acc_treino=0.9948
+  época   3/12 perda=0.3173 acc_treino=0.8671
+  época   6/12 perda=0.1054 acc_treino=0.9772
+  época   9/12 perda=0.0549 acc_treino=0.9919
+  época  12/12 perda=0.0170 acc_treino=0.9981
+  época   3/12 perda=0.2906 acc_treino=0.8881
+  época   6/12 perda=0.0917 acc_treino=0.9823
+  época   9/12 perda=0.0468 acc_treino=0.9814
+  época  12/12 perda=0.0134 acc_treino=0.9972
+  época   3/12 perda=0.3407 acc_treino=0.8820
+  época   6/12 perda=0.1215 acc_treino=0.9034
+  época   9/12 perda=0.0455 acc_treino=0.9936
+  época  12/12 perda=0.0207 acc_treino=0.9951
+  época   3/12 perda=0.3316 acc_treino=0.8869
+  época   6/12 perda=0.0995 acc_treino=0.9337
+  época   9/12 perda=0.0656 acc_treino=0.9948
+  época  12/12 perda=0.0143 acc_treino=0.9979
+[W1009 15:07:48.493830326 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 1717567488 bytes (free: 834076672, total: 8259371008).
+  época   3/12 perda=0.2943 acc_treino=0.8735
+  época   6/12 perda=0.0835 acc_treino=0.9792
+  época   9/12 perda=0.0423 acc_treino=0.9927
+  época  12/12 perda=0.0367 acc_treino=0.9957
+  época   3/12 perda=0.3223 acc_treino=0.8950
+  época   6/12 perda=0.0914 acc_treino=0.9817
+  época   9/12 perda=0.0319 acc_treino=0.9951
+  época  12/12 perda=0.0227 acc_treino=0.9973
+  época   3/12 perda=0.2947 acc_treino=0.8956
+  época   6/12 perda=0.0832 acc_treino=0.9909
+  época   9/12 perda=0.0266 acc_treino=0.9969
+  época  12/12 perda=0.0255 acc_treino=0.9862
+{
+ "cifra club": {
+  "acertos": 13,
+  "total": 15,
+  "positivos": 0
+ },
+ "guitar dell ́arte": {
+  "acertos": 11,
+  "total": 16,
+  "positivos": 0
+ },
+ "iwaki": {
+  "acertos": 83,
+  "total": 88,
+  "positivos": 18
+ },
+ "kimny's guitar": {
+  "acertos": 14,
+  "total": 16,
+  "positivos": 6
+ },
+ "leonardo ramos": {
+  "acertos": 8,
+  "total": 15,
+  "positivos": 7
+ },
+ "mr. tabs": {
+  "acertos": 14,
+  "total": 15,
+  "positivos": 7
+ },
+ "pablo romé": {
+  "acertos": 6,
+  "total": 14,
+  "positivos": 0
+ },
+ "paolo d'angelo": {
+  "acertos": 9,
+  "total": 12,
+  "positivos": 0
+ },
+ "sky guitar": {
+  "acertos": 30,
+  "total": 96,
+  "positivos": 65
+ },
+ "total": {
+  "acertos": 188,
+  "total": 287
+ }
+}

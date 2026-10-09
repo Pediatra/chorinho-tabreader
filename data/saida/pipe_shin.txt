@@ -1,0 +1,107 @@
+{
+ "video": "don’t know why - norah jones ｜ ソロギター ｜ anuenue ls770 [tab].mp4",
+ "tem_notacao": true,
+ "amostras": [
+  {
+   "t": 48.1,
+   "frac": 0.4,
+   "via": "ffmpeg",
+   "tem_notacao": true,
+   "faixa": "y836",
+   "uniformidade": 0.855,
+   "passo": 21.6,
+   "glifos": 70,
+   "largura_painel": 1920
+  },
+  {
+   "t": 60.1,
+   "frac": 0.5,
+   "via": "ffmpeg",
+   "tem_notacao": true,
+   "faixa": "y822",
+   "uniformidade": 0.847,
+   "passo": 21.2,
+   "glifos": 73,
+   "largura_painel": 1844
+  },
+  {
+   "t": 72.1,
+   "frac": 0.6,
+   "via": "ffmpeg",
+   "tem_notacao": true,
+   "faixa": "y850",
+   "uniformidade": 0.853,
+   "passo": 21.4,
+   "glifos": 82,
+   "largura_painel": 1845
+  },
+  {
+   "t": 84.1,
+   "frac": 0.7,
+   "via": "ffmpeg",
+   "tem_notacao": true,
+   "faixa": "y825",
+   "uniformidade": 0.864,
+   "passo": 21.2,
+   "glifos": 87,
+   "largura_painel": 1856
+  },
+  {
+   "t": 96.2,
+   "frac": 0.8,
+   "via": "ffmpeg",
+   "tem_notacao": true,
+   "faixa": "y835",
+   "uniformidade": 0.853,
+   "passo": 21.6,
+   "glifos": 62,
+   "largura_painel": 1856
+  },
+  {
+   "t": 108.2,
+   "frac": 0.9,
+   "via": "ffmpeg",
+   "tem_notacao": true,
+   "faixa": "y836",
+   "uniformidade": 0.855,
+   "passo": 21.2,
+   "glifos": 78,
+   "largura_painel": 1840
+  }
+ ],
+ "intervalos": [
+  {
+   "indice": 1,
+   "t0": 28.1,
+   "t1": 128.2,
+   "notas": 87,
+   "tempo": {
+    "medido": false,
+    "motivo": "marcador sem_marcador no intervalo",
+    "serie": {
+     "pontos": 0,
+     "veredito": "sem_marcador"
+    }
+   },
+   "musicxml": {
+    "titulo": "don’t know why - norah jones ｜ ソロギター ｜ anuenue ls770 [tab]_int01",
+    "notas_exportadas": 27,
+    "notas_nao_exportadas": 60,
+    "motivo_nao_exportada": [
+     "harmonico",
+     "junk",
+     "tecnica"
+    ],
+    "tempo_medido": false,
+    "instantes_distintos": 0,
+    "pulso_s": null,
+    "bpm_derivado_do_pulso": null,
+    "duracao": "NÃO medida: 0 instante(s) distinto(s) para 27 notas — duração constante declarada, nada de ritmo inventado",
+    "compasso": "1 compasso por barline geométrica, sem pulso medido",
+    "afinacao": "padrão assumida",
+    "divisoes": 1024
+   }
+  }
+ ]
+}
+salvo em data/saida/shin_teste/don’t know why - norah jones ｜ ソロギター ｜ a
