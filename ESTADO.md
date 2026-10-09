@@ -531,6 +531,34 @@ discriminador pode não reconhecer NENHUM algarismo dele. O consolo medido: com 
 o modo de falha é "não recuperado" (o algarismo segue guardado como símbolo e declarado), não
 "nota errada inventada" — que é exatamente por que a escolha conservadora foi a certa.
 
+## 2026-10-09 — segunda folha de símbolos (17 canais): o lixo se confirma, e a cruz é 15%
+
+Folha 2 (`data/saida/frames/folha_simbolos_2.png`), amostra **estratificada por canal** — 48
+recortes de 17 canais, sem repetir nenhum da folha 1. Lida por mim na taxonomia auditada pelo
+dono. Os dois retratos batem:
+
+| rótulo | folha 1 | folha 2 |
+| --- | --- | --- |
+| algarismo | 33 % | **42 %** |
+| `nada` (&) | 27 % | 29 % |
+| `tablatura` (§) | 25 % | 25 % |
+| partitura ({}) | 8 % | 0 % |
+| símbolo de verdade | 2 % | 2 % |
+| **LIXO** | **60 %** | **54 %** |
+
+**O padrão mais acionável: as CRUZES (barline × corda) são 7 de 48 = 15 % da coleta** — e
+aparecem em cinco canais (`mr. tabs`, `tv on guitar`, `ギタロー`, `tv cifras`,
+`serge kottelat`). É um alvo único, mecânico e frequente: cruzamento de traço fino vertical
+com traço fino horizontal, que cabe na caixa e por isso passa pelas regras de tamanho.
+
+**E 42 % continua sendo algarismo guardado como símbolo**: o discriminador existe para isso,
+mas o número mostra o tamanho do que ainda escapa.
+
+Verdade acumulada: **96 recortes rotulados** (`data/gold/simbolos.json` + `simbolos_2.json`),
+em 17 canais, na taxonomia de 5 classes. É a base para trocar o binário "é algarismo?" por uma
+decisão de três vias: é algarismo → vira nota; é lixo (nada/tablatura/partitura) → **não vira
+símbolo**; o resto → símbolo de verdade, para mapear por canal.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
