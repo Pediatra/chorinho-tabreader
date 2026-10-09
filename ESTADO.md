@@ -2248,3 +2248,29 @@ escolhidas neste painel.
 **Próximo passo, medível**: extrair os glifos da **UNIÃO** das máscaras (ou da mais sensível), mantendo
 a grade (`linhas_y`, `passo`) vinda da escolhida — e medir: (a) quantas marcas passam a ter componente;
 (b) o gabarito de algarismo (não pode cair, como caiu nas duas tentativas anteriores).
+
+## 2026-10-09 — união das máscaras para os glifos: gabarito INTACTO, marcas paradas
+
+`_uniao_mascaras`: a máscara dos glifos passa a ser a **união** de todas as candidatas (a grade —
+`linhas_y`, `passo` — continua vindo da vencedora). Ligado **e conferido por leitura do arquivo**
+(função na 522, chamada na 568).
+
+| | antes | **com a união** |
+| --- | --- | --- |
+| gabarito `oficial_1` | 0,917 | **0,917** |
+| gabarito `oficial_2` | 0,986 | **0,986** |
+| gabarito `oficial_3` | 0,944 | **0,944** |
+| marcas julgadas | 0 | 0 |
+| token não julgado / sem token | 138 / 51 | **137 / 51** |
+
+**Primeira mudança desta série que NÃO custa o gabarito** (morfologia e faixas derrubaram; a união
+não). **Mas as marcas não se moveram** — o arco continua não virando token, mesmo com a união.
+
+**Duas leituras possíveis, e a imagem decide**: ou (a) o arco **não está em nenhuma** máscara candidata
+(fino demais para todas), ou (b) ele **está e é recusado depois** (por `haste_fina`, tamanho ou
+agrupamento). A medição que separa: **renderizar a máscara UNIÃO na posição das marcas e olhar** —
+como eu fiz com a `otsu`, que mostrou preto onde a marca está.
+
+**Decisão sobre manter**: a união fica **ligada** por ora — ela é neutra no gabarito e é o princípio
+certo (não perder traço fino); se a imagem mostrar que ela também não tem o arco, o conserto passa a
+ser **para baixo do limiar** (trabalhar com a imagem crua/nitidez, não com máscara binária).

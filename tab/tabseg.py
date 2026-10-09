@@ -519,6 +519,32 @@ def delimitar_tokens(
     return validos, dict(motivos)
 
 
+def _uniao_mascaras(img: np.ndarray) -> np.ndarray:
+    """UNIÃO das máscaras candidatas — para os glifos não perderem o símbolo fino.
+
+    Medido e visto na imagem: no painel do `C07` o `segmentar` escolhe a máscara **`otsu`**, e na
+    posição das marcas do dono **não há tinta nenhuma** — os arcos são finos demais para o Otsu e
+    **não existem** na máscara usada. O que existe são as barras verticais (que a regra `haste_fina`
+    recusa corretamente). As máscaras de contraste pegam traço fino, mas não foram as escolhidas.
+
+    A união mantém o que **qualquer** máscara viu. A grade (`linhas_y`, `passo`) continua vindo da
+    máscara vencedora — a união serve só para achar os glifos.
+
+    Args:
+        img: recorte do painel.
+
+    Returns:
+        Máscara booleana com a união de todas as candidatas.
+    """
+    mascaras = [m for _nome, m in mascaras_candidatas(img)]
+    if not mascaras:
+        return binarizar(img)
+    uniao = mascaras[0].copy()
+    for m in mascaras[1:]:
+        uniao |= m
+    return uniao
+
+
 def segmentar(img: np.ndarray, n_cordas: int = 6, debug: str | None = None) -> Grade:
     """Tenta as máscaras em ordem e fica com a PRIMEIRA que passa no teste de estrutura.
 
@@ -539,7 +565,7 @@ def segmentar(img: np.ndarray, n_cordas: int = 6, debug: str | None = None) -> G
                 melhor, usada, escolhida = g, tinta, nome
             continue
         for linhas, med in cands:
-            g = _segmentar_de_mascara(tinta, n_cordas, linhas, med)
+            g = _segmentar_de_mascara(_uniao_mascaras(img), n_cordas, linhas, med)
             g.avisos.insert(0, f"mascara={nome}")
             # O CONTEÚDO decide qual pauta é a tablatura: algarismo de TAB fica
             # centrado na corda; cabeça de nota de partitura cai também nos espaços.
