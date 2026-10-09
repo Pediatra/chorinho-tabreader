@@ -1461,6 +1461,30 @@ e é exatamente essa diferença que falta medir, comparando janela a janela, tok
 disso a hipótese da coordenada) sobre uma imagem que eu não tinha aberto. Abrir a imagem achou o bug
 em um minuto.
 
+## 2026-10-09 — o modelo é CONSISTENTE, e ele aprova a região do SÍMBOLO (y acima da 1ª corda)
+
+Teste token a token num quadro marcado (`C07_kimny's guitar`, passo 20,6, 93 tokens), comparando a
+probabilidade pelo caminho do pipeline e pela minha janela (a que gerou o gabarito):
+
+| | |
+| --- | --- |
+| aprovados | 18 |
+| probabilidade **igual** nas duas janelas | **10** |
+| diferente | 8 — **todos por ~0,08** (0,966 contra 0,888), compatível com 1–2 px de diferença no centro do token |
+
+**Não há divergência de caminho de inferência.** O modelo é consistente.
+
+**E a posição dos tokens aprovados diz o essencial**: os de maior confiança estão em **y = 13**, que
+é **acima da primeira corda** — a **região dos arcos**. Ele **está aprovando a região do símbolo**,
+não o dígito. Isso derruba a minha leitura anterior (de que ele aprovava "dígito"): o token é do
+tamanho de um dígito, mas está **onde o símbolo fica**.
+
+**O que sobra sem explicação**: o teste fim a fim contra as marcas dele deu 31 de 256, mesmo com o
+modelo aprovando a região certa e sendo consistente. A associação marca↔token é minha e pode estar
+errada (uma marca pode cobrir mais de um token, e uma marca no arco cai entre dois dígitos). **Não
+concluo que a precisão é 0,12 nem que é 0,90** — o que eu tenho é: o modelo aprova a região certa,
+e a minha forma de casar isso com as marcas dele está sob suspeita.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
