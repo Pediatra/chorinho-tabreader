@@ -957,6 +957,26 @@ sementes:
 cortado, não o modelo. Falsos positivos seguem em 2–4 de 1076 (0,2–0,4 %). A observação de olho do
 dono virou ganho medido de 4 pontos na pior semente.
 
+## 2026-10-09 — o filtro positivo LIGADO (e um bug meu de contagem, corrigido na hora)
+
+`reconhecer_linha` ganhou `filtro_simbolo`: antes de gravar um símbolo, recorta a **janela do
+treino** (2,4 × 1,6 passo, centrada no token) e pergunta ao detector. O coletor passa
+`filtro_simbolo=carregar()` (`tab/simbolo.carregar`), e `LIMIAR_SIMBOLO = 0,5` foi para
+`tab/caminhos.py` — em `tab.simbolo` fecharia ciclo (`reconhecer → simbolo → digito → reconhecer`,
+e o import quebrou de fato: 9 erros de coleta).
+
+**Bug meu, pego na hora**: na primeira versão eu gravava o recusado **na mesma chave**
+(`simbolo_cru`), para não perder o metadado — e quem conta símbolo pergunta
+`"simbolo_cru" in nota`. O total não se mexeu (540) e eu quase registrei "o filtro não muda nada".
+Agora o recusado vai para `simbolo_recusado`, e a contagem separa os dois. *Conferir o que o número
+conta* — a mesma lição de sempre, agora cometida por mim em código novo.
+
+**Onde o filtro roda, ele é categórico**: nos 4 candidatos de um quadro do `mr. tabs`, as
+probabilidades foram **0,000 a 0,016** — todas recusadas, corretamente. O problema é de
+**cobertura**: ele rodou em 4 tokens de um quadro que guardou ~50 (480 símbolos em 981 tokens na
+amostra de 2 canais, contra 540 antes). Ou seja: **existe outro caminho que grava símbolo sem
+passar pelo filtro** — é o próximo alvo, e é de fiação, não de modelo.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

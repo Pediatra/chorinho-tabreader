@@ -26,7 +26,7 @@ import cv2
 import numpy as np
 import torch
 
-from .caminhos import MODELO_PADRAO
+from .caminhos import LIMIAR_SIMBOLO, MODELO_PADRAO
 from .glyph_bench import GlifoCNN
 from .glyphset import normalizar
 from .tabseg import segmentar
@@ -162,6 +162,7 @@ def reconhecer_linha(
     dir_simbolos: str | None = None,
     prefixo: str = "",
     discriminador=None,
+    filtro_simbolo=None,
 ) -> dict:
     """Lê uma linha de tablatura: geometria + classificação + símbolo cru.
 
@@ -305,11 +306,32 @@ def reconhecer_linha(
             }
             if casa_rec is not None:
                 nota["casa_recuperada"] = casa_rec
-            nota["simbolo_cru"] = (
-                _guardar_cru(gray, tk, dir_simbolos, prefixo, sufixo)
-                if dir_simbolos
-                else sufixo
-            )
+            # FILTRO POSITIVO: só guarda como símbolo o que o detector diz que É símbolo — o
+            # critério antigo era "não é algarismo", e o resíduo de uma tablatura é ~98 % linha,
+            # borrão e dígito mal lido. O recorte usa a JANELA DO TREINO (2,4 x 1,6 passo,
+            # centrado no token): moldura é entrada do modelo, não detalhe de implementação.
+            p_simbolo = None
+            if filtro_simbolo is not None:
+                cx = (tk.x0 + tk.x1) // 2
+                cy = (tk.y0 + tk.y1) // 2
+                hx, hy = round(1.2 * g.passo), round(0.8 * g.passo)
+                rec = gray[max(0, cy - hy) : cy + hy, max(0, cx - hx) : cx + hx]
+                if rec.size:
+                    p_simbolo = float(filtro_simbolo([rec])[0])
+                    sufixo["prob_simbolo"] = round(p_simbolo, 3)
+            passa = p_simbolo is None or p_simbolo >= LIMIAR_SIMBOLO
+            if passa:
+                nota["simbolo_cru"] = (
+                    _guardar_cru(gray, tk, dir_simbolos, prefixo, sufixo)
+                    if dir_simbolos
+                    else sufixo
+                )
+            else:
+                # RECUSADO como símbolo. O metadado fica em chave PRÓPRIA: se ficasse em
+                # `simbolo_cru`, quem conta símbolo (`[n for n in notas if "simbolo_cru" in n]`)
+                # contaria o recusado também — foi o que aconteceu na primeira medição, e o
+                # total não se mexeu. Conferir o que o número conta, sempre.
+                nota["simbolo_recusado"] = sufixo
         notas.append(nota)
     return {
         "passo": round(g.passo, 2),

@@ -170,6 +170,32 @@ def treinar(sementes: list[int] | None = None) -> None:
         print(f"salvo {destino / 'simbolo.pt'}")
 
 
+def carregar(caminho: str | None = None):
+    """Carrega o detector treinado e devolve a função "isto é símbolo?".
+
+    Args:
+        caminho: peso `.pt`; por padrão usa o da semente 2 (a de melhor LOCA).
+
+    Returns:
+        Função que recebe uma lista de recortes em tons de cinza e devolve as probabilidades
+        de "é símbolo". **O recorte tem de vir na janela do treino** (2,4 × 1,6 passo,
+        centrado): a moldura é entrada do modelo, não detalhe de implementação.
+    """
+    destino = caminho or str(ARTEFATOS / "simbolo_2" / "simbolo.pt")
+    estado = torch.load(destino, map_location="cpu", weights_only=False)
+    modelo = DigitoCNN()
+    modelo.load_state_dict(estado["state_dict"])
+    modelo.eval()
+
+    def _prob_simbolo(recortes: list[np.ndarray]) -> np.ndarray:
+        X = np.array([preparar(r) for r in recortes], dtype=np.float32)
+        with torch.no_grad():
+            logits = modelo(torch.tensor(X))[:, 1]
+            return torch.sigmoid(logits).numpy()
+
+    return _prob_simbolo
+
+
 def main() -> int:
     """Entrada de linha de comando."""
     ap = argparse.ArgumentParser(description="Detector positivo de símbolo.")

@@ -51,6 +51,7 @@ from tab.digito import carregar
 from tab.inventario import ler_quadro
 from tab.painel import escolher
 from tab.reconhecer import carregar_modelo, reconhecer_linha
+from tab.simbolo import carregar as carregar_detector_simbolo
 
 # O OpenCV grita a cada vídeo AV1 (44% do acervo) e isso poluiria o log da amostra.
 cv2.utils.logging.setLogLevel(cv2.utils.logging.LOG_LEVEL_SILENT)
@@ -181,6 +182,9 @@ def reconhecer_quadro(
         dir_simbolos=dir_simbolos,
         prefixo=canal,
         discriminador=carregar(),
+        # FILTRO POSITIVO: só guarda o que o detector diz que É símbolo. O critério antigo
+        # guardava o resíduo do classificador de algarismo (~98% linha, borrão e dígito errado).
+        filtro_simbolo=carregar_detector_simbolo(),
     )
     notas = r["notas"]
     return {

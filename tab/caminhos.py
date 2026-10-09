@@ -51,3 +51,10 @@ def acervo() -> Path:
     if _ACERVO_CONTAINER.is_dir():
         return _ACERVO_CONTAINER
     return _ACERVO_HOST
+
+
+#: Limiar do detector POSITIVO de símbolo ("isto é símbolo?"). O treino usou 0,5 e o falso
+#: positivo medido é 0,2–0,4 % (2 a 4 de 1076) — subir o limiar só trocaria símbolo perdido por
+#: nada ganho. Fica aqui (e não em `tab.simbolo`) porque `reconhecer` e `simbolo` precisam dela e
+#: `simbolo` importa `digito`, que importa `reconhecer`: pôr em `simbolo` fecharia o ciclo.
+LIMIAR_SIMBOLO = 0.5
