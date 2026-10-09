@@ -1614,6 +1614,30 @@ aprovados com a trava** no MESMO quadro e **olhar** se eles caem juntos. Se caí
 meu casamento e o número verdadeiro é outro; se não caírem, o modelo aprova outra coisa — e eu vou
 **ver** o quê, em vez de deduzir.
 
+## 2026-10-09 — OLHANDO: o modelo aprova ESPAÇO VAZIO (e isso explica a distância inteira)
+
+Desenhei, no espaço da faixa, as marcas do dono (círculos azuis) e os tokens aprovados com a trava
+(quadrados verdes), em caixa grossa. O que a imagem mostra, sem margem para interpretação:
+
+- **as marcas dele estão EXATAMENTE sobre os arcos** — uma a uma, em `0-2`, `5-5`, `3-3`, `7-7`,
+  `8-8`. É a validação mais forte possível do trabalho dele;
+- **os tokens aprovados estão em ESPAÇO VAZIO**, entre as linhas de corda, longe de qualquer arco.
+
+**O modelo não aprova os símbolos: ele aprova espaço em branco.**
+
+**Por que**, e é dedutível do que já está medido: os positivos do treino são janelas centradas nos
+arcos — e um arco é **fino**, então a janela é **quase vazia** (tinta mediana 0,174, contra 0,332 dos
+negativos). O modelo aprendeu **"pouca tinta = símbolo"**. No pipeline, qualquer janela quase vazia —
+inclusive espaço em branco entre as linhas — recebe 0,85–0,97.
+
+E o LOCA ficava bom porque **os meus negativos eram janelas de dígito** (com tinta): a classe que
+faltava nos negativos é a **janela vazia**, e ela **nunca esteve no treino**. Não era o modelo, não
+era o recorte, não era a coordenada: era **uma classe de negativo ausente**.
+
+**Próximo passo, medível e barato**: gerar negativos de **janelas vazias** (regiões entre as cordas,
+longe de qualquer marca) e retreinar. É o mesmo padrão que funcionou antes — descobrir qual classe
+o modelo estava confundindo e pôr a classe no treino (foi assim com os "negativos difíceis").
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
