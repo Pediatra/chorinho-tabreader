@@ -2798,3 +2798,26 @@ erros** na primeira auditoria — consistente com o 29/29.
 
 Conferido com os rótulos da primeira auditoria: **29/29 = 1,000** nos aprovados (5 na faixa 0,7–0,9 e 24
 na 0,9–1,0, todos "sim"), e **0 símbolos perdidos** entre os recusados.
+
+## 2026-10-09 — (b) adiantado pelo lado seguro: metade dos buracos tem TINTA, então a perda é no delimitador/agrupamento
+
+Medição nos buracos que o dono confirmou como símbolo (rótulos da auditoria; 78 medidos com posição):
+
+| | |
+| --- | --- |
+| **a máscara união+faixas tem tinta na posição da marca** | **43 de 83 (52 %)** |
+| contraste (fundo − pixel mais escuro) | 239 nos buracos × 229 nas não-símbolos → **não separa nada** |
+
+**O que vale**: **metade dos buracos tem tinta na máscara** e mesmo assim o pipeline **não propõe
+candidato** ali. Logo, nesses casos a perda **não é a máscara** (que era a minha hipótese) — é o
+**delimitador** (regras de tamanho/extensão/haste/nitidez) ou o **agrupamento em token** (a caixa do
+token não cobre a marca).
+
+**O que NÃO vale, e fica registrado como inconclusivo**: a minha medida de "contraste". A janela de
+±1,2 × ±0,8 passo em volta da marca **inclui o dígito de baixo**, que é preto — então os dois grupos dão
+"escuro" e o número não discrimina. **Décima vez que um critério meu mede a coisa errada.**
+
+**Próxima medição (ainda sem tocar no pipeline)**: para os 43 buracos com tinta, seguir o componente
+cru — tamanho em passos, posição em relação à corda — e dizer **por qual motivo** ele não virou token
+(`largo_demais` / `alto_demais` / `fora_da_extensao` / `haste_fina` / `sem_nitidez`), como eu fiz na
+rodada dos motivos.
