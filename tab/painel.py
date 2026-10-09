@@ -159,7 +159,17 @@ def candidatos_quadro(
         Candidatos, sem ordenar e sem repetição de faixa.
     """
     tinta = binarizar(frame)
-    picos = [int(y) for _v, y in picos_de_linha(tinta)]
+    # Dois limiares: medido no `sky guitar` (henze, frac 0,8) a tablatura está DENSA
+    # (48 glifos) e as linhas ficam interrompidas pelos algarismos — a fração de tinta na
+    # linha cai abaixo de 30 % e a busca no quadro inteiro não achava nada, deixando a
+    # reserva (faixa fixa, que inclui o vídeo) entrar. Os dois limiares custam ~1,3 ms.
+    picos: list[int] = []
+    for fracao in (0.30, 0.15):
+        for _v, y in picos_de_linha(tinta, fracao_min=fracao):
+            y = int(y)
+            if not picos or all(abs(y - p) > 2 for p in picos):
+                picos.append(y)
+    picos.sort()
     if len(picos) < 6:
         return []
     # 1) grupos de 6 linhas regulares — só geometria, sem custo de segmentação
