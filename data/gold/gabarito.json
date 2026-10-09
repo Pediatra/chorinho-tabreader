@@ -95,7 +95,8 @@
     "17": "junk",
     "24": "junk"
    },
-   "obs": "rotulos lidos a mao. Confirmado por imagem (rodadas 62/63): estes tokens TEM marca de tecnica, mas o modelo acerta o ALGARISMO neles — entao o rotulo util e o algarismo. A classe 'tecnica' NAO melhora este caso (medido: 12/24 -> 9/24 ao relabelar)."
+   "obs": "rotulos lidos a mao. Confirmado por imagem (rodadas 62/63): estes tokens TEM marca de tecnica, mas o modelo acerta o ALGARISMO neles — entao o rotulo util e o algarismo. A classe 'tecnica' NAO melhora este caso (medido: 12/24 -> 9/24 ao relabelar).",
+   "descartada": "instrumento errado (guitarra eletrica) — decisao do dono do projeto em 2026-10-09"
   },
   {
    "canal": "paolo d'angelo",

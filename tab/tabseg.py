@@ -25,6 +25,7 @@ import collections
 import itertools
 import json
 import sys
+from collections import Counter
 from dataclasses import asdict, dataclass, field
 
 import cv2
@@ -66,6 +67,9 @@ class Grade:
     glifos: list[Glifo] = field(default_factory=list)
     avisos: list[str] = field(default_factory=list)
     glifos_centrados: int = 0
+    #: Quantos tokens o delimitador recusou, por motivo. Nada some em silêncio: o número
+    #: que a coleta descarta tem de aparecer no relatório.
+    recusados: dict = field(default_factory=dict)
 
     def to_json(self) -> dict:
         return {
@@ -76,6 +80,7 @@ class Grade:
             "barlines_x": self.barlines_x,
             "glifos": [asdict(g) for g in self.glifos],
             "glifos_centrados": self.glifos_centrados,
+            "recusados": self.recusados,
             "avisos": self.avisos,
         }
 
@@ -313,6 +318,59 @@ def limpar_glifo(crop: np.ndarray, passo: float) -> np.ndarray:
     base = np.where(tinta, 0, 255).astype(np.uint8)
     res = np.where(out, 0, 255).astype(np.uint8)
     return res if res.mean() > base.mean() else crop
+
+
+#: Caixa do que pode ser SÍMBOLO ou CASA **dentro da tablatura**, em unidades de PASSO.
+#: Medido em 4 canais, no QUADRO (os PNGs de auditoria são ampliados — medir neles engana):
+#: algarismos ficam em largura/passo 0,12–1,39 e altura/passo 0,29–0,98; o lixo começa em
+#: largura/passo **2,69** e vai a 6,97 — e o lixo é LARGO (tira de linha, trecho de texto,
+#: braço do violão com as cordas em diagonal), não alto. Margem de 1,9x entre as classes.
+LARGURA_MAX_PASSOS = 2.0
+ALTURA_MAX_PASSOS = 2.0
+ALTURA_MIN_PASSOS = 0.20
+#: Quanto um token pode passar do sistema das 6 cordas, em passos (item 1 do delimitador:
+#: a extração enxerga SÓ dentro da tablatura).
+MARGEM_SISTEMA_PASSOS = 1.0
+
+
+def delimitar_tokens(
+    glifos: list[Glifo], passo: float, linhas_y: list[int] | None = None
+) -> tuple[list[Glifo], dict[str, int]]:
+    """Só o que cabe DENTRO da tablatura; devolve os válidos e a contagem por motivo.
+
+    Motivo medido, com o dono do projeto vendo a clave de sol na montagem: a coleta guardava
+    como "símbolo" o braço do violão, mão, foto desfocada, nome de acorde em texto, barra
+    vertical solta e tira de linha inteira. Todos com a mesma assinatura: **tamanho
+    incompatível com o passo**.
+
+    Args:
+        glifos: tokens da grade, já agrupados.
+        passo: distância entre cordas, em px.
+        linhas_y: y das 6 cordas (para a trava vertical); None desliga essa trava.
+
+    Returns:
+        ``(validos, motivos)`` — ``motivos`` conta as recusas por nome, para o relatório.
+    """
+    if passo <= 0:
+        return list(glifos), {}
+    topo = min(linhas_y) - MARGEM_SISTEMA_PASSOS * passo if linhas_y else None
+    base = max(linhas_y) + MARGEM_SISTEMA_PASSOS * passo if linhas_y else None
+    validos: list[Glifo] = []
+    motivos: Counter = Counter()
+    for g in glifos:
+        altura = (g.y1 - g.y0 + 1) / passo
+        largura = (g.x1 - g.x0 + 1) / passo
+        if topo is not None and (g.y0 < topo or g.y1 > base):
+            motivos["fora_do_sistema"] += 1
+        elif altura > ALTURA_MAX_PASSOS:
+            motivos["alto_demais"] += 1
+        elif largura > LARGURA_MAX_PASSOS:
+            motivos["largo_demais"] += 1
+        elif altura < ALTURA_MIN_PASSOS:
+            motivos["baixo_demais"] += 1
+        else:
+            validos.append(g)
+    return validos, dict(motivos)
 
 
 def segmentar(img: np.ndarray, n_cordas: int = 6, debug: str | None = None) -> Grade:
@@ -613,6 +671,16 @@ def _segmentar_de_mascara(
         for x in grade.glifos
         if min(abs(x.cy - ly) for ly in linhas_y) <= 0.25 * passo
     )
+    # DELIMITADOR: a extração enxerga só o que cabe dentro da tablatura. Antes disto a
+    # coleta guardava braço de violão, clave, texto e tira de linha como "símbolo".
+    grade.glifos, recusados = delimitar_tokens(
+        grade.glifos, grade.passo, grade.linhas_y
+    )
+    grade.recusados = recusados
+    if recusados:
+        grade.avisos.append(
+            "delimite=" + ",".join(f"{k}:{v}" for k, v in sorted(recusados.items()))
+        )
     grade.glifos.sort(key=lambda g: (g.coluna, g.corda))
     return grade
 

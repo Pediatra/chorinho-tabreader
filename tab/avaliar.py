@@ -91,6 +91,11 @@ def avaliar_com_modelo(
     dados = json.loads(GABARITO.read_text(encoding="utf-8"))
     linhas: list[tuple[str, int, int]] = []
     for am in dados["amostras"]:
+        if am.get("descartada"):
+            # Fora de escopo por decisao do dono do projeto (instrumento errado), nao por
+            # falha: entra como DESCARTADA, com o motivo, e nao como quadro indisponivel.
+            linhas.append((f"{am.get('canal', '?')} [descartada: {am['descartada'][:28]}]", 0, 0))
+            continue
         img = imagem_da_amostra(am)
         if img is None:
             # Vídeo ausente do acervo: PULA e DECLARA, com total negativo para o somatório
@@ -146,9 +151,14 @@ def main() -> int:
     total = sum(t for _, _, t in validos)
     resumo = " ".join(f"{c.split()[0][:6]}={o}/{t}" for c, o, t in validos)
     print(f"RESULTADO {resumo} | TOTAL={acertos}/{total}={acertos / total:.3f}")
-    if pulados:
+    descartadas = [c for c in pulados if "[descartada" in c]
+    sem_quadro = [c for c in pulados if "[descartada" not in c]
+    if descartadas:
+        # Fora de ESCOPO por decisão do dono do projeto — não é falha nem falta.
+        print(f"DESCARTADAS (fora de escopo): {', '.join(descartadas)}")
+    if sem_quadro:
         # Sem quadro não há aferição: declarar é obrigatório, contar como erro seria mentira.
-        print(f"PULADOS (quadro indisponível, fora da conta): {', '.join(pulados)}")
+        print(f"SEM QUADRO (vídeo indisponível): {', '.join(sem_quadro)}")
     return 0
 
 

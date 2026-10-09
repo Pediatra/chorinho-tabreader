@@ -236,6 +236,32 @@ projeto: `cifra club` (o marcador é **cor no algarismo**; um detector de faixa 
 construção), `shin izumi` e `violaodecria` (não têm marcador). `iwaki` com 1/8 é a
 divergência que fica aberta: o dono diz nenhum, a medição acha um (`desliza`, matiz 102).
 
+## 2026-10-09 — escopo do gabarito: 3 canais / 72 glifos (o `raman korshun` saiu)
+
+O dono do projeto decidiu em 2026-10-09: **`raman korshun` toca guitarra elétrica — ele
+baixou errado**, e a amostra sai do escopo. Não é perda nem falha: é escopo, e fica
+registrado no próprio gabarito (`descartada`) em vez de parecer vídeo faltando.
+
+| | antes | **agora** |
+| --- | --- | --- |
+| canais | 4 | **3** |
+| glifos | 96 | **72** |
+| número oficial | 0,889 | **0,949** |
+
+Por semente: `oficial_1` 66/72 = 0,917 · `oficial_2` 71/72 = 0,986 · `oficial_3` 68/72 =
+0,944 → média **0,949**. Por canal: `iwaki` 27/27 · `sky guitar` 14–15/15 · `paolo` 25–29/30.
+
+**O 0,949 NÃO é ganho.** O `raman` era o pior canal (17/24) e a conferência fecha exata:
+(66+17)/(72+24) = 83/96 = 0,865, o número histórico da semente 1. O que subiu foi a média
+porque o denominador mudou — e está declarado assim para ninguém comemorar número que só
+mudou de base.
+
+**Achado no caminho**: a aferição estava **quebrada** e ninguém sabia. `imagem_da_amostra`
+devolvia None quando o vídeo não existia e o chamador estourava com `TypeError` — o número
+oficial tinha deixado de ser calculável. Conserto: o quadro de cada amostra é **cacheado**
+em `data/saida/frames/gold/`, e amostra sem quadro (ou descartada) é **declarada e fica fora
+da conta** em vez de derrubar a aferição.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
