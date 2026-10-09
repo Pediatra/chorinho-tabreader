@@ -57,8 +57,10 @@ mudou, com o número que sustenta cada item:
 | o que | resultado medido |
 | --- | --- |
 | **varredura do acervo novo** | **96,5 % com tablatura** (3.855/3.993), em 69,5 min |
+| **`sky guitar` (corrigido pelo dono)** | ele apagou os vídeos especiais **sem tutorial**: restaram **417, todos com tablatura**. A varredura dizia 348/440 — a contagem era de antes da limpeza, e a diferença mede **falso negativo do detector**, não ausência de tablatura |
 | **cursor no quadro inteiro** | 69 de 3.993 — o portão exige faixa de ≥50 % da **imagem** (540 px) e o cursor tem a altura do painel (~150 px) |
 | **cursor no ROI da faixa** | muda onde o detector olha, mas **não basta**: no mesmo vídeo as detecções eram **artefato** (banda parada em x=0–99 por 5 s na borda do painel e bandas em x≈900–1084, fora do painel, que é 0–594). Aquele vídeo **não tem marcador** |
+| **`iwaki` tem marcador? (corrigido pelo dono)** | **não**. Amostra de 6 vídeos × 7 instantes: **0 detecções**. O dono está certo; o canal mostra a partitura/tablatura e vai trocando |
 | **escolha do painel** | o critério antigo (glifos centrados) escolhia o **braço do violão**; com uniformidade do fundo (0,888 × 0,842) escolhe a tablatura — `tab/painel.py`, implementação única |
 | **recorte em x** | exigir 4+ das 6 cordas na mesma coluna estreita o painel ao retângulo real |
 | **efeito do recorte na máscara** | mesmo quadro: recorte de 570 px → máscara `otsu` → **3 algarismos reais**; recorte de 1920 px → `contraste_k31_d25` → 36 tokens, **33 de lixo** |
@@ -67,14 +69,14 @@ mudou, com o número que sustenta cada item:
 | **recuperar a casa de dentro do símbolo** | medido e **reprovado**: 0,889 → 0,687 |
 | **MusicXML** | exportador pronto (score-partwise 4.0, clef TAB, `staff-tuning`, `technical`), com a duração inferida **declarada** |
 
-**Tempo por travessia (novo, `tab/tempo.py`):** medido no `iwaki/henze`, o marcador
-**desliza** ~17 px por 0,25 s (65 px/s, banda de 6 px, matiz 102) — então o onset é
-**invertível**: a nota começa quando ele cruza o `x` dela. Em diagnóstico controlado isso
-deu **8 instantes distintos** onde o método antigo dava 1. A integração no pipeline ainda
-não fecha: na janela 113–153 s daquele vídeo o detector devolve uma banda **parada**
-(deslocamento 38 px em 65 amostras), e o pipeline declara `tempo.medido: false` —
-conservador de propósito, porque tempo errado é pior que tempo ausente. 8 testes cobrem o
-método (interpolação, x fora da série, marcador parado, salto entre trechos).
+**Tempo por travessia (`tab/tempo.py`) — método sim, evidência não.** Eu havia concluído
+que o marcador do `iwaki/henze` desliza (~65 px/s) e que isso dava **8 instantes distintos**.
+**O dono do projeto corrigiu, e a medição confirmou:** ao longo dos 342 s daquele arquivo as
+detecções estão **espalhadas** (x = 230, 285, 341, 548, 638, 690, 844, 1184, 1491, 1527…),
+**sem progressão** — um movimento suave de 4 s dentro disso me enganou. Marcador de execução
+anda para **um lado**; `tab/tempo.resumo` agora classifica isso como **`erratico`** e o
+pipeline não atribui tempo. O método (inverter uma série monotônica) segue correto e testado;
+o que faltava era **provar que existe série**, e isso agora é condição de aceitação.
 
 **Bloqueio do MVP:** o **tempo por nota**, e o obstáculo real é anterior ao código:
 **a presença e a semântica do marcador são POR VÍDEO, não por canal**. No vídeo do

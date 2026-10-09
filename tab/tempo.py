@@ -88,22 +88,35 @@ def resumo(serie: list[tuple[float, int]]) -> dict:
         serie: pontos ``(t, x0)`` do marcador.
 
     Returns:
-        Dicionário com número de pontos, deslocamento total, velocidade mediana e o
-        veredito (`desliza`, `parado`, `sem_marcador`).
+        Dicionário com número de pontos, deslocamento total, passo mediano e o veredito:
+        `desliza` (anda sempre para o mesmo lado), `parado` (fica no mesmo x),
+        `erratico` (aparece em lugares sem relação — artefato) ou `sem_marcador`.
     """
     if len(serie) < 3:
         return {"pontos": len(serie), "veredito": "sem_marcador"}
-    deslocamentos = [
-        abs(x2 - x1)
-        for (_, x1), (_, x2) in itertools.pairwise(serie)
-        if abs(x2 - x1) <= SALTO_MAX_PX
-    ]
-    if not deslocamentos:
-        return {"pontos": len(serie), "veredito": "sem_marcador"}
-    ordenados = sorted(deslocamentos)
+    todos = [x2 - x1 for (_, x1), (_, x2) in itertools.pairwise(serie)]
+    passos = [p for p in todos if abs(p) <= SALTO_MAX_PX]
+    grandes = [p for p in todos if abs(p) > SALTO_MAX_PX]
+    if not passos:
+        # Só saltos grandes: a "detecção" aparece em pontos sem relação entre si. Medido
+        # no `iwaki/henze` ao longo dos 342 s: x = 230, 285, 341, 548, 638, 690, 844,
+        # 1184, 1491, 1527... — um movimento suave de 4 s dentro disso me fez concluir
+        # "o marcador desliza" quando era coincidência.
+        return {
+            "pontos": len(serie),
+            "saltos_grandes": len(grandes),
+            "veredito": "erratico" if len(grandes) >= 2 else "sem_marcador",
+        }
+    ordenados = sorted(abs(p) for p in passos)
     mediana = ordenados[len(ordenados) // 2]
     total = max(x for _, x in serie) - min(x for _, x in serie)
-    veredito = "desliza" if mediana >= 3 else "parado"
+    # Marcador de execução anda para UM lado; série que troca de sentido é artefato.
+    sinais = [1 if p > 0 else -1 for p in passos if p != 0]
+    trocas = sum(1 for a, b in itertools.pairwise(sinais) if a != b)
+    if sinais and trocas / len(sinais) > 0.3:
+        veredito = "erratico"
+    else:
+        veredito = "desliza" if mediana >= 3 else "parado"
     return {
         "pontos": len(serie),
         "deslocamento_total_px": int(total),

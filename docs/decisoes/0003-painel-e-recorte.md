@@ -33,6 +33,13 @@ banda **parada** em x=0–99 por 5 s (borda do painel) e bandas em **x≈900–1
 painel, que tem 0–594. Não era cursor: era artefato, e aquele vídeo **não tem
 marcador**. Corrigir onde o detector olha era necessário e não é suficiente.
 
+**Confirmado pelo dono do projeto e por medição:** o canal `iwaki` **não tem marcador**
+(6 vídeos × 7 instantes = **0 detecções**); a partitura/tablatura simplesmente vai trocando.
+O único arquivo onde eu "vi" um cursor (`iwaki/henze …`) tem 14 detecções **espalhadas** ao
+longo de 342 s (x = 230, 285, 341, 548, 638, 690, 844, 1184, 1491, 1527…), **sem sentido
+único** — artefato. Regra nova, em `tab/tempo.resumo`: série que troca de direção é
+**`erratico`** e não gera tempo nenhum.
+
 ### Erro 3 (o mais profundo) — a máscara depende da largura do recorte
 
 Com o painel estreitado ao retângulo onde as linhas existem, mediu-se a segmentação em

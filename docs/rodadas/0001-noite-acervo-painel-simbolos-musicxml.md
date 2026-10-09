@@ -10,7 +10,10 @@ canais a mais). Varredura completa: **96,5 % com tablatura** (3.855/3.993), 69,5
 Por canal: 100 % em `iwaki`, `kimny's guitar`, `raman korshun`, `leonardo ramos`,
 `mr. tabs`, `robert lunn`, `serge kottelat`, `shin izumi`, `paolo d'angelo` e
 `tv on guitar`; 99 % em `guitar dell'arte` (347/361) e `violaodecria` (1.666/1.680);
-**79 % em `sky guitar` (348/440)** — o canal que o dono apontou como o melhor.
+`sky guitar` deu 348/440 (79 %) — **contagem de antes da limpeza dele**: o dono apagou os
+vídeos especiais **sem tutorial** e restaram **417, todos com tablatura**. Ou seja, aquele
+"79 %" mede **falso negativo do meu detector**, não ausência de tablatura, e é uma
+validação de graça.
 
 ## 2. Três erros de critério no painel (todos medidos com o quadro na mão)
 
@@ -51,24 +54,37 @@ declarada como tal; **nota que não é algarismo não vira nota** (`junk`/`harmo
 `tecnica` são contados como não exportados); e **tempo degenerado não vira ritmo** — com
 0–1 instante distinto para N notas o relatório diz `tempo_medido: false`.
 
-## 5. Tempo: a descoberta e o que falta
+## 5. Tempo: o método ficou, a evidência caiu
 
-No `iwaki/henze` o marcador **desliza**: banda de 6 px, matiz 102, ~17 px por 0,25 s
-(65 px/s), sem saltos. O onset é **invertível** — a nota começa quando ele cruza o `x`
-dela. Em diagnóstico controlado: **8 instantes distintos** onde o método antigo dava 1.
+Escrevi aqui que o marcador do arquivo `iwaki/henze ｜ nocturno - guitar lesson + tab.mp4`
+(composição de **C. Henze** — "henze" é o compositor, não o autor do vídeo, como o dono do
+projeto corrigiu) **deslizava** a ~65 px/s e que isso dava **8 instantes distintos**.
 
-E o mesmo diagnóstico **derrubou uma conclusão minha**: no `sky guitar` #4 as "janelas com
-cursor" eram **artefato** (banda parada em x=0–99 por 5 s na borda do painel, e bandas em
-x≈900–1084, fora do painel) — aquele vídeo **não tem marcador**. Lição: **presença e
-semântica do marcador são por vídeo, não por canal**, e varredura de 1 instante mede
-presença, não confiabilidade.
+**O dono corrigiu e a medição confirmou que ele está certo:**
+
+- o canal `iwaki` **não tem marcador** — amostra de 6 vídeos × 7 instantes: **0 detecções**;
+- naquele arquivo, ao longo dos 342 s, as 14 detecções estão **espalhadas** (x = 230, 285,
+  341, 548, 638, 690, 844, 1184, 1491, 1527…), **sem progressão nenhuma**. Um movimento
+  suave de 4 s dentro disso me enganou: a partitura está parada (diferença média de 1,14
+  nível de cinza entre t=116 e t=118) e o que anda é um elemento azul que **troca de lugar**,
+  não um playhead;
+- `tab/tempo.resumo` agora exige **sentido único**: série que troca de direção é classificada
+  como **`erratico`** e o pipeline **não** atribui tempo.
+
+O método (inverter uma série monotônica para achar o onset) segue correto e testado; o que
+faltava era **provar que existe série**, e isso passou a ser condição de aceitação.
+
+E a mesma classe de erro apareceu no `sky guitar` #4: as "janelas com cursor" eram
+**artefato** — aquele vídeo também não tem marcador. Lição: **presença e semântica do
+marcador são por vídeo, não por canal**.
 
 ## O que NÃO ficou pronto
 
-1. **onset por nota no pipeline**: o método está pronto e testado (`tab/tempo.py`, 8
-   testes), a integração é conservadora e naquele vídeo declara `tempo.medido: false`
-   porque o detector devolve uma banda **parada** na janela — o detector precisa
-   distinguir "banda que anda" de "elemento parado do vídeo";
+1. **onset por nota no pipeline**: o método está pronto e testado (`tab/tempo.py`, 10
+   testes) e agora recusa séries sem sentido único (`erratico`). Falta o passo anterior:
+   **saber quais vídeos têm marcador**, que nem a varredura de 1 instante nem o detector de
+   matiz respondem hoje — `iwaki` deu 0 em 6 vídeos e o único arquivo onde eu "vi" cursor
+   era artefato;
 2. **gabarito não foi ampliado** (casas 8–24, canais novos): o tempo da noite foi para o
    detector de painel, que era pré-requisito para gerar montagens confiáveis;
 3. **detecção do texto de afinação** não começou;

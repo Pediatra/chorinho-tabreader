@@ -64,3 +64,21 @@ def test_salto_grande_nao_e_interpolado() -> None:
     """Troca de trecho (salto de +200 px) não pode virar travessia contínua."""
     serie = [(0.0, 100), (0.25, 120), (0.50, 320), (0.75, 340)]
     assert tempo_de_x(serie, 220) is None
+
+
+def test_serie_erratica_nao_e_travessia() -> None:
+    """Detecções espalhadas não são marcador andando — é o caso do `iwaki/henze`.
+
+    Medido ao longo dos 342 s daquele vídeo: 14 detecções em x = 230, 285, 341, 548,
+    638, 690, 844, 1184, 1491, 1527..., sem progressão. Um movimento suave de 4 s
+    dentro disso me fez concluir "o marcador desliza" — era coincidência.
+    """
+    espalhada = [
+        (t * 1.0, x) for t, x in enumerate([690, 341, 638, 285, 1527, 548, 1184, 230])
+    ]
+    assert resumo(espalhada)["veredito"] == "erratico"
+
+
+def test_serie_monotonica_continua_deslizando() -> None:
+    """O caso bom não pode ser afetado pela checagem de sentido."""
+    assert resumo(_serie_deslizante())["veredito"] == "desliza"
