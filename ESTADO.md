@@ -2650,3 +2650,25 @@ quantas janelas o modelo julga** — mas várias candidatas próximas geram a **
 larga, ±1,2 passo, independente do tamanho do candidato). Então o caminho é **deduplicar por janela**
 (quantizar o centro) em vez de **descartar por forma**: julga cada janela **uma vez**, sem perder o arco.
 Medir: quantas janelas únicas sobram, quantas marcas ficam cobertas e o par recall/precisão.
+
+## 2026-10-09 — dedupe por janela: ligado, medido e INERTE na quantização fina
+
+| | baseline (1ª passada) | filtro de forma | **dedupe 0,5 passo (sem forma)** |
+| --- | --- | --- | --- |
+| aprovados | 149 | 178 | **1.397** |
+| batem | 27 | 35 | **74** |
+| precisão | 0,180 | **0,197** | 0,053 |
+| recall | 0,140 | 0,185 | **0,392** |
+| gabarito | 0,917/0,986/0,944 | idem | **idem ✓** |
+
+**O dedupe sozinho não substitui o filtro**: a 0,5 passo ele deixou **1.397 candidatos** contra 1.407
+sem filtro nenhum — **as janelas são distintas nessa escala**. O recall volta (0,392) mas a precisão cai
+para 0,053, abaixo do baseline.
+
+**Estado da árvore**: o **filtro de forma foi restaurado** (é o melhor ponto medido: 0,197/0,185) e o
+**dedupe ficou ligado** junto dele — inerte hoje, mas é a peça certa para quando a quantização for
+grossa.
+
+**Próxima medição**: quantização **grossa** no dedupe (0,8 / 1,2 / 1,6 passo — a janela tem 2,4 passos
+de largura, então janelas a menos de 1,2 passo de distância **se sobrepõem** e mostram o mesmo arco).
+Medir candidatos, marcas cobertas, precisão e recall, com o baseline 0,180/0,140 na mesa.

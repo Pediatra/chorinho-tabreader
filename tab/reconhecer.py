@@ -457,15 +457,28 @@ def reconhecer_linha(
     # e não entram na classificação de algarismo: é o que mantém o gabarito intacto (a passada de
     # cima, da máscara escolhida, continua sendo a única fonte de dígitos).
     if filtro_simbolo is not None and julgar_todos:
+        _vistas: set[tuple[int, int]] = set()
         for tk in _candidatos_do_simbolo(img, g):
-            # FORMA DE ARCO ANTES DO MODELO. Medido nas marcas do dono: o arco é LARGO E BAIXO
-            # (2,4x1,0 a 3,1x1,0 passos). O caminho do símbolo gera ~110 candidatos por quadro e
-            # muitos têm "forma de arco" sem ser o arco — pedaço de linha (alto e fino) e topo de
-            # dígito (estreito). Barrar aqui custa zero do gabarito: o caminho do algarismo é outro.
+            # DEDUPE POR JANELA em vez de DESCARTE POR FORMA. Medido: o filtro de forma (largura
+            # >= 1,5 passo) descartava **147** dos 163 candidatos que caem em cima de uma marca do
+            # dono — era ELE que criava os 170 buracos. E a premissa da "forma de arco" (2,4x1,0 a
+            # 3,1x1,0 passos) veio de medição com ±1 passo de tolerância em cada eixo, já derrubada:
+            # os candidatos em cima da marca são **fragmentos pequenos**, não arcos largos.
+            # A candidata não é descartada — a JANELA é deduplicada. A janela é larga (±1,2 passo)
+            # e independe do tamanho da candidata, então várias candidatas próximas geram a MESMA
+            # janela: julgar cada uma seria gastar o modelo repetindo a mesma pergunta.
+            # O DEDUPE SOZINHO É INERTE: a 0,5 passo ele deixou 1.397 candidatos contra 1.407 sem
+            # filtro nenhum (precisão 0,053, recall 0,392) — as janelas são distintas nessa escala.
+            # Para o dedupe valer, a quantização tem de ser grossa (a janela tem 2,4 passos de
+            # largura). Medir 0,8 / 1,2 / 1,6 passo é o próximo passo.
+            chave = (round(tk.x0 / (0.5 * g.passo)), round(tk.y0 / (0.5 * g.passo)))
             if (tk.x1 - tk.x0) < forma_simbolo[0] * g.passo or (
                 tk.y1 - tk.y0
             ) > forma_simbolo[1] * g.passo:
                 continue
+            if chave in _vistas:
+                continue
+            _vistas.add(chave)
             # A REGRA "ENTRE CORDAS" FOI MEDIDA E REPROVADA: exigir que a caixa não cruze uma linha
             # derrubou os DOIS lados — batem 35 -> 27, precisão 0,197 -> 0,175, recall 0,185 ->
             # 0,143. Motivo: **o arco encosta na corda**, então a caixa dele cruza a linha com
