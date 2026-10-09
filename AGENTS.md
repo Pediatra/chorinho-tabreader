@@ -114,12 +114,12 @@ Regras de arrumação:
    em cima/à esquerda para simétrica) e os **mesmos pesos** passaram a dar 0,844 onde davam
    0,865. Pré-processamento não é detalhe de implementação: é **entrada do modelo**, e mexer
    nele invalida comparação com o histórico.
-11. **Um instante não responde "tem tablatura?"** A tablatura aparece e desaparece, e no
+11. **Registre o que falhou** "tem tablatura?"** A tablatura aparece e desaparece, e no
    `sky guitar` ela só aparece da **metade para o fim** do vídeo: dos 20 vídeos que um scan de
    1 instante (em 0,35 da duração) chamou de "sem tablatura", **20 de 20 têm** em algum
    instante. Presença se mede **ao longo do tempo**, e a janela amostrada importa
    (`tab.varredura --frac-inicio/--frac-fim`).
-10. **Registre o que falhou** na tabela "não repetir" do `ESTADO.md`, para não gastar de novo.
+10. **Um instante não responde na tabela "não repetir" do `ESTADO.md`, para não gastar de novo.
 
 ## Decisão de dado: símbolo NÃO se descarta
 

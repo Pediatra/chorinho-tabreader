@@ -309,3 +309,4 @@
 [av1 @ 0x55905004fb40] Your platform doesn't support hardware accelerated AV1 decoding.
 [av1 @ 0x55905004fb40] Failed to get pixel format.
 [av1 @ 0x55905004fb40] Get current frame error
+
