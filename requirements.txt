@@ -1,0 +1,12 @@
+# Dependências do PyPI. O torch vem à parte, do índice CUDA, no Dockerfile
+# (ver Dockerfile) — misturar os dois índices no mesmo arquivo dá resolução
+# ambígua e já custou tempo.
+
+opencv-python-headless
+numpy
+pillow
+
+# ferramentas de gate (lint/teste) — o AGENTS.md proíbe commit sem elas
+ruff
+pytest
+pytest-cov

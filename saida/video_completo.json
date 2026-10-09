@@ -1,0 +1,611 @@
+{
+ "passo": 21.8,
+ "linhas_y": [
+  228,
+  250,
+  272,
+  294,
+  315,
+  337
+ ],
+ "barlines_x": [
+  45,
+  222,
+  291,
+  362,
+  433,
+  575,
+  651,
+  903,
+  1041,
+  1256,
+  1882,
+  1890
+ ],
+ "notas": [
+  {
+   "ordem": 1,
+   "corda": 1,
+   "casa": "2",
+   "tecnica": null,
+   "x": 114,
+   "confianca": 0.942,
+   "corrigido_pela_forma": false,
+   "compasso": 1
+  },
+  {
+   "ordem": 2,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 114,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false,
+   "compasso": 1
+  },
+  {
+   "ordem": 3,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 114,
+   "confianca": 0.948,
+   "corrigido_pela_forma": false,
+   "compasso": 1
+  },
+  {
+   "ordem": 4,
+   "corda": 4,
+   "casa": "0",
+   "tecnica": null,
+   "x": 114,
+   "confianca": 0.979,
+   "corrigido_pela_forma": false,
+   "compasso": 1
+  },
+  {
+   "ordem": 5,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 120,
+   "confianca": 0.58,
+   "corrigido_pela_forma": true,
+   "compasso": 1
+  },
+  {
+   "ordem": 6,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 120,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 1
+  },
+  {
+   "ordem": 7,
+   "corda": 1,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 444,
+   "confianca": 0.743,
+   "corrigido_pela_forma": false,
+   "compasso": 5
+  },
+  {
+   "ordem": 8,
+   "corda": 1,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 680,
+   "confianca": 0.714,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 9,
+   "corda": 2,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 680,
+   "confianca": 0.996,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 10,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 680,
+   "confianca": 0.994,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 11,
+   "corda": 4,
+   "casa": "1",
+   "tecnica": null,
+   "x": 693,
+   "confianca": 0.463,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 12,
+   "corda": 5,
+   "casa": "1",
+   "tecnica": null,
+   "x": 689,
+   "confianca": 0.321,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 13,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 693,
+   "confianca": 0.471,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 14,
+   "corda": 4,
+   "casa": "0",
+   "tecnica": null,
+   "x": 757,
+   "confianca": 0.987,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 15,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 762,
+   "confianca": 0.6,
+   "corrigido_pela_forma": true,
+   "compasso": 7
+  },
+  {
+   "ordem": 16,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 762,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 17,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 827,
+   "confianca": 0.997,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 18,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 833,
+   "confianca": 0.577,
+   "corrigido_pela_forma": true,
+   "compasso": 7
+  },
+  {
+   "ordem": 19,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 833,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 20,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 833,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 21,
+   "corda": 2,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 914,
+   "confianca": 0.534,
+   "corrigido_pela_forma": false,
+   "compasso": 8
+  },
+  {
+   "ordem": 22,
+   "corda": 4,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1105,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 9
+  },
+  {
+   "ordem": 23,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1111,
+   "confianca": 0.58,
+   "corrigido_pela_forma": true,
+   "compasso": 9
+  },
+  {
+   "ordem": 24,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1111,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 9
+  },
+  {
+   "ordem": 25,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1174,
+   "confianca": 0.992,
+   "corrigido_pela_forma": false,
+   "compasso": 9
+  },
+  {
+   "ordem": 26,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1179,
+   "confianca": 0.546,
+   "corrigido_pela_forma": false,
+   "compasso": 9
+  },
+  {
+   "ordem": 27,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1180,
+   "confianca": 0.965,
+   "corrigido_pela_forma": false,
+   "compasso": 9
+  },
+  {
+   "ordem": 28,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1180,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 9
+  },
+  {
+   "ordem": 29,
+   "corda": 5,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1285,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 30,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1290,
+   "confianca": 0.638,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 31,
+   "corda": 4,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1358,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 32,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1364,
+   "confianca": 0.471,
+   "corrigido_pela_forma": true,
+   "compasso": 10
+  },
+  {
+   "ordem": 33,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1364,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 34,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1432,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 35,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1438,
+   "confianca": 0.577,
+   "corrigido_pela_forma": true,
+   "compasso": 10
+  },
+  {
+   "ordem": 36,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1438,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 37,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1438,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 38,
+   "corda": 1,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1489,
+   "confianca": 0.534,
+   "corrigido_pela_forma": true,
+   "compasso": 10
+  },
+  {
+   "ordem": 39,
+   "corda": 1,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1505,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 40,
+   "corda": 2,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1490,
+   "confianca": 0.593,
+   "corrigido_pela_forma": true,
+   "compasso": 10
+  },
+  {
+   "ordem": 41,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1505,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 42,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1489,
+   "confianca": 0.606,
+   "corrigido_pela_forma": true,
+   "compasso": 10
+  },
+  {
+   "ordem": 43,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1504,
+   "confianca": 0.993,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 44,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1489,
+   "confianca": 0.611,
+   "corrigido_pela_forma": true,
+   "compasso": 10
+  },
+  {
+   "ordem": 45,
+   "corda": 4,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1504,
+   "confianca": 0.978,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 46,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1509,
+   "confianca": 0.452,
+   "corrigido_pela_forma": true,
+   "compasso": 10
+  },
+  {
+   "ordem": 47,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1509,
+   "confianca": 0.469,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 48,
+   "corda": 3,
+   "casa": "7",
+   "tecnica": null,
+   "x": 1577,
+   "confianca": 0.966,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 49,
+   "corda": 3,
+   "casa": "24",
+   "tecnica": null,
+   "x": 1628,
+   "confianca": 0.996,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 50,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1657,
+   "confianca": 0.544,
+   "corrigido_pela_forma": true,
+   "compasso": 10
+  },
+  {
+   "ordem": 51,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1657,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 52,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1657,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 53,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1670,
+   "confianca": 0.18,
+   "corrigido_pela_forma": true,
+   "compasso": 10
+  },
+  {
+   "ordem": 54,
+   "corda": 3,
+   "casa": "4",
+   "tecnica": null,
+   "x": 1796,
+   "confianca": 0.991,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 55,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1802,
+   "confianca": 0.926,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 56,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1802,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  },
+  {
+   "ordem": 57,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1802,
+   "confianca": 0.959,
+   "corrigido_pela_forma": false,
+   "compasso": 10
+  }
+ ],
+ "notas_por_compasso": {
+  "1": 6,
+  "5": 1,
+  "7": 13,
+  "8": 1,
+  "9": 7,
+  "10": 29
+ },
+ "video": "don’t stop me now - queen ｜ ソロギター [tab].mp4",
+ "painel": "base",
+ "quadro_em_s": 88.2,
+ "lido_via": "ffmpeg",
+ "janelas_com_cursor": [],
+ "segundos_com_cursor": 0
+}

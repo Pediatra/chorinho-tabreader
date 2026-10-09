@@ -1,0 +1,213 @@
+{
+ "passo": 30.0,
+ "linhas_y": [
+  16,
+  46,
+  76,
+  106,
+  136,
+  166
+ ],
+ "barlines_x": [
+  2,
+  519,
+  939,
+  1360,
+  1744
+ ],
+ "notas": [
+  {
+   "ordem": 1,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 160,
+   "confianca": 0.85,
+   "corrigido_pela_forma": false,
+   "compasso": 1,
+   "t_ini": 1.84,
+   "t_fim": 2.8
+  },
+  {
+   "ordem": 2,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 251,
+   "confianca": 0.946,
+   "corrigido_pela_forma": false,
+   "compasso": 1,
+   "t_ini": 2.9,
+   "t_fim": 3.8
+  },
+  {
+   "ordem": 3,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 341,
+   "confianca": 0.837,
+   "corrigido_pela_forma": false,
+   "compasso": 1,
+   "t_ini": 3.84,
+   "t_fim": 4.77
+  },
+  {
+   "ordem": 4,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 432,
+   "confianca": 0.873,
+   "corrigido_pela_forma": false,
+   "compasso": 1,
+   "t_ini": 4.8,
+   "t_fim": 5.81
+  },
+  {
+   "ordem": 5,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 560,
+   "confianca": 0.975,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 5.84,
+   "t_fim": 6.77
+  },
+  {
+   "ordem": 6,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 657,
+   "confianca": 0.977,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 6.81,
+   "t_fim": 7.81
+  },
+  {
+   "ordem": 7,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 753,
+   "confianca": 0.977,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 7.84,
+   "t_fim": 8.78
+  },
+  {
+   "ordem": 8,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 849,
+   "confianca": 0.979,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 8.81,
+   "t_fim": 9.81
+  },
+  {
+   "ordem": 9,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 978,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 9.84,
+   "t_fim": 10.78
+  },
+  {
+   "ordem": 10,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1074,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 10.81,
+   "t_fim": 11.81
+  },
+  {
+   "ordem": 11,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1171,
+   "confianca": 0.996,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 11.85,
+   "t_fim": 12.81
+  },
+  {
+   "ordem": 12,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1267,
+   "confianca": 0.996,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 12.85,
+   "t_fim": 13.85
+  },
+  {
+   "ordem": 13,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1401,
+   "confianca": 0.981,
+   "corrigido_pela_forma": false,
+   "compasso": 4,
+   "t_ini": 13.88,
+   "t_fim": 14.81
+  },
+  {
+   "ordem": 14,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1498,
+   "confianca": 0.988,
+   "corrigido_pela_forma": false,
+   "compasso": 4,
+   "t_ini": 14.85,
+   "t_fim": 15.82
+  },
+  {
+   "ordem": 15,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1593,
+   "confianca": 0.462,
+   "corrigido_pela_forma": true,
+   "compasso": 4,
+   "t_ini": 15.85,
+   "t_fim": 16.75
+  }
+ ],
+ "notas_por_compasso": {
+  "1": 4,
+  "2": 4,
+  "3": 4,
+  "4": 3
+ },
+ "andamento": {
+  "notas_por_minuto": 59.9,
+  "intervalo_mediano_s": 1.001,
+  "notas_por_compasso_medido": 3.75,
+  "bpm_se_1_nota_por_tempo": 59.9
+ },
+ "fonte": "-6rawhontyg_000120_000200"
+}

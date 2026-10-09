@@ -1,0 +1,295 @@
+{
+ "video": "a banda - chico buarque ｜ aula de violão completa.mp4",
+ "mecanismo": "cor (branco->laranja) — marcador CUMULATIVO",
+ "semantica": "t_ini = onset medido (quando o algarismo vira laranja); t_proxima = próximo onset. NAO ha duracao de nota neste marcador.",
+ "reinicios_de_frase_s": [],
+ "notas": [
+  {
+   "ordem": 1,
+   "corda": 2,
+   "x": 89,
+   "t_ini": 63.3,
+   "t_proxima": 65.1
+  },
+  {
+   "ordem": 2,
+   "corda": 3,
+   "x": 89,
+   "t_ini": 63.3,
+   "t_proxima": 65.1
+  },
+  {
+   "ordem": 3,
+   "corda": 4,
+   "x": 89,
+   "t_ini": 63.3,
+   "t_proxima": 65.1
+  },
+  {
+   "ordem": 4,
+   "corda": 6,
+   "x": 89,
+   "t_ini": 66.9,
+   "t_proxima": 67.8
+  },
+  {
+   "ordem": 5,
+   "corda": 2,
+   "x": 146,
+   "t_ini": 63.3,
+   "t_proxima": 65.1
+  },
+  {
+   "ordem": 6,
+   "corda": 3,
+   "x": 146,
+   "t_ini": 66.9,
+   "t_proxima": 67.8
+  },
+  {
+   "ordem": 7,
+   "corda": 4,
+   "x": 146,
+   "t_ini": 63.3,
+   "t_proxima": 65.1
+  },
+  {
+   "ordem": 8,
+   "corda": 5,
+   "x": 203,
+   "t_ini": 66.9,
+   "t_proxima": 67.8
+  },
+  {
+   "ordem": 9,
+   "corda": 2,
+   "x": 261,
+   "t_ini": 66.9,
+   "t_proxima": 67.8
+  },
+  {
+   "ordem": 10,
+   "corda": 3,
+   "x": 261,
+   "t_ini": 66.9,
+   "t_proxima": 67.8
+  },
+  {
+   "ordem": 11,
+   "corda": 4,
+   "x": 261,
+   "t_ini": 63.3,
+   "t_proxima": 65.1
+  },
+  {
+   "ordem": 12,
+   "corda": 6,
+   "x": 319,
+   "t_ini": 67.8,
+   "t_proxima": 68.7
+  },
+  {
+   "ordem": 13,
+   "corda": 2,
+   "x": 376,
+   "t_ini": 67.8,
+   "t_proxima": 68.7
+  },
+  {
+   "ordem": 14,
+   "corda": 3,
+   "x": 376,
+   "t_ini": 67.8,
+   "t_proxima": 68.7
+  },
+  {
+   "ordem": 15,
+   "corda": 4,
+   "x": 376,
+   "t_ini": 67.8,
+   "t_proxima": 68.7
+  },
+  {
+   "ordem": 16,
+   "corda": 5,
+   "x": 433,
+   "t_ini": 67.8,
+   "t_proxima": 68.7
+  },
+  {
+   "ordem": 17,
+   "corda": 2,
+   "x": 491,
+   "t_ini": 68.7,
+   "t_proxima": 69.6
+  },
+  {
+   "ordem": 18,
+   "corda": 3,
+   "x": 491,
+   "t_ini": 68.7,
+   "t_proxima": 69.6
+  },
+  {
+   "ordem": 19,
+   "corda": 4,
+   "x": 491,
+   "t_ini": 68.7,
+   "t_proxima": 69.6
+  },
+  {
+   "ordem": 20,
+   "corda": 1,
+   "x": 576,
+   "t_ini": 68.7,
+   "t_proxima": 69.6
+  },
+  {
+   "ordem": 21,
+   "corda": 2,
+   "x": 578,
+   "t_ini": 68.7,
+   "t_proxima": 69.6
+  },
+  {
+   "ordem": 22,
+   "corda": 2,
+   "x": 606,
+   "t_ini": 68.7,
+   "t_proxima": 69.6
+  },
+  {
+   "ordem": 23,
+   "corda": 3,
+   "x": 576,
+   "t_ini": 68.7,
+   "t_proxima": 69.6
+  },
+  {
+   "ordem": 24,
+   "corda": 5,
+   "x": 576,
+   "t_ini": 68.7,
+   "t_proxima": 69.6
+  },
+  {
+   "ordem": 25,
+   "corda": 1,
+   "x": 662,
+   "t_ini": 68.7,
+   "t_proxima": 69.6
+  },
+  {
+   "ordem": 26,
+   "corda": 2,
+   "x": 664,
+   "t_ini": 68.7,
+   "t_proxima": 69.6
+  },
+  {
+   "ordem": 27,
+   "corda": 2,
+   "x": 692,
+   "t_ini": 65.1,
+   "t_proxima": 66.9
+  },
+  {
+   "ordem": 28,
+   "corda": 3,
+   "x": 663,
+   "t_ini": 68.7,
+   "t_proxima": 69.6
+  },
+  {
+   "ordem": 29,
+   "corda": 6,
+   "x": 749,
+   "t_ini": 65.1,
+   "t_proxima": 66.9
+  },
+  {
+   "ordem": 30,
+   "corda": 1,
+   "x": 806,
+   "t_ini": 69.6,
+   "t_proxima": 74.1
+  },
+  {
+   "ordem": 31,
+   "corda": 2,
+   "x": 808,
+   "t_ini": 65.1,
+   "t_proxima": 66.9
+  },
+  {
+   "ordem": 32,
+   "corda": 2,
+   "x": 836,
+   "t_ini": 69.6,
+   "t_proxima": 74.1
+  },
+  {
+   "ordem": 33,
+   "corda": 3,
+   "x": 806,
+   "t_ini": 65.1,
+   "t_proxima": 66.9
+  },
+  {
+   "ordem": 34,
+   "corda": 6,
+   "x": 921,
+   "t_ini": 69.6,
+   "t_proxima": 74.1
+  },
+  {
+   "ordem": 35,
+   "corda": 2,
+   "x": 978,
+   "t_ini": 74.1,
+   "t_proxima": 78.7
+  },
+  {
+   "ordem": 36,
+   "corda": 3,
+   "x": 978,
+   "t_ini": 69.6,
+   "t_proxima": 74.1
+  },
+  {
+   "ordem": 37,
+   "corda": 4,
+   "x": 978,
+   "t_ini": 69.6,
+   "t_proxima": 74.1
+  },
+  {
+   "ordem": 38,
+   "corda": 5,
+   "x": 1036,
+   "t_ini": 74.1,
+   "t_proxima": 78.7
+  },
+  {
+   "ordem": 39,
+   "corda": 2,
+   "x": 1093,
+   "t_ini": 78.7,
+   "t_proxima": null
+  },
+  {
+   "ordem": 40,
+   "corda": 3,
+   "x": 1093,
+   "t_ini": 78.7,
+   "t_proxima": null
+  },
+  {
+   "ordem": 41,
+   "corda": 4,
+   "x": 1094,
+   "t_ini": 78.7,
+   "t_proxima": null
+  }
+ ]
+}

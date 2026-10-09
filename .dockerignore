@@ -1,0 +1,10 @@
+.venv
+.git
+.gitignore
+parts
+artefatos
+__pycache__
+*.pyc
+docs
+saida
+*.md

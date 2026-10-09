@@ -1,0 +1,76 @@
+{
+ "medido_em": "resumo por instantes distintos",
+ "observacao": "instantes distintos = patamares do cursor; se < notas, varios tokens compartilham o mesmo tempo",
+ "arquivos": [
+  {
+   "arquivo": "guitar_del_0.json",
+   "notas": 30,
+   "instantes_distintos": 1,
+   "notas_por_instante": 30.0,
+   "pct_notas_sem_tempo": 0.0,
+   "compassos": 1,
+   "andamento": {
+    "notas_por_minuto": null,
+    "intervalo_mediano_s": 0.0,
+    "notas_por_compasso_medido": 30.0,
+    "bpm_se_1_nota_por_tempo": null
+   }
+  },
+  {
+   "arquivo": "serge_kott_1.json",
+   "notas": 7,
+   "instantes_distintos": 1,
+   "notas_por_instante": 7.0,
+   "pct_notas_sem_tempo": 0.0,
+   "compassos": 3,
+   "andamento": {
+    "notas_por_minuto": null,
+    "intervalo_mediano_s": 0.0,
+    "notas_por_compasso_medido": 2.33,
+    "bpm_se_1_nota_por_tempo": null
+   }
+  },
+  {
+   "arquivo": "shin_izumi_2.json",
+   "notas": 145,
+   "instantes_distintos": 8,
+   "notas_por_instante": 18.12,
+   "pct_notas_sem_tempo": 0.0,
+   "compassos": 24,
+   "andamento": {
+    "notas_por_minuto": null,
+    "intervalo_mediano_s": 0.0,
+    "notas_por_compasso_medido": 6.04,
+    "bpm_se_1_nota_por_tempo": null
+   }
+  },
+  {
+   "arquivo": "sky_guitar_4.json",
+   "notas": 134,
+   "instantes_distintos": 3,
+   "notas_por_instante": 44.67,
+   "pct_notas_sem_tempo": 0.0,
+   "compassos": 1,
+   "andamento": {
+    "notas_por_minuto": null,
+    "intervalo_mediano_s": 0.0,
+    "notas_por_compasso_medido": 134.0,
+    "bpm_se_1_nota_por_tempo": null
+   }
+  },
+  {
+   "arquivo": "violaodecr_3.json",
+   "notas": 7,
+   "instantes_distintos": 1,
+   "notas_por_instante": 7.0,
+   "pct_notas_sem_tempo": 0.0,
+   "compassos": 2,
+   "andamento": {
+    "notas_por_minuto": null,
+    "intervalo_mediano_s": 0.0,
+    "notas_por_compasso_medido": 3.5,
+    "bpm_se_1_nota_por_tempo": null
+   }
+  }
+ ]
+}

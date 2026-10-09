@@ -1,0 +1,21 @@
+# ambiente
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# acervo de amostra e derivados pesados (B2: versiona-se o indice, nao o video)
+parts/
+
+# pesos treinados: vao para artefatos/, mas nao para o git
+artefatos/*
+!artefatos/.gitkeep
+*.pt
+*.pth
+*.safetensors
+
+# saida de depuracao
+/tmp/
+*.log

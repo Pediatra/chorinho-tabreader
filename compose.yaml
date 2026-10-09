@@ -1,0 +1,18 @@
+name: chorinho
+
+services:
+  chorinho:
+    build: .
+    image: chorinho:dev
+    working_dir: /app
+    # GPU via CDI. Se um dia o runtime `nvidia` for registrado no daemon,
+    # isto continua funcionando.
+    gpus: all
+    environment:
+      PYTHONPATH: /app
+    volumes:
+      - .:/app
+      # acervo: SOMENTE LEITURA. Nunca escreva lá.
+      - ${ACERVO:-/run/media/gabriel/3014CD4714CD1130/chorinho}:/acervo:ro
+    # mantém o container vivo para `docker compose exec`
+    command: sleep infinity

@@ -1,0 +1,114 @@
+{
+ "passo": 27.8,
+ "linhas_y": [
+  42,
+  67,
+  93,
+  117,
+  155,
+  181
+ ],
+ "barlines_x": [
+  168,
+  980,
+  1024,
+  1752
+ ],
+ "notas": [
+  {
+   "ordem": 1,
+   "corda": 2,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 913,
+   "confianca": 0.485,
+   "corrigido_pela_forma": false,
+   "compasso": 1,
+   "t_ini": 2.13,
+   "t_fim": 2.2
+  },
+  {
+   "ordem": 2,
+   "corda": 3,
+   "casa": "5",
+   "tecnica": null,
+   "x": 912,
+   "confianca": 0.414,
+   "corrigido_pela_forma": true,
+   "compasso": 1,
+   "t_ini": 2.13,
+   "t_fim": 2.2
+  },
+  {
+   "ordem": 3,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 945,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false,
+   "compasso": 1,
+   "t_ini": 2.13,
+   "t_fim": 2.2
+  },
+  {
+   "ordem": 4,
+   "corda": 6,
+   "casa": "1",
+   "tecnica": null,
+   "x": 939,
+   "confianca": 0.898,
+   "corrigido_pela_forma": true,
+   "compasso": 1,
+   "t_ini": 2.13,
+   "t_fim": 2.2
+  },
+  {
+   "ordem": 5,
+   "corda": 1,
+   "casa": "5",
+   "tecnica": null,
+   "x": 987,
+   "confianca": 0.942,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 2.13,
+   "t_fim": 2.2
+  },
+  {
+   "ordem": 6,
+   "corda": 6,
+   "casa": "7",
+   "tecnica": null,
+   "x": 995,
+   "confianca": 0.415,
+   "corrigido_pela_forma": true,
+   "compasso": 2,
+   "t_ini": 2.13,
+   "t_fim": 2.2
+  },
+  {
+   "ordem": 7,
+   "corda": 1,
+   "casa": "7",
+   "tecnica": null,
+   "x": 1029,
+   "confianca": 0.276,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 2.13,
+   "t_fim": 2.2
+  }
+ ],
+ "notas_por_compasso": {
+  "1": 4,
+  "2": 2,
+  "3": 1
+ },
+ "andamento": {
+  "notas_por_minuto": null,
+  "intervalo_mediano_s": 0.0,
+  "notas_por_compasso_medido": 2.33,
+  "bpm_se_1_nota_por_tempo": null
+ }
+}

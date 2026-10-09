@@ -1,0 +1,412 @@
+{
+ "passo": 22.0,
+ "linhas_y": [
+  213,
+  234,
+  257,
+  279,
+  301,
+  323
+ ],
+ "barlines_x": [
+  25,
+  177,
+  329,
+  853,
+  1138,
+  1478,
+  1613,
+  1893
+ ],
+ "notas": [
+  {
+   "ordem": 1,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 93,
+   "confianca": 0.992,
+   "corrigido_pela_forma": false,
+   "compasso": 1
+  },
+  {
+   "ordem": 2,
+   "corda": 3,
+   "casa": "7",
+   "tecnica": null,
+   "x": 243,
+   "confianca": 0.958,
+   "corrigido_pela_forma": false,
+   "compasso": 2
+  },
+  {
+   "ordem": 3,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 395,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 3
+  },
+  {
+   "ordem": 4,
+   "corda": 5,
+   "casa": "0",
+   "tecnica": null,
+   "x": 503,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 3
+  },
+  {
+   "ordem": 5,
+   "corda": 6,
+   "casa": "1",
+   "tecnica": null,
+   "x": 509,
+   "confianca": 0.701,
+   "corrigido_pela_forma": false,
+   "compasso": 3
+  },
+  {
+   "ordem": 6,
+   "corda": 5,
+   "casa": "2",
+   "tecnica": null,
+   "x": 565,
+   "confianca": 0.948,
+   "corrigido_pela_forma": false,
+   "compasso": 3
+  },
+  {
+   "ordem": 7,
+   "corda": 6,
+   "casa": "1",
+   "tecnica": null,
+   "x": 570,
+   "confianca": 0.701,
+   "corrigido_pela_forma": false,
+   "compasso": 3
+  },
+  {
+   "ordem": 8,
+   "corda": 5,
+   "casa": "0",
+   "tecnica": null,
+   "x": 627,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false,
+   "compasso": 3
+  },
+  {
+   "ordem": 9,
+   "corda": 6,
+   "casa": "1",
+   "tecnica": null,
+   "x": 632,
+   "confianca": 0.395,
+   "corrigido_pela_forma": false,
+   "compasso": 3
+  },
+  {
+   "ordem": 10,
+   "corda": 6,
+   "casa": "3",
+   "tecnica": null,
+   "x": 688,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false,
+   "compasso": 3
+  },
+  {
+   "ordem": 11,
+   "corda": 6,
+   "casa": "2",
+   "tecnica": null,
+   "x": 763,
+   "confianca": 0.952,
+   "corrigido_pela_forma": false,
+   "compasso": 3
+  },
+  {
+   "ordem": 12,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 881,
+   "confianca": 0.997,
+   "corrigido_pela_forma": false,
+   "compasso": 4
+  },
+  {
+   "ordem": 13,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 944,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 4
+  },
+  {
+   "ordem": 14,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 944,
+   "confianca": 0.997,
+   "corrigido_pela_forma": false,
+   "compasso": 4
+  },
+  {
+   "ordem": 15,
+   "corda": 4,
+   "casa": "4",
+   "tecnica": null,
+   "x": 943,
+   "confianca": 0.997,
+   "corrigido_pela_forma": false,
+   "compasso": 4
+  },
+  {
+   "ordem": 16,
+   "corda": 5,
+   "casa": "1",
+   "tecnica": null,
+   "x": 949,
+   "confianca": 0.701,
+   "corrigido_pela_forma": false,
+   "compasso": 4
+  },
+  {
+   "ordem": 17,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 950,
+   "confianca": 0.469,
+   "corrigido_pela_forma": false,
+   "compasso": 4
+  },
+  {
+   "ordem": 18,
+   "corda": 3,
+   "casa": "7",
+   "tecnica": null,
+   "x": 1004,
+   "confianca": 0.96,
+   "corrigido_pela_forma": false,
+   "compasso": 4
+  },
+  {
+   "ordem": 19,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1068,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 4
+  },
+  {
+   "ordem": 20,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1217,
+   "confianca": 0.987,
+   "corrigido_pela_forma": false,
+   "compasso": 5
+  },
+  {
+   "ordem": 21,
+   "corda": 6,
+   "casa": "3",
+   "tecnica": null,
+   "x": 1279,
+   "confianca": 1.0,
+   "corrigido_pela_forma": false,
+   "compasso": 5
+  },
+  {
+   "ordem": 22,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1298,
+   "confianca": 0.968,
+   "corrigido_pela_forma": false,
+   "compasso": 5
+  },
+  {
+   "ordem": 23,
+   "corda": 5,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1340,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "compasso": 5
+  },
+  {
+   "ordem": 24,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1346,
+   "confianca": 0.377,
+   "corrigido_pela_forma": false,
+   "compasso": 5
+  },
+  {
+   "ordem": 25,
+   "corda": 5,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1402,
+   "confianca": 0.958,
+   "corrigido_pela_forma": false,
+   "compasso": 5
+  },
+  {
+   "ordem": 26,
+   "corda": 6,
+   "casa": "21",
+   "tecnica": null,
+   "x": 1387,
+   "confianca": 0.314,
+   "corrigido_pela_forma": false,
+   "compasso": 5
+  },
+  {
+   "ordem": 27,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1489,
+   "confianca": 0.933,
+   "corrigido_pela_forma": false,
+   "compasso": 6
+  },
+  {
+   "ordem": 28,
+   "corda": 3,
+   "casa": "8",
+   "tecnica": null,
+   "x": 1489,
+   "confianca": 0.984,
+   "corrigido_pela_forma": false,
+   "compasso": 6
+  },
+  {
+   "ordem": 29,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1488,
+   "confianca": 0.476,
+   "corrigido_pela_forma": false,
+   "compasso": 6
+  },
+  {
+   "ordem": 30,
+   "corda": 5,
+   "casa": "7",
+   "tecnica": null,
+   "x": 1496,
+   "confianca": 0.25,
+   "corrigido_pela_forma": true,
+   "compasso": 6
+  },
+  {
+   "ordem": 31,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1542,
+   "confianca": 0.99,
+   "corrigido_pela_forma": false,
+   "compasso": 6
+  },
+  {
+   "ordem": 32,
+   "corda": 3,
+   "casa": "7",
+   "tecnica": null,
+   "x": 1666,
+   "confianca": 0.965,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 33,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1729,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 34,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1729,
+   "confianca": 0.997,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 35,
+   "corda": 4,
+   "casa": "4",
+   "tecnica": null,
+   "x": 1728,
+   "confianca": 0.994,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 36,
+   "corda": 5,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1733,
+   "confianca": 0.718,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 37,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1733,
+   "confianca": 0.872,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  },
+  {
+   "ordem": 38,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1791,
+   "confianca": 0.944,
+   "corrigido_pela_forma": false,
+   "compasso": 7
+  }
+ ],
+ "notas_por_compasso": {
+  "1": 1,
+  "2": 1,
+  "3": 9,
+  "4": 8,
+  "5": 7,
+  "6": 5,
+  "7": 7
+ }
+}
