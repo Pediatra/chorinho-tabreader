@@ -2226,3 +2226,25 @@ contraste** deixando a faixa do sistema conectada.
 **Próxima medição**: na máscara **do pipeline** (não na minha) e **já com as faixas apagadas**, medir a
 largura do componente da marca — e, se continuar gigante, olhar **a imagem** dessa máscara naquele
 ponto (regra 4), para ver o que está ligando tudo.
+
+## 2026-10-09 — A CAUSA RAIZ, vista na máscara: o arco NÃO ESTÁ na máscara que o pipeline escolhe
+
+Renderizei a máscara do pipeline na posição das marcas do `C07` (máscara escolhida: **`otsu`**) e
+**olhei**:
+
+- **os pontos das marcas estão em PRETO — não há tinta ali.** Os arcos são **finos demais para o
+  Otsu**: eles **não existem** na máscara que o pipeline usa;
+- o que **está** na máscara são **barras verticais brancas** (uma linha pontilhada, visível nos quatro
+  recortes) — e o único componente encontrado foi **uma dessas barras** (4 × 16 px = 0,2 × 0,8 passos);
+- essas barras são exatamente **as "barras que não significam nada"** que o dono mandou desconsiderar —
+  e a regra `haste_fina` as recusa **corretamente**.
+
+**A causa raiz, então, não é o delimitador nem o classificador: é a SELEÇÃO DA MÁSCARA.** O
+`segmentar` percorre `mascaras_candidatas` e fica com a **primeira** que passa no teste de estrutura —
+e a `otsu` passa, **perdendo os arcos finos**. As máscaras de contraste (`contraste_k21_d12`,
+`contraste_k31_d25`) aparecem nos `avisos` de outras imagens: elas pegam traço fino, mas não foram as
+escolhidas neste painel.
+
+**Próximo passo, medível**: extrair os glifos da **UNIÃO** das máscaras (ou da mais sensível), mantendo
+a grade (`linhas_y`, `passo`) vinda da escolhida — e medir: (a) quantas marcas passam a ter componente;
+(b) o gabarito de algarismo (não pode cair, como caiu nas duas tentativas anteriores).
