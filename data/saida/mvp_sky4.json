@@ -1,0 +1,84 @@
+{
+ "passo": 29.4,
+ "linhas_y": [
+  9,
+  38,
+  68,
+  97,
+  127,
+  156
+ ],
+ "barlines_x": [
+  17,
+  29,
+  563,
+  578
+ ],
+ "notas": [
+  {
+   "ordem": 1,
+   "corda": 5,
+   "casa": "0",
+   "tecnica": null,
+   "x": 141,
+   "confianca": 0.996,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 5.0,
+   "t_fim": 9.98
+  },
+  {
+   "ordem": 2,
+   "corda": 5,
+   "casa": "2",
+   "tecnica": null,
+   "x": 284,
+   "confianca": 0.931,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 5.0,
+   "t_fim": 9.98
+  },
+  {
+   "ordem": 3,
+   "corda": 5,
+   "casa": "3",
+   "tecnica": null,
+   "x": 425,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 5.0,
+   "t_fim": 9.98
+  }
+ ],
+ "notas_por_compasso": {
+  "2": 3
+ },
+ "andamento": {
+  "notas_por_minuto": null,
+  "intervalo_mediano_s": 0.0,
+  "notas_por_compasso_medido": 3.0,
+  "bpm_se_1_nota_por_tempo": null
+ },
+ "tempo": {
+  "medido": true,
+  "mecanismo": "faixa vertical (cursor)",
+  "onset": "inicio do patamar do cursor"
+ },
+ "video": "#4 (beginner) free pdf.mp4",
+ "painel": "meio",
+ "quadro_em_s": 87.9,
+ "lido_via": "cv2",
+ "janelas_com_cursor": [
+  [
+   0.5,
+   4.0
+  ],
+  [
+   5.0,
+   10.0
+  ]
+ ],
+ "segundos_com_cursor": 8.5
+}

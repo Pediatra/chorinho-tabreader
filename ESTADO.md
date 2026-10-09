@@ -49,6 +49,29 @@ desta rodada não é o número: é ele **agora ser reprodutível**. Quatro corre
 Números medidos antes de 2026-10-08 têm **ruído de até ~0,05 embutido**: ganhos históricos
 de +0,038 e +0,046 estão dentro desse ruído e não deveriam ter sido tratados como ganho.
 
+## Noite de 2026-10-08/09
+
+O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
+mudou, com o número que sustenta cada item:
+
+| o que | resultado medido |
+| --- | --- |
+| **varredura do acervo novo** | **96,5 % com tablatura** (3.855/3.993), em 69,5 min |
+| **cursor no quadro inteiro** | 69 de 3.993 — o portão exige faixa de ≥50 % da **imagem** (540 px) e o cursor tem a altura do painel (~150 px) |
+| **cursor no ROI da faixa** | o mesmo vídeo passa a dar `[[0.5, 4.0], [5.0, 10.0]]` |
+| **escolha do painel** | o critério antigo (glifos centrados) escolhia o **braço do violão**; com uniformidade do fundo (0,888 × 0,842) escolhe a tablatura — `tab/painel.py`, implementação única |
+| **recorte em x** | exigir 4+ das 6 cordas na mesma coluna estreita o painel ao retângulo real |
+| **efeito do recorte na máscara** | mesmo quadro: recorte de 570 px → máscara `otsu` → **3 algarismos reais**; recorte de 1920 px → `contraste_k31_d25` → 36 tokens, **33 de lixo** |
+| **ponta a ponta (`sky guitar`)** | **3 notas, corda 5, casas 0 / 2 / 3**, confiança 0,996 / 0,931 / 0,999 — exatamente o que está no quadro |
+| **símbolo cru** | implementado: PNG deduplicado por hash, caixas dos componentes, larguras em passo, top-3 de classes |
+| **recuperar a casa de dentro do símbolo** | medido e **reprovado**: 0,889 → 0,687 |
+| **MusicXML** | exportador pronto (score-partwise 4.0, clef TAB, `staff-tuning`, `technical`), com a duração inferida **declarada** |
+
+**Bloqueio do MVP:** a **resolução do onset por nota**. O cursor é encontrado e as
+janelas existem, mas notas diferentes recebem o mesmo instante (3 instantes para 36
+notas; 1 para 3). O MusicXML sai com duração constante **declarada** — honesto, mas não
+é a transcrição com tempo. É o próximo alvo.
+
 ## O que o JSON entrega
 
 | anexo | estado |

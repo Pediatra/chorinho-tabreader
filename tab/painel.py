@@ -121,6 +121,151 @@ def candidatos(frame: np.ndarray, min_glifos: int = MIN_GLIFOS) -> list[Candidat
     return achados
 
 
+def extensao_das_linhas(
+    roi: np.ndarray, linhas_y: list[int], espessura: int = 2, minimo: int = 4
+) -> tuple[int, int]:
+    """Onde as linhas de corda existem TODAS juntas, em x.
+
+    O painel é um **retângulo**, não uma tira de largura total. Medido no `sky guitar`
+    (t=88 s): a tablatura ocupa x≈20–520 e o resto da faixa `meio` é vídeo do braço —
+    os trastes e cordas entravam como "glifos" e o painel rendia 36 tokens, 19 deles
+    lixo, com os algarismos em confiança média 0,466.
+
+    Duas tentativas antes desta, as duas medidas e descartadas:
+
+    1. exigir tinta em QUALQUER linha: o braço também tem tinta nas mesmas alturas (as
+       cordas dele têm espaçamento parecido), e o recorte parou em 882 px onde a
+       tablatura tem ~520;
+    2. usar a uniformidade do fundo por coluna: o trecho mais liso do quadro é a
+       **margem vazia** ao lado da tablatura, e o recorte ia para 240 px de papel em
+       branco.
+
+    O que separa é exigir que **quase todas** as cordas estejam presentes na mesma
+    coluna — na tablatura as 6 linhas são contínuas, no braço não.
+
+    Args:
+        roi: recorte da faixa.
+        linhas_y: y das linhas detectadas (relativas ao recorte).
+        espessura: meia-espessura, em px, da faixa de linha considerada.
+        minimo: quantas das linhas precisam estar presentes na coluna.
+
+    Returns:
+        ``(x0, x1)`` do maior trecho contíguo válido.
+    """
+    cinza = roi if roi.ndim == 2 else cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+    _, tinta = cv2.threshold(cinza, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    if tinta.mean() > 127:  # fundo claro: a linha é escura
+        tinta = 255 - tinta
+    contagem = np.zeros(roi.shape[1], dtype=np.int16)
+    for ly in linhas_y:
+        a, b = max(0, ly - espessura), min(tinta.shape[0], ly + espessura + 1)
+        if b > a:
+            contagem += (tinta[a:b, :] > 127).any(axis=0).astype(np.int16)
+    ativo = contagem >= minimo
+    if not ativo.any():
+        return 0, roi.shape[1]
+    # maior trecho contíguo, tolerando buracos de até 2% da largura
+    tolerancia = max(4, int(0.02 * roi.shape[1]))
+    melhor = (0, 0)
+    inicio = None
+    buraco = 0
+    for x, a in enumerate(ativo):
+        if a:
+            if inicio is None:
+                inicio = x
+            buraco = 0
+        elif inicio is not None:
+            buraco += 1
+            if buraco > tolerancia:
+                if x - buraco - inicio > melhor[1] - melhor[0]:
+                    melhor = (inicio, x - buraco)
+                inicio = None
+    if inicio is not None and len(ativo) - inicio > melhor[1] - melhor[0]:
+        melhor = (inicio, len(ativo))
+    return int(melhor[0]), int(melhor[1])
+
+
+def extensao_por_fundo(
+    roi: np.ndarray, largura_faixa: int = 40, delta: float = 0.05
+) -> tuple[int, int]:
+    """Maior trecho contíguo em x onde o fundo é tão liso quanto o mais liso.
+
+    É o discriminador que funciona, e a razão é medida: o braço do violão tem 6 cordas
+    com espaçamento parecido com o da tablatura, então alinhar por LINHA não separa os
+    dois (o recorte por linha parou em 882 px onde a tablatura tem ~520). O que separa
+    é o fundo: papel liso e contínuo contra vídeo de madeira, mão e sombra.
+
+    Args:
+        roi: recorte da faixa.
+        largura_faixa: largura das colunas de medição, em px.
+        delta: quanto o fundo pode ser menos liso que o mais liso para ainda valer.
+
+    Returns:
+        ``(x0, x1)`` do trecho; o recorte inteiro se nada for mais liso.
+    """
+    largura = roi.shape[1]
+    if largura < 3 * largura_faixa:
+        return 0, largura
+    quantas = largura // largura_faixa
+    medidas = [
+        uniformidade(roi[:, i * largura_faixa : (i + 1) * largura_faixa])
+        for i in range(quantas)
+    ]
+    if not medidas:
+        return 0, largura
+    corte = max(medidas) - delta
+    bom = [u >= corte for u in medidas]
+    if not any(bom):
+        return 0, largura
+    melhor = (0, 0)
+    inicio = None
+    buraco = 0
+    for i, ok in enumerate(bom):
+        if ok:
+            if inicio is None:
+                inicio = i
+            buraco = 0
+        elif inicio is not None:
+            buraco += 1
+            if buraco > 2:  # tolera duas colunas ruins no meio do painel
+                if i - buraco - inicio > melhor[1] - melhor[0]:
+                    melhor = (inicio, i - buraco)
+                inicio = None
+    if inicio is not None and quantas - inicio > melhor[1] - melhor[0]:
+        melhor = (inicio, quantas)
+    return int(melhor[0] * largura_faixa), int(min(largura, melhor[1] * largura_faixa))
+
+
+def refinar(c: Candidato, margem: int = 12) -> Candidato:
+    """Estreita o candidato ao retângulo onde as 6 linhas coexistem e re-segmenta.
+
+    Args:
+        c: candidato já escolhido.
+        margem: pixels de folga de cada lado.
+
+    Returns:
+        Um candidato novo, recortado em x; o próprio ``c`` se o recorte não mudar
+        nada ou se o recorte piorar a leitura.
+    """
+    x0, x1 = extensao_das_linhas(c.roi, c.grade.linhas_y)
+    x0 = max(0, x0 - margem)
+    x1 = min(c.roi.shape[1], x1 + margem)
+    if x1 - x0 < 0.25 * c.roi.shape[1] or x1 - x0 == c.roi.shape[1]:
+        return c
+    recorte = c.roi[:, x0:x1]
+    try:
+        grade = segmentar(recorte)
+    except Exception:
+        return c
+    # Piso 1, não 5: medido neste quadro, o painel de verdade tem TRÊS algarismos
+    # (o `0 2 3` da 5ª corda) e um piso alto descartava a leitura correta para
+    # ficar com 36 tokens, 33 deles lixo do vídeo ao lado. Painel pequeno é painel.
+    novo = criar(c.nome, c.y0, c.y1, recorte, grade, min_glifos=1)
+    if novo is None:
+        return c
+    return novo
+
+
 def melhor(achados: list[Candidato]) -> Candidato | None:
     """O melhor candidato da lista (uniformidade primeiro, centrados depois).
 
@@ -134,7 +279,12 @@ def melhor(achados: list[Candidato]) -> Candidato | None:
 
 
 def criar(
-    nome: str, y0: int, y1: int, roi: np.ndarray, grade: Grade
+    nome: str,
+    y0: int,
+    y1: int,
+    roi: np.ndarray,
+    grade: Grade,
+    min_glifos: int = MIN_GLIFOS,
 ) -> Candidato | None:
     """Monta um candidato a partir de uma grade JÁ segmentada.
 
@@ -151,7 +301,7 @@ def criar(
     Returns:
         O candidato, ou None se a faixa não tem 6 cordas nem glifos suficientes.
     """
-    if len(grade.linhas_y) != 6 or len(grade.glifos) < MIN_GLIFOS:
+    if len(grade.linhas_y) != 6 or len(grade.glifos) < min_glifos:
         return None
     u = uniformidade(roi)
     return Candidato(
@@ -179,4 +329,5 @@ def escolher(frame: np.ndarray, min_glifos: int = MIN_GLIFOS) -> Candidato | Non
         O melhor candidato, ou None.
     """
     achados = candidatos(frame, min_glifos)
-    return melhor(achados)
+    esc = melhor(achados)
+    return refinar(esc) if esc is not None else None

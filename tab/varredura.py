@@ -35,7 +35,7 @@ import numpy as np
 
 from .caminhos import SAIDA
 from .cursor import detectar_cursor
-from .painel import FAIXAS, Candidato, criar, melhor, uniformidade
+from .painel import FAIXAS, Candidato, criar, melhor, refinar, uniformidade
 from .tabseg import segmentar
 
 # O OpenCV grita a cada vídeo AV1 (44% do acervo) e isso poluiria horas de log.
@@ -241,6 +241,10 @@ def medir_quadro(frame: np.ndarray) -> dict:
             candidatos.append(c)
 
     escolhido = melhor(candidatos)
+    if escolhido is not None:
+        # O painel é um retângulo: estreita ao trecho onde as linhas existem,
+        # senão o braço do violão entra como glifo (medido: 19 de 36 tokens).
+        escolhido = refinar(escolhido)
     out: dict = {"tab": False, "faixas": faixas}
     if escolhido is not None:
         g = escolhido.grade
