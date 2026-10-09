@@ -132,6 +132,25 @@ Sinal de que o julgamento precisa de conserto: o `(aguado) etude in am` saiu **`
 numa execução e o próprio subagente o havia medido como **`salta`** com escada de patamares
 (1226→1322→1452→1585→1717→184→326) em outra. Limiar instável entre execuções é defeito.
 
+## 2026-10-09 — o inventário de símbolos: encanamento certo, coleta poluída
+
+As 17 montagens por canal (`data/saida/simbolos/montagem_<canal>.png`) estão legíveis. Li a
+do `mr. tabs` (o canal que o subagente apontou como o único limpo — tablatura pura rolando)
+e o vocabulário aparece: **algarismo entre parênteses** `(3) (2) (1) (0)` = nota presa,
+**arcos** = ligado, **traço diagonal grosso** = slide, e marca em `x` sobre a nota.
+
+Dois defeitos medidos na própria montagem:
+
+1. **76 % é lixo**: o cabeçalho diz `junk 245` de 321 símbolos. Antes de alguém dar
+   significado às imagens, a montagem precisa de filtro de lixo;
+2. há **algarismos comuns** (`5`, `4`, `6`, `0`, `2`) classificados como
+   `harmonico`/`tecnica` — erro do classificador, não símbolo.
+
+E a descoberta estrutural do subagente segue valendo: **dedup por hash não forma
+vocabulário** (3.223 ocorrências → 3.221 hashes distintos, porque escala e anti-aliasing
+mudam o PNG a cada ocorrência). Contar hash não agrupa nada; o caminho é agrupar por
+**forma** (`tab/glyphset.py`), como já é feito com os glifos.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
