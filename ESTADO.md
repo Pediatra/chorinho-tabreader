@@ -632,6 +632,31 @@ anteriores deram zero ou negativo, e as duas desta semana (classificador de lixo
 cruz) foram reprovadas. A diferença aqui: o alvo é **estreito** (haste, não cruz), foi
 **medido antes**, e a precisão é **zero colateral** em vez de "melhora a média".
 
+## 2026-10-09 — o delimitador medido no acervo: 1.119 recusas em 33 quadros
+
+Efeito real das três travas, medido nos MESMOS quadros da coleta (33 quadros com tablatura,
+1.482 tokens mantidos):
+
+| motivo | tokens recusados | % das recusas |
+| --- | --- | --- |
+| **`fora_da_extensao`** (fora da tablatura, em x) | **885** | **79 %** |
+| `largo_demais` (tira de linha, texto corrido) | 161 | 14 % |
+| **`haste_fina`** (regra desta semana) | **73** | 7 % |
+| **total** | **1.119** | |
+
+**A trava que mais trabalha é a horizontal** (79 % das recusas) — a que eu quase não implementei
+por não ter medido antes qual seria o efeito. A haste fina rende 73 tokens (2,8 % do que
+entraria), coerente com a previsão por rótulo (4 de 12 peças de linha).
+
+Coleta com a haste: **2.273 símbolos / 4.766 tokens (47,7 %)**. O total SUBIU em relação à
+anterior (2.213 / 4.701) e isso **não** é efeito da regra — é **deriva de amostra** (o acervo
+cresce e o sorteio de 3 vídeos por canal pega outros arquivos). O efeito da regra está nas 73
+recusas acima, não no total.
+
+**Furo registrado, e não escondido**: o `inventario.json` **não agrega** as recusas por motivo —
+elas existem no `Grade.recusados` e nos avisos do `segmentar`, mas não chegam ao artefato final.
+"nada some em silêncio" ainda não vale no inventário; é dívida declarada.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
