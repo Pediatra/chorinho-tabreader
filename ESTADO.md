@@ -139,12 +139,15 @@ do `mr. tabs` (o canal que o subagente apontou como o único limpo — tablatura
 e o vocabulário aparece: **algarismo entre parênteses** `(3) (2) (1) (0)` = nota presa,
 **arcos** = ligado, **traço diagonal grosso** = slide, e marca em `x` sobre a nota.
 
-Dois defeitos medidos na própria montagem:
+**CORREÇÃO de uma afirmação minha**: eu disse que "a montagem precisa de filtro de lixo",
+e isso está errado. O `montar_montagem` **já** ordena não-`junk` primeiro
+(`_ordem_de_leitura`) e **corta em `max_itens`** — o cabeçalho da folha diz
+`mostrando 48 de 321 hashes`. Os `junk 245` são do **canal**, não do que se vê. O que eu li
+já era o melhor conjunto.
 
-1. **76 % é lixo**: o cabeçalho diz `junk 245` de 321 símbolos. Antes de alguém dar
-   significado às imagens, a montagem precisa de filtro de lixo;
-2. há **algarismos comuns** (`5`, `4`, `6`, `0`, `2`) classificados como
-   `harmonico`/`tecnica` — erro do classificador, não símbolo.
+O defeito que **sobra** é menor e é outro: entre os 48 melhores há **algarismos comuns**
+(`5`, `4`, `6`, `0`, `2`) classificados como `harmonico`/`tecnica` — erro do classificador,
+não símbolo. Filtrar isso é melhorar o classificador, não a montagem.
 
 E a descoberta estrutural do subagente segue valendo: **dedup por hash não forma
 vocabulário** (3.223 ocorrências → 3.221 hashes distintos, porque escala e anti-aliasing
