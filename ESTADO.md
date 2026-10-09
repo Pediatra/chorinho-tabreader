@@ -1854,8 +1854,9 @@ localiza o conserto no lugar certo pela primeira vez.
 A condição que decide quem o filtro julga, em `reconhecer_linha`:
 
 ```python
-alvos = [i for i, tk in enumerate(tokens)
-         if classes[i][0] not in ALGARISMOS or tk.partes > 1]
+alvos = [
+    i for i, tk in enumerate(tokens) if classes[i][0] not in ALGARISMOS or tk.partes > 1
+]
 ```
 
 **"classe top-1 não é algarismo → pode ser símbolo".** É **o mesmo critério errado** que eu passei o
@@ -1916,6 +1917,34 @@ caminho clássico e medível é **remover as linhas de corda** antes de procurar
 morfológica com kernel horizontal): assim o arco deixa de estar colado na linha e volta a ser um
 componente próprio — e aí ele vira token, é oferecido ao filtro, e o detector (que já acerta 0,79–0,81
 em vídeo novo) pode julgá-lo.
+
+## 2026-10-09 — retirada das linhas de corda: implementada, medida e NEUTRA (desligada)
+
+Implementei `_tirar_linhas` (abertura morfológica com kernel horizontal de 2,5 passos, que extrai a
+corrida horizontal das cordas sem extrair o arco curvo) e liguei na segmentação dos glifos, com a
+hipótese de que o arco, deixando de estar colado na linha, viraria componente próprio.
+
+**Medição, contra a hipótese:**
+
+| | antes | **com a retirada das linhas** |
+| --- | --- | --- |
+| marcas com componente **fora de token** | 89 | **89** |
+| marcas **julgadas** pelo filtro | 0 | **0** |
+| marcas **sem token** | 51 | **51** |
+| gabarito de algarismo (semente 1) | 0,917 | **0,903** (−1 glifo) |
+
+**Neutra nas marcas e negativa no gabarito.** Pela disciplina do projeto — só fica o que se mede como
+benéfico — **desliguei**, e `_tirar_linhas` fica como ferramenta medida e documentada para quem quiser
+tentar outro kernel ou outro limiar.
+
+**O que isso ensina**: a fusão do arco com a linha **não é o que decide** a posição das marcas. As 138
+marcas "com token por perto" continuam casando com o **dígito**, não com o arco — ou seja, **a medição
+de proximidade que eu usei (±1 passo, em x e y) é generosa demais** e está contando o dígito de baixo
+como se fosse o arco. É a **quarta vez** que um critério de associação meu se revela o elo fraco.
+
+**Próxima medição**: apertar a associação (ex.: exigir que o token esteja **acima** da linha e a menos
+de 0,5 passo em y da marca) e refazer a contagem — para saber quantas marcas têm o **arco** como
+componente de fato, em vez de ter um dígito por perto.
 
 ## Noite de 2026-10-08/09
 

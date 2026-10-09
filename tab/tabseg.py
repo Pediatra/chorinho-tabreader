@@ -802,6 +802,42 @@ def _fundir(gs: list[Glifo], passo: float = 0.0) -> Glifo:
     )
 
 
+def _tirar_linhas(tinta: np.ndarray, linhas_y: list[int], passo: float) -> np.ndarray:
+    """Devolve a máscara SEM as linhas de corda, para o símbolo deixar de estar colado nelas.
+
+    Medido: 89 das 189 marcas do dono (47 %) têm componente na posição, mas **fora de qualquer
+    token** — porque o arco está encostado na linha e os dois viram UM componente gigante (um deles
+    mede 1690 × 128 px, a largura inteira do painel) que o delimitador recusa por tamanho. O arco
+    nunca existe sozinho para poder virar token.
+
+    A abertura morfológica com kernel **horizontal longo** extrai exatamente o que é linha (corrida
+    horizontal contínua) e não extrai o arco (curvo). Subtraindo, o arco e o dígito voltam a ser
+    componentes próprios.
+
+    Args:
+        tinta: máscara booleana do painel.
+        linhas_y: y das cordas detectadas.
+        passo: distância entre cordas, em px.
+
+    Returns:
+        Máscara booleana sem as linhas.
+    """
+    if not linhas_y or passo <= 0:
+        return tinta
+    u8 = tinta.astype(np.uint8)
+    # kernel longo o bastante para não confundir arco com linha: 2,5 passos
+    kernel = cv2.getStructuringElement(
+        cv2.MORPH_RECT, (max(7, int(round(2.5 * passo))), 1)
+    )
+    linhas = cv2.morphologyEx(u8, cv2.MORPH_OPEN, kernel).astype(bool)
+    # engorda 1 px em volta das linhas detectadas, para não sobrar rebarba de linha
+    if linhas.any():
+        linhas = cv2.dilate(linhas.astype(np.uint8), np.ones((3, 3), np.uint8)).astype(
+            bool
+        )
+    return tinta & ~linhas
+
+
 def _segmentar_de_mascara(
     tinta: np.ndarray,
     n_cordas: int = 6,
@@ -827,8 +863,16 @@ def _segmentar_de_mascara(
     grade.barlines_x = achar_barlines(tinta, linhas_y)
 
     lim_x = (grade.barlines_x[0] + int(passo * 2.2)) if grade.barlines_x else 0
+    # SEM AS LINHAS: o arco encostado na linha vira componente próprio (ver `_tirar_linhas`).
     grade.glifos = agrupar_tokens(
-        _glifos_por_faixa(tinta, linhas_y, passo, lim_x, grade.barlines_x), passo
+        _glifos_por_faixa(
+            _tirar_linhas(tinta, linhas_y, passo),
+            linhas_y,
+            passo,
+            lim_x,
+            grade.barlines_x,
+        ),
+        passo,
     )
     grade.glifos_centrados = sum(
         1
