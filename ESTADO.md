@@ -193,6 +193,25 @@ mr. tabs 0,933 · kimny 0,875 · guitar dell'arte 0,854 · iwaki 0,792 · paolo 
 Rótulos: 121 → **289** (103 tablatura / 184 não / 2 dúvida), 9 canais. Novos positivos:
 `sky guitar` 96 recortes → **65 tablatura**; `iwaki` 72 → **12 tablatura** (60 não).
 
+## 2026-10-09 — julgamento do movimento consertado: patamares, não passos
+
+O `(aguado) etude in am` dava `parado` num recorte e `salta` noutro, com o quociente de
+trocas de sentido em **0,333 contra limiar 0,30** — a série tem 3–4 voltas ao início (uma
+por linha de tablatura) e ~35 patamares, e **um patamar a mais virava o veredito**.
+
+Conserto em `tempo.resumo`: o sentido passa a ser julgado **no nível dos patamares** (é o
+nível em que o mecanismo opera) e os **saltos de volta ao início da linha** (|dx| >
+`SALTO_MAX_PX`) não contam como troca de sentido.
+
+| recorte | antes | depois |
+| --- | --- | --- |
+| painel (`escolher` + `roi_das_cordas`) | `parado` (0,333) | **`desliza`** — 155 pontos, 39 patamares, **0 trocas**, 20,4 px/s |
+| candidato antigo | `salta` (0,294) | **`desliza`** — 151 pontos, 36 patamares, **0 trocas**, 20,9 px/s |
+
+Dois erros meus que os testes pegaram: série **totalmente parada** não é `erratico` (é
+`parado`; `erratico` é para a série que só tem saltos grandes), e `not todos` estava errado
+porque `todos` é uma **lista de zeros** (truthy) — o certo é `not any(todos)`.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
