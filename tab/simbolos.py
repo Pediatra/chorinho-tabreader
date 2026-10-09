@@ -190,6 +190,10 @@ def reconhecer_quadro(
         "passo": r["passo"],
         "tokens": len(notas),
         "simbolos": [n["simbolo_cru"] for n in notas if "simbolo_cru" in n],
+        # DELIMITADOR: o que ele recusou, por motivo. Sem isto o inventário diria quantos
+        # símbolos existem sem dizer quanto lixo foi barrado — e o objetivo pede que nada
+        # suma em silêncio.
+        "recusados": dict(c.grade.recusados or {}),
     }
 
 
@@ -273,6 +277,10 @@ def resumir_canal(registros: list[dict]) -> dict:
     larguras: collections.Counter = collections.Counter()
     hashes: collections.Counter = collections.Counter()
     hashes_plaus: collections.Counter = collections.Counter()
+    recusados: collections.Counter = collections.Counter()
+    for r in registros:
+        for motivo, n in (r.get("recusados") or {}).items():
+            recusados[motivo] += int(n)
     png_de: dict[str, str] = {}
     classe_de: dict[str, collections.Counter] = collections.defaultdict(
         collections.Counter
@@ -327,6 +335,10 @@ def resumir_canal(registros: list[dict]) -> dict:
         "larguras_passo": dict(sorted(larguras.items(), key=lambda kv: float(kv[0]))),
         "hashes_distintos": len(hashes),
         "hashes": mais,
+        # O que o DELIMITADOR recusou, por motivo. Fica no artefato para que o número de
+        # símbolos não apareça sozinho: o inventário diz também quanto lixo foi barrado.
+        "recusados": dict(recusados.most_common()),
+        "recusados_total": int(sum(recusados.values())),
     }
 
 

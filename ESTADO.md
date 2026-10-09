@@ -703,6 +703,22 @@ a leitura no olho das duas folhas dizia que o `nada` era **29 %** da coleta. Doi
 independentes — uma regra geométrica e uma amostra rotulada à mão — dando o mesmo número. Isso
 é o tipo de concordância que dá confiança na regra, e não a média de acerto.
 
+## 2026-10-09 — o inventário passa a declarar o que o delimitador recusou (furo fechado)
+
+O `Grade.recusados` existia desde o delimitador, mas **não chegava ao artefato**: o inventário
+dizia quantos símbolos havia sem dizer quanto lixo foi barrado — e o objetivo pede que nada suma
+em silêncio. Agora cada quadro grava `recusados`, a agregação soma por canal e o resumo do canal
+publica `recusados` (por motivo) e `recusados_total`.
+
+Conferido num canal (`mr. tabs`, 3 vídeos, 2 instantes):
+
+    tokens 635 | símbolos 318
+    recusados: {haste_fina: 96, sem_nitidez: 5, largo_demais: 3} -> total 104
+
+E o perfil faz sentido para o canal: `mr. tabs` é tablatura pura rolando (muita haste de
+barline: 96) e traço crisp (só 5 de nitidez) — as duas regras novas se comportam como se espera
+onde se sabe o que esperar.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
