@@ -836,6 +836,31 @@ def _tirar_linhas(tinta: np.ndarray, linhas_y: list[int], passo: float) -> np.nd
     return tinta & ~linhas
 
 
+def _sem_faixas(tinta: np.ndarray, linhas_y: list[int], passo: float) -> np.ndarray:
+    """Apaga FAIXAS horizontais nas linhas de corda, usando as posições já detectadas.
+
+    Medido: o componente na posição de cada marca do dono tem **mediana de 73 passos de largura** na
+    máscara do próprio pipeline — é a **linha inteira**, com o arco colado nela — e por isso é
+    recusado por tamanho e **o arco nunca vira token**. A tentativa por **morfologia** não bastou (as
+    linhas vêm quebradas nas máscaras de contraste). Aqui eu uso o que o pipeline já sabe: `linhas_y`.
+
+    Args:
+        tinta: máscara booleana do painel.
+        linhas_y: y das cordas detectadas.
+        passo: distância entre cordas, em px.
+
+    Returns:
+        Máscara sem as faixas das cordas.
+    """
+    if not linhas_y or passo <= 0:
+        return tinta
+    meia = max(1, round(0.12 * passo))
+    fora = tinta.copy()
+    for ly in linhas_y:
+        fora[max(0, ly - meia) : ly + meia + 1, :] = False
+    return fora
+
+
 def _segmentar_de_mascara(
     tinta: np.ndarray,
     n_cordas: int = 6,

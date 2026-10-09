@@ -2200,3 +2200,29 @@ faixas é o **próximo passo**, a medir.
 **Lição registrada**: eu declarei "revertido" com base num `assert` que passou, sem **ler o arquivo
 depois** de editar. É a mesma família de erro das outras cinco vezes: eu verifico o que eu quis fazer,
 não o que ficou no arquivo.
+
+## 2026-10-09 — apagar as FAIXAS das cordas: implementado (com leitura do arquivo), medido e REPROVADO
+
+`_sem_faixas` (apaga `linhas_y ± 0,12 passo`, usando a posição que o pipeline **já detecta** — mais
+robusta que a morfologia, que não basta porque as linhas vêm quebradas nas máscaras de contraste).
+Ligado **e conferido por leitura do arquivo** (função na linha 839, chamada na 894) — a disciplina que
+eu tinha quebrado na rodada 2.
+
+| | antes | **com as faixas apagadas** |
+| --- | --- | --- |
+| marcas julgadas | 0 | 0 |
+| marcas com token não julgado | 138 | 138 |
+| marcas **sem token** | 51 | **54** (pior) |
+| gabarito `oficial_2` | 0,986 | **0,931** (−4 glifos) |
+| gabarito `oficial_3` | 0,944 | **0,931** |
+
+**Não melhora as marcas e piora o gabarito → desligada** (função fica medida e documentada).
+
+**E o que isso prova é importante**: o componente gigante (mediana de **73 passos**) **não é mantido
+pelas linhas de corda** — apagá-las não o divide. Ele é mantido por **outra coisa** que liga a largura
+inteira. Candidatos óbvios: as **barlines** (linhas verticais de compasso) ou a própria **máscara de
+contraste** deixando a faixa do sistema conectada.
+
+**Próxima medição**: na máscara **do pipeline** (não na minha) e **já com as faixas apagadas**, medir a
+largura do componente da marca — e, se continuar gigante, olhar **a imagem** dessa máscara naquele
+ponto (regra 4), para ver o que está ligando tudo.
