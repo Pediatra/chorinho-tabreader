@@ -262,6 +262,36 @@ oficial tinha deixado de ser calculável. Conserto: o quadro de cada amostra é 
 em `data/saida/frames/gold/`, e amostra sem quadro (ou descartada) é **declarada e fica fora
 da conta** em vez de derrubar a aferição.
 
+## 2026-10-09 — delimitador: a coleta de símbolos refeita (antes × depois)
+
+A coleta foi refeita com o delimitador **e** com a busca de painel consertada. A coleta
+velha (a que o dono do projeto viu, com a clave de sol) está arquivada em
+`data/saida/simbolos_antes/`; a nova está em `data/saida/simbolos/`.
+
+| | ANTES | DEPOIS |
+| --- | --- | --- |
+| recortes guardados | 4.562 | **2.233 (−51 %)** |
+| símbolos / tokens | 3.223 / 5.150 (62,6 %) | **2.233 / 4.610 (48,4 %)** |
+| **tiras de linha** (alt/larg < 0,15) | 34 | **0** |
+| `sky guitar` | 154 símbolos | **41 (16,7 %)** |
+| `pablo romé` suspeitos | 14 de 431 | fora da lista |
+| `tv cifras` | 12 | fora da lista |
+| `tv on guitar` | 64 de 406 | fora da lista |
+| `shin izumi` | 28 de 240 | **7 de 222** |
+
+Conferido **no olho** na montagem nova do `sky guitar`
+(`data/saida/simbolos/montagem_sky guitar.png`): sumiram a **partitura**, o **braço do
+violão**, o **teclado** e a **clave**; o que aparece é conteúdo de tablatura — algarismos
+(`9`, `4`, `5`, `6`, `1`), **arcos** de ligadura e o resto de lixo são fragmentos finos de
+corda (11 de 41, a classe `junk`).
+
+**Limite conhecido da regra atual**: um **arco** de ligadura e um **pedaço de corda** são
+ambos largos e baixos — tamanho não separa os dois. O que separa é a **curvatura** (corda é
+reta, arco não). É o próximo refinamento.
+
+A leitura **não degradou**, conferido: os 3 modelos oficiais deram os mesmos números
+(0,917 / 0,986 / 0,944).
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
