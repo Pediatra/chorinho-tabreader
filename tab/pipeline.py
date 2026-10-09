@@ -25,6 +25,7 @@ import cv2
 
 from .caminhos import MODELO_PADRAO, SAIDA
 from .cursor import detectar_cursor
+from .digito import carregar
 from .inventario import ler_quadro
 from .musicxml import exportar
 from .painel import escolher
@@ -276,6 +277,7 @@ def transcrever_intervalo(
         dev,
         dir_simbolos=dir_simbolos,
         prefixo=prefixo,
+        discriminador=carregar(),
     )
     resultado.update(
         {

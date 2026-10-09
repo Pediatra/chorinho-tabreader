@@ -19,6 +19,7 @@ import numpy as np
 
 from .caminhos import MODELO_PADRAO, SAIDA
 from .cursor import detectar_cursor
+from .digito import carregar
 from .inventario import FAIXAS, ler_quadro
 from .painel import escolher
 from .reconhecer import carregar_modelo, completar, reconhecer_linha
@@ -267,6 +268,7 @@ def main() -> int:
         dev,
         dir_simbolos=args.simbolos or None,
         prefixo=os.path.basename(os.path.dirname(os.path.abspath(args.video))),
+        discriminador=carregar(),
     )
     janelas = varrer_cursor(args.video, (y0, y1), t_max=args.varredura)
     # TEMPO POR TRAVESSIA. Medido no `iwaki/henze`: o marcador desliza ~65 px/s, então o

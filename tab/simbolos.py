@@ -173,7 +173,13 @@ def reconhecer_quadro(
     if c is None:
         return {"tab": False, "tokens": 0, "simbolos": []}
     r = reconhecer_linha(
-        c.roi, modelo, rotulos, dev, dir_simbolos=dir_simbolos, prefixo=canal
+        c.roi,
+        modelo,
+        rotulos,
+        dev,
+        dir_simbolos=dir_simbolos,
+        prefixo=canal,
+        discriminador=carregar(),
     )
     notas = r["notas"]
     return {

@@ -204,6 +204,31 @@ def validar_por_canal(
     return acertos, total, por_canal
 
 
+def carregar(caminho: str | None = None):
+    """Devolve a função discriminadora pronta: recortes -> probabilidade de "é algarismo".
+
+    É esta função que `reconhecer_linha` recebe como `discriminador`. Existe para os
+    chamadores não repetirem o carregamento nem o empilhamento da entrada.
+
+    Args:
+        caminho: checkpoint; por padrão o da semente 2 (LOCA 0,940, a melhor das três).
+
+    Returns:
+        Callable que recebe uma lista de recortes e devolve um array de probabilidades.
+    """
+    alvo = caminho or str(ARTEFATOS / "digito_2" / "digito.pt")
+    ck = torch.load(alvo, map_location="cpu")
+    modelo = DigitoCNN()
+    modelo.load_state_dict(ck["state_dict"])
+    modelo.eval()
+
+    def _discriminar(recortes: list[np.ndarray]) -> np.ndarray:
+        entrada = np.stack([preparar(r)[0] for r in recortes])[:, None]
+        return probabilidade(modelo, "cpu", entrada)
+
+    return _discriminar
+
+
 def main() -> int:
     """Treina (3 sementes para `artefatos/`) ou mede leave-one-channel-out."""
     ap = argparse.ArgumentParser(description=__doc__)
