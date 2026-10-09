@@ -2115,3 +2115,37 @@ arco. É a **quarta vez** que um critério de associação meu se revela o elo f
 
 **Próxima medição**: apertar a associação (token **acima** da linha e a menos de **0,5 passo** em y da
 marca) e refazer a contagem — para saber quantas marcas têm o **arco** como componente de fato.
+
+## 2026-10-09 — associação apertada: 5 % dentro de token, 56 % com componente fora — e o alarme refutado
+
+Medição apertada (só o componente que **contém o pixel da marca**, sem buscar vizinho):
+
+| categoria | n |
+| --- | --- |
+| **dentro_em_token** | **10 (5 %)** |
+| sobre_FORA_de_token | 66 |
+| abaixo_FORA_de_token | 28 |
+| acima_FORA_de_token (o arco) | 12 |
+| **marca sem tinta** (±2 px) | **48 (25 %)** |
+| **marca fora da ROI** | **25 (13 %)** |
+
+Larguras: larg_larga 88, larg_media 12, larg_curta 16.
+
+**O alarme que eu levantei — "o painel mudou, a minha base está corrompida" — foi REFUTADO por
+verificação direta**: comparei a faixa de hoje com a tira que entreguei ao dono e a diferença média de
+pixel é **0,0 / 0,8 / 0,3** em três imagens → **é a MESMA**. Não houve deriva de painel.
+
+**As duas anomalias ficaram explicadas**:
+
+1. **25 fora da ROI**: o `roi_das_cordas` devolve faixa com margem de 1 passo que **sai do painel**
+   (no `C07`, a faixa começa em 862 e o painel em 870) — marcas nessa margem caem fora;
+2. **48 sem tinta**: o meu raio de busca era **±2 px**, estreito demais para um traço de arco de 2 px
+   com clique um pouco ao lado.
+
+**O número que importa**: só **10 de 189 marcas (5 %)** têm o componente **dentro** de um token, e
+**106 (56 %)** têm componente **fora de qualquer token**. O símbolo é descartado antes de poder ser
+julgado — confirma o diagnóstico, agora com associação apertada.
+
+**Próxima medição**: alargar a busca para ±1/3 de passo (para recuperar as 48) e, nas 106 "fora de
+token", identificar **por qual motivo** elas caem — ligando cada componente descartado ao seu motivo
+no `Grade.recusados` (hoje ele é contado, não individualizado).
