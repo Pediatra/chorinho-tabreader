@@ -18,9 +18,10 @@ de ~74 mil parâmetros, treinado só em dado sintético**. Não é VLM — a alt
 testada e perdeu (GOT-OCR2.0, 580 M, acertou **0 de 15** algarismos numa linha com
 gabarito verificado à mão).
 
-**Número oficial: 0,892** (média de 3 sementes) em 96 glifos / 4 canais / casas 0–7.
-Detalhe, limites e o que já falhou: [`ESTADO.md`](ESTADO.md) e
-[`docs/HISTORICO.md`](docs/HISTORICO.md).
+**Número oficial: 0,889** (média de 3 sementes: 0,865 / 0,917 / 0,885) em 96 glifos /
+4 canais / casas 0–7, **reprodutível** — cada semente dá o mesmo total em execuções
+repetidas. Ver [`ESTADO.md`](ESTADO.md), [`docs/HISTORICO.md`](docs/HISTORICO.md) e
+[`docs/decisoes/0001-determinismo-do-treino.md`](docs/decisoes/0001-determinismo-do-treino.md).
 
 ## Ambiente
 
@@ -49,6 +50,11 @@ docker compose run --rm chorinho python -m tab.avaliar
 **Armadilha do bind-mount:** `/tmp` dentro do container **não** aparece no host.
 Artefato que precisa ser visto/inspecionado vai para `data/saida/` ou `artefatos/`.
 Modelo treinado em `/tmp` é modelo perdido (já aconteceu).
+
+**O que o container escreve sai como `root`:** o serviço não roda com o seu uid, então
+`data/saida/` e `artefatos/` ficam com dono root e o seu usuário não apaga direto. Use
+`docker compose run --rm chorinho rm -rf <caminho>`. (Rodar com `user:` no compose é uma
+decisão em aberto; ver `PERGUNTAS.md`.)
 
 ## Árvore
 
@@ -80,12 +86,16 @@ Regras de arrumação:
 
 ## Regras de trabalho (custaram rodadas — não repita)
 
-1. **Semente fixa + ≥3 execuções; reporte média e amplitude.** Sem isso o mesmo código
-   deu 0,729 e 0,854 e eu reportei ruído como ganho.
+1. **Semente fixa + determinismo + ≥3 execuções; reporte média e amplitude.** Semente
+   sozinha não significa nada: com o cuDNN padrão a **mesma** semente deu 0,927, 0,896 e
+   0,948 (amplitude 0,052) — e o projeto tratou diferenças desse tamanho como ganho. O
+   determinismo está em `tab.sintetico.fixar_semente` e é travado por teste.
 2. **Meça a amostra antes de gastar treino.** Três retreinos foram queimados
    descobrindo que a classe não nascia.
 3. **Confira o significado do número.** "323 notas com tempo" eram **3 instantes**;
-   "41 notas com duração" eram **8 ataques sem duração**. Conte instantes distintos.
+   "41 notas com duração" eram **8 ataques sem duração**. Conte instantes distintos — e
+   confira o **modo do modelo**: com o `Dropout` ativo, os mesmos pesos deram 0,812 onde
+   em `eval()` davam 0,865.
 4. **Olhe o quadro antes de teorizar.** Duas vezes medi o violão achando que era a
    tablatura — o braço tem 6 cordas e engana o detector.
 5. **Rótulo de gabarito só por leitura visual.** Relabelar por proxy geométrico

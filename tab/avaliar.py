@@ -41,16 +41,24 @@ def imagem_da_amostra(am: dict) -> np.ndarray:
     return frame[620:1080, :] if am["faixa"] == "base" else frame[0:400, :]
 
 
-def avaliar(caminho_modelo: str) -> list[tuple[str, int, int]]:
-    """Aferição glifo a glifo no gabarito rotulado à mão.
+def avaliar_com_modelo(
+    modelo, rotulos: list[str], dev: str
+) -> list[tuple[str, int, int]]:
+    """Aferição glifo a glifo no gabarito, com o modelo já carregado.
 
     Args:
-        caminho_modelo: pesos do classificador de glifos.
+        modelo: classificador de glifos.
+        rotulos: classes na ordem de saída do modelo.
+        dev: dispositivo onde o modelo está.
 
     Returns:
         Uma tupla ``(canal, acertos, total)`` por amostra do gabarito.
     """
-    modelo, rotulos, dev = carregar_modelo(caminho_modelo)
+    # Obrigatório: em modo `train()` o Dropout(0.15) da rede segue ativo e a
+    # aferição despenca. Medido nos MESMOS pesos e na MESMA imagem: 0,865 em
+    # `eval()` contra 0,812 em `train()`. Era daí que vinha o número deprimido que
+    # o treino reportava sobre o próprio modelo (0,771) enquanto o disco dava 0,865.
+    modelo.eval()
     dados = json.loads(GABARITO.read_text(encoding="utf-8"))
     linhas: list[tuple[str, int, int]] = []
     for am in dados["amostras"]:
@@ -66,6 +74,19 @@ def avaliar(caminho_modelo: str) -> list[tuple[str, int, int]]:
         )
         linhas.append((am["canal"], acertos, len(indices)))
     return linhas
+
+
+def avaliar(caminho_modelo: str) -> list[tuple[str, int, int]]:
+    """Aferição glifo a glifo, carregando o modelo do disco.
+
+    Args:
+        caminho_modelo: pesos do classificador de glifos.
+
+    Returns:
+        Uma tupla ``(canal, acertos, total)`` por amostra do gabarito.
+    """
+    modelo, rotulos, dev = carregar_modelo(caminho_modelo)
+    return avaliar_com_modelo(modelo, rotulos, dev)
 
 
 def main() -> int:

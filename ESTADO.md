@@ -6,19 +6,48 @@ das 65 rodadas está em [`docs/HISTORICO.md`](docs/HISTORICO.md).
 
 ## Número oficial
 
-**0,892 de acerto no gabarito real** — média de 3 sementes (**0,844 / 0,906 / 0,927**),
-sobre **96 glifos rotulados à mão em 4 canais, casas 0–7**.
-Sobre os rótulos **alcançáveis** (excluindo os 7 `junk` do `raman`): **0,955**.
+**0,889 de acerto no gabarito real** — média de 3 sementes (**0,865 / 0,917 / 0,885**),
+amplitude **0,052**, sobre **96 glifos rotulados à mão em 4 canais, casas 0–7**.
+**Reprodutível**: cada semente dá o mesmo total em execuções repetidas (medido 2× cada).
 
-| canal | acerto | observação |
+```bash
+python -m tab.sintetico --n-linhas 320 --epocas 22 --seed S --saida artefatos/oficial_S
+python -m tab.avaliar --modelo artefatos/oficial_S/glifo_sint.pt
+```
+
+| canal | acerto nas 3 sementes | observação |
 | --- | --- | --- |
-| iwaki (tema escuro) | **27/27** | estável nas 3 sementes |
-| sky guitar | **15/15** | estável nas 3 sementes |
-| **raman korshun** (slides, lixo) | 17/24 | **17/17 nos algarismos**; os 7 restantes são `junk` |
-| paolo d'angelo | 26–30/30 | passo 16 px, o painel mais denso |
+| iwaki (tema escuro) | **27/27 nas três** | |
+| sky guitar | 14–15 de 15 | |
+| **raman korshun** (slides, lixo) | **17/24 nas três** | estável; composição abaixo |
+| paolo d'angelo | 25–29 de 30 | passo 16 px, o painel mais denso |
 
-Reproduzido no container em 2026-10-08 após a reestruturação: **0,927**
-(`docker compose run --rm chorinho python -m tab.avaliar`).
+### O que a remedição corrigiu
+
+O número anterior (**0,892**) acabou ficando a **0,003** de distância — ou seja, ele
+estava certo *por sorte*, dentro de um ruído de até 0,05 que ninguém controlava. O ganho
+desta rodada não é o número: é ele **agora ser reprodutível**. Quatro correções:
+
+1. **A mesma semente variava 0,052 no treino** (0,927 / 0,896 / 0,948): o cuDNN usa
+   `atomicAdd` e não é determinístico por padrão. Agora
+   [`tab.sintetico.fixar_semente`](tab/sintetico.py) desliga isso e duas execuções da
+   mesma semente dão perda idêntica até a 4ª casa. Ver
+   [`docs/decisoes/0001-determinismo-do-treino.md`](docs/decisoes/0001-determinismo-do-treino.md);
+2. **a aferição feita dentro do treino avaliava o modelo em modo `train()`**, com o
+   `Dropout(0.15)` ligado: os MESMOS pesos davam **0,812 em `train()` e 0,865 em
+   `eval()`**, e o treino reportava 0,771 enquanto o disco dava 0,865. Havia duas
+   implementações de aferição e a do treino estava quebrada de três modos (índices
+   contíguos, imagem errada para `raman`/`paolo`, modo de treino). Agora é uma só;
+3. **`raman` é 17/24 nas três sementes, mas não é "17/17 nos algarismos"**: a composição
+   medida é **12/17 algarismos + 5/7 acertos de `junk`**. Os 5 `junk` são acertados pela
+   **regra de assinatura** (token estreito recusado), não pelo classificador. Total
+   igual, erro diferente — o total sozinho não descreve o sistema;
+4. **as 5 falhas de algarismo são todas `7`→`5` ou `7`→`15`** (posições 3, 5, 12, 19 e 26
+   do `raman`): o `7` daquele canal carrega o traço de técnica e a confusão é
+   sistemática, não aleatória. É o alvo mais concreto para a próxima rodada.
+
+Números medidos antes de 2026-10-08 têm **ruído de até ~0,05 embutido**: ganhos históricos
+de +0,038 e +0,046 estão dentro desse ruído e não deveriam ter sido tratados como ganho.
 
 ## O que o JSON entrega
 
@@ -72,7 +101,8 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 
 ## Lições metodológicas (custaram rodadas)
 
-1. **Semente fixa + ≥3 execuções**, reportando média e amplitude.
+1. **Semente fixa + determinismo + ≥3 execuções**, reportando média e amplitude. Sem o
+   segundo item o primeiro não significa nada (medido: 0,052 de variação na mesma semente).
 2. **Meça a amostra antes de gastar treino.**
 3. **Confira o significado do número**: "323 notas com tempo" eram **3 instantes**.
 4. **Olhe o quadro antes de teorizar** — duas vezes medi o violão achando que era a tablatura.

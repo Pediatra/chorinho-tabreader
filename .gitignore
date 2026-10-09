@@ -10,8 +10,10 @@ __pycache__/
 parts/
 
 # pesos treinados: vao para artefatos/, mas nao para o git
+# (a PROCEDENCIA deles e versionada: artefatos/*.md)
 artefatos/*
 !artefatos/.gitkeep
+!artefatos/*.md
 *.pt
 *.pth
 *.safetensors

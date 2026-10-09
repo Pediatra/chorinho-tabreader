@@ -15,6 +15,83 @@ Como responder (escolha o jeito que for mais rápido):
 
 ---
 
+## Respostas já recebidas (2026-10-08, 2ª rodada)
+
+| pergunta | resposta |
+| --- | --- |
+| **A1** ambiente | **Docker + Compose com GPU** (feito e verificado: `cuda True` no container) |
+| **B1** versionamento | **`git init`**, ignorando `.venv` e `parts/` (feito) |
+| **B2** `parts/` | derivado de B1: só o índice, não os 656 MB de clipe |
+| **B3** os 65 docs | **consolidar num único `HISTORICO.md`** (feito, com as 11 contradições registradas) |
+| **B4** estado | **unificar em `ESTADO.md`** e apagar o resumo (feito) |
+| **B5** layout | **pacote flat `tab/` na raiz** (feito — sem `src/`) |
+| **D3** licença | pode **treinar e validar** com frames reais e **publicar recortes** |
+| **F1** técnicas | **não descartar o símbolo**: guardar o glifo cru e dar o significado depois, por canal |
+| **J4** prioridade | seguir minhas recomendações, na direção do objetivo |
+| **noite** | **inventariar o acervo novo + ampliar o gabarito + símbolos/técnicas** |
+| **gabarito** | eu posso rotular glifos novos **lendo as montagens**, salvando cada PNG para auditoria |
+| **HD** | varrer tudo durante o download e **revarrer no fim** |
+| **saída** | **JSON no projeto**, frames/imagens temporárias no **HD** |
+| **áudio** | **autorizado** instalar librosa/aubio e usar áudio como fonte de tempo |
+| **partitura** | **fora de escopo agora**, mas **marcar quais vídeos têm** |
+| **canais prioritários** | **sky guitar, guitar dell'arte, cifra club, iwaki** (mais os do gabarito atual) |
+| **autonomia** | **decidir, registrar e seguir** durante a noite |
+| **janela** | até ~8h da manhã |
+
+### Respostas da 3ª rodada (2026-10-08, antes da noite)
+
+| pergunta | resposta |
+| --- | --- |
+| **E5** instrumentos | **Violão 6 cordas**, mas **a afinação varia**: procurar no **começo do vídeo** um texto de *tuning* / afinação — às vezes aparece afinação diferente (ou "standard") escrita na tela |
+| **E6** afinação | **há variação (drop D, DADGAD) e/ou capotraste** |
+| **J5** vídeo de ouro | não tem um específico; **`sky guitar` tem as melhores tablaturas e vídeos explicativos** |
+| **J1** MVP | **um vídeo inteiro correto já serve** (corda + casa + tempo, sem nota inventada) |
+| **F8** ornamentos | **sim, aparecem** (sobretudo nos eruditos) |
+| **G2** tempo | **só o onset** |
+| **extra** no JSON | **confiança por nota**, **símbolo cru** (confirmado), **técnicas**, e **nomes de acorde se estiverem no vídeo** |
+
+#### O formato de saída passa a ser MusicXML
+
+O dono do projeto entregou o esqueleto desejado: `score-partwise`, versão **4.0**,
+`part-name` "Guitarra (Tab)", `clef` **TAB linha 5**, `staff-details` com
+`staff-lines: 6` e `staff-tuning` por linha, e cada `note` com
+`notations/technical/{string, fret}` — mais `duration`, `voice` e `type`.
+
+Consequências, que passam a valer:
+
+1. **`duration` tem de ser inferida, não medida.** Só medimos **onset** (G2). A duração
+   de uma nota passa a ser o **intervalo até o próximo onset**, e isso precisa estar
+   declarado no arquivo/relatório — não é duração medida;
+2. **precisa de BPM/`divisions`** para converter segundos em ticks do MusicXML. O
+   andamento já sai da mediana entre onsets; onde não houver, o exportador tem de
+   declarar a hipótese em vez de inventar;
+3. **`staff-tuning` exige a afinação**, que agora é item de medição: procurar o texto de
+   *tuning*/afinação no começo do vídeo e registrar `standard`/`drop D`/… por vídeo;
+4. **técnicas** entram como `notations/technical` (`hammer-on`, `pull-off`, `slide`,
+   `harmonic`, `bend`, …), o que dá destino natural ao mapa de símbolos por canal;
+5. **nomes de acorde** (se visíveis) podem ir como `harmony`.
+
+Isto vira decisão registrada em `docs/decisoes/`.
+
+> "Praticamente todos os vídeos do canal contém tablatura em algum momento do vídeo,
+> novamente são vários formatos, tipos, cores, marcadores diferentes e além disso eles
+> **aparecem ou desaparecem em certos momentos** da tela do vídeo."
+
+Consequências de desenho, que passam a valer:
+
+1. **A tablatura não está o tempo todo na tela.** O que existe é um conjunto de
+   **intervalos de presença** por vídeo, não "o painel do vídeo". A varredura tem de
+   medir presença **ao longo do tempo** e devolver intervalos, não um recorte único;
+2. **o formato pode mudar dentro do mesmo vídeo** (tema claro/escuro, cor de voz,
+   marcador por faixa ou por cor). Portanto a decisão é **por trecho**, não por canal;
+3. "tem tablatura" é propriedade do **vídeo em algum momento**, não de todo quadro —
+   inventário que lê 1 quadro por vídeo **subestima** a cobertura.
+
+Isto muda a pergunta **D2** (prioridade de canais) e a **G** (tempo), e vira decisão
+registrada em `docs/decisoes/`.
+
+---
+
 ## A. Ambiente e execução
 
 **Contexto:** o `AGENTS.md` que estava aqui mandava rodar tudo em Docker. **Esse

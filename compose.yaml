@@ -8,6 +8,14 @@ services:
     # GPU via CDI. Se um dia o runtime `nvidia` for registrado no daemon,
     # isto continua funcionando.
     gpus: all
+    # Limite de memória: esta máquina tem 15 GB no total e ~8 GB livres, com zram
+    # já em uso. Sem limite, um processo desgovernado derruba a máquina inteira em
+    # vez de morrer sozinho. 6 GB é folgado para este pipeline (o modelo tem ~74
+    # mil parâmetros e processa um quadro por vez).
+    mem_limit: 6g
+    memswap_limit: 6g
+    # Decodificar quadro de 2220x1080 com o /dev/shm padrão (64 MB) pode falhar.
+    shm_size: 1g
     environment:
       PYTHONPATH: /app
     volumes:

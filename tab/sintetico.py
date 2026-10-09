@@ -28,11 +28,16 @@ import torch
 import torch.nn.functional as F
 from PIL import Image, ImageDraw, ImageFont
 
-from .caminhos import ARTEFATOS, GABARITO, PARTES, acervo
+from .avaliar import avaliar_com_modelo
+from .caminhos import ARTEFATOS, GABARITO
 from .glyph_bench import GlifoCNN
 from .glyphset import normalizar
-from .inventario import ler_quadro
 from .tabseg import segmentar
+
+# Exigido pelo cuBLAS no modo determinístico (ver `fixar_semente`). Precisa estar
+# definido ANTES da primeira multiplicação de matrizes na GPU, por isso fica aqui
+# e não dentro da função.
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
 
 #: Fontes do gerador. Fonte aqui é dependência de DADO: trocar de fonte muda a
 #: distribuição do treino e, portanto, o número medido.
@@ -291,55 +296,57 @@ def carregar_gabarito(caminho: str | Path = GABARITO):
 
 
 def avaliar_no_gabarito(modelo, rotulos, dev) -> dict:
-    """Aferição nos glifos REAIS rotulados à mão (nunca vistos no treino sintético)."""
-    dados = json.loads(GABARITO.read_text(encoding="utf-8"))
-    acertos = total = 0
-    por_classe = collections.Counter()
-    for am in dados["amostras"]:
-        if am["canal"] == "iwaki":
-            frame, _ = ler_quadro(str(acervo() / am["video"]), 0.5)
-            roi = frame[620:1080, :]
-            img = roi
-            gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-        else:
-            recorte = PARTES / "clipes" / "-6rawhontyg_000120_000200"
-            img = cv2.imread(
-                str(recorte / "linha_01_tablatura.png"), cv2.IMREAD_UNCHANGED
-            )
-            gray = img
-        g = segmentar(img)
-        tokens = sorted(g.glifos, key=lambda x: (x.coluna, x.corda))
-        rot = [am["rotulos"][str(i)] for i in range(len(am["rotulos"]))]
-        if len(tokens) != len(rot):
-            print(
-                f"  ! {am['canal']}: {len(tokens)} tokens x {len(rot)} rótulos — pulado"
-            )
-            continue
-        X = []
-        for tk in tokens:
-            crop = gray[max(0, tk.y0 - 1) : tk.y1 + 1, max(0, tk.x0 - 1) : tk.x1 + 1]
-            n = normalizar(crop)
-            X.append(n if n is not None else np.zeros((24, 16), np.uint8))
-        xt = torch.tensor(np.stack(X)[:, None].astype(np.float32) / 255.0).to(dev)
-        modelo.eval()
-        with torch.no_grad():
-            pred = modelo(xt).argmax(1).cpu().numpy()
-        a = sum(1 for i, r in enumerate(rot) if rotulos[pred[i]] == r)
-        acertos += a
-        total += len(rot)
-        for i, r in enumerate(rot):
-            por_classe[(r, rotulos[pred[i]] == r)] += 1
-        print(f"  canal {am['canal']:<14} {a}/{len(rot)} = {a / len(rot):.2f}")
+    """Aferição nos glifos REAIS rotulados à mão (nunca vistos no treino sintético).
+
+    Delega para :mod:`tab.avaliar` de propósito: havia **duas** implementações de
+    aferição e a que vivia aqui estava errada de dois modos — assumia índices
+    contíguos no gabarito (KeyError no `raman`) e avaliava `raman` e `paolo`
+    contra o recorte da `sky guitar`, ou seja, contra a imagem errada. Número
+    oficial tem uma fonte só.
+
+    Args:
+        modelo: classificador já treinado.
+        rotulos: classes na ordem de saída do modelo.
+        dev: dispositivo onde o modelo está.
+
+    Returns:
+        Dicionário com ``acertos`` e ``total``.
+    """
+    linhas = avaliar_com_modelo(modelo, rotulos, dev)
+    for canal, acertos, total in linhas:
+        taxa = acertos / total if total else 0.0
+        print(f"  canal {canal:<14} {acertos}/{total} = {taxa:.2f}")
+    acertos = sum(o for _, o, _ in linhas)
+    total = sum(t for _, _, t in linhas)
     print(f"  TOTAL gabarito real: {acertos}/{total} = {acertos / max(1, total):.3f}")
     return {"acertos": acertos, "total": total}
 
 
-def treinar(X, y, saida: str, epocas: int, lote: int = 128, seed: int = 0):
+def fixar_semente(seed: int) -> None:
+    """Fixa a semente **e** desliga o nondeterminismo da GPU.
+
+    Medido: a MESMA semente, com o mesmo comando, deu 0,927, 0,896 e 0,948
+    (amplitude 0,052) — porque a convolução em CUDA usa `atomicAdd` e o cuDNN
+    não é determinístico por padrão. Semente fixa sem isto **não** controla a
+    variância, e foi sobre essa premissa falsa que o projeto comparou rodadas.
+
+    Args:
+        seed: semente para `random`, `numpy` e `torch`.
+    """
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    # warn_only: se algum op não tiver caminho determinístico, quero saber pelo
+    # aviso, não perder o treino inteiro.
+    torch.use_deterministic_algorithms(True, warn_only=True)
+
+
+def treinar(X, y, saida: str, epocas: int, lote: int = 128, seed: int = 0):
+    fixar_semente(seed)
     rotulos = sorted(set(y))
     idx = {r: i for i, r in enumerate(rotulos)}
     xt = torch.tensor(np.stack(X)[:, None].astype(np.float32) / 255.0)
@@ -368,6 +375,9 @@ def treinar(X, y, saida: str, epocas: int, lote: int = 128, seed: int = 0):
                 flush=True,
             )
     os.makedirs(saida, exist_ok=True)
+    # Devolve em modo de avaliação: quem chama vai AFERIR este modelo na sequência,
+    # e com Dropout ativo a aferição sai deprimida (medido: 0,771 × 0,865 no disco).
+    modelo.eval()
     torch.save(
         {"state_dict": modelo.state_dict(), "rotulos": rotulos},
         os.path.join(saida, "glifo_sint.pt"),
