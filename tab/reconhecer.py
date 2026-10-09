@@ -337,7 +337,12 @@ def reconhecer_linha(
                         continue
                     pc = float(filtro_simbolo([rec_c])[0])
                     if p_simbolo is None or pc > p_simbolo:
-                        p_simbolo, caixa_simbolo = pc, (cx0, cy0, cx1, cy1)
+                        p_simbolo = pc
+                        # A caixa salva é a JANELA que o detector julgou (2,4 x 1,6 passo,
+                        # centrada no componente) — NÃO a caixa justa dele. Medido: com a caixa
+                        # justa, o PNG de um token fundido mostrava o DÍGITO enquanto a decisão
+                        # (na janela) via o arco, e a precisão no olho caía de 90 % para 29 %.
+                        caixa_simbolo = (ccx - hx, ccy - hy, ccx + hx, ccy + hy)
                 sufixo["componentes_avaliados"] = len(componentes)
             # BARRA VERTICAL NÃO É SÍMBOLO (instrução do dono sobre o `shin izumi`: "essas barras
             # na vertical não significam nada de importante"). Medido: as barras que o detector
@@ -352,6 +357,12 @@ def reconhecer_linha(
                 rec = gray[max(0, cy - hy) : cy + hy, max(0, cx - hx) : cx + hx]
                 if rec.size:
                     p_simbolo = float(filtro_simbolo([rec])[0])
+                    caixa_simbolo = (
+                        cx - hx,
+                        cy - hy,
+                        cx + hx,
+                        cy + hy,
+                    )  # a janela julgada
             if p_simbolo is not None:
                 sufixo["prob_simbolo"] = round(p_simbolo, 3)
             passa = "recusado_por_forma" not in sufixo and (

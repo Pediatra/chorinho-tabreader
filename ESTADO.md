@@ -1339,6 +1339,26 @@ componente pela CLASSE, e um dígito de um `11` fundido era escolhido como símb
 aprovado **com a vizinhança**), em vez da caixa justa do token — e remedir no olho. Se a amostra
 passar a mostrar arcos em vez de dígitos, a precisão da coleta é a do LOCA.
 
+## 2026-10-09 — conserto do recorte salvo: salvar a JANELA JULGADA (e a amostra mudou de cara)
+
+`reconhecer_linha` passou a gravar **a mesma janela que o detector julgou** (2,4 × 1,6 passo
+centrada no token ou no componente aprovado), e não a caixa justa do token. Verificação numa
+amostra (2 canais re-coletados — a amostra fica **mista**, porque os outros canais ainda têm os
+recortes antigos):
+
+- recortes que **carregam o arco com os números em volta** (ex.: arco sobre o `6`, sobre o `4`,
+  `(0)` e `(3)` com o arco junto, diagonais de slide) — o símbolo **aparece**;
+- antes, o mesmo token produzia um PNG com o **dígito pelado**, e era isso que eu julgava nas
+  amostras: eu media o recorte, não a decisão.
+
+Contagem grosseira na amostra mista: ~42 % símbolo, ~42 % dígito-com-contexto, ~16 % material de
+linha — contra 29 % / 58 % / 8 % da amostra anterior. **Mista, então é indício e não medida** — a
+medida limpa exige re-rodar a coleta inteira com o conserto.
+
+Estado do disco, dito para não confundir depois: a rodada de teste de 2 canais **sobrescreveu**
+`mr. tabs` e `serge kottelat` dentro de `data/saida/simbolos/`; os outros canais continuam da coleta
+completa anterior. A próxima rodada re-roda tudo.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
