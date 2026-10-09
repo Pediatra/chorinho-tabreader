@@ -397,11 +397,48 @@ def extensao_das_linhas(
     return int(melhor[0]), int(melhor[1])
 
 
+def e_haste_fina(
+    tinta: np.ndarray, g: Glifo, razao_max: float = 0.35, desvio_max: float = 0.06
+) -> bool:
+    """Haste vertical fina: material de LINHA da tablatura (barline/corda), não símbolo.
+
+    A constância do perfil é o que separa isto de um algarismo `1`: o `1` tem bandeira e/ou
+    base, então a largura de tinta varia ao longo da altura; a haste não varia.
+
+    Medido contra os rótulos auditados pelo dono do projeto (folha 1) e contra os 72
+    algarismos do gabarito, antes de entrar aqui:
+
+    - material de linha da tablatura (`§`): pega **4 de 12** (todas as descritas como "barra");
+    - algarismo: **0 de 16** rotulados e **0 de 72** do gabarito;
+    - `nada`, `partitura` e `símbolo`: **0** de 20.
+
+    Args:
+        tinta: máscara booleana do recorte inteiro (True = tinta).
+        g: token a julgar.
+        razao_max: largura/altura máxima para ser haste.
+        desvio_max: desvio do perfil de linha (fração da largura com tinta, por linha).
+
+    Returns:
+        True se o token for uma haste vertical fina de perfil constante.
+    """
+    recorte = tinta[g.y0 : g.y1 + 1, g.x0 : g.x1 + 1]
+    if recorte.size == 0:
+        return False
+    altura, largura = recorte.shape
+    if altura < 6 or largura < 2 or largura / float(altura) > razao_max:
+        return False
+    if int(recorte.sum()) < 6:
+        return False
+    perfil = recorte.sum(axis=1) / float(largura)
+    return float(np.std(perfil)) <= desvio_max
+
+
 def delimitar_tokens(
     glifos: list[Glifo],
     passo: float,
     linhas_y: list[int] | None = None,
     extensao: tuple[int, int] | None = None,
+    tinta: np.ndarray | None = None,
 ) -> tuple[list[Glifo], dict[str, int]]:
     """Só o que cabe DENTRO da tablatura; devolve os válidos e a contagem por motivo.
 
@@ -414,6 +451,7 @@ def delimitar_tokens(
         glifos: tokens da grade, já agrupados.
         passo: distância entre cordas, em px.
         linhas_y: y das 6 cordas (para a trava vertical); None desliga essa trava.
+        tinta: máscara booleana do recorte (para a haste fina); None desliga essa trava.
         extensao: ``(x0, x1)`` onde as 6 cordas coexistem; token fora
             disso é vídeo ao lado da tablatura (medido: 21 % dos tokens numa
             amostra de 1.694 caíam fora; no gabarito, zero).
@@ -430,7 +468,9 @@ def delimitar_tokens(
     for g in glifos:
         altura = (g.y1 - g.y0 + 1) / passo
         largura = (g.x1 - g.x0 + 1) / passo
-        if extensao is not None and (g.x1 < extensao[0] or g.x0 > extensao[1]):
+        if tinta is not None and e_haste_fina(tinta, g):
+            motivos["haste_fina"] += 1
+        elif extensao is not None and (g.x1 < extensao[0] or g.x0 > extensao[1]):
             motivos["fora_da_extensao"] += 1
         if topo is not None and (g.y0 < topo or g.y1 > base):
             motivos["fora_do_sistema"] += 1
@@ -494,6 +534,7 @@ def segmentar(img: np.ndarray, n_cordas: int = 6, debug: str | None = None) -> G
         grade.passo,
         grade.linhas_y,
         extensao=extensao_das_linhas(img, grade.linhas_y) if grade.linhas_y else None,
+        tinta=usada,
     )
     grade.recusados = recusados
     if recusados:

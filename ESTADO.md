@@ -609,6 +609,29 @@ mataria o algarismo `1` (medido: `largura/passo` de 0,12 a 1,39 nos algarismos).
 Próximo teste: `w/h < 0,35` E desvio do perfil de linha `< 0,05`, medido contra os 48 rótulos
 da folha 1 e os 72 algarismos do gabarito.
 
+## 2026-10-09 — primeira vitória real contra o lixo: a HASTE FINA entrou no delimitador
+
+Medida antes de entrar, contra a verdade rotulada:
+
+| grupo | n | a regra chama de haste |
+| --- | --- | --- |
+| `tablatura` (§ material de linha) | 12 | **4** (todas as descritas como "barra") |
+| `algarismo` | 16 | **0** |
+| `nada` / `partitura` / `símbolo` | 20 | **0** |
+| **gabarito de algarismo** | **72** | **0** |
+
+Precisão perfeita: pega **um terço do material de linha** (~8 % da coleta) e **não mata um
+único algarismo**. O que a distingue do `1` é a **constância do perfil**: o `1` tem bandeira ou
+base, então a largura de tinta varia ao longo da altura; a haste não varia.
+
+Conferido depois de entrar: os 3 modelos oficiais dão **os mesmos números** (0,917 / 0,986 /
+0,944) e a trava de deslocamento **não disparou** — nenhum glifo rotulado saiu de lugar.
+
+É a primeira regra geométrica deste projeto que **passa** no teste contra a verdade — as seis
+anteriores deram zero ou negativo, e as duas desta semana (classificador de lixo, regra da
+cruz) foram reprovadas. A diferença aqui: o alvo é **estreito** (haste, não cruz), foi
+**medido antes**, e a precisão é **zero colateral** em vez de "melhora a média".
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
