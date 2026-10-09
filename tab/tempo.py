@@ -69,6 +69,38 @@ def atribuir_tempos(
     return [tempo_de_x(serie, x) for x in tokens_x]
 
 
+def tempos_por_patamar(
+    tokens_x: list[float], serie: list[tuple[float, int]], tolerancia_px: float = 25.0
+) -> list[float | None]:
+    """Instante de cada token para marcador que SALTA: início do patamar mais próximo.
+
+    O cursor que salta fica parado durante a nota e pula para a seguinte (medido na rodada
+    1: patamar de ~1 s, salto mediano de 109 px). Não há travessia contínua para inverter,
+    então o que se mede é **quando o patamar começa** — e o token cujo x está mais perto
+    daquele patamar é a nota que estava sendo tocada.
+
+    Args:
+        tokens_x: posição horizontal de cada token.
+        serie: pontos ``(t, x)`` do marcador.
+        tolerancia_px: distância máxima entre o x do token e o do patamar.
+
+    Returns:
+        Um instante por token (None quando nenhum patamar chega perto).
+    """
+    degraus = patamares(serie)
+    if not degraus:
+        return [None for _ in tokens_x]
+    tempos: list[float | None] = []
+    for x in tokens_x:
+        melhor: tuple[float, float] | None = None
+        for inicio, _fim, x_degrau in degraus:
+            distancia = abs(x - x_degrau)
+            if distancia <= tolerancia_px and (melhor is None or distancia < melhor[0]):
+                melhor = (distancia, inicio)
+        tempos.append(melhor[1] if melhor else None)
+    return tempos
+
+
 def duracoes_por_onset(tempos: list[float | None]) -> list[float | None]:
     """Duração de cada nota como o intervalo até o próximo onset (inferida).
 

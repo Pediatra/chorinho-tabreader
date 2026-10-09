@@ -13,6 +13,7 @@ from tab.tempo import (
     patamares,
     resumo,
     tempo_de_x,
+    tempos_por_patamar,
 )
 
 
@@ -123,3 +124,18 @@ def test_playhead_de_nota_passa_a_velocidade() -> None:
     r = resumo(rapida)
     assert r["veredito"] == "desliza"
     assert r["velocidade_px_s"] >= 5.0
+
+
+def test_tempos_por_patamar_usa_o_inicio_do_degrau() -> None:
+    """Marcador que salta: cada token recebe o início do patamar mais próximo em x."""
+    serie = []
+    for i, x in enumerate([100, 240, 380]):
+        serie += [(i * 1.0 + d * 0.25, x) for d in range(3)]
+    tempos = tempos_por_patamar([102, 238, 381], serie)
+    assert tempos == [0.0, 1.0, 2.0]
+
+
+def test_token_longe_de_qualquer_patamar_nao_recebe_tempo() -> None:
+    """Sem patamar perto, sem tempo — nada de instante inventado."""
+    serie = [(i * 0.25, 100) for i in range(6)]
+    assert tempos_por_patamar([900], serie) == [None]

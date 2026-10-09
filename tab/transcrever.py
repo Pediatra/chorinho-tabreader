@@ -22,7 +22,7 @@ from .cursor import detectar_cursor
 from .inventario import FAIXAS, ler_quadro
 from .painel import escolher
 from .reconhecer import carregar_modelo, completar, reconhecer_linha
-from .tempo import atribuir_tempos, resumo
+from .tempo import atribuir_tempos, resumo, tempos_por_patamar
 
 
 def achar_painel(frame):
@@ -280,8 +280,12 @@ def main() -> int:
         t0 = janelas[0][0]
     serie = serie_cursor(args.video, (y0, y1), t0, args.janela, passo_s=0.25)
     veredito = resumo(serie)
-    if veredito["veredito"] == "desliza":
-        onsets = atribuir_tempos([n["x"] for n in r["notas"]], serie)
+    if veredito["veredito"] in {"desliza", "salta"}:
+        if veredito["veredito"] == "desliza":
+            onsets = atribuir_tempos([n["x"] for n in r["notas"]], serie)
+        else:
+            # marcador que SALTA: o onset é o início do patamar, não uma travessia
+            onsets = tempos_por_patamar([n["x"] for n in r["notas"]], serie)
         r = completar(r, [(t, None) if t is not None else None for t in onsets])
         r["tempo"] = {
             "medido": True,
