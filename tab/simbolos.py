@@ -51,6 +51,7 @@ from tab.caminhos import ARTEFATOS, SAIDA, acervo
 from tab.digito import carregar
 from tab.inventario import ler_quadro
 from tab.painel import escolher
+from tab.pipeline import roi_das_cordas
 from tab.reconhecer import carregar_modelo, reconhecer_linha
 from tab.simbolo import carregar as carregar_detector_simbolo
 
@@ -186,6 +187,13 @@ def reconhecer_quadro(
         # FILTRO POSITIVO: só guarda o que o detector diz que É símbolo. O critério antigo
         # guardava o resíduo do classificador de algarismo (~98% linha, borrão e dígito errado).
         filtro_simbolo=carregar_detector_simbolo(),
+        # A faixa em coordenada da ROI. A ROI é `frame[y_roi0:y_roi1]` e `roi_das_cordas` devolve a
+        # faixa em coordenada do QUADRO — conferido no `iwaki`: as linhas 283–419 da ROI viram
+        # 903-1039 no quadro, e o roi_das_cordas da 876-1066 com margem de exatamente 1 passo.
+        faixa_y=(
+            roi_das_cordas(c)[0] - (frame.shape[0] - c.roi.shape[0]),
+            roi_das_cordas(c)[1] - (frame.shape[0] - c.roi.shape[0]),
+        ),
     )
     notas = r["notas"]
     return {

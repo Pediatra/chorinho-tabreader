@@ -1431,7 +1431,7 @@ verdes) — `data/saida/frames/marcas_vs_tokens.png` — e **olhei antes de teor
 código:
 
 ```python
-abs(cy - (y0 + m["y"])) < 0.7 * passo     # ERRADO: m["y"] JÁ está na coordenada da FAIXA
+abs(cy - (y0 + m["y"])) < 0.7 * passo  # ERRADO: m["y"] JÁ está na coordenada da FAIXA
 ```
 
 `m["y"]` já vem na coordenada da faixa (foi nela que ele clicou) e eu **somava o `y0` de novo**.
@@ -1573,6 +1573,25 @@ e símbolo de tablatura vive **dentro** dela. Restringir os candidatos à regiã
 `roi_das_cordas` já delimita é uma trava determinística, barata de medir, e ataca exatamente o que
 sobrou. Medir antes de adotar: quantos dos 523 positivos do gabarito ficam dentro da faixa (deve ser
 quase todos) e quantos dos aprovados de fora sobram.
+
+## 2026-10-09 — trava da FAIXA DAS CORDAS: medida antes de adotar, 523 de 523 dentro, zero colateral
+
+Medi a trava antes de ligar (como a da barra vertical, que mediu 0 de 123 antes de ser aceita):
+
+| | |
+| --- | --- |
+| símbolos verdadeiros do dono avaliados | **523** |
+| **DENTRO da faixa das cordas** (`roi_das_cordas`) | **523 (100 %)** |
+| fora | **0** |
+
+**Zero colateral.** E o pipeline aprovava tokens **fora** da faixa — um caso medido: ROI `y=13`, que
+na faixa é `y=−243`, acima da tablatura. Ligada como motivo próprio (`recusado_fora_da_faixa`), com a
+faixa convertida para coordenada da ROI no coletor. Se a trava recusar, o motivo fica gravado — nada
+some em silêncio.
+
+Conversão conferida antes de usar: a ROI é `frame[y_roi0:y_roi1]` e o `roi_das_cordas` devolve a
+faixa em coordenada do **quadro**; no `iwaki` as linhas 283–419 da ROI viram 903–1039 no quadro e o
+`roi_das_cordas` dá 876–1066 — margem de exatamente 1 passo nos dois lados.
 
 ## Noite de 2026-10-08/09
 

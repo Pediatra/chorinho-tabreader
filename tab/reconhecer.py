@@ -167,6 +167,7 @@ def reconhecer_linha(
     prefixo: str = "",
     discriminador=None,
     filtro_simbolo=None,
+    faixa_y: tuple[int, int] | None = None,
 ) -> dict:
     """Lê uma linha de tablatura: geometria + classificação + símbolo cru.
 
@@ -344,6 +345,14 @@ def reconhecer_linha(
                         # (na janela) via o arco, e a precisão no olho caía de 90 % para 29 %.
                         caixa_simbolo = (ccx - hx, ccy - hy, ccx + hx, ccy + hy)
                 sufixo["componentes_avaliados"] = len(componentes)
+            # FORA DA FAIXA DAS CORDAS NÃO É SÍMBOLO. Medido nos 523 símbolos verdadeiros do dono:
+            # **523 de 523 (100 %)** caem DENTRO da faixa que `roi_das_cordas` delimita — zero
+            # colateral. E o pipeline aprovava tokens FORA dela (um caso medido: ROI y=13, que na
+            # faixa é y=−243, acima da tablatura). Símbolo de tablatura vive entre as cordas.
+            if faixa_y is not None and not (
+                faixa_y[0] <= (tk.y0 + tk.y1) // 2 <= faixa_y[1]
+            ):
+                sufixo["recusado_fora_da_faixa"] = True
             # BARRA VERTICAL NÃO É SÍMBOLO (instrução do dono sobre o `shin izumi`: "essas barras
             # na vertical não significam nada de importante"). Medido: as barras que o detector
             # aprovava lá têm razão mediana 0,118 e os 123 símbolos verdadeiros têm 1,706 — ZERO
@@ -365,8 +374,10 @@ def reconhecer_linha(
                     )  # a janela julgada
             if p_simbolo is not None:
                 sufixo["prob_simbolo"] = round(p_simbolo, 3)
-            passa = "recusado_por_forma" not in sufixo and (
-                p_simbolo is None or p_simbolo >= LIMIAR_SIMBOLO
+            passa = (
+                "recusado_por_forma" not in sufixo
+                and "recusado_fora_da_faixa" not in sufixo
+                and (p_simbolo is None or p_simbolo >= LIMIAR_SIMBOLO)
             )
             if componentes and p_simbolo is not None and p_simbolo < LIMIAR_SIMBOLO:
                 caixa_simbolo = None  # nenhum componente passou: não guarda nenhum
