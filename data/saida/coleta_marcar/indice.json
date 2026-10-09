@@ -1,0 +1,218 @@
+[
+ {
+  "arq": "C01_cifra club.png",
+  "canal": "cifra club",
+  "video": "cifra club/nothing else matters - metallica (aula de violão e guitarra).mp4",
+  "frac": 0.65,
+  "passo": 52.2,
+  "rotulo": "C01. cifra club | cifra club/nothing else matters -  | t=0.65 | passo=52.2px"
+ },
+ {
+  "arq": "C02_guitar dellarte.png",
+  "canal": "guitar dell ́arte",
+  "video": "guitar dell ́arte/prelude from sonata 5 (weiss) guitar, sheet and tab.mp4",
+  "frac": 0.65,
+  "passo": 18.8,
+  "rotulo": "C02. guitar dell ́arte | guitar dell ́arte/prelude from son | t=0.65 | passo=18.8px"
+ },
+ {
+  "arq": "C03_guitar dellarte.png",
+  "canal": "guitar dell ́arte",
+  "video": "guitar dell ́arte/prelude from sonata 5 (weiss) guitar, sheet and tab.mp4",
+  "frac": 0.85,
+  "passo": 18.8,
+  "rotulo": "C03. guitar dell ́arte | guitar dell ́arte/prelude from son | t=0.85 | passo=18.8px"
+ },
+ {
+  "arq": "C04_iwaki.png",
+  "canal": "iwaki",
+  "video": "iwaki/julia florida - barrios ｜ tab.mp4",
+  "frac": 0.65,
+  "passo": 27.2,
+  "rotulo": "C04. iwaki | iwaki/julia florida - barrios ｜ ta | t=0.65 | passo=27.2px"
+ },
+ {
+  "arq": "C05_iwaki.png",
+  "canal": "iwaki",
+  "video": "iwaki/julia florida - barrios ｜ tab.mp4",
+  "frac": 0.85,
+  "passo": 30.0,
+  "rotulo": "C05. iwaki | iwaki/julia florida - barrios ｜ ta | t=0.85 | passo=30.0px"
+ },
+ {
+  "arq": "C06_kimny's guitar.png",
+  "canal": "kimny's guitar",
+  "video": "kimny's guitar/[ tab ] take five - paul desmond ｜ fingerstyle guitar cover.mp4",
+  "frac": 0.65,
+  "passo": 20.8,
+  "rotulo": "C06. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.65 | passo=20.8px"
+ },
+ {
+  "arq": "C07_kimny's guitar.png",
+  "canal": "kimny's guitar",
+  "video": "kimny's guitar/[ tab ] take five - paul desmond ｜ fingerstyle guitar cover.mp4",
+  "frac": 0.85,
+  "passo": 20.6,
+  "rotulo": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px"
+ },
+ {
+  "arq": "C08_leonardo ramos.png",
+  "canal": "leonardo ramos",
+  "video": "leonardo ramos/cortando campo (estilo) 🎸 vicente degese ｜ tutorial de guitarra + tabs.mp4",
+  "frac": 0.65,
+  "passo": 31.2,
+  "rotulo": "C08. leonardo ramos | leonardo ramos/cortando campo (est | t=0.65 | passo=31.2px"
+ },
+ {
+  "arq": "C09_leonardo ramos.png",
+  "canal": "leonardo ramos",
+  "video": "leonardo ramos/cortando campo (estilo) 🎸 vicente degese ｜ tutorial de guitarra + tabs.mp4",
+  "frac": 0.85,
+  "passo": 31.2,
+  "rotulo": "C09. leonardo ramos | leonardo ramos/cortando campo (est | t=0.85 | passo=31.2px"
+ },
+ {
+  "arq": "C10_mr. tabs.png",
+  "canal": "mr. tabs",
+  "video": "mr. tabs/eric clapton - layla unplugged acoustic - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+  "frac": 0.65,
+  "passo": 26.2,
+  "rotulo": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px"
+ },
+ {
+  "arq": "C11_mr. tabs.png",
+  "canal": "mr. tabs",
+  "video": "mr. tabs/eric clapton - layla unplugged acoustic - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+  "frac": 0.85,
+  "passo": 26.0,
+  "rotulo": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px"
+ },
+ {
+  "arq": "C12_paolo d'angelo.png",
+  "canal": "paolo d'angelo",
+  "video": "paolo d'angelo/just breathe ｜ pearl jam ｜ guitar tab ｜ fingerstyle tutorial.mp4",
+  "frac": 0.65,
+  "passo": 19.0,
+  "rotulo": "C12. paolo d'angelo | paolo d'angelo/just breathe ｜ pear | t=0.65 | passo=19.0px"
+ },
+ {
+  "arq": "C13_paolo d'angelo.png",
+  "canal": "paolo d'angelo",
+  "video": "paolo d'angelo/just breathe ｜ pearl jam ｜ guitar tab ｜ fingerstyle tutorial.mp4",
+  "frac": 0.85,
+  "passo": 19.2,
+  "rotulo": "C13. paolo d'angelo | paolo d'angelo/just breathe ｜ pear | t=0.85 | passo=19.2px"
+ },
+ {
+  "arq": "C14_robert lunn.png",
+  "canal": "robert lunn",
+  "video": "robert lunn/a second past midnight - includes tab - classical guitar.mp4",
+  "frac": 0.85,
+  "passo": 31.0,
+  "rotulo": "C14. robert lunn | robert lunn/a second past midnight | t=0.85 | passo=31.0px"
+ },
+ {
+  "arq": "C15_serge kottelat.png",
+  "canal": "serge kottelat",
+  "video": "serge kottelat/mateus asato – goodbye. ｜ solo acoustic guitar transcription with tab.mp4",
+  "frac": 0.65,
+  "passo": 15.0,
+  "rotulo": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px"
+ },
+ {
+  "arq": "C16_shin izumi.png",
+  "canal": "shin izumi",
+  "video": "shin izumi/【tab】beauty and the beast - 美女と野獣 - disney - fingerstyle guitar  ソロギター【タブ】.mp4",
+  "frac": 0.65,
+  "passo": 21.4,
+  "rotulo": "C16. shin izumi | shin izumi/【tab】beauty and the bea | t=0.65 | passo=21.4px"
+ },
+ {
+  "arq": "C17_shin izumi.png",
+  "canal": "shin izumi",
+  "video": "shin izumi/【tab】beauty and the beast - 美女と野獣 - disney - fingerstyle guitar  ソロギター【タブ】.mp4",
+  "frac": 0.85,
+  "passo": 21.8,
+  "rotulo": "C17. shin izumi | shin izumi/【tab】beauty and the bea | t=0.85 | passo=21.8px"
+ },
+ {
+  "arq": "C18_sky guitar.png",
+  "canal": "sky guitar",
+  "video": "sky guitar/ghostbusters - fingerstyle lesson + tab.mp4",
+  "frac": 0.65,
+  "passo": 24.4,
+  "rotulo": "C18. sky guitar | sky guitar/ghostbusters - fingerst | t=0.65 | passo=24.4px"
+ },
+ {
+  "arq": "C19_sky guitar.png",
+  "canal": "sky guitar",
+  "video": "sky guitar/ghostbusters - fingerstyle lesson + tab.mp4",
+  "frac": 0.85,
+  "passo": 24.4,
+  "rotulo": "C19. sky guitar | sky guitar/ghostbusters - fingerst | t=0.85 | passo=24.4px"
+ },
+ {
+  "arq": "C20_transcriptor.png",
+  "canal": "transcriptor",
+  "video": "transcriptor/inti illimani - inti illimani ⧸ guitarra - partitura - tablatura.mp4",
+  "frac": 0.85,
+  "passo": 21.4,
+  "rotulo": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px"
+ },
+ {
+  "arq": "C21_transcriptor.png",
+  "canal": "transcriptor",
+  "video": "transcriptor/romance - anonimo - partitura ⧸ tablatura.mp4",
+  "frac": 0.65,
+  "passo": 30.4,
+  "rotulo": "C21. transcriptor | transcriptor/romance - anonimo - p | t=0.65 | passo=30.4px"
+ },
+ {
+  "arq": "C22_tv on guitar.png",
+  "canal": "tv on guitar",
+  "video": "tv on guitar/athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+  "frac": 0.65,
+  "passo": 14.6,
+  "rotulo": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px"
+ },
+ {
+  "arq": "C23_tv on guitar.png",
+  "canal": "tv on guitar",
+  "video": "tv on guitar/athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+  "frac": 0.85,
+  "passo": 14.2,
+  "rotulo": "C23. tv on guitar | tv on guitar/athletic theme (from  | t=0.85 | passo=14.2px"
+ },
+ {
+  "arq": "C24_violaodecria.png",
+  "canal": "violaodecria",
+  "video": "violaodecria/solto - djonga pt hot (coyote beatz) aprenda no violão #tabs #rap #dj... [7553677033939799307].mp4",
+  "frac": 0.65,
+  "passo": 59.2,
+  "rotulo": "C24. violaodecria | violaodecria/solto - djonga pt hot | t=0.65 | passo=59.2px"
+ },
+ {
+  "arq": "C25_violaodecria.png",
+  "canal": "violaodecria",
+  "video": "violaodecria/solto - djonga pt hot (coyote beatz) aprenda no violão #tabs #rap #dj... [7553677033939799307].mp4",
+  "frac": 0.85,
+  "passo": 59.2,
+  "rotulo": "C25. violaodecria | violaodecria/solto - djonga pt hot | t=0.85 | passo=59.2px"
+ },
+ {
+  "arq": "C26_ギタロー ⧸ guitarous.png",
+  "canal": "ギタロー ⧸ guitarous",
+  "video": "ギタロー ⧸ guitarous/海の見える街 ソロギター 初心者向け タブ譜.mp4",
+  "frac": 0.65,
+  "passo": 15.4,
+  "rotulo": "C26. ギタロー ⧸ guitarous | ギタロー ⧸ guitarous/海の見える街 ソロギター 初心者向 | t=0.65 | passo=15.4px"
+ },
+ {
+  "arq": "C27_ギタロー ⧸ guitarous.png",
+  "canal": "ギタロー ⧸ guitarous",
+  "video": "ギタロー ⧸ guitarous/海の見える街 ソロギター 初心者向け タブ譜.mp4",
+  "frac": 0.85,
+  "passo": 15.4,
+  "rotulo": "C27. ギタロー ⧸ guitarous | ギタロー ⧸ guitarous/海の見える街 ソロギター 初心者向 | t=0.85 | passo=15.4px"
+ }
+]

@@ -1194,6 +1194,26 @@ passam a falar da mesma distribuição — e aí o número vai dizer algo de ver
 E os 3 canais sem nenhuma tablatura marcada não têm como ser avaliados de jeito nenhum: é preciso
 marcar pelo menos um vídeo de cada.
 
+## 2026-10-09 — tablaturas dos vídeos DA COLETA, prontas para marcar (27, todos os 17 canais)
+
+Consequência direta da causa medida (interseção de vídeos = 1 de 51): extraí tablaturas **dos
+vídeos que a própria coleta amostra**, usando os instantes exatos do inventário
+(`data/saida/simbolos/inventario.json`, campo `amostra`) — 2 por canal, 34 candidatos, **17 canais**.
+
+**Conferi no olho, folha de contato por folha: 27 de 34 são tablatura de verdade.** Os 7 descartados
+foram braço de violão/vídeo (`cifra club` 1, `robert lunn` 1, `tv cifras` 2, `pablo romé` 2) e
+**1 partitura** (`serge kottelat`, com "let ring" e cabeças de nota em pauta de 5 linhas).
+
+Ficaram marcáveis, em 15 canais: as duas do `guitar dell'arte`, duas do `violaodecria` e **uma do
+`cifra club`** — justamente os três canais que **não tinham nenhuma tablatura marcada** e não podiam
+ser avaliados de jeito nenhum.
+
+Ferramenta (verificada, 200 na página e nas imagens):
+`http://127.0.0.1:8099/coleta_marcar/marcar.html`
+
+Com isto o par treino/teste passa a falar da **mesma distribuição de vídeos** — que é a condição
+para o número da coleta significar algo.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
