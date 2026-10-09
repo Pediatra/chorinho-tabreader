@@ -116,6 +116,22 @@ elíptico, vários símbolos que ligam os números"*). É o **vocabulário de s�
 que por decisão do projeto é guardado cru para classificar depois — não é dívida de leitura,
 é dívida de classificação.
 
+## 2026-10-09 — a faixa do `sky guitar` existe em 8 de 8; o gargalo virou o MOVIMENTO
+
+Levantamento denso corrigido (recorte do painel, 8 vídeos, janela de 120 s a partir de 0,55):
+a banda cromática é detectada em **8 de 8** vídeos, com **89–100 % de cobertura** — e a
+matiz é **azul (95–110) em sete deles e laranja (10) em um**. O dono do projeto está certo
+("sempre tem marcador") e a decisão 0006 se confirma de novo: **a cor varia até dentro do
+mesmo canal**.
+
+O que ainda separa: o **julgamento do movimento** — 3 `desliza`/`salta`, 2 `duvida`,
+3 `parado`/`erratico`. Então o número "marcador utilizável = 3 de 8" **subconta**: a faixa
+está nos oito, e o que falta é decidir bem se ela anda de forma aproveitável.
+
+Sinal de que o julgamento precisa de conserto: o `(aguado) etude in am` saiu **`parado`**
+numa execução e o próprio subagente o havia medido como **`salta`** com escada de patamares
+(1226→1322→1452→1585→1717→184→326) em outra. Limiar instável entre execuções é defeito.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
