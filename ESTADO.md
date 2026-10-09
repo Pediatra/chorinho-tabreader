@@ -1411,13 +1411,17 @@ resultado bruto deu **1 acerto em 256 aprovações** — e isso **não é medida
 > quadro inteiro**, porque a faixa que eu entreguei para ele marcar é `q[y0:y1, :]` — **largura
 > total**. Comparar os dois sem somar o deslocamento horizontal da ROI desalinha *tudo*.
 
-Por isso **não registrei `precisão 0,00`** como resultado: seria transformar um bug meu em número. O
-teste volta depois de eu tirar o deslocamento da ROI do objeto do candidato (`tab.painel`), que é
-onde ele está guardado.
+**CORREÇÃO, no mesmo dia e antes de qualquer número ir para lugar nenhum**: fui ao código e a minha
+explicação estava **errada** — `tab/painel.py` faz `roi = frame[y0:y1, :]` (linhas 115 e 213), ou
+seja a ROI também é **largura total** e **não existe deslocamento de x**. Eu inventei a causa sem
+conferir, que é precisamente o que eu passei o goal inteiro dizendo que não faria.
 
-**A lição se repete, e agora eu a reconheço antes de escrever o número**: os meus três bugs
-anteriores no campo `cobertura_de_marcas` foram todos de **espaço de coordenada/string**, e eu ia
-cometer o quarto. Conferir o que o número conta **antes** de registrá-lo.
+**O que fica**: o resultado de **1 acerto em 256 aprovações** está **sem explicação** — não é
+offset de x (refutado no código), e o alinhamento de y deveria bater (a faixa e a ROI são o mesmo
+recorte `frame[y0:y1, :]`). Não medi o suficiente para dizer o que é, e **não vou chutar de novo**.
+O próximo passo é o que eu deveria ter feito primeiro: **desenhar no quadro, lado a lado, os tokens
+aprovados e as marcas do dono** — olhar a imagem antes de teorizar (regra 4 do projeto, que eu
+quebrei duas vezes seguidas nesta rodada).
 
 ## Noite de 2026-10-08/09
 
