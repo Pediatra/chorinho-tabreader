@@ -46,14 +46,22 @@ GOLD_MARCADOS = ARTEFATOS.parent / "data" / "gold" / "simbolos_marcados.json"
 PASTA = ARTEFATOS.parent / "data" / "gold" / "simbolos_marcados"
 
 
-def montar_conjunto() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def montar_conjunto(
+    por_video: bool = False,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Monta o conjunto rotulado: positivos (marcados) e negativos (não marcados).
 
+    Args:
+        por_video: se True, agrupa por TABLATURA (vídeo + instante) em vez de por canal. É a
+            validação que corresponde ao uso: o pipeline enfrenta vídeo que não viu, e deixar um
+            CANAL de fora mantém os mesmos vídeos no treino — o que mede otimista por construção.
+
     Returns:
-        ``(X, y, canais)`` com X em ``(n, 1, 32, 32)``, y em ``{0, 1}`` e o canal de cada amostra.
+        ``(X, y, grupos)`` com X em ``(n, 1, 32, 32)``, y em ``{0, 1}`` e a chave de grupo de cada
+        amostra (canal, ou tablatura quando ``por_video``).
     """
     d = json.loads(GOLD_MARCADOS.read_text(encoding="utf-8"))
-    X, y, canais = [], [], []
+    X, y, grupos = [], [], []
     for rotulo, chave in ((1.0, "positivos"), (0.0, "negativos")):
         for caso in d[chave]:
             arq = PASTA / chave / caso["arquivo"]
@@ -62,11 +70,11 @@ def montar_conjunto() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
                 continue
             X.append(preparar(img))
             y.append(rotulo)
-            canais.append(caso["canal"])
+            grupos.append(str(caso.get("imagem")) if por_video else str(caso["canal"]))
     return (
         np.array(X, dtype=np.float32),
         np.array(y, dtype=np.float32),
-        np.array(canais),
+        np.array(grupos),
     )
 
 
@@ -112,9 +120,11 @@ def _probabilidade(modelo: DigitoCNN, dev: str, X: np.ndarray) -> np.ndarray:
         return torch.sigmoid(logits).cpu().numpy()
 
 
-def loca(sementes: list[int] | None = None) -> dict[int, dict[str, object]]:
-    """Mede por canal deixado de fora e devolve o resultado por semente."""
-    X, y, canais = montar_conjunto()
+def loca(
+    sementes: list[int] | None = None, por_video: bool = False
+) -> dict[int, dict[str, object]]:
+    """Mede deixando um grupo de fora (canal, ou vídeo quando ``por_video``)."""
+    X, y, canais = montar_conjunto(por_video)
     n_pos = int(y.sum())
     print(
         f"conjunto: {len(X)} amostras | {n_pos} positivos | {len(X) - n_pos} negativos"
@@ -140,7 +150,9 @@ def loca(sementes: list[int] | None = None) -> dict[int, dict[str, object]]:
             por_canal[canal] = [a, b, c, e]
         tpr = tp / max(1, tp + fn)
         tnr = tn / max(1, tn + fp)
-        print(f"\nsemente {seed}: LOCA (canal deixado de fora)")
+        print(
+            f"\nsemente {seed}: {'LOVO (vídeo deixado de fora)' if por_video else 'LOCA (canal deixado de fora)'}"
+        )
         print(f"  SÍMBOLOS pegos     {tp}/{tp + fn}  (recall {tpr:.2f})")
         print(f"  lixo que passaria  {fp}/{fp + tn}  (falso positivo {1 - tnr:.2f})")
         print(
@@ -201,11 +213,14 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Detector positivo de símbolo.")
     ap.add_argument("acao", choices=["treinar", "loca"])
     ap.add_argument("--sementes", type=int, nargs="+", default=[1, 2, 3])
+    ap.add_argument(
+        "--por-video", action="store_true", help="deixa a tablatura inteira de fora"
+    )
     args = ap.parse_args()
     if args.acao == "treinar":
         treinar(args.sementes)
     else:
-        loca(args.sementes)
+        loca(args.sementes, por_video=args.por_video)
     return 0
 
 

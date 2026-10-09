@@ -1818,6 +1818,37 @@ variações de negativo vazio · **o piso de tinta**. Todas medidas antes de ado
 precisão que o produto precisa** — e o caminho que sobra não é de modelo nem de dado sintético: é
 **rótulo do dono nos quadros exatos onde ele erra**.
 
+## 2026-10-09 — LOVO refuta "generalização entre vídeos" e revela a causa REAL: o símbolo não é candidato
+
+Deixando a **tablatura inteira de fora** (vídeo + instante), em vez do canal:
+
+| semente | símbolos pegos | falso positivo | **precisão** |
+| --- | --- | --- | --- |
+| 1 | 484/523 (0,93) | 125/1278 (10 %) | **0,79** |
+| 2 | 463/523 (0,89) | 109/1278 (9 %) | **0,81** |
+
+**O modelo generaliza para vídeo que nunca viu** (0,79–0,81) — praticamente o mesmo que por canal.
+A minha hipótese ("não generaliza entre vídeos") está **refutada**, e o `0,77` por canal não era
+inflado por isso.
+
+**E aí a aritmética fecha de um jeito que reenquadra o problema inteiro:**
+
+- no gabarito o modelo aprova **612 de 1801** (~34 %);
+- no pipeline ele aprova **~126** do que julga (**~35 %**) — **o MESMO comportamento**;
+- mas só **21 dos 189 marcadores do dono** casam.
+
+**A conclusão**: as marcas dele estão nos **ARCOS**, e **o arco não é um token**. O pipeline propõe
+**dígitos, pedaços de linha e espaço vazio**; o símbolo **não está entre os candidatos**. Os 21
+"casamentos" são dígitos que por acaso ficam perto do arco.
+
+**O classificador não é o gargalo — o conjunto de CANDIDATOS é.** Todo o esforço de treinar o filtro
+(523 positivos, 1278 negativos, 11 hipóteses) estava a montante do problema: ele aprendeu bem a
+separar arco de dígito (0,79–0,81), e o pipeline **nunca lhe oferece o arco para julgar**.
+
+**Próximo passo, medível**: medir, para cada marca do dono, se existe um **token** naquela posição —
+e onde o arco se perde (o delimitador? a segmentação? a lista `alvos`?). É uma medição direta e
+localiza o conserto no lugar certo pela primeira vez.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
