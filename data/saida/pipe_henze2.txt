@@ -1,0 +1,105 @@
+{
+ "video": "(henze) nocturno - guitar lesson + tab.mp4",
+ "tem_notacao": true,
+ "amostras": [
+  {
+   "t": 130.3,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "meio",
+   "uniformidade": 0.877,
+   "passo": 7.6,
+   "glifos": 67,
+   "largura_painel": 1920
+  },
+  {
+   "t": 162.9,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "topo",
+   "uniformidade": 0.867,
+   "passo": 16.0,
+   "glifos": 121,
+   "largura_painel": 1784
+  },
+  {
+   "t": 195.5,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "topo",
+   "uniformidade": 0.867,
+   "passo": 16.0,
+   "glifos": 123,
+   "largura_painel": 1784
+  },
+  {
+   "t": 228.1,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "topo",
+   "uniformidade": 0.871,
+   "passo": 16.0,
+   "glifos": 119,
+   "largura_painel": 1784
+  },
+  {
+   "t": 260.7,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "topo",
+   "uniformidade": 0.868,
+   "passo": 17.0,
+   "glifos": 143,
+   "largura_painel": 1784
+  },
+  {
+   "t": 293.3,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "topo",
+   "uniformidade": 0.869,
+   "passo": 16.0,
+   "glifos": 114,
+   "largura_painel": 1784
+  }
+ ],
+ "intervalos": [
+  {
+   "indice": 1,
+   "t0": 110.3,
+   "t1": 313.3,
+   "notas": 142,
+   "tempo": {
+    "medido": true,
+    "mecanismo": "marcador: salta",
+    "instantes_distintos": 41,
+    "serie": {
+     "pontos": 391,
+     "deslocamento_total_px": 1620,
+     "passo_mediano_px": 0,
+     "velocidade_px_s": 8.0,
+     "veredito": "salta"
+    }
+   },
+   "musicxml": {
+    "titulo": "(henze) nocturno - guitar lesson + tab_int01",
+    "notas_exportadas": 56,
+    "notas_nao_exportadas": 86,
+    "motivo_nao_exportada": [
+     "harmonico",
+     "junk",
+     "tecnica"
+    ],
+    "tempo_medido": true,
+    "instantes_distintos": 28,
+    "pulso_s": 1.5,
+    "bpm_derivado_do_pulso": 40.0,
+    "duracao": "INFERIDA (intervalo até o próximo onset; a última usa o pulso)",
+    "compasso": "derivado da barline geométrica dividida pelo pulso medido",
+    "afinacao": "padrão assumida",
+    "divisoes": 1024
+   }
+  }
+ ]
+}
+salvo em data/saida/intervalos2/(henze) nocturno - guitar lesson + tab

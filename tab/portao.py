@@ -17,14 +17,26 @@ linha sólida/tracejada, passo 14–36, acorde, rótulo `TAB`) mais os painéis 
 confirmados; negativos sintéticos (tecla larga, madeira com veio e cordas em diagonal,
 pauta de 5 linhas com notas, bloco de texto) mais os negativos reais que a rodada achou.
 
+Os recortes REAIS rotulados à mão vivem em `data/saida/portao_casos/` e os rótulos em
+`data/gold/portao.json`; as folhas de leitura (com o índice desenhado em cada célula)
+ficam em `data/saida/frames/`.
+
 Uso:
-    python -m tab.portao treinar --n 3000 --epocas 12 --seed 1 --saida artefatos/portao_1
-    python -m tab.portao avaliar --modelo artefatos/portao_1/portao.pt
+    python -m tab.portao coletar --canal "sky guitar" --n-videos 16 \
+        --fracoes 0.6,0.75,0.9 --seed 11 --inicio 121
+    python -m tab.portao folhas --letra E
+    python -m tab.portao rotular --rotulos data/saida/portao_rotulos.json \
+        --folhas data/saida/frames/folha_E.png
+    python -m tab.portao treinar --gold --pesos --n 300 --epocas 12 --seed 1 \
+        --saida artefatos/portao_bal_1
+    python -m tab.portao locanal --n 300 --epocas 12 --seed 1
+    python -m tab.portao avaliar --modelo artefatos/portao_bal_1/portao.pt
 """
 
 from __future__ import annotations
 
 import argparse
+import glob
 import json
 import os
 import random
@@ -35,9 +47,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .caminhos import ARTEFATOS
+from .caminhos import ARTEFATOS, GABARITO, SAIDA, acervo
 from .inventario import ler_quadro
-from .painel import FAIXAS, escolher
+from .painel import FAIXAS, candidatos, escolher, refinar
 from .sintetico import fixar_semente, gerar_linha
 
 #: Tamanho fixo da entrada. Largo e baixo, como o painel; a distorção de aspecto é
@@ -56,6 +68,34 @@ NEGATIVOS_REAIS: tuple[tuple[str, float], ...] = (
     ("data/saida/ouro_novos/00_cifra club/auto.json", 0.0),
     ("data/saida/ouro_novos/01_guitar dell ́a/auto.json", 0.0),
 )
+
+#: Vídeos que COMPÕEM o conjunto de aceitação — ficam fora do treino e da validação.
+#: Sem isto o conjunto de aceitação deixa de medir generalização para vídeo novo: os
+#: dois positivos de `sky4_*` são de `#4 (beginner) free pdf.mp4` e `asturias_t417` é de
+#: `asturias - guitar lesson + tab.mp4` (conferido comparando o quadro em t=417 s).
+VIDEOS_DE_ACEITACAO: tuple[str, ...] = (
+    "sky guitar/#4 (beginner) free pdf.mp4",
+    "sky guitar/asturias - guitar lesson + tab.mp4",
+    "cifra club/livre estou (do filme ＂frozen＂) ｜ como tocar no violão.mp4",
+    "guitar dell ́arte/etude in e minor (j. ferrer) - guitar lesson, sheet and tab.mp4",
+    "shin izumi/【tab】change the world - eric clapton - fingerstyle guitar ソロギター【タブ】.mp4",
+    "violaodecria/cartel do 900 - mc kevin, ig, rick, menor da vg, hariel e don juan #c... [7346930985751104773].mp4",
+)
+
+#: Recortes de painel rotulados à mão (o `arquivo` de cada caso do gabarito).
+CASOS_PORTAO = SAIDA / "portao_casos"
+
+#: Gabarito do portão, acrescentado rodada a rodada; os casos antigos nunca são reescritos.
+GOLD_PORTAO = GABARITO.with_name("portao.json")
+
+#: Folhas de leitura no olho (PNG com o índice desenhado em cada célula).
+FOLHAS_PORTAO = SAIDA / "frames"
+
+#: Rótulos aceitos.
+ROTULOS = ("tablatura", "nao_tablatura", "duvida")
+
+#: Rótulos que entram no treino e na validação (`duvida` fica de fora).
+ROTULOS_BINARIOS = ("tablatura", "nao_tablatura")
 
 
 def preparar(roi: np.ndarray) -> np.ndarray:
@@ -226,8 +266,306 @@ def montar_dataset(n_por_classe: int, seed: int = 0) -> tuple[np.ndarray, np.nda
     return np.stack(X), np.array(y)
 
 
+def videos_do_canal(canal: str) -> list[str]:
+    """Vídeos de um canal, ordenados, SEM os que compõem o conjunto de aceitação.
+
+    Args:
+        canal: nome do canal (diretório dentro do acervo).
+
+    Returns:
+        Caminhos absolutos, ordenados.
+    """
+    achados = sorted(glob.glob(str(acervo() / canal / "*.mp4")))
+    fora = set(VIDEOS_DE_ACEITACAO)
+    return [v for v in achados if f"{canal}/{os.path.basename(v)}" not in fora]
+
+
+def coletar_canal(
+    canal: str,
+    n_videos: int,
+    fracoes: tuple[float, ...],
+    seed: int,
+    inicio: int = 0,
+    por_quadro: int = 2,
+) -> list[dict]:
+    """Gera recortes candidatos de painel de um canal e grava cada um em PNG.
+
+    Grava o melhor candidato de cada quadro e o segundo melhor — é onde costuma
+    estar o braço/corpo do violão, que serve de negativo real (sem ele o canal novo
+    entra na validação deixando-um-canal-de-fora só com positivos, e a validação
+    não mede falso positivo nenhum). O rótulo sai ``None``: quem rotula é a leitura
+    das folhas no olho, nunca um proxy geométrico.
+
+    Args:
+        canal: nome do canal.
+        n_videos: quantos vídeos sortear do canal.
+        fracoes: instantes (fração da duração) amostrados em cada vídeo.
+        seed: semente do sorteio de vídeos.
+        inicio: índice do primeiro arquivo (continua a numeração do gabarito).
+        por_quadro: candidatos por quadro (1 = só o melhor).
+
+    Returns:
+        Casos no formato de ``data/gold/portao.json``, na ordem em que foram gravados.
+    """
+    vids = videos_do_canal(canal)
+    rng = random.Random(seed)
+    if n_videos < len(vids):
+        vids = sorted(rng.sample(vids, n_videos))
+    os.makedirs(CASOS_PORTAO, exist_ok=True)
+    casos: list[dict] = []
+    indice = inicio
+    for caminho in vids:
+        for frac in fracoes:
+            quadro, via = ler_quadro(caminho, frac)
+            if quadro is None:
+                continue
+            achados = sorted(candidatos(quadro), key=lambda c: -c.score[0])
+            for posicao, cand in enumerate(achados[:por_quadro]):
+                recorte = refinar(cand)
+                nome = f"{indice:03d}_{'p' if posicao == 0 else 'n'}.png"
+                cv2.imwrite(str(CASOS_PORTAO / nome), recorte.roi)
+                casos.append(
+                    {
+                        "arquivo": nome,
+                        "canal": canal,
+                        "video": f"{canal}/{os.path.basename(caminho)}",
+                        "instante_frac": frac,
+                        "via": via,
+                        "faixa": recorte.nome,
+                        "uniformidade": round(recorte.uniformidade, 3),
+                        "passo": round(recorte.passo, 1),
+                        "glifos": len(recorte.grade.glifos),
+                        "posicao": posicao,
+                        "rotulo": None,
+                    }
+                )
+                indice += 1
+                print(f"  {nome} via={via} {recorte.nome}", flush=True)
+    return casos
+
+
+def montar_folha(
+    casos: list[dict],
+    indices: list[int],
+    caminho: str,
+    cols: int = 4,
+    celula: tuple[int, int] = (480, 270),
+    etiquetas: list[str] | None = None,
+) -> None:
+    """Monta uma folha com os recortes e uma ETIQUETA grande em cada célula.
+
+    O que é desenhado é a etiqueta da célula (``"E07"``), nunca o `_p`/`_n` do arquivo:
+    quem lê não deve saber qual candidato o detector preferiu — isso enviesaria o
+    rótulo, que é do olho. A ordem das células também vem embaralhada por
+    `gerar_folhas`, e o mapa etiqueta → arquivo fica gravado em JSON para auditoria.
+
+    Args:
+        casos: casos coletados (cada um com ``arquivo``).
+        indices: quais índices de ``casos`` entram, na ordem de leitura.
+        caminho: PNG de saída.
+        cols: colunas da grade.
+        celula: ``(largura, altura)`` de cada célula, em px.
+        etiquetas: texto de cada célula (padrão: o próprio índice).
+    """
+    larg, alt = celula
+    faixa = 36
+    linhas = max(1, (len(indices) + cols - 1) // cols)
+    folha = np.full((linhas * alt, cols * larg, 3), 255, np.uint8)
+    for k, idx in enumerate(indices):
+        img = cv2.imread(str(CASOS_PORTAO / str(casos[idx]["arquivo"])))
+        if img is None:
+            continue
+        lin, col = divmod(k, cols)
+        y0, x0 = lin * alt, col * larg
+        cv2.rectangle(
+            folha, (x0, y0), (x0 + larg - 1, y0 + alt - 1), (190, 190, 190), 1
+        )
+        escala = min(
+            (larg - 8) / img.shape[1],
+            max(1, alt - faixa - 8) / img.shape[0],
+        )
+        nova = cv2.resize(
+            img,
+            (max(1, int(img.shape[1] * escala)), max(1, int(img.shape[0] * escala))),
+            interpolation=cv2.INTER_AREA,
+        )
+        h = min(nova.shape[0], alt - faixa - 2)
+        w = min(nova.shape[1], larg - 2)
+        py = y0 + faixa + max(0, (alt - faixa - h) // 2)
+        px = x0 + max(0, (larg - w) // 2)
+        folha[py : py + h, px : px + w] = nova[:h, :w]
+        texto = str(idx) if etiquetas is None else etiquetas[k]
+        cv2.putText(
+            folha,
+            texto,
+            (x0 + 8, y0 + 30),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            1.1,
+            (0, 0, 220),
+            3,
+            cv2.LINE_AA,
+        )
+    os.makedirs(os.path.dirname(caminho), exist_ok=True)
+    cv2.imwrite(caminho, folha)
+
+
+def gerar_folhas(
+    casos: list[dict],
+    letra: str = "D",
+    por_folha: int = 16,
+    cols: int = 4,
+    seed: int = 0,
+    destino: str | None = None,
+) -> tuple[list[str], dict[str, dict[str, int]]]:
+    """Gera as folhas de leitura (ordem embaralhada) e devolve caminhos e mapa.
+
+    Args:
+        casos: casos coletados, na ordem da coleta.
+        letra: letra inicial das folhas (as antigas A/B/C são preservadas).
+        por_folha: recortes por folha.
+        cols: colunas da grade.
+        seed: semente do embaralhamento.
+        destino: diretório das folhas (padrão ``data/saida/frames``).
+
+    Returns:
+        ``(caminhos, mapa)``: os PNGs gerados e, por folha, ``{etiqueta: índice}``.
+    """
+    raiz = destino or str(FOLHAS_PORTAO)
+    ordem = list(range(len(casos)))
+    random.Random(seed).shuffle(ordem)
+    caminhos: list[str] = []
+    mapa: dict[str, dict[str, int]] = {}
+    for f, i in enumerate(range(0, len(casos), por_folha)):
+        nome = chr(ord(letra) + f)
+        caminho = os.path.join(raiz, f"folha_{nome}.png")
+        indices = ordem[i : i + por_folha]
+        etiquetas = [f"{nome}{k:02d}" for k in range(len(indices))]
+        montar_folha(casos, indices, caminho, cols=cols, etiquetas=etiquetas)
+        mapa[nome] = dict(zip(etiquetas, indices, strict=True))
+        caminhos.append(caminho)
+    return caminhos, mapa
+
+
+def carregar_gold(caminho: str | None = None) -> dict:
+    """Lê o gabarito do portão (`data/gold/portao.json`)."""
+    with open(caminho or GOLD_PORTAO, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def casos_do_gold(caminho: str | None = None) -> list[dict]:
+    """Casos rotulados do gabarito do portão (inclui os ``duvida``)."""
+    return list(carregar_gold(caminho)["casos"])
+
+
+def acrescentar_casos(
+    novos: list[dict], folhas: list[str], caminho: str | None = None
+) -> dict:
+    """Acrescenta casos ao gabarito SEM tocar nos que já existem.
+
+    Args:
+        novos: casos novos, já com ``rotulo``.
+        folhas: folhas PNG usadas na leitura (auditoria do dono do projeto).
+        caminho: gabarito de destino (padrão ``data/gold/portao.json``).
+
+    Returns:
+        O gabarito completo, como ficou no disco.
+    """
+    alvo = caminho or GOLD_PORTAO
+    gold = carregar_gold(alvo)
+    existentes = {c["arquivo"] for c in gold["casos"]}
+    for caso in novos:
+        if caso["arquivo"] not in existentes:
+            gold["casos"].append(caso)
+    for folha in folhas:
+        if folha not in gold["folhas"]:
+            gold["folhas"].append(folha)
+    with open(alvo, "w", encoding="utf-8") as fh:
+        json.dump(gold, fh, ensure_ascii=False, indent=1)
+        fh.write("\n")
+    return gold
+
+
+def dataset_real(casos: list[dict]) -> tuple[np.ndarray, np.ndarray, list[str]]:
+    """PNGs rotulados (fora os ``duvida``) → ``(X, y, canais)`` do portão.
+
+    Args:
+        casos: casos do gabarito.
+
+    Returns:
+        ``X`` em ``(N, 1, ALTURA, LARGURA)``, ``y`` em ``{0, 1}`` e o canal de cada caso.
+    """
+    X: list[np.ndarray] = []
+    y: list[int] = []
+    canais: list[str] = []
+    for caso in casos:
+        if caso.get("rotulo") not in ROTULOS_BINARIOS:
+            continue
+        img = cv2.imread(str(CASOS_PORTAO / str(caso["arquivo"])))
+        if img is None:
+            continue
+        X.append(preparar(img))
+        y.append(1 if caso["rotulo"] == "tablatura" else 0)
+        canais.append(str(caso["canal"]))
+    if not X:
+        return np.zeros((0, 1, ALTURA, LARGURA), np.float32), np.zeros(0, np.int64), []
+    return np.stack(X), np.array(y, np.int64), canais
+
+
+def pesos_de_classe(y: np.ndarray) -> np.ndarray:
+    """Peso por classe para a perda, de modo que as duas classes contribuam igual.
+
+    Escolhi **peso de classe**, não reamostragem: reamostrar o positivo minoritário
+    seria mostrar as MESMAS imagens mais vezes por época (memorização de 26 recortes);
+    o peso muda a perda sem tirar nem repetir dado. Com o sintético entrando em número
+    igual por classe, é o resíduo de desbalanceamento real que o peso corrige.
+
+    Args:
+        y: rótulos.
+
+    Returns:
+        Vetor ``[peso_classe_0, peso_classe_1]`` com ``n / (2 * n_c)``.
+    """
+    n = float(len(y))
+    return np.array(
+        [n / (2.0 * max(1.0, float((y == c).sum()))) for c in (0, 1)], dtype=np.float32
+    )
+
+
+def montar_treino(
+    casos: list[dict], n_sint: int, seed: int, excluir_canal: str | None = None
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Conjunto de treino: recortes reais rotulados + sintéticos alinhados.
+
+    Args:
+        casos: casos do gabarito.
+        n_sint: exemplos sintéticos por classe (0 = só recorte real).
+        seed: semente do gerador sintético.
+        excluir_canal: canal deixado de fora (validação leave-one-channel-out).
+
+    Returns:
+        ``(X, y, pesos)``.
+    """
+    X, y, canais = dataset_real(casos)
+    if excluir_canal is not None and len(y):
+        fora = np.array([c == excluir_canal for c in canais])
+        X, y = X[~fora], y[~fora]
+    if n_sint:
+        Xs, ys = montar_dataset(n_sint, seed=seed)
+        X = np.concatenate([X, Xs])
+        y = np.concatenate([y, ys])
+    return X, y, pesos_de_classe(y)
+
+
 def treinar(
-    X: np.ndarray, y: np.ndarray, saida: str, epocas: int, seed: int, lote: int = 64
+    X: np.ndarray,
+    y: np.ndarray,
+    saida: str,
+    epocas: int,
+    seed: int,
+    lote: int = 64,
+    pesos: np.ndarray | None = None,
+    salvar: bool = True,
+    extra: dict | None = None,
 ) -> tuple[PortaoCNN, str]:
     """Treina o portão.
 
@@ -238,6 +576,9 @@ def treinar(
         epocas: passagens pelo conjunto.
         seed: semente (determinismo ligado por `fixar_semente`).
         lote: tamanho do lote.
+        pesos: peso por classe na perda (``None`` = perda sem peso).
+        salvar: gravar o modelo no disco (a validação por canal não grava).
+        extra: metadados gravados junto dos pesos (semente, conjunto, contagens).
 
     Returns:
         ``(modelo, dispositivo)``.
@@ -246,6 +587,7 @@ def treinar(
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     xt = torch.tensor(X).to(dev)
     yt = torch.tensor(y).to(dev)
+    peso_t = None if pesos is None else torch.tensor(pesos).to(dev)
     modelo = PortaoCNN().to(dev)
     otim = torch.optim.AdamW(modelo.parameters(), lr=2e-3, weight_decay=1e-4)
     for ep in range(epocas):
@@ -255,7 +597,7 @@ def treinar(
         for i in range(0, len(xt), lote):
             b = perm[i : i + lote]
             otim.zero_grad()
-            perda = F.cross_entropy(modelo(xt[b]), yt[b])
+            perda = F.cross_entropy(modelo(xt[b]), yt[b], weight=peso_t)
             perda.backward()
             otim.step()
             perda_tot += float(perda.detach()) * len(b)
@@ -270,7 +612,11 @@ def treinar(
             )
     os.makedirs(saida, exist_ok=True)
     modelo.eval()
-    torch.save({"state_dict": modelo.state_dict()}, os.path.join(saida, "portao.pt"))
+    if salvar:
+        torch.save(
+            {"state_dict": modelo.state_dict(), "seed": seed, "extra": extra or {}},
+            os.path.join(saida, "portao.pt"),
+        )
     return modelo, dev
 
 
@@ -284,11 +630,17 @@ def carregar_modelo(caminho: str):
     return modelo, dev
 
 
+def probabilidade_lote(X: np.ndarray, modelo, dev) -> np.ndarray:
+    """P(tablatura) de um lote JÁ preparado, em ``(N, 1, ALTURA, LARGURA)``."""
+    with torch.no_grad():
+        xt = torch.tensor(X).to(dev)
+        return torch.softmax(modelo(xt), 1)[:, 1].cpu().numpy()
+
+
 def probabilidade(rois: list[np.ndarray], modelo, dev) -> np.ndarray:
     """Probabilidade de ser tablatura para cada recorte."""
-    xt = torch.tensor(np.stack([preparar(r)[0] for r in rois])[:, None]).to(dev)
-    with torch.no_grad():
-        return torch.softmax(modelo(xt), 1)[:, 1].cpu().numpy()
+    X = np.stack([preparar(r)[0] for r in rois])[:, None]
+    return probabilidade_lote(X, modelo, dev)
 
 
 def _casos_reais() -> tuple[list[np.ndarray], list[int], list[str]]:
@@ -343,22 +695,191 @@ def avaliar(modelo, dev) -> dict:
     return {"casos": casos, "acertos": acertos, "total": len(casos)}
 
 
+def validar_por_canal(
+    casos: list[dict], n_sint: int, epocas: int, seed: int, lote: int = 64
+) -> dict:
+    """Leave-one-channel-out: treina sem um canal e mede nele.
+
+    É a validação que mede o que importa — generalizar para CANAL que não entrou no
+    treino. A validação sorteada mede o contrário (o mesmo canal dos dois lados) e foi
+    ela que produziu o 18/23 que não sobreviveu ao conjunto de aceitação.
+
+    Args:
+        casos: casos rotulados do gabarito.
+        n_sint: exemplos sintéticos por classe (0 = só recorte real).
+        epocas: passagens pelo conjunto.
+        seed: semente do treino e do sintético.
+        lote: tamanho do lote.
+
+    Returns:
+        ``{canal: {"acertos", "total", "positivos"}}`` e a chave ``"total"`` com a soma
+        de todos os casos deixados de fora.
+    """
+    _, _, canais = dataset_real(casos)
+    resultado: dict = {}
+    acertos = total = 0
+    for canal in sorted(set(canais)):
+        X, y, pesos = montar_treino(casos, n_sint, seed, excluir_canal=canal)
+        modelo, dev = treinar(
+            X, y, "", epocas, seed, lote=lote, pesos=pesos, salvar=False
+        )
+        Xc, yc, _ = dataset_real([c for c in casos if c["canal"] == canal])
+        p = probabilidade_lote(Xc, modelo, dev)
+        ac = int(((p >= 0.5) == (yc == 1)).sum())
+        resultado[canal] = {"acertos": ac, "total": len(yc), "positivos": int(yc.sum())}
+        acertos += ac
+        total += len(yc)
+    resultado["total"] = {"acertos": acertos, "total": total}
+    return resultado
+
+
+def _casos_dos_manifestos(padroes: str) -> list[dict]:
+    """Casos das coletas, na ordem dos manifestos (cada item aceita glob)."""
+    casos: list[dict] = []
+    for padrao in padroes.split(","):
+        for caminho in sorted(glob.glob(padrao.strip())):
+            with open(caminho, encoding="utf-8") as fh:
+                casos.extend(json.load(fh))
+    return casos
+
+
 def main() -> int:
-    """Treina ou avalia o portão."""
+    """Coleta, rotula, treina, valida por canal ou avalia o portão."""
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("acao", choices=["treinar", "avaliar"])
-    ap.add_argument("--n", type=int, default=3000, help="exemplos por classe")
+    ap.add_argument(
+        "acao",
+        choices=["treinar", "avaliar", "coletar", "folhas", "rotular", "locanal"],
+    )
+    ap.add_argument(
+        "--n", type=int, default=3000, help="exemplos sintéticos por classe"
+    )
     ap.add_argument("--epocas", type=int, default=12)
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--saida", default=str(ARTEFATOS / "portao"))
     ap.add_argument("--modelo", default=str(ARTEFATOS / "portao" / "portao.pt"))
+    ap.add_argument(
+        "--gold", action="store_true", help="inclui os recortes reais rotulados"
+    )
+    ap.add_argument("--pesos", action="store_true", help="peso de classe na perda")
+    ap.add_argument(
+        "--canal", default="sky guitar", help="canal(is) da coleta, vírgula"
+    )
+    ap.add_argument("--n-videos", type=int, default=16)
+    ap.add_argument("--fracoes", default="0.6,0.75,0.9")
+    ap.add_argument("--inicio", type=int, default=0, help="índice do primeiro recorte")
+    ap.add_argument("--por-quadro", type=int, default=2)
+    ap.add_argument("--manifest", default="", help="manifesto(s) da coleta, vírgula")
+    ap.add_argument("--rotulos", default="", help="JSON arquivo → rótulo")
+    ap.add_argument(
+        "--folhas", default="", help="folhas PNG usadas na leitura, vírgula"
+    )
+    ap.add_argument("--letra", default="D", help="letra inicial das folhas novas")
     args = ap.parse_args()
 
+    if args.acao == "coletar":
+        fracoes = tuple(float(f) for f in args.fracoes.split(","))
+        casos: list[dict] = []
+        for canal in (c.strip() for c in args.canal.split(",")):
+            if not canal:
+                continue
+            casos.extend(
+                coletar_canal(
+                    canal,
+                    args.n_videos,
+                    fracoes,
+                    args.seed,
+                    inicio=args.inicio + len(casos),
+                    por_quadro=args.por_quadro,
+                )
+            )
+        destino = SAIDA / "portao_novos"
+        os.makedirs(destino, exist_ok=True)
+        caminho = destino / f"coleta_{args.inicio:03d}_{args.seed}.json"
+        with open(caminho, "w", encoding="utf-8") as fh:
+            json.dump(casos, fh, ensure_ascii=False, indent=1)
+            fh.write("\n")
+        print(
+            f"{len(casos)} recortes em {caminho}; próximo índice {args.inicio + len(casos)}"
+        )
+        return 0
+
+    if args.acao == "folhas":
+        casos = _casos_dos_manifestos(args.manifest)
+        caminhos, mapa = gerar_folhas(casos, letra=args.letra, seed=args.seed)
+        destino = SAIDA / "portao_novos" / f"folhas_{args.letra}.json"
+        os.makedirs(destino.parent, exist_ok=True)
+        with open(destino, "w", encoding="utf-8") as fh:
+            json.dump(mapa, fh, ensure_ascii=False, indent=1)
+            fh.write("\n")
+        print(json.dumps(caminhos, ensure_ascii=False, indent=1))
+        return 0
+
+    if args.acao == "rotular":
+        with open(args.rotulos, encoding="utf-8") as fh:
+            rotulos = json.load(fh)
+        casos = _casos_dos_manifestos(args.manifest)
+        novos = []
+        for caso in casos:
+            rotulo = rotulos.get(str(caso["arquivo"]))
+            if rotulo not in ROTULOS:
+                continue
+            limpo = {k: v for k, v in caso.items() if k not in ("via", "posicao")}
+            limpo["rotulo"] = rotulo
+            novos.append(limpo)
+        folhas = [f.strip() for f in args.folhas.split(",") if f.strip()]
+        gold = acrescentar_casos(novos, folhas)
+        contagem: dict[str, int] = {}
+        for caso in gold["casos"]:
+            contagem[str(caso["rotulo"])] = contagem.get(str(caso["rotulo"]), 0) + 1
+        print(f"gabarito com {len(gold['casos'])} casos: {contagem}", flush=True)
+        return 0
+
     if args.acao == "treinar":
-        X, y = montar_dataset(args.n, seed=args.seed)
-        print(f"conjunto: {X.shape} | tablatura {int(y.sum())} de {len(y)}", flush=True)
-        modelo, dev = treinar(X, y, args.saida, args.epocas, args.seed)
-        print(f"\nmodelo salvo em {args.saida}", flush=True)
+        if args.gold:
+            casos = [c for c in casos_do_gold() if c.get("rotulo") in ROTULOS_BINARIOS]
+            _, y_real, _ = dataset_real(casos)
+            X, y, pesos = montar_treino(casos, args.n, args.seed)
+            if not args.pesos:
+                pesos = None
+            print(
+                f"conjunto: {X.shape} | tablatura {int(y.sum())} de {len(y)} | "
+                f"real {int(y_real.sum())} pos / {len(y_real) - int(y_real.sum())} neg",
+                flush=True,
+            )
+            modelo, dev = treinar(
+                X,
+                y,
+                args.saida,
+                args.epocas,
+                args.seed,
+                pesos=pesos,
+                extra={
+                    "n_sint": args.n,
+                    "gold": len(casos),
+                    "positivos_reais": int(y_real.sum()),
+                    "pesos": bool(args.pesos),
+                },
+            )
+            print(f"\nmodelo salvo em {args.saida}", flush=True)
+        else:
+            X, y = montar_dataset(args.n, seed=args.seed)
+            print(
+                f"conjunto: {X.shape} | tablatura {int(y.sum())} de {len(y)}",
+                flush=True,
+            )
+            modelo, dev = treinar(X, y, args.saida, args.epocas, args.seed)
+            print(f"\nmodelo salvo em {args.saida}", flush=True)
+    elif args.acao == "locanal":
+        casos = [c for c in casos_do_gold() if c.get("rotulo") in ROTULOS_BINARIOS]
+        print(
+            json.dumps(
+                validar_por_canal(casos, args.n, args.epocas, args.seed),
+                ensure_ascii=False,
+                indent=1,
+            ),
+            flush=True,
+        )
+        return 0
     else:
         modelo, dev = carregar_modelo(args.modelo)
 

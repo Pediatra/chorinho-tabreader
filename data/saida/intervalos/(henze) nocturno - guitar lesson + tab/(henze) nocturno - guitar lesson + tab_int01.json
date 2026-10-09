@@ -1,0 +1,8990 @@
+{
+ "t0": 110.3,
+ "t1": 313.3,
+ "amostras": [
+  {
+   "t": 130.3,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "meio",
+   "uniformidade": 0.877,
+   "passo": 7.6,
+   "glifos": 67,
+   "largura_painel": 1920
+  },
+  {
+   "t": 162.9,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "topo",
+   "uniformidade": 0.867,
+   "passo": 16.0,
+   "glifos": 114,
+   "largura_painel": 1784
+  },
+  {
+   "t": 195.5,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "topo",
+   "uniformidade": 0.867,
+   "passo": 16.0,
+   "glifos": 116,
+   "largura_painel": 1784
+  },
+  {
+   "t": 228.1,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "topo",
+   "uniformidade": 0.871,
+   "passo": 16.0,
+   "glifos": 112,
+   "largura_painel": 1784
+  },
+  {
+   "t": 260.7,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "topo",
+   "uniformidade": 0.868,
+   "passo": 17.0,
+   "glifos": 135,
+   "largura_painel": 1784
+  },
+  {
+   "t": 293.3,
+   "via": "cv2",
+   "tem_notacao": true,
+   "faixa": "topo",
+   "uniformidade": 0.869,
+   "passo": 16.0,
+   "glifos": 107,
+   "largura_painel": 1784
+  }
+ ],
+ "notas": [
+  {
+   "ordem": 1,
+   "corda": 2,
+   "casa": "5",
+   "tecnica": null,
+   "x": 12,
+   "confianca": 0.397,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "png": "sky guitar/203c7ae4b27624d7.png",
+    "hash": "203c7ae4b27624d7",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.88,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      15,
+      17
+     ],
+     [
+      13,
+      8,
+      16,
+      17
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.397
+     ],
+     [
+      "harmonico",
+      0.242
+     ],
+     [
+      "6",
+      0.157
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.383
+     ],
+     [
+      "5",
+      0.237
+     ],
+     [
+      "6",
+      0.137
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.383
+   }
+  },
+  {
+   "ordem": 2,
+   "corda": 2,
+   "casa": "14",
+   "tecnica": null,
+   "x": 49,
+   "confianca": 0.318,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/f9f4737a2be32180.png",
+    "hash": "f9f4737a2be32180",
+    "partes": 4,
+    "partes_digito": 4,
+    "larguras_passo": [
+     0.35,
+     0.24,
+     0.71,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      8,
+      6,
+      17
+     ],
+     [
+      1,
+      0,
+      5,
+      7
+     ],
+     [
+      8,
+      9,
+      20,
+      17
+     ],
+     [
+      14,
+      0,
+      21,
+      7
+     ]
+    ],
+    "classe": "14",
+    "top3": [
+     [
+      "14",
+      0.318
+     ],
+     [
+      "0",
+      0.237
+     ],
+     [
+      "tecnica",
+      0.216
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.936
+     ],
+     [
+      "15",
+      0.044
+     ],
+     [
+      "5",
+      0.016
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.936
+   }
+  },
+  {
+   "ordem": 3,
+   "corda": 3,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 12,
+   "confianca": 0.286,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/004911567fdd52bf.png",
+    "hash": "004911567fdd52bf",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.47
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      8,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.286
+     ],
+     [
+      "19",
+      0.2
+     ],
+     [
+      "21",
+      0.073
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.286
+     ],
+     [
+      "19",
+      0.2
+     ],
+     [
+      "21",
+      0.073
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 4,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 25,
+   "confianca": 0.58,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/ce6fed4b7d569ce6.png",
+    "hash": "ce6fed4b7d569ce6",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.18,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      8
+     ],
+     [
+      0,
+      10,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.58
+     ],
+     [
+      "10",
+      0.27
+     ],
+     [
+      "tecnica",
+      0.107
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.358
+     ],
+     [
+      "0",
+      0.343
+     ],
+     [
+      "9",
+      0.132
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 5,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 45,
+   "confianca": 0.476,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "png": "sky guitar/2eff827dbedbae56.png",
+    "hash": "2eff827dbedbae56",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.88,
+     0.88
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      15,
+      17
+     ],
+     [
+      7,
+      0,
+      22,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.476
+     ],
+     [
+      "17",
+      0.154
+     ],
+     [
+      "14",
+      0.136
+     ]
+    ],
+    "top3_componente": [
+     [
+      "5",
+      0.197
+     ],
+     [
+      "1",
+      0.172
+     ],
+     [
+      "4",
+      0.155
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.428
+   }
+  },
+  {
+   "ordem": 6,
+   "corda": 4,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 12,
+   "confianca": 0.286,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/21c0fc402199920e.png",
+    "hash": "21c0fc402199920e",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.47
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      8,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.286
+     ],
+     [
+      "19",
+      0.2
+     ],
+     [
+      "21",
+      0.073
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.286
+     ],
+     [
+      "19",
+      0.2
+     ],
+     [
+      "21",
+      0.073
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 7,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 25,
+   "confianca": 0.436,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/0582cef640601613.png",
+    "hash": "0582cef640601613",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.18,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ],
+     [
+      0,
+      9,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.436
+     ],
+     [
+      "10",
+      0.327
+     ],
+     [
+      "tecnica",
+      0.164
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.35
+     ],
+     [
+      "1",
+      0.199
+     ],
+     [
+      "0",
+      0.1
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 8,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 38,
+   "confianca": 0.433,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/13fd336e47b22750.png",
+    "hash": "13fd336e47b22750",
+    "partes": 4,
+    "partes_digito": 4,
+    "larguras_passo": [
+     0.53,
+     0.71,
+     1.65,
+     0.29
+    ],
+    "componentes": [
+     [
+      0,
+      9,
+      9,
+      17
+     ],
+     [
+      3,
+      0,
+      15,
+      6
+     ],
+     [
+      11,
+      12,
+      39,
+      17
+     ],
+     [
+      18,
+      0,
+      23,
+      7
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.433
+     ],
+     [
+      "tecnica",
+      0.265
+     ],
+     [
+      "6",
+      0.097
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.266
+     ],
+     [
+      "4",
+      0.232
+     ],
+     [
+      "9",
+      0.174
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.802
+   }
+  },
+  {
+   "ordem": 9,
+   "corda": 5,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 12,
+   "confianca": 0.286,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/10309cf1dd533054.png",
+    "hash": "10309cf1dd533054",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.47
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      8,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.286
+     ],
+     [
+      "19",
+      0.2
+     ],
+     [
+      "21",
+      0.073
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.286
+     ],
+     [
+      "19",
+      0.2
+     ],
+     [
+      "21",
+      0.073
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 10,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 25,
+   "confianca": 0.37,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/a44fc97e56a4088e.png",
+    "hash": "a44fc97e56a4088e",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.18,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      9
+     ],
+     [
+      0,
+      10,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "10",
+      0.37
+     ],
+     [
+      "0",
+      0.334
+     ],
+     [
+      "tecnica",
+      0.205
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.55
+     ],
+     [
+      "0",
+      0.213
+     ],
+     [
+      "9",
+      0.116
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 11,
+   "corda": 5,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 37,
+   "confianca": 0.906,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/b4a153f88f0d6f52.png",
+    "hash": "b4a153f88f0d6f52",
+    "partes": 6,
+    "partes_digito": 6,
+    "larguras_passo": [
+     0.41,
+     0.41,
+     1.82,
+     0.59,
+     0.24,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      7,
+      9
+     ],
+     [
+      1,
+      10,
+      8,
+      17
+     ],
+     [
+      11,
+      0,
+      42,
+      9
+     ],
+     [
+      11,
+      10,
+      21,
+      17
+     ],
+     [
+      25,
+      10,
+      29,
+      17
+     ],
+     [
+      36,
+      10,
+      43,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.906
+     ],
+     [
+      "harmonico",
+      0.088
+     ],
+     [
+      "10",
+      0.005
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.303
+     ],
+     [
+      "4",
+      0.154
+     ],
+     [
+      "14",
+      0.142
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.848
+   }
+  },
+  {
+   "ordem": 12,
+   "corda": 6,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 12,
+   "confianca": 0.286,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/d3684b90a529dc74.png",
+    "hash": "d3684b90a529dc74",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.47
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      8,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.286
+     ],
+     [
+      "19",
+      0.2
+     ],
+     [
+      "21",
+      0.073
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.286
+     ],
+     [
+      "19",
+      0.2
+     ],
+     [
+      "21",
+      0.073
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 13,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 25,
+   "confianca": 0.331,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/89a0546ccb5ac5b2.png",
+    "hash": "89a0546ccb5ac5b2",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.18,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ],
+     [
+      0,
+      9,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "10",
+      0.331
+     ],
+     [
+      "0",
+      0.286
+     ],
+     [
+      "tecnica",
+      0.253
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.486
+     ],
+     [
+      "14",
+      0.426
+     ],
+     [
+      "17",
+      0.052
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 14,
+   "corda": 6,
+   "casa": "2",
+   "tecnica": null,
+   "x": 42,
+   "confianca": 0.549,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "png": "sky guitar/94766c5f615fa017.png",
+    "hash": "94766c5f615fa017",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.71,
+     0.59
+    ],
+    "componentes": [
+     [
+      0,
+      13,
+      12,
+      17
+     ],
+     [
+      1,
+      0,
+      11,
+      5
+     ]
+    ],
+    "classe": "2",
+    "top3": [
+     [
+      "2",
+      0.549
+     ],
+     [
+      "tecnica",
+      0.251
+     ],
+     [
+      "harmonico",
+      0.136
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.639
+     ],
+     [
+      "24",
+      0.106
+     ],
+     [
+      "14",
+      0.085
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.639
+   }
+  },
+  {
+   "ordem": 15,
+   "corda": 6,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 64,
+   "confianca": 0.575,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "14",
+   "simbolo_cru": {
+    "png": "sky guitar/ab69397e12c13efa.png",
+    "hash": "ab69397e12c13efa",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.71,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      12,
+      5
+     ],
+     [
+      0,
+      9,
+      4,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "15",
+      0.575
+     ],
+     [
+      "17",
+      0.224
+     ],
+     [
+      "tecnica",
+      0.176
+     ]
+    ],
+    "top3_componente": [
+     [
+      "14",
+      0.61
+     ],
+     [
+      "tecnica",
+      0.242
+     ],
+     [
+      "harmonico",
+      0.114
+     ]
+    ],
+    "casa_recuperada": "14",
+    "confianca_recuperada": 0.61
+   }
+  },
+  {
+   "ordem": 16,
+   "corda": 2,
+   "casa": "7",
+   "tecnica": null,
+   "x": 108,
+   "confianca": 0.98,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "sky guitar/ddcbe7524e12de60.png",
+    "hash": "ddcbe7524e12de60",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.88,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      15,
+      7
+     ],
+     [
+      7,
+      8,
+      14,
+      17
+     ]
+    ],
+    "classe": "7",
+    "top3": [
+     [
+      "7",
+      0.98
+     ],
+     [
+      "harmonico",
+      0.008
+     ],
+     [
+      "1",
+      0.005
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.338
+     ],
+     [
+      "0",
+      0.296
+     ],
+     [
+      "19",
+      0.124
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.756
+   }
+  },
+  {
+   "ordem": 17,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 113,
+   "confianca": 0.715,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/aa1baa4101585cb2.png",
+    "hash": "aa1baa4101585cb2",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.35
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      6,
+      8
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.715
+     ],
+     [
+      "6",
+      0.068
+     ],
+     [
+      "4",
+      0.065
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.715
+     ],
+     [
+      "6",
+      0.068
+     ],
+     [
+      "4",
+      0.065
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 18,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 148,
+   "confianca": 0.52,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "sky guitar/8e2b52d73a8181ac.png",
+    "hash": "8e2b52d73a8181ac",
+    "partes": 3,
+    "partes_digito": 3,
+    "larguras_passo": [
+     0.29,
+     0.71,
+     0.29
+    ],
+    "componentes": [
+     [
+      0,
+      8,
+      5,
+      17
+     ],
+     [
+      1,
+      0,
+      13,
+      7
+     ],
+     [
+      9,
+      8,
+      14,
+      17
+     ]
+    ],
+    "classe": "0",
+    "top3": [
+     [
+      "0",
+      0.52
+     ],
+     [
+      "9",
+      0.131
+     ],
+     [
+      "tecnica",
+      0.091
+     ]
+    ],
+    "top3_componente": [
+     [
+      "15",
+      0.609
+     ],
+     [
+      "5",
+      0.256
+     ],
+     [
+      "1",
+      0.092
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.748
+   },
+   "t_ini": 181.8
+  },
+  {
+   "ordem": 19,
+   "corda": 3,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 150,
+   "confianca": 0.443,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/d73de4aed1c4af0c.png",
+    "hash": "d73de4aed1c4af0c",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.59,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      8
+     ],
+     [
+      3,
+      10,
+      6,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "15",
+      0.443
+     ],
+     [
+      "19",
+      0.217
+     ],
+     [
+      "tecnica",
+      0.148
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.31
+     ],
+     [
+      "7",
+      0.229
+     ],
+     [
+      "19",
+      0.135
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 181.8
+  },
+  {
+   "ordem": 20,
+   "corda": 4,
+   "casa": "1",
+   "tecnica": null,
+   "x": 150,
+   "confianca": 0.598,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/d0f0c670640e4a44.png",
+    "hash": "d0f0c670640e4a44",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.53,
+     0.35
+    ],
+    "componentes": [
+     [
+      0,
+      9,
+      9,
+      17
+     ],
+     [
+      2,
+      0,
+      8,
+      7
+     ]
+    ],
+    "classe": "1",
+    "top3": [
+     [
+      "1",
+      0.598
+     ],
+     [
+      "9",
+      0.194
+     ],
+     [
+      "4",
+      0.176
+     ]
+    ],
+    "top3_componente": [
+     [
+      "7",
+      0.457
+     ],
+     [
+      "3",
+      0.3
+     ],
+     [
+      "1",
+      0.044
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.939
+   },
+   "t_ini": 181.8
+  },
+  {
+   "ordem": 21,
+   "corda": 5,
+   "casa": "2",
+   "tecnica": null,
+   "x": 152,
+   "confianca": 0.443,
+   "corrigido_pela_forma": true,
+   "t_ini": 181.8
+  },
+  {
+   "ordem": 22,
+   "corda": 2,
+   "casa": "24",
+   "tecnica": null,
+   "x": 168,
+   "confianca": 0.3,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/f19fcc64122314c0.png",
+    "hash": "f19fcc64122314c0",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.24,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      21,
+      17
+     ],
+     [
+      18,
+      0,
+      21,
+      7
+     ]
+    ],
+    "classe": "24",
+    "top3": [
+     [
+      "24",
+      0.3
+     ],
+     [
+      "4",
+      0.148
+     ],
+     [
+      "7",
+      0.123
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.176
+     ],
+     [
+      "5",
+      0.114
+     ],
+     [
+      "3",
+      0.089
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.176
+   },
+   "t_ini": 181.8
+  },
+  {
+   "ordem": 23,
+   "corda": 3,
+   "casa": "15",
+   "tecnica": null,
+   "x": 168,
+   "confianca": 0.137,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/7e5657db00e4051e.png",
+    "hash": "7e5657db00e4051e",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.24,
+     1.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      21,
+      5
+     ],
+     [
+      1,
+      12,
+      21,
+      17
+     ]
+    ],
+    "classe": "15",
+    "top3": [
+     [
+      "1",
+      0.137
+     ],
+     [
+      "9",
+      0.137
+     ],
+     [
+      "3",
+      0.115
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.139
+     ],
+     [
+      "3",
+      0.107
+     ],
+     [
+      "4",
+      0.09
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.234
+   },
+   "t_ini": 181.8
+  },
+  {
+   "ordem": 24,
+   "corda": 4,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 168,
+   "confianca": 0.107,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "png": "sky guitar/5d07f735ffb93740.png",
+    "hash": "5d07f735ffb93740",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.24,
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      21,
+      7
+     ],
+     [
+      0,
+      12,
+      21,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "1",
+      0.107
+     ],
+     [
+      "3",
+      0.09
+     ],
+     [
+      "9",
+      0.072
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.193
+     ],
+     [
+      "5",
+      0.148
+     ],
+     [
+      "1",
+      0.093
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.193
+   },
+   "t_ini": 181.8
+  },
+  {
+   "ordem": 25,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 168,
+   "confianca": 0.259,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/692d4c7e550bcfd7.png",
+    "hash": "692d4c7e550bcfd7",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      21,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "3",
+      0.259
+     ],
+     [
+      "1",
+      0.147
+     ],
+     [
+      "15",
+      0.094
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.259
+     ],
+     [
+      "1",
+      0.147
+     ],
+     [
+      "15",
+      0.094
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.259
+   },
+   "t_ini": 181.8
+  },
+  {
+   "ordem": 26,
+   "corda": 2,
+   "casa": "24",
+   "tecnica": null,
+   "x": 228,
+   "confianca": 0.363,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/cea25eb22b370cc6.png",
+    "hash": "cea25eb22b370cc6",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.24,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      21,
+      17
+     ],
+     [
+      18,
+      0,
+      21,
+      7
+     ]
+    ],
+    "classe": "24",
+    "top3": [
+     [
+      "24",
+      0.363
+     ],
+     [
+      "4",
+      0.243
+     ],
+     [
+      "14",
+      0.1
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.189
+     ],
+     [
+      "5",
+      0.11
+     ],
+     [
+      "3",
+      0.086
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.189
+   },
+   "t_ini": 256.3
+  },
+  {
+   "ordem": 27,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 227,
+   "confianca": 0.161,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/85b48d9de02465e6.png",
+    "hash": "85b48d9de02465e6",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     1.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      5
+     ],
+     [
+      2,
+      12,
+      22,
+      17
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "5",
+      0.161
+     ],
+     [
+      "9",
+      0.159
+     ],
+     [
+      "3",
+      0.126
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.193
+     ],
+     [
+      "1",
+      0.115
+     ],
+     [
+      "2",
+      0.101
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.211
+   },
+   "t_ini": 256.3
+  },
+  {
+   "ordem": 28,
+   "corda": 4,
+   "casa": "19",
+   "tecnica": null,
+   "x": 227,
+   "confianca": 0.169,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/4418561bf5c17a8f.png",
+    "hash": "4418561bf5c17a8f",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      7
+     ],
+     [
+      1,
+      12,
+      22,
+      17
+     ]
+    ],
+    "classe": "19",
+    "top3": [
+     [
+      "3",
+      0.169
+     ],
+     [
+      "5",
+      0.115
+     ],
+     [
+      "6",
+      0.091
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.212
+     ],
+     [
+      "5",
+      0.157
+     ],
+     [
+      "4",
+      0.099
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.212
+   },
+   "t_ini": 256.3
+  },
+  {
+   "ordem": 29,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 227,
+   "confianca": 0.314,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/899f7d6d78a3a096.png",
+    "hash": "899f7d6d78a3a096",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.29
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "3",
+      0.314
+     ],
+     [
+      "1",
+      0.185
+     ],
+     [
+      "2",
+      0.089
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.314
+     ],
+     [
+      "1",
+      0.185
+     ],
+     [
+      "2",
+      0.089
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.314
+   },
+   "t_ini": 256.3
+  },
+  {
+   "ordem": 30,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 269,
+   "confianca": 0.754,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "6",
+   "simbolo_cru": {
+    "png": "sky guitar/debfc5592a4df455.png",
+    "hash": "debfc5592a4df455",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.53,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      9,
+      9,
+      14
+     ],
+     [
+      6,
+      0,
+      10,
+      7
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.754
+     ],
+     [
+      "2",
+      0.206
+     ],
+     [
+      "tecnica",
+      0.027
+     ]
+    ],
+    "top3_componente": [
+     [
+      "6",
+      0.856
+     ],
+     [
+      "harmonico",
+      0.131
+     ],
+     [
+      "0",
+      0.006
+     ]
+    ],
+    "casa_recuperada": "6",
+    "confianca_recuperada": 0.856
+   },
+   "t_ini": 293.3
+  },
+  {
+   "ordem": 31,
+   "corda": 2,
+   "casa": "7",
+   "tecnica": null,
+   "x": 287,
+   "confianca": 0.986,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "sky guitar/e2d2e0dd0a167e2f.png",
+    "hash": "e2d2e0dd0a167e2f",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.88,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      15,
+      7
+     ],
+     [
+      7,
+      8,
+      14,
+      17
+     ]
+    ],
+    "classe": "7",
+    "top3": [
+     [
+      "7",
+      0.986
+     ],
+     [
+      "harmonico",
+      0.005
+     ],
+     [
+      "1",
+      0.003
+     ]
+    ],
+    "top3_componente": [
+     [
+      "6",
+      0.32
+     ],
+     [
+      "tecnica",
+      0.289
+     ],
+     [
+      "0",
+      0.168
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.576
+   },
+   "t_ini": 146.3
+  },
+  {
+   "ordem": 32,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 292,
+   "confianca": 0.58,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/b1a9c9c950c89bc9.png",
+    "hash": "b1a9c9c950c89bc9",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.35
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      6,
+      8
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.58
+     ],
+     [
+      "1",
+      0.169
+     ],
+     [
+      "6",
+      0.068
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.58
+     ],
+     [
+      "1",
+      0.169
+     ],
+     [
+      "6",
+      0.068
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 146.3
+  },
+  {
+   "ordem": 33,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 287,
+   "confianca": 0.33,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "2",
+   "simbolo_cru": {
+    "png": "sky guitar/e4421b3878c38f40.png",
+    "hash": "e4421b3878c38f40",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.06,
+     1.18
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      18,
+      17
+     ],
+     [
+      2,
+      0,
+      22,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "5",
+      0.33
+     ],
+     [
+      "harmonico",
+      0.278
+     ],
+     [
+      "1",
+      0.061
+     ]
+    ],
+    "top3_componente": [
+     [
+      "2",
+      0.387
+     ],
+     [
+      "4",
+      0.127
+     ],
+     [
+      "0",
+      0.125
+     ]
+    ],
+    "casa_recuperada": "2",
+    "confianca_recuperada": 0.387
+   },
+   "t_ini": 146.3
+  },
+  {
+   "ordem": 34,
+   "corda": 6,
+   "casa": "4",
+   "tecnica": null,
+   "x": 314,
+   "confianca": 0.357,
+   "corrigido_pela_forma": false,
+   "t_ini": 220.3
+  },
+  {
+   "ordem": 35,
+   "corda": 2,
+   "casa": "24",
+   "tecnica": null,
+   "x": 347,
+   "confianca": 0.339,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/d0c8333dcac1e4ea.png",
+    "hash": "d0c8333dcac1e4ea",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.24,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      21,
+      17
+     ],
+     [
+      18,
+      0,
+      21,
+      7
+     ]
+    ],
+    "classe": "24",
+    "top3": [
+     [
+      "24",
+      0.339
+     ],
+     [
+      "4",
+      0.166
+     ],
+     [
+      "14",
+      0.114
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.176
+     ],
+     [
+      "5",
+      0.114
+     ],
+     [
+      "3",
+      0.089
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.176
+   },
+   "t_ini": 257.8
+  },
+  {
+   "ordem": 36,
+   "corda": 3,
+   "casa": "15",
+   "tecnica": null,
+   "x": 347,
+   "confianca": 0.11,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/144c19190ca0f552.png",
+    "hash": "144c19190ca0f552",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.24,
+     1.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      21,
+      5
+     ],
+     [
+      1,
+      12,
+      21,
+      17
+     ]
+    ],
+    "classe": "15",
+    "top3": [
+     [
+      "9",
+      0.11
+     ],
+     [
+      "1",
+      0.106
+     ],
+     [
+      "3",
+      0.101
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.139
+     ],
+     [
+      "3",
+      0.107
+     ],
+     [
+      "4",
+      0.09
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.207
+   },
+   "t_ini": 257.8
+  },
+  {
+   "ordem": 37,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 347,
+   "confianca": 0.116,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "png": "sky guitar/f79384f2c725f88e.png",
+    "hash": "f79384f2c725f88e",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.24,
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      21,
+      7
+     ],
+     [
+      0,
+      12,
+      21,
+      17
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "1",
+      0.116
+     ],
+     [
+      "3",
+      0.089
+     ],
+     [
+      "9",
+      0.085
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.213
+     ],
+     [
+      "5",
+      0.183
+     ],
+     [
+      "1",
+      0.101
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.213
+   },
+   "t_ini": 257.8
+  },
+  {
+   "ordem": 38,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 347,
+   "confianca": 0.213,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/03d7ccc6ffea0233.png",
+    "hash": "03d7ccc6ffea0233",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      21,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "3",
+      0.213
+     ],
+     [
+      "1",
+      0.199
+     ],
+     [
+      "2",
+      0.094
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.213
+     ],
+     [
+      "1",
+      0.199
+     ],
+     [
+      "2",
+      0.094
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.213
+   },
+   "t_ini": 257.8
+  },
+  {
+   "ordem": 39,
+   "corda": 2,
+   "casa": "24",
+   "tecnica": null,
+   "x": 407,
+   "confianca": 0.451,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/2d556facb64de74f.png",
+    "hash": "2d556facb64de74f",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.24,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      21,
+      17
+     ],
+     [
+      18,
+      0,
+      21,
+      7
+     ]
+    ],
+    "classe": "24",
+    "top3": [
+     [
+      "4",
+      0.451
+     ],
+     [
+      "24",
+      0.253
+     ],
+     [
+      "0",
+      0.103
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.165
+     ],
+     [
+      "3",
+      0.13
+     ],
+     [
+      "5",
+      0.113
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.165
+   },
+   "t_ini": 203.3
+  },
+  {
+   "ordem": 40,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 406,
+   "confianca": 0.224,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/2681ed8ae21b2924.png",
+    "hash": "2681ed8ae21b2924",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      5
+     ],
+     [
+      1,
+      12,
+      22,
+      17
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "9",
+      0.224
+     ],
+     [
+      "3",
+      0.188
+     ],
+     [
+      "1",
+      0.077
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.246
+     ],
+     [
+      "1",
+      0.129
+     ],
+     [
+      "15",
+      0.115
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.246
+   },
+   "t_ini": 203.3
+  },
+  {
+   "ordem": 41,
+   "corda": 4,
+   "casa": "15",
+   "tecnica": null,
+   "x": 406,
+   "confianca": 0.164,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/7d66a58ed06a024c.png",
+    "hash": "7d66a58ed06a024c",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      7
+     ],
+     [
+      1,
+      12,
+      22,
+      17
+     ]
+    ],
+    "classe": "15",
+    "top3": [
+     [
+      "3",
+      0.164
+     ],
+     [
+      "9",
+      0.095
+     ],
+     [
+      "1",
+      0.085
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.194
+     ],
+     [
+      "5",
+      0.164
+     ],
+     [
+      "4",
+      0.147
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.194
+   },
+   "t_ini": 203.3
+  },
+  {
+   "ordem": 42,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 406,
+   "confianca": 0.364,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/bc5576c040725715.png",
+    "hash": "bc5576c040725715",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.29
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "3",
+      0.364
+     ],
+     [
+      "1",
+      0.125
+     ],
+     [
+      "15",
+      0.107
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.364
+     ],
+     [
+      "1",
+      0.125
+     ],
+     [
+      "15",
+      0.107
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.364
+   },
+   "t_ini": 203.3
+  },
+  {
+   "ordem": 43,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 465,
+   "confianca": 0.438,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/5d535cf8c8c079d8.png",
+    "hash": "5d535cf8c8c079d8",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      9
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.438
+     ],
+     [
+      "7",
+      0.254
+     ],
+     [
+      "15",
+      0.123
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.438
+     ],
+     [
+      "7",
+      0.254
+     ],
+     [
+      "15",
+      0.123
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.438
+   },
+   "t_ini": 129.3
+  },
+  {
+   "ordem": 44,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 465,
+   "confianca": 0.301,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/0018dcb1ba908aad.png",
+    "hash": "0018dcb1ba908aad",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.24,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      8
+     ],
+     [
+      0,
+      10,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.301
+     ],
+     [
+      "6",
+      0.178
+     ],
+     [
+      "8",
+      0.11
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.919
+     ],
+     [
+      "12",
+      0.033
+     ],
+     [
+      "19",
+      0.014
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.919
+   },
+   "t_ini": 129.3
+  },
+  {
+   "ordem": 45,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 465,
+   "confianca": 0.324,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "sky guitar/5b44402257bcf88c.png",
+    "hash": "5b44402257bcf88c",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.18,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ],
+     [
+      0,
+      9,
+      4,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.324
+     ],
+     [
+      "6",
+      0.196
+     ],
+     [
+      "8",
+      0.107
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.587
+     ],
+     [
+      "14",
+      0.285
+     ],
+     [
+      "12",
+      0.056
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.49
+   },
+   "t_ini": 129.3
+  },
+  {
+   "ordem": 46,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 465,
+   "confianca": 0.346,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/c250346c206734f4.png",
+    "hash": "c250346c206734f4",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.24,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      9
+     ],
+     [
+      0,
+      10,
+      4,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "6",
+      0.346
+     ],
+     [
+      "1",
+      0.165
+     ],
+     [
+      "0",
+      0.126
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.978
+     ],
+     [
+      "12",
+      0.009
+     ],
+     [
+      "harmonico",
+      0.006
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.978
+   },
+   "t_ini": 129.3
+  },
+  {
+   "ordem": 47,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 465,
+   "confianca": 0.599,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/6fee9bfcfc7ee3be.png",
+    "hash": "6fee9bfcfc7ee3be",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.599
+     ],
+     [
+      "14",
+      0.097
+     ],
+     [
+      "4",
+      0.088
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.599
+     ],
+     [
+      "14",
+      0.097
+     ],
+     [
+      "4",
+      0.088
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 129.3
+  },
+  {
+   "ordem": 48,
+   "corda": 2,
+   "casa": "7",
+   "tecnica": null,
+   "x": 495,
+   "confianca": 0.966,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "sky guitar/38c3f4e50ca92f6a.png",
+    "hash": "38c3f4e50ca92f6a",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.88,
+     0.35
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      15,
+      7
+     ],
+     [
+      7,
+      8,
+      13,
+      17
+     ]
+    ],
+    "classe": "7",
+    "top3": [
+     [
+      "7",
+      0.966
+     ],
+     [
+      "harmonico",
+      0.013
+     ],
+     [
+      "1",
+      0.008
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.519
+     ],
+     [
+      "19",
+      0.162
+     ],
+     [
+      "2",
+      0.152
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.666
+   },
+   "t_ini": 277.8
+  },
+  {
+   "ordem": 49,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 499,
+   "confianca": 0.515,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/d970aeca7477b5ee.png",
+    "hash": "d970aeca7477b5ee",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.35
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      6,
+      8
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.515
+     ],
+     [
+      "1",
+      0.141
+     ],
+     [
+      "12",
+      0.094
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.515
+     ],
+     [
+      "1",
+      0.141
+     ],
+     [
+      "12",
+      0.094
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 117.3
+  },
+  {
+   "ordem": 50,
+   "corda": 6,
+   "casa": "7",
+   "tecnica": null,
+   "x": 494,
+   "confianca": 0.686,
+   "corrigido_pela_forma": false,
+   "t_ini": 277.8
+  },
+  {
+   "ordem": 51,
+   "corda": 6,
+   "casa": "7",
+   "tecnica": null,
+   "x": 510,
+   "confianca": 0.444,
+   "corrigido_pela_forma": false,
+   "t_ini": 117.3
+  },
+  {
+   "ordem": 52,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 522,
+   "confianca": 0.921,
+   "corrigido_pela_forma": false,
+   "t_ini": 296.3
+  },
+  {
+   "ordem": 53,
+   "corda": 2,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 567,
+   "confianca": 0.856,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/2a3ee2a8edad7212.png",
+    "hash": "2a3ee2a8edad7212",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.24,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      21,
+      17
+     ],
+     [
+      18,
+      0,
+      22,
+      7
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.856
+     ],
+     [
+      "2",
+      0.066
+     ],
+     [
+      "12",
+      0.05
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.189
+     ],
+     [
+      "5",
+      0.11
+     ],
+     [
+      "3",
+      0.086
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.938
+   },
+   "t_ini": 260.3
+  },
+  {
+   "ordem": 54,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 566,
+   "confianca": 0.858,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/6477e2e561454f2e.png",
+    "hash": "6477e2e561454f2e",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      5
+     ],
+     [
+      19,
+      10,
+      22,
+      17
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.858
+     ],
+     [
+      "tecnica",
+      0.043
+     ],
+     [
+      "9",
+      0.034
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.225
+     ],
+     [
+      "1",
+      0.11
+     ],
+     [
+      "15",
+      0.094
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.225
+   },
+   "t_ini": 260.3
+  },
+  {
+   "ordem": 55,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 566,
+   "confianca": 0.221,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "sky guitar/e3cad8bcbdd0514f.png",
+    "hash": "e3cad8bcbdd0514f",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.12,
+     1.12
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      19,
+      17
+     ],
+     [
+      3,
+      0,
+      22,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.221
+     ],
+     [
+      "1",
+      0.146
+     ],
+     [
+      "5",
+      0.116
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.9
+     ],
+     [
+      "1",
+      0.026
+     ],
+     [
+      "9",
+      0.018
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.9
+   },
+   "t_ini": 260.3
+  },
+  {
+   "ordem": 56,
+   "corda": 4,
+   "casa": "15",
+   "tecnica": null,
+   "x": 617,
+   "confianca": 0.274,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/5f0b025d1b2a4a5c.png",
+    "hash": "5f0b025d1b2a4a5c",
+    "partes": 5,
+    "partes_digito": 5,
+    "larguras_passo": [
+     1.0,
+     0.18,
+     0.24,
+     1.29,
+     1.12
+    ],
+    "componentes": [
+     [
+      0,
+      9,
+      17,
+      17
+     ],
+     [
+      3,
+      3,
+      6,
+      7
+     ],
+     [
+      10,
+      0,
+      14,
+      7
+     ],
+     [
+      21,
+      12,
+      43,
+      17
+     ],
+     [
+      24,
+      0,
+      43,
+      5
+     ]
+    ],
+    "classe": "15",
+    "top3": [
+     [
+      "5",
+      0.274
+     ],
+     [
+      "15",
+      0.24
+     ],
+     [
+      "14",
+      0.154
+     ]
+    ],
+    "top3_componente": [
+     [
+      "9",
+      0.48
+     ],
+     [
+      "4",
+      0.143
+     ],
+     [
+      "0",
+      0.058
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.896
+   },
+   "t_ini": 149.3
+  },
+  {
+   "ordem": 57,
+   "corda": 5,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 616,
+   "confianca": 0.391,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "8",
+   "simbolo_cru": {
+    "png": "sky guitar/d07c9331436d7d76.png",
+    "hash": "d07c9331436d7d76",
+    "partes": 4,
+    "partes_digito": 4,
+    "larguras_passo": [
+     1.06,
+     0.88,
+     1.18,
+     1.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      18,
+      9
+     ],
+     [
+      3,
+      10,
+      18,
+      17
+     ],
+     [
+      22,
+      12,
+      42,
+      17
+     ],
+     [
+      24,
+      0,
+      44,
+      5
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.391
+     ],
+     [
+      "14",
+      0.157
+     ],
+     [
+      "4",
+      0.136
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.879
+     ],
+     [
+      "0",
+      0.067
+     ],
+     [
+      "19",
+      0.013
+     ]
+    ],
+    "casa_recuperada": "8",
+    "confianca_recuperada": 0.508
+   },
+   "t_ini": 149.3
+  },
+  {
+   "ordem": 58,
+   "corda": 6,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 616,
+   "confianca": 0.431,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/b8d7ec5d0ea602e6.png",
+    "hash": "b8d7ec5d0ea602e6",
+    "partes": 3,
+    "partes_digito": 3,
+    "larguras_passo": [
+     1.06,
+     0.18,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      18,
+      7
+     ],
+     [
+      4,
+      9,
+      7,
+      16
+     ],
+     [
+      12,
+      9,
+      15,
+      13
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.431
+     ],
+     [
+      "harmonico",
+      0.316
+     ],
+     [
+      "5",
+      0.195
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.407
+     ],
+     [
+      "0",
+      0.388
+     ],
+     [
+      "9",
+      0.114
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 149.3
+  },
+  {
+   "ordem": 59,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 657,
+   "confianca": 0.248,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/36e95ca3168554b6.png",
+    "hash": "36e95ca3168554b6",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.24,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      7
+     ],
+     [
+      0,
+      8,
+      4,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.248
+     ],
+     [
+      "6",
+      0.237
+     ],
+     [
+      "8",
+      0.14
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.977
+     ],
+     [
+      "harmonico",
+      0.008
+     ],
+     [
+      "12",
+      0.007
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.977
+   },
+   "t_ini": 279.3
+  },
+  {
+   "ordem": 60,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 657,
+   "confianca": 0.731,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/2de4859f6457bb7a.png",
+    "hash": "2de4859f6457bb7a",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.18,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      8
+     ],
+     [
+      0,
+      10,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.731
+     ],
+     [
+      "4",
+      0.23
+     ],
+     [
+      "9",
+      0.019
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.92
+     ],
+     [
+      "harmonico",
+      0.028
+     ],
+     [
+      "12",
+      0.022
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 279.3
+  },
+  {
+   "ordem": 61,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 728,
+   "confianca": 0.488,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/922cdaf44334724e.png",
+    "hash": "922cdaf44334724e",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.29,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      8,
+      5,
+      17
+     ],
+     [
+      1,
+      0,
+      4,
+      7
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.488
+     ],
+     [
+      "4",
+      0.312
+     ],
+     [
+      "9",
+      0.136
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.943
+     ],
+     [
+      "15",
+      0.023
+     ],
+     [
+      "7",
+      0.018
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.943
+   },
+   "t_ini": 206.3
+  },
+  {
+   "ordem": 62,
+   "corda": 2,
+   "casa": "9",
+   "tecnica": null,
+   "x": 764,
+   "confianca": 0.664,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/e06cfebd96201ad6.png",
+    "hash": "e06cfebd96201ad6",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.18,
+     0.29
+    ],
+    "componentes": [
+     [
+      0,
+      3,
+      3,
+      9
+     ],
+     [
+      7,
+      0,
+      12,
+      9
+     ]
+    ],
+    "classe": "9",
+    "top3": [
+     [
+      "9",
+      0.664
+     ],
+     [
+      "tecnica",
+      0.136
+     ],
+     [
+      "0",
+      0.117
+     ]
+    ],
+    "top3_componente": [
+     [
+      "2",
+      0.267
+     ],
+     [
+      "1",
+      0.197
+     ],
+     [
+      "harmonico",
+      0.14
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.617
+   },
+   "t_ini": 187.8
+  },
+  {
+   "ordem": 63,
+   "corda": 3,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 711,
+   "confianca": 0.375,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/e1844b99a50bbb59.png",
+    "hash": "e1844b99a50bbb59",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.24,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      21,
+      17
+     ],
+     [
+      18,
+      0,
+      21,
+      8
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.375
+     ],
+     [
+      "2",
+      0.213
+     ],
+     [
+      "harmonico",
+      0.152
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.229
+     ],
+     [
+      "5",
+      0.149
+     ],
+     [
+      "4",
+      0.077
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.229
+   },
+   "t_ini": 261.8
+  },
+  {
+   "ordem": 64,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 743,
+   "confianca": 0.473,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/6800454191cc011f.png",
+    "hash": "6800454191cc011f",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      6
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.473
+     ],
+     [
+      "6",
+      0.105
+     ],
+     [
+      "8",
+      0.087
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.473
+     ],
+     [
+      "6",
+      0.105
+     ],
+     [
+      "8",
+      0.087
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 187.8
+  },
+  {
+   "ordem": 65,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 751,
+   "confianca": 0.407,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/5749ef98f21c0ffa.png",
+    "hash": "5749ef98f21c0ffa",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "tecnica",
+      0.407
+     ],
+     [
+      "21",
+      0.295
+     ],
+     [
+      "4",
+      0.078
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.407
+     ],
+     [
+      "21",
+      0.295
+     ],
+     [
+      "4",
+      0.079
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 187.8
+  },
+  {
+   "ordem": 66,
+   "corda": 3,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 761,
+   "confianca": 0.914,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/a8c6603211dcd368.png",
+    "hash": "a8c6603211dcd368",
+    "partes": 4,
+    "partes_digito": 4,
+    "larguras_passo": [
+     0.53,
+     0.18,
+     0.41,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      9,
+      17
+     ],
+     [
+      3,
+      0,
+      6,
+      6
+     ],
+     [
+      11,
+      0,
+      18,
+      5
+     ],
+     [
+      11,
+      12,
+      14,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.914
+     ],
+     [
+      "harmonico",
+      0.045
+     ],
+     [
+      "2",
+      0.014
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.338
+     ],
+     [
+      "15",
+      0.228
+     ],
+     [
+      "7",
+      0.186
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 187.8
+  },
+  {
+   "ordem": 67,
+   "corda": 4,
+   "casa": "15",
+   "tecnica": null,
+   "x": 710,
+   "confianca": 0.118,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "png": "sky guitar/19a6090a8d2cd256.png",
+    "hash": "19a6090a8d2cd256",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     1.29
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      7
+     ],
+     [
+      0,
+      12,
+      22,
+      17
+     ]
+    ],
+    "classe": "15",
+    "top3": [
+     [
+      "5",
+      0.118
+     ],
+     [
+      "1",
+      0.117
+     ],
+     [
+      "3",
+      0.113
+     ]
+    ],
+    "top3_componente": [
+     [
+      "5",
+      0.19
+     ],
+     [
+      "1",
+      0.178
+     ],
+     [
+      "0",
+      0.156
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.19
+   },
+   "t_ini": 261.8
+  },
+  {
+   "ordem": 68,
+   "corda": 4,
+   "casa": "15",
+   "tecnica": null,
+   "x": 740,
+   "confianca": 0.529,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/62663ba06a2bbab8.png",
+    "hash": "62663ba06a2bbab8",
+    "partes": 9,
+    "partes_digito": 9,
+    "larguras_passo": [
+     0.47,
+     0.88,
+     0.18,
+     0.59,
+     0.18,
+     0.41,
+     0.18,
+     1.24,
+     1.29
+    ],
+    "componentes": [
+     [
+      0,
+      11,
+      8,
+      17
+     ],
+     [
+      3,
+      0,
+      18,
+      5
+     ],
+     [
+      11,
+      11,
+      14,
+      17
+     ],
+     [
+      21,
+      12,
+      31,
+      17
+     ],
+     [
+      24,
+      0,
+      27,
+      6
+     ],
+     [
+      32,
+      0,
+      39,
+      5
+     ],
+     [
+      32,
+      12,
+      35,
+      17
+     ],
+     [
+      43,
+      0,
+      64,
+      5
+     ],
+     [
+      43,
+      12,
+      65,
+      17
+     ]
+    ],
+    "classe": "15",
+    "top3": [
+     [
+      "15",
+      0.529
+     ],
+     [
+      "tecnica",
+      0.253
+     ],
+     [
+      "harmonico",
+      0.1
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.947
+     ],
+     [
+      "15",
+      0.024
+     ],
+     [
+      "harmonico",
+      0.009
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.947
+   },
+   "t_ini": 187.8
+  },
+  {
+   "ordem": 69,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 710,
+   "confianca": 0.288,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/c94d3e2ec914cca4.png",
+    "hash": "c94d3e2ec914cca4",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      21,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "3",
+      0.288
+     ],
+     [
+      "1",
+      0.15
+     ],
+     [
+      "2",
+      0.081
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.288
+     ],
+     [
+      "1",
+      0.15
+     ],
+     [
+      "2",
+      0.081
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.288
+   },
+   "t_ini": 261.8
+  },
+  {
+   "ordem": 70,
+   "corda": 5,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 740,
+   "confianca": 0.913,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "6",
+   "simbolo_cru": {
+    "png": "sky guitar/fe70cc26a436c997.png",
+    "hash": "fe70cc26a436c997",
+    "partes": 3,
+    "partes_digito": 3,
+    "larguras_passo": [
+     0.82,
+     0.18,
+     0.47
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      14,
+      17
+     ],
+     [
+      3,
+      0,
+      6,
+      6
+     ],
+     [
+      10,
+      0,
+      18,
+      6
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.913
+     ],
+     [
+      "harmonico",
+      0.031
+     ],
+     [
+      "0",
+      0.022
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.396
+     ],
+     [
+      "0",
+      0.241
+     ],
+     [
+      "harmonico",
+      0.198
+     ]
+    ],
+    "casa_recuperada": "6",
+    "confianca_recuperada": 0.519
+   },
+   "t_ini": 187.8
+  },
+  {
+   "ordem": 71,
+   "corda": 5,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 764,
+   "confianca": 0.489,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/619405c882903e59.png",
+    "hash": "619405c882903e59",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.24,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      9
+     ],
+     [
+      8,
+      0,
+      11,
+      7
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.489
+     ],
+     [
+      "12",
+      0.37
+     ],
+     [
+      "17",
+      0.083
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.972
+     ],
+     [
+      "12",
+      0.008
+     ],
+     [
+      "21",
+      0.007
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.972
+   },
+   "t_ini": 187.8
+  },
+  {
+   "ordem": 72,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 743,
+   "confianca": 0.451,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/645de28a70b36287.png",
+    "hash": "645de28a70b36287",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "4",
+      0.451
+     ],
+     [
+      "1",
+      0.23
+     ],
+     [
+      "14",
+      0.082
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.451
+     ],
+     [
+      "1",
+      0.23
+     ],
+     [
+      "14",
+      0.082
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 187.8
+  },
+  {
+   "ordem": 73,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 751,
+   "confianca": 0.194,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/7d762559f79de73b.png",
+    "hash": "7d762559f79de73b",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      5
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.194
+     ],
+     [
+      "7",
+      0.129
+     ],
+     [
+      "5",
+      0.12
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.194
+     ],
+     [
+      "7",
+      0.129
+     ],
+     [
+      "5",
+      0.12
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 187.8
+  },
+  {
+   "ordem": 74,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 801,
+   "confianca": 0.317,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/cd67efa13f633b79.png",
+    "hash": "cd67efa13f633b79",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.24,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      7
+     ],
+     [
+      0,
+      8,
+      4,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.317
+     ],
+     [
+      "6",
+      0.154
+     ],
+     [
+      "harmonico",
+      0.113
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.989
+     ],
+     [
+      "harmonico",
+      0.005
+     ],
+     [
+      "12",
+      0.002
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.989
+   },
+   "t_ini": 133.3
+  },
+  {
+   "ordem": 75,
+   "corda": 3,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 784,
+   "confianca": 0.467,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/d3ce63151018ffa8.png",
+    "hash": "d3ce63151018ffa8",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.24,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      21,
+      17
+     ],
+     [
+      17,
+      0,
+      20,
+      8
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.467
+     ],
+     [
+      "harmonico",
+      0.331
+     ],
+     [
+      "2",
+      0.124
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.234
+     ],
+     [
+      "5",
+      0.111
+     ],
+     [
+      "4",
+      0.093
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.234
+   }
+  },
+  {
+   "ordem": 76,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 783,
+   "confianca": 0.213,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/c6dc4ea5ed0f9db0.png",
+    "hash": "c6dc4ea5ed0f9db0",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      21,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "3",
+      0.213
+     ],
+     [
+      "1",
+      0.199
+     ],
+     [
+      "2",
+      0.094
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.213
+     ],
+     [
+      "1",
+      0.199
+     ],
+     [
+      "2",
+      0.094
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.213
+   }
+  },
+  {
+   "ordem": 77,
+   "corda": 2,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 862,
+   "confianca": 0.257,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/ecd833964bfe5333.png",
+    "hash": "ecd833964bfe5333",
+    "partes": 4,
+    "partes_digito": 4,
+    "larguras_passo": [
+     0.88,
+     0.24,
+     0.24,
+     0.29
+    ],
+    "componentes": [
+     [
+      0,
+      8,
+      15,
+      17
+     ],
+     [
+      11,
+      0,
+      15,
+      7
+     ],
+     [
+      16,
+      8,
+      20,
+      17
+     ],
+     [
+      17,
+      0,
+      22,
+      7
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.257
+     ],
+     [
+      "3",
+      0.22
+     ],
+     [
+      "harmonico",
+      0.141
+     ]
+    ],
+    "top3_componente": [
+     [
+      "7",
+      0.944
+     ],
+     [
+      "2",
+      0.017
+     ],
+     [
+      "15",
+      0.01
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.963
+   },
+   "t_ini": 281.8
+  },
+  {
+   "ordem": 78,
+   "corda": 2,
+   "casa": "7",
+   "tecnica": null,
+   "x": 895,
+   "confianca": 0.84,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "sky guitar/f86ec6b513d3be73.png",
+    "hash": "f86ec6b513d3be73",
+    "partes": 2,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.59,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      6,
+      10,
+      15
+     ],
+     [
+      3,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "7",
+    "top3": [
+     [
+      "7",
+      0.84
+     ],
+     [
+      "tecnica",
+      0.081
+     ],
+     [
+      "harmonico",
+      0.038
+     ]
+    ],
+    "top3_componente": [
+     [
+      "7",
+      0.986
+     ],
+     [
+      "2",
+      0.007
+     ],
+     [
+      "1",
+      0.003
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.986
+   },
+   "t_ini": 189.3
+  },
+  {
+   "ordem": 79,
+   "corda": 2,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 916,
+   "confianca": 0.817,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "sky guitar/9dead3c307a0de00.png",
+    "hash": "9dead3c307a0de00",
+    "partes": 3,
+    "partes_digito": 3,
+    "larguras_passo": [
+     0.29,
+     0.24,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      5,
+      7
+     ],
+     [
+      2,
+      8,
+      6,
+      17
+     ],
+     [
+      10,
+      8,
+      14,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.817
+     ],
+     [
+      "1",
+      0.071
+     ],
+     [
+      "5",
+      0.048
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.515
+     ],
+     [
+      "12",
+      0.154
+     ],
+     [
+      "15",
+      0.126
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.978
+   },
+   "t_ini": 153.3
+  },
+  {
+   "ordem": 80,
+   "corda": 3,
+   "casa": "19",
+   "tecnica": null,
+   "x": 854,
+   "confianca": 0.361,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "sky guitar/156eb371edfe8ae1.png",
+    "hash": "156eb371edfe8ae1",
+    "partes": 5,
+    "partes_digito": 4,
+    "larguras_passo": [
+     1.29,
+     1.06,
+     0.29,
+     1.88,
+     0.29
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      22,
+      17
+     ],
+     [
+      4,
+      0,
+      22,
+      5
+     ],
+     [
+      25,
+      0,
+      30,
+      8
+     ],
+     [
+      30,
+      10,
+      62,
+      17
+     ],
+     [
+      62,
+      0,
+      67,
+      8
+     ]
+    ],
+    "classe": "19",
+    "top3": [
+     [
+      "19",
+      0.361
+     ],
+     [
+      "harmonico",
+      0.261
+     ],
+     [
+      "tecnica",
+      0.206
+     ]
+    ],
+    "top3_componente": [
+     [
+      "9",
+      0.448
+     ],
+     [
+      "0",
+      0.182
+     ],
+     [
+      "tecnica",
+      0.171
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.936
+   },
+   "t_ini": 281.8
+  },
+  {
+   "ordem": 81,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 926,
+   "confianca": 0.177,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/784196f3a77d6bf9.png",
+    "hash": "784196f3a77d6bf9",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.24,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      8
+     ],
+     [
+      0,
+      10,
+      4,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.177
+     ],
+     [
+      "7",
+      0.124
+     ],
+     [
+      "6",
+      0.109
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.566
+     ],
+     [
+      "21",
+      0.113
+     ],
+     [
+      "harmonico",
+      0.072
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.566
+   },
+   "t_ini": 153.3
+  },
+  {
+   "ordem": 82,
+   "corda": 4,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 855,
+   "confianca": 0.437,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "sky guitar/1e1dce7677871929.png",
+    "hash": "1e1dce7677871929",
+    "partes": 6,
+    "partes_digito": 4,
+    "larguras_passo": [
+     1.06,
+     1.12,
+     0.41,
+     1.41,
+     0.41,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      18,
+      17
+     ],
+     [
+      3,
+      0,
+      22,
+      5
+     ],
+     [
+      26,
+      9,
+      33,
+      17
+     ],
+     [
+      34,
+      2,
+      58,
+      7
+     ],
+     [
+      43,
+      13,
+      50,
+      17
+     ],
+     [
+      59,
+      9,
+      66,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.437
+     ],
+     [
+      "15",
+      0.203
+     ],
+     [
+      "12",
+      0.176
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.779
+     ],
+     [
+      "harmonico",
+      0.055
+     ],
+     [
+      "1",
+      0.046
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.991
+   },
+   "t_ini": 281.8
+  },
+  {
+   "ordem": 83,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 926,
+   "confianca": 0.261,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/2dfa011465fb0969.png",
+    "hash": "2dfa011465fb0969",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.24,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      7
+     ],
+     [
+      0,
+      9,
+      4,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "6",
+      0.261
+     ],
+     [
+      "1",
+      0.172
+     ],
+     [
+      "8",
+      0.148
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.636
+     ],
+     [
+      "21",
+      0.115
+     ],
+     [
+      "harmonico",
+      0.06
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.636
+   },
+   "t_ini": 153.3
+  },
+  {
+   "ordem": 84,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 879,
+   "confianca": 0.881,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/e8828f19d9a59b05.png",
+    "hash": "e8828f19d9a59b05",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.29,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      5,
+      9
+     ],
+     [
+      1,
+      10,
+      4,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "6",
+      0.881
+     ],
+     [
+      "harmonico",
+      0.029
+     ],
+     [
+      "4",
+      0.028
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.625
+     ],
+     [
+      "1",
+      0.336
+     ],
+     [
+      "6",
+      0.01
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 189.3
+  },
+  {
+   "ordem": 85,
+   "corda": 5,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 899,
+   "confianca": 0.654,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "sky guitar/754a9fadf8c82de5.png",
+    "hash": "754a9fadf8c82de5",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.47,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      8,
+      9
+     ],
+     [
+      4,
+      10,
+      8,
+      14
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.654
+     ],
+     [
+      "5",
+      0.125
+     ],
+     [
+      "4",
+      0.11
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.432
+     ],
+     [
+      "4",
+      0.2
+     ],
+     [
+      "15",
+      0.122
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.836
+   },
+   "t_ini": 189.3
+  },
+  {
+   "ordem": 86,
+   "corda": 5,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 919,
+   "confianca": 0.836,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/13e0259835424dd6.png",
+    "hash": "13e0259835424dd6",
+    "partes": 4,
+    "partes_digito": 4,
+    "larguras_passo": [
+     0.24,
+     0.24,
+     0.24,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      9
+     ],
+     [
+      0,
+      10,
+      4,
+      17
+     ],
+     [
+      7,
+      0,
+      11,
+      9
+     ],
+     [
+      7,
+      10,
+      11,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.836
+     ],
+     [
+      "10",
+      0.08
+     ],
+     [
+      "0",
+      0.03
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.981
+     ],
+     [
+      "7",
+      0.007
+     ],
+     [
+      "21",
+      0.003
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.981
+   },
+   "t_ini": 153.3
+  },
+  {
+   "ordem": 87,
+   "corda": 6,
+   "casa": "1",
+   "tecnica": null,
+   "x": 882,
+   "confianca": 0.434,
+   "corrigido_pela_forma": false,
+   "t_ini": 189.3
+  },
+  {
+   "ordem": 88,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 912,
+   "confianca": 0.619,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/c320ccac25e508c3.png",
+    "hash": "c320ccac25e508c3",
+    "partes": 1,
+    "partes_digito": 0,
+    "larguras_passo": [
+     0.47
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      8,
+      7
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.619
+     ],
+     [
+      "2",
+      0.353
+     ],
+     [
+      "7",
+      0.016
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.619
+     ],
+     [
+      "2",
+      0.353
+     ],
+     [
+      "7",
+      0.016
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 153.3
+  },
+  {
+   "ordem": 89,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 926,
+   "confianca": 0.886,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/3b65477666ebed20.png",
+    "hash": "3b65477666ebed20",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      7
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.886
+     ],
+     [
+      "21",
+      0.025
+     ],
+     [
+      "12",
+      0.019
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.886
+     ],
+     [
+      "21",
+      0.025
+     ],
+     [
+      "12",
+      0.019
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.886
+   },
+   "t_ini": 153.3
+  },
+  {
+   "ordem": 90,
+   "corda": 2,
+   "casa": "7",
+   "tecnica": null,
+   "x": 955,
+   "confianca": 0.979,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "sky guitar/7aa6976b2914f758.png",
+    "hash": "7aa6976b2914f758",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.88,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      15,
+      7
+     ],
+     [
+      7,
+      8,
+      14,
+      17
+     ]
+    ],
+    "classe": "7",
+    "top3": [
+     [
+      "7",
+      0.979
+     ],
+     [
+      "harmonico",
+      0.008
+     ],
+     [
+      "1",
+      0.005
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.367
+     ],
+     [
+      "6",
+      0.225
+     ],
+     [
+      "0",
+      0.162
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.576
+   },
+   "t_ini": 134.8
+  },
+  {
+   "ordem": 91,
+   "corda": 3,
+   "casa": "7",
+   "tecnica": null,
+   "x": 959,
+   "confianca": 0.268,
+   "corrigido_pela_forma": false,
+   "t_ini": 134.8
+  },
+  {
+   "ordem": 92,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 955,
+   "confianca": 0.233,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/d2e3c908758d8f7a.png",
+    "hash": "d2e3c908758d8f7a",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.29
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "3",
+      0.233
+     ],
+     [
+      "1",
+      0.117
+     ],
+     [
+      "19",
+      0.102
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.233
+     ],
+     [
+      "1",
+      0.117
+     ],
+     [
+      "19",
+      0.102
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.233
+   },
+   "t_ini": 134.8
+  },
+  {
+   "ordem": 93,
+   "corda": 6,
+   "casa": "4",
+   "tecnica": null,
+   "x": 983,
+   "confianca": 0.355,
+   "corrigido_pela_forma": false,
+   "t_ini": 209.3
+  },
+  {
+   "ordem": 94,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1002,
+   "confianca": 0.544,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/8ebb6bb9166f700d.png",
+    "hash": "8ebb6bb9166f700d",
+    "partes": 3,
+    "partes_digito": 3,
+    "larguras_passo": [
+     0.29,
+     0.71,
+     0.29
+    ],
+    "componentes": [
+     [
+      0,
+      8,
+      5,
+      17
+     ],
+     [
+      1,
+      0,
+      13,
+      7
+     ],
+     [
+      9,
+      8,
+      14,
+      17
+     ]
+    ],
+    "classe": "0",
+    "top3": [
+     [
+      "0",
+      0.544
+     ],
+     [
+      "tecnica",
+      0.105
+     ],
+     [
+      "10",
+      0.101
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.969
+     ],
+     [
+      "15",
+      0.022
+     ],
+     [
+      "5",
+      0.003
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.969
+   },
+   "t_ini": 246.3
+  },
+  {
+   "ordem": 95,
+   "corda": 3,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 1004,
+   "confianca": 0.214,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/4c113d3ef538fda4.png",
+    "hash": "4c113d3ef538fda4",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.59,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      8
+     ],
+     [
+      4,
+      10,
+      7,
+      17
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "15",
+      0.214
+     ],
+     [
+      "tecnica",
+      0.206
+     ],
+     [
+      "7",
+      0.14
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.54
+     ],
+     [
+      "1",
+      0.205
+     ],
+     [
+      "7",
+      0.18
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 246.3
+  },
+  {
+   "ordem": 96,
+   "corda": 4,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1006,
+   "confianca": 0.365,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "png": "sky guitar/f54be37d5b3119da.png",
+    "hash": "f54be37d5b3119da",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.35,
+     0.47
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      6,
+      7
+     ],
+     [
+      0,
+      9,
+      8,
+      17
+     ]
+    ],
+    "classe": "1",
+    "top3": [
+     [
+      "1",
+      0.365
+     ],
+     [
+      "4",
+      0.247
+     ],
+     [
+      "3",
+      0.129
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.845
+     ],
+     [
+      "harmonico",
+      0.087
+     ],
+     [
+      "15",
+      0.022
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.873
+   },
+   "t_ini": 246.3
+  },
+  {
+   "ordem": 97,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1005,
+   "confianca": 0.42,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/cc97b227cf595e59.png",
+    "hash": "cc97b227cf595e59",
+    "partes": 1,
+    "partes_digito": 0,
+    "larguras_passo": [
+     0.53
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      9,
+      9
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.42
+     ],
+     [
+      "7",
+      0.323
+     ],
+     [
+      "2",
+      0.146
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.42
+     ],
+     [
+      "7",
+      0.323
+     ],
+     [
+      "2",
+      0.146
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 246.3
+  },
+  {
+   "ordem": 98,
+   "corda": 2,
+   "casa": "24",
+   "tecnica": null,
+   "x": 1023,
+   "confianca": 0.451,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/52c02c167b6b7ea7.png",
+    "hash": "52c02c167b6b7ea7",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.24,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      21,
+      17
+     ],
+     [
+      18,
+      0,
+      21,
+      7
+     ]
+    ],
+    "classe": "24",
+    "top3": [
+     [
+      "4",
+      0.451
+     ],
+     [
+      "24",
+      0.253
+     ],
+     [
+      "0",
+      0.103
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.165
+     ],
+     [
+      "3",
+      0.13
+     ],
+     [
+      "5",
+      0.113
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.165
+   },
+   "t_ini": 264.8
+  },
+  {
+   "ordem": 99,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1022,
+   "confianca": 0.223,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/7ce2fc42305540da.png",
+    "hash": "7ce2fc42305540da",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      5
+     ],
+     [
+      1,
+      12,
+      22,
+      17
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "9",
+      0.223
+     ],
+     [
+      "3",
+      0.191
+     ],
+     [
+      "5",
+      0.078
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.246
+     ],
+     [
+      "1",
+      0.129
+     ],
+     [
+      "15",
+      0.115
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.246
+   },
+   "t_ini": 264.8
+  },
+  {
+   "ordem": 100,
+   "corda": 4,
+   "casa": "15",
+   "tecnica": null,
+   "x": 1022,
+   "confianca": 0.162,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/840da91200ac7ce0.png",
+    "hash": "840da91200ac7ce0",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      7
+     ],
+     [
+      1,
+      12,
+      22,
+      17
+     ]
+    ],
+    "classe": "15",
+    "top3": [
+     [
+      "3",
+      0.162
+     ],
+     [
+      "9",
+      0.091
+     ],
+     [
+      "1",
+      0.078
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.189
+     ],
+     [
+      "4",
+      0.161
+     ],
+     [
+      "5",
+      0.16
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.189
+   },
+   "t_ini": 264.8
+  },
+  {
+   "ordem": 101,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1022,
+   "confianca": 0.331,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/69820132c939d4f1.png",
+    "hash": "69820132c939d4f1",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.29
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "3",
+      0.331
+     ],
+     [
+      "15",
+      0.128
+     ],
+     [
+      "1",
+      0.122
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.331
+     ],
+     [
+      "15",
+      0.128
+     ],
+     [
+      "1",
+      0.122
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.331
+   },
+   "t_ini": 264.8
+  },
+  {
+   "ordem": 102,
+   "corda": 2,
+   "casa": "24",
+   "tecnica": null,
+   "x": 1089,
+   "confianca": 0.286,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/d4fff74c79ca5da1.png",
+    "hash": "d4fff74c79ca5da1",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      22,
+      17
+     ],
+     [
+      18,
+      0,
+      22,
+      7
+     ]
+    ],
+    "classe": "24",
+    "top3": [
+     [
+      "24",
+      0.286
+     ],
+     [
+      "4",
+      0.238
+     ],
+     [
+      "0",
+      0.107
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.169
+     ],
+     [
+      "5",
+      0.13
+     ],
+     [
+      "3",
+      0.099
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.873
+   },
+   "t_ini": 136.3
+  },
+  {
+   "ordem": 103,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1089,
+   "confianca": 0.255,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "png": "sky guitar/af528b1214b549a7.png",
+    "hash": "af528b1214b549a7",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      8
+     ],
+     [
+      1,
+      12,
+      22,
+      17
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "9",
+      0.255
+     ],
+     [
+      "3",
+      0.137
+     ],
+     [
+      "4",
+      0.113
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.511
+     ],
+     [
+      "0",
+      0.125
+     ],
+     [
+      "5",
+      0.115
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.511
+   },
+   "t_ini": 136.3
+  },
+  {
+   "ordem": 104,
+   "corda": 4,
+   "casa": "15",
+   "tecnica": null,
+   "x": 1089,
+   "confianca": 0.142,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "png": "sky guitar/7b8b8bc3449b81c9.png",
+    "hash": "7b8b8bc3449b81c9",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     1.29
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      7
+     ],
+     [
+      0,
+      12,
+      22,
+      17
+     ]
+    ],
+    "classe": "15",
+    "top3": [
+     [
+      "3",
+      0.142
+     ],
+     [
+      "15",
+      0.105
+     ],
+     [
+      "harmonico",
+      0.094
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.485
+     ],
+     [
+      "5",
+      0.126
+     ],
+     [
+      "0",
+      0.121
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.485
+   },
+   "t_ini": 136.3
+  },
+  {
+   "ordem": 105,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1089,
+   "confianca": 0.266,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/c93ba94ba8ea26fd.png",
+    "hash": "c93ba94ba8ea26fd",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      21,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "1",
+      0.266
+     ],
+     [
+      "3",
+      0.22
+     ],
+     [
+      "2",
+      0.102
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.266
+     ],
+     [
+      "3",
+      0.22
+     ],
+     [
+      "2",
+      0.102
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.266
+   },
+   "t_ini": 136.3
+  },
+  {
+   "ordem": 106,
+   "corda": 2,
+   "casa": "7",
+   "tecnica": null,
+   "x": 1156,
+   "confianca": 0.977,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "sky guitar/dc07ecb16c6e2824.png",
+    "hash": "dc07ecb16c6e2824",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.88,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      15,
+      7
+     ],
+     [
+      7,
+      8,
+      14,
+      17
+     ]
+    ],
+    "classe": "7",
+    "top3": [
+     [
+      "7",
+      0.977
+     ],
+     [
+      "1",
+      0.008
+     ],
+     [
+      "harmonico",
+      0.007
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.422
+     ],
+     [
+      "2",
+      0.159
+     ],
+     [
+      "6",
+      0.124
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.749
+   },
+   "t_ini": 266.3
+  },
+  {
+   "ordem": 107,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1160,
+   "confianca": 0.452,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/50adf2bd59289a8e.png",
+    "hash": "50adf2bd59289a8e",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      7,
+      8
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.452
+     ],
+     [
+      "1",
+      0.38
+     ],
+     [
+      "14",
+      0.044
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.452
+     ],
+     [
+      "1",
+      0.38
+     ],
+     [
+      "14",
+      0.044
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 266.3
+  },
+  {
+   "ordem": 108,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1156,
+   "confianca": 0.143,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/548d5fa97f554b06.png",
+    "hash": "548d5fa97f554b06",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      21,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "1",
+      0.143
+     ],
+     [
+      "3",
+      0.102
+     ],
+     [
+      "5",
+      0.097
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.143
+     ],
+     [
+      "3",
+      0.102
+     ],
+     [
+      "5",
+      0.097
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.143
+   },
+   "t_ini": 266.3
+  },
+  {
+   "ordem": 109,
+   "corda": 2,
+   "casa": "15",
+   "tecnica": null,
+   "x": 1189,
+   "confianca": 0.544,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "sky guitar/d59a9ca408da6f4a.png",
+    "hash": "d59a9ca408da6f4a",
+    "partes": 7,
+    "partes_digito": 7,
+    "larguras_passo": [
+     0.47,
+     0.24,
+     0.88,
+     1.06,
+     0.94,
+     1.18,
+     0.12
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      8,
+      7
+     ],
+     [
+      4,
+      8,
+      8,
+      12
+     ],
+     [
+      12,
+      0,
+      27,
+      7
+     ],
+     [
+      12,
+      8,
+      30,
+      17
+     ],
+     [
+      34,
+      12,
+      50,
+      16
+     ],
+     [
+      35,
+      0,
+      55,
+      5
+     ],
+     [
+      53,
+      11,
+      55,
+      17
+     ]
+    ],
+    "classe": "15",
+    "top3": [
+     [
+      "15",
+      0.544
+     ],
+     [
+      "tecnica",
+      0.421
+     ],
+     [
+      "10",
+      0.015
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.283
+     ],
+     [
+      "tecnica",
+      0.251
+     ],
+     [
+      "15",
+      0.189
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.858
+   },
+   "t_ini": 303.3
+  },
+  {
+   "ordem": 110,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1201,
+   "confianca": 0.808,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "6",
+   "simbolo_cru": {
+    "png": "sky guitar/9601637f3ce18eae.png",
+    "hash": "9601637f3ce18eae",
+    "partes": 5,
+    "partes_digito": 5,
+    "larguras_passo": [
+     1.06,
+     0.18,
+     0.24,
+     1.24,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      18,
+      8
+     ],
+     [
+      4,
+      10,
+      7,
+      17
+     ],
+     [
+      11,
+      10,
+      15,
+      14
+     ],
+     [
+      22,
+      12,
+      43,
+      17
+     ],
+     [
+      41,
+      0,
+      44,
+      8
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.808
+     ],
+     [
+      "12",
+      0.077
+     ],
+     [
+      "tecnica",
+      0.044
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.881
+     ],
+     [
+      "0",
+      0.04
+     ],
+     [
+      "24",
+      0.034
+     ]
+    ],
+    "casa_recuperada": "6",
+    "confianca_recuperada": 0.358
+   },
+   "t_ini": 123.8
+  },
+  {
+   "ordem": 111,
+   "corda": 6,
+   "casa": "4",
+   "tecnica": null,
+   "x": 1183,
+   "confianca": 0.355,
+   "corrigido_pela_forma": false,
+   "t_ini": 303.3
+  },
+  {
+   "ordem": 112,
+   "corda": 4,
+   "casa": "15",
+   "tecnica": null,
+   "x": 1222,
+   "confianca": 0.142,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/224f99fc83eca50b.png",
+    "hash": "224f99fc83eca50b",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      7
+     ],
+     [
+      1,
+      12,
+      22,
+      17
+     ]
+    ],
+    "classe": "15",
+    "top3": [
+     [
+      "3",
+      0.142
+     ],
+     [
+      "1",
+      0.128
+     ],
+     [
+      "5",
+      0.107
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.182
+     ],
+     [
+      "0",
+      0.178
+     ],
+     [
+      "4",
+      0.141
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.202
+   },
+   "t_ini": 137.8
+  },
+  {
+   "ordem": 113,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1222,
+   "confianca": 0.273,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/0f61be425267aa28.png",
+    "hash": "0f61be425267aa28",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      21,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "3",
+      0.273
+     ],
+     [
+      "15",
+      0.095
+     ],
+     [
+      "1",
+      0.094
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.273
+     ],
+     [
+      "15",
+      0.095
+     ],
+     [
+      "1",
+      0.094
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.273
+   },
+   "t_ini": 137.8
+  },
+  {
+   "ordem": 114,
+   "corda": 2,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1290,
+   "confianca": 0.302,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "sky guitar/39564d47203e44b8.png",
+    "hash": "39564d47203e44b8",
+    "partes": 3,
+    "partes_digito": 3,
+    "larguras_passo": [
+     1.0,
+     1.12,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      17,
+      17
+     ],
+     [
+      2,
+      0,
+      21,
+      5
+     ],
+     [
+      18,
+      12,
+      21,
+      17
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.302
+     ],
+     [
+      "5",
+      0.267
+     ],
+     [
+      "0",
+      0.2
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.761
+     ],
+     [
+      "5",
+      0.05
+     ],
+     [
+      "6",
+      0.038
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.761
+   },
+   "t_ini": 249.3
+  },
+  {
+   "ordem": 115,
+   "corda": 3,
+   "casa": "24",
+   "tecnica": null,
+   "x": 1291,
+   "confianca": 0.455,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/ac0cfdce3c47c576.png",
+    "hash": "ac0cfdce3c47c576",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.18,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      20,
+      17
+     ],
+     [
+      17,
+      0,
+      20,
+      8
+     ]
+    ],
+    "classe": "24",
+    "top3": [
+     [
+      "7",
+      0.455
+     ],
+     [
+      "24",
+      0.1
+     ],
+     [
+      "14",
+      0.083
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.209
+     ],
+     [
+      "5",
+      0.171
+     ],
+     [
+      "4",
+      0.082
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.209
+   },
+   "t_ini": 249.3
+  },
+  {
+   "ordem": 116,
+   "corda": 4,
+   "casa": "15",
+   "tecnica": null,
+   "x": 1289,
+   "confianca": 0.129,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "png": "sky guitar/9d95a21a4459999c.png",
+    "hash": "9d95a21a4459999c",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      7
+     ],
+     [
+      1,
+      12,
+      22,
+      17
+     ]
+    ],
+    "classe": "15",
+    "top3": [
+     [
+      "5",
+      0.129
+     ],
+     [
+      "3",
+      0.127
+     ],
+     [
+      "9",
+      0.108
+     ]
+    ],
+    "top3_componente": [
+     [
+      "5",
+      0.172
+     ],
+     [
+      "1",
+      0.17
+     ],
+     [
+      "0",
+      0.136
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.172
+   },
+   "t_ini": 249.3
+  },
+  {
+   "ordem": 117,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1289,
+   "confianca": 0.314,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/9bc43bc01a6200a1.png",
+    "hash": "9bc43bc01a6200a1",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.29
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "3",
+      0.314
+     ],
+     [
+      "1",
+      0.185
+     ],
+     [
+      "2",
+      0.089
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.314
+     ],
+     [
+      "1",
+      0.185
+     ],
+     [
+      "2",
+      0.089
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.314
+   },
+   "t_ini": 249.3
+  },
+  {
+   "ordem": 118,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1355,
+   "confianca": 0.592,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/58c7f93c4d7b7eb6.png",
+    "hash": "58c7f93c4d7b7eb6",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.29
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      5,
+      9
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.592
+     ],
+     [
+      "15",
+      0.182
+     ],
+     [
+      "harmonico",
+      0.063
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.592
+     ],
+     [
+      "15",
+      0.182
+     ],
+     [
+      "harmonico",
+      0.063
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.592
+   },
+   "t_ini": 194.8
+  },
+  {
+   "ordem": 119,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1356,
+   "confianca": 0.444,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/aaf5b87fdb79fc20.png",
+    "hash": "aaf5b87fdb79fc20",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.18,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      8
+     ],
+     [
+      0,
+      10,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "tecnica",
+      0.444
+     ],
+     [
+      "10",
+      0.378
+     ],
+     [
+      "0",
+      0.099
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.35
+     ],
+     [
+      "1",
+      0.199
+     ],
+     [
+      "0",
+      0.1
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 194.8
+  },
+  {
+   "ordem": 120,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1356,
+   "confianca": 0.437,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/22aa9a77b2d617c0.png",
+    "hash": "22aa9a77b2d617c0",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.18,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ],
+     [
+      0,
+      9,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "tecnica",
+      0.437
+     ],
+     [
+      "10",
+      0.434
+     ],
+     [
+      "0",
+      0.102
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.243
+     ],
+     [
+      "tecnica",
+      0.197
+     ],
+     [
+      "0",
+      0.146
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 194.8
+  },
+  {
+   "ordem": 121,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1355,
+   "confianca": 0.69,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/c7712a5edc754a19.png",
+    "hash": "c7712a5edc754a19",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.29,
+     0.29
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      5,
+      9
+     ],
+     [
+      0,
+      10,
+      5,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.69
+     ],
+     [
+      "6",
+      0.082
+     ],
+     [
+      "harmonico",
+      0.063
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.944
+     ],
+     [
+      "harmonico",
+      0.014
+     ],
+     [
+      "19",
+      0.012
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.944
+   },
+   "t_ini": 194.8
+  },
+  {
+   "ordem": 122,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1356,
+   "confianca": 0.207,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/ee5b29930aec2cc5.png",
+    "hash": "ee5b29930aec2cc5",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "3",
+      0.207
+     ],
+     [
+      "19",
+      0.124
+     ],
+     [
+      "tecnica",
+      0.106
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.207
+     ],
+     [
+      "19",
+      0.124
+     ],
+     [
+      "tecnica",
+      0.106
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 194.8
+  },
+  {
+   "ordem": 123,
+   "corda": 2,
+   "casa": "17",
+   "tecnica": null,
+   "x": 1385,
+   "confianca": 0.417,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "sky guitar/fe257159d7ec8a97.png",
+    "hash": "fe257159d7ec8a97",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.29,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      22,
+      7
+     ],
+     [
+      18,
+      8,
+      22,
+      17
+     ]
+    ],
+    "classe": "17",
+    "top3": [
+     [
+      "1",
+      0.417
+     ],
+     [
+      "7",
+      0.132
+     ],
+     [
+      "17",
+      0.097
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.532
+     ],
+     [
+      "9",
+      0.209
+     ],
+     [
+      "4",
+      0.093
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.532
+   },
+   "t_ini": 231.8
+  },
+  {
+   "ordem": 124,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1404,
+   "confianca": 0.289,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/883b1e63d80886bd.png",
+    "hash": "883b1e63d80886bd",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.18,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      8
+     ],
+     [
+      0,
+      10,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "6",
+      0.289
+     ],
+     [
+      "1",
+      0.24
+     ],
+     [
+      "8",
+      0.084
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.55
+     ],
+     [
+      "21",
+      0.168
+     ],
+     [
+      "15",
+      0.104
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 125,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1385,
+   "confianca": 0.519,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "sky guitar/0661389fe3763bbb.png",
+    "hash": "0661389fe3763bbb",
+    "partes": 3,
+    "partes_digito": 3,
+    "larguras_passo": [
+     1.0,
+     1.12,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      17,
+      17
+     ],
+     [
+      3,
+      0,
+      22,
+      5
+     ],
+     [
+      19,
+      12,
+      22,
+      17
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "0",
+      0.519
+     ],
+     [
+      "5",
+      0.153
+     ],
+     [
+      "harmonico",
+      0.091
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.219
+     ],
+     [
+      "19",
+      0.182
+     ],
+     [
+      "1",
+      0.136
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.219
+   },
+   "t_ini": 231.8
+  },
+  {
+   "ordem": 126,
+   "corda": 4,
+   "casa": "5",
+   "tecnica": null,
+   "x": 1412,
+   "confianca": 0.669,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "sky guitar/40b1175fa955a7a7.png",
+    "hash": "40b1175fa955a7a7",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.47,
+     0.47
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      8,
+      4
+     ],
+     [
+      0,
+      12,
+      8,
+      17
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.669
+     ],
+     [
+      "7",
+      0.301
+     ],
+     [
+      "15",
+      0.02
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.548
+     ],
+     [
+      "6",
+      0.197
+     ],
+     [
+      "harmonico",
+      0.051
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.911
+   }
+  },
+  {
+   "ordem": 127,
+   "corda": 5,
+   "casa": "12",
+   "tecnica": null,
+   "x": 1385,
+   "confianca": 0.254,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/8b73bfb412d8979d.png",
+    "hash": "8b73bfb412d8979d",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.12,
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      19,
+      17
+     ],
+     [
+      1,
+      0,
+      22,
+      5
+     ]
+    ],
+    "classe": "12",
+    "top3": [
+     [
+      "12",
+      0.254
+     ],
+     [
+      "1",
+      0.232
+     ],
+     [
+      "2",
+      0.112
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.436
+     ],
+     [
+      "0",
+      0.118
+     ],
+     [
+      "3",
+      0.091
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.647
+   },
+   "t_ini": 231.8
+  },
+  {
+   "ordem": 128,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1412,
+   "confianca": 0.538,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/cd8f490d6e5aa136.png",
+    "hash": "cd8f490d6e5aa136",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.47
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      8,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.538
+     ],
+     [
+      "6",
+      0.26
+     ],
+     [
+      "tecnica",
+      0.072
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.538
+     ],
+     [
+      "6",
+      0.26
+     ],
+     [
+      "tecnica",
+      0.072
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   }
+  },
+  {
+   "ordem": 129,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1514,
+   "confianca": 0.162,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/986cf18d2d16e7b4.png",
+    "hash": "986cf18d2d16e7b4",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      21,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "1",
+      0.162
+     ],
+     [
+      "3",
+      0.154
+     ],
+     [
+      "15",
+      0.094
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.162
+     ],
+     [
+      "3",
+      0.154
+     ],
+     [
+      "15",
+      0.094
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.162
+   },
+   "t_ini": 159.3
+  },
+  {
+   "ordem": 130,
+   "corda": 2,
+   "casa": "4",
+   "tecnica": null,
+   "x": 1576,
+   "confianca": 0.817,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "png": "sky guitar/34dfb8d2ba8c5d66.png",
+    "hash": "34dfb8d2ba8c5d66",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.94,
+     0.71
+    ],
+    "componentes": [
+     [
+      0,
+      8,
+      16,
+      17
+     ],
+     [
+      1,
+      0,
+      13,
+      7
+     ]
+    ],
+    "classe": "4",
+    "top3": [
+     [
+      "4",
+      0.817
+     ],
+     [
+      "5",
+      0.055
+     ],
+     [
+      "harmonico",
+      0.031
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.305
+     ],
+     [
+      "2",
+      0.166
+     ],
+     [
+      "12",
+      0.091
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.416
+   },
+   "t_ini": 141.8
+  },
+  {
+   "ordem": 131,
+   "corda": 3,
+   "casa": "5",
+   "tecnica": null,
+   "x": 1576,
+   "confianca": 0.444,
+   "corrigido_pela_forma": false,
+   "t_ini": 141.8
+  },
+  {
+   "ordem": 132,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1566,
+   "confianca": 0.965,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "png": "sky guitar/59ffe8670cd75524.png",
+    "hash": "59ffe8670cd75524",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.29
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      5,
+      7
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "7",
+      0.965
+     ],
+     [
+      "1",
+      0.023
+     ],
+     [
+      "17",
+      0.009
+     ]
+    ],
+    "top3_componente": [
+     [
+      "7",
+      0.965
+     ],
+     [
+      "1",
+      0.023
+     ],
+     [
+      "17",
+      0.009
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.965
+   },
+   "t_ini": 141.8
+  },
+  {
+   "ordem": 133,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1579,
+   "confianca": 0.153,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/30b18d8da3905b9a.png",
+    "hash": "30b18d8da3905b9a",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      20,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "1",
+      0.153
+     ],
+     [
+      "5",
+      0.143
+     ],
+     [
+      "4",
+      0.075
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.153
+     ],
+     [
+      "5",
+      0.143
+     ],
+     [
+      "4",
+      0.075
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.153
+   },
+   "t_ini": 141.8
+  },
+  {
+   "ordem": 134,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1561,
+   "confianca": 0.923,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "png": "sky guitar/21839421f7f3619e.png",
+    "hash": "21839421f7f3619e",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.35
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      6,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.923
+     ],
+     [
+      "6",
+      0.062
+     ],
+     [
+      "4",
+      0.012
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.923
+     ],
+     [
+      "6",
+      0.062
+     ],
+     [
+      "4",
+      0.012
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 141.8
+  },
+  {
+   "ordem": 135,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1578,
+   "confianca": 0.21,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "3",
+   "simbolo_cru": {
+    "png": "sky guitar/81a4c3a9c199002f.png",
+    "hash": "81a4c3a9c199002f",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.18,
+     0.12
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      20,
+      5
+     ],
+     [
+      0,
+      9,
+      2,
+      17
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "7",
+      0.21
+     ],
+     [
+      "5",
+      0.168
+     ],
+     [
+      "harmonico",
+      0.155
+     ]
+    ],
+    "top3_componente": [
+     [
+      "3",
+      0.231
+     ],
+     [
+      "1",
+      0.227
+     ],
+     [
+      "2",
+      0.106
+     ]
+    ],
+    "casa_recuperada": "3",
+    "confianca_recuperada": 0.231
+   },
+   "t_ini": 141.8
+  },
+  {
+   "ordem": 136,
+   "corda": 6,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1626,
+   "confianca": 0.891,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/0823b01330b0ebaf.png",
+    "hash": "0823b01330b0ebaf",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.41,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      9,
+      7,
+      14
+     ],
+     [
+      2,
+      0,
+      5,
+      7
+     ]
+    ],
+    "classe": "1",
+    "top3": [
+     [
+      "1",
+      0.891
+     ],
+     [
+      "tecnica",
+      0.054
+     ],
+     [
+      "4",
+      0.028
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.847
+     ],
+     [
+      "15",
+      0.1
+     ],
+     [
+      "harmonico",
+      0.015
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.847
+   },
+   "t_ini": 216.3
+  },
+  {
+   "ordem": 137,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1642,
+   "confianca": 0.361,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "2",
+   "simbolo_cru": {
+    "png": "sky guitar/2f008930b4adf973.png",
+    "hash": "2f008930b4adf973",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     1.0,
+     1.12
+    ],
+    "componentes": [
+     [
+      0,
+      12,
+      17,
+      17
+     ],
+     [
+      2,
+      0,
+      21,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.361
+     ],
+     [
+      "5",
+      0.327
+     ],
+     [
+      "15",
+      0.065
+     ]
+    ],
+    "top3_componente": [
+     [
+      "2",
+      0.337
+     ],
+     [
+      "harmonico",
+      0.277
+     ],
+     [
+      "0",
+      0.1
+     ]
+    ],
+    "casa_recuperada": "2",
+    "confianca_recuperada": 0.337
+   },
+   "t_ini": 197.8
+  },
+  {
+   "ordem": 138,
+   "corda": 6,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1707,
+   "confianca": 0.166,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/72495d288112d87b.png",
+    "hash": "72495d288112d87b",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     1.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      20,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "1",
+      0.166
+     ],
+     [
+      "5",
+      0.139
+     ],
+     [
+      "3",
+      0.104
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.166
+     ],
+     [
+      "5",
+      0.139
+     ],
+     [
+      "3",
+      0.104
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.166
+   },
+   "t_ini": 290.8
+  },
+  {
+   "ordem": 139,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1769,
+   "confianca": 0.312,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "png": "sky guitar/927ed6a8c5a7cc8c.png",
+    "hash": "927ed6a8c5a7cc8c",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      9
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "4",
+      0.312
+     ],
+     [
+      "1",
+      0.307
+     ],
+     [
+      "3",
+      0.101
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.312
+     ],
+     [
+      "1",
+      0.307
+     ],
+     [
+      "3",
+      0.101
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.312
+   },
+   "t_ini": 273.3
+  },
+  {
+   "ordem": 140,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1770,
+   "confianca": 0.739,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/1887cec7850d2056.png",
+    "hash": "1887cec7850d2056",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.18,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      8
+     ],
+     [
+      0,
+      10,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.739
+     ],
+     [
+      "10",
+      0.143
+     ],
+     [
+      "tecnica",
+      0.07
+     ]
+    ],
+    "top3_componente": [
+     [
+      "21",
+      0.321
+     ],
+     [
+      "tecnica",
+      0.317
+     ],
+     [
+      "12",
+      0.113
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 273.3
+  },
+  {
+   "ordem": 141,
+   "corda": 4,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1770,
+   "confianca": 0.837,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/b6860d23a3f8f069.png",
+    "hash": "b6860d23a3f8f069",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.18,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ],
+     [
+      0,
+      9,
+      3,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "0",
+      0.837
+     ],
+     [
+      "10",
+      0.101
+     ],
+     [
+      "tecnica",
+      0.033
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.667
+     ],
+     [
+      "12",
+      0.115
+     ],
+     [
+      "14",
+      0.06
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 273.3
+  },
+  {
+   "ordem": 142,
+   "corda": 5,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1769,
+   "confianca": 0.643,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "1",
+   "simbolo_cru": {
+    "png": "sky guitar/6c99664237f80f78.png",
+    "hash": "6c99664237f80f78",
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.24,
+     0.24
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      4,
+      9
+     ],
+     [
+      0,
+      10,
+      4,
+      17
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.643
+     ],
+     [
+      "4",
+      0.294
+     ],
+     [
+      "harmonico",
+      0.026
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.331
+     ],
+     [
+      "4",
+      0.248
+     ],
+     [
+      "harmonico",
+      0.128
+     ]
+    ],
+    "casa_recuperada": "1",
+    "confianca_recuperada": 0.331
+   },
+   "t_ini": 273.3
+  },
+  {
+   "ordem": 143,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1770,
+   "confianca": 0.645,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "png": "sky guitar/29a8719fc43cd5b1.png",
+    "hash": "29a8719fc43cd5b1",
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      7
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "tecnica",
+      0.645
+     ],
+     [
+      "12",
+      0.123
+     ],
+     [
+      "14",
+      0.067
+     ]
+    ],
+    "top3_componente": [
+     [
+      "tecnica",
+      0.645
+     ],
+     [
+      "12",
+      0.123
+     ],
+     [
+      "14",
+      0.067
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0
+   },
+   "t_ini": 273.3
+  }
+ ],
+ "painel": "topo",
+ "uniformidade": 0.868,
+ "passo": 17.0,
+ "largura_painel": 1784,
+ "lido_via": "cv2",
+ "tempo": {
+  "medido": true,
+  "mecanismo": "marcador: salta",
+  "instantes_distintos": 39,
+  "serie": {
+   "pontos": 391,
+   "deslocamento_total_px": 1620,
+   "passo_mediano_px": 0,
+   "velocidade_px_s": 8.0,
+   "veredito": "salta"
+  }
+ },
+ "indice": 1,
+ "rotulo": "(henze) nocturno - guitar lesson + tab_int01",
+ "musicxml_relatorio": {
+  "titulo": "(henze) nocturno - guitar lesson + tab_int01",
+  "notas_exportadas": 49,
+  "notas_nao_exportadas": 94,
+  "motivo_nao_exportada": [
+   "harmonico",
+   "junk",
+   "tecnica"
+  ],
+  "tempo_medido": true,
+  "instantes_distintos": 26,
+  "pulso_s": 1.5,
+  "bpm_derivado_do_pulso": 40.0,
+  "duracao": "INFERIDA (intervalo até o próximo onset; a última usa o pulso)",
+  "compasso": "derivado da barline geométrica dividida pelo pulso medido",
+  "afinacao": "padrão assumida",
+  "divisoes": 1024
+ }
+}

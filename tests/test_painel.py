@@ -10,7 +10,7 @@ from __future__ import annotations
 import cv2
 import numpy as np
 
-from tab.painel import candidatos, escolher, uniformidade
+from tab.painel import candidatos, escolher, espacamento_regular, uniformidade
 
 
 def _faixa_tablatura(semente: int = 0) -> np.ndarray:
@@ -68,3 +68,16 @@ def test_painel_ganha_do_braco_na_escolha() -> None:
 def test_quadro_vazio_nao_tem_painel() -> None:
     """Sem 6 linhas não há painel: o inventário não pode inventar um."""
     assert escolher(np.full((1080, 1200, 3), 250, np.uint8)) is None
+
+
+def test_espacamento_irregular_reprova_o_painel() -> None:
+    """5 linhas de partitura + 1 de tablatura não é pauta de cordas.
+
+    Medido no `sky guitar` (`(henze) nocturno`, t=228 s): `[138, 154, 170, 185, 202, 342]`,
+    lacunas 16, 16, 15, 17, **140**. O detector aceitava por causa do fallback "picos mais
+    fortes" do `achar_cordas` — e 61 % do lido virou bolinha de nota.
+    """
+    assert espacamento_regular([138, 154, 170, 185, 202, 342]) is False
+    assert espacamento_regular([8, 38, 67, 97, 127, 156]) is True  # passo ~30 regular
+    assert espacamento_regular([10, 22, 34, 46, 58]) is True
+    assert espacamento_regular([10]) is False

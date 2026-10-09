@@ -26,6 +26,7 @@ Uso:
 
 from __future__ import annotations
 
+import itertools
 from dataclasses import dataclass
 
 import cv2
@@ -278,6 +279,33 @@ def melhor(achados: list[Candidato]) -> Candidato | None:
     return max(achados, key=lambda c: c.score) if achados else None
 
 
+def espacamento_regular(linhas_y: list[int], tolerancia: float = 1.6) -> bool:
+    """As linhas estão igualmente espaçadas? (senão não é uma pauta de cordas)
+
+    Medido no `sky guitar` (`(henze) nocturno`, t=228 s): sem esta checagem o detector
+    aceitava `[138, 154, 170, 185, 202, 342]` — as **5 linhas da partitura mais 1 linha da
+    tablatura**, 140 px abaixo. Espaçamentos: 16, 16, 15, 17, **140**. Isso não é uma pauta:
+    é um remendo, e foi ele que fez 61 % do lido virar bolinha de nota e número de digitação.
+
+    A origem do remendo está no `tabseg.achar_cordas`: quando não encontra 6 linhas
+    regulares, ele **cai para os picos mais fortes** (aviso "espaçamento irregular"). O
+    aviso existia — e o portão do painel o ignorava.
+
+    Args:
+        linhas_y: y das linhas detectadas.
+        tolerancia: razão máxima entre o maior e o menor intervalo.
+
+    Returns:
+        True se o espaçamento for regular dentro da tolerância.
+    """
+    if len(linhas_y) < 2:
+        return False
+    lacunas = [b - a for a, b in itertools.pairwise(linhas_y)]
+    if min(lacunas) <= 0:
+        return False
+    return max(lacunas) / min(lacunas) <= tolerancia
+
+
 def criar(
     nome: str,
     y0: int,
@@ -303,6 +331,8 @@ def criar(
     """
     if len(grade.linhas_y) != 6 or len(grade.glifos) < min_glifos:
         return None
+    if not espacamento_regular(grade.linhas_y):
+        return None  # 5 linhas de partitura + 1 de tablatura não é pauta de cordas
     u = uniformidade(roi)
     return Candidato(
         nome=nome,
@@ -344,17 +374,13 @@ def escolher_rapido(frame: np.ndarray) -> Candidato | None:
             g = segmentar(roi)
         except Exception:
             continue
-        if len(g.linhas_y) != 6 or len(g.glifos) < MIN_GLIFOS:
-            continue
-        return Candidato(
-            nome=nome,
-            y0=y0,
-            y1=y1,
-            roi=roi,
-            grade=g,
-            uniformidade=u,
-            score=(round(u, 3), g.glifos_centrados),
-        )
+        # `criar` concentra as regras de aceitação (6 linhas, glifos e ESPAÇAMENTO
+        # REGULAR). Construir o candidato direto aqui foi um erro medido: o conserto do
+        # espaçamento não pegava neste caminho, e o pipeline continuava aceitando
+        # 5 linhas de partitura + 1 de tablatura.
+        c = criar(nome, y0, y1, roi, g)
+        if c is not None:
+            return c
     return None
 
 
