@@ -7,7 +7,8 @@
   "frac": 0.7,
   "passo": 22.2,
   "glifos": 42,
-  "fracao_algarismo": 0.6
+  "fracao_algarismo": 0.6,
+  "video_existe": true
  },
  {
   "indice": 4,
@@ -17,7 +18,8 @@
   "frac": 0.7,
   "passo": 20.4,
   "glifos": 76,
-  "fracao_algarismo": 0.97
+  "fracao_algarismo": 0.97,
+  "video_existe": true
  },
  {
   "indice": 6,
@@ -27,7 +29,8 @@
   "frac": 0.7,
   "passo": 24.4,
   "glifos": 75,
-  "fracao_algarismo": 0.95
+  "fracao_algarismo": 0.95,
+  "video_existe": true
  },
  {
   "indice": 7,
@@ -37,7 +40,8 @@
   "frac": 0.85,
   "passo": 23.6,
   "glifos": 23,
-  "fracao_algarismo": 0.87
+  "fracao_algarismo": 0.87,
+  "video_existe": true
  },
  {
   "indice": 9,
@@ -47,7 +51,8 @@
   "frac": 0.85,
   "passo": 18.4,
   "glifos": 25,
-  "fracao_algarismo": 1.0
+  "fracao_algarismo": 1.0,
+  "video_existe": true
  },
  {
   "indice": 10,
@@ -57,7 +62,8 @@
   "frac": 0.7,
   "passo": 14.6,
   "glifos": 51,
-  "fracao_algarismo": 0.94
+  "fracao_algarismo": 0.94,
+  "video_existe": true
  },
  {
   "indice": 11,
@@ -67,7 +73,8 @@
   "frac": 0.7,
   "passo": 21.6,
   "glifos": 102,
-  "fracao_algarismo": 0.96
+  "fracao_algarismo": 0.96,
+  "video_existe": true
  },
  {
   "indice": 12,
@@ -77,7 +84,8 @@
   "frac": 0.7,
   "passo": 24.4,
   "glifos": 24,
-  "fracao_algarismo": 1.0
+  "fracao_algarismo": 1.0,
+  "video_existe": true
  },
  {
   "indice": 15,
@@ -87,7 +95,8 @@
   "frac": 0.7,
   "passo": 14.6,
   "glifos": 90,
-  "fracao_algarismo": 0.96
+  "fracao_algarismo": 0.96,
+  "video_existe": true
  },
  {
   "indice": 17,
@@ -97,6 +106,7 @@
   "frac": 0.7,
   "passo": 22.4,
   "glifos": 53,
-  "fracao_algarismo": 1.0
+  "fracao_algarismo": 1.0,
+  "video_existe": true
  }
 ]
