@@ -59,6 +59,24 @@ Gerando montagem para os canais novos, o detector escolheu **piano**
 Quatro discriminadores feitos à mão foram testados e **os quatro falharam** (uniformidade,
 fração de algarismos, confiança do classificador, espessura de linha).
 
+## 2026-10-09 — primeira saída COM TEMPO, e a ressalva que vem junto
+
+`tab/pipeline.py` fecha o ciclo por **intervalo**: amostra a duração, agrupa os trechos com
+notação, transcreve cada um e grava **um JSON e um MusicXML por intervalo** (decisão 0004).
+No `sky guitar` (`(henze) nocturno`, intervalo 110,3–313,3 s):
+
+| | painel errado (`meio`, passo 7,6) | painel certo (`topo`, passo 16) |
+| --- | --- | --- |
+| notas lidas | 40 | **143** |
+| exportadas para MusicXML | 25 | 49 |
+| tempo | **não medido** | **medido: 39 instantes distintos**, 117–303 s |
+
+**Mas a leitura ainda não é confiável**: 94 das 143 notas (66 %) são não-algarismo e a
+confiança mediana dos algarismos é 0,434 — porque a faixa escolhida contém **partitura e
+tablatura**, exatamente a armadilha que o dono do projeto descreveu. Ver
+[`docs/decisoes/0007`](docs/decisoes/0007-painel-com-partitura-e-tablatura.md). O tempo é
+utilizável e declarado; o **conteúdo** das notas não é, e está declarado como tal.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
