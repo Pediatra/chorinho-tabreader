@@ -34,6 +34,21 @@ from .tabseg import segmentar
 #: Classes que são algarismo (a casa). Todo o resto é símbolo e tem de ser guardado.
 ALGARISMOS = frozenset(str(n) for n in range(0, 25))
 
+#: Limiar do discriminador "isto é algarismo?" na terceira passada. Varrido no protocolo do
+#: canal deixado de fora (2 sementes x 8 canais; 176 algarismos, 56 não-algarismos):
+#:
+#:     limiar   recuperados        lixo virando nota errada
+#:     0,50     162/176 (92 %)     7/56 (12 %)
+#:     0,70     162/176 (92 %)     5/56  (9 %)
+#:     0,80     160/176 (91 %)     4/56  (7 %)
+#:     0,90     156/176 (89 %)     3/56  (5 %)
+#:     0,95     154/176 (88 %)     1/56  (2 %)
+#:
+#: 0,95 porque a curva não cobra o preço: 4 pontos de recuperação a menos cortam a nota
+#: errada por 6x. Algarismo NÃO recuperado não se perde (o símbolo continua guardado e
+#: declarado); nota errada corrompe em silêncio, que é o pior dos dois.
+LIMIAR_DISCRIMINADOR = 0.95
+
 
 def compativel(classe: str, tk, passo: float) -> bool:
     """A classe prevista cabe no recorte medido?"""
@@ -205,7 +220,7 @@ def reconhecer_linha(
             ]
             p_dig = discriminador(recortes_d)
             for k, i in enumerate(alvos_d):
-                if float(p_dig[k]) >= 0.5:
+                if float(p_dig[k]) >= LIMIAR_DISCRIMINADOR:
                     p = probs[i]
                     classes[i] = (
                         rotulos[max(idx_dig, key=lambda j: p[j])],

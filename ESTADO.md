@@ -453,6 +453,25 @@ bom. O caminho que os números apontam é **limiar conservador** (ex.: 0,8) ou *
 gravado em vez de decisão** — o símbolo continua guardado e o token ganha a marca de
 "suspeita de algarismo", para o pipeline não inventar nota e o dono poder conferir depois.
 
+## 2026-10-09 — limiar do discriminador: varrido, e o conservador DOMINA
+
+Varredura no protocolo do canal deixado de fora (2 sementes × 8 canais; 176 algarismos,
+56 não-algarismos):
+
+| limiar | algarismos recuperados | lixo virando nota errada |
+| --- | --- | --- |
+| 0,50 | 162/176 (92 %) | 7/56 (12 %) |
+| 0,70 | 162/176 (92 %) | 5/56 (9 %) |
+| 0,80 | 160/176 (91 %) | 4/56 (7 %) |
+| 0,90 | 156/176 (89 %) | 3/56 (5 %) |
+| **0,95** | **154/176 (88 %)** | **1/56 (2 %)** |
+
+**Não há trade-off que justifique o limiar frouxo**: subir de 0,5 para 0,95 custa 4 pontos de
+recuperação e corta a nota errada em **6×**. E os dois erros não são simétricos — algarismo
+não recuperado **continua guardado como símbolo e declarado**; nota errada **corrompe em
+silêncio**. Fixado `LIMIAR_DISCRIMINADOR = 0,95` em `tab/reconhecer.py`, com a tabela no
+docstring para ninguém precisar refazer a varredura.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
