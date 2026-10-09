@@ -1,0 +1,35 @@
+[project]
+name = "chorinho"
+version = "0.1.0"
+description = "Transcrição de tablatura de violão a partir de vídeo, com tempo de execução."
+requires-python = ">=3.14"
+
+# Dependências NÃO são declaradas aqui de propósito. A fonte única é
+# requirements.txt (o torch vem do índice CUDA, no Dockerfile), porque o que
+# roda é a imagem. Declarar de novo aqui garante divergência entre os dois.
+
+[tool.ruff]
+line-length = 88
+exclude = ["data", "artefatos", ".venv"]
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W", "I", "UP", "B", "C4", "SIM", "RUF",
+    "PLC0415",  # import dentro de funcao: proibido pelo AGENTS.md, agora e gate
+]
+ignore = [
+    "E501",   # comprimento de linha: o codigo herdado tem docstrings longas
+    "RUF001", # caracteres unicode ambiguos (o projeto escreve em portugues)
+    "RUF002",
+    "RUF003",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "integration: exige dados externos (acervo real no HD); fora do gate padrão",
+]

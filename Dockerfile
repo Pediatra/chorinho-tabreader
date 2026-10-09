@@ -9,8 +9,12 @@ ENV PYTHONUNBUFFERED=1 \
 
 # ffmpeg é obrigatório, não opcional: 44% do acervo é AV1 e o OpenCV não
 # decodifica — sem o fallback, quase metade dos vídeos passa em branco.
+#
+# fonts-liberation também não é enfeite: são as fontes do GERADOR SINTÉTICO.
+# Fonte é dependência de DADO aqui — trocar de fonte muda a distribuição do
+# treino e portanto a métrica. Sem elas o treino quebra (e é para quebrar).
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ffmpeg libglib2.0-0 \
+    && apt-get install -y --no-install-recommends ffmpeg fonts-liberation libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python -m venv /opt/venv \
