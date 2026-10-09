@@ -2752,3 +2752,26 @@ isso que o passo (c) — auditar o pool aberto — é o único que fecha a pergu
 
 Os 9 símbolos que ele confirmou (posições recuperadas): C06 ×3 (x=244, 656, 1458), C07_0005 (x=1557),
 C14_0020 (x=1090), C15 ×3 (x=127, 333, 459), C22_0026 (x=933).
+
+## 2026-10-09 — (c) AUDITORIA DO POOL ABERTO montada: 1.869 candidatos, 1.258 aprovados pelo modelo
+
+Regerada a auditoria **sem o filtro de forma** — é o pool que a página anterior escondia:
+
+| | n |
+| --- | --- |
+| candidatos no pool aberto | **1.869** |
+| deles, **aprovados** pelo modelo (prob >= 0,5) | **1.258** |
+| recusados | 611 |
+
+**Os 1.258 são exatamente os "1.258 falsos" que eu vinha reportando como erro do modelo** — e nunca
+foram auditados. Página nova com **200 itens sorteados** (semente fixa 7: 150 aprovados + 50 recusados),
+ordenados por probabilidade decrescente, com as mesmas convenções que o dono já sabe usar: **janela
+grande em cima = o que o modelo vê** (classifique por ela), **contexto embaixo** com **caixa amarela =
+a janela** e **caixa verde = o candidato bruto**, mais o **círculo vermelho** da marca dele.
+
+**Página**: `data/saida/auditoria_pool/auditoria.html` (servida em
+`http://127.0.0.1:8099/auditoria_pool/auditoria.html`). Rótulos: é símbolo / não é símbolo / não sei,
+com exportação em JSON.
+
+**É a única medição que fecha a pergunta "o modelo erra no pool?"** — e ela decide se o classificador
+precisa de conserto. Sem o olho do dono, qualquer conclusão minha aqui é inferência.
