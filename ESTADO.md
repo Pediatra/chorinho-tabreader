@@ -791,6 +791,31 @@ Com **4 exemplos rotulados** eu não calibro regra de token, e não vou inventar
 certo é achar DE ONDE vêm esses recortes (casando o hash com o painel de origem) e olhar o
 painel — que é o passo que ainda não foi feito.
 
+## 2026-10-09 — a origem dos recortes de partitura: DOIS painéis errados, com prova visual
+
+Casei o hash dos 4 recortes de partitura com o painel de origem e desenhei o token nele
+(`data/saida/frames/origem_partitura.png`). O resultado fecha o diagnóstico e corrige a
+suposição de que seria "um" mecanismo:
+
+| caso | painel de origem | o que a imagem mostra |
+| --- | --- | --- |
+| #11 `iwaki` | passo 30,0; linhas 291,323,350,376,401,**441** | **a FOTO DO VIOLÃO** — lacunas 32,27,26,25,**40**: razão **1,6**, o limite exato da minha tolerância |
+| #15 `mr. tabs` | passo 26,0; linhas 217..347 | **a PARTITURA** (clave de sol, compassos 4 e 13) — 6 linhas regulares (25,26,27,26,26), mas é pauta + 1 linha; **a tablatura está abaixo do painel** |
+| #32 `iwaki` | passo 17,4; linhas 283..370 | corpo do violão **e** pauta na borda de baixo (clave visível) |
+| #3 `tv on guitar` | passo 14,2 | tablatura — o token é uma marquinha pequena dentro dela |
+
+**São dois buracos distintos, cada um com conserto próprio:**
+
+1. **foto de violão passando no teste de 6 linhas** (`#11`): a razão das lacunas deu **1,6**, que
+   é o limite exato de `espacamento_regular`. Apertar de 1,6 para ~1,3 deve fechar — e é
+   medível: **não pode custar um glifo do gabarito**;
+2. **pauta de 5 linhas + 1 formando grupo regular** (`#15`): é o mecanismo da decisão 0007 de
+   novo, e agora existe um caso concreto para calibrar — com a tablatura visível **abaixo** do
+   painel escolhido.
+
+**O que NÃO fazer**: continuar procurando regra no token. Os 4 recortes são fragmentos de 8-13 px
+(cabeça de nota, haste), e a informação que separa está no PAINEL, não neles.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
