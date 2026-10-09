@@ -148,14 +148,24 @@ def _contraste_local_claro(
 # --------------------------------------------------------------------------- #
 
 
-def _picos_de_linha(tinta: np.ndarray, fracao_min: float = 0.30) -> list[float]:
-    """Picos do perfil horizontal de tinta (funciona com linha sólida e tracejada)."""
+def _picos_de_linha(
+    tinta: np.ndarray, fracao_min: float = 0.30, margem_borda: int = 3
+) -> list[float]:
+    """Picos do perfil horizontal de tinta (funciona com linha sólida e tracejada).
+
+    Picos a menos de `margem_borda` px da borda são descartados: ali há **borda de
+    quadro** (letterbox, moldura, recorte), não corda. Medido no `sky guitar`
+    (`(henze) nocturno`, t=228 s): a faixa `topo` continha a partitura (5 linhas) e a
+    tablatura embaixo; o detector pegou as 5 linhas da partitura MAIS a borda preta em
+    `y=1`, fechou "6 cordas", passou no portão e leu 112 tokens da **partitura** — 66 % do
+    que saiu era bolinha de nota e número de digitação, com confiança mediana 0,43.
+    """
     h, _ = tinta.shape
     perfil = tinta.mean(axis=1)
     if h >= 3:
         perfil = np.convolve(perfil, np.ones(3) / 3, mode="same")
     picos = []
-    for y in range(1, h - 1):
+    for y in range(max(1, margem_borda), h - 1 - margem_borda):
         if (
             perfil[y] >= perfil[y - 1]
             and perfil[y] >= perfil[y + 1]
