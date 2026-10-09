@@ -67,3 +67,18 @@ LIMIAR_SIMBOLO = 0.5
 #: mediana **1,706** — **0 de 123** abaixo de 0,35. Regra determinística com zero colateral:
 #: símbolo de tablatura é LARGO (arco, seta, ligadura); barra vertical é lixo de render.
 RAZAO_MINIMA_SIMBOLO = 0.35
+
+
+#: PISO DE TINTA — MEDIDO E **REPROVADO** (não usar; fica como registro). (fração de pixels de tinta na janela).
+#:
+#: Medido: os 422 **vazios** que o modelo aprovava no pipeline têm tinta mediana **0,071** e
+#: **máximo 0,100**; os **523 símbolos verdadeiros** do dono têm mediana **0,174** e p10 **0,128**.
+#: Logo existe um vão: o vazio termina onde o símbolo começa.
+#:
+#:     piso 0,10 -> mata 400 de 422 vazios, custa 25 de 523 símbolos (5%)
+#:     piso 0,12 -> mata 422 de 422 vazios, custa 42 de 523 símbolos (8%)   <- escolhido
+#:
+#: O custo de 8% é provavelmente **arco de baixo contraste** — exatamente o que o dono avisou
+#: ("arco de ligadura quase sumindo, cuidado pra não cortar coisa demais"). É um preço REAL e está
+#: declarado: troca 8% dos símbolos por acabar com o modo de falha que derrubava a precisão a 0,17.
+PISO_TINTA_SIMBOLO = 0.12

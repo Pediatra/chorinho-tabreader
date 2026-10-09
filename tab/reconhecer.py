@@ -345,6 +345,17 @@ def reconhecer_linha(
                         # (na janela) via o arco, e a precisão no olho caía de 90 % para 29 %.
                         caixa_simbolo = (ccx - hx, ccy - hy, ccx + hx, ccy + hy)
                 sufixo["componentes_avaliados"] = len(componentes)
+            # PISO DE TINTA: MEDIDO E REPROVADO (fim a fim 0,17 -> 0,16 e recall 0,11 -> 0,08). O
+            # vão entre vazio (máx 0,100) e símbolo (p10 0,128) existe, mas travar por ele **não**
+            # melhora o uso: os vazios que ele remove não são os que atrapalham, e ele custa símbolo.
+            # Fica registrado em `tab/caminhos.PISO_TINTA_SIMBOLO` para ninguém repetir a tentativa.
+            _cx = (tk.x0 + tk.x1) // 2
+            _cy = (tk.y0 + tk.y1) // 2
+            _hx, _hy = round(1.2 * g.passo), round(0.8 * g.passo)
+            _rec = gray[max(0, _cy - _hy) : _cy + _hy, max(0, _cx - _hx) : _cx + _hx]
+            if _rec.size:
+                _m = _rec < (_rec.mean() - 0.5 * _rec.std())
+                sufixo["tinta"] = round(float(_m.mean()), 3)
             # FORA DA FAIXA DAS CORDAS NÃO É SÍMBOLO. Medido nos 523 símbolos verdadeiros do dono:
             # **523 de 523 (100 %)** caem DENTRO da faixa que `roi_das_cordas` delimita — zero
             # colateral. E o pipeline aprovava tokens FORA dela (um caso medido: ROI y=13, que na

@@ -1785,6 +1785,39 @@ precisa **não são sintéticos** — são **os quadros exatos onde ele erra no 
 existe uma fonte de verdade: **o dono marcar naqueles quadros** (é a instrução dele: pausar e chamar).
 Todas as minhas tentativas foram de **inventar** o negativo; a alternativa é **pedir o rótulo**.
 
+## 2026-10-09 — FECHAMENTO DO DETECTOR: os números finais, com o custo declarado
+
+**O caminho novo foi medido e REPROVADO.** O piso de tinta tinha um vão real (vazio: máximo 0,100;
+símbolo: p10 0,128), mas travar por ele **piorou o uso**: fim a fim 0,17 → **0,16** e recall 0,11 →
+**0,08**. Revertido, e a tentativa fica registrada em `tab/caminhos.PISO_TINTA_SIMBOLO` para ninguém
+repeti-la. A tinta continua **gravada** no registro de cada token (`sufixo["tinta"]`), sem travar.
+
+**NÚMEROS FINAIS, medidos:**
+
+| medida | valor |
+| --- | --- |
+| LOCA no conjunto rotulado (523 marcas suas) | precisão **0,74–0,79**, recall 0,82–0,87 |
+| **precisão da coleta**, contra as marcas do dono, no espaço de coordenada correto | **0,17** (recall 0,11) |
+| e o 0,17 é **generoso** — os "casamentos" são coincidência de x com a faixa vazia | — |
+
+**CUSTO DECLARADO do que foi adotado** (as três travas que ficaram):
+
+| trava | ganho medido | custo medido |
+| --- | --- | --- |
+| haste fina (razão < 0,35) | tira material de linha | **0** de 123 símbolos da época |
+| faixa das cordas (`roi_das_cordas`) | tira 68 aprovações fora da faixa | **0** de 523 símbolos |
+| filtro positivo (janela 2,4 × 1,6) | tira o resíduo do classificador | recall 0,87 no LOCA |
+
+**E o que foi REPROVADO, tudo com número**: classificador genérico de lixo (0,665) · regra da cruz
+(0 de 6) · linhas de pauta no token (1 de 4) · apertar a tolerância de espaçamento (custa 21 % dos
+painéis) · validar o painel por conteúdo · recortar o componente · decidir por componente · as três
+variações de negativo vazio · **o piso de tinta**. Todas medidas antes de adotar, e todas declaradas.
+
+**O que este detector é, com os dados na mão**: ele acerta 0,74–0,79 no conjunto que eu construí e
+**0,17 no uso real**. Ele aprova janelas que **não são** os símbolos marcados. **Não entrega a
+precisão que o produto precisa** — e o caminho que sobra não é de modelo nem de dado sintético: é
+**rótulo do dono nos quadros exatos onde ele erra**.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
