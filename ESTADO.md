@@ -96,6 +96,26 @@ intervalos vão de 1,0 s a 22,5 s e a **mediana** dava BPM 15. O pulso passou a 
 intervalo mais frequente entre os curtos: **1,5 s → BPM 40**, plausível para demonstração
 lenta. Ver [`docs/decisoes/0006`](docs/decisoes/0006-marcador-sem-suposicao-de-cor.md).
 
+## 2026-10-09 — o canal mais difícil: `shin izumi`
+
+Com a cascata de máscaras na busca do painel, o `shin izumi` (que o dono do projeto chama
+de tablatura mais difícil do acervo) passou a ser lido:
+
+| medida | valor |
+| --- | --- |
+| painel encontrado | **nos 6 instantes** (`y822–850`, passo ~21,4, 62–87 glifos) |
+| algarismos | 27 de 87 tokens |
+| **confiança mediana dos algarismos** | **0,99** |
+| casas lidas | 2, 0, 5, 4, 3, 6 |
+| não-algarismos | 60 (`junk` 45, `tecnica` 9, `harmonico` 6) |
+| tempo | `sem_marcador` — confere com a descrição do canal (não tem marcador) |
+
+**Os 60 não-algarismos não são falha de leitura**: são os círculos, elipses e riscos que o
+dono do projeto descreveu (*"números dentro de bolinhas, vários empilhados formando um
+elíptico, vários símbolos que ligam os números"*). É o **vocabulário de símbolos** do canal,
+que por decisão do projeto é guardado cru para classificar depois — não é dívida de leitura,
+é dívida de classificação.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
