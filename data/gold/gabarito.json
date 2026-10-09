@@ -36,7 +36,9 @@
     "24": "3",
     "25": "1",
     "26": "0"
-   }
+   },
+   "n_tokens": 27,
+   "n_tokens_antes_delimitador": 27
   },
   {
    "canal": "sky guitar",
@@ -61,7 +63,9 @@
     "13": "1",
     "14": "0"
    },
-   "fonte": "linha_01_tablatura.png de partes/clipes, verificada pixel a pixel por análise independente"
+   "fonte": "linha_01_tablatura.png de partes/clipes, verificada pixel a pixel por análise independente",
+   "n_tokens": 15,
+   "n_tokens_antes_delimitador": 15
   },
   {
    "canal": "raman korshun",
@@ -136,7 +140,9 @@
     "28": "0",
     "29": "3"
    },
-   "obs": "corda passa POR CIMA do algarismo (renderizacao diferente do MuseScore)"
+   "obs": "corda passa POR CIMA do algarismo (renderizacao diferente do MuseScore)",
+   "n_tokens": 71,
+   "n_tokens_antes_delimitador": 71
   }
  ]
 }

@@ -94,7 +94,9 @@ def avaliar_com_modelo(
         if am.get("descartada"):
             # Fora de escopo por decisao do dono do projeto (instrumento errado), nao por
             # falha: entra como DESCARTADA, com o motivo, e nao como quadro indisponivel.
-            linhas.append((f"{am.get('canal', '?')} [descartada: {am['descartada'][:28]}]", 0, 0))
+            linhas.append(
+                (f"{am.get('canal', '?')} [descartada: {am['descartada'][:28]}]", 0, 0)
+            )
             continue
         img = imagem_da_amostra(am)
         if img is None:
@@ -107,6 +109,22 @@ def avaliar_com_modelo(
         r = reconhecer_linha(img, modelo, rotulos, dev)
         campo = "casa_recuperada" if usar_recuperada else "casa"
         previsto = [n.get(campo) or n["casa"] for n in r["notas"]]
+        # TRAVA DE DESLOCAMENTO: o gabarito é indexado pela POSIÇÃO do token
+        # (`am["rotulos"][str(i)]`). Se a segmentação mudar de tamanho — e o delimitador
+        # existe justamente para descartar token — os rótulos passam a apontar para outro
+        # token e a aferição vira mentira SILENCIOSA. Medido: os 3 canais do gabarito têm
+        # zero recusas hoje, por isso o número não mudou quando o delimitador entrou. A
+        # partir daqui, contagem diferente é DECLARADA e fica fora da conta.
+        esperado = am.get("n_tokens")
+        if esperado is not None and len(previsto) != esperado:
+            linhas.append(
+                (
+                    f"{am.get('canal', '?')} CONTAGEM MUDOU ({len(previsto)} != {esperado})",
+                    0,
+                    0,
+                )
+            )
+            continue
         indices = sorted(int(k) for k in am["rotulos"])
         # Token que a segmentação não produziu conta como erro, não como exceção.
         acertos = sum(
