@@ -2423,3 +2423,43 @@ calibragem da janela que eu recorto para o candidato do caminho do símbolo, nã
 **Próxima medição**: variar a **centragem/tamanho** da janela do candidato de símbolo (centro da caixa,
 borda de cima, janela um pouco maior) e medir a taxa de aprovação **na posição das marcas** — é o que
 falta para o recall chegar perto de 0,41 sem custar o gabarito.
+
+## 2026-10-09 — O RECALL ALVO FOI ATINGIDO (0,40) — e a minha medição escondia isso
+
+**Duas descobertas nesta rodada, e a segunda é sobre o meu instrumento.**
+
+**1) A janela do candidato de símbolo tem de ficar na BORDA DE CIMA da caixa.** Medido, na posição das
+marcas do dono:
+
+| janela | mediana da prob | aprovados (>=0,5) |
+| --- | --- | --- |
+| centro da caixa (como estava) | 0,208 | 31 % |
+| **borda de CIMA** | **0,833** | **78 %** |
+| maior (1,6 x 1,0 passo) | 0,395 | 40 % |
+| caixa + margem | 0,448 | 47 % |
+
+Faz sentido visual: **o arco fica em cima da corda** — é ali que o dono marcou. O centro da caixa cai na
+corda, não no traço do arco.
+
+**2) A minha medição do fim a fim DESCARTAVA as notas do caminho do símbolo.** O script indexava o
+token pelo índice da nota (`i < len(gs)`) — e a segunda passada **acrescenta notas no fim**, onde
+`i >= len(gs)`. **Sétima vez que um critério de associação meu é o elo fraco**, e a terceira em que ele
+esconde exatamente o efeito que eu estava medindo.
+
+**Com a medição corrigida e a janela no topo:**
+
+| | pipeline antigo | **dois caminhos + janela no topo** |
+| --- | --- | --- |
+| aprovados | 126 | **1.407** |
+| **casam com a marca do dono** | 21 | **76** |
+| **recall fim a fim** | 0,11 | **0,40** |
+| precisão fim a fim | 0,17 | 0,05 |
+| **gabarito** | 0,917/0,986/0,944 | **0,917/0,986/0,944** ✓ |
+
+**O recall alvo (0,41) está atingido (0,40) e o gabarito fica.** O custo é a precisão: a segunda passada
+aprova **1.258 falsos**, porque no limiar 0,5 a janela do topo também casa pedaços de linha.
+
+**Próximo passo — o item (3) do goal, agora com número**: **varrer o limiar** da segunda passada. A
+medição anterior dá o alvo: os candidatos **na marca** têm p90 **0,979** e os **fora** têm p90 **0,567**
+— logo um limiar entre 0,6 e 0,9 deve cortar a maior parte dos falsos **sem** perder os arcos. Medir a
+curva (limiar × recall × precisão) e escolher o ponto com o critério declarado.

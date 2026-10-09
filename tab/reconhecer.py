@@ -456,8 +456,12 @@ def reconhecer_linha(
     # cima, da máscara escolhida, continua sendo a única fonte de dígitos).
     if filtro_simbolo is not None and julgar_todos:
         for tk in _candidatos_do_simbolo(img, g):
+            # JANELA NA BORDA DE CIMA, não no centro da caixa. Medido: com o centro, o filtro aprova
+            # **31 %** dos candidatos na posição das marcas (mediana 0,208); com o topo da caixa,
+            # **78 %** (mediana 0,833). Faz sentido: o arco fica **em cima da corda** — é ali que o
+            # dono marcou — e o centro da caixa cai na corda, não no traço do arco.
             cx = (tk.x0 + tk.x1) // 2
-            cy = (tk.y0 + tk.y1) // 2
+            cy = tk.y0
             hx, hy = round(1.2 * g.passo), round(0.8 * g.passo)
             rec = gray[max(0, cy - hy) : cy + hy, max(0, cx - hx) : cx + hx]
             if rec.size == 0:
