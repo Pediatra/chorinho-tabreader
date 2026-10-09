@@ -77,3 +77,45 @@ esta rodada mostrou falhando quatro vezes seguidas.
   gabarito de tablatura;
 - os negativos reais achados aqui viram **casos de teste** permanentes
   (`data/saida/frames/ouro_novos.png` e os quadros em `data/saida/frames/`).
+
+## Primeira tentativa de treino: 3 de 7 (e o que ela ensinou)
+
+Implementado `tab/portao.py` com positivos e negativos **sintéticos**, o primeiro treino
+deu acurácia de treino **1,0000 já na 3ª época** e **0 de 3** nos painéis reais — sinal de
+tarefa trivial e sem transferência.
+
+Causa identificada: o positivo sintético era um **desenho limpo** e o recorte real é
+**quadro de vídeo** (compressão, borda, conteúdo em volta). O classificador de glifos
+transfere porque o sintético passa pelo **mesmo extrator**; o portão recebia pixels crus.
+
+Corrigido o alinhamento (a cena passa a ser colada numa faixa de um quadro sintético e o
+recorte da faixa é o que entra na rede), o resultado ficou **3 de 7**:
+
+| caso | verdade | p(tablatura) | |
+| --- | --- | --- | --- |
+| `sky4_t88` | tablatura | 1,000 | ok |
+| `sky4_t120` | **tablatura** | **0,000** | **erro** |
+| `asturias_t417` | tablatura | 1,000 | ok |
+| `violaodecria` (piano) | não | **0,995** | **erro** |
+| `shin izumi` (tarraxas) | não | 0,149 | ok |
+| `cifra club` (corpo) | não | **1,000** | **erro** |
+| `guitar dell'arte` (partitura) | não | **1,000** | **erro** |
+
+**A lição**: o negativo sintético é um **desenho** (tecla, madeira, mancha); o negativo
+real é **fotografia de objeto**. Nenhuma quantidade de desenho sintético cobre a
+distribuição de "frame de vídeo que não é tablatura". O mesmo vale para o positivo: uma
+tablatura real com `m i m` (digitação) acima e passo 20 foi rejeitada.
+
+## Decisão revisada
+
+O portão continua sendo um classificador pequeno, mas **o rótulo do negativo tem de vir de
+frame real, lido no olho** — como o gabarito. Plano:
+
+1. gerar ~120 recortes candidatos de painel de dezenas de vídeos, de canais variados
+   (o melhor candidato de cada vídeo **e** a segunda faixa, que costuma ser o braço/corpo);
+2. eu leio as montagens e rotulo cada recorte (`tablatura` / `nao_tablatura` / `duvida`),
+   **gravando os PNGs para o dono auditar** — regra nº 5 do `AGENTS.md`;
+3. treinar com os recortes reais rotulados **mais** os sintéticos alinhados (aumento de
+   dado), com os 7 casos desta tabela mantidos **fora** do treino, como conjunto de
+   aceitação;
+4. só entra no pipeline o que passar no conjunto de aceitação **e** na validação.

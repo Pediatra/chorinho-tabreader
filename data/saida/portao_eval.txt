@@ -1,0 +1,48 @@
+{
+ "casos": [
+  {
+   "caso": "sky4_t88.png",
+   "verdade": "tablatura",
+   "p_tablatura": 1.0,
+   "acertou": true
+  },
+  {
+   "caso": "sky4_t120.png",
+   "verdade": "tablatura",
+   "p_tablatura": 0.0,
+   "acertou": false
+  },
+  {
+   "caso": "asturias_t417.png",
+   "verdade": "tablatura",
+   "p_tablatura": 1.0,
+   "acertou": true
+  },
+  {
+   "caso": "03_violaodecria",
+   "verdade": "nao_tablatura",
+   "p_tablatura": 0.995,
+   "acertou": false
+  },
+  {
+   "caso": "02_shin izumi",
+   "verdade": "nao_tablatura",
+   "p_tablatura": 0.149,
+   "acertou": true
+  },
+  {
+   "caso": "00_cifra club",
+   "verdade": "nao_tablatura",
+   "p_tablatura": 1.0,
+   "acertou": false
+  },
+  {
+   "caso": "01_guitar dell ́a",
+   "verdade": "nao_tablatura",
+   "p_tablatura": 1.0,
+   "acertou": false
+  }
+ ],
+ "acertos": 3,
+ "total": 7
+}
