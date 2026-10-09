@@ -2775,3 +2775,26 @@ com exportação em JSON.
 
 **É a única medição que fecha a pergunta "o modelo erra no pool?"** — e ela decide se o classificador
 precisa de conserto. Sem o olho do dono, qualquer conclusão minha aqui é inferência.
+
+## 2026-10-09 — ferramenta nova: `python -m tab.auditoria` (e o bug que eu peguei nela antes de commitar)
+
+Enquanto os rótulos do pool não chegam, a análise virou **módulo do projeto** (`tab/auditoria.py`), para
+o JSON do dono virar número em **um comando**:
+
+    python -m tab.auditoria <rotulada.json> <itens.json>
+
+Ela imprime: aprovados × recusados, a **precisão na amostra com o `n` do lado**, a quebra **por faixa de
+probabilidade** (0,5–0,7 / 0,7–0,9 / 0,9–1,0) e a lista do **erro do modelo** (aprovou e o dono disse que
+não é símbolo).
+
+**E ela trata as duas armadilhas que me custaram rodadas**: (1) medir contra **rótulos**, não contra
+marcas — porque a métrica antiga punia o modelo por achar os 9 símbolos que o dono não marcou; (2)
+**imprimir o `n` junto de cada número** — precisão 1,000 em 29 janelas **não** é precisão 1,000 no pool
+de 1.869 candidatos.
+
+**Bug meu pego antes de entrar no repositório**: a primeira versão listava como "erro do modelo" um item
+que ele havia **recusado** (o C14 de prob 0,218). A lista agora filtra por `aprovado` e imprime **0
+erros** na primeira auditoria — consistente com o 29/29.
+
+Conferido com os rótulos da primeira auditoria: **29/29 = 1,000** nos aprovados (5 na faixa 0,7–0,9 e 24
+na 0,9–1,0, todos "sim"), e **0 símbolos perdidos** entre os recusados.
