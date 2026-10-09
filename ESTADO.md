@@ -1402,6 +1402,23 @@ feito: **pegar UM negativo do gabarito (dígito, que o modelo rejeita) e o MESMO
 e comparar as duas probabilidades**. Se divergirem, há algo diferente no caminho de inferência
 (pré-processamento, ROI, conversão de cor) — e não no modelo nem nos dados.
 
+## 2026-10-09 — teste fim a fim: NÃO deu 1 de 256 por bug MEU de coordenada (não registrado como medida)
+
+Tentei o teste que separa as duas leituras (o pipeline acerta nos quadros marcados, ou não?). O
+resultado bruto deu **1 acerto em 256 aprovações** — e isso **não é medida, é erro meu**:
+
+> Os tokens vêm com **x relativo à ROI** do painel (`c.roi`), e as **marcas do dono** estão em **x do
+> quadro inteiro**, porque a faixa que eu entreguei para ele marcar é `q[y0:y1, :]` — **largura
+> total**. Comparar os dois sem somar o deslocamento horizontal da ROI desalinha *tudo*.
+
+Por isso **não registrei `precisão 0,00`** como resultado: seria transformar um bug meu em número. O
+teste volta depois de eu tirar o deslocamento da ROI do objeto do candidato (`tab.painel`), que é
+onde ele está guardado.
+
+**A lição se repete, e agora eu a reconheço antes de escrever o número**: os meus três bugs
+anteriores no campo `cobertura_de_marcas` foram todos de **espaço de coordenada/string**, e eu ia
+cometer o quarto. Conferir o que o número conta **antes** de registrá-lo.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
