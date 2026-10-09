@@ -47,6 +47,7 @@ import cv2
 import numpy as np
 
 from tab.caminhos import ARTEFATOS, SAIDA, acervo
+from tab.digito import carregar
 from tab.inventario import ler_quadro
 from tab.painel import escolher
 from tab.reconhecer import carregar_modelo, reconhecer_linha
