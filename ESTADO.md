@@ -2392,3 +2392,34 @@ caminho do símbolo (união + faixas) **149 de 163** marcas passam a ter token, 
 
 **Estado da árvore**: ruff limpo, 120 testes, união ligada (neutra no gabarito), faixas **desligadas**
 (quebram o dígito). Nada pela metade.
+
+## 2026-10-09 — SEGUNDA PASSADA LIGADA: gabarito fica (0,917/0,986/0,944) — e o recall sobe pouco
+
+Implementada a segunda passada em `reconhecer_linha` (candidatos do caminho do símbolo julgados
+**só** pelo `filtro_simbolo`, emitidos com `casa=None` e `origem="simbolo"`; a passada do algarismo
+**intacta**). A união **saiu do `segmentar`** — ela mudava a **pontuação do painel** e derrubou
+`test_painel` ("o painel não foi nem candidato"); a segunda passada calcula a sua própria união.
+
+| | pipeline antigo | **caminho do símbolo ligado** |
+| --- | --- | --- |
+| aprovados | 126 | 149 |
+| **casam com a marca do dono** | 21 | **27** |
+| precisão fim a fim | 0,17 | 0,18 |
+| recall fim a fim | 0,11 | **0,14** |
+| **gabarito** | 0,917/0,986/0,944 | **0,917/0,986/0,944** ✓ |
+
+**O gabarito fica** (metade do critério duplo cumprida) e o recall melhora — mas **longe dos 0,41**.
+O motivo está medido:
+
+| candidatos do caminho do símbolo | n | mediana da prob | aprovados (>=0,5) |
+| --- | --- | --- | --- |
+| **na posição da marca (o arco)** | 363 | **0,231** | **117 (32 %)** |
+| fora da marca | 1.506 | 0,087 | 176 (12 %) |
+
+**O filtro discrimina na direção certa** (o arco é 2,7× mais aprovado que o resto) **mas em termos
+absolutos fica abaixo do limiar** (mediana 0,231 < 0,5). Dos 149 candidatos, ~23 passam. **É a
+calibragem da janela que eu recorto para o candidato do caminho do símbolo, não o princípio.**
+
+**Próxima medição**: variar a **centragem/tamanho** da janela do candidato de símbolo (centro da caixa,
+borda de cima, janela um pouco maior) e medir a taxa de aprovação **na posição das marcas** — é o que
+falta para o recall chegar perto de 0,41 sem custar o gabarito.

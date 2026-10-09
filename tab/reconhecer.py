@@ -29,7 +29,14 @@ import torch
 from .caminhos import LIMIAR_SIMBOLO, MODELO_PADRAO, RAZAO_MINIMA_SIMBOLO
 from .glyph_bench import GlifoCNN
 from .glyphset import normalizar
-from .tabseg import segmentar
+from .tabseg import (
+    _glifos_por_faixa,
+    _sem_faixas,
+    _uniao_mascaras,
+    achar_barlines,
+    agrupar_tokens,
+    segmentar,
+)
 
 #: Classes que são algarismo (a casa). Todo o resto é símbolo e tem de ser guardado.
 ALGARISMOS = frozenset(str(n) for n in range(0, 25))
@@ -156,6 +163,31 @@ def _guardar_cru(
         with open(caminho, "wb") as fh:
             fh.write(png.tobytes())
     return {"png": relativo, "hash": digest, **sufixo}
+
+
+def _candidatos_do_simbolo(img: np.ndarray, g) -> list:
+    """Candidatos do CAMINHO DO SÍMBOLO: união das máscaras com as faixas das cordas apagadas.
+
+    Medido: o algarismo e o símbolo querem processamentos **opostos** — o algarismo lê a máscara
+    escolhida (a `otsu`, onde o arco **não existe**), e o símbolo precisa da união (onde o arco
+    existe) **com as faixas das cordas apagadas** (senão o arco vira um componente gigante de 85
+    passos). Neste caminho, **149 de 163** marcas do dono ganham token, com forma de arco
+    (2,4×1,0 a 3,1×1,0 passos), contra **0 marcas julgadas** no caminho único de antes.
+
+    Args:
+        img: imagem da linha (BGR ou cinza).
+        g: grade já segmentada (fornece `linhas_y`, `passo` e `barlines_x`).
+
+    Returns:
+        Lista de tokens candidatos a símbolo.
+    """
+    linhas = list(g.linhas_y)
+    uniao = _sem_faixas(_uniao_mascaras(img), linhas, g.passo)
+    lim_x = (g.barlines_x[0] + int(g.passo * 2.2)) if g.barlines_x else 0
+    return agrupar_tokens(
+        _glifos_por_faixa(uniao, linhas, g.passo, lim_x, achar_barlines(uniao, linhas)),
+        g.passo,
+    )
 
 
 def reconhecer_linha(
@@ -419,6 +451,35 @@ def reconhecer_linha(
                 # total não se mexeu. Conferir o que o número conta, sempre.
                 nota["simbolo_recusado"] = sufixo
         notas.append(nota)
+    # SEGUNDA PASSADA — CAMINHO DO SÍMBOLO. Estes candidatos passam **só** pelo filtro de símbolo
+    # e não entram na classificação de algarismo: é o que mantém o gabarito intacto (a passada de
+    # cima, da máscara escolhida, continua sendo a única fonte de dígitos).
+    if filtro_simbolo is not None and julgar_todos:
+        for tk in _candidatos_do_simbolo(img, g):
+            cx = (tk.x0 + tk.x1) // 2
+            cy = (tk.y0 + tk.y1) // 2
+            hx, hy = round(1.2 * g.passo), round(0.8 * g.passo)
+            rec = gray[max(0, cy - hy) : cy + hy, max(0, cx - hx) : cx + hx]
+            if rec.size == 0:
+                continue
+            prob = float(filtro_simbolo([rec])[0])
+            if prob < LIMIAR_SIMBOLO:
+                continue
+            notas.append(
+                {
+                    "ordem": 0,
+                    "corda": int(tk.corda),
+                    "casa": None,
+                    "tecnica": None,
+                    "x": int(tk.x0),
+                    "confianca": round(prob, 3),
+                    "origem": "simbolo",
+                    "simbolo_cru": {
+                        "prob_simbolo": round(prob, 3),
+                        "caixa_token": (tk.x0, tk.y0, tk.x1, tk.y1),
+                    },
+                }
+            )
     return {
         "passo": round(g.passo, 2),
         "linhas_y": g.linhas_y,
