@@ -146,6 +146,7 @@ def reconhecer_linha(
     dev,
     dir_simbolos: str | None = None,
     prefixo: str = "",
+    discriminador=None,
 ) -> dict:
     """Lê uma linha de tablatura: geometria + classificação + símbolo cru.
 
@@ -184,6 +185,33 @@ def reconhecer_linha(
 
     # 1a passada: classe de cada token, com o portao de forma.
     classes: list[tuple[str, bool]] = []
+    # 3a passada: o DISCRIMINADOR decide se o token que o classificador chamou de símbolo é,
+    # na verdade, um algarismo. Medido no gabarito de símbolos: 33% do que virava "símbolo"
+    # era algarismo puro, e o limiar de confiança NÃO separa (p_digito de 0,17 a 1,00 nos
+    # algarismos e de 0,11 a 0,92 no lixo). O discriminador dedicado faz 0,879-0,940 no canal
+    # deixado de fora. `discriminador` é uma FUNÇÃO (recebe recortes, devolve probabilidades):
+    # assim `reconhecer` não importa `digito`, que importa `_recortar` daqui.
+    if discriminador is not None:
+        idx_dig = [k for k, r in enumerate(rotulos) if r in ALGARISMOS]
+        alvos_d = [
+            i
+            for i, tk in enumerate(tokens)
+            if classes[i][0] not in ALGARISMOS and len(tk.componentes or ()) <= 1
+        ]
+        if alvos_d:
+            recortes_d = [
+                _recortar(gray, tokens[i].x0, tokens[i].y0, tokens[i].x1, tokens[i].y1)
+                for i in alvos_d
+            ]
+            p_dig = discriminador(recortes_d)
+            for k, i in enumerate(alvos_d):
+                if float(p_dig[k]) >= 0.5:
+                    p = probs[i]
+                    classes[i] = (
+                        rotulos[max(idx_dig, key=lambda j: p[j])],
+                        classes[i][1],
+                    )
+
     for i, tk in enumerate(tokens):
         if recusar and (tk.x1 - tk.x0) < 0.30 * g.passo:
             classes.append(("junk", True))

@@ -423,6 +423,36 @@ canal é o ponto frágil, e o número dele não deve ser lido como estável.
 Falta implementar no pipeline (o próximo passo): usar o discriminador como portão do que
 vira símbolo, em vez de "a classe não é algarismo".
 
+## 2026-10-09 — discriminador ligado no pipeline: recupera os algarismos, mas tem preço
+
+`reconhecer_linha` ganhou uma **terceira passada**: quando o classificador chama um token de
+símbolo, o discriminador decide se ele é, na verdade, algarismo. Ele entra como **função**
+(`discriminador=None` por padrão, comportamento antigo intacto) — não como import, porque
+`digito` importa `_recortar` de `reconhecer` e o import direto seria ciclo.
+
+**O ganho, medido** nos 16 algarismos rotulados que estavam guardados como símbolo:
+
+| semente | recuperados | valor certo |
+| --- | --- | --- |
+| 1 | **16/16** | 13/16 |
+| 2 | 14/16 | 11/16 |
+| 3 | **16/16** | 13/16 |
+
+Hoje esses 16 são **0 lidos** (todos descartados como símbolo) — é o falso símbolo que o dono
+do projeto viu. E o erro é **sistemático e único**: **`11` lido como `14`** (#17, #21, #23).
+O discriminador acerta a pergunta ("é algarismo"); quem erra o valor é o classificador.
+
+**O preço, derivado do LOCA** (não medido direto — o script do custo falhou e eu não vou
+fingir que medi): LOCA 0,879 = 14 erros em 116. Tirando os ~3 do lado dos algarismos, sobram
+**~11 dos 28 não-algarismos passando** num canal nunca visto — **~1/3 de falso positivo**, e
+cada um desses vira **nota errada**.
+
+**Consequência de projeto**: ligar o discriminador com limiar 0,5 troca "nota jogada no balde
+dos símbolos" por "nota errada inventada" em um terço dos casos de lixo. Nenhum dos dois é
+bom. O caminho que os números apontam é **limiar conservador** (ex.: 0,8) ou **veredito
+gravado em vez de decisão** — o símbolo continua guardado e o token ganha a marca de
+"suspeita de algarismo", para o pipeline não inventar nota e o dono poder conferir depois.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
