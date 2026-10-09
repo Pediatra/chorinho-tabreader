@@ -27,7 +27,7 @@ def test_preparar_devolve_a_forma_da_rede() -> None:
     for img in (cinza, bgr):
         x = preparar(img)
         assert x.shape == (1, ALTURA, LARGURA)
-        assert 0.0 <= float(x.min()) and float(x.max()) <= 1.0
+        assert float(x.min()) >= 0.0 and float(x.max()) <= 1.0
 
 
 def test_rede_devolve_dois_logits() -> None:
