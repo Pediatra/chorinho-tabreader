@@ -35,7 +35,7 @@ import numpy as np
 
 from .caminhos import SAIDA
 from .cursor import detectar_cursor
-from .painel import FAIXAS, criar, refinar, uniformidade
+from .painel import FAIXAS, candidatos_quadro, criar, refinar, uniformidade
 from .tabseg import segmentar
 
 # O OpenCV grita a cada vídeo AV1 (44% do acervo) e isso poluiria horas de log.
@@ -270,6 +270,26 @@ def medir_quadro(frame: np.ndarray) -> dict:
         break
     if not out["tab"]:
         out["cursor"] = any(f.get("cursor") for f in faixas.values())
+    # O mesmo critério do pipeline, medido no MESMO quadro: busca das 6 linhas regulares
+    # no quadro inteiro (`painel.candidatos_quadro`). Sem isto a varredura e o pipeline
+    # respondem "tem tablatura?" com regras diferentes — duas fontes de verdade para a
+    # mesma pergunta. Medido: a regra das três faixas aceita piano, cabeça de violão e
+    # corpo (decisão 0005); os 97,9 % de "tem notação" saíram por essa regra velha.
+    # Custo medido: 70 ms por quadro.
+    try:
+        achados = candidatos_quadro(frame)
+    except Exception:  # nunca derrubar a varredura por um quadro ruim
+        achados = []
+    if achados:
+        escolhido = max(achados, key=lambda c: c.uniformidade)
+        out["painel_quadro"] = {
+            "y0": escolhido.y0,
+            "y1": escolhido.y1,
+            "passo": round(escolhido.grade.passo, 1),
+            "glifos": len(escolhido.grade.glifos),
+            "uniformidade": round(escolhido.uniformidade, 3),
+        }
+    out["tab_painel"] = bool(achados)
     return out
 
 
@@ -328,6 +348,13 @@ def varrer_video(
         registro["amostras"] = amostras
         presencas = [bool(a.get("tab")) for a in amostras]
         registro["tab_em_algum"] = any(presencas)
+        # presença pelo critério do PIPELINE (quadro inteiro), para os dois poderem ser
+        # comparados no mesmo registro em vez de cada um ter o seu número.
+        painel = [bool(a.get("tab_painel")) for a in amostras]
+        registro["painel_em_algum"] = any(painel)
+        registro["frac_instantes_com_painel"] = (
+            round(sum(painel) / len(painel), 3) if painel else 0.0
+        )
         registro["frac_instantes_com_tab"] = round(
             sum(presencas) / max(1, len(presencas)), 3
         )
