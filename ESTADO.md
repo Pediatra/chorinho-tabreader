@@ -836,6 +836,30 @@ pauta no token, apertar a tolerância) — e as quatro custaram **zero**, porque
 virar código. A diferença desta: aqui eu tinha o conserto certo para o caso errado, e o número
 do custo foi o que barrou.
 
+## 2026-10-09 — validar o painel pelo CONTEÚDO: quinta hipótese REPROVADA
+
+Ideia: painel de pauta/foto rende tokens que **não** são algarismo, e painel de tablatura rende
+algarismos — logo a fração de algarismo separaria os dois. Medido nos 34 quadros da amostra,
+com os 3 quadros-fonte ruins identificados por prova visual na rodada passada:
+
+| quadro-fonte (ruim) | fração de "algarismo" |
+| --- | --- |
+| `iwaki` 0,65 (foto do violão) | **0,97** |
+| `iwaki` 0,85 (foto) | 0,65 |
+| `mr. tabs` 0,85 (**pauta**) | **0,93** |
+| os outros 31 quadros | mediana 0,85 |
+
+Os painéis **ruins** têm fração **alta**: o classificador chama de algarismo os tokens da foto e
+da pauta. É o mesmo defeito já medido antes — *"o modelo vê algarismo em pedaço de linha"* — e ele
+**inutiliza** este sinal. Nenhum limiar separa (0/3 dos ruins pegos em qualquer L testado).
+
+**Quinta hipótese reprovada neste goal**, e a resposta agora é estrutural, não de tentativa:
+
+> O vazamento de partitura (e o de foto) precisa de um **classificador de PAINEL** — "este recorte
+> é uma tablatura?" —, que é exatamente o portão construído num goal anterior e medido como
+> **insuficiente** (LOCA 0,762, recall de 0,49 no `sky guitar`). As duas correções baratas foram
+> medidas e reprovadas (tolerância custa 21 % dos painéis; conteúdo não separa).
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
