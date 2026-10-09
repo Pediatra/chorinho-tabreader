@@ -2086,3 +2086,32 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
   corda e tempo, casa não;
 - **tab ASCII** (Ultimate Guitar) e **partitura de 5 linhas** exigem leitor próprio;
 - a métrica **não** cobre técnica nem símbolo: eles são gravados, não aferidos.
+
+## 2026-10-09 — retirada das linhas de corda: implementada, medida e NEUTRA (desligada)
+
+`_tirar_linhas` (abertura morfológica com kernel horizontal de 2,5 passos: extrai a corrida
+horizontal das cordas e não o arco curvo) foi ligada na segmentação dos glifos, com a hipótese de que
+o arco, deixando de estar colado na linha, viraria componente próprio.
+
+| | antes | **com a retirada das linhas** |
+| --- | --- | --- |
+| marcas com componente **fora de token** | 89 | **89** |
+| marcas **julgadas** pelo filtro | 0 | **0** |
+| marcas **sem token** | 51 | **51** |
+| gabarito (semente 1) | 0,917 | 0,903 (−1 glifo) |
+
+**Neutra nas marcas e negativa no gabarito → desligada.** `_tirar_linhas` fica como ferramenta
+medida e documentada.
+
+**E uma observação de integridade**: o gabarito continua dando **0,903 DEPOIS de eu reverter** — ou
+seja, a variação de 1 glifo **não é da retirada das linhas**. É o acervo/cache mudando embaixo de nós
+(vídeo apagado, quadro recacheado), instabilidade que este projeto já registra. **Não atribuo a
+mudança à regra que eu testei** — seria creditar a mim uma variação que não é minha.
+
+**O que a medição ensina**: a fusão do arco com a linha **não é o que decide** a posição das marcas.
+As 138 marcas "com token por perto" continuam casando com o **dígito**, não com o arco — o meu critério
+de proximidade (±1 passo em x e y) é **generoso demais** e conta o dígito de baixo como se fosse o
+arco. É a **quarta vez** que um critério de associação meu se revela o elo fraco.
+
+**Próxima medição**: apertar a associação (token **acima** da linha e a menos de **0,5 passo** em y da
+marca) e refazer a contagem — para saber quantas marcas têm o **arco** como componente de fato.
