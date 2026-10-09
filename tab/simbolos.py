@@ -37,6 +37,7 @@ import collections
 import glob
 import json
 import os
+import pathlib
 import random
 import statistics
 import time
@@ -394,6 +395,60 @@ def registro_publico(r: dict, raiz: str = "") -> dict:
     }
 
 
+def cobertura_de_marcas(amostra: dict[str, list[dict]]) -> dict:
+    """Quantos vídeos amostrados têm tablatura MARCADA pelo dono?
+
+    Existe por causa de um erro caro: o detector era treinado em 28 vídeos e medido em 51
+    **quase disjuntos** (interseção = 1), e a validação por canal não via isso porque deixa um
+    CANAL de fora mas mantém os mesmos vídeos. Sete hipóteses foram gastas antes de alguém contar
+    a interseção. O inventário passa a declarar isso, para o erro não voltar em silêncio.
+
+    Args:
+        amostra: canal -> lista de itens amostrados (com `arquivo`).
+
+    Returns:
+        Contagem de vídeos amostrados, quantos têm tablatura entregue para marcar, a fração e os
+        canais sem nenhuma.
+    """
+    marcados: set[tuple[str, str]] = set()
+    for caminho in glob.glob(str(DIR_SIMBOLOS.parent / "*" / "indice*.json")):
+        try:
+            for r in json.loads(pathlib.Path(caminho).read_text(encoding="utf-8")):
+                marcados.add(
+                    (
+                        str(r.get("canal")),
+                        pathlib.Path(
+                            str(r.get("video") or r.get("arquivo") or "")
+                        ).name[:24],
+                    )
+                )
+        except OSError, ValueError, TypeError:
+            continue
+    total = com_marca = 0
+    por_canal: dict[str, list[int]] = {}
+    for canal, itens in amostra.items():
+        conta = por_canal.setdefault(str(canal), [0, 0])
+        for it in itens:
+            total += 1
+            conta[0] += 1
+            if (
+                str(canal),
+                pathlib.Path(str(it.get("arquivo", ""))).name[:24],
+            ) in marcados:
+                com_marca += 1
+                conta[1] += 1
+    # Nome honesto: canal SEM NENHUMA marca entre os vídeos amostrados. Antes eu listava o canal
+    # de qualquer vídeo sem marca, e o campo dizia "cifra club, mr. tabs" quando 3 de 6 estavam
+    # marcados — número certo com legenda errada.
+    sem_marca = sorted(c for c, (tot, mar) in por_canal.items() if tot and mar == 0)
+    return {
+        "videos_amostrados": total,
+        "videos_com_tablatura_marcada": com_marca,
+        "fracao": round(com_marca / total, 3) if total else 0.0,
+        "canais_sem_nenhuma_marca": sem_marca,
+    }
+
+
 def montar_inventario(
     por_canal: dict[str, dict],
     amostra: dict[str, list[dict]],
@@ -435,6 +490,9 @@ def montar_inventario(
         },
         "por_canal": detalhado,
         "amostra": {c: amostra.get(c, []) for c in canais},
+        # Declara se o par treino/teste fala da MESMA distribuição de vídeos. Foi a
+        # ausência disto que fez o detector parecer perfeito e falhar no uso.
+        "cobertura_de_marcas": cobertura_de_marcas(amostra),
     }
 
 

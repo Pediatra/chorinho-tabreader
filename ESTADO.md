@@ -1214,6 +1214,26 @@ Ferramenta (verificada, 200 na página e nas imagens):
 Com isto o par treino/teste passa a falar da **mesma distribuição de vídeos** — que é a condição
 para o número da coleta significar algo.
 
+## 2026-10-09 — a coleta passa a DECLARAR se treino e teste falam da mesma distribuição
+
+O inventário ganhou `cobertura_de_marcas`: quantos vídeos amostrados têm tablatura marcada, a
+fração, e quais canais não têm **nenhuma**. Existe por causa do erro que custou sete hipóteses
+(interseção 1 de 51 entre os vídeos do treino e os da coleta): se o inventário tivesse escrito
+"0 de 51", eu teria visto no primeiro dia.
+
+Dois bugs meus, pegos na própria verificação do campo — e os dois são a mesma lição:
+
+1. **`basename` de um lado só**: os índices guardam o vídeo em formatos diferentes (uns só o nome,
+   outros com o canal na frente: `cifra club/always - blink-182...`). Comparando cru, deu **0 de 6**
+   e o campo diria "nenhuma marca" onde havia 3 — número errado por detalhe de string;
+2. **legenda errada**: eu listava em `canais_sem_nenhuma_marca` o canal de **qualquer** vídeo sem
+   marca, e o campo dizia "cifra club, mr. tabs" **com 3 de 6 marcados**. Agora só entra canal com
+   **zero** marcas entre os amostrados.
+
+Conferido depois de corrigir: `{videos_amostrados: 6, videos_com_tablatura_marcada: 3, fracao: 0,5,
+canais_sem_nenhuma_marca: []}`. **Número certo com legenda certa** — porque número certo com
+legenda errada é a mesma armadilha que me fez acusar o `mr. tabs` de ler 5 % de algarismo.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
