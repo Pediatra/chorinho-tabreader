@@ -23,9 +23,9 @@ import numpy as np
 
 from .caminhos import SAIDA
 from .cursor import detectar_cursor
-from .tabseg import segmentar
+from .painel import FAIXAS, escolher  # noqa: F401  (re-export)
 
-FAIXAS = [("topo", 0, 400), ("meio", 300, 750), ("base", 620, 1080)]
+# FAIXAS vem de tab.painel: uma fonte só para as faixas candidatas.
 
 
 def ler_quadro(caminho: str, frac: float = 0.35) -> tuple[np.ndarray | None, str]:
@@ -92,48 +92,41 @@ def ler_quadro(caminho: str, frac: float = 0.35) -> tuple[np.ndarray | None, str
 
 
 def analisar_quadro(frame: np.ndarray) -> dict:
-    """Procura a melhor faixa de tablatura e o cursor no quadro inteiro."""
-    melhor = None
-    cursor_faixa = None
-    for nome, y0, y1 in FAIXAS:
-        if y1 > frame.shape[0]:
-            y1 = frame.shape[0]
-        if y1 - y0 < 60:
-            continue
-        roi = frame[y0:y1, :]
-        try:
-            g = segmentar(roi)
-        except Exception:  # nunca derrubar o inventário
-            continue
-        if len(g.linhas_y) != 6 or not g.glifos:
-            continue
-        score = (g.glifos_centrados, len(g.glifos))
-        if melhor is None or score > melhor[0]:
-            melhor = (score, nome, g)
-        if cursor_faixa is None:
-            det = detectar_cursor(roi)
-            if det:
-                cursor_faixa = (nome, det[0], det[1], det[2])
+    """Procura o painel de tablatura e o cursor no quadro.
+
+    Delega a escolha para `tab.painel` (implementação única). Aqui só se monta o
+    registro com o que o inventário precisa.
+
+    Args:
+        frame: quadro inteiro.
+
+    Returns:
+        Dicionário com `tab`, a faixa, o passo, os glifos e o cursor.
+    """
+    escolhido = escolher(frame)
     out: dict = {"tab": False}
-    if melhor is not None:
-        score, nome, g = melhor
-        frac = g.glifos_centrados / max(1, len(g.glifos))
+    if escolhido is not None:
+        g = escolhido.grade
         out = {
             "tab": True,
-            "faixa": nome,
+            "faixa": escolhido.nome,
+            "uniformidade": round(escolhido.uniformidade, 3),
             "passo": round(g.passo, 1),
-            "mascara": g.avisos[0].replace("mascara=", ""),
+            "mascara": g.avisos[0].replace("mascara=", "") if g.avisos else None,
             "glifos": len(g.glifos),
             "centrados": g.glifos_centrados,
-            "frac_centrados": round(frac, 2),
+            "frac_centrados": round(g.glifos_centrados / max(1, len(g.glifos)), 2),
             "colunas": len({x.coluna for x in g.glifos}),
             "cordas_com_nota": len({x.corda for x in g.glifos}),
             "y_linhas": g.linhas_y,
         }
-    out["cursor"] = bool(cursor_faixa)
-    if cursor_faixa:
-        out["cursor_faixa"] = cursor_faixa[0]
-        out["cursor_largura"] = cursor_faixa[2] - cursor_faixa[1] + 1
+        det = detectar_cursor(escolhido.roi)
+        out["cursor"] = bool(det)
+        if det:
+            out["cursor_faixa"] = escolhido.nome
+            out["cursor_largura"] = int(det[1] - det[0] + 1)
+    else:
+        out["cursor"] = False
     return out
 
 

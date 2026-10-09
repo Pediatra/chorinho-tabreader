@@ -20,21 +20,24 @@ import numpy as np
 from .caminhos import MODELO_PADRAO, SAIDA
 from .cursor import detectar_cursor
 from .inventario import FAIXAS, ler_quadro
+from .painel import escolher
 from .reconhecer import carregar_modelo, completar, reconhecer_linha
-from .tabseg import segmentar
 
 
 def achar_painel(frame):
-    melhor = None
-    for nome, y0, y1 in FAIXAS:
-        y1 = min(y1, frame.shape[0])
-        roi = frame[y0:y1, :]
-        g = segmentar(roi)
-        if len(g.linhas_y) == 6 and g.glifos:
-            chave = (g.glifos_centrados, len(g.glifos))
-            if melhor is None or chave > melhor[0]:
-                melhor = (chave, nome, roi, g)
-    return melhor
+    """Painel de tablatura do quadro — delega para a implementação única.
+
+    Havia três cópias desta escolha no projeto, todas ordenando por glifos centrados,
+    e esse critério escolhe o **braço do violão** (medido num quadro do `sky guitar`).
+    Agora é `tab.painel`, com a uniformidade do fundo como primeiro critério.
+
+    Args:
+        frame: quadro inteiro.
+
+    Returns:
+        O candidato escolhido (com `.nome`, `.roi`, `.grade`) ou None.
+    """
+    return escolher(frame)
 
 
 def varrer_cursor(video, roi_abs, passo_s=0.5, t_max=180.0):
@@ -249,7 +252,7 @@ def main() -> int:
     if m is None:
         print("nenhuma pauta de tablatura encontrada", file=sys.stderr)
         return 3
-    _, nome, roi, g0 = m
+    nome, roi, g0 = m.nome, m.roi, m.grade
     limites = {f[0]: (f[1], f[2]) for f in FAIXAS}
     y0 = limites[nome][0]
     y1 = min(limites[nome][1], frame.shape[0])

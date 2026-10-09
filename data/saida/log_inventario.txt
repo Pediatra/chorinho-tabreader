@@ -57,3 +57,388 @@ canais: 17 | vídeos: 3993 | instantes: 1
   [170/361] lacrimosa, from requiem (mozart), arrangemen tab=[True] via=ffmpeg
   [180/361] luiza (a. c. jobim), guitar arrangement, she tab=[True] via=ffmpeg
   [190/361] meditation (a.c jobim), arrangement for guit tab=[True] via=cv2
+  [200/361] milonga del angel (astor piazzolla), guitar  tab=[True] via=cv2
+  [210/361] moonlight sonata (beethoven), first movement tab=[True] via=cv2
+  [220/361] nesta rua (brazil). arr for guitar, sheet an tab=[True] via=cv2
+  [230/361] oblivion (piazzolla), guitar solo.mp4        tab=[True] via=cv2
+  [240/361] penny lane (the beatles) guitar arrangement, tab=[True] via=cv2
+  [250/361] prelude in d minor (s.l weiss) guitar, tutor tab=[True] via=ffmpeg
+  [260/361] quizas, quizas, quizas (o. farres) arrangeme tab=[True] via=cv2
+  [270/361] samba de uma nota só (a. c jobim), guitar le tab=[False] via=ffmpeg
+  [280/361] secret garden (r. lovland), guitar lesson, s tab=[True] via=cv2
+  [290/361] somewhere over the rainbow (h. arlen) arrang tab=[True] via=cv2
+  [300/361] sôdade (villa-lobos), guitar. sheet and tab tab=[True] via=ffmpeg
+  [310/361] summer of 42 (l’été 42), m. legrand. arrange tab=[True] via=ffmpeg
+  [320/361] tenho saudade! samba (a. barroso) guitar arr tab=[True] via=cv2
+  [330/361] the nearness of you (h. carmichael), guitar  tab=[True] via=ffmpeg
+  [340/361] uma valsa e dois amores (d. reis), performan tab=[True] via=ffmpeg
+  [350/361] vltava (die moldau) smetana, guitar lesson,  tab=[True] via=cv2
+  [360/361] zamba argentina, guitarra tutorial + music s tab=[False] via=cv2
+  [361/361] zamba sofia (j. cardoso) with tutorial, free tab=[True] via=ffmpeg
+
+=== iwaki: 164 vídeos, 0 já feitos, 164 pendentes -> inventario_iwaki.jsonl
+  [10/164] amazing grace ⧸ tab for beginners.mp4        tab=[True] via=cv2
+  [20/164] bach ｜ bwv 147 jesu, joy of man’s desiring ｜ tab=[True] via=ffmpeg
+  [30/164] can't help falling in love - elvis presley ｜ tab=[True] via=ffmpeg
+  [40/164] chopin ｜ prelude op. 28, no. 15 ＂raindrop＂ ｜ tab=[True] via=ffmpeg
+  [50/164] el noi de la mare ｜ tab.mp4                  tab=[True] via=ffmpeg
+  [60/164] für elise ｜ beethoven ｜ tab.mp4              tab=[True] via=ffmpeg
+  [70/164] historia de un amor ｜ tab.mp4                tab=[True] via=ffmpeg
+  [80/164] la vie en rose - edith piaf ｜ tab.mp4        tab=[True] via=cv2
+  [90/164] mariage d'amour ⧸ wrongly known as chopin -  tab=[True] via=ffmpeg
+  [100/164] moon river ⧸ tab for beginners.mp4           tab=[True] via=cv2
+  [110/164] over the rainbow ⧸ tab for beginners.mp4     tab=[True] via=cv2
+  [120/164] schubert - ständchen (serenade) ｜ tab.mp4    tab=[True] via=ffmpeg
+  [130/164] spanish romance ( - jeux interdits - romance tab=[True] via=ffmpeg
+  [140/164] the swan (le cygne) - saint-saëns ｜ tab.mp4  tab=[True] via=ffmpeg
+  [150/164] wham! - last christmas ⧸ tab  for beginners. tab=[True] via=cv2
+  [160/164] yiruma - river flows in you｜tab.mp4          tab=[True] via=ffmpeg
+  [164/164] 情熱大陸｜葉加瀬太郎 ｜ tab ｜ クラシックギター ｜ チュートリアル.mp4    tab=[True] via=cv2
+
+=== kimny's guitar: 108 vídeos, 0 já feitos, 108 pendentes -> inventario_kimny's guitar.jsonl
+  [10/108] [ tab ] brick - ben folds five ｜ fingerstyle tab=[True] via=cv2
+  [20/108] [ tab ] girl talk - neal hefti ｜ fingerstyle tab=[True] via=cv2
+  [30/108] [ tab ] inori - pat metheny ｜ fingerstyle gu tab=[True] via=cv2
+  [40/108] [ tab ] ochún - chucho valdes ｜ fingerstyle  tab=[True] via=cv2
+  [50/108] [ tab ] wake me up when september ends - gre tab=[True] via=cv2
+  [60/108] [ tab ] カメレオン - king gnu ｜ fingerstyle guita tab=[True] via=cv2
+  [70/108] [tab] adiós nonino - ástor piazzolla ｜ arran tab=[True] via=ffmpeg
+  [80/108] [tab] have yourself a merry little christmas tab=[True] via=cv2
+  [90/108] [tab] se todos fossem iguais a voce - antoni tab=[True] via=cv2
+  [100/108] [tab] 希望のうた - misia ｜ fingerstyle guitar cov tab=[True] via=ffmpeg
+  [108/108] love ballade - oscar peterson ｜ fingerstyle  tab=[True] via=cv2
+
+=== leonardo ramos: 21 vídeos, 0 já feitos, 21 pendentes -> inventario_leonardo ramos.jsonl
+  [10/21] la porteñita (zamba fácil) 🎸 antonio sinópol tab=[True] via=ffmpeg
+  [20/21] una caricia (vals) 🎸 eduardo d. bensadón ｜ t tab=[True] via=ffmpeg
+  [21/21] vals 🎸 rafael f. caprissi ｜ tutorial para gu tab=[True] via=ffmpeg
+
+=== mr. tabs: 22 vídeos, 0 já feitos, 22 pendentes -> inventario_mr. tabs.jsonl
+  [10/22] hanging out in the upside down, taking reque tab=[True] via=ffmpeg
+  [20/22] the beatles (george harrison) - here comes t tab=[True] via=ffmpeg
+  [22/22] when someone yells ＂free bird＂ around the ca tab=[True] via=cv2
+
+=== paolo d'angelo: 14 vídeos, 0 já feitos, 14 pendentes -> inventario_paolo d'angelo.jsonl
+  [10/14] just breathe ｜ pearl jam ｜ guitar tab ｜ fing tab=[True] via=cv2
+  [14/14] what a wonderful world ｜ guitar tab ｜ finger tab=[True] via=cv2
+
+=== raman korshun: 45 vídeos, 0 já feitos, 45 pendentes -> inventario_raman korshun.jsonl
+  [10/45] chill neo soul guitar riff  (cover) + tab.mp tab=[True] via=ffmpeg
+  [20/45] how to play neo soul guitar (cover) + tab.mp tab=[True] via=ffmpeg
+  [30/45] lo-fi hip - hop ⧸ chill guitar cover +tab.mp tab=[True] via=cv2
+  [40/45] simple neo soul guitar loop + tab.mp4        tab=[True] via=cv2
+  [45/45] when the strings break but there is a capo + tab=[True] via=cv2
+
+=== robert lunn: 229 vídeos, 0 já feitos, 229 pendentes -> inventario_robert lunn.jsonl
+  [10/229] 3 middle eastern-style pieces for guitar (wi tab=[True] via=ffmpeg
+  [20/229] a double harmonic scale - includes sheet mus tab=[True] via=ffmpeg
+  [30/229] abandoned woods - full tutorial withtab - cl tab=[True] via=cv2
+  [40/229] ascension - with sheet music⧸tab.mp4         tab=[True] via=ffmpeg
+  [50/229] blue sea dance (partial) - includes sheet mu tab=[True] via=cv2
+  [60/229] daily classical guitar warm-up routine (vol. tab=[True] via=ffmpeg
+  [70/229] desert warrior - with sheet music⧸tab.mp4    tab=[True] via=ffmpeg
+  [80/229] fading light (ambient piece no. 2) - with sh tab=[True] via=ffmpeg
+  [90/229] floating mirrors - with sheet music⧸tab.mp4  tab=[True] via=ffmpeg
+  [100/229] from ashes, we rise - includes sheet music⧸t tab=[True] via=cv2
+  [110/229] greensleeves - with tab - classical guitar.m tab=[True] via=cv2
+  [120/229] inferno at dawn - full tutorial with tab.mp4 tab=[True] via=cv2
+  [130/229] malagueña - easy practice version (sheet mus tab=[True] via=ffmpeg
+  [140/229] my top 5 favorite arrangements + sheet music tab=[True] via=ffmpeg
+  [150/229] olive - with tab - robert lunn.mp4           tab=[True] via=cv2
+  [160/229] relaxing music for guitar (vol. 2) - with sh tab=[True] via=ffmpeg
+  [170/229] scarlet guitar (spanish-style no. 4) - with  tab=[True] via=ffmpeg
+  [180/229] sketch no. 1 (desert) - includes sheet music tab=[True] via=ffmpeg
+  [190/229] storm on the horizon - full tutorial with ta tab=[True] via=cv2
+  [200/229] the godfather theme - easy practice version  tab=[True] via=ffmpeg
+  [210/229] three melancholic pieces for classical guita tab=[True] via=ffmpeg
+  [220/229] veil of fire (spanish-style piece no. 3) - w tab=[True] via=ffmpeg
+  [229/229] wounded moon  (melancholic piece no. 2) - wi tab=[True] via=ffmpeg
+
+=== serge kottelat: 38 vídeos, 0 já feitos, 38 pendentes -> inventario_serge kottelat.jsonl
+  [10/38] dominic miller – the long and winding road ( tab=[True] via=ffmpeg
+  [20/38] john scofield – little walk ｜ solo guitar ma tab=[True] via=ffmpeg
+  [30/38] something like olivia by john mayer - guitar tab=[True] via=cv2
+  [38/38] tommy emmanuel – little georgia ｜ full trans tab=[True] via=ffmpeg
+
+=== shin izumi: 149 vídeos, 0 já feitos, 149 pendentes -> inventario_shin izumi.jsonl
+  [10/149] 【tab】 summertime - george gershwin - fingers tab=[True] via=cv2
+  [20/149] 【tab】all the things you are - fingerstyle ja tab=[True] via=cv2
+  [30/149] 【tab】can you feel the love tonight - the lio tab=[True] via=cv2
+  [40/149] 【tab】fly me to the moon - fingerstyle jazz g tab=[True] via=ffmpeg
+  [50/149] 【tab】i need to be in love(青春の輝き) - carpenter tab=[True] via=ffmpeg
+  [60/149] 【tab】lovin’ you - minnie riperton - fingerst tab=[True] via=cv2
+  [70/149] 【tab】nocturne op.9 no.2 (short ver.) - chopi tab=[True] via=ffmpeg
+  [80/149] 【tab】pure imagination - willy wonka & the ch tab=[True] via=cv2
+  [90/149] 【tab】sweet memories - 松田聖子 - fingerstyle gui tab=[True] via=ffmpeg
+  [100/149] 【tab】waltz for debby - bill evans - fingerst tab=[True] via=ffmpeg
+  [110/149] 【tab】yoasobi - アンコール encore - ソロギター fingerst tab=[True] via=cv2
+  [120/149] 【tab】ハナミズキ - 一青窈 - fingerstyle guitar  ソロギター tab=[True] via=ffmpeg
+  [130/149] 【tab】千本桜 senbonzakura - 初音ミク(黒うさp) - fingers tab=[True] via=ffmpeg
+  [140/149] 【tab】海の見える街(a town with an ocean view) - jaz tab=[True] via=ffmpeg
+  [149/149] 晩餐歌 - tuki. ｜ ソロギター ｜ anuenue ls700 [tab].mp tab=[True] via=ffmpeg
+
+=== sky guitar: 440 vídeos, 0 já feitos, 440 pendentes -> inventario_sky guitar.jsonl
+  [10/440] (agustín barrios mangoré) la catedral 2nd mo tab=[True] via=cv2
+  [20/440] (francis lai) love story - tab & lesson.mp4  tab=[True] via=cv2
+  [30/440] (ólafur arnalds) happiness does not wait -  tab=[True] via=ffmpeg
+  [40/440] (telemann) bourrée alla polacca - tab & less tab=[True] via=ffmpeg
+  [50/440] (vol.7) 1 hour playlist.mp4                  tab=[True] via=cv2
+  [60/440] adelita - guitar lesson + tab.mp4            tab=[True] via=cv2
+  [70/440] angel of the morning - tab & lesson.mp4      tab=[True] via=cv2
+  [80/440] baden jazz suite (jiri jirmal)- tab & lesson tab=[True] via=cv2
+  [90/440] big sleep - guitar lesson + tab.mp4          tab=[True] via=cv2
+  [100/440] can you feel the love tonight (the lion king tab=[True] via=cv2
+  [110/440] cavatina (easy version) - guitar lesson + ta tab=[False] via=cv2
+  [120/440] clair de lune - guitar lesson + tab.mp4      tab=[True] via=ffmpeg
+  [130/440] die lorelei - guitar lesson + tab.mp4        tab=[False] via=cv2
+  [140/440] el condor pasa (hard version) - fingerstyle  tab=[True] via=cv2
+  [150/440] exercise #4 (major scales) tab.mp4           tab=[True] via=cv2
+  [160/440] fly me to the moon - fingerstyle lesson + ta tab=[True] via=cv2
+  [170/440] fun series #4 (mission：impossible) tab.mp4   tab=[True] via=cv2
+  [180/440] genshin impact - tab & lesson.mp4            tab=[True] via=cv2
+  [190/440] habanera - guitar lesson + tab.mp4           tab=[True] via=ffmpeg
+  [200/440] heart and soul - tab & lesson.mp4            tab=[True] via=cv2
+  [210/440] hymne a l'amour - fingerstyle lesson + tab.m tab=[True] via=ffmpeg
+  [220/440] in my life (the beatles) - fingerstyle lesso tab=[True] via=ffmpeg
+  [230/440] kinderszenen no.1 - tab & lesson.mp4         tab=[True] via=cv2
+  [240/440] la vie en rose - fingerstyle lesson + tab.mp tab=[False] via=cv2
+  [250/440] les champs-élysées - fingerstyle lesson + ta tab=[True] via=ffmpeg
+  [260/440] lullaby (mozart) - guitar lesson + tab.mp4   tab=[False] via=cv2
+  [270/440] merry christmas, mr.lawrence - guitar lesson tab=[True] via=ffmpeg
+  [280/440] my favorite things - fingerstyle lesson + ta tab=[False] via=cv2
+  [290/440] nothing's gonna change my love for you - fin tab=[True] via=cv2
+  [300/440] passacaglia (harmonics ver.) - tab & lesson. tab=[True] via=cv2
+  [310/440] pokarekare ana - guitar lesson + tab.mp4     tab=[False] via=cv2
+  [320/440] reflection (mulan) - fingerstyle lesson + ta tab=[True] via=cv2
+  [330/440] romeo & juliet (a time for us) - fingerstyle tab=[True] via=ffmpeg
+  [340/440] schindler's list - fingerstyle lesson + tab. tab=[True] via=ffmpeg
+  [350/440] song from a secret garden - guitar lesson +  tab=[True] via=ffmpeg
+  [360/440] sway - fingerstyle lesson + tab.mp4          tab=[False] via=ffmpeg
+  [370/440] the christmas song  (chestnuts roasting on a tab=[True] via=ffmpeg
+  [380/440] the lion sleeps tonight - fingerstyle lesson tab=[False] via=cv2
+  [390/440] the sound of silence (easy) - fingerstyle le tab=[False] via=ffmpeg
+  [400/440] torija (castles of spain) - guitar lesson +  tab=[True] via=cv2
+  [410/440] valses poeticos (granados) - guitar lesson + tab=[True] via=cv2
+  [420/440] we wish you a merry christmas - fingerstyle  tab=[False] via=ffmpeg
+  [430/440] willy wonka's welcome song - fingerstyle les tab=[True] via=cv2
+  [440/440] ＂intermezzo＂ from cavalleria rusticana - gui tab=[True] via=cv2
+
+=== transcriptor: 58 vídeos, 0 já feitos, 58 pendentes -> inventario_transcriptor.jsonl
+  [10/58] charagua - victor jara -  1＊ percusión - par tab=[True] via=cv2
+  [20/58] erik satie - gymnopédie no.1 - partitura ⧸ t tab=[True] via=cv2
+  [30/58] la llorona - 1° guitarra -  arreglo para 3 g tab=[True] via=cv2
+  [40/58] quiero ser tu sombra - 2° charango - acompañ tab=[True] via=cv2
+  [50/58] victor jara - la partida - 1°charango - part tab=[True] via=cv2
+  [58/58] violeta parra - guitarra - calambito temucan tab=[True] via=cv2
+
+=== tv cifras: 261 vídeos, 0 já feitos, 261 pendentes -> inventario_tv cifras.jsonl
+  [10/261] aquarela - toquinho (como tocar - aula de vi tab=[True] via=ffmpeg
+  [20/261] biquini cavadão ensina a tocar ＂tédio＂ no tv tab=[True] via=cv2
+  [30/261] caetano veloso - sampa (como tocar - aula de tab=[True] via=cv2
+  [40/261] chico buarque - construção ⧸ deus lhe pague  tab=[True] via=ffmpeg
+  [50/261] cássia eller - e.c.t. - aula de violão - tv  tab=[True] via=cv2
+  [60/261] dilermando reis - se ela perguntar (como toc tab=[True] via=cv2
+  [70/261] ela une todas as coisas - jorge vercillo [ap tab=[True] via=ffmpeg
+  [80/261] espírito santo - fernanda brum - parte 1⧸2 ( tab=[True] via=ffmpeg
+  [90/261] fernanda brum - espírito santo (cover de vio tab=[True] via=cv2
+  [100/261] garoto - lamentos do morro (como tocar - aul tab=[True] via=cv2
+  [110/261] habanera - bizet - aula de violão clássico ( tab=[True] via=cv2
+  [120/261] jorge vercillo ensina a tocar ＂signo do ar＂. tab=[True] via=cv2
+  [130/261] kiss - forever (aula de violão).mp4          tab=[True] via=cv2
+  [140/261] losing my religion - r.e.m. (aula de violão) tab=[True] via=cv2
+  [150/261] marcos e belutti - eu era (como tocar - aula tab=[True] via=cv2
+  [160/261] mozart - marcha turca (aula de violão clássi tab=[True] via=ffmpeg
+  [170/261] o bêbado e a equilibrista - aula de violão c tab=[True] via=ffmpeg
+  [180/261] papel machê - joão bosco - aula de violão -  tab=[True] via=ffmpeg
+  [190/261] pink floyd - goodbye blue sky (como tocar -  tab=[True] via=cv2
+  [200/261] raul seixas - tente outra vez (aula de violã tab=[True] via=cv2
+  [210/261] seu jorge - zé do caroço (como tocar - aula  tab=[True] via=cv2
+  [220/261] tema do sítio do picapau amarelo (aula de vi tab=[True] via=cv2
+  [230/261] tom jobim - eu sei que vou te amar (aula de  tab=[True] via=cv2
+  [240/261] ultraje a rigor - inútil (como tocar - aula  tab=[True] via=cv2
+  [250/261] wando - moça - aula de violão - tv cifras.mp tab=[True] via=cv2
+  [260/261] águas de março - tom jobim (como tocar - aul tab=[True] via=ffmpeg
+  [261/261] álvaro carrillo - sabor a mí (como tocar - a tab=[False] via=cv2
+
+=== tv on guitar: 5 vídeos, 0 já feitos, 5 pendentes -> inventario_tv on guitar.jsonl
+  [5/5] zelda fairy fountain - guitar tab ｜ tvonguit tab=[True] via=ffmpeg
+
+=== violaodecria: 1680 vídeos, 0 já feitos, 1680 pendentes -> inventario_violaodecria.jsonl
+  [10/1680] #desafio #challenge #veigh #trap #novobalanç tab=[True] via=cv2
+  [20/1680] #novobalanço #veigh #auladeviolão #tab #trap tab=[True] via=cv2
+  [30/1680] #valentina #naovaitergolpe #semanistia  [718 tab=[True] via=cv2
+  [40/1680] 3 solos faceis pra tirar onda no violão  rit tab=[True] via=cv2
+  [50/1680] 7 da sorte - veigh, md chefe (rocco, viper,  tab=[True] via=cv2
+  [60/1680] a dança - mc hariel, gilberto gil - aprenda  tab=[True] via=cv2
+  [70/1680] acordei bem cedo - mc kadu - aprenda com des tab=[True] via=cv2
+  [80/1680] aliança - tribalistas - aprenda a tocar simp tab=[True] via=cv2
+  [90/1680] ama um maloqueiro - rafa e junior, hugo e gu tab=[True] via=cv2
+  [100/1680] amor e fé - hungria - aprenda simplificada n tab=[True] via=cv2
+  [110/1680] andantino - m. carcassi - aprenda com tablat tab=[True] via=cv2
+  [120/1680] apaga a luz - nicolas cândido (olivia robell tab=[True] via=cv2
+  [130/1680] aprenda a tocar deixou pra lá no ukulele (mc tab=[True] via=cv2
+  [140/1680] aprenda a tocar vai novinha ah ah ah #novinh tab=[True] via=cv2
+  [150/1680] aquariano nato - mc saci, mc pretchako (dj s tab=[True] via=cv2
+  [160/1680] artista genérico (eu venci o mundo) - veigh  tab=[True] via=cv2
+  [170/1680] até de manhã - orochi (jess, ajaxx, kizzy) d tab=[True] via=cv2
+  [180/1680] aula 7 de trap. solo da musica x6 - mc harie tab=[True] via=cv2
+  [190/1680] azul piscina - mc livinho (dj perera) - gr6  tab=[True] via=cv2
+  [200/1680] bala love - mc anjim (dj ph da serra e dj lv tab=[True] via=cv2
+  [210/1680] bandido problematico - mc flavinho, iraqui z tab=[True] via=cv2
+  [220/1680] barbie - mc tuto - análise da melodia da mús tab=[True] via=cv2
+  [230/1680] bebeto e romário- mc joãozinho vt (dj boy) s tab=[True] via=cv2
+  [240/1680] black rainbow - grim salvo ft. witchouse 40k tab=[True] via=cv2
+  [250/1680] bom te encontrar - bk, joão gomes (prod nans tab=[True] via=cv2
+  [260/1680] bumbum granada - mc zaac, jerry smith #viola tab=[True] via=cv2
+  [270/1680] caetano veloso fez uma musica inspirada em p tab=[True] via=cv2
+  [280/1680] capricornio - xamã, glória groove (prod neob tab=[True] via=cv2
+  [290/1680] carrinho de madeira - kamaitachi - aprenda a tab=[True] via=cv2
+  [300/1680] celine - vulgo fk, kayblack, wey #celine #vu tab=[True] via=cv2
+  [310/1680] clipes de música e posto de gasolina #musica tab=[True] via=cv2
+  [320/1680] copia proibida - leo foguete - aprenda com d tab=[True] via=cv2
+  [330/1680] correr atras de ex da não, muita vergonha 🤦🏼 tab=[True] via=cv2
+  [340/1680] curiosidade sobre a música oh garota quero v tab=[True] via=cv2
+  [350/1680] cópia proibida - léo foguete - aprenda compl tab=[True] via=cv2
+  [360/1680] deixa rolar - mc luuky, leonne (dj perera) a tab=[True] via=cv2
+  [370/1680] desabafo  [7592204721696427282].mp4          tab=[True] via=cv2
+  [380/1680] desculpa mãe - facção central  [755745423087 tab=[True] via=cv2
+  [390/1680] desliza (ólhinho no corpinho) - léo santana, tab=[True] via=cv2
+  [400/1680] dharma - ajulliacosta, kl jay, maffalda - ap tab=[True] via=cv2
+  [410/1680] disco de platina - alee (neckklace, dallass) tab=[True] via=cv2
+  [420/1680] diário de um cafajeste (o amor não paga as c tab=[True] via=cv2
+  [430/1680] doja - central cee (whyjay & litek) lyricale tab=[True] via=cv2
+  [440/1680] e se eu te dissesse tudo？ - iluminim (prod.t tab=[True] via=cv2
+  [450/1680] encosta na parede - mc danny, mc pedrinho (t tab=[True] via=cv2
+  [460/1680] enzo cello - calabasas feat carla sol - apre tab=[True] via=cv2
+  [470/1680] esse cupido não me ajuda - yuri redicopa - a tab=[True] via=cv2
+  [480/1680] eu não fui sempre tão deprimida - lourandes  tab=[True] via=cv2
+  [490/1680] eu vou na sua casa (penélope) - felipe amori tab=[True] via=cv2
+  [500/1680] exercicio tecnico pra melhorar o som, aula i tab=[False] via=cv2
+  [510/1680] fala que é do job - mc blk 01 (dj rivot) apr tab=[True] via=cv2
+  [520/1680] famoso imã - mc lele jp, poze do rodo, leozi tab=[True] via=cv2
+  [530/1680] favela vive 6 - lord ｜ mc carol ｜ dexter ｜ b tab=[True] via=cv2
+  [540/1680] fim de semana no parque - racionais mc’s (bo tab=[True] via=cv2
+  [550/1680] foi assim - sotam (rob, pulim) aprenda simpl tab=[True] via=cv2
+  [560/1680] fumei tanto do verdinho, que brisa é essa -  tab=[True] via=cv2
+  [570/1680] futil - chris mc, l7nnon (prod malak) aprend tab=[True] via=cv2
+  [580/1680] garota você é interestelar (ritmada interest tab=[True] via=cv2
+  [590/1680] gostosin - felipe amorim, anitta, hitmaker - tab=[True] via=cv2
+  [600/1680] gta sp - mc ig, traplaudo, mc ryan sp, mc ph tab=[True] via=cv2
+  [610/1680] hiato -  crônicas de um babaca - aprenda com tab=[True] via=cv2
+  [620/1680] hoje deus anda de blindado - facção central  tab=[True] via=cv2
+  [630/1680] indiretas com a voz - veigh - aprenda com de tab=[True] via=cv2
+  [640/1680] iniciação ao violão - henrique pinto (aula 1 tab=[True] via=cv2
+  [650/1680] iniciação ao violão - henrique pinto (aula 2 tab=[True] via=cv2
+  [660/1680] iniciação ao violão - henrique pinto (aula 5 tab=[True] via=cv2
+  [670/1680] iniciação ao violão - henrique pinto (aula 9 tab=[True] via=cv2
+  [680/1680] interferir - fkay (vulgo fk, kayblack) apren tab=[True] via=cv2
+  [690/1680] inverno - orochi (prod. kizzy) aprenda simpl tab=[True] via=cv2
+  [700/1680] isso aqui vai virar zona - mc ig, lele jp, t tab=[True] via=cv2
+  [710/1680] jetski - melody, mc meno k, pedro sampaio -  tab=[True] via=cv2
+  [720/1680] junção venenosa - mc kevin, mc hariel (dj lu tab=[True] via=cv2
+  [730/1680] lei anti oruam - oruam (prod maurin, victor  tab=[True] via=cv2
+  [740/1680] lets go 3 - dj gbr, mc ig, mc ryan sp, mc ma tab=[True] via=cv2
+  [750/1680] lisboa - anavitória, lenine - aprenda a toca tab=[True] via=cv2
+  [760/1680] loucura - borges, cabelinho, veigh (ruxn, pa tab=[True] via=cv2
+  [770/1680] l’autre valse d’amélie - yann tiersen - apre tab=[True] via=cv2
+  [780/1680] mantém - wiu & matuê  #auladeviolao #wiu #ma tab=[True] via=cv2
+  [790/1680] marrom - luccas carlos -  aprenda a tocar co tab=[True] via=cv2
+  [800/1680] mc vitoria - do méxico 70 pro mundo (365 dia tab=[True] via=cv2
+  [810/1680] me leva - delacruz (gu$t) aprenda completa n tab=[True] via=cv2
+  [820/1680] medley - talarica - mc bia sp, mc ds #violao tab=[True] via=cv2
+  [830/1680] menina se prepara - mc pepeu (doug filmes) d tab=[True] via=cv2
+  [840/1680] meu moreno, meu favela - mc jotta k, oficial tab=[True] via=cv2
+  [850/1680] modo esquece - mc ig, gp, traplaudo, menor d tab=[True] via=cv2
+  [860/1680] mundo da lua - yago oproprio (patricio sid,  tab=[True] via=cv2
+  [870/1680] musicas que não podem faltar no voz e violão tab=[True] via=cv2
+  [880/1680] mãe solteira - j. eskine, mc davi, mc g15 (d tab=[True] via=cv2
+  [890/1680] nada a ver esse povo que fica misturando pol tab=[True] via=cv2
+  [900/1680] naquela mesa (nelson gonçalves) versão josé  tab=[True] via=cv2
+  [910/1680] nosso samba de toda semana 🙏🏼 #samba #mpb #c tab=[True] via=cv2
+  [920/1680] não sei mais - pelé milflows (prod neobeats) tab=[True] via=cv2
+  [930/1680] nóis não é migo - ryan sp, gp, gh do 7, japa tab=[True] via=cv2
+  [940/1680] o dia de hoje amanheceu mais triste com a pa tab=[True] via=cv2
+  [950/1680] o grave bater - mc kevinho (jorgin dj) apren tab=[True] via=cv2
+  [960/1680] o tempo tem pressa - chris ft. dapaz (lucas  tab=[True] via=cv2
+  [970/1680] oh novinha - mc don juan (dj yuri martins) a tab=[True] via=cv2
+  [980/1680] ontem foi aniversário do mc kevin, deixo aqu tab=[True] via=cv2
+  [990/1680] pacto - yunk vino, danzo, veigh (prod. amand tab=[True] via=cv2
+  [1000/1680] parado no bailão - mc l da vinte, mc gury (d tab=[True] via=cv2
+  [1010/1680] pecado - mc kelvinho, mc don juan e mc harie tab=[True] via=cv2
+  [1020/1680] penélope charmosa 2 - boladin 211, mc rick,  tab=[True] via=cv2
+  [1030/1680] petalas - tavin - aprenda no ukulele com tab tab=[True] via=cv2
+  [1040/1680] pix ou presente - j vila, don juan, kelvinho tab=[True] via=cv2
+  [1050/1680] poesia acustica 3 - capricorniana #violao #c tab=[True] via=cv2
+  [1060/1680] posso até não te dar flores - mc ryan sp, mc tab=[True] via=cv2
+  [1070/1680] posso mudar meu destino - leall - aprenda co tab=[True] via=cv2
+  [1080/1680] probleminha diario - califfa, l7nnon, mc har tab=[True] via=cv2
+  [1090/1680] programação dos proximos dias, fazendo versõ tab=[False] via=cv2
+  [1100/1680] programação semanal e outras coisinha 😁 [736 tab=[True] via=cv2
+  [1110/1680] pé direito - mc davi - aprenda no violão #ta tab=[True] via=cv2
+  [1120/1680] quando você é da igreja e quer tocar aquela  tab=[True] via=cv2
+  [1130/1680] ram tchum - dennis, ana castela, mc gw #viol tab=[True] via=cv2
+  [1140/1680] refem - xamã, l7nnon, maia, john central zn  tab=[True] via=cv2
+  [1150/1680] respondendo a @.  atravessei são paulo - duz tab=[True] via=cv2
+  [1160/1680] respondendo a @@30praum  quem manda é a 30 - tab=[True] via=cv2
+  [1170/1680] respondendo a @analusnutri  chovendo hit dos tab=[True] via=cv2
+  [1180/1680] respondendo a @blequi444  casa do tio wiu -  tab=[True] via=cv2
+  [1190/1680] respondendo a @d4niel aleixo  maria - matuê  tab=[True] via=cv2
+  [1200/1680] respondendo a @david araujo  quando a vontad tab=[True] via=cv2
+  [1210/1680] respondendo a @eduardo_p.12  primeira dama - tab=[True] via=cv2
+  [1220/1680] respondendo a @foolks  fumando um fino de ca tab=[True] via=cv2
+  [1230/1680] respondendo a @hector  lets go 2 - mc ig, mc tab=[True] via=cv2
+  [1240/1680] respondendo a @jb !!♡  poesia acústica urugu tab=[True] via=cv2
+  [1250/1680] respondendo a @jørge alves  intro - pumapjl  tab=[True] via=cv2
+  [1260/1680] respondendo a @ls.v  modo esquece ⧸ chuva de tab=[True] via=cv2
+  [1270/1680] respondendo a @marquin da roça 🤓☝️  historia tab=[True] via=cv2
+  [1280/1680] respondendo a @mymyrela ⁷  baby cê é gata -  tab=[True] via=cv2
+  [1290/1680] respondendo a @pedro yan 𒉭  obrigado mãe - d tab=[True] via=cv2
+  [1300/1680] respondendo a @ricardo deixa eu quebrar o ge tab=[True] via=cv2
+  [1310/1680] respondendo a @taelongo #2023 #vulgofk #mcry tab=[True] via=cv2
+  [1320/1680] respondendo a @tácio #thelastofus2 #thelasto tab=[True] via=cv2
+  [1330/1680] respondendo a @yedro (kanye’s version)  tuto tab=[True] via=cv2
+  [1340/1680] respondendo a @𝓖 #donosdacapital #mcryansp # tab=[True] via=cv2
+  [1350/1680] resumo da aula 2 de tablatura amarrou (tasha tab=[True] via=cv2
+  [1360/1680] ritmo mexicano - mc gw (kondzilla, gr6) #vio tab=[True] via=cv2
+  [1370/1680] se ela dança eu danço (ela só pensa em beija tab=[True] via=cv2
+  [1380/1680] se quiser voltar (interludio) - delacruz (jo tab=[True] via=cv2
+  [1390/1680] sei que tu me odeia - anitta, mc danny, hitm tab=[True] via=cv2
+  [1400/1680] senta e cala a boca - mc jacaré (jhow beats) tab=[True] via=cv2
+  [1410/1680] sentimento - mc kevin (dj nenê e zzzbeats) a tab=[True] via=cv2
+  [1420/1680] sequencia feiticeira - pedro sampaio, mc gw, tab=[True] via=cv2
+  [1430/1680] set dj japa nk 2.0 - aprenda no violão #viol tab=[True] via=cv2
+  [1440/1680] seu jeito simples faz meu coração vibrar - k tab=[True] via=cv2
+  [1450/1680] solo com uma nota so - ramones - i wanna be  tab=[True] via=cv2
+  [1460/1680] sopa - palavra cantada - aprenda no violão c tab=[True] via=cv2
+  [1470/1680] swin - bts - aprenda completa ou simplificad tab=[True] via=cv2
+  [1480/1680] só por hoje - gaab, mc hariel aprenda simpli tab=[True] via=cv2
+  [1490/1680] tambor - alee (radin hak, abelthe13th) apren tab=[True] via=cv2
+  [1500/1680] te vi na rua ontem - konai - aprenda complet tab=[True] via=cv2
+  [1510/1680] tempo da escola - mc hariel - aprenda no vio tab=[True] via=cv2
+  [1520/1680] tiktok video #7160460139449928965 [716046013 tab=[True] via=cv2
+  [1530/1680] tipo nino abravanel - tapa na cara da p - dj tab=[False] via=cv2
+  [1540/1680] tipo nino vs kabrinha - mc lekão - aprenda c tab=[True] via=cv2
+  [1550/1680] tipo tobi 2 (máscara na cara) - mhrap (prod  tab=[True] via=cv2
+  [1560/1680] toma gostosona - mc lele jp (dj guh mix) apr tab=[True] via=cv2
+  [1570/1680] tropa do bruxo - baile do bruxo   #wsdaigrej tab=[True] via=cv2
+  [1580/1680] tudo de novo - alee ft filipe ret - aprenda  tab=[True] via=cv2
+  [1590/1680] tutorial passo a passo - solo flamingos (bac tab=[True] via=cv2
+  [1600/1680] tuyo - narcos - aprenda o solo final #solo # tab=[True] via=cv2
+  [1610/1680] ultima vez - alee (neckklace) aprenda comple tab=[True] via=cv2
+  [1620/1680] uma luz - brandão 85 - aprenda no violão  [7 tab=[True] via=cv2
+  [1630/1680] vai tomando pock pock - lele jp, leozinho zs tab=[True] via=cv2
+  [1640/1680] vida de artista - mc joãozinho vt, mc tuto ( tab=[True] via=cv2
+  [1650/1680] viver sem segredo - tribo da periferia (duck tab=[True] via=cv2
+  [1660/1680] vou de crocodilo breck na face a juliet laco tab=[True] via=cv2
+  [1670/1680] war - caio luccas (prod ayo th) #caioluccas  tab=[True] via=cv2
+  [1680/1680] “boka loka 2” - dj boy - mc’s vine7, v7, eri tab=[True] via=cv2
+
+=== ギタロー ⧸ guitarous: 57 vídeos, 0 já feitos, 57 pendentes -> inventario_ギタロー ⧸ guitarous.jsonl
+  [10/57] summer ソロギター 初心者向け タブ譜.mp4                   tab=[True] via=cv2
+  [20/57] 【タブ譜】チェリー ⧸ スピッツ リードギタータブ譜.mp4               tab=[True] via=cv2
+  [30/57] やすらぎの日々 ソロギター タブ譜 クロノ・トリガー.mp4             tab=[True] via=cv2
+  [40/57] 感電 ソロギター【無料タブ譜】.mp4                          tab=[True] via=cv2
+  [50/57] 真夏の果実 ソロギター 初心者向け タブ譜.mp4                    tab=[True] via=cv2
+  [57/57] 香水 ギターソロ【無料タブ譜】.mp4                          tab=[True] via=cv2
+
+fim: 3993 vídeos em 69.5 min

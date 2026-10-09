@@ -35,14 +35,12 @@ import numpy as np
 
 from .caminhos import SAIDA
 from .cursor import detectar_cursor
+from .painel import FAIXAS, Candidato, criar, melhor, uniformidade
 from .tabseg import segmentar
 
 # O OpenCV grita a cada vídeo AV1 (44% do acervo) e isso poluiria horas de log.
 # A API é `cv2.utils.logging` (em cv2 5.0 não existe `cv2.setLogLevel`).
 cv2.utils.logging.setLogLevel(cv2.utils.logging.LOG_LEVEL_SILENT)
-
-#: Faixas verticais onde o painel costuma estar (a posição varia por vídeo).
-FAIXAS = [("topo", 0, 400), ("meio", 300, 750), ("base", 620, 1080)]
 
 #: Frações da duração amostradas. Evita o começo e o fim (vinheta/fala/despedida).
 FRACOES_PADRAO = (0.08, 0.22, 0.36, 0.50, 0.64, 0.78, 0.90)
@@ -188,45 +186,70 @@ def medir_linhas(banda: np.ndarray) -> dict:
 def medir_quadro(frame: np.ndarray) -> dict:
     """Mede as três faixas do quadro: tablatura, linhas e cursor.
 
+    Duas correções medidas nesta noite, as duas de critério:
+
+    1. a escolha da faixa passa por `painel.melhor` (uniformidade do fundo primeiro).
+       O critério antigo — mais glifos centrados — escolhia o **braço do violão** num
+       quadro real do `sky guitar`, onde a tablatura de verdade estava em `meio`;
+    2. o cursor é procurado **dentro do ROI da faixa**, não no quadro inteiro. O portão
+       do detector exige faixa com >= 50 % da altura DA IMAGEM: no quadro de 1080 px
+       isso é 540 px, e o cursor tem a altura do painel (~150 px). Medido: o acervo
+       inteiro deu cursor em 69 de 3.993 vídeos, quando o histórico dizia ~50 % dos
+       quadros.
+
     Args:
         frame: quadro inteiro.
 
     Returns:
         Dicionário com a faixa escolhida, a máscara/passo/glifos e as medidas cruas
-        de cada faixa (para análise posterior sem reabrir o vídeo).
+        de cada faixa (uniformidade, picos, cursor) para análise posterior sem reabrir
+        o vídeo.
     """
     faixas: dict[str, dict] = {}
-    melhor = None
+    candidatos: list[Candidato] = []
     for nome, y0, y1 in FAIXAS:
         y1 = min(y1, frame.shape[0])
         if y1 - y0 < 60:
             continue
         roi = frame[y0:y1, :]
-        medidas = medir_linhas(roi)
-        registro = {"linhas": medidas}
+        registro: dict = {
+            "linhas": medir_linhas(roi),
+            "uniformidade": round(uniformidade(roi), 3),
+        }
         try:
             g = segmentar(roi)
         except Exception as exc:  # nunca derrubar a varredura
             registro["erro"] = type(exc).__name__
             faixas[nome] = registro
             continue
-        registro["n_linhas"] = len(g.linhas_y)
-        registro["passo"] = round(g.passo, 1)
-        registro["glifos"] = len(g.glifos)
-        registro["centrados"] = g.glifos_centrados
+        registro.update(
+            {
+                "n_linhas": len(g.linhas_y),
+                "passo": round(g.passo, 1),
+                "glifos": len(g.glifos),
+                "centrados": g.glifos_centrados,
+            }
+        )
+        det = detectar_cursor(roi)
+        registro["cursor"] = bool(det)
+        if det:
+            registro["cursor_largura"] = int(det[1] - det[0] + 1)
+            registro["cursor_matiz"] = int(det[2][0])
         faixas[nome] = registro
-        if len(g.linhas_y) == 6 and g.glifos:
-            pontos = (g.glifos_centrados, len(g.glifos))
-            if melhor is None or pontos > melhor[0]:
-                melhor = (pontos, nome, g)
+        c = criar(nome, y0, y1, roi, g)
+        if c is not None:
+            candidatos.append(c)
 
+    escolhido = melhor(candidatos)
     out: dict = {"tab": False, "faixas": faixas}
-    if melhor is not None:
-        pontos, nome, g = melhor
+    if escolhido is not None:
+        g = escolhido.grade
+        det = detectar_cursor(escolhido.roi)
         out.update(
             {
                 "tab": True,
-                "faixa": nome,
+                "faixa": escolhido.nome,
+                "uniformidade": round(escolhido.uniformidade, 3),
                 "passo": round(g.passo, 1),
                 "mascara": g.avisos[0].replace("mascara=", "") if g.avisos else None,
                 "glifos": len(g.glifos),
@@ -234,14 +257,14 @@ def medir_quadro(frame: np.ndarray) -> dict:
                 "colunas": len({x.coluna for x in g.glifos}),
                 "cordas_com_nota": len({x.corda for x in g.glifos}),
                 "y_linhas": g.linhas_y,
+                "cursor": bool(det),
             }
         )
-    det = detectar_cursor(frame)
-    out["cursor"] = bool(det)
-    if det:
-        # detectar_cursor devolve (x0, x1, (matiz, sat))
-        out["cursor_largura"] = int(det[1] - det[0] + 1)
-        out["cursor_matiz"] = int(det[2][0])
+        if det:
+            out["cursor_largura"] = int(det[1] - det[0] + 1)
+            out["cursor_matiz"] = int(det[2][0])
+    else:
+        out["cursor"] = any(f.get("cursor") for f in faixas.values())
     return out
 
 
