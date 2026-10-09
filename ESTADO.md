@@ -2491,3 +2491,28 @@ do modelo — os arcos medidos são **largos e baixos** (2,4–3,1 × 0,9–1,0 
 dos tokens "com forma de arco" precisa exigir (largura ≥ 1,5 passo **e** altura ≤ 1,5 passo, por
 exemplo). Medir antes de adotar: quantos candidatos sobram, quantas marcas continuam cobertas, e o
 recall/precisão resultantes.
+
+## 2026-10-09 — filtro de FORMA antes do modelo: melhora precisão E recall (ganho de Pareto)
+
+Regra no caminho do símbolo: só passa candidato **largo e baixo** (largura ≥ 1,5 passo **e** altura
+≤ 1,5 passo) — a forma que as marcas do dono mediram (2,4×1,0 a 3,1×1,0 passos).
+
+| | baseline (só 1ª passada) | pool aberto | **com filtro de forma** |
+| --- | --- | --- | --- |
+| aprovados | 149 | 1.407 | **178** |
+| batem | 27 | 76 | **35** |
+| **precisão** | 0,180 | 0,054 | **0,197** |
+| **recall** | 0,140 | 0,402 | **0,185** |
+| **gabarito** | 0,917/0,986/0,944 | idem | **0,917/0,986/0,944** ✓ |
+
+**Ganho de Pareto contra o pipeline anterior**: precisão **e** recall sobem juntos (0,180 → 0,197 e
+0,140 → 0,185). E o limiar perdeu importância (0,5 e 0,7 dão o mesmo 178) — o filtro de forma já tirou
+o pool de baixa probabilidade.
+
+**O que falta para o critério duplo**: o recall 0,185 está longe de 0,41. Mas agora o trade-off está
+**mapeado por duas variáveis** (forma do candidato e limiar), e a curva do limiar com o pool aberto
+mostrou que **o caminho passa pela forma, não pelo limiar**.
+
+**Próxima medição**: varrer a **forma** (largura mínima em {1,0; 1,2; 1,5} passo × altura máxima em
+{1,0; 1,5; 2,0} passo) e escolher o ponto de operação **com critério declarado** — o recall alvo é
+0,41 e a precisão tem de ficar acima do baseline (0,180) para o ganho ser real.

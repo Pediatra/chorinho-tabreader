@@ -457,6 +457,12 @@ def reconhecer_linha(
     # cima, da máscara escolhida, continua sendo a única fonte de dígitos).
     if filtro_simbolo is not None and julgar_todos:
         for tk in _candidatos_do_simbolo(img, g):
+            # FORMA DE ARCO ANTES DO MODELO. Medido nas marcas do dono: o arco é LARGO E BAIXO
+            # (2,4x1,0 a 3,1x1,0 passos). O caminho do símbolo gera ~110 candidatos por quadro e
+            # muitos têm "forma de arco" sem ser o arco — pedaço de linha (alto e fino) e topo de
+            # dígito (estreito). Barrar aqui custa zero do gabarito: o caminho do algarismo é outro.
+            if (tk.x1 - tk.x0) < 1.5 * g.passo or (tk.y1 - tk.y0) > 1.5 * g.passo:
+                continue
             # JANELA NA BORDA DE CIMA, não no centro da caixa. Medido: com o centro, o filtro aprova
             # **31 %** dos candidatos na posição das marcas (mediana 0,208); com o topo da caixa,
             # **78 %** (mediana 0,833). Faz sentido: o arco fica **em cima da corda** — é ali que o
