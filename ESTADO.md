@@ -2149,3 +2149,33 @@ julgado — confirma o diagnóstico, agora com associação apertada.
 **Próxima medição**: alargar a busca para ±1/3 de passo (para recuperar as 48) e, nas 106 "fora de
 token", identificar **por qual motivo** elas caem — ligando cada componente descartado ao seu motivo
 no `Grade.recusados` (hoje ele é contado, não individualizado).
+
+## 2026-10-09 — motivos por componente: gigantes (60-86 passos) — com uma RESSALVA declarada
+
+Replicando as condições do delimitador para o componente de cada marca (busca até ⅓ de passo):
+
+| motivo | n |
+| --- | --- |
+| **`largo_demais`** (> 2,0 passos) | **101** |
+| **`alto_demais`** (> 2,0 passos) | **92** |
+| `fora_da_extensao` | 42 |
+| sem tinta (até ⅓ de passo) | 29 |
+| **`passaria_no_delimitador`** | **20** |
+| `baixo_demais` | 5 |
+
+Exemplos com `w/passo` de **60,5** e **86,0** (altura 14,7 e 5,3): o componente na posição da marca é a
+**linha inteira** — o arco colado nela, recusado por tamanho. Confirma o diagnóstico por motivo.
+
+**RESSALVA, e ela é sobre a minha medição**: eu binarizei a ROI por conta própria
+(`média − 0,5·desvio`), e **o pipeline não usa essa máscara** — ele testa várias
+(`mascaras_candidatas`) e escolhe a que passa no teste de estrutura, registrando o nome nos `avisos`
+(`mascara=<nome>`). Se a máscara que eu usei é mais agressiva, ela **funde mais**, e os "gigantes"
+podem ser artefato **da minha binarização**, não do pipeline. **Isso explicaria a retirada das linhas
+ter sido neutra**: apliquei na máscara do pipeline e medi na minha.
+
+**Quinta vez** que o elo fraco é um critério meu — a segunda nesta rodada (o primeiro foi o alarme de
+deriva de painel, refutado por verificação).
+
+**Próxima medição**: repetir a contagem **usando a máscara que o pipeline escolheu** (ela está nos
+`avisos` da grade) — e só então decidir se o conserto é no delimitador, na segmentação ou na
+binarização.
