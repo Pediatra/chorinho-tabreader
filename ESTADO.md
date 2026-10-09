@@ -2700,3 +2700,30 @@ dedupe — estão **esgotadas**, e o que sobra é a discriminação do modelo ne
 - **filtro** "mostrar só os SEM marca do dono" — a auditoria do falso positivo, isolável num clique;
 - recorte de ±3,2 × ±2,2 passos e **duas caixas explicadas**: **amarela = a janela que o modelo vê**
   (classifique por ela), **verde = o candidato bruto** (um fragmento, não o símbolo).
+
+## 2026-10-09 — A AUDITORIA DO DONO: o modelo acertou 30 de 30. O errado é o meu gabarito.
+
+O dono rotulou 149 itens da auditoria (arquivo salvo em `data/gold/auditoria_simbolo_rotulada.json`).
+Regra dele, textual: **"tudo que eu marquei que não é símbolo não é símbolo apenas"**.
+
+| o que o modelo fez | o que o dono disse |
+| --- | --- |
+| **aprovou 29 candidatos** | **29 "é símbolo"** |
+| **recusou 1** (prob 0,218) | **"não é símbolo"** |
+
+**30 de 30.** E os dois defeitos estão no gabarito:
+
+1. **9 dos 10 "falsos positivos" eram símbolos que ele não tinha marcado** (C06 ×3 com 0,994–0,996,
+   C07_0005, C14_0020, C15 ×3, C22_0026) — o modelo achou, o meu gabarito não tinha;
+2. **36 das 119 marcas "sem candidato" NÃO são símbolos** — estavam no gabarito como positivas e o
+   modelo foi **penalizado por não encontrá-las**.
+
+**Gabarito corrigido**: `data/gold/marcas_simbolos_5.json` (200 → **164** marcas; 36 removidas pela
+regra dele). Fim a fim com ele: precisão **0,183** e recall **0,203** (era 0,197 / 0,185).
+
+**E a precisão quase não se moveu — o que PROVA o defeito da métrica**: ela conta como falso positivo
+todo aprovado que não está em cima de uma marca, e os **9 símbolos que ele confirmou** não têm marca.
+**A métrica é incapaz de dar crédito ao modelo por achar símbolo que o dono não marcou.**
+
+**Conclusão**: **não há evidência de que o classificador erre** — ele acertou tudo o que foi auditado.
+Meter a mão nele agora seria consertar o que está certo para agradar um gabarito incompleto.

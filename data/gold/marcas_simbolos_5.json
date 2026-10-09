@@ -1,0 +1,1159 @@
+{
+ "como_usar": "marcas feitas clicando na imagem; x,y em pixels da imagem original",
+ "marcas": [
+  {
+   "imagem": "C01_cifra club.png",
+   "rotulo_imagem": "C01. cifra club | cifra club/nothing else matters -  | t=0.65 | passo=52.2px",
+   "x": 624,
+   "y": 265,
+   "significado": "slide"
+  },
+  {
+   "imagem": "C01_cifra club.png",
+   "rotulo_imagem": "C01. cifra club | cifra club/nothing else matters -  | t=0.65 | passo=52.2px",
+   "x": 865,
+   "y": 262,
+   "significado": "slide"
+  },
+  {
+   "imagem": "C01_cifra club.png",
+   "rotulo_imagem": "C01. cifra club | cifra club/nothing else matters -  | t=0.65 | passo=52.2px",
+   "x": 1066,
+   "y": 263,
+   "significado": "O símbolo ~ ao lado do número indica vibrato.   Significa que deves oscilar ligeiramente a altura da nota depois de a tocar, fazendo o dedo da mão esquerda oscilar/tremer levemente sobre o traste para dar mais sustentação e expressividade ao som."
+  },
+  {
+   "imagem": "C01_cifra club.png",
+   "rotulo_imagem": "C01. cifra club | cifra club/nothing else matters -  | t=0.65 | passo=52.2px",
+   "x": 1203,
+   "y": 263,
+   "significado": "O símbolo ~ ao lado do número indica vibrato.   Significa que deves oscilar ligeiramente a altura da nota depois de a tocar, fazendo o dedo da mão esquerda oscilar/tremer levemente sobre o traste para dar mais sustentação e expressividade ao som."
+  },
+  {
+   "imagem": "C01_cifra club.png",
+   "rotulo_imagem": "C01. cifra club | cifra club/nothing else matters -  | t=0.65 | passo=52.2px",
+   "x": 1336,
+   "y": 261,
+   "significado": "O símbolo ~ ao lado do número indica vibrato.   Significa que deves oscilar ligeiramente a altura da nota depois de a tocar, fazendo o dedo da mão esquerda oscilar/tremer levemente sobre o traste para dar mais sustentação e expressividade ao som."
+  },
+  {
+   "imagem": "C02_guitar dellarte.png",
+   "rotulo_imagem": "C02. guitar dell ́arte | guitar dell ́arte/prelude from son | t=0.65 | passo=18.8px",
+   "x": 335,
+   "y": 6,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C04_iwaki.png",
+   "rotulo_imagem": "C04. iwaki | iwaki/julia florida - barrios ｜ ta | t=0.65 | passo=27.2px",
+   "x": 592,
+   "y": 101,
+   "significado": "otas entre parênteses (7): Representam notas fantasma ou notas sustentadas que continuam a ressoar em segundo plano enquanto tocas o resto do dedilhado. Não deves voltar a palhetar a 7ª casa nesse ponto; é apenas uma indicação para deixares essa nota soar no fundo."
+  },
+  {
+   "imagem": "C04_iwaki.png",
+   "rotulo_imagem": "C04. iwaki | iwaki/julia florida - barrios ｜ ta | t=0.65 | passo=27.2px",
+   "x": 943,
+   "y": 94,
+   "significado": "otas entre parênteses (7): Representam notas fantasma ou notas sustentadas que continuam a ressoar em segundo plano enquanto tocas o resto do dedilhado. Não deves voltar a palhetar a 7ª casa nesse ponto; é apenas uma indicação para deixares essa nota soar no fundo."
+  },
+  {
+   "imagem": "C04_iwaki.png",
+   "rotulo_imagem": "C04. iwaki | iwaki/julia florida - barrios ｜ ta | t=0.65 | passo=27.2px",
+   "x": 1347,
+   "y": 100,
+   "significado": "otas entre parênteses (7): Representam notas fantasma ou notas sustentadas que continuam a ressoar em segundo plano enquanto tocas o resto do dedilhado. Não deves voltar a palhetar a 7ª casa nesse ponto; é apenas uma indicação para deixares essa nota soar no fundo."
+  },
+  {
+   "imagem": "C04_iwaki.png",
+   "rotulo_imagem": "C04. iwaki | iwaki/julia florida - barrios ｜ ta | t=0.65 | passo=27.2px",
+   "x": 1720,
+   "y": 104,
+   "significado": "otas entre parênteses (7): Representam notas fantasma ou notas sustentadas que continuam a ressoar em segundo plano enquanto tocas o resto do dedilhado. Não deves voltar a palhetar a 7ª casa nesse ponto; é apenas uma indicação para deixares essa nota soar no fundo."
+  },
+  {
+   "imagem": "C04_iwaki.png",
+   "rotulo_imagem": "C04. iwaki | iwaki/julia florida - barrios ｜ ta | t=0.65 | passo=27.2px",
+   "x": 1630,
+   "y": 84,
+   "significado": "Barra diagonal entre notas 4 / 6 (no último compasso): É um slide ascendente (legato slide). Tocas a 4ª casa e deslisas o dedo até à 6ª casa sem voltar a atacar a corda com a mão direita."
+  },
+  {
+   "imagem": "C06_kimny's guitar.png",
+   "rotulo_imagem": "C06. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.65 | passo=20.8px",
+   "x": 190,
+   "y": 2,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C06_kimny's guitar.png",
+   "rotulo_imagem": "C06. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.65 | passo=20.8px",
+   "x": 304,
+   "y": 49,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C06_kimny's guitar.png",
+   "rotulo_imagem": "C06. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.65 | passo=20.8px",
+   "x": 601,
+   "y": 3,
+   "significado": "igadura de prolongamento"
+  },
+  {
+   "imagem": "C06_kimny's guitar.png",
+   "rotulo_imagem": "C06. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.65 | passo=20.8px",
+   "x": 715,
+   "y": 46,
+   "significado": "igadura de prolongamento"
+  },
+  {
+   "imagem": "C06_kimny's guitar.png",
+   "rotulo_imagem": "C06. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.65 | passo=20.8px",
+   "x": 1269,
+   "y": 19,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C06_kimny's guitar.png",
+   "rotulo_imagem": "C06. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.65 | passo=20.8px",
+   "x": 1418,
+   "y": 84,
+   "significado": "colcheia"
+  },
+  {
+   "imagem": "C06_kimny's guitar.png",
+   "rotulo_imagem": "C06. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.65 | passo=20.8px",
+   "x": 1829,
+   "y": 81,
+   "significado": "colcheia"
+  },
+  {
+   "imagem": "C06_kimny's guitar.png",
+   "rotulo_imagem": "C06. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.65 | passo=20.8px",
+   "x": 1524,
+   "y": 27,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 210,
+   "y": 9,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 321,
+   "y": 5,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 442,
+   "y": 4,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 533,
+   "y": 6,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 661,
+   "y": 4,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 772,
+   "y": 4,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 887,
+   "y": 4,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 998,
+   "y": 6,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1118,
+   "y": 6,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1236,
+   "y": 6,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1235,
+   "y": 137,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1117,
+   "y": 139,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1000,
+   "y": 139,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 895,
+   "y": 141,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 773,
+   "y": 138,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 647,
+   "y": 137,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 523,
+   "y": 141,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 440,
+   "y": 144,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 330,
+   "y": 138,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 202,
+   "y": 139,
+   "significado": "ligadura de prolongamento"
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1360,
+   "y": 4,
+   "significado": "Ataque e sustentação inicial (10 em baixo e 10 em cima): Tocas a 10ª casa da 6ª corda e a 10ª casa da 1ª corda ao mesmo tempo. A linha vertical entre elas indica um ataque simultâneo. Os arcos a ligar para o par de 10 seguinte mostram que deves apenas deixar essas notas a ressoar (ligadura de valor/sustentação)."
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1373,
+   "y": 139,
+   "significado": "Ataque e sustentação inicial (10 em baixo e 10 em cima): Tocas a 10ª casa da 6ª corda e a 10ª casa da 1ª corda ao mesmo tempo. A linha vertical entre elas indica um ataque simultâneo. Os arcos a ligar para o par de 10 seguinte mostram que deves apenas deixar essas notas a ressoar (ligadura de valor/sustentação)."
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1430,
+   "y": 13,
+   "significado": "Appoggiatura rápida (14 pequeno para 15): A 14ª casa pequenina é uma appoggiatura (grace note). Tocas a 14ª casa de forma instantânea e fazes um hammer-on rápido para a 15ª casa na 1ª corda.  Repetição ligada (15 e 15 na 6ª e 1ª corda): Tocas o conjunto da 15ª casa nas duas cordas extremas. Os arcos por cima e por baixo mostram as notas a prolongar o som entre os ataques rhythmicos."
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1481,
+   "y": 9,
+   "significado": "Appoggiatura rápida (14 pequeno para 15): A 14ª casa pequenina é uma appoggiatura (grace note). Tocas a 14ª casa de forma instantânea e fazes um hammer-on rápido para a 15ª casa na 1ª corda.  Repetição ligada (15 e 15 na 6ª e 1ª corda): Tocas o conjunto da 15ª casa nas duas cordas extremas. Os arcos por cima e por baixo mostram as notas a prolongar o som entre os ataques rhythmicos."
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1551,
+   "y": 10,
+   "significado": "Appoggiatura rápida (14 pequeno para 15): A 14ª casa pequenina é uma appoggiatura (grace note). Tocas a 14ª casa de forma instantânea e fazes um hammer-on rápido para a 15ª casa na 1ª corda.  Repetição ligada (15 e 15 na 6ª e 1ª corda): Tocas o conjunto da 15ª casa nas duas cordas extremas. Os arcos por cima e por baixo mostram as notas a prolongar o som entre os ataques rhythmicos."
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1479,
+   "y": 134,
+   "significado": "Appoggiatura rápida (14 pequeno para 15): A 14ª casa pequenina é uma appoggiatura (grace note). Tocas a 14ª casa de forma instantânea e fazes um hammer-on rápido para a 15ª casa na 1ª corda.  Repetição ligada (15 e 15 na 6ª e 1ª corda): Tocas o conjunto da 15ª casa nas duas cordas extremas. Os arcos por cima e por baixo mostram as notas a prolongar o som entre os ataques rhythmicos."
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1527,
+   "y": 136,
+   "significado": "Appoggiatura rápida (14 pequeno para 15): A 14ª casa pequenina é uma appoggiatura (grace note). Tocas a 14ª casa de forma instantânea e fazes um hammer-on rápido para a 15ª casa na 1ª corda.  Repetição ligada (15 e 15 na 6ª e 1ª corda): Tocas o conjunto da 15ª casa nas duas cordas extremas. Os arcos por cima e por baixo mostram as notas a prolongar o som entre os ataques rhythmicos."
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1625,
+   "y": 41,
+   "significado": "Harmónicos naturais com corda solta (12) e 0: Na parte final, o 0 indica a 6ª corda solta tocada junto com as notas (12) entre parênteses nas cordas 1, 2 e 3. Essas casas 12 entre parênteses (com ponto por cima) indicam harmónicos naturais: encostas suavemente o dedo por cima do traste da 12ª casa (sem pressionar a corda contra a madeira) e palhetas para produzir um som límpido e cristalino."
+  },
+  {
+   "imagem": "C07_kimny's guitar.png",
+   "rotulo_imagem": "C07. kimny's guitar | kimny's guitar/[ tab ] take five - | t=0.85 | passo=20.6px",
+   "x": 1717,
+   "y": 58,
+   "significado": "arpejo pra cima"
+  },
+  {
+   "imagem": "C09_leonardo ramos.png",
+   "rotulo_imagem": "C09. leonardo ramos | leonardo ramos/cortando campo (est | t=0.85 | passo=31.2px",
+   "x": 345,
+   "y": 121,
+   "significado": "slide"
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 140,
+   "y": 48,
+   "significado": "A seguir, tocas a 5ª e a 4ª corda soltas (0), dedilhas a 3ª corda na 2ª casa (2), a 4ª corda solta (0), a 5ª corda solta (0), a 5ª corda na 3ª casa (3) e montas o bloco 0-2-3 (nas cordas 4, 3 e 2) na transição para o compasso seguinte."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 141,
+   "y": 127,
+   "significado": "A seguir, tocas a 5ª e a 4ª corda soltas (0), dedilhas a 3ª corda na 2ª casa (2), a 4ª corda solta (0), a 5ª corda solta (0), a 5ª corda na 3ª casa (3) e montas o bloco 0-2-3 (nas cordas 4, 3 e 2) na transição para o compasso seguinte."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 140,
+   "y": 158,
+   "significado": "A seguir, tocas a 5ª e a 4ª corda soltas (0), dedilhas a 3ª corda na 2ª casa (2), a 4ª corda solta (0), a 5ª corda solta (0), a 5ª corda na 3ª casa (3) e montas o bloco 0-2-3 (nas cordas 4, 3 e 2) na transição para o compasso seguinte."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 823,
+   "y": 43,
+   "significado": "Ligadura de sustentação cruzando o compasso: Os arcos grandes que saem do final do compasso 67 e entram no 68 sobre os números entre parênteses (0), (2) e (3) indicam que esse acorde continua a ressoar através da barra de compasso 68 sem ser atacado novamente."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 827,
+   "y": 64,
+   "significado": "Ligadura de sustentação cruzando o compasso: Os arcos grandes que saem do final do compasso 67 e entram no 68 sobre os números entre parênteses (0), (2) e (3) indicam que esse acorde continua a ressoar através da barra de compasso 68 sem ser atacado novamente."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 824,
+   "y": 115,
+   "significado": "Ligadura de sustentação cruzando o compasso: Os arcos grandes que saem do final do compasso 67 e entram no 68 sobre os números entre parênteses (0), (2) e (3) indicam que esse acorde continua a ressoar através da barra de compasso 68 sem ser atacado novamente."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 891,
+   "y": 53,
+   "significado": "Ligadura de sustentação cruzando o compasso: Os arcos grandes que saem do final do compasso 67 e entram no 68 sobre os números entre parênteses (0), (2) e (3) indicam que esse acorde continua a ressoar através da barra de compasso 68 sem ser atacado novamente."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 892,
+   "y": 108,
+   "significado": "Ligadura de sustentação cruzando o compasso: Os arcos grandes que saem do final do compasso 67 e entram no 68 sobre os números entre parênteses (0), (2) e (3) indicam que esse acorde continua a ressoar através da barra de compasso 68 sem ser atacado novamente."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 890,
+   "y": 77,
+   "significado": "Ligadura de sustentação cruzando o compasso: Os arcos grandes que saem do final do compasso 67 e entram no 68 sobre os números entre parênteses (0), (2) e (3) indicam que esse acorde continua a ressoar através da barra de compasso 68 sem ser atacado novamente."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 1065,
+   "y": 51,
+   "significado": "A seguir, tocas a 5ª e a 4ª corda soltas (0), dedilhas a 3ª corda na 2ª casa (2), a 4ª corda solta (0), a 5ª corda solta (0), a 5ª corda na 3ª casa (3) e montas o bloco 0-2-3 (nas cordas 4, 3 e 2) na transição para o compasso seguinte."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 1068,
+   "y": 130,
+   "significado": "A seguir, tocas a 5ª e a 4ª corda soltas (0), dedilhas a 3ª corda na 2ª casa (2), a 4ª corda solta (0), a 5ª corda solta (0), a 5ª corda na 3ª casa (3) e montas o bloco 0-2-3 (nas cordas 4, 3 e 2) na transição para o compasso seguinte."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 1072,
+   "y": 158,
+   "significado": "A seguir, tocas a 5ª e a 4ª corda soltas (0), dedilhas a 3ª corda na 2ª casa (2), a 4ª corda solta (0), a 5ª corda solta (0), a 5ª corda na 3ª casa (3) e montas o bloco 0-2-3 (nas cordas 4, 3 e 2) na transição para o compasso seguinte."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 1526,
+   "y": 32,
+   "significado": "A seguir, tocas a 5ª e a 4ª corda soltas (0), dedilhas a 3ª corda na 2ª casa (2), a 4ª corda solta (0), a 5ª corda solta (0), a 5ª corda na 3ª casa (3) e montas o bloco 0-2-3 (nas cordas 4, 3 e 2) na transição para o compasso seguinte."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 1529,
+   "y": 52,
+   "significado": "A seguir, tocas a 5ª e a 4ª corda soltas (0), dedilhas a 3ª corda na 2ª casa (2), a 4ª corda solta (0), a 5ª corda solta (0), a 5ª corda na 3ª casa (3) e montas o bloco 0-2-3 (nas cordas 4, 3 e 2) na transição para o compasso seguinte."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 1519,
+   "y": 138,
+   "significado": "A seguir, tocas a 5ª e a 4ª corda soltas (0), dedilhas a 3ª corda na 2ª casa (2), a 4ª corda solta (0), a 5ª corda solta (0), a 5ª corda na 3ª casa (3) e montas o bloco 0-2-3 (nas cordas 4, 3 e 2) na transição para o compasso seguinte."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 1631,
+   "y": 38,
+   "significado": "Puxada no agudo (5-6 com arcos): No final do compasso, tocas o conjunto da 2ª corda na 6ª casa e 1ª corda na 5ª casa duas vezes. Os arcos por cima das notas indicam articulação em legato/sustentação do som. Entre essas duas batidas, surge a nota 7 na 3ª corda no grave/médio."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 1680,
+   "y": 34,
+   "significado": "Puxada no agudo (5-6 com arcos): No final do compasso, tocas o conjunto da 2ª corda na 6ª casa e 1ª corda na 5ª casa duas vezes. Os arcos por cima das notas indicam articulação em legato/sustentação do som. Entre essas duas batidas, surge a nota 7 na 3ª corda no grave/médio."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 1839,
+   "y": 41,
+   "significado": "Puxada no agudo (5-6 com arcos): No final do compasso, tocas o conjunto da 2ª corda na 6ª casa e 1ª corda na 5ª casa duas vezes. Os arcos por cima das notas indicam articulação em legato/sustentação do som. Entre essas duas batidas, surge a nota 7 na 3ª corda no grave/médio."
+  },
+  {
+   "imagem": "C10_mr. tabs.png",
+   "rotulo_imagem": "C10. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.65 | passo=26.2px",
+   "x": 1906,
+   "y": 41,
+   "significado": "Puxada no agudo (5-6 com arcos): No final do compasso, tocas o conjunto da 2ª corda na 6ª casa e 1ª corda na 5ª casa duas vezes. Os arcos por cima das notas indicam articulação em legato/sustentação do som. Entre essas duas batidas, surge a nota 7 na 3ª corda no grave/médio."
+  },
+  {
+   "imagem": "C11_mr. tabs.png",
+   "rotulo_imagem": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px",
+   "x": 178,
+   "y": 38,
+   "significado": "Ligadura de sustentação cruzando o compasso: Os arcos grandes que saem do final do compasso 67 e entram no 68 sobre os números entre parênteses (0), (2) e (3) indicam que esse acorde continua a ressoar através da barra de compasso 68 sem ser atacado novamente."
+  },
+  {
+   "imagem": "C11_mr. tabs.png",
+   "rotulo_imagem": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px",
+   "x": 173,
+   "y": 65,
+   "significado": "Ligadura de sustentação cruzando o compasso: Os arcos grandes que saem do final do compasso 67 e entram no 68 sobre os números entre parênteses (0), (2) e (3) indicam que esse acorde continua a ressoar através da barra de compasso 68 sem ser atacado novamente."
+  },
+  {
+   "imagem": "C11_mr. tabs.png",
+   "rotulo_imagem": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px",
+   "x": 183,
+   "y": 114,
+   "significado": "Ligadura de sustentação cruzando o compasso: Os arcos grandes que saem do final do compasso 67 e entram no 68 sobre os números entre parênteses (0), (2) e (3) indicam que esse acorde continua a ressoar através da barra de compasso 68 sem ser atacado novamente."
+  },
+  {
+   "imagem": "C11_mr. tabs.png",
+   "rotulo_imagem": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px",
+   "x": 408,
+   "y": 53,
+   "significado": "slide sem nada pra fora"
+  },
+  {
+   "imagem": "C11_mr. tabs.png",
+   "rotulo_imagem": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px",
+   "x": 411,
+   "y": 132,
+   "significado": "slide sem nada pra fora"
+  },
+  {
+   "imagem": "C11_mr. tabs.png",
+   "rotulo_imagem": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px",
+   "x": 410,
+   "y": 157,
+   "significado": "slide sem nada pra fora"
+  },
+  {
+   "imagem": "C11_mr. tabs.png",
+   "rotulo_imagem": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px",
+   "x": 1093,
+   "y": 116,
+   "significado": "Ligadura de sustentação cruzando o compasso: Os arcos grandes que saem do final do compasso 67 e entram no 68 sobre os números entre parênteses (0), (2) e (3) indicam que esse acorde continua a ressoar através da barra de compasso 68 sem ser atacado novamente."
+  },
+  {
+   "imagem": "C11_mr. tabs.png",
+   "rotulo_imagem": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px",
+   "x": 1099,
+   "y": 64,
+   "significado": "Ligadura de sustentação cruzando o compasso: Os arcos grandes que saem do final do compasso 67 e entram no 68 sobre os números entre parênteses (0), (2) e (3) indicam que esse acorde continua a ressoar através da barra de compasso 68 sem ser atacado novamente."
+  },
+  {
+   "imagem": "C11_mr. tabs.png",
+   "rotulo_imagem": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px",
+   "x": 1095,
+   "y": 37,
+   "significado": "Ligadura de sustentação cruzando o compasso: Os arcos grandes que saem do final do compasso 67 e entram no 68 sobre os números entre parênteses (0), (2) e (3) indicam que esse acorde continua a ressoar através da barra de compasso 68 sem ser atacado novamente."
+  },
+  {
+   "imagem": "C11_mr. tabs.png",
+   "rotulo_imagem": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px",
+   "x": 1335,
+   "y": 127,
+   "significado": "slide sem nada pra fora"
+  },
+  {
+   "imagem": "C11_mr. tabs.png",
+   "rotulo_imagem": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px",
+   "x": 1340,
+   "y": 153,
+   "significado": "slide sem nada pra fora"
+  },
+  {
+   "imagem": "C11_mr. tabs.png",
+   "rotulo_imagem": "C11. mr. tabs | mr. tabs/eric clapton - layla unpl | t=0.85 | passo=26.0px",
+   "x": 1335,
+   "y": 54,
+   "significado": "slide sem nada pra fora"
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 193,
+   "y": 43,
+   "significado": "slide"
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 193,
+   "y": 63,
+   "significado": "arco de ligadura com slide em baixo"
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 225,
+   "y": 60,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 382,
+   "y": 30,
+   "significado": "harmonico (numero com < >) em volta Eles ocorrem em qualquer ponto do braço onde a corda seja dividida numa fração exata do seu comprimento (os chamados nós harmónicos):      12ª casa (1/2 da corda): Produz a mesma nota da corda solta, mas uma oitava acima. É o harmónico mais forte e fácil de soar.      7ª e 19ª casas (1/3 da corda): Produzem a nota uma oitava e uma quinta acima da corda solta.      5ª e 24ª casas (1/4 da corda): Produzem a nota duas oitavas acima da corda solta.      4ª, 9ª e 16ª casas (1/5 da corda): Produzem a terça maior (duas oitavas e uma terça acima). O ponto exato na 4ª e 9ª casa fica ligeiramente deslocado em relação ao traste metálico, exigindo precisão.      3.2ª e 3.8ª casas (1/6 da corda): Produzem a quinta (duas oitavas e uma quinta acima), situando-se um pouco antes e depois da 3ª casa."
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 427,
+   "y": 46,
+   "significado": "slide"
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 427,
+   "y": 59,
+   "significado": "arco de ligadura com slide em baixo"
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 508,
+   "y": 47,
+   "significado": "slide"
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 512,
+   "y": 65,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 609,
+   "y": 44,
+   "significado": "Esse trecho é uma frase melódica rápida feita inteiramente na 3ª corda com articulações de ligados e slides.  O passo a passo da execução:  1. **Sustentação e slide inicial `(11) / 12`:** O `(11)` entre parênteses é uma nota que já vem ressoando do tempo anterior. Sem voltar a palhetar com a mão direita, deslisas o dedo da 11ª para a 12ª casa (slide ascendente). 2. **Slide descendente `12 \\ 11`:** Imediatamente a seguir, sem palhetar, deslisas de volta da 12ª para a 11ª casa. O arco longo por baixo de `(11)` até `11` confirma que todo este bloco inicial deve ser feito num único fluxo ligado. 3. **Pull-off `11` para `9`:** Com o arco pequeno por baixo, puxas o dedo da 11ª para a 9ª casa (pull-off), mantendo o som sem novo ataque da mão direita. 4. **Hammer-on `9` para `11`:** Com o arco seguinte, martelas o dedo na 11ª casa (hammer-on). 5. **Slide final `11 / 13`:** Ainda dentro do mesmo fraseado ligado, deslisas da 11ª para a 13ª casa (slide ascendente).  A ideia geral é tocar essa sequência inteira articulando tudo com a mão esquerda (slides, hammer-ons e pull-offs), sem palhetar as notas do meio."
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 651,
+   "y": 68,
+   "significado": "Esse trecho é uma frase melódica rápida feita inteiramente na 3ª corda com articulações de ligados e slides.  O passo a passo da execução:  1. **Sustentação e slide inicial `(11) / 12`:** O `(11)` entre parênteses é uma nota que já vem ressoando do tempo anterior. Sem voltar a palhetar com a mão direita, deslisas o dedo da 11ª para a 12ª casa (slide ascendente). 2. **Slide descendente `12 \\ 11`:** Imediatamente a seguir, sem palhetar, deslisas de volta da 12ª para a 11ª casa. O arco longo por baixo de `(11)` até `11` confirma que todo este bloco inicial deve ser feito num único fluxo ligado. 3. **Pull-off `11` para `9`:** Com o arco pequeno por baixo, puxas o dedo da 11ª para a 9ª casa (pull-off), mantendo o som sem novo ataque da mão direita. 4. **Hammer-on `9` para `11`:** Com o arco seguinte, martelas o dedo na 11ª casa (hammer-on). 5. **Slide final `11 / 13`:** Ainda dentro do mesmo fraseado ligado, deslisas da 11ª para a 13ª casa (slide ascendente).  A ideia geral é tocar essa sequência inteira articulando tudo com a mão esquerda (slides, hammer-ons e pull-offs), sem palhetar as notas do meio."
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 635,
+   "y": 47,
+   "significado": "Esse trecho é uma frase melódica rápida feita inteiramente na 3ª corda com articulações de ligados e slides.  O passo a passo da execução:  1. **Sustentação e slide inicial `(11) / 12`:** O `(11)` entre parênteses é uma nota que já vem ressoando do tempo anterior. Sem voltar a palhetar com a mão direita, deslisas o dedo da 11ª para a 12ª casa (slide ascendente). 2. **Slide descendente `12 \\ 11`:** Imediatamente a seguir, sem palhetar, deslisas de volta da 12ª para a 11ª casa. O arco longo por baixo de `(11)` até `11` confirma que todo este bloco inicial deve ser feito num único fluxo ligado. 3. **Pull-off `11` para `9`:** Com o arco pequeno por baixo, puxas o dedo da 11ª para a 9ª casa (pull-off), mantendo o som sem novo ataque da mão direita. 4. **Hammer-on `9` para `11`:** Com o arco seguinte, martelas o dedo na 11ª casa (hammer-on). 5. **Slide final `11 / 13`:** Ainda dentro do mesmo fraseado ligado, deslisas da 11ª para a 13ª casa (slide ascendente).  A ideia geral é tocar essa sequência inteira articulando tudo com a mão esquerda (slides, hammer-ons e pull-offs), sem palhetar as notas do meio."
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 670,
+   "y": 44,
+   "significado": "Esse trecho é uma frase melódica rápida feita inteiramente na 3ª corda com articulações de ligados e slides.  O passo a passo da execução:  1. **Sustentação e slide inicial `(11) / 12`:** O `(11)` entre parênteses é uma nota que já vem ressoando do tempo anterior. Sem voltar a palhetar com a mão direita, deslisas o dedo da 11ª para a 12ª casa (slide ascendente). 2. **Slide descendente `12 \\ 11`:** Imediatamente a seguir, sem palhetar, deslisas de volta da 12ª para a 11ª casa. O arco longo por baixo de `(11)` até `11` confirma que todo este bloco inicial deve ser feito num único fluxo ligado. 3. **Pull-off `11` para `9`:** Com o arco pequeno por baixo, puxas o dedo da 11ª para a 9ª casa (pull-off), mantendo o som sem novo ataque da mão direita. 4. **Hammer-on `9` para `11`:** Com o arco seguinte, martelas o dedo na 11ª casa (hammer-on). 5. **Slide final `11 / 13`:** Ainda dentro do mesmo fraseado ligado, deslisas da 11ª para a 13ª casa (slide ascendente).  A ideia geral é tocar essa sequência inteira articulando tudo com a mão esquerda (slides, hammer-ons e pull-offs), sem palhetar as notas do meio."
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 699,
+   "y": 61,
+   "significado": "Esse trecho é uma frase melódica rápida feita inteiramente na 3ª corda com articulações de ligados e slides.  O passo a passo da execução:  1. **Sustentação e slide inicial `(11) / 12`:** O `(11)` entre parênteses é uma nota que já vem ressoando do tempo anterior. Sem voltar a palhetar com a mão direita, deslisas o dedo da 11ª para a 12ª casa (slide ascendente). 2. **Slide descendente `12 \\ 11`:** Imediatamente a seguir, sem palhetar, deslisas de volta da 12ª para a 11ª casa. O arco longo por baixo de `(11)` até `11` confirma que todo este bloco inicial deve ser feito num único fluxo ligado. 3. **Pull-off `11` para `9`:** Com o arco pequeno por baixo, puxas o dedo da 11ª para a 9ª casa (pull-off), mantendo o som sem novo ataque da mão direita. 4. **Hammer-on `9` para `11`:** Com o arco seguinte, martelas o dedo na 11ª casa (hammer-on). 5. **Slide final `11 / 13`:** Ainda dentro do mesmo fraseado ligado, deslisas da 11ª para a 13ª casa (slide ascendente).  A ideia geral é tocar essa sequência inteira articulando tudo com a mão esquerda (slides, hammer-ons e pull-offs), sem palhetar as notas do meio."
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 731,
+   "y": 62,
+   "significado": "Esse trecho é uma frase melódica rápida feita inteiramente na 3ª corda com articulações de ligados e slides.  O passo a passo da execução:  1. **Sustentação e slide inicial `(11) / 12`:** O `(11)` entre parênteses é uma nota que já vem ressoando do tempo anterior. Sem voltar a palhetar com a mão direita, deslisas o dedo da 11ª para a 12ª casa (slide ascendente). 2. **Slide descendente `12 \\ 11`:** Imediatamente a seguir, sem palhetar, deslisas de volta da 12ª para a 11ª casa. O arco longo por baixo de `(11)` até `11` confirma que todo este bloco inicial deve ser feito num único fluxo ligado. 3. **Pull-off `11` para `9`:** Com o arco pequeno por baixo, puxas o dedo da 11ª para a 9ª casa (pull-off), mantendo o som sem novo ataque da mão direita. 4. **Hammer-on `9` para `11`:** Com o arco seguinte, martelas o dedo na 11ª casa (hammer-on). 5. **Slide final `11 / 13`:** Ainda dentro do mesmo fraseado ligado, deslisas da 11ª para a 13ª casa (slide ascendente).  A ideia geral é tocar essa sequência inteira articulando tudo com a mão esquerda (slides, hammer-ons e pull-offs), sem palhetar as notas do meio."
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 774,
+   "y": 63,
+   "significado": "Esse trecho é uma frase melódica rápida feita inteiramente na 3ª corda com articulações de ligados e slides.  O passo a passo da execução:  1. **Sustentação e slide inicial `(11) / 12`:** O `(11)` entre parênteses é uma nota que já vem ressoando do tempo anterior. Sem voltar a palhetar com a mão direita, deslisas o dedo da 11ª para a 12ª casa (slide ascendente). 2. **Slide descendente `12 \\ 11`:** Imediatamente a seguir, sem palhetar, deslisas de volta da 12ª para a 11ª casa. O arco longo por baixo de `(11)` até `11` confirma que todo este bloco inicial deve ser feito num único fluxo ligado. 3. **Pull-off `11` para `9`:** Com o arco pequeno por baixo, puxas o dedo da 11ª para a 9ª casa (pull-off), mantendo o som sem novo ataque da mão direita. 4. **Hammer-on `9` para `11`:** Com o arco seguinte, martelas o dedo na 11ª casa (hammer-on). 5. **Slide final `11 / 13`:** Ainda dentro do mesmo fraseado ligado, deslisas da 11ª para a 13ª casa (slide ascendente).  A ideia geral é tocar essa sequência inteira articulando tudo com a mão esquerda (slides, hammer-ons e pull-offs), sem palhetar as notas do meio."
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 767,
+   "y": 46,
+   "significado": "Esse trecho é uma frase melódica rápida feita inteiramente na 3ª corda com articulações de ligados e slides.  O passo a passo da execução:  1. **Sustentação e slide inicial `(11) / 12`:** O `(11)` entre parênteses é uma nota que já vem ressoando do tempo anterior. Sem voltar a palhetar com a mão direita, deslisas o dedo da 11ª para a 12ª casa (slide ascendente). 2. **Slide descendente `12 \\ 11`:** Imediatamente a seguir, sem palhetar, deslisas de volta da 12ª para a 11ª casa. O arco longo por baixo de `(11)` até `11` confirma que todo este bloco inicial deve ser feito num único fluxo ligado. 3. **Pull-off `11` para `9`:** Com o arco pequeno por baixo, puxas o dedo da 11ª para a 9ª casa (pull-off), mantendo o som sem novo ataque da mão direita. 4. **Hammer-on `9` para `11`:** Com o arco seguinte, martelas o dedo na 11ª casa (hammer-on). 5. **Slide final `11 / 13`:** Ainda dentro do mesmo fraseado ligado, deslisas da 11ª para a 13ª casa (slide ascendente).  A ideia geral é tocar essa sequência inteira articulando tudo com a mão esquerda (slides, hammer-ons e pull-offs), sem palhetar as notas do meio."
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 1105,
+   "y": 48,
+   "significado": "Este trecho traz uma combinação de nota sustentada no grave com uma articulação de **hammer-on** nas cordas superiores.  **Descrição visual e passo a passo na prática:**  1. **Ataque do bloco inicial:** Tocas em simultâneo a 5ª casa na 1ª corda, a corda solta (`0`) na 2ª corda e a nota `(6)` entre parênteses na 3ª corda (que já vem a ressoar do tempo anterior ou fica a soar como nota fantasma).   2. **Hammer-on de corda solta (`0` para `7`):** O arco por baixo liga a corda solta (`0` na 2ª corda) diretamente à 7ª casa na mesma corda. Isto significa que deves tocar a corda solta no primeiro ataque e, em seguida, martelar o dedo com firmeza na **7ª casa** (hammer-on), sem voltar a palhetar/atacar a corda com a mão direita.   3. **Sustentação do grave:** A nota `(6)` na 3ª corda mantém-se a soar em plano de fundo enquanto realizas a articulação nas cordas mais agudas."
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 1121,
+   "y": 33,
+   "significado": "Este trecho traz uma combinação de nota sustentada no grave com uma articulação de **hammer-on** nas cordas superiores.  **Descrição visual e passo a passo na prática:**  1. **Ataque do bloco inicial:** Tocas em simultâneo a 5ª casa na 1ª corda, a corda solta (`0`) na 2ª corda e a nota `(6)` entre parênteses na 3ª corda (que já vem a ressoar do tempo anterior ou fica a soar como nota fantasma).   2. **Hammer-on de corda solta (`0` para `7`):** O arco por baixo liga a corda solta (`0` na 2ª corda) diretamente à 7ª casa na mesma corda. Isto significa que deves tocar a corda solta no primeiro ataque e, em seguida, martelar o dedo com firmeza na **7ª casa** (hammer-on), sem voltar a palhetar/atacar a corda com a mão direita.   3. **Sustentação do grave:** A nota `(6)` na 3ª corda mantém-se a soar em plano de fundo enquanto realizas a articulação nas cordas mais agudas."
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 1289,
+   "y": 32,
+   "significado": "slide"
+  },
+  {
+   "imagem": "C15_serge kottelat.png",
+   "rotulo_imagem": "C15. serge kottelat | serge kottelat/mateus asato – good | t=0.65 | passo=15.0px",
+   "x": 1282,
+   "y": 49,
+   "significado": "arco de ligadura slide"
+  },
+  {
+   "imagem": "C16_shin izumi.png",
+   "rotulo_imagem": "C16. shin izumi | shin izumi/【tab】beauty and the bea | t=0.65 | passo=21.4px",
+   "x": 1066,
+   "y": 42,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C16_shin izumi.png",
+   "rotulo_imagem": "C16. shin izumi | shin izumi/【tab】beauty and the bea | t=0.65 | passo=21.4px",
+   "x": 67,
+   "y": 105,
+   "significado": "TAB TEXTO"
+  },
+  {
+   "imagem": "C17_shin izumi.png",
+   "rotulo_imagem": "C17. shin izumi | shin izumi/【tab】beauty and the bea | t=0.85 | passo=21.8px",
+   "x": 1439,
+   "y": 64,
+   "significado": "Este símbolo com um oval (ou círculo) a envolver todo o acorde indica um **harmónico natural em bloco** ou um **harmónico de toque (tapped harmonic / harmónico agrupado)**.  **Como funciona na prática:**  1. **Montagem do acorde:** Montas a posição do acorde no braço do violão com a mão esquerda nas respetivas casas (5ª casa na 5ª corda, 4ª casa na 4ª corda e 2ª casa na 3ª corda).   2. **Execução do harmónico:** Em vez de palhetares o acorde normalmente, deves fazer soar os harmónicos desse bloco.   * Na forma mais comum em peças solo (harmónicos de toque/tapped harmonics), a mão direita dá um golpe rápido (\"tap\") com a ponta do dedo indicador exatamente **12 casas acima** (nas casas 17, 16 e 14) sobre os trastes metálicos correspondentes.   * Alternativamente, em notação de harmónicos naturais em bloco, roças levemente com o lado do indicador da mão direita sobre o nó harmónico (geralmente 12 casas acima) e articulas as cordas com o polegar/dedos para produzir o som cristalino de todo o acorde em harmónico."
+  },
+  {
+   "imagem": "C17_shin izumi.png",
+   "rotulo_imagem": "C17. shin izumi | shin izumi/【tab】beauty and the bea | t=0.85 | passo=21.8px",
+   "x": 1436,
+   "y": 82,
+   "significado": "Este símbolo com um oval (ou círculo) a envolver todo o acorde indica um **harmónico natural em bloco** ou um **harmónico de toque (tapped harmonic / harmónico agrupado)**.  **Como funciona na prática:**  1. **Montagem do acorde:** Montas a posição do acorde no braço do violão com a mão esquerda nas respetivas casas (5ª casa na 5ª corda, 4ª casa na 4ª corda e 2ª casa na 3ª corda).   2. **Execução do harmónico:** Em vez de palhetares o acorde normalmente, deves fazer soar os harmónicos desse bloco.   * Na forma mais comum em peças solo (harmónicos de toque/tapped harmonics), a mão direita dá um golpe rápido (\"tap\") com a ponta do dedo indicador exatamente **12 casas acima** (nas casas 17, 16 e 14) sobre os trastes metálicos correspondentes.   * Alternativamente, em notação de harmónicos naturais em bloco, roças levemente com o lado do indicador da mão direita sobre o nó harmónico (geralmente 12 casas acima) e articulas as cordas com o polegar/dedos para produzir o som cristalino de todo o acorde em harmónico."
+  },
+  {
+   "imagem": "C17_shin izumi.png",
+   "rotulo_imagem": "C17. shin izumi | shin izumi/【tab】beauty and the bea | t=0.85 | passo=21.8px",
+   "x": 1439,
+   "y": 107,
+   "significado": "Este símbolo com um oval (ou círculo) a envolver todo o acorde indica um **harmónico natural em bloco** ou um **harmónico de toque (tapped harmonic / harmónico agrupado)**.  **Como funciona na prática:**  1. **Montagem do acorde:** Montas a posição do acorde no braço do violão com a mão esquerda nas respetivas casas (5ª casa na 5ª corda, 4ª casa na 4ª corda e 2ª casa na 3ª corda).   2. **Execução do harmónico:** Em vez de palhetares o acorde normalmente, deves fazer soar os harmónicos desse bloco.   * Na forma mais comum em peças solo (harmónicos de toque/tapped harmonics), a mão direita dá um golpe rápido (\"tap\") com a ponta do dedo indicador exatamente **12 casas acima** (nas casas 17, 16 e 14) sobre os trastes metálicos correspondentes.   * Alternativamente, em notação de harmónicos naturais em bloco, roças levemente com o lado do indicador da mão direita sobre o nó harmónico (geralmente 12 casas acima) e articulas as cordas com o polegar/dedos para produzir o som cristalino de todo o acorde em harmónico."
+  },
+  {
+   "imagem": "C18_sky guitar.png",
+   "rotulo_imagem": "C18. sky guitar | sky guitar/ghostbusters - fingerst | t=0.65 | passo=24.4px",
+   "x": 294,
+   "y": 62,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C18_sky guitar.png",
+   "rotulo_imagem": "C18. sky guitar | sky guitar/ghostbusters - fingerst | t=0.65 | passo=24.4px",
+   "x": 792,
+   "y": 91,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C18_sky guitar.png",
+   "rotulo_imagem": "C18. sky guitar | sky guitar/ghostbusters - fingerst | t=0.65 | passo=24.4px",
+   "x": 1330,
+   "y": 31,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C18_sky guitar.png",
+   "rotulo_imagem": "C18. sky guitar | sky guitar/ghostbusters - fingerst | t=0.65 | passo=24.4px",
+   "x": 1438,
+   "y": 55,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C19_sky guitar.png",
+   "rotulo_imagem": "C19. sky guitar | sky guitar/ghostbusters - fingerst | t=0.85 | passo=24.4px",
+   "x": 411,
+   "y": 143,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C19_sky guitar.png",
+   "rotulo_imagem": "C19. sky guitar | sky guitar/ghostbusters - fingerst | t=0.85 | passo=24.4px",
+   "x": 953,
+   "y": 144,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C19_sky guitar.png",
+   "rotulo_imagem": "C19. sky guitar | sky guitar/ghostbusters - fingerst | t=0.85 | passo=24.4px",
+   "x": 1517,
+   "y": 143,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 1241,
+   "y": 44,
+   "significado": "cordas abafadas"
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 967,
+   "y": 53,
+   "significado": "cordas abafadas"
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 1513,
+   "y": 66,
+   "significado": "cordas abafadas"
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 1780,
+   "y": 67,
+   "significado": "cordas abafadas"
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 51,
+   "y": 59,
+   "significado": "Estes símbolos parecem uns \"Z\" ou \"3\" estilizados e representam **pausas de semínima** (pausas de 1 tempo cada).  **Descrição e aplicação prática:**  * **Pausa de Semínima:** Cada um destes símbolos equivale a **1 tempo de silêncio absoluto**. * **Contagem dos compassos:** Como a partitura está num compasso de métrica ternária (ex.: 3/4), ves 3 pausas em cada compasso (49, 50, 51 e 52). Isto significa que cada compasso tem 3 tempos cheios de silêncio (1 + 1 + 1 = 3 tempos). * **Execução:** Nesses compassos, o violão/guitarra fica completamente em silêncio. Não deves tocar nenhuma nota nem deixar cordas a ressoar durante esses 4 compassos inteiros. * **Barra dupla no compasso 52:** A linha vertical dupla entre o compasso 51 e o 52 indica uma transição de seção na música (uma nova parte que começa ou mudança de ritmo/tom)."
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 105,
+   "y": 67,
+   "significado": "Estes símbolos parecem uns \"Z\" ou \"3\" estilizados e representam **pausas de semínima** (pausas de 1 tempo cada).  **Descrição e aplicação prática:**  * **Pausa de Semínima:** Cada um destes símbolos equivale a **1 tempo de silêncio absoluto**. * **Contagem dos compassos:** Como a partitura está num compasso de métrica ternária (ex.: 3/4), ves 3 pausas em cada compasso (49, 50, 51 e 52). Isto significa que cada compasso tem 3 tempos cheios de silêncio (1 + 1 + 1 = 3 tempos). * **Execução:** Nesses compassos, o violão/guitarra fica completamente em silêncio. Não deves tocar nenhuma nota nem deixar cordas a ressoar durante esses 4 compassos inteiros. * **Barra dupla no compasso 52:** A linha vertical dupla entre o compasso 51 e o 52 indica uma transição de seção na música (uma nova parte que começa ou mudança de ritmo/tom)."
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 151,
+   "y": 60,
+   "significado": "Estes símbolos parecem uns \"Z\" ou \"3\" estilizados e representam **pausas de semínima** (pausas de 1 tempo cada).  **Descrição e aplicação prática:**  * **Pausa de Semínima:** Cada um destes símbolos equivale a **1 tempo de silêncio absoluto**. * **Contagem dos compassos:** Como a partitura está num compasso de métrica ternária (ex.: 3/4), ves 3 pausas em cada compasso (49, 50, 51 e 52). Isto significa que cada compasso tem 3 tempos cheios de silêncio (1 + 1 + 1 = 3 tempos). * **Execução:** Nesses compassos, o violão/guitarra fica completamente em silêncio. Não deves tocar nenhuma nota nem deixar cordas a ressoar durante esses 4 compassos inteiros. * **Barra dupla no compasso 52:** A linha vertical dupla entre o compasso 51 e o 52 indica uma transição de seção na música (uma nova parte que começa ou mudança de ritmo/tom)."
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 247,
+   "y": 71,
+   "significado": "Estes símbolos parecem uns \"Z\" ou \"3\" estilizados e representam **pausas de semínima** (pausas de 1 tempo cada).  **Descrição e aplicação prática:**  * **Pausa de Semínima:** Cada um destes símbolos equivale a **1 tempo de silêncio absoluto**. * **Contagem dos compassos:** Como a partitura está num compasso de métrica ternária (ex.: 3/4), ves 3 pausas em cada compasso (49, 50, 51 e 52). Isto significa que cada compasso tem 3 tempos cheios de silêncio (1 + 1 + 1 = 3 tempos). * **Execução:** Nesses compassos, o violão/guitarra fica completamente em silêncio. Não deves tocar nenhuma nota nem deixar cordas a ressoar durante esses 4 compassos inteiros. * **Barra dupla no compasso 52:** A linha vertical dupla entre o compasso 51 e o 52 indica uma transição de seção na música (uma nova parte que começa ou mudança de ritmo/tom)."
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 312,
+   "y": 70,
+   "significado": "Estes símbolos parecem uns \"Z\" ou \"3\" estilizados e representam **pausas de semínima** (pausas de 1 tempo cada).  **Descrição e aplicação prática:**  * **Pausa de Semínima:** Cada um destes símbolos equivale a **1 tempo de silêncio absoluto**. * **Contagem dos compassos:** Como a partitura está num compasso de métrica ternária (ex.: 3/4), ves 3 pausas em cada compasso (49, 50, 51 e 52). Isto significa que cada compasso tem 3 tempos cheios de silêncio (1 + 1 + 1 = 3 tempos). * **Execução:** Nesses compassos, o violão/guitarra fica completamente em silêncio. Não deves tocar nenhuma nota nem deixar cordas a ressoar durante esses 4 compassos inteiros. * **Barra dupla no compasso 52:** A linha vertical dupla entre o compasso 51 e o 52 indica uma transição de seção na música (uma nova parte que começa ou mudança de ritmo/tom)."
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 357,
+   "y": 66,
+   "significado": "Estes símbolos parecem uns \"Z\" ou \"3\" estilizados e representam **pausas de semínima** (pausas de 1 tempo cada).  **Descrição e aplicação prática:**  * **Pausa de Semínima:** Cada um destes símbolos equivale a **1 tempo de silêncio absoluto**. * **Contagem dos compassos:** Como a partitura está num compasso de métrica ternária (ex.: 3/4), ves 3 pausas em cada compasso (49, 50, 51 e 52). Isto significa que cada compasso tem 3 tempos cheios de silêncio (1 + 1 + 1 = 3 tempos). * **Execução:** Nesses compassos, o violão/guitarra fica completamente em silêncio. Não deves tocar nenhuma nota nem deixar cordas a ressoar durante esses 4 compassos inteiros. * **Barra dupla no compasso 52:** A linha vertical dupla entre o compasso 51 e o 52 indica uma transição de seção na música (uma nova parte que começa ou mudança de ritmo/tom)."
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 447,
+   "y": 62,
+   "significado": "Estes símbolos parecem uns \"Z\" ou \"3\" estilizados e representam **pausas de semínima** (pausas de 1 tempo cada).  **Descrição e aplicação prática:**  * **Pausa de Semínima:** Cada um destes símbolos equivale a **1 tempo de silêncio absoluto**. * **Contagem dos compassos:** Como a partitura está num compasso de métrica ternária (ex.: 3/4), ves 3 pausas em cada compasso (49, 50, 51 e 52). Isto significa que cada compasso tem 3 tempos cheios de silêncio (1 + 1 + 1 = 3 tempos). * **Execução:** Nesses compassos, o violão/guitarra fica completamente em silêncio. Não deves tocar nenhuma nota nem deixar cordas a ressoar durante esses 4 compassos inteiros. * **Barra dupla no compasso 52:** A linha vertical dupla entre o compasso 51 e o 52 indica uma transição de seção na música (uma nova parte que começa ou mudança de ritmo/tom)."
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 509,
+   "y": 63,
+   "significado": "Estes símbolos parecem uns \"Z\" ou \"3\" estilizados e representam **pausas de semínima** (pausas de 1 tempo cada).  **Descrição e aplicação prática:**  * **Pausa de Semínima:** Cada um destes símbolos equivale a **1 tempo de silêncio absoluto**. * **Contagem dos compassos:** Como a partitura está num compasso de métrica ternária (ex.: 3/4), ves 3 pausas em cada compasso (49, 50, 51 e 52). Isto significa que cada compasso tem 3 tempos cheios de silêncio (1 + 1 + 1 = 3 tempos). * **Execução:** Nesses compassos, o violão/guitarra fica completamente em silêncio. Não deves tocar nenhuma nota nem deixar cordas a ressoar durante esses 4 compassos inteiros. * **Barra dupla no compasso 52:** A linha vertical dupla entre o compasso 51 e o 52 indica uma transição de seção na música (uma nova parte que começa ou mudança de ritmo/tom)."
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 555,
+   "y": 66,
+   "significado": "Estes símbolos parecem uns \"Z\" ou \"3\" estilizados e representam **pausas de semínima** (pausas de 1 tempo cada).  **Descrição e aplicação prática:**  * **Pausa de Semínima:** Cada um destes símbolos equivale a **1 tempo de silêncio absoluto**. * **Contagem dos compassos:** Como a partitura está num compasso de métrica ternária (ex.: 3/4), ves 3 pausas em cada compasso (49, 50, 51 e 52). Isto significa que cada compasso tem 3 tempos cheios de silêncio (1 + 1 + 1 = 3 tempos). * **Execução:** Nesses compassos, o violão/guitarra fica completamente em silêncio. Não deves tocar nenhuma nota nem deixar cordas a ressoar durante esses 4 compassos inteiros. * **Barra dupla no compasso 52:** A linha vertical dupla entre o compasso 51 e o 52 indica uma transição de seção na música (uma nova parte que começa ou mudança de ritmo/tom)."
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 655,
+   "y": 66,
+   "significado": "Estes símbolos parecem uns \"Z\" ou \"3\" estilizados e representam **pausas de semínima** (pausas de 1 tempo cada).  **Descrição e aplicação prática:**  * **Pausa de Semínima:** Cada um destes símbolos equivale a **1 tempo de silêncio absoluto**. * **Contagem dos compassos:** Como a partitura está num compasso de métrica ternária (ex.: 3/4), ves 3 pausas em cada compasso (49, 50, 51 e 52). Isto significa que cada compasso tem 3 tempos cheios de silêncio (1 + 1 + 1 = 3 tempos). * **Execução:** Nesses compassos, o violão/guitarra fica completamente em silêncio. Não deves tocar nenhuma nota nem deixar cordas a ressoar durante esses 4 compassos inteiros. * **Barra dupla no compasso 52:** A linha vertical dupla entre o compasso 51 e o 52 indica uma transição de seção na música (uma nova parte que começa ou mudança de ritmo/tom)."
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 702,
+   "y": 64,
+   "significado": "Estes símbolos parecem uns \"Z\" ou \"3\" estilizados e representam **pausas de semínima** (pausas de 1 tempo cada).  **Descrição e aplicação prática:**  * **Pausa de Semínima:** Cada um destes símbolos equivale a **1 tempo de silêncio absoluto**. * **Contagem dos compassos:** Como a partitura está num compasso de métrica ternária (ex.: 3/4), ves 3 pausas em cada compasso (49, 50, 51 e 52). Isto significa que cada compasso tem 3 tempos cheios de silêncio (1 + 1 + 1 = 3 tempos). * **Execução:** Nesses compassos, o violão/guitarra fica completamente em silêncio. Não deves tocar nenhuma nota nem deixar cordas a ressoar durante esses 4 compassos inteiros. * **Barra dupla no compasso 52:** A linha vertical dupla entre o compasso 51 e o 52 indica uma transição de seção na música (uma nova parte que começa ou mudança de ritmo/tom)."
+  },
+  {
+   "imagem": "C20_transcriptor.png",
+   "rotulo_imagem": "C20. transcriptor | transcriptor/inti illimani - inti  | t=0.85 | passo=21.4px",
+   "x": 760,
+   "y": 61,
+   "significado": "Estes símbolos parecem uns \"Z\" ou \"3\" estilizados e representam **pausas de semínima** (pausas de 1 tempo cada).  **Descrição e aplicação prática:**  * **Pausa de Semínima:** Cada um destes símbolos equivale a **1 tempo de silêncio absoluto**. * **Contagem dos compassos:** Como a partitura está num compasso de métrica ternária (ex.: 3/4), ves 3 pausas em cada compasso (49, 50, 51 e 52). Isto significa que cada compasso tem 3 tempos cheios de silêncio (1 + 1 + 1 = 3 tempos). * **Execução:** Nesses compassos, o violão/guitarra fica completamente em silêncio. Não deves tocar nenhuma nota nem deixar cordas a ressoar durante esses 4 compassos inteiros. * **Barra dupla no compasso 52:** A linha vertical dupla entre o compasso 51 e o 52 indica uma transição de seção na música (uma nova parte que começa ou mudança de ritmo/tom)."
+  },
+  {
+   "imagem": "C22_tv on guitar.png",
+   "rotulo_imagem": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px",
+   "x": 734,
+   "y": 13,
+   "significado": "slide"
+  },
+  {
+   "imagem": "C22_tv on guitar.png",
+   "rotulo_imagem": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px",
+   "x": 715,
+   "y": 1,
+   "significado": "arco de ligadura de slide"
+  },
+  {
+   "imagem": "C22_tv on guitar.png",
+   "rotulo_imagem": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px",
+   "x": 1183,
+   "y": 51,
+   "significado": "arpejo"
+  },
+  {
+   "imagem": "C22_tv on guitar.png",
+   "rotulo_imagem": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px",
+   "x": 1486,
+   "y": 27,
+   "significado": "arpejo"
+  },
+  {
+   "imagem": "C22_tv on guitar.png",
+   "rotulo_imagem": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px",
+   "x": 1554,
+   "y": 63,
+   "significado": "Este trecho mostra um padrão de dedilhado com **hammer-ons a partir de cordas soltas** intercalado com notas soltas nos agudos.  **Execução passo a passo na prática:**  1. **Os blocos de Hammer-on duplo (`0` para `2` e `0` para `3`):** * Repara nos arcos pequenos a vir da esquerda em direção às notas `2` (na 4ª corda) e `3` (na 5ª corda), acompanhados por cordas soltas `0` nas cordas superiores (1ª e 2ª cordas). * **Como tocar:** Tocas o bloco com as cordas soltas e martelas simultaneamente os dedos da mão esquerda na **5ª corda (3ª casa)** e na **4ª corda (2ª casa)** (hammer-on duplo), sem voltar a atacar essas cordas no grave.   2. **Repetição da figura:** * Esse movimento repete-se 3 vezes seguidas: ataque inicial com cordas soltas agudas e **hammer-on imediato para a posição do acorde** (`3` na 5ª corda e `2` na 4ª corda).   3. **Passagem no meio (`0-0` / `0-0`):** * Entre as repetições, há um ataque direto apenas nas cordas soltas agudas (1ª e 2ª cordas no `0`), mantendo o ritmo fluido.   4. **Retorno ao Hammer-on:** * No final da imagem, a figura repete-se mais uma vez com o hammer-on duplo para o `3` e o `2`."
+  },
+  {
+   "imagem": "C22_tv on guitar.png",
+   "rotulo_imagem": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px",
+   "x": 1555,
+   "y": 77,
+   "significado": "Este trecho mostra um padrão de dedilhado com **hammer-ons a partir de cordas soltas** intercalado com notas soltas nos agudos.  **Execução passo a passo na prática:**  1. **Os blocos de Hammer-on duplo (`0` para `2` e `0` para `3`):** * Repara nos arcos pequenos a vir da esquerda em direção às notas `2` (na 4ª corda) e `3` (na 5ª corda), acompanhados por cordas soltas `0` nas cordas superiores (1ª e 2ª cordas). * **Como tocar:** Tocas o bloco com as cordas soltas e martelas simultaneamente os dedos da mão esquerda na **5ª corda (3ª casa)** e na **4ª corda (2ª casa)** (hammer-on duplo), sem voltar a atacar essas cordas no grave.   2. **Repetição da figura:** * Esse movimento repete-se 3 vezes seguidas: ataque inicial com cordas soltas agudas e **hammer-on imediato para a posição do acorde** (`3` na 5ª corda e `2` na 4ª corda).   3. **Passagem no meio (`0-0` / `0-0`):** * Entre as repetições, há um ataque direto apenas nas cordas soltas agudas (1ª e 2ª cordas no `0`), mantendo o ritmo fluido.   4. **Retorno ao Hammer-on:** * No final da imagem, a figura repete-se mais uma vez com o hammer-on duplo para o `3` e o `2`."
+  },
+  {
+   "imagem": "C22_tv on guitar.png",
+   "rotulo_imagem": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px",
+   "x": 1626,
+   "y": 64,
+   "significado": "Este trecho mostra um padrão de dedilhado com **hammer-ons a partir de cordas soltas** intercalado com notas soltas nos agudos.  **Execução passo a passo na prática:**  1. **Os blocos de Hammer-on duplo (`0` para `2` e `0` para `3`):** * Repara nos arcos pequenos a vir da esquerda em direção às notas `2` (na 4ª corda) e `3` (na 5ª corda), acompanhados por cordas soltas `0` nas cordas superiores (1ª e 2ª cordas). * **Como tocar:** Tocas o bloco com as cordas soltas e martelas simultaneamente os dedos da mão esquerda na **5ª corda (3ª casa)** e na **4ª corda (2ª casa)** (hammer-on duplo), sem voltar a atacar essas cordas no grave.   2. **Repetição da figura:** * Esse movimento repete-se 3 vezes seguidas: ataque inicial com cordas soltas agudas e **hammer-on imediato para a posição do acorde** (`3` na 5ª corda e `2` na 4ª corda).   3. **Passagem no meio (`0-0` / `0-0`):** * Entre as repetições, há um ataque direto apenas nas cordas soltas agudas (1ª e 2ª cordas no `0`), mantendo o ritmo fluido.   4. **Retorno ao Hammer-on:** * No final da imagem, a figura repete-se mais uma vez com o hammer-on duplo para o `3` e o `2`."
+  },
+  {
+   "imagem": "C22_tv on guitar.png",
+   "rotulo_imagem": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px",
+   "x": 1623,
+   "y": 75,
+   "significado": "Este trecho mostra um padrão de dedilhado com **hammer-ons a partir de cordas soltas** intercalado com notas soltas nos agudos.  **Execução passo a passo na prática:**  1. **Os blocos de Hammer-on duplo (`0` para `2` e `0` para `3`):** * Repara nos arcos pequenos a vir da esquerda em direção às notas `2` (na 4ª corda) e `3` (na 5ª corda), acompanhados por cordas soltas `0` nas cordas superiores (1ª e 2ª cordas). * **Como tocar:** Tocas o bloco com as cordas soltas e martelas simultaneamente os dedos da mão esquerda na **5ª corda (3ª casa)** e na **4ª corda (2ª casa)** (hammer-on duplo), sem voltar a atacar essas cordas no grave.   2. **Repetição da figura:** * Esse movimento repete-se 3 vezes seguidas: ataque inicial com cordas soltas agudas e **hammer-on imediato para a posição do acorde** (`3` na 5ª corda e `2` na 4ª corda).   3. **Passagem no meio (`0-0` / `0-0`):** * Entre as repetições, há um ataque direto apenas nas cordas soltas agudas (1ª e 2ª cordas no `0`), mantendo o ritmo fluido.   4. **Retorno ao Hammer-on:** * No final da imagem, a figura repete-se mais uma vez com o hammer-on duplo para o `3` e o `2`."
+  },
+  {
+   "imagem": "C22_tv on guitar.png",
+   "rotulo_imagem": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px",
+   "x": 1682,
+   "y": 63,
+   "significado": "Este trecho mostra um padrão de dedilhado com **hammer-ons a partir de cordas soltas** intercalado com notas soltas nos agudos.  **Execução passo a passo na prática:**  1. **Os blocos de Hammer-on duplo (`0` para `2` e `0` para `3`):** * Repara nos arcos pequenos a vir da esquerda em direção às notas `2` (na 4ª corda) e `3` (na 5ª corda), acompanhados por cordas soltas `0` nas cordas superiores (1ª e 2ª cordas). * **Como tocar:** Tocas o bloco com as cordas soltas e martelas simultaneamente os dedos da mão esquerda na **5ª corda (3ª casa)** e na **4ª corda (2ª casa)** (hammer-on duplo), sem voltar a atacar essas cordas no grave.   2. **Repetição da figura:** * Esse movimento repete-se 3 vezes seguidas: ataque inicial com cordas soltas agudas e **hammer-on imediato para a posição do acorde** (`3` na 5ª corda e `2` na 4ª corda).   3. **Passagem no meio (`0-0` / `0-0`):** * Entre as repetições, há um ataque direto apenas nas cordas soltas agudas (1ª e 2ª cordas no `0`), mantendo o ritmo fluido.   4. **Retorno ao Hammer-on:** * No final da imagem, a figura repete-se mais uma vez com o hammer-on duplo para o `3` e o `2`."
+  },
+  {
+   "imagem": "C22_tv on guitar.png",
+   "rotulo_imagem": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px",
+   "x": 1681,
+   "y": 78,
+   "significado": "Este trecho mostra um padrão de dedilhado com **hammer-ons a partir de cordas soltas** intercalado com notas soltas nos agudos.  **Execução passo a passo na prática:**  1. **Os blocos de Hammer-on duplo (`0` para `2` e `0` para `3`):** * Repara nos arcos pequenos a vir da esquerda em direção às notas `2` (na 4ª corda) e `3` (na 5ª corda), acompanhados por cordas soltas `0` nas cordas superiores (1ª e 2ª cordas). * **Como tocar:** Tocas o bloco com as cordas soltas e martelas simultaneamente os dedos da mão esquerda na **5ª corda (3ª casa)** e na **4ª corda (2ª casa)** (hammer-on duplo), sem voltar a atacar essas cordas no grave.   2. **Repetição da figura:** * Esse movimento repete-se 3 vezes seguidas: ataque inicial com cordas soltas agudas e **hammer-on imediato para a posição do acorde** (`3` na 5ª corda e `2` na 4ª corda).   3. **Passagem no meio (`0-0` / `0-0`):** * Entre as repetições, há um ataque direto apenas nas cordas soltas agudas (1ª e 2ª cordas no `0`), mantendo o ritmo fluido.   4. **Retorno ao Hammer-on:** * No final da imagem, a figura repete-se mais uma vez com o hammer-on duplo para o `3` e o `2`."
+  },
+  {
+   "imagem": "C22_tv on guitar.png",
+   "rotulo_imagem": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px",
+   "x": 1798,
+   "y": 63,
+   "significado": "Este trecho mostra um padrão de dedilhado com **hammer-ons a partir de cordas soltas** intercalado com notas soltas nos agudos.  **Execução passo a passo na prática:**  1. **Os blocos de Hammer-on duplo (`0` para `2` e `0` para `3`):** * Repara nos arcos pequenos a vir da esquerda em direção às notas `2` (na 4ª corda) e `3` (na 5ª corda), acompanhados por cordas soltas `0` nas cordas superiores (1ª e 2ª cordas). * **Como tocar:** Tocas o bloco com as cordas soltas e martelas simultaneamente os dedos da mão esquerda na **5ª corda (3ª casa)** e na **4ª corda (2ª casa)** (hammer-on duplo), sem voltar a atacar essas cordas no grave.   2. **Repetição da figura:** * Esse movimento repete-se 3 vezes seguidas: ataque inicial com cordas soltas agudas e **hammer-on imediato para a posição do acorde** (`3` na 5ª corda e `2` na 4ª corda).   3. **Passagem no meio (`0-0` / `0-0`):** * Entre as repetições, há um ataque direto apenas nas cordas soltas agudas (1ª e 2ª cordas no `0`), mantendo o ritmo fluido.   4. **Retorno ao Hammer-on:** * No final da imagem, a figura repete-se mais uma vez com o hammer-on duplo para o `3` e o `2`."
+  },
+  {
+   "imagem": "C22_tv on guitar.png",
+   "rotulo_imagem": "C22. tv on guitar | tv on guitar/athletic theme (from  | t=0.65 | passo=14.6px",
+   "x": 1802,
+   "y": 80,
+   "significado": "Este trecho mostra um padrão de dedilhado com **hammer-ons a partir de cordas soltas** intercalado com notas soltas nos agudos.  **Execução passo a passo na prática:**  1. **Os blocos de Hammer-on duplo (`0` para `2` e `0` para `3`):** * Repara nos arcos pequenos a vir da esquerda em direção às notas `2` (na 4ª corda) e `3` (na 5ª corda), acompanhados por cordas soltas `0` nas cordas superiores (1ª e 2ª cordas). * **Como tocar:** Tocas o bloco com as cordas soltas e martelas simultaneamente os dedos da mão esquerda na **5ª corda (3ª casa)** e na **4ª corda (2ª casa)** (hammer-on duplo), sem voltar a atacar essas cordas no grave.   2. **Repetição da figura:** * Esse movimento repete-se 3 vezes seguidas: ataque inicial com cordas soltas agudas e **hammer-on imediato para a posição do acorde** (`3` na 5ª corda e `2` na 4ª corda).   3. **Passagem no meio (`0-0` / `0-0`):** * Entre as repetições, há um ataque direto apenas nas cordas soltas agudas (1ª e 2ª cordas no `0`), mantendo o ritmo fluido.   4. **Retorno ao Hammer-on:** * No final da imagem, a figura repete-se mais uma vez com o hammer-on duplo para o `3` e o `2`."
+  },
+  {
+   "imagem": "C23_tv on guitar.png",
+   "rotulo_imagem": "C23. tv on guitar | tv on guitar/athletic theme (from  | t=0.85 | passo=14.2px",
+   "x": 68,
+   "y": 47,
+   "significado": "ritornelo"
+  },
+  {
+   "imagem": "C23_tv on guitar.png",
+   "rotulo_imagem": "C23. tv on guitar | tv on guitar/athletic theme (from  | t=0.85 | passo=14.2px",
+   "x": 410,
+   "y": 34,
+   "significado": "arpejo"
+  },
+  {
+   "imagem": "C23_tv on guitar.png",
+   "rotulo_imagem": "C23. tv on guitar | tv on guitar/athletic theme (from  | t=0.85 | passo=14.2px",
+   "x": 1111,
+   "y": 10,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C23_tv on guitar.png",
+   "rotulo_imagem": "C23. tv on guitar | tv on guitar/athletic theme (from  | t=0.85 | passo=14.2px",
+   "x": 1210,
+   "y": 63,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C23_tv on guitar.png",
+   "rotulo_imagem": "C23. tv on guitar | tv on guitar/athletic theme (from  | t=0.85 | passo=14.2px",
+   "x": 1518,
+   "y": 9,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C23_tv on guitar.png",
+   "rotulo_imagem": "C23. tv on guitar | tv on guitar/athletic theme (from  | t=0.85 | passo=14.2px",
+   "x": 1758,
+   "y": 28,
+   "significado": "slide off"
+  },
+  {
+   "imagem": "C23_tv on guitar.png",
+   "rotulo_imagem": "C23. tv on guitar | tv on guitar/athletic theme (from  | t=0.85 | passo=14.2px",
+   "x": 1760,
+   "y": 53,
+   "significado": "slide off"
+  },
+  {
+   "imagem": "C23_tv on guitar.png",
+   "rotulo_imagem": "C23. tv on guitar | tv on guitar/athletic theme (from  | t=0.85 | passo=14.2px",
+   "x": 1758,
+   "y": 86,
+   "significado": "slide off"
+  },
+  {
+   "imagem": "C23_tv on guitar.png",
+   "rotulo_imagem": "C23. tv on guitar | tv on guitar/athletic theme (from  | t=0.85 | passo=14.2px",
+   "x": 1860,
+   "y": 74,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C23_tv on guitar.png",
+   "rotulo_imagem": "C23. tv on guitar | tv on guitar/athletic theme (from  | t=0.85 | passo=14.2px",
+   "x": 1815,
+   "y": 50,
+   "significado": "ritornelo"
+  },
+  {
+   "imagem": "C24_violaodecria.png",
+   "rotulo_imagem": "C24. violaodecria | violaodecria/solto - djonga pt hot | t=0.65 | passo=59.2px",
+   "x": 865,
+   "y": 362,
+   "significado": "h -> hammer on"
+  },
+  {
+   "imagem": "C24_violaodecria.png",
+   "rotulo_imagem": "C24. violaodecria | violaodecria/solto - djonga pt hot | t=0.65 | passo=59.2px",
+   "x": 180,
+   "y": 83,
+   "significado": "nota musical atual"
+  },
+  {
+   "imagem": "C24_violaodecria.png",
+   "rotulo_imagem": "C24. violaodecria | violaodecria/solto - djonga pt hot | t=0.65 | passo=59.2px",
+   "x": 595,
+   "y": 82,
+   "significado": "nota musical atual"
+  },
+  {
+   "imagem": "C25_violaodecria.png",
+   "rotulo_imagem": "C25. violaodecria | violaodecria/solto - djonga pt hot | t=0.85 | passo=59.2px",
+   "x": 860,
+   "y": 360,
+   "significado": "h -> hammer on"
+  },
+  {
+   "imagem": "C25_violaodecria.png",
+   "rotulo_imagem": "C25. violaodecria | violaodecria/solto - djonga pt hot | t=0.85 | passo=59.2px",
+   "x": 181,
+   "y": 85,
+   "significado": "nota musical atual"
+  },
+  {
+   "imagem": "C25_violaodecria.png",
+   "rotulo_imagem": "C25. violaodecria | violaodecria/solto - djonga pt hot | t=0.85 | passo=59.2px",
+   "x": 599,
+   "y": 85,
+   "significado": "nota musical atual"
+  },
+  {
+   "imagem": "C26_ギタロー ⧸ guitarous.png",
+   "rotulo_imagem": "C26. ギタロー ⧸ guitarous | ギタロー ⧸ guitarous/海の見える街 ソロギター 初心者向 | t=0.65 | passo=15.4px",
+   "x": 304,
+   "y": 15,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C26_ギタロー ⧸ guitarous.png",
+   "rotulo_imagem": "C26. ギタロー ⧸ guitarous | ギタロー ⧸ guitarous/海の見える街 ソロギター 初心者向 | t=0.65 | passo=15.4px",
+   "x": 895,
+   "y": 29,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C26_ギタロー ⧸ guitarous.png",
+   "rotulo_imagem": "C26. ギタロー ⧸ guitarous | ギタロー ⧸ guitarous/海の見える街 ソロギター 初心者向 | t=0.65 | passo=15.4px",
+   "x": 1148,
+   "y": 28,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "C26_ギタロー ⧸ guitarous.png",
+   "rotulo_imagem": "C26. ギタロー ⧸ guitarous | ギタロー ⧸ guitarous/海の見える街 ソロギター 初心者向 | t=0.65 | passo=15.4px",
+   "x": 1007,
+   "y": 44,
+   "significado": "Este trecho mostra um **acorde/bicorde sustentado (ligadura de valor/prolongamento)** em três cordas.  **Como executar na prática:**  1. **Ataque do acorde:** Tocas em simultâneo o bloco formado pela **3ª casa** na 2ª corda, **2ª casa** na 3ª corda e a **4ª corda solta (`0`)**.   2. **Sustentação (Arcos para a direita):** Os três arcos curvos que saem de cada uma das notas em direção ao tempo/compasso seguinte indicam que deves apenas **deixar o som do acorde a ressoar** (prolongar a vibração das cordas), sem voltar a atacar ou palhetar com a mão direita."
+  },
+  {
+   "imagem": "C26_ギタロー ⧸ guitarous.png",
+   "rotulo_imagem": "C26. ギタロー ⧸ guitarous | ギタロー ⧸ guitarous/海の見える街 ソロギター 初心者向 | t=0.65 | passo=15.4px",
+   "x": 1010,
+   "y": 63,
+   "significado": "Este trecho mostra um **acorde/bicorde sustentado (ligadura de valor/prolongamento)** em três cordas.  **Como executar na prática:**  1. **Ataque do acorde:** Tocas em simultâneo o bloco formado pela **3ª casa** na 2ª corda, **2ª casa** na 3ª corda e a **4ª corda solta (`0`)**.   2. **Sustentação (Arcos para a direita):** Os três arcos curvos que saem de cada uma das notas em direção ao tempo/compasso seguinte indicam que deves apenas **deixar o som do acorde a ressoar** (prolongar a vibração das cordas), sem voltar a atacar ou palhetar com a mão direita."
+  },
+  {
+   "imagem": "C26_ギタロー ⧸ guitarous.png",
+   "rotulo_imagem": "C26. ギタロー ⧸ guitarous | ギタロー ⧸ guitarous/海の見える街 ソロギター 初心者向 | t=0.65 | passo=15.4px",
+   "x": 1012,
+   "y": 82,
+   "significado": "Este trecho mostra um **acorde/bicorde sustentado (ligadura de valor/prolongamento)** em três cordas.  **Como executar na prática:**  1. **Ataque do acorde:** Tocas em simultâneo o bloco formado pela **3ª casa** na 2ª corda, **2ª casa** na 3ª corda e a **4ª corda solta (`0`)**.   2. **Sustentação (Arcos para a direita):** Os três arcos curvos que saem de cada uma das notas em direção ao tempo/compasso seguinte indicam que deves apenas **deixar o som do acorde a ressoar** (prolongar a vibração das cordas), sem voltar a atacar ou palhetar com a mão direita."
+  },
+  {
+   "imagem": "C27_ギタロー ⧸ guitarous.png",
+   "rotulo_imagem": "C27. ギタロー ⧸ guitarous | ギタロー ⧸ guitarous/海の見える街 ソロギター 初心者向 | t=0.85 | passo=15.4px",
+   "x": 89,
+   "y": 35,
+   "significado": "compasso da musica 4/4"
+  },
+  {
+   "imagem": "C27_ギタロー ⧸ guitarous.png",
+   "rotulo_imagem": "C27. ギタロー ⧸ guitarous | ギタロー ⧸ guitarous/海の見える街 ソロギター 初心者向 | t=0.85 | passo=15.4px",
+   "x": 90,
+   "y": 67,
+   "significado": "compasso da musica 4/4"
+  }
+ ],
+ "correcao_do_dono": {
+  "fonte": "auditoria_simbolo_rotulada.json",
+  "removidas_por_nao_ser_simbolo": 36,
+  "confirmadas_como_simbolo": 83,
+  "regra_do_dono": "tudo que marquei como nao e simbolo NAO E SIMBOLO apenas"
+ }
+}
