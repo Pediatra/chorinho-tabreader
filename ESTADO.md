@@ -350,6 +350,53 @@ e o gabarito sem perder um glifo sequer. As três coletas ficam em disco para au
 foto borrada** (corpo, mão, sombra do braço), não fragmento de linha. A regra de retidão foi
 medida e **reprovada** (jogaria fora `44` e `1⌒`), e o critério que falta é **nitidez**.
 
+## 2026-10-09 — algarismo × símbolo: medido, e o limiar de confiança está DESCARTADO
+
+Primeiro gabarito de **símbolo** do projeto (`data/gold/simbolos.json`): 48 recortes
+**sorteados** (seed 7) da coleta final, 8 por canal em 6 canais — de propósito não os
+"melhores" da montagem, que já vem ordenada. Lidos no olho, folha em
+`data/saida/frames/folha_simbolos_1.png`:
+
+| rótulo | n | % |
+| --- | --- | --- |
+| lixo (fragmento de linha, cruz barline×corda, foto borrada, fundo) | 27 | 56 % |
+| **algarismo** | **16** | **33 %** |
+| dúvida | 4 | 8 % |
+| símbolo de verdade (`(0)` = nota presa) | 1 | 2 % |
+
+**Um terço do que o modelo chama de "símbolo" é algarismo puro** — a queixa do dono do
+projeto, quantificada. E a "cruz" que ele viu tem nome: **cruzamento de barline com corda**
+(5 dos 48), material de linha, que as regras de tamanho não pegam porque cabe na caixa.
+
+Recuperados os 48 recortes **na convenção do modelo** (casando o `sha1` do PNG ampliado, que
+é a chave do dedup) em `data/gold/simbolos_crops/` — 48/48 casados.
+
+### O limiar de confiança NÃO resolve (medido)
+
+`p_digito` = maior probabilidade entre as classes de algarismo:
+
+| grupo | mín | mediana | máx |
+| --- | --- | --- | --- |
+| algarismo (16) | 0,17 | **0,94** | 1,00 |
+| lixo (27) | 0,11 | **0,42** | **0,92** |
+
+| limiar | algarismos recuperados | lixo/símbolo que passaria |
+| --- | --- | --- |
+| 0,5 | 13/16 (81 %) | 11/28 |
+| 0,6 | 12/16 (75 %) | 5/28 |
+| 0,8 | **11/16 (69 %)** | 2/28 |
+
+As distribuições se sobrepõem: **não há limiar que separe**.
+
+### E a causa raiz aparece no top-1
+
+O **lixo** (fragmento de linha, cruz, foto borrada) é classificado como **`7` (11 vezes) e
+`1` (8 vezes)** — o modelo **vê algarismo em pedaço de linha**. É daí que vem o falso
+símbolo (algarismo chamado de `harmonico`) e o falso algarismo (linha chamada de `7`/`1`).
+
+**Consequência**: o caminho é o **discriminador dedicado "isto é algarismo?"** (opção c),
+treinado com os 16 algarismos e os 28 não-algarismos já rotulados — não o limiar.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
