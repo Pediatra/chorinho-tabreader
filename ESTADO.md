@@ -583,6 +583,32 @@ aprende a fronteira; o discriminador de algarismo funciona porque a pergunta del
 lixo. Vai sair de **alvos mecânicos e frequentes**, medidos um a um — e o primeiro é a **cruz
 barline × corda, 15 % da coleta**, com 7 exemplos rotulados para testar a regra contra eles.
 
+## 2026-10-09 — a regra da "cruz": testada contra os rótulos e REPROVADA (0 de 6)
+
+Predicado testado antes de entrar em qualquer lugar (foi assim que a curvatura foi reprovada
+também): tinta fina, perfil de linha cheio, perfil de coluna cheio, e **quase nada além das duas
+hastes** (`resto/tinta ≤ 0,15`) — a diferença para um algarismo como o `4`, que também tem haste
+e barra.
+
+| teste | resultado |
+| --- | --- |
+| cruzes rotuladas que a regra pega | **0 de 6** |
+| algarismos do gabarito que ela mataria | 0 de 72 |
+
+**Segura e inútil.** E o diagnóstico mostrou que o problema é a minha **descrição**, não o
+predicado: os recortes medem **4 px de largura × 13–27 px de altura** — não são cruzes, são
+**hastes verticais finas** (pedaço de barline). A categoria que eu e o dono marcamos é a mesma
+(`§` material de linha); o nome é que estava errado.
+
+**O alvo, então, é mais simples e mais frequente do que eu pensava**: haste vertical fina, com
+**perfil de linha constante** (é o que a distingue de um `1`, que tem bandeira/base e portanto
+perfil variável). E há um furo conhecido no delimitador que a deixa passar: ele rejeita token
+**largo** demais e **baixo** demais, mas **não tem largura mínima** — e pôr largura mínima
+mataria o algarismo `1` (medido: `largura/passo` de 0,12 a 1,39 nos algarismos).
+
+Próximo teste: `w/h < 0,35` E desvio do perfil de linha `< 0,05`, medido contra os 48 rótulos
+da folha 1 e os 72 algarismos do gabarito.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
