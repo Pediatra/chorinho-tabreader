@@ -1761,6 +1761,30 @@ origem da ROI no quadro. Eu vinha **deduzindo** esse valor (`altura_do_quadro �
 de ler o campo. A dedução estava certa (conferida no `iwaki` por margem exata), mas era um risco
 desnecessário: **o dado estava no objeto**.
 
+## 2026-10-09 — FECHAMENTO: três variações de negativo vazio, e a precisão da coleta fica em 0,17
+
+Última tentativa: negativos amostrados em **todo o painel** (a faixa larga entre pautas, que a imagem
+revelou), 422 deles, tinta ≤ 0,10.
+
+| variante de negativo vazio | n | LOCA precisão | **fim a fim precisão** |
+| --- | --- | --- | --- |
+| nenhuma | 0 | 0,77–0,79 | 0,15 |
+| ponto médio da lacuna | 539 | 0,74–0,76 | 0,19 |
+| deslocamentos (¼, ½, ¾, junto às linhas) | 480 | 0,74–0,76 | 0,18 |
+| **todo o painel (faixa larga)** | **422** | **0,77** | **0,17** |
+
+**Três variações da mesma classe, e a precisão da coleta não sai de ~0,17–0,19.** O LOCA fica em
+0,74–0,79. As duas medidas continuam separadas por um fator de ~4, e eu **não consegui fechá-lo**.
+
+**O que eu posso afirmar com os dados na mão**: este detector, com este modelo e este dado,
+**não entrega a precisão que o produto precisa**. Ele aprova faixa vazia ampla no pipeline, e ensinar
+essa classe ao modelo (três vezes, de três formas) **não mudou o comportamento dele no uso**.
+
+**O que sobrou sem ser testado, e é o caminho se alguém quiser continuar**: os negativos que o modelo
+precisa **não são sintéticos** — são **os quadros exatos onde ele erra no pipeline**, e para esses só
+existe uma fonte de verdade: **o dono marcar naqueles quadros** (é a instrução dele: pausar e chamar).
+Todas as minhas tentativas foram de **inventar** o negativo; a alternativa é **pedir o rótulo**.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
