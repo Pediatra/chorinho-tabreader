@@ -266,9 +266,25 @@ def main() -> int:
     )
     tokens = sorted(g0.glifos, key=lambda x: (x.coluna, x.corda))
     janelas = varrer_cursor(args.video, (y0, y1), t_max=args.varredura)
-    t_ini = janelas[0][0] if janelas else t0
-    tempos = tempos_do_cursor(args.video, (y0, y1), tokens, t_ini, args.janela)
-    r = completar(r, tempos)
+    if janelas:
+        t_ini = janelas[0][0]
+        tempos = tempos_do_cursor(args.video, (y0, y1), tokens, t_ini, args.janela)
+        r = completar(r, tempos)
+        r["tempo"] = {
+            "medido": True,
+            "mecanismo": "faixa vertical (cursor)",
+            "onset": "inicio do patamar do cursor",
+        }
+    else:
+        # NÃO atribuir tempo quando não há marcador. Medido nesta noite: antes disto o
+        # pipeline carimbava o MESMO instante em 144 notas (a classe do erro histórico
+        # "323 notas com tempo" que eram 3 instantes). Nota sem tempo é dívida; nota com
+        # tempo falso é mentira.
+        r["tempo"] = {
+            "medido": False,
+            "motivo": "nenhuma janela com cursor na varredura",
+            "varredura_s": args.varredura,
+        }
     r.update(
         {
             "video": os.path.basename(args.video),

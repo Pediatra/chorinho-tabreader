@@ -32,3 +32,28 @@ canais: 17 | vídeos: 3993 | instantes: 1
   [290/341] tentei te esquecer - matogrosso & mathias (c tab=[True] via=ffmpeg
   [300/341] tu és + águas purificadoras - fhop (completa tab=[True] via=ffmpeg
   [310/341] vim para adorar-te ｜ adoração e adoradores ( tab=[True] via=ffmpeg
+  [320/341] você vai ver - zezé di camargo e luciano (si tab=[True] via=ffmpeg
+  [330/341] you're still the one - shaina twain (simplif tab=[True] via=ffmpeg
+  [340/341] ó vinde adoremos - projeto sola (simplificad tab=[True] via=ffmpeg
+  [341/341] ó, noite santa - pedras vivas ｜ como tocar n tab=[True] via=ffmpeg
+
+=== guitar dell ́arte: 361 vídeos, 0 já feitos, 361 pendentes -> inventario_guitar dell ́arte.jsonl
+  [10/361] 6 easy to intermediate bach pieces arranged  tab=[False] via=ffmpeg
+  [20/361] adios a ocumare (a.m landaeta⧸a. lauro), gui tab=[True] via=cv2
+  [30/361] amazing grace - guitar tutorial with sheet a tab=[True] via=cv2
+  [40/361] autumn leaves in 3 levels, guitar.mp4        tab=[True] via=ffmpeg
+  [50/361] bachianas brasileiras no. 5 (villa-lobos) bo tab=[True] via=ffmpeg
+  [60/361] best of guitar arrangements of this year.mp4 tab=[True] via=cv2
+  [70/361] caixa de fosforo (o. filho) performance, tut tab=[True] via=cv2
+  [80/361] chiquilin de bachin (piazzolla), guitar less tab=[True] via=ffmpeg
+  [90/361] cry me a river (a. hamilton), arrangement fo tab=[True] via=cv2
+  [100/361] el choclo⧸kiss of fire (a. villoldo), guitar tab=[True] via=ffmpeg
+  [110/361] etude in e minor (j. ferrer) - guitar lesson tab=[True] via=cv2
+  [120/361] etude op. 35, no. 17 (f. sor), behind the no tab=[True] via=ffmpeg
+  [130/361] from baroque to rock, 5 easy guitar songs (f tab=[True] via=cv2
+  [140/361] guarania (h.ayala) performance, tutorial wit tab=[True] via=cv2
+  [150/361] insensatez (a.c jobim), arrangement for guit tab=[True] via=ffmpeg
+  [160/361] la califfa (e. morricone), arrangement for g tab=[True] via=ffmpeg
+  [170/361] lacrimosa, from requiem (mozart), arrangemen tab=[True] via=ffmpeg
+  [180/361] luiza (a. c. jobim), guitar arrangement, she tab=[True] via=ffmpeg
+  [190/361] meditation (a.c jobim), arrangement for guit tab=[True] via=cv2
