@@ -2274,3 +2274,31 @@ como eu fiz com a `otsu`, que mostrou preto onde a marca está.
 **Decisão sobre manter**: a união fica **ligada** por ora — ela é neutra no gabarito e é o princípio
 certo (não perder traço fino); se a imagem mostrar que ela também não tem o arco, o conserto passa a
 ser **para baixo do limiar** (trabalhar com a imagem crua/nitidez, não com máscara binária).
+
+## 2026-10-09 — crua vs união, lado a lado: no C16 o arco ESTÁ na máscara; a perda é DEPOIS
+
+Renderizei, para cada marca, a **imagem crua** e a **máscara união** com o círculo no ponto (pares
+lado a lado) e olhei:
+
+**C16 (`shin izumi`) — as marcas estão em símbolos reais, e a união os contém:**
+
+- par 4: a marca está **em cima de um arco** (arco perfeito ligando dois dígitos) e a união o mostra
+  em branco — **o arco ESTÁ na máscara**;
+- pares 5 e 6: a marca está num **traço vertical grosso**, presente na união.
+
+**C07 (`kimny's guitar`) — as marcas caem em áreas quase vazias**: a crua mostra as cordas e o círculo
+no vazio; na união há mancha preta com um fio de branco. Ali o arco é **quase invisível na imagem**.
+
+**Conclusão que muda o alvo**: a **máscara não é o gargalo** — no C16 ela contém o arco. A perda
+acontece **depois**: o componente existe na máscara e **é recusado ou não é agrupado em token**. É
+para o **delimitador/agrupamento** que a investigação volta — com a diferença de que agora eu sei que o
+dado de entrada está lá.
+
+**Próxima medição**: pegar a marca do C16 que está **em cima do arco** (par 4) e segui-la passo a passo
+— o componente cru, o que o delimitador faz com ele (qual motivo de `Grade.recusados`), e o que o
+agrupamento faz. Um caso rastreado do começo ao fim vale mais que cem contagens.
+
+**Nota de honestidade**: as duas leituras que eu propus na rodada anterior — "(a) não está em nenhuma
+máscara" e "(b) está e é recusado depois" — **a imagem decidiu por (b)**, e para o C07 há um terceiro
+caso: **(c) o arco é quase invisível na própria imagem**, e nesses pontos nem a imagem crua o tem
+claramente.
