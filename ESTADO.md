@@ -2545,3 +2545,29 @@ deste pool.**
 **Terceira alavanca, ainda não testada, e é geométrica e barata**: **o arco fica ENTRE duas cordas**
 (e não sobre uma). Exigir que a caixa do candidato **não cruze** uma linha de corda corta pedaço de
 linha e dígito — que são justamente os falsos. Medir: quantos candidatos sobram, e recall/precisão.
+
+## 2026-10-09 — terceira alavanca (entre cordas): MEDIDA E REPROVADA; as três alavancas estão esgotadas
+
+| | forma (sem ela) | **com "entre cordas"** |
+| --- | --- | --- |
+| aprovados | 178 | 154 |
+| batem | 35 | **27** |
+| precisão | 0,197 | **0,175** |
+| recall | 0,185 | **0,143** |
+
+Derruba **os dois lados** (mata 8 verdadeiros e 16 falsos) → **revertida**. O motivo é claro e fica
+registrado: **o arco encosta na corda**, então a caixa dele cruza a linha com frequência.
+
+**Estado final do caminho do símbolo, com as três alavancas esgotadas:**
+
+| | precisão | recall |
+| --- | --- | --- |
+| baseline (só a 1ª passada) | 0,180 | 0,140 |
+| **caminho do símbolo + forma 1,5 (LIGADO)** | **0,197** | **0,185** |
+| pool aberto (limiar 0,5) | 0,054 | 0,402 |
+| + regra entre cordas | 0,175 | 0,143 |
+
+**O alvo do goal (recall 0,41) exige precisão 0,054** — abaixo do baseline. As três alavancas
+disponíveis (limiar, forma, posição) estão medidas: o limiar não tem joelho, a forma é monotônica (e a
+altura é inerte), e a posição piora os dois lados. **O limite é a discriminação do modelo na
+distribuição deste pool** — e mexer no modelo está fora do goal.

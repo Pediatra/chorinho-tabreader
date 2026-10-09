@@ -466,6 +466,10 @@ def reconhecer_linha(
                 tk.y1 - tk.y0
             ) > forma_simbolo[1] * g.passo:
                 continue
+            # A REGRA "ENTRE CORDAS" FOI MEDIDA E REPROVADA: exigir que a caixa não cruze uma linha
+            # derrubou os DOIS lados — batem 35 -> 27, precisão 0,197 -> 0,175, recall 0,185 ->
+            # 0,143. Motivo: **o arco encosta na corda**, então a caixa dele cruza a linha com
+            # frequência. Não repetir sem medir de novo.
             # JANELA NA BORDA DE CIMA, não no centro da caixa. Medido: com o centro, o filtro aprova
             # **31 %** dos candidatos na posição das marcas (mediana 0,208); com o topo da caixa,
             # **78 %** (mediana 0,833). Faz sentido: o arco fica **em cima da corda** — é ali que o
