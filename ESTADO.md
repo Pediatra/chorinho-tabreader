@@ -922,6 +922,24 @@ para inverter a lógica do coletor:
 Verdade bruta em `data/gold/simbolos_marcados.json` (com o texto dele marca a marca) e os recortes
 em `data/gold/simbolos_marcados/{positivos,negativos}/`.
 
+## 2026-10-09 — o aviso do dono CONFIRMADO por medição: a janela corta o arco apagado
+
+Ele escreveu, em 5 marcas: *"arco de ligadura quase sumindo — cuidado pra não cortar coisa demais"*.
+Medi, nos 123 positivos, a fração de tinta que encosta na **borda** do recorte e o contraste total:
+
+| grupo | tinta na borda (mediana) | tinta total (mediana) |
+| --- | --- | --- |
+| **"quase sumindo" (5, todas em `tv on guitar`)** | **0,17** | **0,115** (apagado) |
+| os outros 118 | 0,08 | 0,162 |
+
+**O dobro de tinta na borda e menos contraste no total** — a janela de 1,6 × passo está **cortando**
+esses arcos. E a causa é geométrica, não de limiar: um arco de ligadura vai de uma nota até a
+outra, então ele é **mais largo** que a janela quadrada.
+
+**Experimento decidido (e ainda não feito)**: refazer positivos e negativos com janela mais larga
+(2,4 × 1,6 passo, mantendo o MESMO enquadramento nas duas classes) e comparar o LOCA — em especial
+o recall nesses 5, que hoje são os candidatos naturais a falso negativo.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

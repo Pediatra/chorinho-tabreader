@@ -156,3 +156,40 @@ regras_do_dono:
 # IMPORTANTE para o coletor: 3 destes símbolos NÃO são de técnica e sim de NOTAÇÃO —
 # fórmula de compasso e pausa. Se o objetivo é técnica por nota, eles devem ser guardados
 # separados (e não como símbolo da nota).
+
+# ---------------------------------------------------------------------------
+# TIPOS NOVOS das 78 marcas da 2ª rodada (2026-10-09). O conjunto passou de 46 para 123
+# positivos e de 6 para 8 canais; estes três tipos NÃO existiam antes.
+tipos_da_segunda_rodada:
+  setas_de_palhetada:
+    nome: direção de palhetada / rasgueado
+    n_marcas: 22
+    aspecto: "seta (para cima ou para baixo) sobre 1 ou 2 cordas"
+    regra_do_dono: >
+      "Essas setas indicam a direção da palhetada ou do rasgueado (strumming). A seta apontada
+      para baixo significa palhetar de cima para baixo." Ocupa 1 ou 2 cordas.
+    porque_importa: "é técnica de MÃO DIREITA: muda a execução, não a altura da nota"
+    confirmado: true
+  ligadura_de_prolongamento_longa:
+    nome: sustentação longa
+    n_marcas: 12
+    regra_do_dono: >
+      "É a continuação do mesmo conceito, mas prolongado ao longo de vários tempos e compassos.
+      Tocas na 9ª casa uma única vez no início e sustentas o som."
+    diferenca: "a ligadura curta dura um tempo; esta atravessa compassos — o dado por nota precisa
+      guardar a DURAÇÃO, senão a nota parece reaparecer"
+    confirmado: true
+  arco_de_ligadura_com_slide_embaixo:
+    nome: ligadura com slide descendente
+    n_marcas: 6
+    regra_do_dono: "arco de ligadura com slide em baixo"
+    confirmado: true
+
+# AVISO DE MEDIÇÃO do dono (5 marcas), que é sobre o MEU recorte e não sobre o símbolo:
+aviso_de_medicao:
+  arco_quase_sumindo:
+    texto_do_dono: "arco de ligadura quase sumindo — cuidado pra não cortar coisa demais"
+    consequencia: >
+      Arco de BAIXO CONTRASTE é justamente o que uma janela de recorte apertada perde. Se a
+      janela de 1,6 × passo estiver cortando esses arcos, o detector aprende a não vê-los e o erro
+      só aparece depois, na transcrição. Medir antes de confiar.
