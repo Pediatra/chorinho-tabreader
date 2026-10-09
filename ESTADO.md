@@ -1082,6 +1082,29 @@ como "o símbolo". Ou seja: **o problema não está no RECORTE, está na DECISÃ
 classe seja de símbolo** (`tecnica`, `harmonico`, …) — decidido **no nível do componente**, não do
 token. Hoje o caminho guarda quando o token tem componentes extras, e é isso que traz o algarismo.
 
+## 2026-10-09 — decisão por componente: também REPROVADA, e a hipótese que sobra é sobre os DADOS
+
+Implementei a decisão **componente a componente** (cada componente vira candidato, com a janela
+centrada nele, e quem decide é o detector). Gate verde, rodou, e o número **não se moveu**: 434
+símbolos contra 432, e a verificação no olho deu **~34 de 48 algarismos (71 %)** — pior que os
+58 % anteriores, dentro da variação da amostra.
+
+**Duas tentativas, dois números iguais.** Isso não é azar: é sintoma de que o problema não está
+no caminho de decisão, e sim em algo comum aos dois — **o recorte do treino**.
+
+**A hipótese que sobra, e ela tem prova material**: quando eu desenhei no quadro o que o filtro
+aprovava (`filtro_shin.png`), **os retângulos saíram desalinhados** e eu registrei que
+`Grade.glifos` **não é** a lista de tokens interna do `reconhecer_linha`. Ora: os meus negativos de
+treino foram recortados **centrados em `Grade.glifos`** (`/tmp/janela.py`, `/tmp/hard.py`, e os
+anteriores) — ou seja, **podem estar centrados no objeto errado**, e o modelo nunca aprendeu a
+janela de dígito que o pipeline realmente produz. Isso explicaria por que ele separa perfeito no
+gabarito (cujos recortes são consistentes com o próprio gabarito) e aprova dígito no pipeline.
+
+**Próximo passo, medível**: regerar os recortes de treino a partir dos **tokens internos** do
+`reconhecer_linha` (expondo a caixa de cada token no registro, em vez de usar `Grade.glifos`),
+retreinar e comparar. Se a hipótese estiver certa, o dígito para de ser aprovado — e é a primeira
+vez que o problema estaria nos DADOS e não no modelo.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

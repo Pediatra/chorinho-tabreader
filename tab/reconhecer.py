@@ -314,14 +314,30 @@ def reconhecer_linha(
             # critério antigo era "não é algarismo", e o resíduo de uma tablatura é ~98 % linha,
             # borrão e dígito mal lido. O recorte usa a JANELA DO TREINO (2,4 x 1,6 passo,
             # centrado no token): moldura é entrada do modelo, não detalhe de implementação.
-            # COMPONENTE DO SÍMBOLO: dentro de um token fundido, o símbolo é o componente que NÃO
-            # é algarismo. Medido: 47 dos 51 recortes que pareciam algarismo eram dígito+símbolo
-            # no mesmo token, e recortar o token inteiro mostrava o algarismo e escondia o símbolo.
-            caixa_simbolo = None
-            for pos, (cx0, cy0, cx1, cy1) in comp_de.get(i, []):
-                if rotulos[int(np.argmax(probs_comp[pos]))] not in ALGARISMOS:
-                    caixa_simbolo = (cx0, cy0, cx1, cy1)
-                    break
+            # DECISÃO POR COMPONENTE, não por token. Medido: 47 dos 51 recortes que pareciam
+            # algarismo eram token fundido de dígito + símbolo; e recortar o token inteiro mostra
+            # o dígito. Recortar "o componente que não é algarismo" também falhou (REPROVADO na
+            # verificação: o classificador por componente erra um dígito de um `11` fundido e ele
+            # vira "o símbolo"). O certo é: **cada componente é um candidato**, com a janela
+            # centrada nele, e quem decide é o detector — não a classe do componente.
+            hx, hy = round(1.2 * g.passo), round(0.8 * g.passo)
+            caixa_simbolo, p_simbolo = None, None
+            componentes = comp_de.get(i) or ()
+            if filtro_simbolo is not None and componentes:
+                for _pos, (cx0, cy0, cx1, cy1) in componentes:
+                    razao_c = (cx1 - cx0 + 1) / max(1.0, float(cy1 - cy0 + 1))
+                    if razao_c < RAZAO_MINIMA_SIMBOLO:  # barra vertical: não é símbolo
+                        continue
+                    ccx, ccy = (cx0 + cx1) // 2, (cy0 + cy1) // 2
+                    rec_c = gray[
+                        max(0, ccy - hy) : ccy + hy, max(0, ccx - hx) : ccx + hx
+                    ]
+                    if rec_c.size == 0:
+                        continue
+                    pc = float(filtro_simbolo([rec_c])[0])
+                    if p_simbolo is None or pc > p_simbolo:
+                        p_simbolo, caixa_simbolo = pc, (cx0, cy0, cx1, cy1)
+                sufixo["componentes_avaliados"] = len(componentes)
             # BARRA VERTICAL NÃO É SÍMBOLO (instrução do dono sobre o `shin izumi`: "essas barras
             # na vertical não significam nada de importante"). Medido: as barras que o detector
             # aprovava lá têm razão mediana 0,118 e os 123 símbolos verdadeiros têm 1,706 — ZERO
@@ -329,18 +345,19 @@ def reconhecer_linha(
             razao = (tk.x1 - tk.x0 + 1) / max(1.0, float(tk.y1 - tk.y0 + 1))
             if razao < RAZAO_MINIMA_SIMBOLO:
                 sufixo["recusado_por_forma"] = f"barra_vertical (razao {razao:.2f})"
-            p_simbolo = None
-            if filtro_simbolo is not None and "recusado_por_forma" not in sufixo:
+            elif filtro_simbolo is not None and p_simbolo is None:
                 cx = (tk.x0 + tk.x1) // 2
                 cy = (tk.y0 + tk.y1) // 2
-                hx, hy = round(1.2 * g.passo), round(0.8 * g.passo)
                 rec = gray[max(0, cy - hy) : cy + hy, max(0, cx - hx) : cx + hx]
                 if rec.size:
                     p_simbolo = float(filtro_simbolo([rec])[0])
-                    sufixo["prob_simbolo"] = round(p_simbolo, 3)
+            if p_simbolo is not None:
+                sufixo["prob_simbolo"] = round(p_simbolo, 3)
             passa = "recusado_por_forma" not in sufixo and (
                 p_simbolo is None or p_simbolo >= LIMIAR_SIMBOLO
             )
+            if componentes and p_simbolo is not None and p_simbolo < LIMIAR_SIMBOLO:
+                caixa_simbolo = None  # nenhum componente passou: não guarda nenhum
             if passa:
                 if caixa_simbolo is not None:
                     sufixo["recorte_do_componente"] = True
