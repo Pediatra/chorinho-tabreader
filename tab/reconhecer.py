@@ -9,23 +9,26 @@ Junta as três camadas numa ferramenta só:
      classificada como "harmonico" e o acerto ficava em 14/15.
 
 Uso:
-    python tools/reconhecer.py IMAGEM --modelo /tmp/sint/glifo_sint.pt [--json saida.json]
+    python -m tab.reconhecer IMAGEM [--modelo artefatos/glifo_sint.pt] [--json saida.json]
 """
+
 from __future__ import annotations
 
 import argparse
+import itertools
 import json
 import os
+import statistics
 import sys
 
 import cv2
 import numpy as np
 import torch
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from tabseg import segmentar                     # noqa: E402
-from glyphset import normalizar                  # noqa: E402
-from glyph_bench import GlifoCNN                 # noqa: E402
+from .caminhos import MODELO_PADRAO
+from .glyph_bench import GlifoCNN
+from .glyphset import normalizar
+from .tabseg import segmentar
 
 
 def compativel(classe: str, tk, passo: float) -> bool:
@@ -61,8 +64,10 @@ def reconhecer_linha(img: np.ndarray, modelo, rotulos, dev) -> dict:
     tokens = sorted(g.glifos, key=lambda x: (x.coluna, x.corda))
     if not tokens:
         return {"passo": g.passo, "linhas_y": g.linhas_y, "notas": []}
-    X = [normalizar(gray[max(0, t.y0 - 1): t.y1 + 1, max(0, t.x0 - 1): t.x1 + 1])
-         for t in tokens]
+    X = [
+        normalizar(gray[max(0, t.y0 - 1) : t.y1 + 1, max(0, t.x0 - 1) : t.x1 + 1])
+        for t in tokens
+    ]
     X = [x if x is not None else np.zeros((24, 16), np.uint8) for x in X]
     xt = torch.tensor(np.stack(X)[:, None].astype(np.float32) / 255.0).to(dev)
     with torch.no_grad():
@@ -77,9 +82,17 @@ def reconhecer_linha(img: np.ndarray, modelo, rotulos, dev) -> dict:
     for i, tk in enumerate(tokens):
         classe, corrigido = None, False
         if recusar and (tk.x1 - tk.x0) < 0.30 * g.passo:
-            notas.append({"ordem": i + 1, "corda": int(tk.corda), "casa": "junk",
-                          "tecnica": None, "x": int(tk.x0), "confianca": 0.0,
-                          "corrigido_pela_forma": True})
+            notas.append(
+                {
+                    "ordem": i + 1,
+                    "corda": int(tk.corda),
+                    "casa": "junk",
+                    "tecnica": None,
+                    "x": int(tk.x0),
+                    "confianca": 0.0,
+                    "corrigido_pela_forma": True,
+                }
+            )
             continue
         for k in np.argsort(-probs[i]):
             if compativel(rotulos[k], tk, g.passo):
@@ -89,14 +102,23 @@ def reconhecer_linha(img: np.ndarray, modelo, rotulos, dev) -> dict:
         if classe is None:
             classe = rotulos[int(np.argmax(probs[i]))]
         tecnica = "harmonico" if classe == "harmonico" else None
-        notas.append({
-            "ordem": i + 1, "corda": int(tk.corda), "casa": classe,
-            "tecnica": tecnica, "x": int(tk.x0),
-            "confianca": round(float(probs[i][int(np.argmax(probs[i]))]), 3),
-            "corrigido_pela_forma": corrigido,
-        })
-    return {"passo": round(g.passo, 2), "linhas_y": g.linhas_y,
-            "barlines_x": g.barlines_x, "notas": notas}
+        notas.append(
+            {
+                "ordem": i + 1,
+                "corda": int(tk.corda),
+                "casa": classe,
+                "tecnica": tecnica,
+                "x": int(tk.x0),
+                "confianca": round(float(probs[i][int(np.argmax(probs[i]))]), 3),
+                "corrigido_pela_forma": corrigido,
+            }
+        )
+    return {
+        "passo": round(g.passo, 2),
+        "linhas_y": g.linhas_y,
+        "barlines_x": g.barlines_x,
+        "notas": notas,
+    }
 
 
 def completar(r: dict, tempos: list[tuple] | None = None) -> dict:
@@ -114,21 +136,21 @@ def completar(r: dict, tempos: list[tuple] | None = None) -> dict:
         por_compasso[n["compasso"]] = por_compasso.get(n["compasso"], 0) + 1
     r["notas_por_compasso"] = por_compasso
     if tempos and len(tempos) >= len(r["notas"]):
-        onsets = [t[0] for t in tempos[:len(r["notas"])] if t and t[0] is not None]
-        for n, t in zip(r["notas"], tempos):
+        onsets = [t[0] for t in tempos[: len(r["notas"])] if t and t[0] is not None]
+        for n, t in zip(r["notas"], tempos, strict=False):
             if t and t[0] is not None:
                 n["t_ini"] = round(t[0], 2)
                 if t[1] is not None:
                     n["t_fim"] = round(t[1], 2)
         if len(onsets) > 2:
-            import statistics
-            dt = statistics.median([b - a for a, b in zip(onsets, onsets[1:])])
+            dt = statistics.median([b - a for a, b in itertools.pairwise(onsets)])
             rpm = 60.0 / dt if dt > 0 else None
             r["andamento"] = {
                 "notas_por_minuto": round(rpm, 1) if rpm else None,
                 "intervalo_mediano_s": round(dt, 3),
                 "notas_por_compasso_medido": round(
-                    sum(por_compasso.values()) / max(1, len(por_compasso)), 2),
+                    sum(por_compasso.values()) / max(1, len(por_compasso)), 2
+                ),
                 "bpm_se_1_nota_por_tempo": round(rpm, 1) if rpm else None,
             }
     return r
@@ -137,7 +159,7 @@ def completar(r: dict, tempos: list[tuple] | None = None) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("imagem")
-    ap.add_argument("--modelo", default="/tmp/sint/glifo_sint.pt")
+    ap.add_argument("--modelo", default=str(MODELO_PADRAO))
     ap.add_argument("--json")
     args = ap.parse_args()
     img = cv2.imread(args.imagem, cv2.IMREAD_UNCHANGED)

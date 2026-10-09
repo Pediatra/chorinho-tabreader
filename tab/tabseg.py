@@ -15,15 +15,17 @@ Famílias de renderização já verificadas nos dados reais:
   E. Tab ASCII de texto (Ultimate Guitar), fonte monoespaçada.
 
 Uso:
-    python tools/tabseg.py IMAGEM [--debug saida.png] [--json saida.json]
+    python -m tab.tabseg IMAGEM [--debug saida.png] [--json saida.json]
 """
+
 from __future__ import annotations
 
 import argparse
+import collections
 import itertools
 import json
 import sys
-from dataclasses import dataclass, asdict, field
+from dataclasses import asdict, dataclass, field
 
 import cv2
 import numpy as np
@@ -35,11 +37,11 @@ class Glifo:
     y0: int
     x1: int
     y1: int
-    corda: int          # 1 = corda aguda (linha de cima), 6 = grave
+    corda: int  # 1 = corda aguda (linha de cima), 6 = grave
     coluna: int
     area: int
-    partes: int = 1          # quantos componentes foram fundidos neste token
-    partes_digito: int = 1   # quantas partes têm "haste" (traço vertical longo)
+    partes: int = 1  # quantos componentes foram fundidos neste token
+    partes_digito: int = 1  # quantas partes têm "haste" (traço vertical longo)
 
     @property
     def cx(self) -> float:
@@ -76,7 +78,7 @@ class Grade:
 
 def _para_cinza(img: np.ndarray) -> np.ndarray:
     if img.ndim == 3:
-        if img.shape[2] == 4:                      # PNG com alfa: compõe no branco
+        if img.shape[2] == 4:  # PNG com alfa: compõe no branco
             alfa = img[:, :, 3:4].astype(np.float32) / 255.0
             rgb = img[:, :, :3].astype(np.float32)
             img = (rgb * alfa + 255.0 * (1 - alfa)).astype(np.uint8)
@@ -91,7 +93,7 @@ def binarizar(img: np.ndarray) -> np.ndarray:
     gray = _para_cinza(img)
     limiar, _ = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     escuros = gray < limiar
-    if escuros.mean() > 0.5:                       # fundo escuro -> tinta = claro
+    if escuros.mean() > 0.5:  # fundo escuro -> tinta = claro
         return gray > limiar
     return escuros
 
@@ -120,11 +122,15 @@ def mascaras_candidatas(img: np.ndarray) -> list[tuple[str, np.ndarray]]:
     # Sem esta variante a mascara pegava so os algarismos brancos e perdia as cordas
     # cinzas — foi o que travou a leitura do painel escuro por varias rodadas.
     for k, delta in ((21, 12),):
-        cands.append((f"contraste_claro_k{k}_d{delta}", _contraste_local_claro(gray, k, delta)))
+        cands.append(
+            (f"contraste_claro_k{k}_d{delta}", _contraste_local_claro(gray, k, delta))
+        )
     return cands
 
 
-def _contraste_local_claro(gray: np.ndarray, k: int = 21, delta: int = 12) -> np.ndarray:
+def _contraste_local_claro(
+    gray: np.ndarray, k: int = 21, delta: int = 12
+) -> np.ndarray:
     """Tinta = pixels mais CLAROS que o fundo local (para painel escuro)."""
     se = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k))
     bg = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, se)
@@ -137,15 +143,20 @@ def _contraste_local_claro(gray: np.ndarray, k: int = 21, delta: int = 12) -> np
 # linhas de corda
 # --------------------------------------------------------------------------- #
 
+
 def _picos_de_linha(tinta: np.ndarray, fracao_min: float = 0.30) -> list[float]:
     """Picos do perfil horizontal de tinta (funciona com linha sólida e tracejada)."""
-    h, w = tinta.shape
+    h, _ = tinta.shape
     perfil = tinta.mean(axis=1)
     if h >= 3:
         perfil = np.convolve(perfil, np.ones(3) / 3, mode="same")
     picos = []
     for y in range(1, h - 1):
-        if perfil[y] >= perfil[y - 1] and perfil[y] >= perfil[y + 1] and perfil[y] > fracao_min:
+        if (
+            perfil[y] >= perfil[y - 1]
+            and perfil[y] >= perfil[y + 1]
+            and perfil[y] > fracao_min
+        ):
             picos.append((float(perfil[y]), float(y)))
     # agrupa picos vizinhos (linha espessa gera 2-3 picos) pelo de maior perfil
     picos.sort()
@@ -156,9 +167,9 @@ def _picos_de_linha(tinta: np.ndarray, fracao_min: float = 0.30) -> list[float]:
     return sorted(escolhidos, key=lambda t: t[1])
 
 
-def candidatos_de_cordas(tinta: np.ndarray, n_cordas: int = 6,
-                         max_candidatos: int = 16,
-                         top: int = 6) -> list[tuple[list[int], float]]:
+def candidatos_de_cordas(
+    tinta: np.ndarray, n_cordas: int = 6, max_candidatos: int = 16, top: int = 6
+) -> list[tuple[list[int], float]]:
     """Todas as progressões regulares plausíveis, das mais regulares para as menos.
 
     Uma imagem pode conter DUAS pautas (partitura de 5 linhas em cima da tablatura de
@@ -184,11 +195,12 @@ def candidatos_de_cordas(tinta: np.ndarray, n_cordas: int = 6,
             continue
         achados.append((erro, media, sel))
     achados.sort(key=lambda t: (round(t[0], 3), -t[1]))
-    return [([int(round(v)) for v in sel], med) for _, med, sel in achados[:top]]
+    return [([round(v) for v in sel], med) for _, med, sel in achados[:top]]
 
 
-def achar_cordas(tinta: np.ndarray, n_cordas: int = 6,
-                 max_candidatos: int = 16) -> tuple[list[int], float]:
+def achar_cordas(
+    tinta: np.ndarray, n_cordas: int = 6, max_candidatos: int = 16
+) -> tuple[list[int], float]:
     """Acha n_cordas linhas igualmente espaçadas (progressão aritmética).
 
     O critério de regularidade é o que separa pauta de qualquer outro conteúdo
@@ -222,9 +234,9 @@ def achar_cordas(tinta: np.ndarray, n_cordas: int = 6,
     if melhor is None:
         # sem progressão regular: devolve os picos mais fortes, marcando o aviso
         sel = sorted(ys)[:n_cordas]
-        return [int(round(v)) for v in sel], 0.0
+        return [round(v) for v in sel], 0.0
     passo = float(np.mean(np.diff(melhor)))
-    return [int(round(v)) for v in melhor], passo
+    return [round(v) for v in melhor], passo
 
 
 def achar_barlines(tinta: np.ndarray, linhas_y: list[int]) -> list[int]:
@@ -251,8 +263,13 @@ def achar_barlines(tinta: np.ndarray, linhas_y: list[int]) -> list[int]:
 # glifos
 # --------------------------------------------------------------------------- #
 
-def componentes(tinta: np.ndarray, area_min: int = 8) -> list[tuple[int, int, int, int, int]]:
-    n, lab, stats, _ = cv2.connectedComponentsWithStats(tinta.astype(np.uint8), connectivity=8)
+
+def componentes(
+    tinta: np.ndarray, area_min: int = 8
+) -> list[tuple[int, int, int, int, int]]:
+    n, _lab, stats, _ = cv2.connectedComponentsWithStats(
+        tinta.astype(np.uint8), connectivity=8
+    )
     out = []
     for k in range(1, n):
         x, y, w, h, a = stats[k]
@@ -276,7 +293,7 @@ def limpar_glifo(crop: np.ndarray, passo: float) -> np.ndarray:
         row = tinta[y].astype(np.int8)
         dif = np.diff(np.concatenate([[0], row, [0]]))
         idx = np.flatnonzero(dif)
-        for s, e in zip(idx[0::2], idx[1::2]):
+        for s, e in zip(idx[0::2], idx[1::2], strict=False):
             if e - s >= run_min:
                 out[y, s:e] = False
     base = np.where(tinta, 0, 255).astype(np.uint8)
@@ -308,8 +325,11 @@ def segmentar(img: np.ndarray, n_cordas: int = 6, debug: str | None = None) -> G
             g.avisos.insert(0, f"mascara={nome}")
             # O CONTEÚDO decide qual pauta é a tablatura: algarismo de TAB fica
             # centrado na corda; cabeça de nota de partitura cai também nos espaços.
-            centrados = sum(1 for x in g.glifos
-                            if min(abs(x.cy - ly) for ly in g.linhas_y) <= 0.25 * g.passo)
+            centrados = sum(
+                1
+                for x in g.glifos
+                if min(abs(x.cy - ly) for ly in g.linhas_y) <= 0.25 * g.passo
+            )
             chave = (centrados, len(g.glifos))
             if melhor_chave is None or chave > melhor_chave:
                 melhor, usada, escolhida, melhor_chave = g, tinta, nome, chave
@@ -323,16 +343,27 @@ def segmentar(img: np.ndarray, n_cordas: int = 6, debug: str | None = None) -> G
 
     if debug:
         h, w = usada.shape
-        base = cv2.cvtColor(np.where(usada, 0, 255).astype(np.uint8), cv2.COLOR_GRAY2BGR)
+        base = cv2.cvtColor(
+            np.where(usada, 0, 255).astype(np.uint8), cv2.COLOR_GRAY2BGR
+        )
         for ly in grade.linhas_y:
             cv2.line(base, (0, ly), (w, ly), (0, 200, 0), 1)
         for bx in grade.barlines_x:
             cv2.line(base, (bx, 0), (bx, h), (0, 0, 255), 1)
         for g in grade.glifos:
             cv2.rectangle(base, (g.x0, g.y0), (g.x1, g.y1), (255, 0, 0), 1)
-            cv2.putText(base, str(g.corda), (g.x0, max(9, g.y0 - 1)),
-                        cv2.FONT_HERSHEY_PLAIN, 0.8, (0, 140, 255), 1)
-        cv2.putText(base, escolhida, (4, h - 4), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 255), 1)
+            cv2.putText(
+                base,
+                str(g.corda),
+                (g.x0, max(9, g.y0 - 1)),
+                cv2.FONT_HERSHEY_PLAIN,
+                0.8,
+                (0, 140, 255),
+                1,
+            )
+        cv2.putText(
+            base, escolhida, (4, h - 4), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 255), 1
+        )
         cv2.imwrite(debug, base)
     return grade
 
@@ -342,7 +373,7 @@ def _pixels_de_runs_horizontais(tinta: np.ndarray, comprimento_min: int) -> np.n
 
     Serve para apagar a corda (estrutura longa) sem destruir o algarismo (curto).
     """
-    h, w = tinta.shape
+    h, _ = tinta.shape
     u8 = tinta.astype(np.int8)
     pad = np.zeros((h, 1), dtype=np.int8)
     dif = np.diff(np.concatenate([pad, u8, pad], axis=1), axis=1)
@@ -352,7 +383,7 @@ def _pixels_de_runs_horizontais(tinta: np.ndarray, comprimento_min: int) -> np.n
         if idx.size == 0:
             continue
         starts, ends = idx[0::2], idx[1::2]
-        for s, e in zip(starts, ends):
+        for s, e in zip(starts, ends, strict=False):
             if e - s >= comprimento_min:
                 mask[y, s:e] = True
     return mask
@@ -400,8 +431,13 @@ def _remover_rotulo(glifos: list[Glifo], largura: int, passo: float) -> list[Gli
     return glifos
 
 
-def _glifos_por_faixa(tinta: np.ndarray, linhas_y: list[int], passo: float,
-                      lim_x: int, barlines_x: list[int] | None = None) -> list[Glifo]:
+def _glifos_por_faixa(
+    tinta: np.ndarray,
+    linhas_y: list[int],
+    passo: float,
+    lim_x: int,
+    barlines_x: list[int] | None = None,
+) -> list[Glifo]:
     """Extrai os glifos DENTRO da faixa de cada corda, uma corda por vez.
 
     Por que nao rotular componentes na imagem inteira: em tablatura com acorde
@@ -416,8 +452,8 @@ def _glifos_por_faixa(tinta: np.ndarray, linhas_y: list[int], passo: float,
     run_min = max(6, int(0.55 * passo))
     area_min = max(6, int(passo * passo * 0.03))
     for k, ly in enumerate(linhas_y):
-        a = max(0, int(round(ly - meia)))
-        b = min(tinta.shape[0], int(round(ly + meia)) + 1)
+        a = max(0, round(ly - meia))
+        b = min(tinta.shape[0], round(ly + meia) + 1)
         if b - a < 4:
             continue
         # Remove a corda SÓ nas linhas da própria corda. Apagar runs longos na faixa
@@ -425,17 +461,19 @@ def _glifos_por_faixa(tinta: np.ndarray, linhas_y: list[int], passo: float,
         # do "4"/"7") e devolvia glifos mutilados.
         faixa = tinta[a:b, :].copy()
         c = ly - a
-        t = max(1, int(round(0.15 * passo)))
+        t = max(1, round(0.15 * passo))
         lo, hi = max(0, c - t), min(faixa.shape[0], c + t + 1)
         if hi > lo:
             faixa[lo:hi, :] = _remover_runs(faixa[lo:hi, :], run_min)
-        rotulos_cc, mapa_cc = cv2.connectedComponents(faixa.astype(np.uint8), connectivity=8)
+        _rotulos_cc, mapa_cc = cv2.connectedComponents(
+            faixa.astype(np.uint8), connectivity=8
+        )
         for x0, y0, x1, y1, area in componentes(faixa, area_min=area_min):
             w, h = x1 - x0, y1 - y0
             if w > 3.0 * passo or h > 1.6 * passo:
-                continue                              # resto de linha
+                continue  # resto de linha
             if h < 0.20 * passo or w < 0.07 * passo:
-                continue                              # ruido
+                continue  # ruido
             # barline: atravessa a faixa toda e coincide com uma coluna vertical
             if barlines_x and any(x0 - 2 <= bx <= x1 + 2 for bx in barlines_x):
                 continue
@@ -444,7 +482,7 @@ def _glifos_por_faixa(tinta: np.ndarray, linhas_y: list[int], passo: float,
             # algarismo tem (a haste do 1, a lateral do 7); uma diagonal de slide não
             # tem nenhuma coluna com traço longo. Foi o que faltou na rodada anterior,
             # em que o slide (alto, mas espalhado) passava como se fosse dígito.
-            sub = (mapa_cc[y0:y1, x0:x1] > 0)
+            sub = mapa_cc[y0:y1, x0:x1] > 0
             hh = max(1, sub.shape[0])
             melhor_run = 0
             for cx in range(sub.shape[1]):
@@ -456,9 +494,18 @@ def _glifos_por_faixa(tinta: np.ndarray, linhas_y: list[int], passo: float,
                 run = int((idx[1::2] - idx[0::2]).max()) if idx.size else 0
                 melhor_run = max(melhor_run, run)
             tem_haste = melhor_run >= 0.60 * hh
-            glifos.append(Glifo(x0=x0, y0=y0 + a, x1=x1, y1=y1 + a,
-                                corda=k + 1, coluna=0, area=area,
-                                partes_digito=1 if tem_haste else 0))
+            glifos.append(
+                Glifo(
+                    x0=x0,
+                    y0=y0 + a,
+                    x1=x1,
+                    y1=y1 + a,
+                    corda=k + 1,
+                    coluna=0,
+                    area=area,
+                    partes_digito=1 if tem_haste else 0,
+                )
+            )
     ordem = sorted(range(len(glifos)), key=lambda i: glifos[i].cx)
     grupo, anterior = 0, None
     for i in ordem:
@@ -480,12 +527,11 @@ def agrupar_tokens(glifos: list[Glifo], passo: float, gap: float = 0.25) -> list
     aprendia (acurácia de treino 0,58). O intervalo entre notas distintas é >= 1 passo;
     dígitos do mesmo número ficam praticamente colados, então 0,25 passo separa os dois.
     """
-    from collections import defaultdict
-    por_corda: dict[int, list[Glifo]] = defaultdict(list)
+    por_corda: dict[int, list[Glifo]] = collections.defaultdict(list)
     for g in glifos:
         por_corda[g.corda].append(g)
     tokens: list[Glifo] = []
-    for corda, gs in por_corda.items():
+    for gs in por_corda.values():
         gs.sort(key=lambda g: g.x0)
         atual = [gs[0]]
         for g in gs[1:]:
@@ -503,15 +549,25 @@ def _fundir(gs: list[Glifo], passo: float = 0.0) -> Glifo:
     hastes = sum(1 for g in gs if getattr(g, "partes_digito", 1) >= 1)
     if len(gs) == 1:
         return gs[0]
-    return Glifo(x0=min(g.x0 for g in gs), y0=min(g.y0 for g in gs),
-                 x1=max(g.x1 for g in gs), y1=max(g.y1 for g in gs),
-                 corda=gs[0].corda, coluna=min(g.coluna for g in gs),
-                 area=sum(g.area for g in gs), partes=len(gs), partes_digito=hastes)
+    return Glifo(
+        x0=min(g.x0 for g in gs),
+        y0=min(g.y0 for g in gs),
+        x1=max(g.x1 for g in gs),
+        y1=max(g.y1 for g in gs),
+        corda=gs[0].corda,
+        coluna=min(g.coluna for g in gs),
+        area=sum(g.area for g in gs),
+        partes=len(gs),
+        partes_digito=hastes,
+    )
 
 
-def _segmentar_de_mascara(tinta: np.ndarray, n_cordas: int = 6,
-                          linhas_y: list[int] | None = None,
-                          passo: float = 0.0) -> Grade:
+def _segmentar_de_mascara(
+    tinta: np.ndarray,
+    n_cordas: int = 6,
+    linhas_y: list[int] | None = None,
+    passo: float = 0.0,
+) -> Grade:
     h, w = tinta.shape
     grade = Grade(altura=h, largura=w)
 
@@ -532,10 +588,13 @@ def _segmentar_de_mascara(tinta: np.ndarray, n_cordas: int = 6,
 
     lim_x = (grade.barlines_x[0] + int(passo * 2.2)) if grade.barlines_x else 0
     grade.glifos = agrupar_tokens(
-        _glifos_por_faixa(tinta, linhas_y, passo, lim_x, grade.barlines_x), passo)
+        _glifos_por_faixa(tinta, linhas_y, passo, lim_x, grade.barlines_x), passo
+    )
     grade.glifos_centrados = sum(
-        1 for x in grade.glifos
-        if min(abs(x.cy - ly) for ly in linhas_y) <= 0.25 * passo)
+        1
+        for x in grade.glifos
+        if min(abs(x.cy - ly) for ly in linhas_y) <= 0.25 * passo
+    )
     grade.glifos.sort(key=lambda g: (g.coluna, g.corda))
     return grade
 
@@ -554,8 +613,10 @@ def main() -> int:
         return 2
     g = segmentar(img, n_cordas=args.cordas, debug=args.debug)
     d = g.to_json()
-    print(f"linhas_y={d['linhas_y']} passo={d['passo']:.2f} barlines={d['barlines_x']} "
-          f"glifos={len(d['glifos'])} avisos={d['avisos']}")
+    print(
+        f"linhas_y={d['linhas_y']} passo={d['passo']:.2f} barlines={d['barlines_x']} "
+        f"glifos={len(d['glifos'])} avisos={d['avisos']}"
+    )
     if args.json:
         with open(args.json, "w") as fh:
             json.dump(d, fh, indent=1, ensure_ascii=False)

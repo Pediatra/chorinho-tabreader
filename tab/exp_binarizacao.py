@@ -3,16 +3,17 @@
 Compara variantes determinísticas (sem modelo) sobre as 5 capturas de famílias
 diferentes e sobre uma amostra das 163 linhas do acervo (para não regredir).
 """
+
 from __future__ import annotations
 
 import glob
-import sys
+import os
 
 import cv2
 import numpy as np
 
-sys.path.insert(0, "tools")
-import tabseg  # noqa: E402
+from . import tabseg
+from .caminhos import PARTES
 
 
 def _fundo(gray: np.ndarray, k: int) -> np.ndarray:
@@ -22,7 +23,7 @@ def _fundo(gray: np.ndarray, k: int) -> np.ndarray:
     return cv2.GaussianBlur(bg, (0, 0), max(1.0, k / 4))
 
 
-def v0(gray):                                  # atual: Otsu + polaridade
+def v0(gray):  # atual: Otsu + polaridade
     return tabseg.binarizar(gray)
 
 
@@ -58,7 +59,9 @@ def avaliar(nome, func, imagens, esperado=6, verbose=False):
         if gray.ndim == 3:
             if gray.shape[2] == 4:
                 a = gray[:, :, 3:4].astype(np.float32) / 255
-                gray = (gray[:, :, :3].astype(np.float32) * a + 255 * (1 - a)).astype(np.uint8)
+                gray = (gray[:, :, :3].astype(np.float32) * a + 255 * (1 - a)).astype(
+                    np.uint8
+                )
             gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
         tinta = func(gray)
         linhas, passo = tabseg.achar_cordas(tinta, esperado)
@@ -68,23 +71,33 @@ def avaliar(nome, func, imagens, esperado=6, verbose=False):
     print(f"{nome:<28} {ok}/{len(imagens)}")
     if verbose:
         for r in res:
-            print(f"    {r[0]:<16} linhas={r[1]:<3} passo={r[2]:<6} {'OK' if r[3] else 'FALHA'}")
+            print(
+                f"    {r[0]:<16} linhas={r[1]:<3} passo={r[2]:<6} {'OK' if r[3] else 'FALHA'}"
+            )
     return ok
 
 
 def main() -> int:
-    novas = sorted(glob.glob("parts/clipes/diferentes/*.png"))
+    novas = sorted(glob.glob(str(PARTES / "clipes" / "diferentes" / "*.png")))
     # amostra do acervo antigo: 2 linhas por canal (regressão)
     antigas = []
-    for d in sorted(glob.glob("parts/clipes/*/")):
-        antigas += sorted(glob.glob(d + "linha_*_tablatura.png"))[:2]
+    for d in sorted(glob.glob(str(PARTES / "clipes" / "*"))):
+        antigas += sorted(glob.glob(os.path.join(d, "linha_*_tablatura.png")))[:2]
     print("=== FAMÍLIAS DIFERENTES (5 capturas) ===")
-    for nome, f in [("v0 Otsu (atual)", v0), ("v1 contraste k=31 d=25", v1),
-                    ("v2 contraste k=51 d=15", v2), ("v3 contraste k=15 d=10", v3)]:
+    for nome, f in [
+        ("v0 Otsu (atual)", v0),
+        ("v1 contraste k=31 d=25", v1),
+        ("v2 contraste k=51 d=15", v2),
+        ("v3 contraste k=15 d=10", v3),
+    ]:
         avaliar(nome, f, novas, verbose=True)
     print(f"\n=== REGRESSÃO NO ACERVO ANTIGO ({len(antigas)} linhas) ===")
-    for nome, f in [("v0 Otsu (atual)", v0), ("v1 contraste k=31 d=25", v1),
-                    ("v2 contraste k=51 d=15", v2), ("v3 contraste k=15 d=10", v3)]:
+    for nome, f in [
+        ("v0 Otsu (atual)", v0),
+        ("v1 contraste k=31 d=25", v1),
+        ("v2 contraste k=51 d=15", v2),
+        ("v3 contraste k=15 d=10", v3),
+    ]:
         avaliar(nome, f, antigas)
     return 0
 

@@ -4,16 +4,24 @@ painel (3 faixas) -> grade de 6 cordas -> tokens -> classificador sintético
 -> compasso (barlines) -> tempo de cada nota (cursor) -> JSON.
 
 Uso:
-    python tools/transcrever.py VIDEO [--inicio 0.4] [--janela 30] [--json saida.json]
+    python -m tab.transcrever VIDEO [--inicio 0.4] [--janela 30] [--json saida.json]
 """
+
 from __future__ import annotations
-import argparse, json, os, sys
-import cv2, numpy as np
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from inventario import ler_quadro, FAIXAS          # noqa: E402
-from tabseg import segmentar                        # noqa: E402
-from reconhecer import carregar_modelo, reconhecer_linha, completar  # noqa: E402
-from cursor import detectar_cursor                  # noqa: E402
+
+import argparse
+import json
+import os
+import sys
+
+import cv2
+import numpy as np
+
+from .caminhos import MODELO_PADRAO
+from .cursor import detectar_cursor
+from .inventario import FAIXAS, ler_quadro
+from .reconhecer import carregar_modelo, completar, reconhecer_linha
+from .tabseg import segmentar
 
 
 def achar_painel(frame):
@@ -49,7 +57,7 @@ def varrer_cursor(video, roi_abs, passo_s=0.5, t_max=180.0):
         if t >= prox:
             ok, fr = cap.retrieve()
             if ok:
-                det = detectar_cursor(fr[roi_abs[0]:roi_abs[1], :])
+                det = detectar_cursor(fr[roi_abs[0] : roi_abs[1], :])
                 marcas.append((t, bool(det)))
             prox += passo_s
         t += 1.0 / fps
@@ -78,10 +86,10 @@ def tempos_do_cursor(video, roi_abs, tokens, t0, janela, passo_s=0.15):
         ok = cap.grab()
         if not ok:
             break
-        if int(round((t - t0) / passo_s)) != int(round((t - passo_s - t0) / passo_s)):
+        if round((t - t0) / passo_s) != round((t - passo_s - t0) / passo_s):
             ok, fr = cap.retrieve()
             if ok:
-                det = detectar_cursor(fr[roi_abs[0]:roi_abs[1], :])
+                det = detectar_cursor(fr[roi_abs[0] : roi_abs[1], :])
                 if det:
                     marcador.append(((det[0] + det[1]) / 2.0, t))
         t += 1.0 / fps
@@ -93,16 +101,27 @@ def tempos_do_cursor(video, roi_abs, tokens, t0, janela, passo_s=0.15):
     for i in range(1, len(marcador)):
         if abs(marcador[i][0] - marcador[ini][0]) > 4:
             if i - ini >= 3:
-                patamares.append((float(np.median([m[0] for m in marcador[ini:i]])),
-                                  marcador[ini][1], marcador[i - 1][1]))
+                patamares.append(
+                    (
+                        float(np.median([m[0] for m in marcador[ini:i]])),
+                        marcador[ini][1],
+                        marcador[i - 1][1],
+                    )
+                )
             ini = i
     if len(marcador) - ini >= 3:
-        patamares.append((float(np.median([m[0] for m in marcador[ini:]])),
-                          marcador[ini][1], marcador[-1][1]))
+        patamares.append(
+            (
+                float(np.median([m[0] for m in marcador[ini:]])),
+                marcador[ini][1],
+                marcador[-1][1],
+            )
+        )
     saida = []
     for tk in tokens:
         if not patamares:
-            saida.append((None, None)); continue
+            saida.append((None, None))
+            continue
         p = min(patamares, key=lambda q: abs(q[0] - tk.cx))
         saida.append((round(p[1], 2), round(p[2], 2)))
     return saida
@@ -122,7 +141,7 @@ def serie_cursor(video, roi_abs, t0, janela, passo_s=0.1):
         if t >= prox:
             ok, fr = cap.retrieve()
             if ok:
-                det = detectar_cursor(fr[roi_abs[0]:roi_abs[1], :])
+                det = detectar_cursor(fr[roi_abs[0] : roi_abs[1], :])
                 if det:
                     amostras.append(((det[0] + det[1]) / 2.0, t))
             prox += passo_s
@@ -141,7 +160,7 @@ def passagens(amostras, folga=30.0):
     if not amostras:
         return []
     xs = [a[0] for a in amostras]
-    x_min, x_max = min(xs), max(xs)
+    x_min = min(xs)
     limite_esq = x_min + folga
     listas, atual, dentro = [], [], False
     for x, t in amostras:
@@ -150,8 +169,9 @@ def passagens(amostras, folga=30.0):
             continue
         if dentro:
             atual.append((x, t))
-            if x < atual[-2][0] - 60:          # retrocesso forte = fim de passagem
-                listas.append(atual[:-1]); atual, dentro = [(x, t)], True
+            if x < atual[-2][0] - 60:  # retrocesso forte = fim de passagem
+                listas.append(atual[:-1])
+                atual, dentro = [(x, t)], True
     if atual:
         listas.append(atual)
     saida = []
@@ -159,9 +179,16 @@ def passagens(amostras, folga=30.0):
         if len(p) < 5:
             continue
         xs_p = [a[0] for a in p]
-        saida.append({"t_ini": round(p[0][1], 2), "t_fim": round(p[-1][1], 2),
-                      "x_min": round(min(xs_p)), "x_max": round(max(xs_p)),
-                      "n_amostras": len(p), "_amostras": p})
+        saida.append(
+            {
+                "t_ini": round(p[0][1], 2),
+                "t_fim": round(p[-1][1], 2),
+                "x_min": round(min(xs_p)),
+                "x_max": round(max(xs_p)),
+                "n_amostras": len(p),
+                "_amostras": p,
+            }
+        )
     return saida
 
 
@@ -192,8 +219,13 @@ def main() -> int:
     ap.add_argument("video")
     ap.add_argument("--inicio", type=float, default=0.4, help="fração do vídeo")
     ap.add_argument("--janela", type=float, default=30.0, help="segundos a transcrever")
-    ap.add_argument("--varredura", type=float, default=180.0, help="segundos a varrer atrás do cursor")
-    ap.add_argument("--modelo", default="/tmp/sint/glifo_sint.pt")
+    ap.add_argument(
+        "--varredura",
+        type=float,
+        default=180.0,
+        help="segundos a varrer atrás do cursor",
+    )
+    ap.add_argument("--modelo", default=str(MODELO_PADRAO))
     ap.add_argument("--json")
     args = ap.parse_args()
 
@@ -206,13 +238,16 @@ def main() -> int:
 
     frame, via = ler_quadro(args.video, args.inicio)
     if frame is None:
-        print("não consegui ler quadro", file=sys.stderr); return 2
+        print("não consegui ler quadro", file=sys.stderr)
+        return 2
     m = achar_painel(frame)
     if m is None:
-        print("nenhuma pauta de tablatura encontrada", file=sys.stderr); return 3
+        print("nenhuma pauta de tablatura encontrada", file=sys.stderr)
+        return 3
     _, nome, roi, g0 = m
-    y0 = dict((f[0], f[1]) for f in FAIXAS)[nome]
-    y1 = min(dict((f[0], f[2]) for f in FAIXAS)[nome], frame.shape[0])
+    limites = {f[0]: (f[1], f[2]) for f in FAIXAS}
+    y0 = limites[nome][0]
+    y1 = min(limites[nome][1], frame.shape[0])
 
     modelo, rotulos, dev = carregar_modelo(args.modelo)
     r = reconhecer_linha(roi, modelo, rotulos, dev)
@@ -221,13 +256,21 @@ def main() -> int:
     t_ini = janelas[0][0] if janelas else t0
     tempos = tempos_do_cursor(args.video, (y0, y1), tokens, t_ini, args.janela)
     r = completar(r, tempos)
-    r.update({"video": os.path.basename(args.video), "painel": nome, "quadro_em_s": round(t0, 1),
-              "lido_via": via, "janelas_com_cursor": janelas,
-              "segundos_com_cursor": round(sum(b - a for a, b in janelas), 1)})
+    r.update(
+        {
+            "video": os.path.basename(args.video),
+            "painel": nome,
+            "quadro_em_s": round(t0, 1),
+            "lido_via": via,
+            "janelas_com_cursor": janelas,
+            "segundos_com_cursor": round(sum(b - a for a, b in janelas), 1),
+        }
+    )
     print(json.dumps({k: v for k, v in r.items() if k != "notas"}, ensure_ascii=False))
     print("primeiras 3 notas:", json.dumps(r["notas"][:3], ensure_ascii=False))
     if args.json:
-        json.dump(r, open(args.json, "w"), ensure_ascii=False, indent=1)
+        with open(args.json, "w") as destino:
+            json.dump(r, destino, ensure_ascii=False, indent=1)
         print("salvo em", args.json)
     return 0
 

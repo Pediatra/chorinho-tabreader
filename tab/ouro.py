@@ -5,8 +5,9 @@ região da TAB ampliada (para leitura humana) e grava a segmentação automátic
 (corda, x, caixa de cada glifo). O rótulo (a casa) é preenchido à mão depois.
 
 Uso:
-    python tools/ouro.py --saida /tmp/ouro --n 6
+    python -m tab.ouro --saida data/saida/ouro --n 6
 """
+
 from __future__ import annotations
 
 import argparse
@@ -14,16 +15,15 @@ import glob
 import json
 import os
 import random
-import sys
 
 import cv2
 import numpy as np
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from tabseg import segmentar  # noqa: E402
-from inventario import ler_quadro, FAIXAS  # noqa: E402
+from .caminhos import SAIDA, acervo
+from .inventario import FAIXAS, ler_quadro
+from .tabseg import segmentar
 
-RAIZ = "/run/media/gabriel/3014CD4714CD1130/chorinho"
+RAIZ = acervo()
 
 
 def melhor_faixa(frame: np.ndarray):
@@ -48,7 +48,7 @@ def melhor_faixa(frame: np.ndarray):
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--raiz", default=RAIZ)
-    ap.add_argument("--saida", default="/tmp/ouro")
+    ap.add_argument("--saida", default=str(SAIDA / "ouro"))
     ap.add_argument("--n", type=int, default=6)
     ap.add_argument("--por-canal", type=int, default=1)
     ap.add_argument("--instante", type=float, default=0.5)
@@ -57,8 +57,11 @@ def main() -> int:
     os.makedirs(args.saida, exist_ok=True)
     rng = random.Random(args.seed)
 
-    canais = [d for d in sorted(glob.glob(os.path.join(args.raiz, "*")))
-              if os.path.isdir(d) and os.path.basename(d) != "derived"]
+    canais = [
+        d
+        for d in sorted(glob.glob(os.path.join(args.raiz, "*")))
+        if os.path.isdir(d) and os.path.basename(d) != "derived"
+    ]
     feitos = 0
     indice = []
     for canal in canais:
@@ -77,7 +80,7 @@ def main() -> int:
             m = melhor_faixa(frame)
             if m is None:
                 continue
-            score, faixa, y0, roi, g = m
+            _, faixa, _, roi, g = m
             nome = f"{feitos:02d}_{os.path.basename(canal)[:14].strip()}"
             pasta = os.path.join(args.saida, nome)
             os.makedirs(pasta, exist_ok=True)
@@ -85,22 +88,49 @@ def main() -> int:
             l0 = max(0, g.linhas_y[0] - int(1.2 * g.passo))
             l1 = min(roi.shape[0], g.linhas_y[-1] + int(1.2 * g.passo))
             crop = roi[l0:l1, :]
-            crop2 = cv2.resize(crop, None, fx=2.0, fy=2.0, interpolation=cv2.INTER_CUBIC)
+            crop2 = cv2.resize(
+                crop, None, fx=2.0, fy=2.0, interpolation=cv2.INTER_CUBIC
+            )
             cv2.imwrite(os.path.join(pasta, "crop2x.png"), crop2)
             glifos = []
             for gl in g.glifos:
-                glifos.append({"corda": int(gl.corda), "x0": int(gl.x0), "x1": int(gl.x1),
-                               "y0": int(gl.y0 - l0), "y1": int(gl.y1 - l0),
-                               "coluna": int(gl.coluna), "casa": None})
-            auto = {"video": os.path.relpath(v, args.raiz), "instante_frac": args.instante,
-                    "via": via, "faixa": faixa, "y0_roi": l0, "passo": round(g.passo, 2),
-                    "linhas_y": g.linhas_y, "glifos": glifos}
+                glifos.append(
+                    {
+                        "corda": int(gl.corda),
+                        "x0": int(gl.x0),
+                        "x1": int(gl.x1),
+                        "y0": int(gl.y0 - l0),
+                        "y1": int(gl.y1 - l0),
+                        "coluna": int(gl.coluna),
+                        "casa": None,
+                    }
+                )
+            auto = {
+                "video": os.path.relpath(v, args.raiz),
+                "instante_frac": args.instante,
+                "via": via,
+                "faixa": faixa,
+                "y0_roi": l0,
+                "passo": round(g.passo, 2),
+                "linhas_y": g.linhas_y,
+                "glifos": glifos,
+            }
             with open(os.path.join(pasta, "auto.json"), "w") as fh:
                 json.dump(auto, fh, ensure_ascii=False, indent=1)
-            indice.append({"amostra": nome, "video": auto["video"], "faixa": faixa,
-                           "passo": auto["passo"], "n_glifos": len(glifos)})
-            print(f"{nome}: {auto['video'][:56]} | faixa={faixa} passo={auto['passo']} "
-                  f"glifos={len(glifos)}", flush=True)
+            indice.append(
+                {
+                    "amostra": nome,
+                    "video": auto["video"],
+                    "faixa": faixa,
+                    "passo": auto["passo"],
+                    "n_glifos": len(glifos),
+                }
+            )
+            print(
+                f"{nome}: {auto['video'][:56]} | faixa={faixa} passo={auto['passo']} "
+                f"glifos={len(glifos)}",
+                flush=True,
+            )
             feitos += 1
             sucessos_canal += 1
     with open(os.path.join(args.saida, "indice.json"), "w") as fh:

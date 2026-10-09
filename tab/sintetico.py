@@ -10,15 +10,17 @@ Ponto central: o sintético NÃO é usado cru. Ele passa pelo MESMO extrator
 treino é idêntica à de inferência (inclusive os cortes da faixa da corda).
 
 Uso:
-    python tools/sintetico.py --n-linhas 400 --epocas 25 --saida /tmp/sint
+    python -m tab.sintetico --n-linhas 400 --epocas 25 --saida artefatos
 """
+
 from __future__ import annotations
 
 import argparse
+import collections
 import json
 import os
 import random
-import sys
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -26,15 +28,44 @@ import torch
 import torch.nn.functional as F
 from PIL import Image, ImageDraw, ImageFont
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from tabseg import segmentar  # noqa: E402
-from glyphset import normalizar  # noqa: E402
-from glyph_bench import GlifoCNN  # noqa: E402
+from .caminhos import ARTEFATOS, GABARITO, PARTES, acervo
+from .glyph_bench import GlifoCNN
+from .glyphset import normalizar
+from .inventario import ler_quadro
+from .tabseg import segmentar
 
-FONTES = [
-    "/usr/share/fonts/liberation-sans-fonts/LiberationSans-Bold.ttf",
-    "/usr/share/fonts/liberation-serif-fonts/LiberationSerif-Bold.ttf",
-]
+#: Fontes do gerador. Fonte aqui é dependência de DADO: trocar de fonte muda a
+#: distribuição do treino e, portanto, o número medido.
+NOMES_FONTES = ("LiberationSans-Bold.ttf", "LiberationSerif-Bold.ttf")
+
+#: Onde cada distribuição instala as fontes Liberation: Fedora/openSUSE (host) e
+#: Debian/Ubuntu (container). Os caminhos eram fixos do host e o treino passou a
+#: falhar dentro do container — melhor falhar do que treinar com outra fonte.
+DIRETORIOS_FONTES = (
+    "/usr/share/fonts/liberation-sans-fonts",
+    "/usr/share/fonts/liberation-serif-fonts",
+    "/usr/share/fonts/truetype/liberation",
+    "/usr/share/fonts/TTF",
+)
+
+
+def _resolver_fontes() -> list[str]:
+    """Caminhos das fontes do gerador, procurando nos diretórios conhecidos.
+
+    Returns:
+        Um caminho por nome de ``NOMES_FONTES`` que for encontrado, na mesma ordem.
+    """
+    achadas: list[str] = []
+    for nome in NOMES_FONTES:
+        for diretorio in DIRETORIOS_FONTES:
+            caminho = os.path.join(diretorio, nome)
+            if os.path.exists(caminho):
+                achadas.append(caminho)
+                break
+    return achadas
+
+
+FONTES = _resolver_fontes()
 CORES_VOZ = [(0, 0, 0), (41, 89, 197), (23, 148, 95), (200, 40, 40)]
 
 
@@ -43,7 +74,7 @@ def gerar_linha(rng: random.Random) -> tuple[np.ndarray, list[dict]]:
     passo = rng.choice([14, 16, 18, 20, 22, 24, 28, 30, 36])
     n_compassos = rng.randint(2, 5)
     n_col = rng.randint(8, 26)
-    ti = rng.choice([2, 3])                                  # espessura da corda
+    ti = rng.choice([2, 3])  # espessura da corda
     escuro = rng.random() < 0.45
     tracejada = rng.random() < 0.2 and not escuro
     borda = rng.randint(20, 60)
@@ -56,7 +87,7 @@ def gerar_linha(rng: random.Random) -> tuple[np.ndarray, list[dict]]:
     y0 = int(passo * 0.8)
     ys = [y0 + i * passo for i in range(6)]
 
-    for k, y in enumerate(ys):                               # cordas
+    for y in ys:  # cordas
         if tracejada:
             x = borda // 2
             while x < larg - borda // 2:
@@ -64,14 +95,17 @@ def gerar_linha(rng: random.Random) -> tuple[np.ndarray, list[dict]]:
                 x += passo * 1.6
         else:
             d.line([(borda // 2, y), (larg - borda // 2, y)], fill=cor_linha, width=ti)
-    if rng.random() < 0.5:                                   # rótulo TAB
+    if rng.random() < 0.5:  # rótulo TAB
         f = ImageFont.truetype(rng.choice(FONTES), int(passo * 1.15))
         for j, ch in enumerate("TAB"):
             d.text((borda * 0.25, ys[j] - passo * 0.5), ch, font=f, fill=cor_linha)
-    for c in range(1, n_compassos):                           # barlines
+    for c in range(1, n_compassos):  # barlines
         x = borda + c * (larg - 2 * borda) / n_compassos
-        d.line([(x, ys[0] - passo * 0.2), (x, ys[-1] + passo * 0.2)],
-               fill=cor_linha, width=max(1, ti - 1))
+        d.line(
+            [(x, ys[0] - passo * 0.2), (x, ys[-1] + passo * 0.2)],
+            fill=cor_linha,
+            width=max(1, ti - 1),
+        )
 
     # Lixo deliberado: no canal raman korshun sobrevivem ao extrator traços verticais
     # curtos (pedaço de barline dupla / haste), e o modelo era OBRIGADO a chamá-los de
@@ -90,11 +124,38 @@ def gerar_linha(rng: random.Random) -> tuple[np.ndarray, list[dict]]:
         if escuro and cor == (0, 0, 0):
             cor = (255, 255, 255)
         for c in cordas:
-            casa = rng.choice([0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 7, 8, 9, 10,
-                               12, 12, 14, 15, 17, 19, 21, 24])
+            casa = rng.choice(
+                [
+                    0,
+                    0,
+                    0,
+                    1,
+                    1,
+                    2,
+                    2,
+                    3,
+                    3,
+                    4,
+                    5,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    12,
+                    12,
+                    14,
+                    15,
+                    17,
+                    19,
+                    21,
+                    24,
+                ]
+            )
             tecnica = None
             txt = str(casa)
-            if rng.random() < 0.10:                           # harmônico <n>
+            if rng.random() < 0.10:  # harmônico <n>
                 tecnica, txt = "harmonico", f"<{casa % 13}>"
             elif rng.random() < 0.35:
                 tecnica, txt = rng.choice(["hammer_on", "pull_off"]), str(casa)
@@ -108,26 +169,72 @@ def gerar_linha(rng: random.Random) -> tuple[np.ndarray, list[dict]]:
             #     o que acrescenta um traço horizontal e fazia `1` ser lido como `4`.
             # O gerador agora sorteia os dois casos; antes só existia o buraco.
             if rng.random() < 0.5:
-                d.rectangle([px - 2, ys[c] - passo * 0.30, px + w + 2, ys[c] + passo * 0.30],
-                            fill=fundo)
+                d.rectangle(
+                    [px - 2, ys[c] - passo * 0.30, px + w + 2, ys[c] + passo * 0.30],
+                    fill=fundo,
+                )
             d.text((px, py), txt, font=f, fill=cor)
-            notas.append({"corda": c + 1, "casa": casa, "tecnica": tecnica,
-                          "x": int(x), "x0": int(px), "x1": int(px + w), "texto": txt})
-            if tecnica in ("hammer_on", "pull_off") and rng.random() < 0.6:   # ligado
-                d.arc([px - passo * 0.9, ys[c] + passo * 0.25,
-                       px + w + passo * 0.9, ys[c] + passo * 1.1],
-                      200, 340, fill=(0, 0, 0) if not escuro else (255, 255, 255),
-                      width=max(1, ti - 1))
-                if rng.random() < 0.8:      # diagonal ATRAVESSANDO o algarismo (caso do canal real)
-                    d.line([(px - passo * 0.15, ys[c] - passo * 0.45),
-                            (px + w + passo * 0.15, ys[c] + passo * 0.45)],
-                           fill=(0, 0, 0) if not escuro else (255, 255, 255),
-                           width=max(1, ti - 1))
+            notas.append(
+                {
+                    "corda": c + 1,
+                    "casa": casa,
+                    "tecnica": tecnica,
+                    "x": int(x),
+                    "x0": int(px),
+                    "x1": int(px + w),
+                    "texto": txt,
+                }
+            )
+            if tecnica in ("hammer_on", "pull_off") and rng.random() < 0.6:  # ligado
+                d.arc(
+                    [
+                        px - passo * 0.9,
+                        ys[c] + passo * 0.25,
+                        px + w + passo * 0.9,
+                        ys[c] + passo * 1.1,
+                    ],
+                    200,
+                    340,
+                    fill=(0, 0, 0) if not escuro else (255, 255, 255),
+                    width=max(1, ti - 1),
+                )
+                if (
+                    rng.random() < 0.8
+                ):  # diagonal ATRAVESSANDO o algarismo (caso do canal real)
+                    d.line(
+                        [
+                            (px - passo * 0.15, ys[c] - passo * 0.45),
+                            (px + w + passo * 0.15, ys[c] + passo * 0.45),
+                        ],
+                        fill=(0, 0, 0) if not escuro else (255, 255, 255),
+                        width=max(1, ti - 1),
+                    )
     return cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR), notas
+
+
+def conferir_fontes() -> None:
+    """Falha cedo e com mensagem útil se as fontes do gerador não existirem.
+
+    Fonte aqui é dependência de DADO, não de desenho: trocar de fonte muda a
+    distribuição do sintético e, portanto, o número medido. Melhor quebrar do que
+    treinar com outra fonte em silêncio.
+
+    Raises:
+        SystemExit: se alguma fonte de ``NOMES_FONTES`` não for encontrada.
+    """
+    if len(FONTES) != len(NOMES_FONTES):
+        faltando = [n for n in NOMES_FONTES if not any(n in f for f in FONTES)]
+        raise SystemExit(
+            "fontes do gerador ausentes (instale `fonts-liberation` na imagem): "
+            + ", ".join(faltando)
+            + " | procuradas em: "
+            + ", ".join(DIRETORIOS_FONTES)
+        )
 
 
 def montar(n_linhas: int, seed: int = 0) -> tuple[list, list, list]:
     """Gera linhas, passa pelo extrator e casa cada glifo extraído com a nota desenhada."""
+    conferir_fontes()
     rng = random.Random(seed)
     X, y, canais = [], [], []
     for i in range(n_linhas):
@@ -149,12 +256,14 @@ def montar(n_linhas: int, seed: int = 0) -> tuple[list, list, list]:
                 # algarismo" em vez de ser obrigado a escolher um. Era a maior fonte de
                 # erro no canal raman korshun (junk -> "1", junk -> "5").
                 continue
-            crop = gray[max(0, gl.y0 - 1): gl.y1 + 1, max(0, gl.x0 - 1): gl.x1 + 1]
+            crop = gray[max(0, gl.y0 - 1) : gl.y1 + 1, max(0, gl.x0 - 1) : gl.x1 + 1]
             norm = normalizar(crop)
             if norm is None:
                 continue
             if alvo is not None:
-                rot = alvo["tecnica"] if alvo["tecnica"] == "harmonico" else alvo["texto"]
+                rot = (
+                    alvo["tecnica"] if alvo["tecnica"] == "harmonico" else alvo["texto"]
+                )
                 # Marca FUNDIDA ao algarismo: o token recebe a classe 'tecnica', nao o
                 # algarismo. Na rodada 14 eu mantive o rotulo do algarismo e a classe '1'
                 # degradou; sinalizando o caso, o algarismo e re-lido do componente dominante.
@@ -166,16 +275,15 @@ def montar(n_linhas: int, seed: int = 0) -> tuple[list, list, list]:
     return X, y, canais
 
 
-def carregar_gabarito(caminho: str = "gold/gabarito.json"):
+def carregar_gabarito(caminho: str | Path = GABARITO):
     """Glifos reais rotulados à mão (só os que têm rótulo)."""
     if not os.path.exists(caminho):
         return [], []
-    import glob
     X, y = [], []
-    dados = json.load(open(caminho))
+    dados = json.loads(Path(caminho).read_text(encoding="utf-8"))
     for am in dados["amostras"]:
         if am["canal"] == "iwaki":
-            continue                       # iwaki é usado como calibração, ver abaixo
+            continue  # iwaki é usado como calibração, ver abaixo
         for i, rot in am["rotulos"].items():
             X.append((am["canal"], int(i), rot))
             y.append(rot)
@@ -184,34 +292,32 @@ def carregar_gabarito(caminho: str = "gold/gabarito.json"):
 
 def avaliar_no_gabarito(modelo, rotulos, dev) -> dict:
     """Aferição nos glifos REAIS rotulados à mão (nunca vistos no treino sintético)."""
-    import collections
-    import cv2 as _cv
-    from inventario import ler_quadro
-    dados = json.load(open("gold/gabarito.json"))
+    dados = json.loads(GABARITO.read_text(encoding="utf-8"))
     acertos = total = 0
     por_classe = collections.Counter()
     for am in dados["amostras"]:
         if am["canal"] == "iwaki":
-            frame, _ = ler_quadro(
-                "/run/media/gabriel/3014CD4714CD1130/chorinho/" + am["video"], 0.5)
+            frame, _ = ler_quadro(str(acervo() / am["video"]), 0.5)
             roi = frame[620:1080, :]
             img = roi
-            gray = _cv.cvtColor(roi, _cv.COLOR_BGR2GRAY)
-            off = 0
+            gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
         else:
-            img = _cv.imread("parts/clipes/-6rawhontyg_000120_000200/linha_01_tablatura.png",
-                             _cv.IMREAD_UNCHANGED)
+            recorte = PARTES / "clipes" / "-6rawhontyg_000120_000200"
+            img = cv2.imread(
+                str(recorte / "linha_01_tablatura.png"), cv2.IMREAD_UNCHANGED
+            )
             gray = img
-            off = 0
         g = segmentar(img)
         tokens = sorted(g.glifos, key=lambda x: (x.coluna, x.corda))
         rot = [am["rotulos"][str(i)] for i in range(len(am["rotulos"]))]
         if len(tokens) != len(rot):
-            print(f"  ! {am['canal']}: {len(tokens)} tokens x {len(rot)} rótulos — pulado")
+            print(
+                f"  ! {am['canal']}: {len(tokens)} tokens x {len(rot)} rótulos — pulado"
+            )
             continue
         X = []
         for tk in tokens:
-            crop = gray[max(0, tk.y0 - 1): tk.y1 + 1, max(0, tk.x0 - 1): tk.x1 + 1]
+            crop = gray[max(0, tk.y0 - 1) : tk.y1 + 1, max(0, tk.x0 - 1) : tk.x1 + 1]
             n = normalizar(crop)
             X.append(n if n is not None else np.zeros((24, 16), np.uint8))
         xt = torch.tensor(np.stack(X)[:, None].astype(np.float32) / 255.0).to(dev)
@@ -223,14 +329,15 @@ def avaliar_no_gabarito(modelo, rotulos, dev) -> dict:
         total += len(rot)
         for i, r in enumerate(rot):
             por_classe[(r, rotulos[pred[i]] == r)] += 1
-        print(f"  canal {am['canal']:<14} {a}/{len(rot)} = {a/len(rot):.2f}")
-    print(f"  TOTAL gabarito real: {acertos}/{total} = {acertos/max(1,total):.3f}")
+        print(f"  canal {am['canal']:<14} {a}/{len(rot)} = {a / len(rot):.2f}")
+    print(f"  TOTAL gabarito real: {acertos}/{total} = {acertos / max(1, total):.3f}")
     return {"acertos": acertos, "total": total}
 
 
 def treinar(X, y, saida: str, epocas: int, lote: int = 128, seed: int = 0):
-    import random as _r
-    _r.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
     rotulos = sorted(set(y))
@@ -246,7 +353,7 @@ def treinar(X, y, saida: str, epocas: int, lote: int = 128, seed: int = 0):
         perm = torch.randperm(len(xt), device=dev)
         perda_tot = 0.0
         for i in range(0, len(xt), lote):
-            b = perm[i: i + lote]
+            b = perm[i : i + lote]
             otim.zero_grad()
             perda = F.cross_entropy(modelo(xt[b]), yt[b])
             perda.backward()
@@ -256,11 +363,15 @@ def treinar(X, y, saida: str, epocas: int, lote: int = 128, seed: int = 0):
             modelo.eval()
             with torch.no_grad():
                 acc = float((modelo(xt).argmax(1) == yt).float().mean())
-            print(f"  época {ep+1:>3}/{epocas} perda={perda_tot/len(xt):.4f} acc_treino={acc:.4f}",
-                  flush=True)
+            print(
+                f"  época {ep + 1:>3}/{epocas} perda={perda_tot / len(xt):.4f} acc_treino={acc:.4f}",
+                flush=True,
+            )
     os.makedirs(saida, exist_ok=True)
-    torch.save({"state_dict": modelo.state_dict(), "rotulos": rotulos},
-               os.path.join(saida, "glifo_sint.pt"))
+    torch.save(
+        {"state_dict": modelo.state_dict(), "rotulos": rotulos},
+        os.path.join(saida, "glifo_sint.pt"),
+    )
     return modelo, rotulos, dev
 
 
@@ -269,14 +380,15 @@ def main() -> int:
     ap.add_argument("--n-linhas", type=int, default=400)
     ap.add_argument("--epocas", type=int, default=25)
     ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--saida", default="/tmp/sint")
-    ap.add_argument("--gabarito", default="gold/gabarito.json")
+    ap.add_argument("--saida", default=str(ARTEFATOS))
+    ap.add_argument("--gabarito", default=str(GABARITO))
     args = ap.parse_args()
 
     X, y, _ = montar(args.n_linhas, seed=1)
-    print(f"sintético: {len(X)} glifos extraídos de {args.n_linhas} linhas | "
-          f"{len(set(y))} classes")
-    import collections
+    print(
+        f"sintético: {len(X)} glifos extraídos de {args.n_linhas} linhas | "
+        f"{len(set(y))} classes"
+    )
     print("  distribuição:", collections.Counter(y).most_common(12))
     modelo, rotulos, dev = treinar(X, y, args.saida, args.epocas, seed=args.seed)
 

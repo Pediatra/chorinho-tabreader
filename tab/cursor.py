@@ -11,21 +11,25 @@ Método (determinístico, sem modelo):
   4. x(t) = centro da banda; valida monotonicidade (o cursor não volta).
 
 Uso:
-    python tools/cursor.py VIDEO [--roi 0 300] [--passo 1] [--debug dir]
+    python -m tab.cursor VIDEO [--roi 0 300] [--passo 1] [--debug dir]
 """
+
 from __future__ import annotations
 
 import argparse
+import itertools
 import json
-import sys
 
 import cv2
 import numpy as np
 
 
-def detectar_cursor(frame_bgr: np.ndarray, altura_min_frac: float = 0.5,
-                    largura_max_frac: float = 0.06,
-                    matizes: tuple[int, int] = (85, 140)) -> tuple[int, int, tuple[int, int]] | None:
+def detectar_cursor(
+    frame_bgr: np.ndarray,
+    altura_min_frac: float = 0.5,
+    largura_max_frac: float = 0.06,
+    matizes: tuple[int, int] = (85, 140),
+) -> tuple[int, int, tuple[int, int]] | None:
     """Devolve (x0, x1, (matiz, sat)) da banda do cursor, ou None.
 
     Duas travas aprendidas na marra: a "banda" tem de ser ESTREITA (<= 6 % da largura) e
@@ -53,28 +57,32 @@ def detectar_cursor(frame_bgr: np.ndarray, altura_min_frac: float = 0.5,
     xs = np.flatnonzero(cand)
     # maior grupo contíguo
     grupos, ini = [], xs[0]
-    for a, b in zip(xs[:-1], xs[1:]):
+    for a, b in itertools.pairwise(xs):
         if b - a > 3:
             grupos.append((ini, a))
             ini = b
     grupos.append((ini, xs[-1]))
-    x0, x1 = max(grupos, key=lambda g: (g[1] - g[0], contagem[g[0]:g[1] + 1].sum()))
-    faixa = crom[:, x0:x1 + 1]
+    x0, x1 = max(grupos, key=lambda g: (g[1] - g[0], contagem[g[0] : g[1] + 1].sum()))
+    faixa = crom[:, x0 : x1 + 1]
     if faixa.sum() == 0:
         return None
-    matiz = hsv[:, x0:x1 + 1, 0][faixa]
-    s = hsv[:, x0:x1 + 1, 1][faixa]
+    matiz = hsv[:, x0 : x1 + 1, 0][faixa]
+    s = hsv[:, x0 : x1 + 1, 1][faixa]
     m_med, s_med = int(np.median(matiz)), int(np.median(s))
     largura = x1 - x0 + 1
-    if largura > largura_max_frac * w:            # largo demais: é madeira/objeto, não banda
+    if largura > largura_max_frac * w:  # largo demais: é madeira/objeto, não banda
         return None
-    if not (matizes[0] <= m_med <= matizes[1]):   # matiz fora do azul de playback
+    if not (matizes[0] <= m_med <= matizes[1]):  # matiz fora do azul de playback
         return None
     return int(x0), int(x1), (m_med, s_med)
 
 
-def rastrear(caminho: str, roi: tuple[int, int] | None = None, passo: int = 1,
-             debug_dir: str | None = None) -> dict:
+def rastrear(
+    caminho: str,
+    roi: tuple[int, int] | None = None,
+    passo: int = 1,
+    debug_dir: str | None = None,
+) -> dict:
     cap = cv2.VideoCapture(caminho)
     if not cap.isOpened():
         raise SystemExit(f"não abri {caminho}")
@@ -97,13 +105,24 @@ def rastrear(caminho: str, roi: tuple[int, int] | None = None, passo: int = 1,
             det = detectar_cursor(frame)
             if det:
                 x0, x1, (matiz, s) = det
-                amostras.append({"frame": i, "t": i / fps, "x": (x0 + x1) / 2.0,
-                                 "x0": x0, "x1": x1, "largura": x1 - x0 + 1,
-                                 "matiz": matiz, "sat": s})
+                amostras.append(
+                    {
+                        "frame": i,
+                        "t": i / fps,
+                        "x": (x0 + x1) / 2.0,
+                        "x0": x0,
+                        "x1": x1,
+                        "largura": x1 - x0 + 1,
+                        "matiz": matiz,
+                        "sat": s,
+                    }
+                )
             if debug_dir and len(amostras) <= 3:
                 vis = frame.copy()
                 if det:
-                    cv2.rectangle(vis, (det[0], 0), (det[1], vis.shape[0] - 1), (0, 0, 255), 2)
+                    cv2.rectangle(
+                        vis, (det[0], 0), (det[1], vis.shape[0] - 1), (0, 0, 255), 2
+                    )
                 cv2.imwrite(f"{debug_dir}/cursor_f{i:06d}.png", vis)
         i += 1
 
@@ -133,12 +152,16 @@ def rastrear(caminho: str, roi: tuple[int, int] | None = None, passo: int = 1,
         "x_max": float(xs.max()) if len(xs) else None,
         "largura_nucleo_mediana": float(np.median(larguras)) if larguras else None,
         "largura_nucleo_p90": float(np.percentile(larguras, 90)) if larguras else None,
-        "matiz_mediana": float(np.median([a["matiz"] for a in amostras])) if amostras else None,
-        "posicoes_x_distintas": int(len(np.unique(np.round(xs)))),
-        "n_saltos": int(len(saltos)),
+        "matiz_mediana": float(np.median([a["matiz"] for a in amostras]))
+        if amostras
+        else None,
+        "posicoes_x_distintas": len(np.unique(np.round(xs))),
+        "n_saltos": len(saltos),
         "salto_mediano_px": float(np.median(saltos)) if len(saltos) else None,
         "retrocessos": retrocessos,
-        "intervalo_mediano_entre_saltos_s": float(np.median(intervalos)) if len(intervalos) else None,
+        "intervalo_mediano_entre_saltos_s": float(np.median(intervalos))
+        if len(intervalos)
+        else None,
     }
     return {"resumo": resumo, "amostras": amostras}
 
