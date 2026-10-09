@@ -2847,3 +2847,24 @@ delimitador (a hipótese da rodada anterior está **derrubada**). O delimitador 
 **Próxima medição (ainda sem tocar no pipeline)**: medir, nesses 55 pontos, **qual limiar** capturaria o
 arco — comparar a distribuição dos tons no ponto com o fundo local — e **qual seria o custo** (quantos
 pixels a mais entrariam na máscara no painel inteiro). Só com o custo na mão vale mudar o limiar.
+
+## 2026-10-09 — (b): 39 % dos buracos TÊM sinal (5× a taxa-base) e são consertáveis por limiar local
+
+Nos buracos confirmados como símbolo eu medi o quanto o pixel é mais escuro que o **fundo local** (mediana
+de um anel de 1,5 passo, excluindo o miolo), contra um **controle** de pontos aleatórios do mesmo painel:
+
+| | mediana | p75 | p90 | "escuro" (>=40 níveis) |
+| --- | --- | --- | --- | --- |
+| **BURACOS** (o dono diz que é símbolo) | 2 | **135** | **223** | **39 %** |
+| CONTROLE (pontos do painel) | 0 | 1 | 11 | **8 %** |
+
+**39 % contra 8 % de taxa-base: 5×.** Nesses pontos o arco **está nos pixels** e **abaixo do limiar da
+máscara** — são consertáveis por **contraste local** (não por limiar global, que foi o que eu tentei).
+
+Os outros **~60 %** não têm nada no pixel exato: ou o clique caiu alguns pixels ao lado do traço, ou não
+há sinal capturável. **Não se consertam mexendo no limiar**, e ficam registrados como tal.
+
+**Próxima medição, e ela é a última antes de qualquer mudança de código**: aplicar um limiar de
+**contraste local** na máscara do símbolo e medir **as duas coisas juntas** — quantos dos 39 % passam a
+ter candidato **e quanto de tinta falsa entra no painel inteiro** (o custo). Foi a falta dessa segunda
+metade que me fez inundar o pipeline quando liguei o caminho do símbolo.
