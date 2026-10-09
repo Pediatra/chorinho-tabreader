@@ -201,6 +201,7 @@ def reconhecer_linha(
     filtro_simbolo=None,
     faixa_y: tuple[int, int] | None = None,
     julgar_todos: bool = False,
+    limiar_simbolo2: float | None = None,
 ) -> dict:
     """Lê uma linha de tablatura: geometria + classificação + símbolo cru.
 
@@ -467,7 +468,7 @@ def reconhecer_linha(
             if rec.size == 0:
                 continue
             prob = float(filtro_simbolo([rec])[0])
-            if prob < LIMIAR_SIMBOLO:
+            if prob < (LIMIAR_SIMBOLO if limiar_simbolo2 is None else limiar_simbolo2):
                 continue
             notas.append(
                 {

@@ -2463,3 +2463,31 @@ aprova **1.258 falsos**, porque no limiar 0,5 a janela do topo também casa peda
 medição anterior dá o alvo: os candidatos **na marca** têm p90 **0,979** e os **fora** têm p90 **0,567**
 — logo um limiar entre 0,6 e 0,9 deve cortar a maior parte dos falsos **sem** perder os arcos. Medir a
 curva (limiar × recall × precisão) e escolher o ponto com o critério declarado.
+
+## 2026-10-09 — varredura do limiar: NÃO é a alavanca (as distribuições se sobrepõem)
+
+`limiar_simbolo2` (parâmetro novo, separado do limiar do caminho do algarismo) e a curva medida:
+
+| limiar | aprovados | batem | falsos | precisão | recall |
+| --- | --- | --- | --- | --- | --- |
+| **0,50** | 1.407 | 76 | 1.331 | 0,054 | **0,402** |
+| 0,60 | 1.139 | 71 | 1.068 | 0,062 | 0,376 |
+| 0,70 | 957 | 65 | 892 | 0,068 | 0,344 |
+| 0,80 | 781 | 60 | 721 | 0,077 | 0,317 |
+| 0,90 | 579 | 54 | 525 | 0,093 | 0,286 |
+| 0,95 | 471 | 49 | 422 | 0,104 | 0,259 |
+
+**Não há joelho**: subir o limiar corta falsos **e** verdadeiros juntos (precisão 0,054 → 0,104 com
+recall 0,402 → 0,259). A distribuição dos arcos e do lixo **se sobrepõe** neste caminho — mesmo em 0,95
+os falsos (422) são 8,6× os verdadeiros (49).
+
+**O que isso diz**: o problema **não é o limiar, é o TAMANHO DO POOL**. A união+faixas gera ~110
+candidatos por quadro e o filtro aprova quase todos (a mediana dos que estão na marca subiu para 0,833
+com a janela no topo — e a dos outros subiu junto). **Muitos candidatos são "forma de arco" sem ser o
+arco**: pedaços de linha, topo de dígito, ruído do contraste local.
+
+**Próxima alavanca, e ela é sobre o CANDIDATO, não sobre o limiar**: filtrar o pool **por forma** antes
+do modelo — os arcos medidos são **largos e baixos** (2,4–3,1 × 0,9–1,0 passos), e é isso que a união
+dos tokens "com forma de arco" precisa exigir (largura ≥ 1,5 passo **e** altura ≤ 1,5 passo, por
+exemplo). Medir antes de adotar: quantos candidatos sobram, quantas marcas continuam cobertas, e o
+recall/precisão resultantes.
