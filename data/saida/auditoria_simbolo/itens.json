@@ -8,6 +8,8 @@
    "aprovado": true,
    "canal": "kimny's guitar",
    "imagem": "C06_kimny's guitar.png",
+   "x": 244,
+   "y": 45,
    "w": 1.88,
    "h": 0.29
   },
@@ -19,6 +21,8 @@
    "aprovado": true,
    "canal": "kimny's guitar",
    "imagem": "C06_kimny's guitar.png",
+   "x": 656,
+   "y": 45,
    "w": 1.83,
    "h": 0.29
   },
@@ -30,6 +34,8 @@
    "aprovado": true,
    "canal": "kimny's guitar",
    "imagem": "C06_kimny's guitar.png",
+   "x": 1458,
+   "y": 25,
    "w": 1.88,
    "h": 0.29
   },
@@ -41,6 +47,8 @@
    "aprovado": true,
    "canal": "kimny's guitar",
    "imagem": "C07_kimny's guitar.png",
+   "x": 1557,
+   "y": 53,
    "w": 2.23,
    "h": 0.92
   },
@@ -52,6 +60,8 @@
    "aprovado": true,
    "canal": "robert lunn",
    "imagem": "C14_robert lunn.png",
+   "x": 1090,
+   "y": 17,
    "w": 2.1,
    "h": 0.94
   },
@@ -63,6 +73,8 @@
    "aprovado": true,
    "canal": "serge kottelat",
    "imagem": "C15_serge kottelat.png",
+   "x": 127,
+   "y": 39,
    "w": 1.87,
    "h": 0.93
   },
@@ -74,6 +86,8 @@
    "aprovado": true,
    "canal": "serge kottelat",
    "imagem": "C15_serge kottelat.png",
+   "x": 333,
+   "y": 24,
    "w": 2.53,
    "h": 0.93
   },
@@ -85,6 +99,8 @@
    "aprovado": true,
    "canal": "serge kottelat",
    "imagem": "C15_serge kottelat.png",
+   "x": 459,
+   "y": 64,
    "w": 2.27,
    "h": 0.27
   },
@@ -96,6 +112,8 @@
    "aprovado": true,
    "canal": "tv on guitar",
    "imagem": "C22_tv on guitar.png",
+   "x": 933,
+   "y": 39,
    "w": 1.51,
    "h": 1.03
   },
@@ -107,6 +125,8 @@
    "aprovado": false,
    "canal": "robert lunn",
    "imagem": "C14_robert lunn.png",
+   "x": 597,
+   "y": 17,
    "w": 1.77,
    "h": 0.94
   },
@@ -118,6 +138,8 @@
    "aprovado": true,
    "canal": "kimny's guitar",
    "imagem": "C07_kimny's guitar.png",
+   "x": 1557,
+   "y": 12,
    "w": 2.23,
    "h": 0.92
   },
@@ -129,6 +151,8 @@
    "aprovado": true,
    "canal": "kimny's guitar",
    "imagem": "C07_kimny's guitar.png",
+   "x": 1557,
+   "y": 33,
    "w": 2.23,
    "h": 0.92
   },
@@ -140,6 +164,8 @@
    "aprovado": true,
    "canal": "leonardo ramos",
    "imagem": "C09_leonardo ramos.png",
+   "x": 364,
+   "y": 110,
    "w": 1.76,
    "h": 0.93
   },
@@ -151,6 +177,8 @@
    "aprovado": true,
    "canal": "mr. tabs",
    "imagem": "C10_mr. tabs.png",
+   "x": 828,
+   "y": 40,
    "w": 2.44,
    "h": 0.95
   },
@@ -162,6 +190,8 @@
    "aprovado": true,
    "canal": "mr. tabs",
    "imagem": "C10_mr. tabs.png",
+   "x": 828,
+   "y": 66,
    "w": 2.44,
    "h": 0.95
   },
@@ -173,6 +203,8 @@
    "aprovado": true,
    "canal": "mr. tabs",
    "imagem": "C10_mr. tabs.png",
+   "x": 828,
+   "y": 93,
    "w": 2.52,
    "h": 0.95
   },
@@ -184,6 +216,8 @@
    "aprovado": true,
    "canal": "mr. tabs",
    "imagem": "C10_mr. tabs.png",
+   "x": 1664,
+   "y": 40,
    "w": 1.53,
    "h": 0.92
   },
@@ -195,6 +229,8 @@
    "aprovado": true,
    "canal": "mr. tabs",
    "imagem": "C10_mr. tabs.png",
+   "x": 1827,
+   "y": 40,
    "w": 1.64,
    "h": 0.92
   },
@@ -206,6 +242,8 @@
    "aprovado": true,
    "canal": "mr. tabs",
    "imagem": "C10_mr. tabs.png",
+   "x": 1890,
+   "y": 40,
    "w": 1.64,
    "h": 0.92
   },
@@ -217,6 +255,8 @@
    "aprovado": true,
    "canal": "mr. tabs",
    "imagem": "C11_mr. tabs.png",
+   "x": 173,
+   "y": 39,
    "w": 2.46,
    "h": 0.96
   },
@@ -228,6 +268,8 @@
    "aprovado": true,
    "canal": "mr. tabs",
    "imagem": "C11_mr. tabs.png",
+   "x": 173,
+   "y": 65,
    "w": 2.42,
    "h": 0.96
   },
@@ -239,6 +281,8 @@
    "aprovado": true,
    "canal": "mr. tabs",
    "imagem": "C11_mr. tabs.png",
+   "x": 173,
+   "y": 92,
    "w": 2.5,
    "h": 0.96
   },
@@ -250,6 +294,8 @@
    "aprovado": true,
    "canal": "mr. tabs",
    "imagem": "C11_mr. tabs.png",
+   "x": 1098,
+   "y": 39,
    "w": 2.5,
    "h": 0.96
   },
@@ -261,6 +307,8 @@
    "aprovado": true,
    "canal": "mr. tabs",
    "imagem": "C11_mr. tabs.png",
+   "x": 1099,
+   "y": 65,
    "w": 2.46,
    "h": 0.96
   },
@@ -272,6 +320,8 @@
    "aprovado": true,
    "canal": "mr. tabs",
    "imagem": "C11_mr. tabs.png",
+   "x": 1099,
+   "y": 92,
    "w": 2.54,
    "h": 0.96
   },
@@ -283,6 +333,8 @@
    "aprovado": true,
    "canal": "serge kottelat",
    "imagem": "C15_serge kottelat.png",
+   "x": 438,
+   "y": 39,
    "w": 2.67,
    "h": 0.93
   },
@@ -294,6 +346,8 @@
    "aprovado": true,
    "canal": "serge kottelat",
    "imagem": "C15_serge kottelat.png",
+   "x": 605,
+   "y": 39,
    "w": 1.87,
    "h": 0.93
   },
@@ -305,6 +359,8 @@
    "aprovado": true,
    "canal": "tv on guitar",
    "imagem": "C22_tv on guitar.png",
+   "x": 1558,
+   "y": 69,
    "w": 1.51,
    "h": 0.89
   },
@@ -316,6 +372,8 @@
    "aprovado": true,
    "canal": "tv on guitar",
    "imagem": "C22_tv on guitar.png",
+   "x": 1687,
+   "y": 68,
    "w": 1.51,
    "h": 0.96
   },
@@ -327,6 +385,8 @@
    "aprovado": true,
    "canal": "tv on guitar",
    "imagem": "C23_tv on guitar.png",
+   "x": 1860,
+   "y": 75,
    "w": 1.55,
    "h": 0.21
   }

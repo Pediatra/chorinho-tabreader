@@ -2727,3 +2727,28 @@ todo aprovado que não está em cima de uma marca, e os **9 símbolos que ele co
 
 **Conclusão**: **não há evidência de que o classificador erre** — ele acertou tudo o que foi auditado.
 Meter a mão nele agora seria consertar o que está certo para agradar um gabarito incompleto.
+
+## 2026-10-09 — (a) PARAR DE MEDIR ERRADO: três gabaritos, medidos lado a lado
+
+Recuperei as **posições (x, y na faixa)** dos candidatos auditados regerando a auditoria com as
+coordenadas gravadas, casei pelo nome do arquivo com os rótulos do dono, e **acrescentei como marcas os
+9 candidatos que ele rotulou "sim" e que não tinham marca nenhuma** — é o que a métrica antiga era
+incapaz de creditar. Arquivo novo, sem destruir os anteriores: `data/gold/marcas_simbolos_6.json`.
+
+| gabarito | marcas | batem | falsos | precisão | recall |
+| --- | --- | --- | --- | --- | --- |
+| `_4` (o meu original, com os defeitos) | 189 | 35 | 143 | 0,197 | 0,185 |
+| `_5` (36 removidas pela regra do dono) | 153 | 31 | 138 | 0,183 | 0,203 |
+| **`_6` (+ os 9 símbolos que ele confirmou)** | **162** | 35 | 143 | **0,197** | **0,216** |
+
+**A referência honesta passa a ser o `_6`**: precisão **0,197** e recall **0,216** — contra o pipeline
+anterior ao caminho do símbolo, que era **0,180 / 0,140**. Ou seja, o caminho do símbolo dá **+0,017 de
+precisão e +0,076 de recall**, os dois para cima, medidos contra um gabarito corrigido pelo dono.
+
+**E fica registrado o que ainda não está medido**: a precisão de 0,197 conta como falso positivo os
+**143 aprovados que não estão em cima de marca nenhuma** — e **nenhum deles foi auditado** (a página só
+tinha os 30 que passaram no filtro de forma). O dono confirmou **29 de 29** dos que ele viu. **É por
+isso que o passo (c) — auditar o pool aberto — é o único que fecha a pergunta "o modelo erra no pool?"**
+
+Os 9 símbolos que ele confirmou (posições recuperadas): C06 ×3 (x=244, 656, 1458), C07_0005 (x=1557),
+C14_0020 (x=1090), C15 ×3 (x=127, 333, 459), C22_0026 (x=933).
