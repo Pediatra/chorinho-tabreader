@@ -1546,6 +1546,34 @@ começa 256 px abaixo do topo da ROI). O token que eu vi em `y=13` da ROI está 
 **acima da tablatura**. É o mesmo bug de espaço, agora dentro do meu teste. **Não registro `0,15`
 como precisão da coleta.**
 
+## 2026-10-09 — fim a fim com o espaço CERTO: 0,10 — e a pista de onde ele aprova errado
+
+Corrigi o espaço no meu teste (`strip_y = roi_y + (altura_quadro − altura_ROI) − y0`, conferido no
+`iwaki`: linhas 283–419 na ROI viram 903–1039 no quadro, e `roi_das_cordas` dá 876–1066 com margem
+de exatamente 1 passo nos dois lados) e remedi:
+
+| | |
+| --- | --- |
+| marcas | 189 |
+| aprovados | 201 |
+| **coincidem** | **21** |
+| **precisão fim a fim** | **0,10** |
+| **recall fim a fim** | **0,11** |
+
+**Não melhorou** (era 0,12–0,15 com o espaço errado). Os três consertos — alinhar vídeos, corrigir o
+recorte dos negativos, corrigir o espaço — **não fecharam a distância** entre o LOCA (0,77–0,79) e o
+fim a fim (0,10).
+
+**A pista, medida**: no `iwaki`, um token aprovado está em ROI `y=13`, que na faixa é **`y=−243`** —
+**acima da tablatura**, fora da região das cordas. O modelo aprova regiões **fora** da faixa das
+cordas, e essas aprovações não podem casar com marca nenhuma.
+
+**Próximo passo, concreto**: os candidatos do pipeline **não estão restritos à faixa das cordas** —
+e símbolo de tablatura vive **dentro** dela. Restringir os candidatos à região que o
+`roi_das_cordas` já delimita é uma trava determinística, barata de medir, e ataca exatamente o que
+sobrou. Medir antes de adotar: quantos dos 523 positivos do gabarito ficam dentro da faixa (deve ser
+quase todos) e quantos dos aprovados de fora sobram.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
