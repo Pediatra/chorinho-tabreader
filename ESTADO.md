@@ -767,6 +767,30 @@ Conserto no código: o campo ganhou o nome honesto `classes_dos_simbolos` (com `
 por compatibilidade) e um comentário dizendo o que ele conta. O campo não estava errado — o
 **nome** é que enganava, e eu caí nele.
 
+## 2026-10-09 — partitura: terceira hipótese REPROVADA, e o diagnóstico muda o alvo
+
+Hipótese: pedaço de partitura teria **linhas horizontais paralelas** dentro do recorte (pauta de
+5). Medido nos rótulos da folha 1, contando picos do perfil de linha:
+
+| grupo | nº de linhas por recorte |
+| --- | --- |
+| **partitura (4)** | **0, 0, 1, 3** — recortes de **8 a 13 px** de altura |
+| `algarismo` (16) | 1 a **12** |
+| `tablatura` (12) | 0 a 13 |
+
+A regra "≥3 linhas" pega **1 de 4** da partitura e marca **24 de 44** úteis (quase todos
+algarismos). **Reprovada**, como o classificador genérico de lixo e a regra da cruz.
+
+**O diagnóstico corrige a minha suposição**: os 4 recortes de partitura **não são pedaços de
+pauta** — são **fragmentos minúsculos** (8–13 px) do conteúdo da partitura: cabeça de nota,
+haste, acidente. Logo o vazamento **não é padrão de token, é de PAINEL**: algum painel de
+partitura está passando no teste de 6 linhas, o mesmo mecanismo do "5 linhas da pauta + borda"
+que eu já consertei uma vez (decisão 0007).
+
+Com **4 exemplos rotulados** eu não calibro regra de token, e não vou inventar uma. O caminho
+certo é achar DE ONDE vêm esses recortes (casando o hash com o painel de origem) e olhar o
+painel — que é o passo que ainda não foi feito.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
