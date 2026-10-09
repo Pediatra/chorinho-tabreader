@@ -489,6 +489,48 @@ que estavam guardados como símbolo, ele recupera **14–16 de 16** (88 % no lim
 valor certo em 11–13 — e a varredura mostra que 12 % do lixo viraria nota errada no limiar
 0,5 contra **2 %** no 0,95. É esse número que sustenta a decisão, não o total da coleta.
 
+## 2026-10-09 — o dono do projeto auditou o gabarito de símbolos: 48/48 de concordância
+
+Ele leu a mesma folha (`folha_simbolos_1.png`) e mandou os rótulos com a legenda dele. O que
+eu havia juntado, ele separou:
+
+| rótulo dele | n | o que eu tinha chamado |
+| --- | --- | --- |
+| algarismo | **16** | algarismo — **mesmos valores** |
+| nada (`&`) | 13 | lixo |
+| **tablatura (`§`)** | **12** | lixo — inclui as **5 cruzes** (barline × corda) |
+| **partitura (`{}`)** | **4** | dúvida/lixo |
+| símbolo | 3 | eu só tinha visto 1 |
+
+**Concordância: 48/48 em "é algarismo?" e 16/16 no algarismo E no valor.** Duas leituras
+independentes, nenhuma divergência — é a validação mais forte que este gabarito podia ter.
+
+**Dois achados que a auditoria trouxe e que não são sobre símbolo, são sobre a coleta:**
+
+1. **8 % da amostra (4 de 48) ainda é pedaço de PARTITURA** — o delimitador não a exclui em
+   todos os painéis (o `{` é pauta de 5 linhas, não tablatura);
+2. **25 % é material de linha da tablatura**, e as **5 cruzes** (barline × corda) estão aí:
+   elas cabem na caixa (~1 passo × 1 passo) e escapam das regras de tamanho, como eu já
+   havia medido. Agora têm nome e contagem.
+
+**E o `(n)` tem significado oficial** (dono do projeto): algarismo entre parênteses = nota
+**não tocada de novo** — nota ligada (tie), nota fantasma/toque suave, ou resultado de
+técnica (bend `7b(9)`, hammer-on/pull-off `2h(4)`). Gravado em `configs/simbolos.yaml`.
+
+**Remedição com o gabarito auditado** (120 recortes: 88 algarismos, 32 não-algarismos):
+
+| semente | LOCA | `sky guitar` |
+| --- | --- | --- |
+| 1 | 106/120 = 0,883 | 6/15 |
+| 2 | 114/120 = 0,950 | 13/15 |
+| 3 | 100/120 = **0,833** | **0/15** |
+
+Média **0,889**, amplitude **0,117** (pior que os 0,078 de antes). **`sky guitar` vai de 0/15
+a 13/15 entre sementes** — o canal do MVP é o ponto frágil, e num canal nunca visto o
+discriminador pode não reconhecer NENHUM algarismo dele. O consolo medido: com o limiar 0,95
+o modo de falha é "não recuperado" (o algarismo segue guardado como símbolo e declarado), não
+"nota errada inventada" — que é exatamente por que a escolha conservadora foi a certa.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

@@ -1,0 +1,55 @@
+# Mapa símbolo -> significado, POR CANAL (decisão de projeto: símbolo não se descarta, o
+# significado é dado depois, olhando imagem). Fonte: dono do projeto, leitura da folha
+# `data/saida/frames/folha_simbolos_1.png` em 2026-10-09, comparada com a minha leitura
+# independente — 48/48 de concordância em "é algarismo?", e 16/16 no algarismo E no valor.
+#
+# Ele separou o que eu havia juntado, e isso virou a taxonomia do gabarito:
+#   &   = recorte nada a ver (pedaço cinza)
+#   §   = pedaço DA TABLATURA (material de linha: corda, barline, cruz barline x corda)
+#   {}  = pedaço DA PARTITURA
+#   (n) = algarismo entre parênteses (nota presa)
+
+versao: 1
+atualizado: 2026-10-09
+
+taxonomia_de_recorte:
+  algarismo: "algarismo de casa, legível — vira NOTA, nunca símbolo"
+  nada: "recorte sem relação: pedaço cinza, foto borrada, fundo (&)"
+  tablatura: "material de linha da tablatura: corda, barline, e a CRUZ de barline x corda (§)"
+  partitura: "pedaço da pauta de 5 linhas / notação ({}) — NÃO pode entrar na coleta"
+  simbolo: "marca de técnica ou ligadura — é o que interessa classificar"
+
+simbolos:
+  "(n)":
+    nome: nota_presa
+    aspecto: "algarismo dentro de parênteses, ex.: (0), (3), (12)"
+    significado_oficial: >
+      A nota NÃO deve ser tocada de novo: ela continua soando. O dono do projeto listou os
+      três usos que dependem do contexto — (a) nota ligada (tie/sustentação): foi tocada
+      antes e continua soando, sem nova palhetada; (b) nota fantasma ou toque suave: nota
+      abafada, muito fraca ou sutil, em passagens rápidas; (c) resultado de técnica: aparece
+      depois de bend (7b(9)) ou de hammer-on/pull-off (2h(4)), indicando a nota de chegada,
+      que soa sem nova palhetada.
+    fonte: dono_do_projeto
+    confirmado: true
+    onde: "visto em mr. tabs (recorte 40 da folha de simbolos)"
+  "(-":
+    nome: abertura_de_parentese_com_linha
+    aspecto: "abertura de parêntese com uma linha da tablatura atravessando"
+    significado_oficial: null
+    fonte: dono_do_projeto
+    confirmado: false
+    onde: "mr. tabs (recorte 47)"
+  pedaco_de_arco:
+    nome: fragmento_de_ligadura
+    aspecto: "pedaço de arco cortado, sem as pontas"
+    significado_oficial: null
+    fonte: dono_do_projeto
+    confirmado: false
+    onde: "shin izumi (recorte 19)"
+
+# O que a leitura do dono revelou sobre a COLETA (não sobre o símbolo):
+achados_da_auditoria:
+  - "8% da amostra (4 de 48) ainda é PEDAÇO DE PARTITURA: o delimitador não a exclui em todos os painéis"
+  - "25% (12 de 48) é material de linha da tablatura, incluindo as 5 CRUZES (barline x corda) que cabem na caixa e escapam das regras de tamanho"
+  - "33% (16 de 48) era algarismo puro guardado como símbolo — o alvo do discriminador"

@@ -16,7 +16,9 @@
    "altura": 112,
    "largura": 80,
    "rotulo": "algarismo",
-   "observacao": "9"
+   "observacao": "9",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "9"
   },
   {
    "indice": 2,
@@ -25,7 +27,9 @@
    "altura": 96,
    "largura": 48,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   },
   {
    "indice": 3,
@@ -34,7 +38,9 @@
    "altura": 64,
    "largura": 44,
    "rotulo": "duvida",
-   "observacao": "fragmento escuro"
+   "observacao": "fragmento escuro",
+   "rotulo_dono": "partitura",
+   "observacao_dono": ""
   },
   {
    "indice": 4,
@@ -43,7 +49,9 @@
    "altura": 116,
    "largura": 88,
    "rotulo": "algarismo",
-   "observacao": "4"
+   "observacao": "4",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "4"
   },
   {
    "indice": 5,
@@ -52,7 +60,9 @@
    "altura": 164,
    "largura": 96,
    "rotulo": "algarismo",
-   "observacao": "0"
+   "observacao": "0",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "0"
   },
   {
    "indice": 6,
@@ -61,7 +71,9 @@
    "altura": 36,
    "largura": 56,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   },
   {
    "indice": 7,
@@ -70,7 +82,9 @@
    "altura": 64,
    "largura": 28,
    "rotulo": "lixo",
-   "observacao": "cruz = barline x corda"
+   "observacao": "cruz = barline x corda",
+   "rotulo_dono": "tablatura",
+   "observacao_dono": ""
   },
   {
    "indice": 8,
@@ -79,7 +93,9 @@
    "altura": 116,
    "largura": 88,
    "rotulo": "algarismo",
-   "observacao": "4"
+   "observacao": "4",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "4"
   },
   {
    "indice": 9,
@@ -88,7 +104,9 @@
    "altura": 36,
    "largura": 100,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   },
   {
    "indice": 10,
@@ -97,7 +115,9 @@
    "altura": 104,
    "largura": 36,
    "rotulo": "lixo",
-   "observacao": "barra"
+   "observacao": "barra",
+   "rotulo_dono": "tablatura",
+   "observacao_dono": ""
   },
   {
    "indice": 11,
@@ -106,7 +126,9 @@
    "altura": 56,
    "largura": 160,
    "rotulo": "duvida",
-   "observacao": "curva escura"
+   "observacao": "curva escura",
+   "rotulo_dono": "partitura",
+   "observacao_dono": ""
   },
   {
    "indice": 12,
@@ -115,7 +137,9 @@
    "altura": 72,
    "largura": 56,
    "rotulo": "algarismo",
-   "observacao": "9"
+   "observacao": "9",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "9"
   },
   {
    "indice": 13,
@@ -124,7 +148,9 @@
    "altura": 112,
    "largura": 84,
    "rotulo": "algarismo",
-   "observacao": "9"
+   "observacao": "9",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "9"
   },
   {
    "indice": 14,
@@ -133,7 +159,9 @@
    "altura": 104,
    "largura": 40,
    "rotulo": "lixo",
-   "observacao": "barra"
+   "observacao": "barra",
+   "rotulo_dono": "tablatura",
+   "observacao_dono": ""
   },
   {
    "indice": 15,
@@ -142,7 +170,9 @@
    "altura": 64,
    "largura": 28,
    "rotulo": "lixo",
-   "observacao": "barra + cruz"
+   "observacao": "barra + cruz",
+   "rotulo_dono": "partitura",
+   "observacao_dono": ""
   },
   {
    "indice": 16,
@@ -151,7 +181,9 @@
    "altura": 120,
    "largura": 48,
    "rotulo": "lixo",
-   "observacao": "fundo"
+   "observacao": "fundo",
+   "rotulo_dono": "tablatura",
+   "observacao_dono": ""
   },
   {
    "indice": 17,
@@ -160,7 +192,9 @@
    "altura": 72,
    "largura": 72,
    "rotulo": "algarismo",
-   "observacao": "11"
+   "observacao": "11",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "11"
   },
   {
    "indice": 18,
@@ -169,7 +203,9 @@
    "altura": 104,
    "largura": 40,
    "rotulo": "lixo",
-   "observacao": "barra"
+   "observacao": "barra",
+   "rotulo_dono": "tablatura",
+   "observacao_dono": ""
   },
   {
    "indice": 19,
@@ -178,7 +214,9 @@
    "altura": 48,
    "largura": 100,
    "rotulo": "duvida",
-   "observacao": "arco borrado"
+   "observacao": "arco borrado",
+   "rotulo_dono": "simbolo",
+   "observacao_dono": "pedaco de arco cortado"
   },
   {
    "indice": 20,
@@ -187,7 +225,9 @@
    "altura": 100,
    "largura": 80,
    "rotulo": "algarismo",
-   "observacao": "4"
+   "observacao": "4",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "4"
   },
   {
    "indice": 21,
@@ -196,7 +236,9 @@
    "altura": 68,
    "largura": 72,
    "rotulo": "algarismo",
-   "observacao": "11"
+   "observacao": "11",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "11"
   },
   {
    "indice": 22,
@@ -205,7 +247,9 @@
    "altura": 32,
    "largura": 84,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   },
   {
    "indice": 23,
@@ -214,7 +258,9 @@
    "altura": 68,
    "largura": 68,
    "rotulo": "algarismo",
-   "observacao": "11"
+   "observacao": "11",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "11"
   },
   {
    "indice": 24,
@@ -223,7 +269,9 @@
    "altura": 60,
    "largura": 28,
    "rotulo": "lixo",
-   "observacao": "barra"
+   "observacao": "barra",
+   "rotulo_dono": "tablatura",
+   "observacao_dono": ""
   },
   {
    "indice": 25,
@@ -232,7 +280,9 @@
    "altura": 40,
    "largura": 60,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   },
   {
    "indice": 26,
@@ -241,7 +291,9 @@
    "altura": 160,
    "largura": 152,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   },
   {
    "indice": 27,
@@ -250,7 +302,9 @@
    "altura": 96,
    "largura": 116,
    "rotulo": "algarismo",
-   "observacao": "10"
+   "observacao": "10",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "10"
   },
   {
    "indice": 28,
@@ -259,7 +313,9 @@
    "altura": 112,
    "largura": 28,
    "rotulo": "lixo",
-   "observacao": "cruz"
+   "observacao": "cruz",
+   "rotulo_dono": "tablatura",
+   "observacao_dono": ""
   },
   {
    "indice": 29,
@@ -268,7 +324,9 @@
    "altura": 64,
    "largura": 72,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   },
   {
    "indice": 30,
@@ -277,7 +335,9 @@
    "altura": 108,
    "largura": 28,
    "rotulo": "lixo",
-   "observacao": "cruz"
+   "observacao": "cruz",
+   "rotulo_dono": "tablatura",
+   "observacao_dono": ""
   },
   {
    "indice": 31,
@@ -286,7 +346,9 @@
    "altura": 92,
    "largura": 76,
    "rotulo": "algarismo",
-   "observacao": "5"
+   "observacao": "5",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "5"
   },
   {
    "indice": 32,
@@ -295,7 +357,9 @@
    "altura": 44,
    "largura": 56,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "partitura",
+   "observacao_dono": ""
   },
   {
    "indice": 33,
@@ -304,7 +368,9 @@
    "altura": 32,
    "largura": 128,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   },
   {
    "indice": 34,
@@ -313,7 +379,9 @@
    "altura": 48,
    "largura": 56,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   },
   {
    "indice": 35,
@@ -322,7 +390,9 @@
    "altura": 72,
    "largura": 88,
    "rotulo": "algarismo",
-   "observacao": "12"
+   "observacao": "12",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "12"
   },
   {
    "indice": 36,
@@ -331,7 +401,9 @@
    "altura": 48,
    "largura": 68,
    "rotulo": "lixo",
-   "observacao": "braco"
+   "observacao": "braco",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   },
   {
    "indice": 37,
@@ -340,7 +412,9 @@
    "altura": 120,
    "largura": 76,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   },
   {
    "indice": 38,
@@ -349,7 +423,9 @@
    "altura": 72,
    "largura": 68,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   },
   {
    "indice": 39,
@@ -358,7 +434,9 @@
    "altura": 104,
    "largura": 32,
    "rotulo": "lixo",
-   "observacao": "barra"
+   "observacao": "barra",
+   "rotulo_dono": "tablatura",
+   "observacao_dono": ""
   },
   {
    "indice": 40,
@@ -367,7 +445,9 @@
    "altura": 120,
    "largura": 156,
    "rotulo": "simbolo",
-   "observacao": "nota presa (0)"
+   "observacao": "nota presa (0)",
+   "rotulo_dono": "simbolo",
+   "observacao_dono": "numero entre parenteses = nota presa (tie/sustentacao), nota fantasma, ou resultado de tecnica (bend/hammer-on/pull-off)"
   },
   {
    "indice": 41,
@@ -376,7 +456,9 @@
    "altura": 108,
    "largura": 84,
    "rotulo": "algarismo",
-   "observacao": "5"
+   "observacao": "5",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "5"
   },
   {
    "indice": 42,
@@ -385,7 +467,9 @@
    "altura": 64,
    "largura": 28,
    "rotulo": "lixo",
-   "observacao": "cruz"
+   "observacao": "cruz",
+   "rotulo_dono": "tablatura",
+   "observacao_dono": ""
   },
   {
    "indice": 43,
@@ -394,7 +478,9 @@
    "altura": 164,
    "largura": 100,
    "rotulo": "algarismo",
-   "observacao": "0"
+   "observacao": "0",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "0"
   },
   {
    "indice": 44,
@@ -403,7 +489,9 @@
    "altura": 120,
    "largura": 28,
    "rotulo": "lixo",
-   "observacao": "cruz"
+   "observacao": "cruz",
+   "rotulo_dono": "tablatura",
+   "observacao_dono": ""
   },
   {
    "indice": 45,
@@ -412,7 +500,9 @@
    "altura": 72,
    "largura": 52,
    "rotulo": "algarismo",
-   "observacao": "6"
+   "observacao": "6",
+   "rotulo_dono": "algarismo",
+   "observacao_dono": "6"
   },
   {
    "indice": 46,
@@ -421,7 +511,9 @@
    "altura": 104,
    "largura": 36,
    "rotulo": "lixo",
-   "observacao": "barra"
+   "observacao": "barra",
+   "rotulo_dono": "tablatura",
+   "observacao_dono": ""
   },
   {
    "indice": 47,
@@ -430,7 +522,9 @@
    "altura": 120,
    "largura": 56,
    "rotulo": "duvida",
-   "observacao": "curva tipo f"
+   "observacao": "curva tipo f",
+   "rotulo_dono": "simbolo",
+   "observacao_dono": "abertura de parentese com uma linha da tablatura no meio"
   },
   {
    "indice": 48,
@@ -439,7 +533,25 @@
    "altura": 64,
    "largura": 48,
    "rotulo": "lixo",
-   "observacao": ""
+   "observacao": "",
+   "rotulo_dono": "nada",
+   "observacao_dono": ""
   }
- ]
+ ],
+ "rotulos_do_dono": {
+  "fonte": "dono do projeto, leitura da mesma folha_simbolos_1.png, 2026-10-09",
+  "legenda": "&=nada a ver (pedaco cinza); §=pedaco da tablatura; {}=pedaco da partitura"
+ },
+ "convergencia": {
+  "mesma_resposta": 48,
+  "algarismo_e_valor_iguais": 16
+ },
+ "divergencias": [],
+ "resumo_dono": {
+  "algarismo": 16,
+  "nada": 13,
+  "partitura": 4,
+  "tablatura": 12,
+  "simbolo": 3
+ }
 }

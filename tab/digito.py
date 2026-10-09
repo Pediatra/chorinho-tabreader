@@ -120,7 +120,11 @@ def montar_conjunto() -> tuple[np.ndarray, np.ndarray, list[str]]:
     if GOLD_SIMBOLOS.exists():
         gold = json.loads(GOLD_SIMBOLOS.read_text(encoding="utf-8"))
         for caso in gold["casos"]:
-            if caso["rotulo"] == "duvida":
+            # A leitura do DONO DO PROJETO manda quando existe (ele auditou a mesma folha e
+            # separou o que eu havia juntado: `§` pedaço de tablatura, `{}` de partitura,
+            # `&` nada a ver). Sem ela, cai no meu rótulo e a dúvida fica fora.
+            rotulo = caso.get("rotulo_dono") or caso["rotulo"]
+            if rotulo == "duvida":
                 continue
             arq = CROPS_SIMBOLOS / f"{caso['indice']:02d}.png"
             if not arq.exists():
@@ -129,7 +133,7 @@ def montar_conjunto() -> tuple[np.ndarray, np.ndarray, list[str]]:
             if img is None:
                 continue
             X.append(preparar(img))
-            y.append(1 if caso["rotulo"] == "algarismo" else 0)
+            y.append(1 if rotulo == "algarismo" else 0)
             canais.append(caso["canal"])
     return np.stack(X), np.array(y), canais
 
