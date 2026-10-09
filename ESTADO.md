@@ -292,6 +292,32 @@ reta, arco não). É o próximo refinamento.
 A leitura **não degradou**, conferido: os 3 modelos oficiais deram os mesmos números
 (0,917 / 0,986 / 0,944).
 
+## 2026-10-09 — REGRA DE CURVATURA: medida e REPROVADA antes de entrar no código
+
+Eu ia separar **arco de ligadura** (símbolo) de **pedaço de corda** (lixo) por **retidão**:
+a corda é reta, o arco encurva. Medi 196 recortes largos-e-baixos da coleta nova (desvio do
+y médio por coluna, normalizado pela altura) e **olhei a prancha**
+(`data/saida/frames/largos_baixos.png`):
+
+| grupo | o que apareceu |
+| --- | --- |
+| **"retos"** (desvio ≤ 0,08) | **foto borrada** (corpo do violão, gradiente de mão) — e dois **símbolos legítimos**: `transcriptor 0,059` = **`44`** e `mr. tabs 0,074` = **`1⌒`** |
+| **"encurvados"** (0,29–0,33) | mancha escura com aresta diagonal = **braço/mão do violão** (lixo) |
+
+**Conclusão: retidão NÃO separa essas classes.** A regra teria jogado `44` e `1⌒` fora e
+mantido o braço — e o número da coleta até "melhoraria". Não entrou no código, e fica
+registrado aqui para ninguém tentar de novo pelo mesmo caminho.
+
+**O que o lixo restante realmente é**, medido no olho: **fragmento de FOTO borrada** (corpo,
+mão, sombra do braço), não fragmento de linha. O critério que falta não é forma, é
+**nitidez/contraste** — símbolo de tablatura é traço crisp, foto borrada não é. É a próxima
+calibração, e ela tem de ser medida antes de virar regra (foi exatamente isto que salvou o
+projeto aqui).
+
+Lição que se soma à nº 6 do `AGENTS.md`: **o gargalo é cobertura de dado, não regra de
+visão** — seis regras geométricas medidas neste projeto deram zero ou negativo, e esta
+seria a sétima.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
