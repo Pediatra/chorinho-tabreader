@@ -2611,3 +2611,42 @@ vê** (é por ela que se classifica), **verde = o candidato bruto**, que costuma
 **Próximo passo (B do goal)**: por que o caminho do símbolo gera só 30 candidatos onde há 189 marcas —
 medir se o arco existe como componente cru na posição da marca **na máscara união+faixas** e, se existe,
 por que não sobrevive ao `agrupar_tokens`/filtro de forma.
+
+## 2026-10-09 — OS 170 BURACOS TÊM NOME: o meu filtro de forma é quem os cria
+
+Medição marca a marca (189), com dx e dy **separados**, na máscara união+faixas:
+
+| | n |
+| --- | --- |
+| **candidato a menos de 1 passo, em x E y** | **139** |
+| candidato em x, longe em y | 13 |
+| longe nos dois | 10 |
+| marca fora da ROI | 25 |
+| **sem tinta crua na máscara** | **85** |
+| sem candidato nenhum no quadro | 1 |
+
+`dx` mediano **0,30 passo** e `dy` mediano **0,37 passo** — ou seja, **os candidatos estão em cima das
+marcas do dono**. E então:
+
+| o candidato mais próximo da marca passa o filtro de forma? | n |
+| --- | --- |
+| **NÃO passa** | **147** |
+| passa | 16 |
+
+**A causa dos buracos não é a geração de candidatos: é o FILTRO DE FORMA** (largura ≥ 1,5 passo) que eu
+introduzi para salvar a precisão. Ele aprova **16 de 163**.
+
+**E a premissa da "forma de arco" estava errada pelo mesmo vício de sempre**: os 2,4×1,0 a 3,1×1,0
+passos que eu medi como "forma do arco" vieram da medição com **±1 passo de tolerância em cada eixo** —
+a mesma que eu já tinha derrubado. Os candidatos que caem **em cima** da marca são **fragmentos
+pequenos**, não arcos largos.
+
+**O que sobra para os 85 "sem tinta crua"**: nesses pontos nem a união das máscaras tem tinta — o arco é
+fino demais para qualquer limiar, ou o ponto está em região que a união não cobre. São um problema
+**diferente**, e ficam registrados como tal.
+
+**Próximo passo, e ele não é apertar nem afrouxar o filtro**: o filtro de forma existe para **limitar
+quantas janelas o modelo julga** — mas várias candidatas próximas geram a **MESMA janela** (a janela é
+larga, ±1,2 passo, independente do tamanho do candidato). Então o caminho é **deduplicar por janela**
+(quantizar o centro) em vez de **descartar por forma**: julga cada janela **uma vez**, sem perder o arco.
+Medir: quantas janelas únicas sobram, quantas marcas ficam cobertas e o par recall/precisão.
