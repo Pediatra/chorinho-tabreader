@@ -1024,6 +1024,39 @@ Por que a `e_haste_fina` do delimitador não pegava: ela exige **perfil constant
 e estas barras têm desvio **0,218** — passavam. A regra nova usa só a razão, e só no caminho de
 SÍMBOLO (o algarismo `1`, que é estreito, não é afetado porque não é candidato a símbolo).
 
+## 2026-10-09 — coleta com filtro positivo + regra da barra: 2.242 → 934 símbolos, e a precisão medida
+
+Coleta completa (17 canais, 3 vídeos × 2 instantes), arquivando a anterior para a comparação ser
+pareada:
+
+| | 4 travas (sem filtro) | **com filtro + regra da barra** |
+| --- | --- | --- |
+| símbolos guardados | 2.242 | **934** (−58 %) |
+| tokens | 4.748 | 4.584 (delimitador não mudou) |
+| fração símbolo/token | 47,2 % | **20,4 %** |
+
+**Corte por canal** (o filtro age onde há lixo de render): `ギタロー` −80 %, `mr. tabs` −76 %,
+`shin izumi` −75 %, `robert lunn` −73 %, `guitar dell'arte` −68 %, `kimny's` −57 %,
+`violaodecria` −45 %, `sky guitar` −37 %, `paolo` −35 %, `transcriptor` −24 %, `iwaki` −13 %,
+`serge kottelat` −11 %; **`tv on guitar` −0 %**; e **`tv cifras`, `pablo romé` e `cifra club`
+zeraram** (no `cifra club` zero é o CERTO: é vídeo com nome de acorde, não tem tablatura).
+
+**Precisão medida no olho**, amostra aleatória de 48 recortes da coleta nova:
+
+| categoria | 4 travas | **filtro + barra** |
+| --- | --- | --- |
+| **símbolo de verdade** | 4 % | **27 %** (13 de 48) |
+| material de linha / lixo | 56 % | **15 %** |
+| **algarismo guardado como símbolo** | 40 % | **58 %** (28 de 48) |
+
+**O lixo de linha caiu de 56 % para 15 % e o símbolo verdadeiro subiu de 4 % para 27 % — 7×.** Mas
+o alvo do goal (~99 % de precisão) **não foi atingido**: precisão medida = **27 %**. O que sobrou é
+o problema ANTIGO, não o novo: **algarismo entrando como símbolo** (58 %). São tokens cuja classe
+top-1 não é algarismo (erro do classificador) ou que têm algarismo + símbolo no mesmo token — e o
+recorte centrado no token mostra o algarismo.
+
+Próximo alvo, portanto: o caminho de `alvos`/`simbolo_cru` quando o token É (ou CONTÉM) algarismo.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
