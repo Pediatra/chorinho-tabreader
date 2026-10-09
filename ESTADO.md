@@ -719,6 +719,32 @@ E o perfil faz sentido para o canal: `mr. tabs` é tablatura pura rolando (muita
 barline: 96) e traço crisp (só 5 de nitidez) — as duas regras novas se comportam como se espera
 onde se sabe o que esperar.
 
+## 2026-10-09 — coleta com as QUATRO travas: 37 % barrado, e um sinal ruim aberto
+
+Inventário com extensão + largura + haste + nitidez (17 canais, 3 vídeos × 2 instantes):
+
+| medida | valor |
+| --- | --- |
+| tokens mantidos | 4.748 |
+| símbolos guardados | 2.242 (47,2 %) |
+| algarismos classificados | 871 (18 %) |
+| **recusados pelo delimitador** | **2.826** |
+| **% do que entraria, barrado** | **37 %** |
+
+**O perfil confirma a previsão onde eu sabia o que esperar** — e é isso que dá confiança nas
+regras: `mr. tabs` (tablatura pura rolando) tem `haste_fina=96` e só `sem_nitidez=5`; `pablo
+romé` e `tv cifras` (vídeo-aula) têm `sem_nitidez=222` e `202`; `sky guitar` tem 9 recusas no
+total. Cada regra se comporta como se deve no canal em que se sabe o que esperar.
+
+**SINAL RUIM, REGISTRADO E NÃO EXPLICADO**: `mr. tabs` leu **31 algarismos em 635 tokens
+(5 %)** — e é o canal de tablatura pura. Ou o painel está sendo escolhido errado nos instantes
+amostrados, ou os tokens estão fundidos (a 3ª passada do discriminador só olha token de **um**
+componente), ou a fonte daquele canal engana o classificador de forma específica.
+
+Tentei diagnosticar e **não reproduzi**: o quadro que eu peguei deu `passo 5,8` (painel falso,
+abaixo do mínimo de 14). O sinal fica aberto, com as três hipóteses nomeadas — e não vou fechar
+o goal fingindo que ele não existe.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
