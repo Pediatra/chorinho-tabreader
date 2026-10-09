@@ -940,6 +940,23 @@ outra, então ele é **mais largo** que a janela quadrada.
 (2,4 × 1,6 passo, mantendo o MESMO enquadramento nas duas classes) e comparar o LOCA — em especial
 o recall nesses 5, que hoje são os candidatos naturais a falso negativo.
 
+## 2026-10-09 — o aviso do dono CONSERTADO: janela larga, recall 123/123 nas três sementes
+
+Ele avisou ("arco de ligadura quase sumindo — cuidado pra não cortar coisa demais"), eu medi
+(tinta na borda 0,17 contra 0,08 dos outros) e **refiz os recortes com janela de 2,4 × 1,6 passo**
+em vez de 1,6 × 1,6 — as duas classes com o mesmo enquadramento. O mesmo conjunto, mesmas
+sementes:
+
+| semente | janela quadrada 1,6 × 1,6 | **janela larga 2,4 × 1,6** |
+| --- | --- | --- |
+| 1 | 122/123 (0,99) | **123/123 (1,00)** |
+| 2 | 123/123 (1,00) | **123/123 (1,00)** |
+| 3 | **118/123 (0,96)** | **123/123 (1,00)** |
+
+**Recall perfeito nas três sementes e a instabilidade da semente 3 desapareceu** — ela era o arco
+cortado, não o modelo. Falsos positivos seguem em 2–4 de 1076 (0,2–0,4 %). A observação de olho do
+dono virou ganho medido de 4 pontos na pior semente.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
