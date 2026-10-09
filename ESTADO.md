@@ -2302,3 +2302,34 @@ agrupamento faz. Um caso rastreado do começo ao fim vale mais que cem contagens
 máscara" e "(b) está e é recusado depois" — **a imagem decidiu por (b)**, e para o C07 há um terceiro
 caso: **(c) o arco é quase invisível na própria imagem**, e nesses pontos nem a imagem crua o tem
 claramente.
+
+## 2026-10-09 — o rastreamento de UM caso, e a combinação que dobra o recall (e quebra o gabarito)
+
+**O caso rastreado** (a marca do `C16` que está em cima do arco): o pixel dela, na **união**, pertence
+a um componente de **1822 × 137 px = 85,14 × 6,40 passos** — a união **piora** o gigante (sendo mais
+inclusiva, engrossa as linhas e costura tudo). E na `otsu` o arco **não existia**. **As duas máscaras
+falham por motivos opostos** — e é isso que explica por que cada tentativa isolada dava neutro.
+
+**Espessura real das linhas** (medida): `C16` otsu 5 px (0,23 passo), `C16` união 3 px, `C07` otsu
+3 px, `C07` união 4 px — com p90 de até **15 px** (onde o traço encosta na linha, a corrida vertical
+cresce). A minha faixa de ±0,12 passo ≈ ±2,5 px estava na mediana.
+
+**E então a combinação que nunca tinha sido testada** — união (para o arco **existir**) + faixas (para
+ele não estar colado):
+
+| | antes | **união + faixas** |
+| --- | --- | --- |
+| aprovados | 126 | **631** |
+| **casam com a marca do dono** | 21 | **78** |
+| **recall fim a fim** | 0,11 | **0,41** |
+| precisão fim a fim | 0,17 | 0,12 |
+| **gabarito de algarismo** | 0,917/0,986/0,944 | **QUEBRA: `total=0`, zero glifos** |
+
+**O recall quase quadruplica** — os símbolos finalmente chegam ao filtro, que era o diagnóstico desde o
+começo. **Mas o gabarito quebra**: a segmentação perde **todos** os glifos, e os 631 aprovados vêm
+desse destroço. **Não entra assim** — rejeitado e revertido (**conferido por leitura do arquivo**: a
+chamada com faixas não existe mais, e o gabarito voltou a 0,917/0,986/0,944).
+
+**O que fica**: a união (neutra no gabarito) e a **direção certa medida** — o caminho é união + uma
+faixa que **poupe o dígito**. Próximo passo: faixa mais estreita, ou apagá-la **só onde a linha é
+fina**, ou aplicá-la **só no caminho do símbolo** (deixando o caminho do algarismo intacto).

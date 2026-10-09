@@ -565,6 +565,10 @@ def segmentar(img: np.ndarray, n_cordas: int = 6, debug: str | None = None) -> G
                 melhor, usada, escolhida = g, tinta, nome
             continue
         for linhas, med in cands:
+            # UNIÃO + FAIXAS: medido e REJEITADO. O recall fim a fim salta (0,11 -> 0,41; 78 marcas
+            # casando contra 21) porque o símbolo finalmente vira token — MAS o gabarito de algarismo
+            # QUEBRA: `total=0`, zero glifos encontrados. Os 631 aprovados vêm de uma segmentação
+            # destruída. Não entra assim: primeiro a faixa precisa poupar o dígito.
             g = _segmentar_de_mascara(_uniao_mascaras(img), n_cordas, linhas, med)
             g.avisos.insert(0, f"mascara={nome}")
             # O CONTEÚDO decide qual pauta é a tablatura: algarismo de TAB fica
