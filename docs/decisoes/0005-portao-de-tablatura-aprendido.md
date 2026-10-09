@@ -119,3 +119,44 @@ frame real, lido no olho** — como o gabarito. Plano:
    dado), com os 7 casos desta tabela mantidos **fora** do treino, como conjunto de
    aceitação;
 4. só entra no pipeline o que passar no conjunto de aceitação **e** na validação.
+
+## Segunda tentativa: recortes REAIS rotulados no olho → 18/23, mas não generaliza
+
+Coletei 121 recortes de painel de 8 canais (o melhor candidato de cada vídeo **e** a
+segunda faixa, que costuma ser o braço/corpo), montei folhas de 32 com índice e rotulei
+**lendo uma a uma** — os PNGs ficam em `data/saida/frames/folha_A/B/C.png` e os rótulos em
+`data/gold/portao.json` (**119 rotulados**: 26 tablatura, 93 não, 2 em dúvida).
+
+O que a leitura mostrou: a folha A (cifra club) tinha **1 tablatura em 32** (o resto era
+corpo/braço e os painéis de letra e acorde); a folha B (eruditos) tinha **16 em 32**; a
+folha C (cifra club/outros) tinha **13 em 32** com nomes de acorde acima da TAB. Ou seja:
+o detector propõe muito negativo, e é isso que dá para minar.
+
+Treinando com os 119 reais (96 treino / 23 validação, estratificado) **mais 1.800
+sintéticos alinhados** como aumento:
+
+- **validação real: 18/23 (78%)** — melhor que o sintético puro;
+- **mas o conjunto de aceitação piorou para 3/7**: agora ele **rejeita as três tablaturas
+  conhecidas** (`sky4_t88` 0,003; `sky4_t120` 0,000; `asturias` 0,000) e aceita a partitura
+  (0,61).
+
+Três causas, todas de **dado**, não de capacidade do modelo:
+
+1. **classe desbalanceada** (26 positivos × 93 negativos): a perda é dominada pelo negativo;
+2. **viés de canal**: os positivos rotulados vieram de cifra club, eruditos, iwaki, kimny,
+   leonardo, mr. tabs, pablo romé, paolo — **`sky guitar` quase não aparece**, e é
+   justamente o canal do MVP. O modelo aprendeu "partitura+TAB dos eruditos" como cara de
+   tablatura e estranhou uma TAB limpa de 3 algarismos;
+3. **validação sorteada aleatoriamente mede a coisa errada**: o que importa é generalizar
+   para **canal que não entrou no treino**. A validação tem de ser **por canal**.
+
+## Próximo passo do portão (revisado de novo)
+
+1. rotular **mais positivos por canal**, sobretudo `sky guitar` e `iwaki` (os dois do MVP
+   ainda não representados), com o mesmo método: folha com índice, leitura no olho, PNG
+   para auditoria;
+2. balancear as classes no treino (peso ou reamostragem) e medir a **validação deixando um
+   canal inteiro de fora**;
+3. só adotar o portão quando ele acertar o conjunto de aceitação **e** o canal deixado de
+   fora. Enquanto isso, o pipeline **declara** que não tem portão confiável em vez de
+   aceitar piano.
