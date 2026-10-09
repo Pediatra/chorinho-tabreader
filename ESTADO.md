@@ -860,6 +860,34 @@ da pauta. É o mesmo defeito já medido antes — *"o modelo vê algarismo em pe
 > **insuficiente** (LOCA 0,762, recall de 0,49 no `sky guitar`). As duas correções baratas foram
 > medidas e reprovadas (tolerância custa 21 % dos painéis; conteúdo não separa).
 
+## 2026-10-09 — folha 3 (coleta JÁ com as 4 travas): o lixo caiu de 60 % para 56 %, e as CRUZES ficaram
+
+O dono do projeto perguntou, com razão: *"folha 2 está praticamente igual, mudou em quê?"*.
+Resposta honesta: **as folhas 1 e 2 não podiam mostrar mudança** — as duas foram sorteadas
+**antes** de a haste fina e a nitidez entrarem. A diferença entre elas é só a amostragem
+(aleatória em 6 canais × estratificada em 17, sem repetir recorte), e o retrato igual **é o
+achado** (duas amostras independentes concordando).
+
+Medi então a composição **depois** das regras, com a folha 3 (amostra aleatória da coleta
+atual, 48 recortes, excluindo os 96 já rotulados):
+
+| rótulo | folha 1 | folha 2 | **folha 3 (4 travas)** |
+| --- | --- | --- | --- |
+| algarismo | 33 % | 42 % | **40 %** |
+| `tablatura` (§) | 25 % | 25 % | **33 %** |
+| `nada` (&) | 27 % | 29 % | **23 %** |
+| partitura ({}) | 8 % | 0 % | **0 %** |
+| símbolo de verdade | 2 % | 2 % | **4 %** |
+| **LIXO** | **60 %** | **54 %** | **56 %** |
+
+**O que mudou de verdade**: o `nada` caiu (29 % → 23 %) — é a nitidez trabalhando. **O que não
+mudou**: o material de linha continua 33 %, e **as CRUZES (`+`) são 7 dos 48 = 15 %**.
+
+**E isso explica uma reprovação minha**: na rodada em que testei a "regra da cruz", os recortes
+que eu tinha rotulado como cruz (folha 1) eram, medidos no quadro, **hastes de 4 px** — não
+cruzes. Eu **calibrei a regra contra exemplos descritos errado**, e foi por isso que ela deu
+0 de 6. A folha 3 tem **7 cruzes de verdade**, na forma certa para o teste.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
