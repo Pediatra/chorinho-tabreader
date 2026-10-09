@@ -1359,6 +1359,29 @@ Estado do disco, dito para não confundir depois: a rodada de teste de 2 canais 
 `mr. tabs` e `serge kottelat` dentro de `data/saida/simbolos/`; os outros canais continuam da coleta
 completa anterior. A próxima rodada re-roda tudo.
 
+## 2026-10-09 — coleta LIMPA com a janela julgada: 1.018 símbolos, precisão no olho 27 %
+
+| | valor |
+| --- | --- |
+| símbolos guardados | **1.018** em 4.691 tokens (21,7 %) |
+| **precisão no olho** (48 recortes) | **27 %** (~13 símbolos) |
+| algarismo guardado como símbolo | **52 %** (~25) |
+| lixo/notação/material de linha | ~21 % (~10) |
+
+**O conserto do recorte NÃO fechou a distância.** Os recortes agora carregam contexto (arcos,
+`X` de abafado, `(12)`, ornamento triangular — visíveis na amostra), mas a maioria continua sendo
+**dígito**, e a precisão da coleta continua em **27 %**, contra **89–91 %** do LOCA com o MESMO
+modelo.
+
+**O que isso significa, dito sem rodeio**: o LOCA mede o conjunto rotulado (523 positivos × 880
+negativos de 22 tablaturas) e a coleta mede o que o pipeline salva — e os dois não concordam, mesmo
+com treino e teste alinhados por vídeo. **Ainda não sei por quê.** A diferença que sobra está entre
+o conjunto de CANDIDATOS do pipeline (`alvos`) e o conjunto de negativos do gabarito (tokens longe
+das marcas), e eu não medi essa diferença — é o que falta medir antes de qualquer outra hipótese.
+
+**Não vou fechar o goal com 27 %**, e também não vou apresentar o 89–91 % do LOCA como se fosse a
+precisão da coleta: são duas medidas diferentes, e a que importa para o produto é a segunda.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
