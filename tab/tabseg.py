@@ -826,9 +826,7 @@ def _tirar_linhas(tinta: np.ndarray, linhas_y: list[int], passo: float) -> np.nd
         return tinta
     u8 = tinta.astype(np.uint8)
     # kernel longo o bastante para não confundir arco com linha: 2,5 passos
-    kernel = cv2.getStructuringElement(
-        cv2.MORPH_RECT, (max(7, int(round(2.5 * passo))), 1)
-    )
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (max(7, round(2.5 * passo)), 1))
     linhas = cv2.morphologyEx(u8, cv2.MORPH_OPEN, kernel).astype(bool)
     # engorda 1 px em volta das linhas detectadas, para não sobrar rebarba de linha
     if linhas.any():
@@ -863,10 +861,12 @@ def _segmentar_de_mascara(
     grade.barlines_x = achar_barlines(tinta, linhas_y)
 
     lim_x = (grade.barlines_x[0] + int(passo * 2.2)) if grade.barlines_x else 0
-    # SEM AS LINHAS: o arco encostado na linha vira componente próprio (ver `_tirar_linhas`).
+    # As faixas das cordas NÃO são apagadas aqui: a tentativa por morfologia (`_tirar_linhas`) ficou ATIVA
+    # por engano das rodadas 3 a 5 (a minha "reversão" não pegou) e os gigantes de 73 passos
+    # persistiram mesmo assim; a versão por FAIXAS (`_sem_faixas`) é o próximo passo, a medir.
     grade.glifos = agrupar_tokens(
         _glifos_por_faixa(
-            _tirar_linhas(tinta, linhas_y, passo),
+            tinta,
             linhas_y,
             passo,
             lim_x,

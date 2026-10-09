@@ -2179,3 +2179,24 @@ deriva de painel, refutado por verificação).
 **Próxima medição**: repetir a contagem **usando a máscara que o pipeline escolheu** (ela está nos
 `avisos` da grade) — e só então decidir se o conserto é no delimitador, na segmentação ou na
 binarização.
+
+## 2026-10-09 — CORREÇÃO DE INTEGRIDADE: a minha "reversão" da rodada 2 NÃO pegou
+
+Ao inspecionar o código para ligar a versão por faixas, descobri que `_tirar_linhas` (a remoção de
+linhas por morfologia) **estava ATIVA** — a minha reversão da rodada 2 passou no `assert` mas não
+alterou o que eu supunha. Consequência: **as medições das rodadas 3, 4 e 5 foram feitas com a
+retirada de linhas ligada**, e eu as apresentei como se estivesse tudo desligado.
+
+**O que isso muda**: os "gigantes de 73 passos de largura" que eu medi na máscara do próprio pipeline
+foram medidos **com a morfologia ativa** — ou seja, a remoção por morfologia **não resolve** os
+gigantes (o que reforça a leitura de que as linhas vêm quebradas nas máscaras de contraste e a
+abertura não as extrai). **O diagnóstico permanece; a atribuição anterior estava errada.**
+
+E o conserto por **faixas** (`_sem_faixas`: apaga `linhas_y ± 0,12 passo`, usando a posição que o
+pipeline já conhece) **não chegou a ser ligado**: a inserção da função falhou e a chamada ficou
+apontando para um nome inexistente (5 testes quebrados). Revertido para o estado são; a versão por
+faixas é o **próximo passo**, a medir.
+
+**Lição registrada**: eu declarei "revertido" com base num `assert` que passou, sem **ler o arquivo
+depois** de editar. É a mesma família de erro das outras cinco vezes: eu verifico o que eu quis fazer,
+não o que ficou no arquivo.
