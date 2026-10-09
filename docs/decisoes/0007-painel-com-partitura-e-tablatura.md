@@ -105,3 +105,33 @@ mesmo intervalo (110,3–313,3 s do `sky guitar` / `(henze) nocturno`):
 
 O relatório do MusicXML declara `tempo_medido: true`, `pulso_s: 4.0`, `bpm 15` derivado e
 duração **inferida**. Zero notas recusadas.
+
+## A regra nova REPROVAVA tablatura legítima: o `shin izumi` provou
+
+A busca no quadro inteiro trouxe um efeito colateral medido. Em `shin izumi`, 6 vídeos, os
+dois critérios **no mesmo quadro**: regra velha (três faixas) dizia `tab` em **6 de 6**;
+regra nova dizia `tab_painel` em **1 de 6**.
+
+Fui olhar (`data/saida/frames/shin_diverge.png`, três vídeos, quadro em 0,70 da duração):
+**a tablatura está lá, embaixo, nos três** — painel `T A B` com casas (`0 2 0 2 0 0`,
+`0 2 0 4 0 5`, `2 2 2 2`) e os diagramas de acorde acima. Ou seja: **a regra velha estava
+certa ali e a nova estava errada**. A descrição do dono do projeto (tablatura em todos os
+vídeos do canal, embaixo) confere com a imagem.
+
+**Causa**: a busca no quadro inteiro montava o perfil de tinta com `binarizar` (Otsu
+**global**), que perde linha fina em quadro de iluminação forte — justamente o caso do
+`shin izumi` (parede clara, pessoa iluminada). O `segmentar`, que lê o recorte, já usava a
+**cascata** de máscaras (Otsu + contraste local). Medido: sem a cascata, 3 de 4 vídeos do
+canal não davam **nenhum** grupo de 6 linhas, nem com limiar frouxo de 15 %.
+
+**Conserto**: `candidatos_quadro` soma os picos de **todas as máscaras da cascata**
+(`mascaras_candidatas`), com dois limiares de fração de tinta por máscara. Depois dele,
+3 de 4 vídeos do `shin izumi` acham a tablatura (passo ~21 px) onde antes só 1 achava — e o
+caso da partitura segue correto: no `sky guitar` (`(henze)`) os cinco instantes continuam
+concordando em `y318`, rejeitando a pauta de 5 linhas.
+
+Custo: `escolher` passou de **119 ms** para **295 ms** por quadro (medido), ainda abaixo do
+custo de ler o quadro (AV1: ~400 ms).
+
+**Lição registrada**: a regra nova não substitui a velha por decreto. Quando as duas
+divergem, a divergência é o dado — e quem decide é o quadro, olhado.

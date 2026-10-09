@@ -32,7 +32,7 @@ from dataclasses import dataclass
 import cv2
 import numpy as np
 
-from .tabseg import Grade, binarizar, picos_de_linha, segmentar
+from .tabseg import Grade, mascaras_candidatas, picos_de_linha, segmentar
 
 #: Faixas verticais onde o painel costuma estar (a posição varia por vídeo).
 FAIXAS: list[tuple[str, int, int]] = [
@@ -158,17 +158,22 @@ def candidatos_quadro(
     Returns:
         Candidatos, sem ordenar e sem repetição de faixa.
     """
-    tinta = binarizar(frame)
-    # Dois limiares: medido no `sky guitar` (henze, frac 0,8) a tablatura está DENSA
-    # (48 glifos) e as linhas ficam interrompidas pelos algarismos — a fração de tinta na
-    # linha cai abaixo de 30 % e a busca no quadro inteiro não achava nada, deixando a
-    # reserva (faixa fixa, que inclui o vídeo) entrar. Os dois limiares custam ~1,3 ms.
+    # Picos de linha somados por TODAS as máscaras da cascata do `segmentar` (Otsu global
+    # e contraste local), com dois limiares de fração de tinta por máscara. Cada um destes
+    # consertos foi medido numa falha real:
+    #   - Otsu GLOBAL perde linha fina em quadro de iluminação forte: medido no
+    #     `shin izumi` (que TEM tablatura, conferida na imagem), 3 de 4 vídeos não davam
+    #     NENHUM grupo de 6 linhas, enquanto o `segmentar` (contraste local) achava;
+    #   - um limiar só de 30 % perde a tablatura DENSA: medido no `sky guitar` (henze,
+    #     frac 0,8), 48 glifos interrompem a linha e ela cai para ~15 % de tinta;
+    #   - picos a menos de 3 px da borda são moldura (regra do `picos_de_linha`).
     picos: list[int] = []
-    for fracao in (0.30, 0.15):
-        for _v, y in picos_de_linha(tinta, fracao_min=fracao):
-            y = int(y)
-            if not picos or all(abs(y - p) > 2 for p in picos):
-                picos.append(y)
+    for _nome, mascara in mascaras_candidatas(frame):
+        for fracao in (0.30, 0.15):
+            for _v, y in picos_de_linha(mascara, fracao_min=fracao):
+                y = int(y)
+                if not picos or all(abs(y - p) > 2 for p in picos):
+                    picos.append(y)
     picos.sort()
     if len(picos) < 6:
         return []
