@@ -1423,6 +1423,44 @@ O próximo passo é o que eu deveria ter feito primeiro: **desenhar no quadro, l
 aprovados e as marcas do dono** — olhar a imagem antes de teorizar (regra 4 do projeto, que eu
 quebrei duas vezes seguidas nesta rodada).
 
+## 2026-10-09 — o bug do `1 de 256` era MEU (y somado duas vezes), achado DESENHANDO
+
+Desenhei no mesmo quadro as marcas do dono (círculos azuis) e os tokens aprovados (quadrados
+verdes) — `data/saida/frames/marcas_vs_tokens.png` — e **olhei antes de teorizar**. Os dois caem
+**nos mesmos lugares** sobre a tablatura, o que provou que a comparação é que estava errada. No
+código:
+
+```python
+abs(cy - (y0 + m["y"])) < 0.7 * passo     # ERRADO: m["y"] JÁ está na coordenada da FAIXA
+```
+
+`m["y"]` já vem na coordenada da faixa (foi nela que ele clicou) e eu **somava o `y0` de novo**.
+Depois de corrigir, o número virou `21 de 256` (com tolerância de 0,7 passo) e **`31 de 256`** com
+tolerância que associa símbolo (arco, acima) a token (dígito, abaixo): 1,2 passo em x, 2,0 em y.
+
+**TESTE FIM A FIM, contra as marcas dele, nas 18 tablaturas marcadas:**
+
+| medida | valor |
+| --- | --- |
+| marcas | 189 |
+| tokens aprovados | 256 |
+| **coincidem** | **31** |
+| **precisão fim a fim** | **31/256 = 0,12** |
+| **recall fim a fim** | **31/189 = 0,16** |
+
+**É este o número que vale para o produto** — medido contra a verdade dele, não contra o conjunto
+que eu construí. E ele diz que o pipeline aprova tokens que **não** são os símbolos marcados, o que
+é coerente com os 27 % do olho.
+
+**O que continua sem explicação, e agora com nome**: o LOCA do mesmo modelo dá 0,89–0,91 no conjunto
+rotulado, e o fim a fim dá 0,12 contra as marcas. As duas medidas usam o MESMO modelo e os MESMOS
+vídeos. A diferença está entre o **conjunto de candidatos do pipeline** e o **conjunto rotulado** —
+e é exatamente essa diferença que falta medir, comparando janela a janela, token a token.
+
+**Regra que eu quebrei e que o desenho restaurou**: eu escrevi duas teorias (offset de x; e antes
+disso a hipótese da coordenada) sobre uma imagem que eu não tinha aberto. Abrir a imagem achou o bug
+em um minuto.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
