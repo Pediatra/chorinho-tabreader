@@ -154,6 +154,45 @@ vocabulário** (3.223 ocorrências → 3.221 hashes distintos, porque escala e a
 mudam o PNG a cada ocorrência). Contar hash não agrupa nada; o caminho é agrupar por
 **forma** (`tab/glyphset.py`), como já é feito com os glifos.
 
+## 2026-10-09 — o portão de tablatura: números fechados (item 2 do objetivo)
+
+Config vencedora: **recortes reais rotulados apenas (sem sintético) + peso de classe**,
+12 épocas. Três sementes, tudo medido:
+
+| medida | resultado |
+| --- | --- |
+| **conjunto de aceitação** (7 casos fixos) | **6/7, 6/7, 6/7** — média 0,857, **amplitude 0** (determinístico); antes era 3/7 |
+| **leave-one-channel-out** (pooled) | 0,812 / 0,753 / 0,721 → **média 0,762**, amplitude 0,091 |
+| recall de tablatura (LOCA) | 199/309 = **0,644** |
+
+Por canal deixado de fora (média das 3 sementes): cifra club 1,000 · leonardo 1,000 ·
+mr. tabs 0,933 · kimny 0,875 · guitar dell'arte 0,854 · iwaki 0,792 · paolo 0,667 ·
+**sky guitar 0,656 (recall de tablatura 0,49)** · **pablo romé 0,452**.
+
+**Balanceamento (o que o objetivo pedia), seed 1, LOCA / aceitação:**
+
+| estratégia | LOCA | aceitação |
+| --- | --- | --- |
+| sem peso | 0,801 | 5/7 |
+| **peso de classe, só real** | **0,812** | **6/7** |
+| peso + 300 sintéticos/classe | 0,641 | 6/7 |
+| peso + 1500 sintéticos/classe | 0,655 | **7/7** |
+| peso + 300 negativos sintéticos | 0,763 | 6/7 |
+| real só, 22 épocas | 0,721 | — |
+
+**Duas conclusões que importam:**
+
+1. **Dado sintético DERRUBA a generalização neste portão** (0,812 → 0,641): o positivo
+   sintético ajuda a passar o conjunto de aceitação e piora o canal deixado de fora. O
+   subagente escolheu pelo LOCA, não pela aceitação — decisão metodológica certa.
+2. **O portão NÃO está pronto para entrar no pipeline**: 0,762 no canal deixado de fora e
+   **recall de 0,49 no `sky guitar`** (o canal do MVP) significa que ele **rejeita metade
+   da tablatura** ali. Falha determinística única: as **tarraxas do `shin izumi`** são
+   aceitas com p ≈ 0,95 nas três sementes.
+
+Rótulos: 121 → **289** (103 tablatura / 184 não / 2 dúvida), 9 canais. Novos positivos:
+`sky guitar` 96 recortes → **65 tablatura**; `iwaki` 72 → **12 tablatura** (60 não).
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
