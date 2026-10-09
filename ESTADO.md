@@ -57,7 +57,8 @@ mudou, com o número que sustenta cada item:
 | o que | resultado medido |
 | --- | --- |
 | **varredura do acervo novo** | **96,5 % com tablatura** (3.855/3.993), em 69,5 min |
-| **`sky guitar` (corrigido pelo dono)** | ele apagou os vídeos especiais **sem tutorial**: restaram **417, todos com tablatura**. A varredura dizia 348/440 — a contagem era de antes da limpeza, e a diferença mede **falso negativo do detector**, não ausência de tablatura |
+| **`sky guitar` (corrigido pelo dono)** | ele apagou os vídeos especiais **sem tutorial**: restaram **417, todos com tablatura**. A varredura dizia 348/440 |
+| **por que eu errei os 14 %** | dos vídeos que o scan de **1 instante** chamou de "sem tablatura", **20 de 20 têm tablatura em algum instante** (7 instantes conferidos). O padrão é nítido: nas frações 0,08/0,22/0,36 do vídeo ela quase nunca está; de **0,50 para o fim** está quase sempre. O instante único do scan caía justamente na primeira metade |
 | **cursor no quadro inteiro** | 69 de 3.993 — o portão exige faixa de ≥50 % da **imagem** (540 px) e o cursor tem a altura do painel (~150 px) |
 | **cursor no ROI da faixa** | muda onde o detector olha, mas **não basta**: no mesmo vídeo as detecções eram **artefato** (banda parada em x=0–99 por 5 s na borda do painel e bandas em x≈900–1084, fora do painel, que é 0–594). Aquele vídeo **não tem marcador** |
 | **`iwaki` tem marcador? (corrigido pelo dono)** | **não**. Amostra de 6 vídeos × 7 instantes: **0 detecções**. O dono está certo; o canal mostra a partitura/tablatura e vai trocando |
@@ -77,6 +78,12 @@ detecções estão **espalhadas** (x = 230, 285, 341, 548, 638, 690, 844, 1184, 
 anda para **um lado**; `tab/tempo.resumo` agora classifica isso como **`erratico`** e o
 pipeline não atribui tempo. O método (inverter uma série monotônica) segue correto e testado;
 o que faltava era **provar que existe série**, e isso agora é condição de aceitação.
+
+**O inventário de 1 instante é um PISO, não um retrato.** Medido: a tablatura do `sky guitar`
+aparece da metade para o fim, então amostrar a **segunda metade** detecta quase tudo com 1–2
+instantes, enquanto amostrar cedo subestima. O "96,5 % com tablatura" do acervo inteiro foi
+medido com 1 instante em 0,35 da duração: é **piso**. Para presença, `tab.varredura` agora
+aceita `--frac-inicio/--frac-fim`.
 
 **Bloqueio do MVP:** o **tempo por nota**, e o obstáculo real é anterior ao código:
 **a presença e a semântica do marcador são POR VÍDEO, não por canal**. No vídeo do

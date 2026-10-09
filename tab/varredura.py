@@ -272,7 +272,12 @@ def medir_quadro(frame: np.ndarray) -> dict:
     return out
 
 
-def instantes(duracao: float, quantos: int) -> list[float]:
+def instantes(
+    duracao: float,
+    quantos: int,
+    frac_inicio: float = 0.08,
+    frac_fim: float = 0.90,
+) -> list[float]:
     """Instantes de amostragem, em segundos.
 
     Args:
@@ -286,11 +291,17 @@ def instantes(duracao: float, quantos: int) -> list[float]:
         return [0.0]
     if quantos <= 1:
         return [round(duracao * 0.35, 2)]
-    fracoes = np.linspace(0.08, 0.90, quantos)
+    fracoes = np.linspace(frac_inicio, frac_fim, quantos)
     return [round(duracao * float(f), 2) for f in fracoes]
 
 
-def varrer_video(caminho: str, raiz: str, quantos: int) -> dict:
+def varrer_video(
+    caminho: str,
+    raiz: str,
+    quantos: int,
+    frac_inicio: float = 0.08,
+    frac_fim: float = 0.90,
+) -> dict:
     """Varre um vídeo e devolve a linha de resultado (sem escrever nada)."""
     rel = os.path.relpath(caminho, raiz)
     canal = rel.split(os.sep)[0]
@@ -304,7 +315,7 @@ def varrer_video(caminho: str, raiz: str, quantos: int) -> dict:
     registro["via"] = leitor.via
     try:
         amostras = []
-        for t in instantes(dur, quantos):
+        for t in instantes(dur, quantos, frac_inicio, frac_fim):
             frame = leitor.ler(t)
             if frame is None:
                 amostras.append({"t": t, "erro": "sem_quadro"})
@@ -365,6 +376,10 @@ def main() -> int:
     ap.add_argument("--saida", default=str(SAIDA / "varredura" / "inventario"))
     ap.add_argument("--canais", nargs="*", default=None)
     ap.add_argument("--instantes", type=int, default=1)
+    # Medido no `sky guitar`: a tablatura aparece da METADE para o fim, então amostrar a
+    # segunda metade detecta quase tudo; amostrar cedo subestima. Ver ESTADO.md.
+    ap.add_argument("--frac-inicio", type=float, default=0.08)
+    ap.add_argument("--frac-fim", type=float, default=0.90)
     ap.add_argument(
         "--limite", type=int, default=0, help="máximo de vídeos (0 = todos)"
     )
@@ -410,7 +425,13 @@ def main() -> int:
                     )
                     return 0
                 try:
-                    registro = varrer_video(v, args.raiz, args.instantes)
+                    registro = varrer_video(
+                        v,
+                        args.raiz,
+                        args.instantes,
+                        args.frac_inicio,
+                        args.frac_fim,
+                    )
                 except Exception as exc:
                     registro = {
                         "canal": canal,
