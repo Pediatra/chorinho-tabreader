@@ -1,0 +1,327 @@
+{
+ "como_usar": "marcas feitas clicando na imagem; x,y em pixels da imagem original",
+ "marcas": [
+  {
+   "imagem": "04_kimny's guitar.png",
+   "rotulo_imagem": "4. kimny's guitar | [ tab ] a flower is not a flower - ryuic | t=0.7 | passo=20.4px",
+   "x": 106,
+   "y": 63,
+   "significado": "3/4 fórmula de compasso (ou pauta temporal) de 3/4"
+  },
+  {
+   "imagem": "04_kimny's guitar.png",
+   "rotulo_imagem": "4. kimny's guitar | [ tab ] a flower is not a flower - ryuic | t=0.7 | passo=20.4px",
+   "x": 289,
+   "y": 75,
+   "significado": "fórmula de compasso (ou pauta temporal) de 4/4"
+  },
+  {
+   "imagem": "04_kimny's guitar.png",
+   "rotulo_imagem": "4. kimny's guitar | [ tab ] a flower is not a flower - ryuic | t=0.7 | passo=20.4px",
+   "x": 1419,
+   "y": 82,
+   "significado": "ele está ocupando 3 cordas ou seja são 3 cordas tocadas pra baixo, significa arpejo"
+  },
+  {
+   "imagem": "06_mr. tabs.png",
+   "rotulo_imagem": "6. mr. tabs | blind melon - no rain - guitar tab ｜ les | t=0.7 | passo=24.4px",
+   "x": 239,
+   "y": 16,
+   "significado": "arco de ligadura, regra das ligaduras 10 - 7 - diminuindo então é um pull off se você 7 - 10 seria um hammer on anote isso é importante"
+  },
+  {
+   "imagem": "06_mr. tabs.png",
+   "rotulo_imagem": "6. mr. tabs | blind melon - no rain - guitar tab ｜ les | t=0.7 | passo=24.4px",
+   "x": 529,
+   "y": 39,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "06_mr. tabs.png",
+   "rotulo_imagem": "6. mr. tabs | blind melon - no rain - guitar tab ｜ les | t=0.7 | passo=24.4px",
+   "x": 862,
+   "y": 128,
+   "significado": "arco de ligadura (para baixo os outros são para cima mas os dois tem o mesmo significado se atente so a regra que falei)"
+  },
+  {
+   "imagem": "06_mr. tabs.png",
+   "rotulo_imagem": "6. mr. tabs | blind melon - no rain - guitar tab ｜ les | t=0.7 | passo=24.4px",
+   "x": 1009,
+   "y": 127,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "06_mr. tabs.png",
+   "rotulo_imagem": "6. mr. tabs | blind melon - no rain - guitar tab ｜ les | t=0.7 | passo=24.4px",
+   "x": 1149,
+   "y": 42,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "06_mr. tabs.png",
+   "rotulo_imagem": "6. mr. tabs | blind melon - no rain - guitar tab ｜ les | t=0.7 | passo=24.4px",
+   "x": 1425,
+   "y": 60,
+   "significado": "Esse conjunto indica uma ligadura de prolongamento (ou de duração) com uma nota fantasma/sustentada entre parênteses.   A linha curva que une o primeiro número 9 ao (9) significa que não deves tocar a corda novamente na 9ª casa. Tocas apenas o primeiro 9 e deixas a nota a soar continuamente durante o tempo marcado pela nota seguinte. Os parênteses no (9) reforçam que essa nota é um prolongamento da anterior e não deve ser tocada de novo com a mão direita."
+  },
+  {
+   "imagem": "06_mr. tabs.png",
+   "rotulo_imagem": "6. mr. tabs | blind melon - no rain - guitar tab ｜ les | t=0.7 | passo=24.4px",
+   "x": 1535,
+   "y": 73,
+   "significado": "Esse conjunto indica uma ligadura de prolongamento (ou de duração) com uma nota fantasma/sustentada entre parênteses.   A linha curva que une o primeiro número 9 ao (9) significa que não deves tocar a corda novamente na 9ª casa. Tocas apenas o primeiro 9 e deixas a nota a soar continuamente durante o tempo marcado pela nota seguinte. Os parênteses no (9) reforçam que essa nota é um prolongamento da anterior e não deve ser tocada de novo com a mão direita."
+  },
+  {
+   "imagem": "06_mr. tabs.png",
+   "rotulo_imagem": "6. mr. tabs | blind melon - no rain - guitar tab ｜ les | t=0.7 | passo=24.4px",
+   "x": 1602,
+   "y": 62,
+   "significado": "Esse conjunto indica uma ligadura de prolongamento (ou de duração) com uma nota fantasma/sustentada entre parênteses.   A linha curva que une o primeiro número 9 ao (9) significa que não deves tocar a corda novamente na 9ª casa. Tocas apenas o primeiro 9 e deixas a nota a soar continuamente durante o tempo marcado pela nota seguinte. Os parênteses no (9) reforçam que essa nota é um prolongamento da anterior e não deve ser tocada de novo com a mão direita."
+  },
+  {
+   "imagem": "06_mr. tabs.png",
+   "rotulo_imagem": "6. mr. tabs | blind melon - no rain - guitar tab ｜ les | t=0.7 | passo=24.4px",
+   "x": 1708,
+   "y": 18,
+   "significado": "é um arco de ligadura, mas tem outra regra quando tem uma barra no meio não é mais pull of ou hammer on é um slide"
+  },
+  {
+   "imagem": "06_mr. tabs.png",
+   "rotulo_imagem": "6. mr. tabs | blind melon - no rain - guitar tab ｜ les | t=0.7 | passo=24.4px",
+   "x": 1708,
+   "y": 48,
+   "significado": "é um arco de ligadura, mas tem outra regra quando tem uma barra no meio não é mais pull of ou hammer on é um slide"
+  },
+  {
+   "imagem": "07_pablo romé.png",
+   "rotulo_imagem": "7. pablo romé | adelita de tárrega (clase 2) 👀 tutorial  | t=0.85 | passo=23.6px",
+   "x": 1394,
+   "y": 98,
+   "significado": "slide"
+  },
+  {
+   "imagem": "07_pablo romé.png",
+   "rotulo_imagem": "7. pablo romé | adelita de tárrega (clase 2) 👀 tutorial  | t=0.85 | passo=23.6px",
+   "x": 1593,
+   "y": 97,
+   "significado": "Trata-se de uma ligadura técnica onde tocas a nota 9 (3ª corda) e, ao soltá-la ou mudar de dedo, fazes soar a nota 8 (4ª corda) sem palhetar de novo, ou simplesmente indica um fraseado legato entre vozes/cordas diferentes mantendo o movimento contínuo da mão esquerda. No violão e na guitarra, podes fazer esse efeito puxando ligeiramente o dedo que está na 9ª casa para baixo no momento do descarte para beliscar indireta e suavemente o som, enquanto o outro dedo já está firmado na 8ª casa da corda vizinha."
+  },
+  {
+   "imagem": "10_serge kottelat.png",
+   "rotulo_imagem": "10. serge kottelat | baden powell live 1970 – manhã de carnav | t=0.7 | passo=14.6px",
+   "x": 278,
+   "y": 39,
+   "significado": "repare nos numeros 0 e 0 é uma ligadura diferente Trata-se de uma ligadura de prolongamento numa corda solta.   Na prática, tocas a corda solta no primeiro 0 e deixas o som soar até ao tempo em que entra o par de zeros no tempo seguinte. Quando chegas ao par de zeros, a corda de baixo já está a soar do tempo anterior, por isso não precisas de a palhetar de novo; só atacas a corda de cima (a 1ª corda solta) para formar o acorde/dueto enquanto a 2ª corda continua a ressoar livremente."
+  },
+  {
+   "imagem": "10_serge kottelat.png",
+   "rotulo_imagem": "10. serge kottelat | baden powell live 1970 – manhã de carnav | t=0.7 | passo=14.6px",
+   "x": 406,
+   "y": 11,
+   "significado": "slide"
+  },
+  {
+   "imagem": "10_serge kottelat.png",
+   "rotulo_imagem": "10. serge kottelat | baden powell live 1970 – manhã de carnav | t=0.7 | passo=14.6px",
+   "x": 495,
+   "y": 33,
+   "significado": "mesmo caso da ligadura diferente Tocas as duas notas 5 (na 3ª e 4ª cordas) e deixas o som a soar. Quando chegas ao grupo seguinte, essas duas notas ligadas continuam a ressoar do tempo anterior (não as palhetas de novo), e apenas atacas a nota 5 da 2ª corda para juntar essa voz ao acorde que já está a soar."
+  },
+  {
+   "imagem": "10_serge kottelat.png",
+   "rotulo_imagem": "10. serge kottelat | baden powell live 1970 – manhã de carnav | t=0.7 | passo=14.6px",
+   "x": 493,
+   "y": 50,
+   "significado": "mesmo caso da ligadura diferente Tocas as duas notas 5 (na 3ª e 4ª cordas) e deixas o som a soar. Quando chegas ao grupo seguinte, essas duas notas ligadas continuam a ressoar do tempo anterior (não as palhetas de novo), e apenas atacas a nota 5 da 2ª corda para juntar essa voz ao acorde que já está a soar."
+  },
+  {
+   "imagem": "10_serge kottelat.png",
+   "rotulo_imagem": "10. serge kottelat | baden powell live 1970 – manhã de carnav | t=0.7 | passo=14.6px",
+   "x": 545,
+   "y": 11,
+   "significado": "slide"
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 188,
+   "y": 16,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 318,
+   "y": 40,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 395,
+   "y": 38,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 546,
+   "y": 35,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 622,
+   "y": 20,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 793,
+   "y": 16,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 925,
+   "y": 16,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 1001,
+   "y": 16,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 1079,
+   "y": 15,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 1163,
+   "y": 38,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 1415,
+   "y": 111,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 1511,
+   "y": 73,
+   "significado": "Este símbolo é uma pausa de colcheia. Na tablatura e na partitura, ele indica um momento de silêncio com a duração exata de meio tempo numa métrica padrão (4/4). Quando este símbolo aparece, deves interromper a sonoridade das cordas e fazer uma breve pausa antes de tocar a nota seguinte."
+  },
+  {
+   "imagem": "11_shin izumi.png",
+   "rotulo_imagem": "11. shin izumi | canon in d - パッヘルベル ｜ ソロギター [tab].mp4 | t=0.7 | passo=21.6px",
+   "x": 1775,
+   "y": 71,
+   "significado": "Este símbolo é uma pausa de colcheia. Na tablatura e na partitura, ele indica um momento de silêncio com a duração exata de meio tempo numa métrica padrão (4/4). Quando este símbolo aparece, deves interromper a sonoridade das cordas e fazer uma breve pausa antes de tocar a nota seguinte."
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 548,
+   "y": 1,
+   "significado": "arco de ligadura"
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 727,
+   "y": 1,
+   "significado": "arco de ligadura com barra no meio (slide)"
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 729,
+   "y": 20,
+   "significado": "arco de ligadura com barra no meio (slide)"
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 1183,
+   "y": 55,
+   "significado": "ocupa todas as 6 cordas na verdical arpejo de cima da pra baixo"
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 1488,
+   "y": 34,
+   "significado": "ocupa 5 cordas na verdical arpejo de cima da pra baixo"
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 1555,
+   "y": 64,
+   "significado": "Esses símbolos ondulados ao lado do 3 (e do 2) indicam um ornamentação conhecida como **arpejo rápido** ou **vibrato/glissando curto de entrada** (apoyatura/grace note), dependendo do contexto do software, mas na tablatura padrão representam a técnica de **deslizar (slide)** ou **acorde arpejado (roll)**.  Neste trecho específico, as linhas curvas apontadas para a esquerda das notas 2 e 3 indicam uma **apoyatura com slide (grace note slide)**: tocas ou deslizas muito rapidamente para a casa 3 (e 2) a partir de uma casa vizinha logo antes do tempo principal entrar. É um efeito de adorno rápido para dar balanço à nota no momento de tocar o acorde."
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 1556,
+   "y": 77,
+   "significado": "Esses símbolos ondulados ao lado do 3 (e do 2) indicam um ornamentação conhecida como **arpejo rápido** ou **vibrato/glissando curto de entrada** (apoyatura/grace note), dependendo do contexto do software, mas na tablatura padrão representam a técnica de **deslizar (slide)** ou **acorde arpejado (roll)**.  Neste trecho específico, as linhas curvas apontadas para a esquerda das notas 2 e 3 indicam uma **apoyatura com slide (grace note slide)**: tocas ou deslizas muito rapidamente para a casa 3 (e 2) a partir de uma casa vizinha logo antes do tempo principal entrar. É um efeito de adorno rápido para dar balanço à nota no momento de tocar o acorde."
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 1625,
+   "y": 62,
+   "significado": "Esses símbolos ondulados ao lado do 3 (e do 2) indicam um ornamentação conhecida como **arpejo rápido** ou **vibrato/glissando curto de entrada** (apoyatura/grace note), dependendo do contexto do software, mas na tablatura padrão representam a técnica de **deslizar (slide)** ou **acorde arpejado (roll)**.  Neste trecho específico, as linhas curvas apontadas para a esquerda das notas 2 e 3 indicam uma **apoyatura com slide (grace note slide)**: tocas ou deslizas muito rapidamente para a casa 3 (e 2) a partir de uma casa vizinha logo antes do tempo principal entrar. É um efeito de adorno rápido para dar balanço à nota no momento de tocar o acorde."
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 1624,
+   "y": 76,
+   "significado": "Esses símbolos ondulados ao lado do 3 (e do 2) indicam um ornamentação conhecida como **arpejo rápido** ou **vibrato/glissando curto de entrada** (apoyatura/grace note), dependendo do contexto do software, mas na tablatura padrão representam a técnica de **deslizar (slide)** ou **acorde arpejado (roll)**.  Neste trecho específico, as linhas curvas apontadas para a esquerda das notas 2 e 3 indicam uma **apoyatura com slide (grace note slide)**: tocas ou deslizas muito rapidamente para a casa 3 (e 2) a partir de uma casa vizinha logo antes do tempo principal entrar. É um efeito de adorno rápido para dar balanço à nota no momento de tocar o acorde."
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 1683,
+   "y": 64,
+   "significado": "Esses símbolos ondulados ao lado do 3 (e do 2) indicam um ornamentação conhecida como **arpejo rápido** ou **vibrato/glissando curto de entrada** (apoyatura/grace note), dependendo do contexto do software, mas na tablatura padrão representam a técnica de **deslizar (slide)** ou **acorde arpejado (roll)**.  Neste trecho específico, as linhas curvas apontadas para a esquerda das notas 2 e 3 indicam uma **apoyatura com slide (grace note slide)**: tocas ou deslizas muito rapidamente para a casa 3 (e 2) a partir de uma casa vizinha logo antes do tempo principal entrar. É um efeito de adorno rápido para dar balanço à nota no momento de tocar o acorde."
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 1682,
+   "y": 80,
+   "significado": "Esses símbolos ondulados ao lado do 3 (e do 2) indicam um ornamentação conhecida como **arpejo rápido** ou **vibrato/glissando curto de entrada** (apoyatura/grace note), dependendo do contexto do software, mas na tablatura padrão representam a técnica de **deslizar (slide)** ou **acorde arpejado (roll)**.  Neste trecho específico, as linhas curvas apontadas para a esquerda das notas 2 e 3 indicam uma **apoyatura com slide (grace note slide)**: tocas ou deslizas muito rapidamente para a casa 3 (e 2) a partir de uma casa vizinha logo antes do tempo principal entrar. É um efeito de adorno rápido para dar balanço à nota no momento de tocar o acorde."
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 1802,
+   "y": 64,
+   "significado": "Esses símbolos ondulados ao lado do 3 (e do 2) indicam um ornamentação conhecida como **arpejo rápido** ou **vibrato/glissando curto de entrada** (apoyatura/grace note), dependendo do contexto do software, mas na tablatura padrão representam a técnica de **deslizar (slide)** ou **acorde arpejado (roll)**.  Neste trecho específico, as linhas curvas apontadas para a esquerda das notas 2 e 3 indicam uma **apoyatura com slide (grace note slide)**: tocas ou deslizas muito rapidamente para a casa 3 (e 2) a partir de uma casa vizinha logo antes do tempo principal entrar. É um efeito de adorno rápido para dar balanço à nota no momento de tocar o acorde."
+  },
+  {
+   "imagem": "15_tv on guitar.png",
+   "rotulo_imagem": "15. tv on guitar | athletic theme (from super mario world)  | t=0.7 | passo=14.6px",
+   "x": 1803,
+   "y": 76,
+   "significado": "Esses símbolos ondulados ao lado do 3 (e do 2) indicam um ornamentação conhecida como **arpejo rápido** ou **vibrato/glissando curto de entrada** (apoyatura/grace note), dependendo do contexto do software, mas na tablatura padrão representam a técnica de **deslizar (slide)** ou **acorde arpejado (roll)**.  Neste trecho específico, as linhas curvas apontadas para a esquerda das notas 2 e 3 indicam uma **apoyatura com slide (grace note slide)**: tocas ou deslizas muito rapidamente para a casa 3 (e 2) a partir de uma casa vizinha logo antes do tempo principal entrar. É um efeito de adorno rápido para dar balanço à nota no momento de tocar o acorde."
+  }
+ ]
+}

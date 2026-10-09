@@ -888,6 +888,40 @@ que eu tinha rotulado como cruz (folha 1) eram, medidos no quadro, **hastes de 4
 cruzes. Eu **calibrei a regra contra exemplos descritos errado**, e foi por isso que ela deu
 0 de 6. A folha 3 tem **7 cruzes de verdade**, na forma certa para o teste.
 
+## 2026-10-09 — o dono marcou 46 símbolos e me deu o vocabulário e as REGRAS
+
+Ele usou a ferramenta de clicar (`data/saida/paineis/marcar.html`, servida em
+`http://127.0.0.1:8099/marcar.html` porque o Firefox é **Flatpak** e não enxerga `file://` do
+projeto) e mandou 46 marcas com explicação em 6 tablaturas. A regra dele, explícita:
+
+> **"tudo que eu marquei é símbolo válido e o que eu não marquei não é símbolo válido"**
+
+Isso transforma as 6 tablaturas num conjunto **completamente rotulado** — e é o dado que faltava
+para inverter a lógica do coletor:
+
+| | quantidade |
+| --- | --- |
+| **positivos** (marcados por ele, com o texto dele) | **46** |
+| **negativos** (tokens longe de toda marca) | **417** |
+| tablaturas rotuladas | 6 (23 a 102 tokens cada) |
+
+**Vocabulário que ele nomeou**: `arco_ligadura` 24 · `arco_slide` (arco **com barra no meio**) 15 ·
+`arpejo_vertical` 3 · `fórmula de compasso` 2 · `pausa de colcheia` 2.
+
+**E as regras**, que valem mais que os recortes:
+
+1. **Hammer-on × pull-off pela DIREÇÃO dos números**: `7 → 10` é hammer-on, `10 → 7` é pull-off;
+2. **Arco com barra no meio = SLIDE**, e não h/p;
+3. **A direção do arco (para cima/baixo) não muda o significado**;
+4. **`(9)` = nota presa**: não se toca de novo, deixa soar;
+5. **Ligadura de prolongamento** (grupo com notas iguais às que já soam) é diferente de h/p;
+6. **Linha vertical sobre N cordas = arpejo** dessas N cordas, de cima para baixo;
+7. **Pausa de colcheia** e **fórmula de compasso** são **notação**, não técnica — devem ser
+   guardadas separadas do símbolo da nota.
+
+Verdade bruta em `data/gold/simbolos_marcados.json` (com o texto dele marca a marca) e os recortes
+em `data/gold/simbolos_marcados/{positivos,negativos}/`.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

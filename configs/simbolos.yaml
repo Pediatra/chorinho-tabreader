@@ -87,3 +87,72 @@ vocabulario_por_canal:
 # - canais amostrados sem nenhum símbolo identificado: 15.
 # Conclusão: o vocabulário por canal está no COMEÇO. Símbolo de verdade é ~2% da coleta, e a
 # coleta precisa parar de guardar lixo antes de valer a pena ampliar a leitura.
+
+# ---------------------------------------------------------------------------
+# VOCABULÁRIO E REGRAS DO DONO DO PROJETO — 46 marcas em 6 tablaturas (2026-10-09),
+# feitas com a ferramenta de clicar (data/saida/paineis/marcar.html). Regra dele, explícita:
+#   "tudo que eu marquei é símbolo válido e o que eu não marquei não é símbolo válido"
+# => isto é um conjunto COMPLETAMENTE ROTULADO: 46 positivos e 417 negativos medidos.
+# Verdade bruta em data/gold/simbolos_marcados.json (com o texto dele por marca).
+#
+# O que ele nomeou, por frequência medida:
+#   arco_ligadura      24   (mr. tabs 8, shin izumi 11, serge kottelat 3, pablo romé 1, tv on guitar 1)
+#   arco_slide         15   (tv on guitar 10, mr. tabs 2, serge kottelat 2, pablo romé 1)
+#   arpejo_vertical     3   (tv on guitar 2, kimny's guitar 1)
+#   formula_compasso    2   (kimny's guitar 2: 3/4 e 4/4)
+#   pausa               2   (shin izumi 2: pausa de colcheia)
+#
+regras_do_dono:
+  arco_de_ligadura:
+    nome: ligadura
+    como_reconhecer: "arco (linha curva) ligando dois algarismos, em geral na MESMA corda"
+    regra_h_vs_p: >
+      A direção dos NÚMEROS decide a técnica: 7 -> 10 (subindo) é HAMMER-ON; 10 -> 7 (descendo)
+      é PULL-OFF. Regra dada explicitamente pelo dono: "10 - 7 diminuindo então é um pull off,
+      se fosse 7 - 10 seria um hammer on".
+    regra_da_direcao_do_arco: "arco para baixo ou para cima tem o MESMO significado"
+    confirmado: true
+  arco_com_barra_no_meio:
+    nome: slide
+    regra: >
+      "é um arco de ligadura, mas tem outra regra: quando tem uma barra no meio não é mais
+      pull off ou hammer on, é um SLIDE."
+    confirmado: true
+  algarismo_em_parenteses:
+    nome: nota_presa
+    regra: >
+      "(9)" = a nota NÃO é tocada de novo: toca o primeiro 9 e deixa soar pelo tempo marcado. Os
+      parênteses reforçam que é prolongamento da nota anterior.
+    confirmado: true
+  ligadura_de_prolongamento:
+    nome: prolongamento
+    regra: >
+      Símbolo diferente de hammer-on/pull-off: quando o grupo seguinte tem notas iguais às que já
+      estão soando, elas CONTINUAM ressoando e só se ataca a nota nova que entra. Ex.: dois 5
+      ligados continuam a soar enquanto se ataca o 5 da 2ª corda.
+    confirmado: true
+  ornamento_ondulado:
+    nome: apoyatura_com_slide
+    regra: >
+      "Os símbolos ondulados ao lado do 3 (e do 2) indicam ornamentação — apoyatura/grace note com
+      slide: toca-se ou desliza-se muito rápido para a casa vizinha logo antes do tempo principal."
+    confirmado: true
+  arpejo_vertical:
+    nome: arpejo
+    regra: >
+      Uma linha vertical que ocupa N cordas significa arpejo dessas N cordas, de cima para baixo:
+      "ocupa 3 cordas = 3 cordas tocadas para baixo, significa arpejo"; "ocupa todas as 6 cordas na
+      vertical = arpejo de cima para baixo".
+    confirmado: true
+  pausa_de_colcheia:
+    nome: pausa
+    regra: "silêncio com a duração de meio tempo em 4/4: interrompe a sonoridade e pausa antes da nota seguinte."
+    confirmado: true
+  formula_de_compasso:
+    nome: metrica
+    regra: "indica a métrica (3/4, 4/4). NÃO é técnica: é notação de tempo."
+    confirmado: true
+
+# IMPORTANTE para o coletor: 3 destes símbolos NÃO são de técnica e sim de NOTAÇÃO —
+# fórmula de compasso e pausa. Se o objetivo é técnica por nota, eles devem ser guardados
+# separados (e não como símbolo da nota).
