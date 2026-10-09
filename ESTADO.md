@@ -977,6 +977,34 @@ probabilidades foram **0,000 a 0,016** — todas recusadas, corretamente. O prob
 amostra de 2 canais, contra 540 antes). Ou seja: **existe outro caminho que grava símbolo sem
 passar pelo filtro** — é o próximo alvo, e é de fiação, não de modelo.
 
+## 2026-10-09 — o detector separa no gabarito e FALHA no pipeline: o que já eliminei
+
+Diagnóstico da rodada, com o filtro ligado. Ele separa perfeito no conjunto rotulado (LOCA
+123/123, falso positivo ~1 %) e **aprova janelas de DÍGITO no pipeline** com mediana 0,79–0,93
+(`shin izumi` 40/40 aprovados, `mr. tabs` 37/40) — numa tablatura que quase não tem símbolo.
+
+**Causas JÁ ELIMINADAS, cada uma por medição:**
+
+1. **Bug de contagem** (eu gravava o recusado na mesma chave `simbolo_cru`): corrigido, e a
+   contagem passou a separar;
+2. **Cobertura do filtro**: ele roda em todos os candidatos (39 de 39 com probabilidade
+   calculada) — não é filtro que "não passa";
+3. **Atalho "não é dígito = é símbolo"**: os negativos do treino eram **87 % algarismos**
+   (937 de 1076, top-1 `7` em 741). Rebalanceei com os **139 negativos DIFÍCEIS** (tokens que
+   não são algarismo) + 200 algarismos sorteados → 339 negativos. O LOCA segue 123/123 com
+   falso positivo ~1 %, **e o comportamento no pipeline não mudou**;
+4. **Escala/ampliação do recorte** (regra 9: o recorte é parte da medição): testei a mesma
+   janela com e sem a ampliação 4× NEAREST do treino — **idênticos** (0,932 e 0,794 nos dois);
+5. **Desalinhamento do recorte**: o filtro interno e o meu teste externo concordam nos valores,
+   então os dois estão medindo a mesma coisa.
+
+**O que sobra investigar** (e é o primeiro item da próxima rodada): comparar LADO A LADO um
+negativo do treino (janela de dígito, rótulo conhecido) com um candidato do pipeline — se
+`preparar` normaliza os dois para 32 × 32 e as probabilidades divergem, a diferença está no
+CONTEÚDO da janela (contexto, contraste, o que mais cai dentro dela), não no tamanho. A hipótese
+mais provável, ainda não medida: os negativos do treino vêm de **tablaturas marcadas**, todas com
+passo e render parecidos, enquanto o pipeline entrega render de canais que o detector nunca viu.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

@@ -1235,137 +1235,11 @@
  ],
  "negativos": [
   {
-   "arquivo": "g001_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 3,
-   "cy": 305
-  },
-  {
-   "arquivo": "g002_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1,
-   "cy": 330
-  },
-  {
-   "arquivo": "g003_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 50,
-   "cy": 291
-  },
-  {
-   "arquivo": "g004_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 50,
-   "cy": 305
-  },
-  {
-   "arquivo": "g005_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 50,
-   "cy": 326
-  },
-  {
-   "arquivo": "g006_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 52,
-   "cy": 340
-  },
-  {
-   "arquivo": "g007_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 87,
-   "cy": 285
-  },
-  {
-   "arquivo": "g008_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 87,
-   "cy": 305
-  },
-  {
-   "arquivo": "g009_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 86,
-   "cy": 347
-  },
-  {
-   "arquivo": "g010_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 124,
-   "cy": 285
-  },
-  {
-   "arquivo": "g011_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 124,
-   "cy": 305
-  },
-  {
-   "arquivo": "g012_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 149,
-   "cy": 347
-  },
-  {
-   "arquivo": "g013_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 173,
-   "cy": 285
-  },
-  {
-   "arquivo": "g014_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 173,
-   "cy": 326
-  },
-  {
    "arquivo": "g015_kimny's guit.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
    "cx": 224,
    "cy": 291
-  },
-  {
-   "arquivo": "g016_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 225,
-   "cy": 305
-  },
-  {
-   "arquivo": "g017_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 225,
-   "cy": 326
-  },
-  {
-   "arquivo": "g018_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 227,
-   "cy": 340
-  },
-  {
-   "arquivo": "g019_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 262,
-   "cy": 264
   },
   {
    "arquivo": "g020_kimny's guit.png",
@@ -1382,207 +1256,11 @@
    "cy": 305
   },
   {
-   "arquivo": "g022_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 262,
-   "cy": 367
-  },
-  {
-   "arquivo": "g023_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 318,
-   "cy": 367
-  },
-  {
-   "arquivo": "g024_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 347,
-   "cy": 285
-  },
-  {
-   "arquivo": "g025_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 376,
-   "cy": 264
-  },
-  {
-   "arquivo": "g026_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 431,
-   "cy": 285
-  },
-  {
-   "arquivo": "g027_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 431,
-   "cy": 305
-  },
-  {
-   "arquivo": "g028_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 431,
-   "cy": 325
-  },
-  {
-   "arquivo": "g029_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 431,
-   "cy": 347
-  },
-  {
-   "arquivo": "g030_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 487,
-   "cy": 325
-  },
-  {
-   "arquivo": "g031_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 487,
-   "cy": 367
-  },
-  {
-   "arquivo": "g032_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 525,
-   "cy": 305
-  },
-  {
-   "arquivo": "g033_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 580,
-   "cy": 305
-  },
-  {
-   "arquivo": "g034_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 579,
-   "cy": 322
-  },
-  {
-   "arquivo": "g035_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 579,
-   "cy": 347
-  },
-  {
-   "arquivo": "g036_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 635,
-   "cy": 326
-  },
-  {
-   "arquivo": "g037_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 665,
-   "cy": 305
-  },
-  {
-   "arquivo": "g038_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 694,
-   "cy": 305
-  },
-  {
-   "arquivo": "g039_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 747,
-   "cy": 285
-  },
-  {
-   "arquivo": "g040_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 748,
-   "cy": 305
-  },
-  {
-   "arquivo": "g041_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 748,
-   "cy": 367
-  },
-  {
-   "arquivo": "g042_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 804,
-   "cy": 305
-  },
-  {
-   "arquivo": "g043_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 804,
-   "cy": 326
-  },
-  {
-   "arquivo": "g044_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 804,
-   "cy": 347
-  },
-  {
-   "arquivo": "g045_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 851,
-   "cy": 305
-  },
-  {
-   "arquivo": "g046_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 908,
-   "cy": 305
-  },
-  {
    "arquivo": "g047_kimny's guit.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
    "cx": 907,
    "cy": 322
-  },
-  {
-   "arquivo": "g048_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 908,
-   "cy": 367
-  },
-  {
-   "arquivo": "g049_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 946,
-   "cy": 305
-  },
-  {
-   "arquivo": "g050_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 983,
-   "cy": 305
   },
   {
    "arquivo": "g051_kimny's guit.png",
@@ -1592,60 +1270,11 @@
    "cy": 326
   },
   {
-   "arquivo": "g052_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 983,
-   "cy": 367
-  },
-  {
-   "arquivo": "g053_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1020,
-   "cy": 305
-  },
-  {
    "arquivo": "g054_kimny's guit.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
    "cx": 1075,
    "cy": 305
-  },
-  {
-   "arquivo": "g055_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1074,
-   "cy": 325
-  },
-  {
-   "arquivo": "g056_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1130,
-   "cy": 347
-  },
-  {
-   "arquivo": "g057_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1202,
-   "cy": 322
-  },
-  {
-   "arquivo": "g058_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1202,
-   "cy": 347
-  },
-  {
-   "arquivo": "g059_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1259,
-   "cy": 347
   },
   {
    "arquivo": "g060_kimny's guit.png",
@@ -1655,116 +1284,11 @@
    "cy": 285
   },
   {
-   "arquivo": "g061_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1353,
-   "cy": 312
-  },
-  {
-   "arquivo": "g062_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1354,
-   "cy": 326
-  },
-  {
-   "arquivo": "g063_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1353,
-   "cy": 341
-  },
-  {
-   "arquivo": "g064_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1381,
-   "cy": 305
-  },
-  {
-   "arquivo": "g065_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1380,
-   "cy": 326
-  },
-  {
-   "arquivo": "g066_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1381,
-   "cy": 347
-  },
-  {
    "arquivo": "g067_kimny's guit.png",
    "canal": "kimny's guitar",
    "imagem": "04_kimny's guitar.png",
    "cx": 1438,
    "cy": 326
-  },
-  {
-   "arquivo": "g068_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1474,
-   "cy": 305
-  },
-  {
-   "arquivo": "g069_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1529,
-   "cy": 326
-  },
-  {
-   "arquivo": "g070_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1529,
-   "cy": 347
-  },
-  {
-   "arquivo": "g071_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1529,
-   "cy": 367
-  },
-  {
-   "arquivo": "g072_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1585,
-   "cy": 326
-  },
-  {
-   "arquivo": "g073_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1622,
-   "cy": 305
-  },
-  {
-   "arquivo": "g074_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1676,
-   "cy": 326
-  },
-  {
-   "arquivo": "g075_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1676,
-   "cy": 347
-  },
-  {
-   "arquivo": "g076_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1732,
-   "cy": 325
   },
   {
    "arquivo": "g077_mr. tabs.png",
@@ -1786,27 +1310,6 @@
    "imagem": "06_mr. tabs.png",
    "cx": 78,
    "cy": 72
-  },
-  {
-   "arquivo": "g080_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 69,
-   "cy": 104
-  },
-  {
-   "arquivo": "g081_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 70,
-   "cy": 122
-  },
-  {
-   "arquivo": "g082_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 70,
-   "cy": 146
   },
   {
    "arquivo": "g083_mr. tabs.png",
@@ -1837,25 +1340,11 @@
    "cy": 98
   },
   {
-   "arquivo": "g087_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 214,
-   "cy": 122
-  },
-  {
    "arquivo": "g088_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
    "cx": 214,
    "cy": 146
-  },
-  {
-   "arquivo": "g089_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 310,
-   "cy": 72
   },
   {
    "arquivo": "g090_mr. tabs.png",
@@ -1879,27 +1368,6 @@
    "cy": 146
   },
   {
-   "arquivo": "g093_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 407,
-   "cy": 72
-  },
-  {
-   "arquivo": "g094_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 407,
-   "cy": 104
-  },
-  {
-   "arquivo": "g095_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 407,
-   "cy": 122
-  },
-  {
    "arquivo": "g096_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
@@ -1907,109 +1375,11 @@
    "cy": 146
   },
   {
-   "arquivo": "g097_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 456,
-   "cy": 73
-  },
-  {
-   "arquivo": "g098_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 457,
-   "cy": 104
-  },
-  {
-   "arquivo": "g099_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 456,
-   "cy": 122
-  },
-  {
-   "arquivo": "g100_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 456,
-   "cy": 146
-  },
-  {
-   "arquivo": "g101_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 504,
-   "cy": 72
-  },
-  {
-   "arquivo": "g102_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 504,
-   "cy": 104
-  },
-  {
    "arquivo": "g103_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
    "cx": 504,
    "cy": 122
-  },
-  {
-   "arquivo": "g104_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 504,
-   "cy": 146
-  },
-  {
-   "arquivo": "g105_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 528,
-   "cy": 42
-  },
-  {
-   "arquivo": "g106_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 552,
-   "cy": 73
-  },
-  {
-   "arquivo": "g107_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 552,
-   "cy": 104
-  },
-  {
-   "arquivo": "g108_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 552,
-   "cy": 122
-  },
-  {
-   "arquivo": "g109_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 552,
-   "cy": 146
-  },
-  {
-   "arquivo": "g110_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 600,
-   "cy": 97
-  },
-  {
-   "arquivo": "g111_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 600,
-   "cy": 128
   },
   {
    "arquivo": "g112_mr. tabs.png",
@@ -2024,62 +1394,6 @@
    "imagem": "06_mr. tabs.png",
    "cx": 696,
    "cy": 73
-  },
-  {
-   "arquivo": "g114_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 696,
-   "cy": 104
-  },
-  {
-   "arquivo": "g115_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 696,
-   "cy": 122
-  },
-  {
-   "arquivo": "g116_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 696,
-   "cy": 146
-  },
-  {
-   "arquivo": "g117_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 744,
-   "cy": 97
-  },
-  {
-   "arquivo": "g118_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 744,
-   "cy": 128
-  },
-  {
-   "arquivo": "g119_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 744,
-   "cy": 146
-  },
-  {
-   "arquivo": "g120_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 792,
-   "cy": 97
-  },
-  {
-   "arquivo": "g121_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 792,
-   "cy": 128
   },
   {
    "arquivo": "g122_mr. tabs.png",
@@ -2103,53 +1417,11 @@
    "cy": 97
   },
   {
-   "arquivo": "g125_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 887,
-   "cy": 146
-  },
-  {
    "arquivo": "g126_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "06_mr. tabs.png",
    "cx": 935,
    "cy": 122
-  },
-  {
-   "arquivo": "g127_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 935,
-   "cy": 153
-  },
-  {
-   "arquivo": "g128_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 983,
-   "cy": 97
-  },
-  {
-   "arquivo": "g129_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 983,
-   "cy": 146
-  },
-  {
-   "arquivo": "g130_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1031,
-   "cy": 97
-  },
-  {
-   "arquivo": "g131_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1031,
-   "cy": 146
   },
   {
    "arquivo": "g132_mr. tabs.png",
@@ -2173,237 +1445,6 @@
    "cy": 122
   },
   {
-   "arquivo": "g135_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1078,
-   "cy": 146
-  },
-  {
-   "arquivo": "g136_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1150,
-   "cy": 42
-  },
-  {
-   "arquivo": "g137_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1174,
-   "cy": 73
-  },
-  {
-   "arquivo": "g138_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1222,
-   "cy": 97
-  },
-  {
-   "arquivo": "g139_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1221,
-   "cy": 128
-  },
-  {
-   "arquivo": "g140_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1221,
-   "cy": 146
-  },
-  {
-   "arquivo": "g141_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1317,
-   "cy": 72
-  },
-  {
-   "arquivo": "g142_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1537,
-   "cy": 73
-  },
-  {
-   "arquivo": "g143_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1708,
-   "cy": 26
-  },
-  {
-   "arquivo": "g144_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1694,
-   "cy": 48
-  },
-  {
-   "arquivo": "g145_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1732,
-   "cy": 47
-  },
-  {
-   "arquivo": "g146_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1731,
-   "cy": 79
-  },
-  {
-   "arquivo": "g147_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1728,
-   "cy": 98
-  },
-  {
-   "arquivo": "g148_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1731,
-   "cy": 122
-  },
-  {
-   "arquivo": "g149_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1731,
-   "cy": 146
-  },
-  {
-   "arquivo": "g150_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1783,
-   "cy": 23
-  },
-  {
-   "arquivo": "g151_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1843,
-   "cy": 23
-  },
-  {
-   "arquivo": "g152_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 56,
-   "cy": 71
-  },
-  {
-   "arquivo": "g153_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 56,
-   "cy": 143
-  },
-  {
-   "arquivo": "g154_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 171,
-   "cy": 23
-  },
-  {
-   "arquivo": "g155_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 171,
-   "cy": 47
-  },
-  {
-   "arquivo": "g156_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 242,
-   "cy": 67
-  },
-  {
-   "arquivo": "g157_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 316,
-   "cy": 23
-  },
-  {
-   "arquivo": "g158_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 316,
-   "cy": 47
-  },
-  {
-   "arquivo": "g159_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 324,
-   "cy": 95
-  },
-  {
-   "arquivo": "g160_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 316,
-   "cy": 119
-  },
-  {
-   "arquivo": "g161_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 387,
-   "cy": 91
-  },
-  {
-   "arquivo": "g162_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 494,
-   "cy": 71
-  },
-  {
-   "arquivo": "g163_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 494,
-   "cy": 143
-  },
-  {
-   "arquivo": "g164_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 581,
-   "cy": 67
-  },
-  {
-   "arquivo": "g165_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 660,
-   "cy": 71
-  },
-  {
-   "arquivo": "g166_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 616,
-   "cy": 96
-  },
-  {
-   "arquivo": "g167_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 759,
-   "cy": 71
-  },
-  {
    "arquivo": "g168_pablo romé.png",
    "canal": "pablo romé",
    "imagem": "07_pablo romé.png",
@@ -2416,13 +1457,6 @@
    "imagem": "07_pablo romé.png",
    "cx": 820,
    "cy": 73
-  },
-  {
-   "arquivo": "g170_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 805,
-   "cy": 90
   },
   {
    "arquivo": "g171_pablo romé.png",
@@ -2446,216 +1480,6 @@
    "cy": 143
   },
   {
-   "arquivo": "g174_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 953,
-   "cy": 71
-  },
-  {
-   "arquivo": "g175_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 109,
-   "cy": 29
-  },
-  {
-   "arquivo": "g176_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 97,
-   "cy": 89
-  },
-  {
-   "arquivo": "g177_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 170,
-   "cy": 44
-  },
-  {
-   "arquivo": "g178_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 205,
-   "cy": 29
-  },
-  {
-   "arquivo": "g179_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 212,
-   "cy": 39
-  },
-  {
-   "arquivo": "g180_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 241,
-   "cy": 15
-  },
-  {
-   "arquivo": "g181_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 241,
-   "cy": 28
-  },
-  {
-   "arquivo": "g182_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 236,
-   "cy": 39
-  },
-  {
-   "arquivo": "g183_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 278,
-   "cy": 14
-  },
-  {
-   "arquivo": "g184_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 353,
-   "cy": 10
-  },
-  {
-   "arquivo": "g185_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 393,
-   "cy": 14
-  },
-  {
-   "arquivo": "g186_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 382,
-   "cy": 74
-  },
-  {
-   "arquivo": "g187_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 521,
-   "cy": 15
-  },
-  {
-   "arquivo": "g188_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 521,
-   "cy": 74
-  },
-  {
-   "arquivo": "g189_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 561,
-   "cy": 44
-  },
-  {
-   "arquivo": "g190_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 600,
-   "cy": 29
-  },
-  {
-   "arquivo": "g191_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 630,
-   "cy": 14
-  },
-  {
-   "arquivo": "g192_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 693,
-   "cy": 14
-  },
-  {
-   "arquivo": "g193_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 683,
-   "cy": 59
-  },
-  {
-   "arquivo": "g194_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 719,
-   "cy": 44
-  },
-  {
-   "arquivo": "g195_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 755,
-   "cy": 29
-  },
-  {
-   "arquivo": "g196_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 792,
-   "cy": 44
-  },
-  {
-   "arquivo": "g197_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 818,
-   "cy": 15
-  },
-  {
-   "arquivo": "g198_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 845,
-   "cy": 29
-  },
-  {
-   "arquivo": "g199_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 875,
-   "cy": 29
-  },
-  {
-   "arquivo": "g200_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 953,
-   "cy": 29
-  },
-  {
-   "arquivo": "g201_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 942,
-   "cy": 89
-  },
-  {
-   "arquivo": "g202_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 978,
-   "cy": 59
-  },
-  {
-   "arquivo": "g203_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1014,
-   "cy": 44
-  },
-  {
    "arquivo": "g204_serge kottel.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
@@ -2663,39 +1487,11 @@
    "cy": 59
   },
   {
-   "arquivo": "g205_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1077,
-   "cy": 29
-  },
-  {
-   "arquivo": "g206_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1104,
-   "cy": 44
-  },
-  {
-   "arquivo": "g207_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1132,
-   "cy": 29
-  },
-  {
    "arquivo": "g208_serge kottel.png",
    "canal": "serge kottelat",
    "imagem": "10_serge kottelat.png",
    "cx": 1210,
    "cy": 29
-  },
-  {
-   "arquivo": "g209_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1200,
-   "cy": 74
   },
   {
    "arquivo": "g210_serge kottel.png",
@@ -2726,395 +1522,10 @@
    "cy": 29
   },
   {
-   "arquivo": "g214_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1380,
-   "cy": 59
-  },
-  {
-   "arquivo": "g215_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1416,
-   "cy": 44
-  },
-  {
-   "arquivo": "g216_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1452,
-   "cy": 59
-  },
-  {
-   "arquivo": "g217_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1532,
-   "cy": 29
-  },
-  {
-   "arquivo": "g218_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1520,
-   "cy": 89
-  },
-  {
-   "arquivo": "g219_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1556,
-   "cy": 59
-  },
-  {
-   "arquivo": "g220_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1593,
-   "cy": 44
-  },
-  {
-   "arquivo": "g221_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1629,
-   "cy": 59
-  },
-  {
-   "arquivo": "g222_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1665,
-   "cy": 44
-  },
-  {
-   "arquivo": "g223_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1701,
-   "cy": 59
-  },
-  {
-   "arquivo": "g224_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1737,
-   "cy": 29
-  },
-  {
-   "arquivo": "g225_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1773,
-   "cy": 44
-  },
-  {
-   "arquivo": "g226_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 112,
-   "cy": 250
-  },
-  {
-   "arquivo": "g227_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 113,
-   "cy": 273
-  },
-  {
-   "arquivo": "g228_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 113,
-   "cy": 294
-  },
-  {
-   "arquivo": "g229_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 113,
-   "cy": 314
-  },
-  {
-   "arquivo": "g230_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 112,
-   "cy": 337
-  },
-  {
-   "arquivo": "g231_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 184,
-   "cy": 227
-  },
-  {
-   "arquivo": "g232_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 167,
-   "cy": 250
-  },
-  {
-   "arquivo": "g233_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 167,
-   "cy": 272
-  },
-  {
-   "arquivo": "g234_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 167,
-   "cy": 293
-  },
-  {
-   "arquivo": "g235_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 167,
-   "cy": 317
-  },
-  {
-   "arquivo": "g236_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 167,
-   "cy": 336
-  },
-  {
-   "arquivo": "g237_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 243,
-   "cy": 250
-  },
-  {
-   "arquivo": "g238_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 243,
-   "cy": 272
-  },
-  {
-   "arquivo": "g239_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 243,
-   "cy": 296
-  },
-  {
-   "arquivo": "g240_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 243,
-   "cy": 315
-  },
-  {
-   "arquivo": "g241_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 243,
-   "cy": 336
-  },
-  {
-   "arquivo": "g242_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 317,
-   "cy": 250
-  },
-  {
-   "arquivo": "g243_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 297,
-   "cy": 272
-  },
-  {
-   "arquivo": "g244_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 336,
-   "cy": 272
-  },
-  {
-   "arquivo": "g245_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 299,
-   "cy": 295
-  },
-  {
-   "arquivo": "g246_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 336,
-   "cy": 295
-  },
-  {
-   "arquivo": "g247_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 299,
-   "cy": 315
-  },
-  {
-   "arquivo": "g248_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 336,
-   "cy": 315
-  },
-  {
-   "arquivo": "g249_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 299,
-   "cy": 336
-  },
-  {
-   "arquivo": "g250_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 336,
-   "cy": 336
-  },
-  {
-   "arquivo": "g251_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 392,
-   "cy": 249
-  },
-  {
-   "arquivo": "g252_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 373,
-   "cy": 272
-  },
-  {
-   "arquivo": "g253_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 412,
-   "cy": 272
-  },
-  {
-   "arquivo": "g254_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 375,
-   "cy": 294
-  },
-  {
-   "arquivo": "g255_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 412,
-   "cy": 295
-  },
-  {
-   "arquivo": "g256_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 375,
-   "cy": 314
-  },
-  {
-   "arquivo": "g257_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 412,
-   "cy": 315
-  },
-  {
-   "arquivo": "g258_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 374,
-   "cy": 337
-  },
-  {
-   "arquivo": "g259_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 412,
-   "cy": 336
-  },
-  {
-   "arquivo": "g260_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 450,
-   "cy": 293
-  },
-  {
-   "arquivo": "g261_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 450,
-   "cy": 315
-  },
-  {
-   "arquivo": "g262_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 451,
-   "cy": 338
-  },
-  {
-   "arquivo": "g263_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 488,
-   "cy": 272
-  },
-  {
-   "arquivo": "g264_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 490,
-   "cy": 296
-  },
-  {
-   "arquivo": "g265_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 490,
-   "cy": 315
-  },
-  {
-   "arquivo": "g266_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 490,
-   "cy": 336
-  },
-  {
-   "arquivo": "g267_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 546,
-   "cy": 249
-  },
-  {
    "arquivo": "g268_shin izumi.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
    "cx": 526,
-   "cy": 272
-  },
-  {
-   "arquivo": "g269_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 564,
    "cy": 272
   },
   {
@@ -3132,25 +1543,11 @@
    "cy": 295
   },
   {
-   "arquivo": "g272_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 527,
-   "cy": 317
-  },
-  {
    "arquivo": "g273_shin izumi.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
    "cx": 566,
    "cy": 315
-  },
-  {
-   "arquivo": "g274_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 527,
-   "cy": 336
   },
   {
    "arquivo": "g275_shin izumi.png",
@@ -3174,34 +1571,6 @@
    "cy": 273
   },
   {
-   "arquivo": "g278_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 722,
-   "cy": 294
-  },
-  {
-   "arquivo": "g279_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 722,
-   "cy": 314
-  },
-  {
-   "arquivo": "g280_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 722,
-   "cy": 337
-  },
-  {
-   "arquivo": "g281_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 793,
-   "cy": 227
-  },
-  {
    "arquivo": "g282_shin izumi.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
@@ -3216,32 +1585,11 @@
    "cy": 271
   },
   {
-   "arquivo": "g284_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 775,
-   "cy": 293
-  },
-  {
-   "arquivo": "g285_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 776,
-   "cy": 317
-  },
-  {
    "arquivo": "g286_shin izumi.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
    "cx": 776,
    "cy": 336
-  },
-  {
-   "arquivo": "g287_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 852,
-   "cy": 250
   },
   {
    "arquivo": "g288_shin izumi.png",
@@ -3251,34 +1599,6 @@
    "cy": 272
   },
   {
-   "arquivo": "g289_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 852,
-   "cy": 295
-  },
-  {
-   "arquivo": "g290_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 852,
-   "cy": 315
-  },
-  {
-   "arquivo": "g291_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 852,
-   "cy": 336
-  },
-  {
-   "arquivo": "g292_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1076,
-   "cy": 227
-  },
-  {
    "arquivo": "g293_shin izumi.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
@@ -3286,25 +1606,11 @@
    "cy": 251
   },
   {
-   "arquivo": "g294_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1060,
-   "cy": 271
-  },
-  {
    "arquivo": "g295_shin izumi.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
    "cx": 1058,
    "cy": 293
-  },
-  {
-   "arquivo": "g296_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1060,
-   "cy": 317
   },
   {
    "arquivo": "g297_shin izumi.png",
@@ -3328,20 +1634,6 @@
    "cy": 272
   },
   {
-   "arquivo": "g300_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1135,
-   "cy": 295
-  },
-  {
-   "arquivo": "g301_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1135,
-   "cy": 315
-  },
-  {
    "arquivo": "g302_shin izumi.png",
    "canal": "shin izumi",
    "imagem": "11_shin izumi.png",
@@ -3354,146 +1646,6 @@
    "imagem": "11_shin izumi.png",
    "cx": 1338,
    "cy": 229
-  },
-  {
-   "arquivo": "g304_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1338,
-   "cy": 250
-  },
-  {
-   "arquivo": "g305_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1338,
-   "cy": 272
-  },
-  {
-   "arquivo": "g306_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1338,
-   "cy": 294
-  },
-  {
-   "arquivo": "g307_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1338,
-   "cy": 314
-  },
-  {
-   "arquivo": "g308_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1338,
-   "cy": 337
-  },
-  {
-   "arquivo": "g309_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1392,
-   "cy": 293
-  },
-  {
-   "arquivo": "g310_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1431,
-   "cy": 293
-  },
-  {
-   "arquivo": "g311_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1412,
-   "cy": 317
-  },
-  {
-   "arquivo": "g312_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1392,
-   "cy": 336
-  },
-  {
-   "arquivo": "g313_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1431,
-   "cy": 336
-  },
-  {
-   "arquivo": "g314_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1469,
-   "cy": 289
-  },
-  {
-   "arquivo": "g315_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1470,
-   "cy": 317
-  },
-  {
-   "arquivo": "g316_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1470,
-   "cy": 336
-  },
-  {
-   "arquivo": "g317_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1509,
-   "cy": 272
-  },
-  {
-   "arquivo": "g318_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1508,
-   "cy": 292
-  },
-  {
-   "arquivo": "g319_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1547,
-   "cy": 293
-  },
-  {
-   "arquivo": "g320_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1549,
-   "cy": 317
-  },
-  {
-   "arquivo": "g321_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1549,
-   "cy": 336
-  },
-  {
-   "arquivo": "g322_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1602,
-   "cy": 315
-  },
-  {
-   "arquivo": "g323_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1602,
-   "cy": 338
   },
   {
    "arquivo": "g324_shin izumi.png",
@@ -3510,748 +1662,6 @@
    "cy": 228
   },
   {
-   "arquivo": "g326_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1773,
-   "cy": 272
-  },
-  {
-   "arquivo": "g327_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1772,
-   "cy": 292
-  },
-  {
-   "arquivo": "g328_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 34,
-   "cy": 16
-  },
-  {
-   "arquivo": "g329_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 34,
-   "cy": 89
-  },
-  {
-   "arquivo": "g330_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 81,
-   "cy": 60
-  },
-  {
-   "arquivo": "g331_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 82,
-   "cy": 75
-  },
-  {
-   "arquivo": "g332_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 128,
-   "cy": 75
-  },
-  {
-   "arquivo": "g333_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 175,
-   "cy": 45
-  },
-  {
-   "arquivo": "g334_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 176,
-   "cy": 75
-  },
-  {
-   "arquivo": "g335_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 223,
-   "cy": 60
-  },
-  {
-   "arquivo": "g336_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 270,
-   "cy": 45
-  },
-  {
-   "arquivo": "g337_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 269,
-   "cy": 57
-  },
-  {
-   "arquivo": "g338_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 347,
-   "cy": 16
-  },
-  {
-   "arquivo": "g339_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 348,
-   "cy": 89
-  },
-  {
-   "arquivo": "g340_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 395,
-   "cy": 45
-  },
-  {
-   "arquivo": "g341_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 395,
-   "cy": 60
-  },
-  {
-   "arquivo": "g342_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 442,
-   "cy": 16
-  },
-  {
-   "arquivo": "g343_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 442,
-   "cy": 89
-  },
-  {
-   "arquivo": "g344_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 488,
-   "cy": 45
-  },
-  {
-   "arquivo": "g345_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 488,
-   "cy": 60
-  },
-  {
-   "arquivo": "g346_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 513,
-   "cy": 31
-  },
-  {
-   "arquivo": "g347_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 538,
-   "cy": 16
-  },
-  {
-   "arquivo": "g348_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 538,
-   "cy": 89
-  },
-  {
-   "arquivo": "g349_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 560,
-   "cy": 16
-  },
-  {
-   "arquivo": "g350_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 583,
-   "cy": 45
-  },
-  {
-   "arquivo": "g351_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 583,
-   "cy": 60
-  },
-  {
-   "arquivo": "g352_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 607,
-   "cy": 16
-  },
-  {
-   "arquivo": "g353_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 630,
-   "cy": 89
-  },
-  {
-   "arquivo": "g354_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 678,
-   "cy": 60
-  },
-  {
-   "arquivo": "g355_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 678,
-   "cy": 75
-  },
-  {
-   "arquivo": "g356_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 702,
-   "cy": 16
-  },
-  {
-   "arquivo": "g357_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 717,
-   "cy": 19
-  },
-  {
-   "arquivo": "g358_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 755,
-   "cy": 16
-  },
-  {
-   "arquivo": "g359_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 755,
-   "cy": 89
-  },
-  {
-   "arquivo": "g360_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 780,
-   "cy": 31
-  },
-  {
-   "arquivo": "g361_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 805,
-   "cy": 45
-  },
-  {
-   "arquivo": "g362_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 805,
-   "cy": 89
-  },
-  {
-   "arquivo": "g363_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 855,
-   "cy": 16
-  },
-  {
-   "arquivo": "g364_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 855,
-   "cy": 89
-  },
-  {
-   "arquivo": "g365_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 904,
-   "cy": 89
-  },
-  {
-   "arquivo": "g366_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 930,
-   "cy": 45
-  },
-  {
-   "arquivo": "g367_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 959,
-   "cy": 89
-  },
-  {
-   "arquivo": "g368_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1003,
-   "cy": 60
-  },
-  {
-   "arquivo": "g369_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1004,
-   "cy": 75
-  },
-  {
-   "arquivo": "g370_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1053,
-   "cy": 89
-  },
-  {
-   "arquivo": "g371_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1103,
-   "cy": 60
-  },
-  {
-   "arquivo": "g372_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1104,
-   "cy": 75
-  },
-  {
-   "arquivo": "g373_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1128,
-   "cy": 16
-  },
-  {
-   "arquivo": "g374_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1201,
-   "cy": 16
-  },
-  {
-   "arquivo": "g375_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1201,
-   "cy": 60
-  },
-  {
-   "arquivo": "g376_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1200,
-   "cy": 75
-  },
-  {
-   "arquivo": "g377_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1201,
-   "cy": 89
-  },
-  {
-   "arquivo": "g378_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1234,
-   "cy": 16
-  },
-  {
-   "arquivo": "g379_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1266,
-   "cy": 16
-  },
-  {
-   "arquivo": "g380_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1299,
-   "cy": 16
-  },
-  {
-   "arquivo": "g381_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1331,
-   "cy": 16
-  },
-  {
-   "arquivo": "g382_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1371,
-   "cy": 45
-  },
-  {
-   "arquivo": "g383_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1393,
-   "cy": 16
-  },
-  {
-   "arquivo": "g384_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1394,
-   "cy": 75
-  },
-  {
-   "arquivo": "g385_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1417,
-   "cy": 16
-  },
-  {
-   "arquivo": "g386_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1440,
-   "cy": 31
-  },
-  {
-   "arquivo": "g387_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1440,
-   "cy": 75
-  },
-  {
-   "arquivo": "g388_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1503,
-   "cy": 16
-  },
-  {
-   "arquivo": "g389_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1502,
-   "cy": 30
-  },
-  {
-   "arquivo": "g390_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1502,
-   "cy": 45
-  },
-  {
-   "arquivo": "g391_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1502,
-   "cy": 60
-  },
-  {
-   "arquivo": "g392_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1536,
-   "cy": 45
-  },
-  {
-   "arquivo": "g393_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1536,
-   "cy": 60
-  },
-  {
-   "arquivo": "g394_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1549,
-   "cy": 66
-  },
-  {
-   "arquivo": "g395_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1559,
-   "cy": 65
-  },
-  {
-   "arquivo": "g396_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1608,
-   "cy": 45
-  },
-  {
-   "arquivo": "g397_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1608,
-   "cy": 60
-  },
-  {
-   "arquivo": "g398_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1621,
-   "cy": 65
-  },
-  {
-   "arquivo": "g399_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1630,
-   "cy": 65
-  },
-  {
-   "arquivo": "g400_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1629,
-   "cy": 75
-  },
-  {
-   "arquivo": "g401_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1636,
-   "cy": 89
-  },
-  {
-   "arquivo": "g402_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1665,
-   "cy": 45
-  },
-  {
-   "arquivo": "g403_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1665,
-   "cy": 60
-  },
-  {
-   "arquivo": "g404_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1679,
-   "cy": 65
-  },
-  {
-   "arquivo": "g405_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1688,
-   "cy": 65
-  },
-  {
-   "arquivo": "g406_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1687,
-   "cy": 75
-  },
-  {
-   "arquivo": "g407_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1694,
-   "cy": 89
-  },
-  {
-   "arquivo": "g408_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1713,
-   "cy": 45
-  },
-  {
-   "arquivo": "g409_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1713,
-   "cy": 60
-  },
-  {
-   "arquivo": "g410_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1737,
-   "cy": 45
-  },
-  {
-   "arquivo": "g411_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1737,
-   "cy": 60
-  },
-  {
-   "arquivo": "g412_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1785,
-   "cy": 45
-  },
-  {
-   "arquivo": "g413_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1785,
-   "cy": 60
-  },
-  {
-   "arquivo": "g414_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1798,
-   "cy": 65
-  },
-  {
-   "arquivo": "g415_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1807,
-   "cy": 65
-  },
-  {
-   "arquivo": "g416_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1806,
-   "cy": 75
-  },
-  {
-   "arquivo": "g417_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1813,
-   "cy": 89
-  },
-  {
-   "arquivo": "g418_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 38,
-   "cy": 17
-  },
-  {
-   "arquivo": "g419_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 38,
-   "cy": 95
-  },
-  {
-   "arquivo": "g420_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 75,
-   "cy": 63
-  },
-  {
-   "arquivo": "g421_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 111,
-   "cy": 48
-  },
-  {
-   "arquivo": "g422_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 149,
-   "cy": 33
-  },
-  {
-   "arquivo": "g423_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 186,
-   "cy": 48
-  },
-  {
-   "arquivo": "g424_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 223,
-   "cy": 63
-  },
-  {
-   "arquivo": "g425_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 260,
-   "cy": 17
-  },
-  {
-   "arquivo": "g426_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 297,
-   "cy": 33
-  },
-  {
-   "arquivo": "g427_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 334,
-   "cy": 48
-  },
-  {
-   "arquivo": "g428_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 371,
-   "cy": 79
-  },
-  {
-   "arquivo": "g429_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 408,
-   "cy": 33
-  },
-  {
-   "arquivo": "g430_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 446,
-   "cy": 48
-  },
-  {
-   "arquivo": "g431_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 505,
-   "cy": 17
-  },
-  {
    "arquivo": "g432_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T03_paolo d'angelo.png",
@@ -4259,277 +1669,11 @@
    "cy": 79
   },
   {
-   "arquivo": "g433_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 543,
-   "cy": 63
-  },
-  {
-   "arquivo": "g434_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 581,
-   "cy": 48
-  },
-  {
    "arquivo": "g435_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T03_paolo d'angelo.png",
    "cx": 619,
    "cy": 33
-  },
-  {
-   "arquivo": "g436_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 656,
-   "cy": 48
-  },
-  {
-   "arquivo": "g437_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 694,
-   "cy": 63
-  },
-  {
-   "arquivo": "g438_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 731,
-   "cy": 17
-  },
-  {
-   "arquivo": "g439_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 732,
-   "cy": 79
-  },
-  {
-   "arquivo": "g440_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 769,
-   "cy": 63
-  },
-  {
-   "arquivo": "g441_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 807,
-   "cy": 48
-  },
-  {
-   "arquivo": "g442_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 845,
-   "cy": 33
-  },
-  {
-   "arquivo": "g443_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 883,
-   "cy": 48
-  },
-  {
-   "arquivo": "g444_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 921,
-   "cy": 63
-  },
-  {
-   "arquivo": "g445_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 980,
-   "cy": 17
-  },
-  {
-   "arquivo": "g446_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 980,
-   "cy": 95
-  },
-  {
-   "arquivo": "g447_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1005,
-   "cy": 63
-  },
-  {
-   "arquivo": "g448_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1031,
-   "cy": 48
-  },
-  {
-   "arquivo": "g449_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1057,
-   "cy": 33
-  },
-  {
-   "arquivo": "g450_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1083,
-   "cy": 48
-  },
-  {
-   "arquivo": "g451_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1109,
-   "cy": 63
-  },
-  {
-   "arquivo": "g452_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1134,
-   "cy": 17
-  },
-  {
-   "arquivo": "g453_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1160,
-   "cy": 33
-  },
-  {
-   "arquivo": "g454_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1186,
-   "cy": 48
-  },
-  {
-   "arquivo": "g455_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1212,
-   "cy": 63
-  },
-  {
-   "arquivo": "g456_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1237,
-   "cy": 17
-  },
-  {
-   "arquivo": "g457_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1261,
-   "cy": 33
-  },
-  {
-   "arquivo": "g458_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1294,
-   "cy": 17
-  },
-  {
-   "arquivo": "g459_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1293,
-   "cy": 95
-  },
-  {
-   "arquivo": "g460_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1319,
-   "cy": 33
-  },
-  {
-   "arquivo": "g461_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1346,
-   "cy": 48
-  },
-  {
-   "arquivo": "g462_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1372,
-   "cy": 63
-  },
-  {
-   "arquivo": "g463_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1398,
-   "cy": 48
-  },
-  {
-   "arquivo": "g464_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1424,
-   "cy": 33
-  },
-  {
-   "arquivo": "g465_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1450,
-   "cy": 63
-  },
-  {
-   "arquivo": "g466_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1476,
-   "cy": 48
-  },
-  {
-   "arquivo": "g467_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1502,
-   "cy": 33
-  },
-  {
-   "arquivo": "g468_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1528,
-   "cy": 48
-  },
-  {
-   "arquivo": "g469_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1554,
-   "cy": 17
-  },
-  {
-   "arquivo": "g470_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1580,
-   "cy": 32
-  },
-  {
-   "arquivo": "g471_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1624,
-   "cy": 17
   },
   {
    "arquivo": "g472_paolo d'ange.png",
@@ -4553,32 +1697,11 @@
    "cy": 48
   },
   {
-   "arquivo": "g475_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1700,
-   "cy": 33
-  },
-  {
    "arquivo": "g476_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T03_paolo d'angelo.png",
    "cx": 1725,
    "cy": 48
-  },
-  {
-   "arquivo": "g477_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1764,
-   "cy": 17
-  },
-  {
-   "arquivo": "g478_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1776,
-   "cy": 17
   },
   {
    "arquivo": "g479_paolo d'ange.png",
@@ -4595,32 +1718,11 @@
    "cy": 33
   },
   {
-   "arquivo": "g481_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1764,
-   "cy": 48
-  },
-  {
-   "arquivo": "g482_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1776,
-   "cy": 48
-  },
-  {
    "arquivo": "g483_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T03_paolo d'angelo.png",
    "cx": 1750,
    "cy": 63
-  },
-  {
-   "arquivo": "g484_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1801,
-   "cy": 33
   },
   {
    "arquivo": "g485_paolo d'ange.png",
@@ -4630,74 +1732,11 @@
    "cy": 48
   },
   {
-   "arquivo": "g486_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1851,
-   "cy": 63
-  },
-  {
    "arquivo": "g487_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T03_paolo d'angelo.png",
    "cx": 1877,
    "cy": 17
-  },
-  {
-   "arquivo": "g488_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1902,
-   "cy": 33
-  },
-  {
-   "arquivo": "g489_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 29,
-   "cy": 346
-  },
-  {
-   "arquivo": "g490_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 47,
-   "cy": 347
-  },
-  {
-   "arquivo": "g491_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 29,
-   "cy": 367
-  },
-  {
-   "arquivo": "g492_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 47,
-   "cy": 367
-  },
-  {
-   "arquivo": "g493_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 29,
-   "cy": 387
-  },
-  {
-   "arquivo": "g494_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 14,
-   "cy": 408
-  },
-  {
-   "arquivo": "g495_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 67,
-   "cy": 327
   },
   {
    "arquivo": "g496_paolo d'ange.png",
@@ -4707,186 +1746,11 @@
    "cy": 346
   },
   {
-   "arquivo": "g497_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 86,
-   "cy": 347
-  },
-  {
-   "arquivo": "g498_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 68,
-   "cy": 367
-  },
-  {
-   "arquivo": "g499_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 86,
-   "cy": 367
-  },
-  {
    "arquivo": "g500_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T04_paolo d'angelo.png",
    "cx": 126,
    "cy": 346
-  },
-  {
-   "arquivo": "g501_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 126,
-   "cy": 408
-  },
-  {
-   "arquivo": "g502_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 154,
-   "cy": 327
-  },
-  {
-   "arquivo": "g503_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 154,
-   "cy": 346
-  },
-  {
-   "arquivo": "g504_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 173,
-   "cy": 346
-  },
-  {
-   "arquivo": "g505_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 154,
-   "cy": 367
-  },
-  {
-   "arquivo": "g506_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 173,
-   "cy": 367
-  },
-  {
-   "arquivo": "g507_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 194,
-   "cy": 346
-  },
-  {
-   "arquivo": "g508_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 212,
-   "cy": 346
-  },
-  {
-   "arquivo": "g509_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 194,
-   "cy": 367
-  },
-  {
-   "arquivo": "g510_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 212,
-   "cy": 367
-  },
-  {
-   "arquivo": "g511_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 194,
-   "cy": 387
-  },
-  {
-   "arquivo": "g512_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 253,
-   "cy": 346
-  },
-  {
-   "arquivo": "g513_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 271,
-   "cy": 346
-  },
-  {
-   "arquivo": "g514_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 253,
-   "cy": 367
-  },
-  {
-   "arquivo": "g515_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 272,
-   "cy": 367
-  },
-  {
-   "arquivo": "g516_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 253,
-   "cy": 387
-  },
-  {
-   "arquivo": "g517_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 239,
-   "cy": 408
-  },
-  {
-   "arquivo": "g518_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 292,
-   "cy": 327
-  },
-  {
-   "arquivo": "g519_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 293,
-   "cy": 346
-  },
-  {
-   "arquivo": "g520_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 311,
-   "cy": 346
-  },
-  {
-   "arquivo": "g521_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 293,
-   "cy": 367
-  },
-  {
-   "arquivo": "g522_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 311,
-   "cy": 367
   },
   {
    "arquivo": "g523_paolo d'ange.png",
@@ -4896,59 +1760,10 @@
    "cy": 346
   },
   {
-   "arquivo": "g524_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 393,
-   "cy": 388
-  },
-  {
-   "arquivo": "g525_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 421,
-   "cy": 327
-  },
-  {
    "arquivo": "g526_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T04_paolo d'angelo.png",
    "cx": 421,
-   "cy": 346
-  },
-  {
-   "arquivo": "g527_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 439,
-   "cy": 346
-  },
-  {
-   "arquivo": "g528_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 421,
-   "cy": 367
-  },
-  {
-   "arquivo": "g529_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 440,
-   "cy": 367
-  },
-  {
-   "arquivo": "g530_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 460,
-   "cy": 346
-  },
-  {
-   "arquivo": "g531_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 478,
    "cy": 346
   },
   {
@@ -4973,13 +1788,6 @@
    "cy": 392
   },
   {
-   "arquivo": "g535_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 520,
-   "cy": 346
-  },
-  {
    "arquivo": "g536_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T04_paolo d'angelo.png",
@@ -4987,25 +1795,11 @@
    "cy": 346
   },
   {
-   "arquivo": "g537_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 520,
-   "cy": 367
-  },
-  {
    "arquivo": "g538_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T04_paolo d'angelo.png",
    "cx": 539,
    "cy": 367
-  },
-  {
-   "arquivo": "g539_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 513,
-   "cy": 387
   },
   {
    "arquivo": "g540_paolo d'ange.png",
@@ -5043,27 +1837,6 @@
    "cy": 367
   },
   {
-   "arquivo": "g545_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 618,
-   "cy": 347
-  },
-  {
-   "arquivo": "g546_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 618,
-   "cy": 428
-  },
-  {
-   "arquivo": "g547_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 646,
-   "cy": 327
-  },
-  {
    "arquivo": "g548_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T04_paolo d'angelo.png",
@@ -5076,55 +1849,6 @@
    "imagem": "T04_paolo d'angelo.png",
    "cx": 664,
    "cy": 347
-  },
-  {
-   "arquivo": "g550_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 646,
-   "cy": 367
-  },
-  {
-   "arquivo": "g551_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 664,
-   "cy": 367
-  },
-  {
-   "arquivo": "g552_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 685,
-   "cy": 346
-  },
-  {
-   "arquivo": "g553_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 685,
-   "cy": 367
-  },
-  {
-   "arquivo": "g554_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 685,
-   "cy": 387
-  },
-  {
-   "arquivo": "g555_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 704,
-   "cy": 347
-  },
-  {
-   "arquivo": "g556_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 704,
-   "cy": 367
   },
   {
    "arquivo": "g557_paolo d'ange.png",
@@ -5141,27 +1865,6 @@
    "cy": 347
   },
   {
-   "arquivo": "g559_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 745,
-   "cy": 367
-  },
-  {
-   "arquivo": "g560_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 763,
-   "cy": 367
-  },
-  {
-   "arquivo": "g561_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 745,
-   "cy": 387
-  },
-  {
    "arquivo": "g562_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T04_paolo d'angelo.png",
@@ -5176,73 +1879,10 @@
    "cy": 327
   },
   {
-   "arquivo": "g564_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 784,
-   "cy": 346
-  },
-  {
-   "arquivo": "g565_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 802,
-   "cy": 347
-  },
-  {
-   "arquivo": "g566_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 784,
-   "cy": 367
-  },
-  {
-   "arquivo": "g567_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 802,
-   "cy": 367
-  },
-  {
-   "arquivo": "g568_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 887,
-   "cy": 347
-  },
-  {
-   "arquivo": "g569_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 887,
-   "cy": 408
-  },
-  {
    "arquivo": "g570_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T04_paolo d'angelo.png",
    "cx": 926,
-   "cy": 367
-  },
-  {
-   "arquivo": "g571_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 965,
-   "cy": 347
-  },
-  {
-   "arquivo": "g572_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 965,
-   "cy": 408
-  },
-  {
-   "arquivo": "g573_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1005,
    "cy": 367
   },
   {
@@ -5253,48 +1893,6 @@
    "cy": 347
   },
   {
-   "arquivo": "g575_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1044,
-   "cy": 408
-  },
-  {
-   "arquivo": "g576_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1083,
-   "cy": 367
-  },
-  {
-   "arquivo": "g577_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1122,
-   "cy": 347
-  },
-  {
-   "arquivo": "g578_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1122,
-   "cy": 408
-  },
-  {
-   "arquivo": "g579_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1161,
-   "cy": 367
-  },
-  {
-   "arquivo": "g580_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1246,
-   "cy": 347
-  },
-  {
    "arquivo": "g581_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T04_paolo d'angelo.png",
@@ -5302,143 +1900,10 @@
    "cy": 408
   },
   {
-   "arquivo": "g582_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1273,
-   "cy": 327
-  },
-  {
-   "arquivo": "g583_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1273,
-   "cy": 346
-  },
-  {
-   "arquivo": "g584_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1291,
-   "cy": 347
-  },
-  {
    "arquivo": "g585_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T04_paolo d'angelo.png",
    "cx": 1273,
-   "cy": 367
-  },
-  {
-   "arquivo": "g586_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1291,
-   "cy": 367
-  },
-  {
-   "arquivo": "g587_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1312,
-   "cy": 346
-  },
-  {
-   "arquivo": "g588_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1330,
-   "cy": 347
-  },
-  {
-   "arquivo": "g589_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1312,
-   "cy": 367
-  },
-  {
-   "arquivo": "g590_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1330,
-   "cy": 367
-  },
-  {
-   "arquivo": "g591_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1312,
-   "cy": 387
-  },
-  {
-   "arquivo": "g592_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1368,
-   "cy": 346
-  },
-  {
-   "arquivo": "g593_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1386,
-   "cy": 347
-  },
-  {
-   "arquivo": "g594_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1368,
-   "cy": 367
-  },
-  {
-   "arquivo": "g595_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1386,
-   "cy": 367
-  },
-  {
-   "arquivo": "g596_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1368,
-   "cy": 387
-  },
-  {
-   "arquivo": "g597_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1353,
-   "cy": 408
-  },
-  {
-   "arquivo": "g598_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1407,
-   "cy": 327
-  },
-  {
-   "arquivo": "g599_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1407,
-   "cy": 346
-  },
-  {
-   "arquivo": "g600_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1425,
-   "cy": 347
-  },
-  {
-   "arquivo": "g601_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1407,
    "cy": 367
   },
   {
@@ -5449,32 +1914,11 @@
    "cy": 367
   },
   {
-   "arquivo": "g603_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1463,
-   "cy": 347
-  },
-  {
-   "arquivo": "g604_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1463,
-   "cy": 408
-  },
-  {
    "arquivo": "g605_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T04_paolo d'angelo.png",
    "cx": 1489,
    "cy": 327
-  },
-  {
-   "arquivo": "g606_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1489,
-   "cy": 346
   },
   {
    "arquivo": "g607_paolo d'ange.png",
@@ -5491,88 +1935,11 @@
    "cy": 367
   },
   {
-   "arquivo": "g609_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1508,
-   "cy": 367
-  },
-  {
    "arquivo": "g610_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T04_paolo d'angelo.png",
    "cx": 1528,
    "cy": 346
-  },
-  {
-   "arquivo": "g611_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1547,
-   "cy": 347
-  },
-  {
-   "arquivo": "g612_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1528,
-   "cy": 367
-  },
-  {
-   "arquivo": "g613_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1546,
-   "cy": 367
-  },
-  {
-   "arquivo": "g614_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1528,
-   "cy": 387
-  },
-  {
-   "arquivo": "g615_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1584,
-   "cy": 346
-  },
-  {
-   "arquivo": "g616_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1602,
-   "cy": 347
-  },
-  {
-   "arquivo": "g617_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1584,
-   "cy": 367
-  },
-  {
-   "arquivo": "g618_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1602,
-   "cy": 367
-  },
-  {
-   "arquivo": "g619_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1584,
-   "cy": 387
-  },
-  {
-   "arquivo": "g620_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1571,
-   "cy": 408
   },
   {
    "arquivo": "g621_paolo d'ange.png",
@@ -5589,13 +1956,6 @@
    "cy": 346
   },
   {
-   "arquivo": "g623_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1642,
-   "cy": 347
-  },
-  {
    "arquivo": "g624_paolo d'ange.png",
    "canal": "paolo d'angelo",
    "imagem": "T04_paolo d'angelo.png",
@@ -5610,90 +1970,6 @@
    "cy": 367
   },
   {
-   "arquivo": "g626_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1724,
-   "cy": 347
-  },
-  {
-   "arquivo": "g627_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1724,
-   "cy": 408
-  },
-  {
-   "arquivo": "g628_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1763,
-   "cy": 367
-  },
-  {
-   "arquivo": "g629_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1802,
-   "cy": 347
-  },
-  {
-   "arquivo": "g630_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1802,
-   "cy": 408
-  },
-  {
-   "arquivo": "g631_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1841,
-   "cy": 367
-  },
-  {
-   "arquivo": "g632_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1881,
-   "cy": 347
-  },
-  {
-   "arquivo": "g633_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1881,
-   "cy": 408
-  },
-  {
-   "arquivo": "g634_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1917,
-   "cy": 367
-  },
-  {
-   "arquivo": "g635_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 50,
-   "cy": 48
-  },
-  {
-   "arquivo": "g636_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 271,
-   "cy": 49
-  },
-  {
-   "arquivo": "g637_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 272,
-   "cy": 80
-  },
-  {
    "arquivo": "g638_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "T09_mr. tabs.png",
@@ -5701,60 +1977,11 @@
    "cy": 98
   },
   {
-   "arquivo": "g639_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 272,
-   "cy": 123
-  },
-  {
    "arquivo": "g640_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "T09_mr. tabs.png",
    "cx": 272,
    "cy": 147
-  },
-  {
-   "arquivo": "g641_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 353,
-   "cy": 98
-  },
-  {
-   "arquivo": "g642_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 353,
-   "cy": 129
-  },
-  {
-   "arquivo": "g643_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 353,
-   "cy": 147
-  },
-  {
-   "arquivo": "g644_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 401,
-   "cy": 73
-  },
-  {
-   "arquivo": "g645_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 449,
-   "cy": 98
-  },
-  {
-   "arquivo": "g646_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 449,
-   "cy": 129
   },
   {
    "arquivo": "g647_mr. tabs.png",
@@ -5771,32 +1998,11 @@
    "cy": 73
   },
   {
-   "arquivo": "g649_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 544,
-   "cy": 98
-  },
-  {
    "arquivo": "g650_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "T09_mr. tabs.png",
    "cx": 545,
    "cy": 129
-  },
-  {
-   "arquivo": "g651_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 545,
-   "cy": 147
-  },
-  {
-   "arquivo": "g652_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 639,
-   "cy": 98
   },
   {
    "arquivo": "g653_mr. tabs.png",
@@ -5806,46 +2012,11 @@
    "cy": 124
   },
   {
-   "arquivo": "g654_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 639,
-   "cy": 147
-  },
-  {
-   "arquivo": "g655_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 680,
-   "cy": 147
-  },
-  {
-   "arquivo": "g656_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 748,
-   "cy": 129
-  },
-  {
    "arquivo": "g657_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "T09_mr. tabs.png",
    "cx": 748,
    "cy": 147
-  },
-  {
-   "arquivo": "g658_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 996,
-   "cy": 99
-  },
-  {
-   "arquivo": "g659_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 996,
-   "cy": 129
   },
   {
    "arquivo": "g660_mr. tabs.png",
@@ -5855,13 +2026,6 @@
    "cy": 147
   },
   {
-   "arquivo": "g661_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1104,
-   "cy": 30
-  },
-  {
    "arquivo": "g662_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "T09_mr. tabs.png",
@@ -5869,298 +2033,11 @@
    "cy": 49
   },
   {
-   "arquivo": "g663_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1095,
-   "cy": 80
-  },
-  {
-   "arquivo": "g664_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1096,
-   "cy": 98
-  },
-  {
-   "arquivo": "g665_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1095,
-   "cy": 123
-  },
-  {
-   "arquivo": "g666_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1095,
-   "cy": 147
-  },
-  {
    "arquivo": "g667_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "T09_mr. tabs.png",
    "cx": 1143,
    "cy": 30
-  },
-  {
-   "arquivo": "g668_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1244,
-   "cy": 30
-  },
-  {
-   "arquivo": "g669_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1281,
-   "cy": 30
-  },
-  {
-   "arquivo": "g670_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1286,
-   "cy": 48
-  },
-  {
-   "arquivo": "g671_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1208,
-   "cy": 80
-  },
-  {
-   "arquivo": "g672_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1287,
-   "cy": 80
-  },
-  {
-   "arquivo": "g673_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1208,
-   "cy": 98
-  },
-  {
-   "arquivo": "g674_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1287,
-   "cy": 98
-  },
-  {
-   "arquivo": "g675_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1208,
-   "cy": 123
-  },
-  {
-   "arquivo": "g676_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1287,
-   "cy": 123
-  },
-  {
-   "arquivo": "g677_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1208,
-   "cy": 147
-  },
-  {
-   "arquivo": "g678_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1287,
-   "cy": 147
-  },
-  {
-   "arquivo": "g679_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1406,
-   "cy": 73
-  },
-  {
-   "arquivo": "g680_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1627,
-   "cy": 74
-  },
-  {
-   "arquivo": "g681_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1629,
-   "cy": 104
-  },
-  {
-   "arquivo": "g682_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1626,
-   "cy": 141
-  },
-  {
-   "arquivo": "g683_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1735,
-   "cy": 30
-  },
-  {
-   "arquivo": "g684_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1726,
-   "cy": 49
-  },
-  {
-   "arquivo": "g685_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1725,
-   "cy": 80
-  },
-  {
-   "arquivo": "g686_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1725,
-   "cy": 98
-  },
-  {
-   "arquivo": "g687_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1725,
-   "cy": 123
-  },
-  {
-   "arquivo": "g688_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1725,
-   "cy": 147
-  },
-  {
-   "arquivo": "g689_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1773,
-   "cy": 30
-  },
-  {
-   "arquivo": "g690_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1874,
-   "cy": 30
-  },
-  {
-   "arquivo": "g691_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1912,
-   "cy": 30
-  },
-  {
-   "arquivo": "g692_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1840,
-   "cy": 49
-  },
-  {
-   "arquivo": "g693_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1879,
-   "cy": 49
-  },
-  {
-   "arquivo": "g694_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1908,
-   "cy": 48
-  },
-  {
-   "arquivo": "g695_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1840,
-   "cy": 80
-  },
-  {
-   "arquivo": "g696_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1917,
-   "cy": 80
-  },
-  {
-   "arquivo": "g697_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1838,
-   "cy": 98
-  },
-  {
-   "arquivo": "g698_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1917,
-   "cy": 98
-  },
-  {
-   "arquivo": "g699_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1840,
-   "cy": 123
-  },
-  {
-   "arquivo": "g700_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1917,
-   "cy": 123
-  },
-  {
-   "arquivo": "g701_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1840,
-   "cy": 147
-  },
-  {
-   "arquivo": "g702_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1917,
-   "cy": 147
-  },
-  {
-   "arquivo": "g703_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 87,
-   "cy": 124
-  },
-  {
-   "arquivo": "g704_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 87,
-   "cy": 155
   },
   {
    "arquivo": "g705_mr. tabs.png",
@@ -6184,46 +2061,11 @@
    "cy": 81
   },
   {
-   "arquivo": "g708_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 185,
-   "cy": 100
-  },
-  {
    "arquivo": "g709_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "T10_mr. tabs.png",
    "cx": 185,
    "cy": 124
-  },
-  {
-   "arquivo": "g710_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 185,
-   "cy": 148
-  },
-  {
-   "arquivo": "g711_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 233,
-   "cy": 31
-  },
-  {
-   "arquivo": "g712_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 334,
-   "cy": 31
-  },
-  {
-   "arquivo": "g713_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 372,
-   "cy": 31
   },
   {
    "arquivo": "g714_mr. tabs.png",
@@ -6233,31 +2075,10 @@
    "cy": 50
   },
   {
-   "arquivo": "g715_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 339,
-   "cy": 50
-  },
-  {
-   "arquivo": "g716_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 377,
-   "cy": 49
-  },
-  {
    "arquivo": "g717_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "T10_mr. tabs.png",
    "cx": 300,
-   "cy": 81
-  },
-  {
-   "arquivo": "g718_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 377,
    "cy": 81
   },
   {
@@ -6266,27 +2087,6 @@
    "imagem": "T10_mr. tabs.png",
    "cx": 300,
    "cy": 100
-  },
-  {
-   "arquivo": "g720_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 377,
-   "cy": 100
-  },
-  {
-   "arquivo": "g721_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 300,
-   "cy": 124
-  },
-  {
-   "arquivo": "g722_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 377,
-   "cy": 124
   },
   {
    "arquivo": "g723_mr. tabs.png",
@@ -6303,67 +2103,11 @@
    "cy": 148
   },
   {
-   "arquivo": "g725_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 497,
-   "cy": 74
-  },
-  {
    "arquivo": "g726_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "T10_mr. tabs.png",
    "cx": 718,
    "cy": 75
-  },
-  {
-   "arquivo": "g727_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 718,
-   "cy": 106
-  },
-  {
-   "arquivo": "g728_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 718,
-   "cy": 124
-  },
-  {
-   "arquivo": "g729_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 718,
-   "cy": 148
-  },
-  {
-   "arquivo": "g730_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 825,
-   "cy": 31
-  },
-  {
-   "arquivo": "g731_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 817,
-   "cy": 50
-  },
-  {
-   "arquivo": "g732_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 863,
-   "cy": 31
-  },
-  {
-   "arquivo": "g733_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 965,
-   "cy": 31
   },
   {
    "arquivo": "g734_mr. tabs.png",
@@ -6373,60 +2117,11 @@
    "cy": 31
   },
   {
-   "arquivo": "g735_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 930,
-   "cy": 50
-  },
-  {
-   "arquivo": "g736_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 930,
-   "cy": 81
-  },
-  {
    "arquivo": "g737_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "T10_mr. tabs.png",
    "cx": 1007,
    "cy": 81
-  },
-  {
-   "arquivo": "g738_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 930,
-   "cy": 100
-  },
-  {
-   "arquivo": "g739_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1006,
-   "cy": 100
-  },
-  {
-   "arquivo": "g740_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 930,
-   "cy": 124
-  },
-  {
-   "arquivo": "g741_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1007,
-   "cy": 124
-  },
-  {
-   "arquivo": "g742_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 930,
-   "cy": 148
   },
   {
    "arquivo": "g743_mr. tabs.png",
@@ -6436,354 +2131,11 @@
    "cy": 148
   },
   {
-   "arquivo": "g744_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1127,
-   "cy": 74
-  },
-  {
-   "arquivo": "g745_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1348,
-   "cy": 75
-  },
-  {
-   "arquivo": "g746_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1348,
-   "cy": 106
-  },
-  {
-   "arquivo": "g747_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1348,
-   "cy": 124
-  },
-  {
-   "arquivo": "g748_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1348,
-   "cy": 148
-  },
-  {
-   "arquivo": "g749_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1456,
-   "cy": 31
-  },
-  {
-   "arquivo": "g750_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1447,
-   "cy": 50
-  },
-  {
-   "arquivo": "g751_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1447,
-   "cy": 81
-  },
-  {
-   "arquivo": "g752_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1447,
-   "cy": 100
-  },
-  {
-   "arquivo": "g753_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1447,
-   "cy": 124
-  },
-  {
-   "arquivo": "g754_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1447,
-   "cy": 148
-  },
-  {
-   "arquivo": "g755_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1494,
-   "cy": 31
-  },
-  {
-   "arquivo": "g756_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1596,
-   "cy": 31
-  },
-  {
-   "arquivo": "g757_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1633,
-   "cy": 31
-  },
-  {
-   "arquivo": "g758_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1561,
-   "cy": 50
-  },
-  {
-   "arquivo": "g759_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1600,
-   "cy": 50
-  },
-  {
-   "arquivo": "g760_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1638,
-   "cy": 49
-  },
-  {
-   "arquivo": "g761_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1560,
-   "cy": 81
-  },
-  {
-   "arquivo": "g762_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1637,
-   "cy": 81
-  },
-  {
-   "arquivo": "g763_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1560,
-   "cy": 100
-  },
-  {
-   "arquivo": "g764_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1637,
-   "cy": 100
-  },
-  {
-   "arquivo": "g765_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1560,
-   "cy": 124
-  },
-  {
-   "arquivo": "g766_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1637,
-   "cy": 124
-  },
-  {
-   "arquivo": "g767_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1560,
-   "cy": 148
-  },
-  {
-   "arquivo": "g768_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1637,
-   "cy": 148
-  },
-  {
-   "arquivo": "g769_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1767,
-   "cy": 74
-  },
-  {
-   "arquivo": "g770_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1865,
-   "cy": 50
-  },
-  {
-   "arquivo": "g771_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1865,
-   "cy": 81
-  },
-  {
-   "arquivo": "g772_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1865,
-   "cy": 100
-  },
-  {
-   "arquivo": "g773_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1865,
-   "cy": 124
-  },
-  {
-   "arquivo": "g774_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1865,
-   "cy": 148
-  },
-  {
-   "arquivo": "g775_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1913,
-   "cy": 50
-  },
-  {
-   "arquivo": "g776_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1913,
-   "cy": 81
-  },
-  {
-   "arquivo": "g777_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1913,
-   "cy": 100
-  },
-  {
-   "arquivo": "g778_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1913,
-   "cy": 124
-  },
-  {
-   "arquivo": "g779_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1913,
-   "cy": 148
-  },
-  {
-   "arquivo": "g780_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 123,
-   "cy": 88
-  },
-  {
-   "arquivo": "g781_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 154,
-   "cy": 95
-  },
-  {
-   "arquivo": "g782_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 265,
-   "cy": 19
-  },
-  {
-   "arquivo": "g783_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 264,
-   "cy": 37
-  },
-  {
-   "arquivo": "g784_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 265,
-   "cy": 57
-  },
-  {
-   "arquivo": "g785_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 265,
-   "cy": 76
-  },
-  {
    "arquivo": "g786_robert lunn.png",
    "canal": "robert lunn",
    "imagem": "T12_robert lunn.png",
    "cx": 356,
    "cy": 95
-  },
-  {
-   "arquivo": "g787_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 447,
-   "cy": 76
-  },
-  {
-   "arquivo": "g788_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 470,
-   "cy": 57
-  },
-  {
-   "arquivo": "g789_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 493,
-   "cy": 38
-  },
-  {
-   "arquivo": "g790_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 515,
-   "cy": 19
-  },
-  {
-   "arquivo": "g791_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 538,
-   "cy": 38
-  },
-  {
-   "arquivo": "g792_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 561,
-   "cy": 57
-  },
-  {
-   "arquivo": "g793_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 585,
-   "cy": 76
   },
   {
    "arquivo": "g794_robert lunn.png",
@@ -6793,25 +2145,11 @@
    "cy": 88
   },
   {
-   "arquivo": "g795_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 886,
-   "cy": 76
-  },
-  {
    "arquivo": "g796_robert lunn.png",
    "canal": "robert lunn",
    "imagem": "T12_robert lunn.png",
    "cx": 943,
    "cy": 76
-  },
-  {
-   "arquivo": "g797_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 979,
-   "cy": 96
   },
   {
    "arquivo": "g798_robert lunn.png",
@@ -6821,286 +2159,6 @@
    "cy": 95
   },
   {
-   "arquivo": "g799_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 1130,
-   "cy": 95
-  },
-  {
-   "arquivo": "g800_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 109,
-   "cy": 15
-  },
-  {
-   "arquivo": "g801_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 97,
-   "cy": 89
-  },
-  {
-   "arquivo": "g802_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 134,
-   "cy": 74
-  },
-  {
-   "arquivo": "g803_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 171,
-   "cy": 44
-  },
-  {
-   "arquivo": "g804_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 208,
-   "cy": 29
-  },
-  {
-   "arquivo": "g805_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 236,
-   "cy": 14
-  },
-  {
-   "arquivo": "g806_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 264,
-   "cy": 29
-  },
-  {
-   "arquivo": "g807_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 291,
-   "cy": 15
-  },
-  {
-   "arquivo": "g808_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 366,
-   "cy": 15
-  },
-  {
-   "arquivo": "g809_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 360,
-   "cy": 74
-  },
-  {
-   "arquivo": "g810_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 397,
-   "cy": 59
-  },
-  {
-   "arquivo": "g811_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 434,
-   "cy": 44
-  },
-  {
-   "arquivo": "g812_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 469,
-   "cy": 29
-  },
-  {
-   "arquivo": "g813_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 477,
-   "cy": 39
-  },
-  {
-   "arquivo": "g814_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 506,
-   "cy": 29
-  },
-  {
-   "arquivo": "g815_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 501,
-   "cy": 39
-  },
-  {
-   "arquivo": "g816_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 507,
-   "cy": 74
-  },
-  {
-   "arquivo": "g817_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 544,
-   "cy": 59
-  },
-  {
-   "arquivo": "g818_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 560,
-   "cy": 17
-  },
-  {
-   "arquivo": "g819_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 561,
-   "cy": 30
-  },
-  {
-   "arquivo": "g820_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 561,
-   "cy": 43
-  },
-  {
-   "arquivo": "g821_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 581,
-   "cy": 14
-  },
-  {
-   "arquivo": "g822_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 580,
-   "cy": 29
-  },
-  {
-   "arquivo": "g823_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 581,
-   "cy": 44
-  },
-  {
-   "arquivo": "g824_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 618,
-   "cy": 44
-  },
-  {
-   "arquivo": "g825_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 679,
-   "cy": 29
-  },
-  {
-   "arquivo": "g826_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 668,
-   "cy": 89
-  },
-  {
-   "arquivo": "g827_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 705,
-   "cy": 74
-  },
-  {
-   "arquivo": "g828_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 742,
-   "cy": 44
-  },
-  {
-   "arquivo": "g829_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 779,
-   "cy": 29
-  },
-  {
-   "arquivo": "g830_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 816,
-   "cy": 15
-  },
-  {
-   "arquivo": "g831_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 853,
-   "cy": 14
-  },
-  {
-   "arquivo": "g832_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 899,
-   "cy": 15
-  },
-  {
-   "arquivo": "g833_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 923,
-   "cy": 10
-  },
-  {
-   "arquivo": "g834_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 959,
-   "cy": 14
-  },
-  {
-   "arquivo": "g835_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 996,
-   "cy": 29
-  },
-  {
-   "arquivo": "g836_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 996,
-   "cy": 44
-  },
-  {
-   "arquivo": "g837_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1039,
-   "cy": 15
-  },
-  {
-   "arquivo": "g838_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1051,
-   "cy": 25
-  },
-  {
    "arquivo": "g839_serge kottel.png",
    "canal": "serge kottelat",
    "imagem": "T13_serge kottelat.png",
@@ -7108,32 +2166,11 @@
    "cy": 74
   },
   {
-   "arquivo": "g840_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1105,
-   "cy": 15
-  },
-  {
-   "arquivo": "g841_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1133,
-   "cy": 29
-  },
-  {
    "arquivo": "g842_serge kottel.png",
    "canal": "serge kottelat",
    "imagem": "T13_serge kottelat.png",
    "cx": 1134,
    "cy": 44
-  },
-  {
-   "arquivo": "g843_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1170,
-   "cy": 14
   },
   {
    "arquivo": "g844_serge kottel.png",
@@ -7157,389 +2194,11 @@
    "cy": 29
   },
   {
-   "arquivo": "g847_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1350,
-   "cy": 44
-  },
-  {
-   "arquivo": "g848_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1357,
-   "cy": 54
-  },
-  {
-   "arquivo": "g849_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1387,
-   "cy": 15
-  },
-  {
-   "arquivo": "g850_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1390,
-   "cy": 27
-  },
-  {
-   "arquivo": "g851_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1387,
-   "cy": 44
-  },
-  {
-   "arquivo": "g852_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1381,
-   "cy": 54
-  },
-  {
-   "arquivo": "g853_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1413,
-   "cy": 14
-  },
-  {
-   "arquivo": "g854_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1438,
-   "cy": 15
-  },
-  {
-   "arquivo": "g855_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1436,
-   "cy": 27
-  },
-  {
-   "arquivo": "g856_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1475,
-   "cy": 29
-  },
-  {
-   "arquivo": "g857_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1555,
-   "cy": 29
-  },
-  {
-   "arquivo": "g858_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1543,
-   "cy": 89
-  },
-  {
-   "arquivo": "g859_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1581,
-   "cy": 59
-  },
-  {
-   "arquivo": "g860_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1618,
-   "cy": 44
-  },
-  {
-   "arquivo": "g861_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1656,
-   "cy": 59
-  },
-  {
-   "arquivo": "g862_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1682,
-   "cy": 29
-  },
-  {
-   "arquivo": "g863_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1710,
-   "cy": 44
-  },
-  {
-   "arquivo": "g864_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1753,
-   "cy": 29
-  },
-  {
-   "arquivo": "g865_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 89,
-   "cy": 15
-  },
-  {
-   "arquivo": "g866_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 77,
-   "cy": 75
-  },
-  {
-   "arquivo": "g867_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 131,
-   "cy": 45
-  },
-  {
-   "arquivo": "g868_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 166,
-   "cy": 30
-  },
-  {
-   "arquivo": "g869_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 202,
-   "cy": 15
-  },
-  {
-   "arquivo": "g870_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 202,
-   "cy": 30
-  },
-  {
-   "arquivo": "g871_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 255,
-   "cy": 15
-  },
-  {
-   "arquivo": "g872_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 306,
-   "cy": 9
-  },
-  {
-   "arquivo": "g873_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 359,
-   "cy": 15
-  },
-  {
-   "arquivo": "g874_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 348,
-   "cy": 90
-  },
-  {
-   "arquivo": "g875_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 383,
-   "cy": 60
-  },
-  {
-   "arquivo": "g876_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 419,
-   "cy": 45
-  },
-  {
-   "arquivo": "g877_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 454,
-   "cy": 30
-  },
-  {
-   "arquivo": "g878_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 482,
-   "cy": 15
-  },
-  {
-   "arquivo": "g879_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 509,
-   "cy": 30
-  },
-  {
-   "arquivo": "g880_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 558,
-   "cy": 15
-  },
-  {
-   "arquivo": "g881_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 556,
-   "cy": 25
-  },
-  {
-   "arquivo": "g882_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 580,
-   "cy": 15
-  },
-  {
-   "arquivo": "g883_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 578,
-   "cy": 27
-  },
-  {
-   "arquivo": "g884_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 648,
-   "cy": 15
-  },
-  {
-   "arquivo": "g885_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 664,
-   "cy": 15
-  },
-  {
-   "arquivo": "g886_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 653,
-   "cy": 25
-  },
-  {
-   "arquivo": "g887_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 683,
-   "cy": 15
-  },
-  {
-   "arquivo": "g888_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 681,
-   "cy": 27
-  },
-  {
-   "arquivo": "g889_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 718,
-   "cy": 75
-  },
-  {
-   "arquivo": "g890_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 753,
-   "cy": 60
-  },
-  {
-   "arquivo": "g891_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 788,
-   "cy": 45
-  },
-  {
-   "arquivo": "g892_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 824,
-   "cy": 30
-  },
-  {
    "arquivo": "g893_serge kottel.png",
    "canal": "serge kottelat",
    "imagem": "T14_serge kottelat.png",
    "cx": 860,
    "cy": 15
-  },
-  {
-   "arquivo": "g894_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 895,
-   "cy": 30
-  },
-  {
-   "arquivo": "g895_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 935,
-   "cy": 30
-  },
-  {
-   "arquivo": "g896_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 984,
-   "cy": 30
-  },
-  {
-   "arquivo": "g897_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1020,
-   "cy": 90
-  },
-  {
-   "arquivo": "g898_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1056,
-   "cy": 60
-  },
-  {
-   "arquivo": "g899_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1091,
-   "cy": 45
-  },
-  {
-   "arquivo": "g900_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1127,
-   "cy": 30
-  },
-  {
-   "arquivo": "g901_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1162,
-   "cy": 60
   },
   {
    "arquivo": "g902_serge kottel.png",
@@ -7549,361 +2208,32 @@
    "cy": 45
   },
   {
-   "arquivo": "g903_serge kottel.png",
+   "arquivo": "g766_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 1637,
+   "cy": 124
+  },
+  {
+   "arquivo": "g321_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 1549,
+   "cy": 336
+  },
+  {
+   "arquivo": "g898_serge kottel.png",
    "canal": "serge kottelat",
    "imagem": "T14_serge kottelat.png",
-   "cx": 1236,
-   "cy": 15
+   "cx": 1056,
+   "cy": 60
   },
   {
-   "arquivo": "g904_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1300,
-   "cy": 15
-  },
-  {
-   "arquivo": "g905_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1288,
-   "cy": 75
-  },
-  {
-   "arquivo": "g906_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1324,
-   "cy": 45
-  },
-  {
-   "arquivo": "g907_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1359,
-   "cy": 30
-  },
-  {
-   "arquivo": "g908_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1395,
-   "cy": 45
-  },
-  {
-   "arquivo": "g909_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1430,
-   "cy": 15
-  },
-  {
-   "arquivo": "g910_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1430,
-   "cy": 45
-  },
-  {
-   "arquivo": "g911_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1483,
-   "cy": 15
-  },
-  {
-   "arquivo": "g912_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1561,
-   "cy": 15
-  },
-  {
-   "arquivo": "g913_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1550,
-   "cy": 75
-  },
-  {
-   "arquivo": "g914_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1585,
-   "cy": 45
-  },
-  {
-   "arquivo": "g915_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1626,
-   "cy": 30
-  },
-  {
-   "arquivo": "g916_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1661,
-   "cy": 45
-  },
-  {
-   "arquivo": "g917_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1687,
-   "cy": 15
-  },
-  {
-   "arquivo": "g918_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1715,
-   "cy": 30
-  },
-  {
-   "arquivo": "g919_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1756,
-   "cy": 15
-  },
-  {
-   "arquivo": "g920_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 5,
-   "cy": 14
-  },
-  {
-   "arquivo": "g921_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 5,
-   "cy": 29
-  },
-  {
-   "arquivo": "g922_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 5,
-   "cy": 87
-  },
-  {
-   "arquivo": "g923_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 91,
-   "cy": 14
-  },
-  {
-   "arquivo": "g924_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 91,
-   "cy": 87
-  },
-  {
-   "arquivo": "g925_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 141,
-   "cy": 43
-  },
-  {
-   "arquivo": "g926_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 141,
-   "cy": 58
-  },
-  {
-   "arquivo": "g927_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 191,
-   "cy": 14
-  },
-  {
-   "arquivo": "g928_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 190,
-   "cy": 73
-  },
-  {
-   "arquivo": "g929_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 240,
-   "cy": 43
-  },
-  {
-   "arquivo": "g930_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 240,
-   "cy": 58
-  },
-  {
-   "arquivo": "g931_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 265,
-   "cy": 29
-  },
-  {
-   "arquivo": "g932_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 290,
-   "cy": 14
-  },
-  {
-   "arquivo": "g933_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 290,
-   "cy": 73
-  },
-  {
-   "arquivo": "g934_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 315,
-   "cy": 14
-  },
-  {
-   "arquivo": "g935_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 340,
-   "cy": 43
-  },
-  {
-   "arquivo": "g936_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 340,
-   "cy": 58
-  },
-  {
-   "arquivo": "g937_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 365,
-   "cy": 14
-  },
-  {
-   "arquivo": "g938_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 392,
-   "cy": 73
-  },
-  {
-   "arquivo": "g939_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 439,
-   "cy": 43
-  },
-  {
-   "arquivo": "g940_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 439,
-   "cy": 58
-  },
-  {
-   "arquivo": "g941_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 464,
-   "cy": 14
-  },
-  {
-   "arquivo": "g942_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 519,
-   "cy": 29
-  },
-  {
-   "arquivo": "g943_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 519,
-   "cy": 73
-  },
-  {
-   "arquivo": "g944_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 566,
-   "cy": 14
-  },
-  {
-   "arquivo": "g945_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 566,
-   "cy": 43
-  },
-  {
-   "arquivo": "g946_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 566,
-   "cy": 58
-  },
-  {
-   "arquivo": "g947_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 614,
-   "cy": 14
-  },
-  {
-   "arquivo": "g948_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 614,
-   "cy": 73
-  },
-  {
-   "arquivo": "g949_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 662,
-   "cy": 14
-  },
-  {
-   "arquivo": "g950_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 662,
-   "cy": 43
-  },
-  {
-   "arquivo": "g951_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 662,
-   "cy": 58
-  },
-  {
-   "arquivo": "g952_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 709,
-   "cy": 14
-  },
-  {
-   "arquivo": "g953_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 709,
-   "cy": 87
+   "arquivo": "g429_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 408,
+   "cy": 33
   },
   {
    "arquivo": "g954_tv on guitar.png",
@@ -7913,326 +2243,11 @@
    "cy": 43
   },
   {
-   "arquivo": "g955_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 757,
-   "cy": 73
-  },
-  {
-   "arquivo": "g956_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 781,
-   "cy": 14
-  },
-  {
-   "arquivo": "g957_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 804,
-   "cy": 58
-  },
-  {
-   "arquivo": "g958_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 864,
-   "cy": 28
-  },
-  {
-   "arquivo": "g959_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 852,
-   "cy": 43
-  },
-  {
-   "arquivo": "g960_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 876,
-   "cy": 43
-  },
-  {
-   "arquivo": "g961_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 852,
-   "cy": 58
-  },
-  {
-   "arquivo": "g962_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 930,
-   "cy": 14
-  },
-  {
-   "arquivo": "g963_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 930,
-   "cy": 87
-  },
-  {
-   "arquivo": "g964_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 980,
-   "cy": 43
-  },
-  {
-   "arquivo": "g965_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 980,
-   "cy": 58
-  },
-  {
-   "arquivo": "g966_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1029,
-   "cy": 14
-  },
-  {
-   "arquivo": "g967_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1028,
-   "cy": 73
-  },
-  {
-   "arquivo": "g968_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1078,
-   "cy": 43
-  },
-  {
-   "arquivo": "g969_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1078,
-   "cy": 58
-  },
-  {
-   "arquivo": "g970_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1103,
+   "arquivo": "g841_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T13_serge kottelat.png",
+   "cx": 1133,
    "cy": 29
-  },
-  {
-   "arquivo": "g971_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1128,
-   "cy": 14
-  },
-  {
-   "arquivo": "g972_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1128,
-   "cy": 73
-  },
-  {
-   "arquivo": "g973_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1153,
-   "cy": 14
-  },
-  {
-   "arquivo": "g974_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1178,
-   "cy": 43
-  },
-  {
-   "arquivo": "g975_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1177,
-   "cy": 58
-  },
-  {
-   "arquivo": "g976_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1203,
-   "cy": 14
-  },
-  {
-   "arquivo": "g977_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1231,
-   "cy": 73
-  },
-  {
-   "arquivo": "g978_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1277,
-   "cy": 43
-  },
-  {
-   "arquivo": "g979_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1277,
-   "cy": 58
-  },
-  {
-   "arquivo": "g980_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1302,
-   "cy": 14
-  },
-  {
-   "arquivo": "g981_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1404,
-   "cy": 14
-  },
-  {
-   "arquivo": "g982_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1404,
-   "cy": 43
-  },
-  {
-   "arquivo": "g983_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1451,
-   "cy": 14
-  },
-  {
-   "arquivo": "g984_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1451,
-   "cy": 58
-  },
-  {
-   "arquivo": "g985_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1474,
-   "cy": 14
-  },
-  {
-   "arquivo": "g986_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1497,
-   "cy": 14
-  },
-  {
-   "arquivo": "g987_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1497,
-   "cy": 43
-  },
-  {
-   "arquivo": "g988_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1521,
-   "cy": 14
-  },
-  {
-   "arquivo": "g989_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1544,
-   "cy": 87
-  },
-  {
-   "arquivo": "g990_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1591,
-   "cy": 43
-  },
-  {
-   "arquivo": "g991_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1591,
-   "cy": 58
-  },
-  {
-   "arquivo": "g992_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1637,
-   "cy": 73
-  },
-  {
-   "arquivo": "g993_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1684,
-   "cy": 43
-  },
-  {
-   "arquivo": "g994_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1684,
-   "cy": 58
-  },
-  {
-   "arquivo": "g995_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1778,
-   "cy": 14
-  },
-  {
-   "arquivo": "g996_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1778,
-   "cy": 73
-  },
-  {
-   "arquivo": "g997_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1825,
-   "cy": 43
-  },
-  {
-   "arquivo": "g998_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1825,
-   "cy": 58
-  },
-  {
-   "arquivo": "g999_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1849,
-   "cy": 14
-  },
-  {
-   "arquivo": "g1000_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1872,
-   "cy": 73
   },
   {
    "arquivo": "g1001_tv on guitar.png",
@@ -8242,193 +2257,102 @@
    "cy": 29
   },
   {
-   "arquivo": "g1002_tv on guitar.png",
+   "arquivo": "g896_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T14_serge kottelat.png",
+   "cx": 984,
+   "cy": 30
+  },
+  {
+   "arquivo": "g800_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T13_serge kottelat.png",
+   "cx": 109,
+   "cy": 15
+  },
+  {
+   "arquivo": "g654_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T09_mr. tabs.png",
+   "cx": 639,
+   "cy": 147
+  },
+  {
+   "arquivo": "g033_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 580,
+   "cy": 305
+  },
+  {
+   "arquivo": "g1000_tv on guitar.png",
    "canal": "tv on guitar",
    "imagem": "T19_tv on guitar.png",
-   "cx": 1917,
-   "cy": 58
-  },
-  {
-   "arquivo": "g1003_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 37,
+   "cx": 1872,
    "cy": 73
   },
   {
-   "arquivo": "g1004_tv on guitar.png",
+   "arquivo": "g569_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 887,
+   "cy": 408
+  },
+  {
+   "arquivo": "g934_tv on guitar.png",
    "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 84,
+   "imagem": "T19_tv on guitar.png",
+   "cx": 315,
+   "cy": 14
+  },
+  {
+   "arquivo": "g315_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 1470,
+   "cy": 317
+  },
+  {
+   "arquivo": "g795_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "T12_robert lunn.png",
+   "cx": 886,
+   "cy": 76
+  },
+  {
+   "arquivo": "g061_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 1353,
+   "cy": 312
+  },
+  {
+   "arquivo": "g196_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 792,
    "cy": 44
   },
   {
-   "arquivo": "g1005_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 84,
-   "cy": 59
+   "arquivo": "g146_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "06_mr. tabs.png",
+   "cx": 1731,
+   "cy": 79
   },
   {
-   "arquivo": "g1006_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 136,
-   "cy": 38
+   "arquivo": "g444_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 921,
+   "cy": 63
   },
   {
-   "arquivo": "g1007_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 136,
-   "cy": 67
-  },
-  {
-   "arquivo": "g1008_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 178,
-   "cy": 15
-  },
-  {
-   "arquivo": "g1009_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 178,
-   "cy": 74
-  },
-  {
-   "arquivo": "g1010_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 225,
-   "cy": 44
-  },
-  {
-   "arquivo": "g1011_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 225,
-   "cy": 59
-  },
-  {
-   "arquivo": "g1012_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 248,
-   "cy": 15
-  },
-  {
-   "arquivo": "g1013_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 271,
-   "cy": 73
-  },
-  {
-   "arquivo": "g1014_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 318,
-   "cy": 30
-  },
-  {
-   "arquivo": "g1015_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 318,
-   "cy": 59
-  },
-  {
-   "arquivo": "g1016_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 365,
-   "cy": 15
-  },
-  {
-   "arquivo": "g1017_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 365,
-   "cy": 88
-  },
-  {
-   "arquivo": "g1018_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 411,
-   "cy": 44
-  },
-  {
-   "arquivo": "g1019_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 411,
-   "cy": 59
-  },
-  {
-   "arquivo": "g1020_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 435,
-   "cy": 15
-  },
-  {
-   "arquivo": "g1021_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 458,
-   "cy": 74
-  },
-  {
-   "arquivo": "g1022_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 505,
-   "cy": 44
-  },
-  {
-   "arquivo": "g1023_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 504,
-   "cy": 59
-  },
-  {
-   "arquivo": "g1024_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 580,
-   "cy": 15
-  },
-  {
-   "arquivo": "g1025_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 580,
-   "cy": 88
-  },
-  {
-   "arquivo": "g1026_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 605,
-   "cy": 15
-  },
-  {
-   "arquivo": "g1027_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 633,
-   "cy": 30
-  },
-  {
-   "arquivo": "g1028_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 633,
-   "cy": 44
+   "arquivo": "g575_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 1044,
+   "cy": 408
   },
   {
    "arquivo": "g1029_tv on guitar.png",
@@ -8438,228 +2362,39 @@
    "cy": 15
   },
   {
-   "arquivo": "g1030_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 677,
-   "cy": 88
+   "arquivo": "g312_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 1392,
+   "cy": 336
   },
   {
-   "arquivo": "g1031_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 725,
-   "cy": 30
+   "arquivo": "g453_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 1160,
+   "cy": 33
   },
   {
-   "arquivo": "g1032_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 725,
-   "cy": 44
+   "arquivo": "g672_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T09_mr. tabs.png",
+   "cx": 1287,
+   "cy": 80
   },
   {
-   "arquivo": "g1033_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 753,
-   "cy": 15
+   "arquivo": "g135_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "06_mr. tabs.png",
+   "cx": 1078,
+   "cy": 146
   },
   {
-   "arquivo": "g1034_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 775,
-   "cy": 74
-  },
-  {
-   "arquivo": "g1035_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 822,
-   "cy": 44
-  },
-  {
-   "arquivo": "g1036_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 822,
-   "cy": 74
-  },
-  {
-   "arquivo": "g1037_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 870,
-   "cy": 59
-  },
-  {
-   "arquivo": "g1038_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 918,
-   "cy": 44
-  },
-  {
-   "arquivo": "g1039_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 918,
-   "cy": 59
-  },
-  {
-   "arquivo": "g1040_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 996,
-   "cy": 15
-  },
-  {
-   "arquivo": "g1041_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 996,
-   "cy": 73
-  },
-  {
-   "arquivo": "g1042_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1043,
-   "cy": 44
-  },
-  {
-   "arquivo": "g1043_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1043,
-   "cy": 59
-  },
-  {
-   "arquivo": "g1044_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1066,
-   "cy": 15
-  },
-  {
-   "arquivo": "g1045_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1090,
-   "cy": 74
-  },
-  {
-   "arquivo": "g1046_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1137,
-   "cy": 30
-  },
-  {
-   "arquivo": "g1047_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1136,
-   "cy": 59
-  },
-  {
-   "arquivo": "g1048_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1183,
-   "cy": 15
-  },
-  {
-   "arquivo": "g1049_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1183,
-   "cy": 88
-  },
-  {
-   "arquivo": "g1050_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1229,
-   "cy": 44
-  },
-  {
-   "arquivo": "g1051_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1230,
-   "cy": 59
-  },
-  {
-   "arquivo": "g1052_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1253,
-   "cy": 15
-  },
-  {
-   "arquivo": "g1053_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1276,
-   "cy": 73
-  },
-  {
-   "arquivo": "g1054_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1323,
-   "cy": 44
-  },
-  {
-   "arquivo": "g1055_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1323,
-   "cy": 59
-  },
-  {
-   "arquivo": "g1056_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1399,
-   "cy": 15
-  },
-  {
-   "arquivo": "g1057_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1399,
-   "cy": 88
-  },
-  {
-   "arquivo": "g1058_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1423,
-   "cy": 15
-  },
-  {
-   "arquivo": "g1059_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1450,
-   "cy": 30
-  },
-  {
-   "arquivo": "g1060_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1450,
-   "cy": 44
-  },
-  {
-   "arquivo": "g1061_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1494,
-   "cy": 15
+   "arquivo": "g703_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 87,
+   "cy": 124
   },
   {
    "arquivo": "g1062_tv on guitar.png",
@@ -8669,59 +2404,241 @@
    "cy": 88
   },
   {
-   "arquivo": "g1063_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1541,
-   "cy": 59
+   "arquivo": "g014_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 173,
+   "cy": 326
   },
   {
-   "arquivo": "g1064_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1541,
-   "cy": 73
+   "arquivo": "g886_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T14_serge kottelat.png",
+   "cx": 653,
+   "cy": 25
   },
   {
-   "arquivo": "g1065_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1588,
-   "cy": 74
+   "arquivo": "g263_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 488,
+   "cy": 272
   },
   {
-   "arquivo": "g1066_tv on guitar.png",
+   "arquivo": "g490_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 47,
+   "cy": 347
+  },
+  {
+   "arquivo": "g348_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 538,
+   "cy": 89
+  },
+  {
+   "arquivo": "g228_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 113,
+   "cy": 294
+  },
+  {
+   "arquivo": "g1028_tv on guitar.png",
    "canal": "tv on guitar",
    "imagem": "T20_tv on guitar.png",
-   "cx": 1635,
+   "cx": 633,
    "cy": 44
   },
   {
-   "arquivo": "g1067_tv on guitar.png",
+   "arquivo": "g924_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 91,
+   "cy": 87
+  },
+  {
+   "arquivo": "g462_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 1372,
+   "cy": 63
+  },
+  {
+   "arquivo": "g199_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 875,
+   "cy": 29
+  },
+  {
+   "arquivo": "g920_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 5,
+   "cy": 14
+  },
+  {
+   "arquivo": "g956_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 781,
+   "cy": 14
+  },
+  {
+   "arquivo": "g093_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "06_mr. tabs.png",
+   "cx": 407,
+   "cy": 72
+  },
+  {
+   "arquivo": "g178_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 205,
+   "cy": 29
+  },
+  {
+   "arquivo": "g761_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 1560,
+   "cy": 81
+  },
+  {
+   "arquivo": "g1034_tv on guitar.png",
    "canal": "tv on guitar",
    "imagem": "T20_tv on guitar.png",
-   "cx": 1636,
+   "cx": 775,
    "cy": 74
   },
   {
-   "arquivo": "g1068_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1683,
-   "cy": 59
+   "arquivo": "g535_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 520,
+   "cy": 346
   },
   {
-   "arquivo": "g1069_tv on guitar.png",
+   "arquivo": "g160_pablo romé.png",
+   "canal": "pablo romé",
+   "imagem": "07_pablo romé.png",
+   "cx": 316,
+   "cy": 119
+  },
+  {
+   "arquivo": "g166_pablo romé.png",
+   "canal": "pablo romé",
+   "imagem": "07_pablo romé.png",
+   "cx": 616,
+   "cy": 96
+  },
+  {
+   "arquivo": "g002_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 1,
+   "cy": 330
+  },
+  {
+   "arquivo": "g006_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 52,
+   "cy": 340
+  },
+  {
+   "arquivo": "g256_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 375,
+   "cy": 314
+  },
+  {
+   "arquivo": "g932_tv on guitar.png",
    "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1730,
+   "imagem": "T19_tv on guitar.png",
+   "cx": 290,
+   "cy": 14
+  },
+  {
+   "arquivo": "g262_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 451,
+   "cy": 338
+  },
+  {
+   "arquivo": "g206_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 1104,
    "cy": 44
   },
   {
-   "arquivo": "g1070_tv on guitar.png",
+   "arquivo": "g207_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 1132,
+   "cy": 29
+  },
+  {
+   "arquivo": "g358_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 755,
+   "cy": 16
+  },
+  {
+   "arquivo": "g383_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1393,
+   "cy": 16
+  },
+  {
+   "arquivo": "g245_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 299,
+   "cy": 295
+  },
+  {
+   "arquivo": "g668_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T09_mr. tabs.png",
+   "cx": 1244,
+   "cy": 30
+  },
+  {
+   "arquivo": "g827_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T13_serge kottelat.png",
+   "cx": 705,
+   "cy": 74
+  },
+  {
+   "arquivo": "g769_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 1767,
+   "cy": 74
+  },
+  {
+   "arquivo": "g251_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 392,
+   "cy": 249
+  },
+  {
+   "arquivo": "g1043_tv on guitar.png",
    "canal": "tv on guitar",
    "imagem": "T20_tv on guitar.png",
-   "cx": 1730,
+   "cx": 1043,
    "cy": 59
   },
   {
@@ -8732,39 +2649,963 @@
    "cy": 15
   },
   {
-   "arquivo": "g1072_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1807,
-   "cy": 88
+   "arquivo": "g243_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 297,
+   "cy": 272
   },
   {
-   "arquivo": "g1073_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1855,
-   "cy": 44
+   "arquivo": "g456_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 1237,
+   "cy": 17
   },
   {
-   "arquivo": "g1074_tv on guitar.png",
+   "arquivo": "g367_tv on guitar.png",
    "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1855,
-   "cy": 59
+   "imagem": "15_tv on guitar.png",
+   "cx": 959,
+   "cy": 89
   },
   {
-   "arquivo": "g1075_tv on guitar.png",
+   "arquivo": "g026_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 431,
+   "cy": 285
+  },
+  {
+   "arquivo": "g431_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 505,
+   "cy": 17
+  },
+  {
+   "arquivo": "g498_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 68,
+   "cy": 367
+  },
+  {
+   "arquivo": "g1024_tv on guitar.png",
    "canal": "tv on guitar",
    "imagem": "T20_tv on guitar.png",
-   "cx": 1902,
+   "cx": 580,
    "cy": 15
   },
   {
-   "arquivo": "g1076_tv on guitar.png",
+   "arquivo": "g185_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 393,
+   "cy": 14
+  },
+  {
+   "arquivo": "g332_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 128,
+   "cy": 75
+  },
+  {
+   "arquivo": "g075_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 1676,
+   "cy": 347
+  },
+  {
+   "arquivo": "g401_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1636,
+   "cy": 89
+  },
+  {
+   "arquivo": "g370_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1053,
+   "cy": 89
+  },
+  {
+   "arquivo": "g977_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 1231,
+   "cy": 73
+  },
+  {
+   "arquivo": "g746_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 1348,
+   "cy": 106
+  },
+  {
+   "arquivo": "g725_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 497,
+   "cy": 74
+  },
+  {
+   "arquivo": "g004_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 50,
+   "cy": 305
+  },
+  {
+   "arquivo": "g738_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 930,
+   "cy": 100
+  },
+  {
+   "arquivo": "g1018_tv on guitar.png",
    "canal": "tv on guitar",
    "imagem": "T20_tv on guitar.png",
+   "cx": 411,
+   "cy": 44
+  },
+  {
+   "arquivo": "g862_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T13_serge kottelat.png",
+   "cx": 1682,
+   "cy": 29
+  },
+  {
+   "arquivo": "g408_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1713,
+   "cy": 45
+  },
+  {
+   "arquivo": "g076_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 1732,
+   "cy": 325
+  },
+  {
+   "arquivo": "g379_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1266,
+   "cy": 16
+  },
+  {
+   "arquivo": "g425_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 260,
+   "cy": 17
+  },
+  {
+   "arquivo": "g978_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 1277,
+   "cy": 43
+  },
+  {
+   "arquivo": "g375_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1201,
+   "cy": 60
+  },
+  {
+   "arquivo": "g589_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 1312,
+   "cy": 367
+  },
+  {
+   "arquivo": "g851_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T13_serge kottelat.png",
+   "cx": 1387,
+   "cy": 44
+  },
+  {
+   "arquivo": "g385_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1417,
+   "cy": 16
+  },
+  {
+   "arquivo": "g231_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 184,
+   "cy": 227
+  },
+  {
+   "arquivo": "g988_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 1521,
+   "cy": 14
+  },
+  {
+   "arquivo": "g578_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 1122,
+   "cy": 408
+  },
+  {
+   "arquivo": "g859_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T13_serge kottelat.png",
+   "cx": 1581,
+   "cy": 59
+  },
+  {
+   "arquivo": "g222_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 1665,
+   "cy": 44
+  },
+  {
+   "arquivo": "g066_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 1381,
+   "cy": 347
+  },
+  {
+   "arquivo": "g322_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 1602,
+   "cy": 315
+  },
+  {
+   "arquivo": "g027_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 431,
+   "cy": 305
+  },
+  {
+   "arquivo": "g907_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T14_serge kottelat.png",
+   "cx": 1359,
+   "cy": 30
+  },
+  {
+   "arquivo": "g428_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 371,
+   "cy": 79
+  },
+  {
+   "arquivo": "g484_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 1801,
+   "cy": 33
+  },
+  {
+   "arquivo": "g022_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 262,
+   "cy": 367
+  },
+  {
+   "arquivo": "g678_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T09_mr. tabs.png",
+   "cx": 1287,
+   "cy": 147
+  },
+  {
+   "arquivo": "g946_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 566,
+   "cy": 58
+  },
+  {
+   "arquivo": "g503_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 154,
+   "cy": 346
+  },
+  {
+   "arquivo": "g438_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 731,
+   "cy": 17
+  },
+  {
+   "arquivo": "g449_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 1057,
+   "cy": 33
+  },
+  {
+   "arquivo": "g712_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 334,
+   "cy": 31
+  },
+  {
+   "arquivo": "g010_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 124,
+   "cy": 285
+  },
+  {
+   "arquivo": "g552_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 685,
+   "cy": 346
+  },
+  {
+   "arquivo": "g053_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 1020,
+   "cy": 305
+  },
+  {
+   "arquivo": "g995_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 1778,
+   "cy": 14
+  },
+  {
+   "arquivo": "g227_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 113,
+   "cy": 273
+  },
+  {
+   "arquivo": "g767_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 1560,
+   "cy": 148
+  },
+  {
+   "arquivo": "g1013_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T20_tv on guitar.png",
+   "cx": 271,
+   "cy": 73
+  },
+  {
+   "arquivo": "g152_pablo romé.png",
+   "canal": "pablo romé",
+   "imagem": "07_pablo romé.png",
+   "cx": 56,
+   "cy": 71
+  },
+  {
+   "arquivo": "g913_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T14_serge kottelat.png",
+   "cx": 1550,
+   "cy": 75
+  },
+  {
+   "arquivo": "g311_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 1412,
+   "cy": 317
+  },
+  {
+   "arquivo": "g566_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 784,
+   "cy": 367
+  },
+  {
+   "arquivo": "g414_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1798,
+   "cy": 65
+  },
+  {
+   "arquivo": "g630_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 1802,
+   "cy": 408
+  },
+  {
+   "arquivo": "g991_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 1591,
+   "cy": 58
+  },
+  {
+   "arquivo": "g645_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T09_mr. tabs.png",
+   "cx": 449,
+   "cy": 98
+  },
+  {
+   "arquivo": "g316_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 1470,
+   "cy": 336
+  },
+  {
+   "arquivo": "g1063_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T20_tv on guitar.png",
+   "cx": 1541,
+   "cy": 59
+  },
+  {
+   "arquivo": "g957_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 804,
+   "cy": 58
+  },
+  {
+   "arquivo": "g141_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "06_mr. tabs.png",
+   "cx": 1317,
+   "cy": 72
+  },
+  {
+   "arquivo": "g729_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 718,
+   "cy": 148
+  },
+  {
+   "arquivo": "g906_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T14_serge kottelat.png",
+   "cx": 1324,
+   "cy": 45
+  },
+  {
+   "arquivo": "g939_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 439,
+   "cy": 43
+  },
+  {
+   "arquivo": "g440_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 769,
+   "cy": 63
+  },
+  {
+   "arquivo": "g364_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 855,
+   "cy": 89
+  },
+  {
+   "arquivo": "g041_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 748,
+   "cy": 367
+  },
+  {
+   "arquivo": "g518_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 292,
+   "cy": 327
+  },
+  {
+   "arquivo": "g117_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "06_mr. tabs.png",
+   "cx": 744,
+   "cy": 97
+  },
+  {
+   "arquivo": "g255_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 412,
+   "cy": 295
+  },
+  {
+   "arquivo": "g410_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1737,
+   "cy": 45
+  },
+  {
+   "arquivo": "g631_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 1841,
+   "cy": 367
+  },
+  {
+   "arquivo": "g754_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 1447,
+   "cy": 148
+  },
+  {
+   "arquivo": "g434_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 581,
+   "cy": 48
+  },
+  {
+   "arquivo": "g187_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 521,
+   "cy": 15
+  },
+  {
+   "arquivo": "g972_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 1128,
+   "cy": 73
+  },
+  {
+   "arquivo": "g344_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 488,
+   "cy": 45
+  },
+  {
+   "arquivo": "g857_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T13_serge kottelat.png",
+   "cx": 1555,
+   "cy": 29
+  },
+  {
+   "arquivo": "g674_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T09_mr. tabs.png",
+   "cx": 1287,
+   "cy": 98
+  },
+  {
+   "arquivo": "g118_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "06_mr. tabs.png",
+   "cx": 744,
+   "cy": 128
+  },
+  {
+   "arquivo": "g381_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1331,
+   "cy": 16
+  },
+  {
+   "arquivo": "g835_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T13_serge kottelat.png",
+   "cx": 996,
+   "cy": 29
+  },
+  {
+   "arquivo": "g386_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1440,
+   "cy": 31
+  },
+  {
+   "arquivo": "g989_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 1544,
+   "cy": 87
+  },
+  {
+   "arquivo": "g223_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 1701,
+   "cy": 59
+  },
+  {
+   "arquivo": "g101_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "06_mr. tabs.png",
+   "cx": 504,
+   "cy": 72
+  },
+  {
+   "arquivo": "g770_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 1865,
+   "cy": 50
+  },
+  {
+   "arquivo": "g188_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 521,
+   "cy": 74
+  },
+  {
+   "arquivo": "g876_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T14_serge kottelat.png",
+   "cx": 419,
+   "cy": 45
+  },
+  {
+   "arquivo": "g838_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T13_serge kottelat.png",
+   "cx": 1051,
+   "cy": 25
+  },
+  {
+   "arquivo": "g378_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1234,
+   "cy": 16
+  },
+  {
+   "arquivo": "g592_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 1368,
+   "cy": 346
+  },
+  {
+   "arquivo": "g201_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 942,
+   "cy": 89
+  },
+  {
+   "arquivo": "g875_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T14_serge kottelat.png",
+   "cx": 383,
+   "cy": 60
+  },
+  {
+   "arquivo": "g056_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 1130,
+   "cy": 347
+  },
+  {
+   "arquivo": "g104_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "06_mr. tabs.png",
+   "cx": 504,
+   "cy": 146
+  },
+  {
+   "arquivo": "g744_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 1127,
+   "cy": 74
+  },
+  {
+   "arquivo": "g659_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T09_mr. tabs.png",
+   "cx": 996,
+   "cy": 129
+  },
+  {
+   "arquivo": "g488_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
    "cx": 1902,
+   "cy": 33
+  },
+  {
+   "arquivo": "g036_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 635,
+   "cy": 326
+  },
+  {
+   "arquivo": "g301_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 1135,
+   "cy": 315
+  },
+  {
+   "arquivo": "g897_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T14_serge kottelat.png",
+   "cx": 1020,
+   "cy": 90
+  },
+  {
+   "arquivo": "g735_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 930,
+   "cy": 50
+  },
+  {
+   "arquivo": "g1037_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T20_tv on guitar.png",
+   "cx": 870,
+   "cy": 59
+  },
+  {
+   "arquivo": "g952_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 709,
+   "cy": 14
+  },
+  {
+   "arquivo": "g555_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 704,
+   "cy": 347
+  },
+  {
+   "arquivo": "g799_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "T12_robert lunn.png",
+   "cx": 1130,
+   "cy": 95
+  },
+  {
+   "arquivo": "g506_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 173,
+   "cy": 367
+  },
+  {
+   "arquivo": "g1006_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T20_tv on guitar.png",
+   "cx": 136,
+   "cy": 38
+  },
+  {
+   "arquivo": "g065_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 1380,
+   "cy": 326
+  },
+  {
+   "arquivo": "g782_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "T12_robert lunn.png",
+   "cx": 265,
+   "cy": 19
+  },
+  {
+   "arquivo": "g037_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 665,
+   "cy": 305
+  },
+  {
+   "arquivo": "g603_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 1463,
+   "cy": 347
+  },
+  {
+   "arquivo": "g404_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1679,
+   "cy": 65
+  },
+  {
+   "arquivo": "g254_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 375,
+   "cy": 294
+  },
+  {
+   "arquivo": "g164_pablo romé.png",
+   "canal": "pablo romé",
+   "imagem": "07_pablo romé.png",
+   "cx": 581,
+   "cy": 67
+  },
+  {
+   "arquivo": "g887_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T14_serge kottelat.png",
+   "cx": 683,
+   "cy": 15
+  },
+  {
+   "arquivo": "g693_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T09_mr. tabs.png",
+   "cx": 1879,
+   "cy": 49
+  },
+  {
+   "arquivo": "g1030_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T20_tv on guitar.png",
+   "cx": 677,
    "cy": 88
+  },
+  {
+   "arquivo": "g774_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 1865,
+   "cy": 148
+  },
+  {
+   "arquivo": "g497_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 86,
+   "cy": 347
+  },
+  {
+   "arquivo": "g140_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "06_mr. tabs.png",
+   "cx": 1221,
+   "cy": 146
+  },
+  {
+   "arquivo": "g214_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 1380,
+   "cy": 59
+  },
+  {
+   "arquivo": "g519_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 293,
+   "cy": 346
+  },
+  {
+   "arquivo": "g445_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T03_paolo d'angelo.png",
+   "cx": 980,
+   "cy": 17
+  },
+  {
+   "arquivo": "g922_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "T19_tv on guitar.png",
+   "cx": 5,
+   "cy": 87
+  },
+  {
+   "arquivo": "g069_kimny's guit.png",
+   "canal": "kimny's guitar",
+   "imagem": "04_kimny's guitar.png",
+   "cx": 1529,
+   "cy": 326
+  },
+  {
+   "arquivo": "g505_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 154,
+   "cy": 367
+  },
+  {
+   "arquivo": "g363_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 855,
+   "cy": 16
+  },
+  {
+   "arquivo": "g180_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 241,
+   "cy": 15
+  },
+  {
+   "arquivo": "g553_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 685,
+   "cy": 367
+  },
+  {
+   "arquivo": "g764_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 1637,
+   "cy": 100
+  },
+  {
+   "arquivo": "g215_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "10_serge kottelat.png",
+   "cx": 1416,
+   "cy": 44
   }
  ],
  "resumo_por_imagem": [
@@ -8878,7 +3719,7 @@
    ]
   }
  },
- "negativos_como_foi_feito": "janela de 1,6 x passo CENTRADA no token — o MESMO enquadramento dos positivos (que sao centrados na marca do dono). Caixa justa mudaria a moldura entre as classes e o modelo aprenderia a moldura (regra 9).",
+ "negativos_como_foi_feito": "139 negativos DIFICEIS (tokens que NAO sao algarismo, segundo o classificador de glifos) + 200 algarismos sorteados dos 937. Motivo medido: com todos os negativos, 87% eram algarismo e o detector aprendeu o ATALHO 'nao e digito = e simbolo' — o mesmo criterio errado que ele deveria substituir. Evidencia do atalho: no pipeline ele aprovava 39 de 43 candidatos (mediana 0,86), que sao justamente os NAO-digitos.",
  "marcas_do_dono": [
   "marcas_simbolos.json",
   "marcas_simbolos_2.json"
