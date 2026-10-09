@@ -1658,6 +1658,25 @@ fim subiu de 0,15 para 0,19 — **mas não é o problema todo**: 0,19 contra 0,7
 **Próximo passo, o que já funcionou quatro vezes nesta noite**: **desenhar e olhar** os 108 aprovados
 que ainda não casam com marca nenhuma, e ver o que eles são. Não vou deduzir.
 
+## 2026-10-09 — OLHANDO os 108: ainda é espaço vazio, e agora em pontos específicos
+
+Desenhei os aprovados do `C07`: verde os que casam com marca, **vermelho os que não**. A imagem é
+inequívoca: **os 8 vermelhos são espaço vazio entre as linhas**, em dois pares localizados — mesmo com
+os 539 negativos de janela vazia no treino.
+
+Ou seja: **a classe nova reduziu o modo de falha (−30 % de falso positivo) mas não acabou com ele.**
+O modelo ainda aprova vazio em pontos específicos, e a pergunta que sobra é **o que distingue esses
+vazios dos 539 que eu gerei** — se é tamanho, forma, ou uma marca fraca dentro deles (lembrando o
+aviso do dono: *"arco de ligadura quase sumindo, cuidado pra não cortar coisa demais"*).
+
+E um efeito colateral registrado: no `C16` (shin izumi) o modelo agora **não aprova nada** — os
+negativos vazios o endureceram, e o recall do fim a fim segue baixo (0,13). Trocar falso positivo por
+recall não é ganho: é mudança de lugar.
+
+**Próximo passo, medível**: comparar as features (tinta, aspecto, componentes) entre **os vazios que
+ele aprova** e **os vazios que eu gerei** — se houver um separador, ele vira negativa dirigida; se não
+houver, o modelo está usando um sinal que eu ainda não identifiquei, e aí o caminho é outro.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
