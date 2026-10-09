@@ -249,3 +249,62 @@ vocabulario_completo:
   nao_e_simbolo:
     rotulo_tab: "T A B não é símbolo nenhum — é texto de alguns canais, fica na vertical ocupando as cordas. NÃO confundir com símbolo."
     aula_ignorada: "T06 tv cifras — 'AULA FILTREI ERRADO, JA FOI APAGADO E CORRIGIDO IGNORE ESSA AULA E TABLATURA'"
+
+# ---------------------------------------------------------------------------
+# TIPOS DO C-SET — 200 marcas em 22 tablaturas, feitas sobre os VÍDEOS QUE A COLETA USA.
+# Ele mandou com a ordem "leia tudo, não me engane novamente": a lista abaixo saiu da leitura
+# COMPLETA dos significados, sem resumo por frequência (foi o resumo que me fez perder o mordente).
+tipos_do_cset:
+  vibrato:
+    texto_do_dono: "o símbolo ~ ao lado do número: oscilar ligeiramente a altura da nota depois de a tocar"
+    n_marcas: 3
+  appoggiatura_grace_note:
+    texto_do_dono: "a 14ª casa pequenina é uma appoggiatura: toca-se de forma instantânea e faz-se um hammer-on rápido para a 15ª"
+    marca_visual: "ALGARISMO PEQUENO"
+    n_marcas: 5
+  notas_fantasma_em_parenteses:
+    texto_do_dono: "notas entre parênteses (7): notas fantasma ou sustentadas que continuam a ressoar em segundo plano; NÃO voltar a palhetar"
+    n_marcas: 4
+  harmonico_natural_em_bloco:
+    texto_do_dono: "oval (ou círculo) a envolver todo o acorde = harmónico natural em bloco / harmónico de toque"
+    n_marcas: 3
+  harmonico_entre_angulos:
+    texto_do_dono: "harmónico (número com < >) em volta; ocorre onde a corda é dividida numa fração exata (12ª casa = 1/2 da corda)"
+    n_marcas: 1
+  slide_off:
+    n_marcas: 3
+  pausa_de_seminima:
+    texto_do_dono: 'símbolos que parecem "Z" ou "3" estilizados = pausas de semínima (1 tempo cada)'
+    nota: "NOTAÇÃO, não técnica"
+    n_marcas: 12
+  compasso_5_4:
+    texto_do_dono: "COMPASSO DA MUSICA 5/4"
+    nota: "NOTAÇÃO (métrica), não técnica"
+    n_marcas: 4
+  h_hammer_on:
+    texto_do_dono: "h -> hammer on (escrito por extenso na tablatura)"
+    n_marcas: 2
+  ligadura_de_sustentacao_cruzando_compasso:
+    texto_do_dono: 'arcos grandes que saem do fim do compasso 67 e entram no 68, sobre os números entre parênteses (0), (2), (3): o acorde CONTINUA a ressoar'
+    n_marcas: 12
+  cordas_abafadas_2:
+    texto_do_dono: "cordas abafadas"
+    n_marcas: 4
+
+# O que ELE nomeou como NÃO símbolo (negativos, 31 marcas) — e é ouro, porque é ele apontando:
+nao_e_simbolo_2:
+  traco_a_ser_ignorado:
+    texto_do_dono: "traço a ser ignorado"
+    n_marcas: 24
+  tab_texto:
+    texto_do_dono: "TAB / TAB TEXTO"
+    n_marcas: 7
+
+# ERROS MEUS DE EXTRAÇÃO que ele apontou (os dois excluídos do conjunto):
+erros_de_extracao_do_agente:
+  C05_iwaki:
+    reclamacao_do_dono: "isso é uma partitura, algo de errado não está certo"
+    causa: "o detector de painel escolheu uma PAUTA de 5 linhas e eu entreguei como tablatura"
+  C14_robert_lunn:
+    reclamacao_do_dono: "o recorte dessa tablatura está errado tá faltando a ultima linha"
+    causa: "o roi_das_cordas cortou a 6ª corda — recorte apertado demais"
