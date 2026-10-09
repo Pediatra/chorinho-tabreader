@@ -745,6 +745,28 @@ Tentei diagnosticar e **não reproduzi**: o quadro que eu peguei deu `passo 5,8`
 abaixo do mínimo de 14). O sinal fica aberto, com as três hipóteses nomeadas — e não vou fechar
 o goal fingindo que ele não existe.
 
+## 2026-10-09 — CORREÇÃO minha: o "sinal ruim" do `mr. tabs` era leitura errada de campo
+
+Eu havia registrado que `mr. tabs` lia 5 % de algarismo e chamei isso de sinal ruim. **Errado, e
+o erro é meu**: eu li o campo `classes` do inventário como se fosse a distribuição de TODOS os
+tokens. Ele conta apenas as classes dos **símbolos guardados**.
+
+Medido nos MESMOS instantes da coleta (3 vídeos × 2 frações, passos 24,4–26,2 — painéis válidos):
+
+| medida | valor |
+| --- | --- |
+| tokens | 635 |
+| **algarismos** | **603 (95 %)** |
+| top-1 | `7` 174 · `1` 101 · `0` 94 · `3` 87 · `2` 72 · `5` 43 |
+| componentes por token | 1 componente: 443 de 635 |
+
+**`mr. tabs` é o canal mais saudável do acervo, não o doente.** E o que eu li (31) são os
+algarismos que aparecem **dentro dos símbolos guardados** — 10 % de 318, coerente com o resto.
+
+Conserto no código: o campo ganhou o nome honesto `classes_dos_simbolos` (com `classes` mantido
+por compatibilidade) e um comentário dizendo o que ele conta. O campo não estava errado — o
+**nome** é que enganava, e eu caí nele.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

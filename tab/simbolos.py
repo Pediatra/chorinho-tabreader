@@ -331,6 +331,11 @@ def resumir_canal(registros: list[dict]) -> dict:
         "passo_mediano": round(float(statistics.median(passos)), 1) if passos else None,
         "quadros_passo_plausivel": quadros_plaus,
         "simbolos_passo_plausivel": simbolos_plaus,
+        # ATENÇÃO ao nome: `classes` conta a classe APENAS dos SÍMBOLOS guardados, não de
+        # todos os tokens. Eu li errado e acusei o `mr. tabs` de ler 5% de algarismo; medido
+        # nos mesmos instantes, ele lê 95% (603 de 635 tokens). O campo não estava errado,
+        # o nome é que engana. `algarismos_em_simbolos` é este número com nome honesto.
+        "classes_dos_simbolos": dict(classes.most_common()),
         "classes": dict(classes.most_common()),
         "larguras_passo": dict(sorted(larguras.items(), key=lambda kv: float(kv[0]))),
         "hashes_distintos": len(hashes),
