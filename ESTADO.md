@@ -397,6 +397,32 @@ símbolo (algarismo chamado de `harmonico`) e o falso algarismo (linha chamada d
 **Consequência**: o caminho é o **discriminador dedicado "isto é algarismo?"** (opção c),
 treinado com os 16 algarismos e os 28 não-algarismos já rotulados — não o limiar.
 
+## 2026-10-09 — o discriminador "isto é algarismo?" funciona: 0,879–0,940 no canal deixado fora
+
+Construído com o que estava rotulado: **116 recortes** = 88 positivos (algarismos: os 72 do
+gabarito + 16 do gabarito de símbolos) e **28 negativos** (lixo e símbolo), em **8 canais**.
+Rede pequena (2 convoluções + 2 lineares, entrada 32×32), peso de classe, 60 épocas.
+
+**Leave-one-channel-out** (o mesmo protocolo do portão — o que importa é generalizar):
+
+| semente | LOCA | pior canal |
+| --- | --- | --- |
+| 1 | **102/116 = 0,879** | `sky guitar` 6/15 |
+| 2 | **109/116 = 0,940** | `cifra club` 6/8 · `sky guitar` 14/15 |
+
+Por canal (semente 1): `paolo` 30/30 · `iwaki` 32/33 · `mr. tabs` 7/8 · `pablo` 7/8 ·
+`shin izumi` 7/7 · `tv on guitar` 7/7 · `cifra club` 6/8 · `sky guitar` 6/15.
+
+**Comparação que decide**: o **limiar de confiança** não separa (as distribuições se
+sobrepõem de 0,17 a 0,92, medido), e o **discriminador dedicado** chega a 0,88–0,94 no canal
+que ele nunca viu. O caminho (c) venceu por medição, não por preferência.
+
+Ressalva honesta: `sky guitar` varia de 6/15 a 14/15 entre sementes — com 15 amostras, esse
+canal é o ponto frágil, e o número dele não deve ser lido como estável.
+
+Falta implementar no pipeline (o próximo passo): usar o discriminador como portão do que
+vira símbolo, em vez de "a classe não é algarismo".
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
