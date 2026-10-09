@@ -187,6 +187,10 @@ def reconhecer_quadro(
         # FILTRO POSITIVO: só guarda o que o detector diz que É símbolo. O critério antigo
         # guardava o resíduo do classificador de algarismo (~98% linha, borrão e dígito errado).
         filtro_simbolo=carregar_detector_simbolo(),
+        # Oferece TODOS os tokens ao filtro: medido que o critério antigo ('classe top-1
+        # não é algarismo') escondia 100 % das marcas do dono — o arco é lido como
+        # algarismo e era descartado antes de qualquer decisão.
+        julgar_todos=True,
         # A faixa em coordenada da ROI. A ROI é `frame[y_roi0:y_roi1]` e `roi_das_cordas` devolve a
         # faixa em coordenada do QUADRO — conferido no `iwaki`: as linhas 283–419 da ROI viram
         # 903-1039 no quadro, e o roi_das_cordas da 876-1066 com margem de exatamente 1 passo.

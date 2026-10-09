@@ -1849,6 +1849,48 @@ separar arco de dígito (0,79–0,81), e o pipeline **nunca lhe oferece o arco p
 e onde o arco se perde (o delimitador? a segmentação? a lista `alvos`?). É uma medição direta e
 localiza o conserto no lugar certo pela primeira vez.
 
+## 2026-10-09 — ACHEI a condição que escondia o símbolo (e ela é o mesmo erro de sempre)
+
+A condição que decide quem o filtro julga, em `reconhecer_linha`:
+
+```python
+alvos = [i for i, tk in enumerate(tokens)
+         if classes[i][0] not in ALGARISMOS or tk.partes > 1]
+```
+
+**"classe top-1 não é algarismo → pode ser símbolo".** É **o mesmo critério errado** que eu passei o
+goal inteiro tentando substituir — e ele estava vivo **aqui**, na porta de entrada.
+
+**Medição das 189 marcas do dono** (convertendo faixa → ROI com `c.y0`, o campo que existe):
+
+| onde a marca cai | n |
+| --- | --- |
+| **token julgado pelo filtro** | **0** |
+| token por perto, **nunca oferecido** | **138 (73 %)** |
+| **nenhum token** na posição | **51 (27 %)** |
+
+**Nenhuma marca chegava a ser julgada.** E o motivo é direto: o arco, como token, é lido como
+**algarismo** pelo classificador de glifos — medido antes: **45 % dos símbolos verdadeiros** são lidos
+como dígito. Então o critério "não é dígito → candidato" **excluía justamente o símbolo**.
+
+**Conserto**: `julgar_todos=True` (o coletor oferece **todos** os tokens e deixa quem decide ser o
+detector). Efeito medido:
+
+| | antes | **oferecendo todos** |
+| --- | --- | --- |
+| aprovados | 126 | 149 |
+| casam com marca | 21 | **27** |
+| **precisão fim a fim** | 0,17 | **0,18** |
+| recall fim a fim | 0,11 | **0,14** |
+
+**Ganho pequeno — não é a transformação.** E a leitura mais provável: os "138 com token por perto"
+casaram com o **dígito abaixo do arco**, não com o arco. Ou seja, **o arco provavelmente não é um
+token** — ele é fino e deve estar se fundindo com a linha, ou sendo descartado na segmentação.
+
+**Próxima medição, direta**: para as 189 marcas, verificar se existe **componente cru** (antes do
+delimitador) naquela posição — e, se existe, por qual motivo do `Grade.recusados` ele cai. Isso
+separa "o arco se funde com a linha" de "o delimitador o descarta".
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

@@ -168,6 +168,7 @@ def reconhecer_linha(
     discriminador=None,
     filtro_simbolo=None,
     faixa_y: tuple[int, int] | None = None,
+    julgar_todos: bool = False,
 ) -> dict:
     """Lê uma linha de tablatura: geometria + classificação + símbolo cru.
 
@@ -252,11 +253,20 @@ def reconhecer_linha(
         classes.append((classe, corrigido))
 
     # 2a passada: dentro de símbolo (ou de token fundido), procurar a casa.
-    alvos = [
-        i
-        for i, tk in enumerate(tokens)
-        if classes[i][0] not in ALGARISMOS or tk.partes > 1
-    ]
+    # QUEM É OFERECIDO AO FILTRO. Medido: com o critério antigo ("classe top-1 não é algarismo"),
+    # **NENHUMA** das 189 marcas do dono chegava a ser julgada — 138 tinham token ali que nunca era
+    # oferecido e 51 não tinham token. O arco é lido como ALGARISMO pelo classificador de glifos
+    # (medido: 45 % dos símbolos verdadeiros), então o critério "não é dígito → candidato" excluía
+    # justamente o símbolo. `julgar_todos` oferece tudo e deixa quem decide ser o detector de símbolo.
+    alvos = (
+        list(range(len(tokens)))
+        if julgar_todos
+        else [
+            i
+            for i, tk in enumerate(tokens)
+            if classes[i][0] not in ALGARISMOS or tk.partes > 1
+        ]
+    )
     recortes: list[np.ndarray] = []
     comp_de: dict[int, list[tuple[int, tuple[int, int, int, int]]]] = {}
     for i in alvos:
