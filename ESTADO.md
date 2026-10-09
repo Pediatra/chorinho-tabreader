@@ -1697,6 +1697,31 @@ viu o negativo que precisava.
 acima de cada linha, logo abaixo, no meio, a 1/4 e a 3/4) em vez de só o ponto médio — e retreinar.
 É o mesmo padrão das outras três correções: a classe não estava ausente, estava **incompleta**.
 
+## 2026-10-09 — vazio com deslocamentos múltiplos: hipótese REFUTADA (o fim a fim não se move)
+
+Gerei 480 negativos de janela vazia com **vários deslocamentos** (¼, ½ e ¾ de cada lacuna, mais logo
+acima e logo abaixo de cada linha) — a variação assimétrica que a imagem sugeria que faltava:
+
+| | só o ponto médio (539) | **com deslocamentos (480)** |
+| --- | --- | --- |
+| LOCA precisão | 0,74–0,76 | 0,74–0,76 |
+| LOCA falso positivo | 0,10–0,11 | 0,10–0,12 |
+| **fim a fim precisão** | 0,19 | **0,18** |
+| fim a fim recall | 0,13 | 0,12 |
+
+**Hipótese refutada.** Os vazios assimétricos não eram a causa: o fim a fim não se moveu (0,19 → 0,18,
+dentro da variação).
+
+**Cinco consertos já feitos, e o fim a fim segue em ~0,18–0,19**: alinhar os vídeos · corrigir o
+recorte dos negativos · corrigir o espaço de coordenada · negativos de janela vazia · negativos de
+vazio com deslocamentos. O LOCA está em 0,74–0,76 e o fim a fim em 0,18 — e **a distância entre os
+dois é o que continua sem explicação**.
+
+**O que ainda não foi feito**: desenhar os aprovados **com o modelo atual** (a lista mudou: 124
+aprovados agora, era 201 no começo). Eu refutei a hipótese do vazio assimétrico com base no que o
+modelo *antigo* aprovava. **Olhar de novo, com o modelo de agora**, é o passo que falta — e é o que
+resolveu cinco vezes nesta noite.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
