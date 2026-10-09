@@ -1105,6 +1105,32 @@ gabarito (cujos recortes são consistentes com o próprio gabarito) e aprova dí
 retreinar e comparar. Se a hipótese estiver certa, o dígito para de ser aprovado — e é a primeira
 vez que o problema estaria nos DADOS e não no modelo.
 
+## 2026-10-09 — hipótese dos DADOS REFUTADA com prova direta (IoU 1,00): o bloqueio é outro
+
+Expus a caixa do token interno (`caixa_token` no registro) e comparei com a caixa que usei para
+recortar o treino (`Grade.glifos[i]`), nos MESMOS quadros em que o filtro falha:
+
+| quadro | deslocamento do centro | IoU mediana | IoU < 0,5 |
+| --- | --- | --- | --- |
+| `shin izumi` 0,85 | 0,0 px | **1,00** | 0 de 41 |
+| `serge kottelat` 0,5 | 0,0 px | **1,00** | 0 de 14 |
+| `tv on guitar` 0,5 | 0,0 px | **1,00** | 0 de 19 |
+
+**São o mesmo objeto.** Os recortes de treino estavam centrados certo, e o desalinhamento que eu
+vi no `filtro_shin.png` era **bug do meu desenho**, não dos dados.
+
+**Sete causas eliminadas por medição neste goal**, nesta ordem: (1) bug de contagem meu;
+(2) cobertura do filtro; (3) atalho "não-dígito = símbolo" nos negativos (87 % eram algarismos;
+rebalanceado, sem efeito no pipeline); (4) escala do recorte (1× e 4× idênticos); (5) desalinhamento
+do desenho; (6) recorte do componente; (7) decisão por componente. **Nenhuma explica** por que o
+detector separa 123/123 no gabarito e aprova dígito no pipeline.
+
+**O que sobra, dito sem rodeio**: os recortes do gabarito vêm de 20 tablaturas marcadas; os do
+pipeline vêm de outros vídeos dos mesmos canais. A LOCA por canal não mede isso, porque **todos os
+recortes dela saem das mesmas tablaturas**. O buraco é de **cobertura de vídeo/render**, e o único
+jeito de fechá-lo é o dono marcar nos quadros onde o detector erra — que é exatamente o caso em que
+ele mandou pausar e chamá-lo.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

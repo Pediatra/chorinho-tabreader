@@ -293,6 +293,7 @@ def reconhecer_linha(
                     topo = _top3(probs_comp[pos], rotulos)
             caixas = tk.componentes or ((tk.x0, tk.y0, tk.x1, tk.y1),)
             sufixo = {
+                "caixa_token": (tk.x0, tk.y0, tk.x1, tk.y1),
                 "partes": tk.partes,
                 "partes_digito": tk.partes_digito,
                 "larguras_passo": [
