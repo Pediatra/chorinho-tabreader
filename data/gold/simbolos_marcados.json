@@ -1231,6 +1231,2336 @@
    "y": 348,
    "passo": 14.6,
    "significado": "arco de ligadura quase sumindo cuidado pra no cortar coisa demais"
+  },
+  {
+   "arquivo": "q124_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 207,
+   "y": 976,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q125_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 122,
+   "y": 976,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q126_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 266,
+   "y": 978,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q127_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 347,
+   "y": 963,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q128_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 837,
+   "y": 945,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q129_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 917,
+   "y": 960,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q130_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 1028,
+   "y": 958,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q131_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 1144,
+   "y": 979,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q132_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 1227,
+   "y": 974,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q133_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 1310,
+   "y": 991,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q134_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 270,
+   "y": 987,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q135_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 490,
+   "y": 970,
+   "passo": 14.8,
+   "significado": "pausa de semínima. Indica um momento de silêncio que dura exatamente 1 tempo (a mesma duração de uma semínima). Quando encontras este símbolo na tablatura, não deves palhetar nem fazer soar nenhuma nota nesse tempo específico — se houver alguma corda a ressoar do tempo anterior, deves abafá-la suavemente com os dedos ou a palma da mão."
+  },
+  {
+   "arquivo": "q136_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 603,
+   "y": 972,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q137_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 683,
+   "y": 993,
+   "passo": 14.8,
+   "significado": "mordente"
+  },
+  {
+   "arquivo": "q138_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 894,
+   "y": 963,
+   "passo": 14.8,
+   "significado": "mordente"
+  },
+  {
+   "arquivo": "q139_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 993,
+   "y": 941,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q140_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 1083,
+   "y": 951,
+   "passo": 14.8,
+   "significado": "mordente"
+  },
+  {
+   "arquivo": "q141_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 1232,
+   "y": 961,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q142_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 119,
+   "y": 945,
+   "passo": 14.8,
+   "significado": "Esse símbolo é um **slide ascendente de entrada (slide-in)**. **Descrição visual:** Trata-se de uma pequena linha curva ou inclinada que vem de baixo/esquerda e liga-se diretamente à nota **7** na 2ª corda. **Como funciona na prática:** Indica que deves deslizar o dedo a partir de uma casa mais baixa (por exemplo, da 5ª ou 6ª casa) até chegar à **7ª casa**, sem marcar a nota de origem com clareza. É um efeito de ataque rápido para dar balanço e balanço suave ao início da nota."
+  },
+  {
+   "arquivo": "q143_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 187,
+   "y": 974,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q144_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 369,
+   "y": 977,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q145_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 485,
+   "y": 980,
+   "passo": 14.8,
+   "significado": "mordente"
+  },
+  {
+   "arquivo": "q146_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 815,
+   "y": 978,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q147_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 617,
+   "y": 968,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q148_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 691,
+   "y": 974,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q149_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 998,
+   "y": 971,
+   "passo": 14.8,
+   "significado": "pausa de semínima"
+  },
+  {
+   "arquivo": "q150_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1084,
+   "y": 977,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q151_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1171,
+   "y": 974,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q152_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1239,
+   "y": 953,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q153_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1392,
+   "y": 961,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q154_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1510,
+   "y": 976,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q155_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1637,
+   "y": 975,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q156_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1718,
+   "y": 972,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q157_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "frac": 0.8,
+   "x": 310,
+   "y": 917,
+   "passo": 14.6,
+   "significado": "ligadura de prolongamento entre a mesma nota."
+  },
+  {
+   "arquivo": "q158_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1085,
+   "y": 917,
+   "passo": 14.6,
+   "significado": "ligadura de prolongamento entre a mesma nota."
+  },
+  {
+   "arquivo": "q159_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "frac": 0.8,
+   "x": 232,
+   "y": 973,
+   "passo": 14.6,
+   "significado": "(à esquerda - retângulo sobre a linha com um ponto): É uma pausa de mínima pontuada. O retângulo fica \"assentado\" sobre uma das linhas do pauta/tablatura. A pausa de mínima dura 2 tempos, e o ponto acrescenta metade do seu valor (1 tempo), totalizando 3 tempos de silêncio."
+  },
+  {
+   "arquivo": "q160_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "frac": 0.8,
+   "x": 384,
+   "y": 972,
+   "passo": 14.6,
+   "significado": "(à direita - retângulo pendurado sob a linha): É uma pausa de semibreve (ou pausa de compasso inteiro). Fica \"pendurada\" por baixo de uma linha e indica 4 tempos de silêncio (num compasso 4/4)."
+  },
+  {
+   "arquivo": "q161_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 159,
+   "y": 335,
+   "passo": 17.8,
+   "significado": "mordente (arco quase sumindo pra fora da tablatura)"
+  },
+  {
+   "arquivo": "q162_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 273,
+   "y": 433,
+   "passo": 17.8,
+   "significado": "Indica que deves tocar essas cordas mantendo os dedos da mão esquerda apenas encostados nelas (sem apertar contra os trastes) para abafar o som. Ao palhetar, produz apenas um som percussivo e seco (\"estalo\"), sem nota musical definida."
+  },
+  {
+   "arquivo": "q163_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 532,
+   "y": 384,
+   "passo": 17.8,
+   "significado": "arpejo em todas as cordas"
+  },
+  {
+   "arquivo": "q164_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1221,
+   "y": 336,
+   "passo": 17.8,
+   "significado": "É um **pull-off ligado a uma nota que já vem ressoando**. A nota entre parênteses `(4)` significa que ela continua a soar do tempo anterior. Como há um arco por cima ligando o `(4)` ao `2`, deves fazer um **pull-off** (puxar o dedo da mão esquerda da 4ª casa para a 2ª casa) no tempo exato da transição, sem palhetar ou atacar a corda novamente com a mão direita."
+  },
+  {
+   "arquivo": "q165_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1210,
+   "y": 354,
+   "passo": 17.8,
+   "significado": "É um **pull-off ligado a uma nota que já vem ressoando**. A nota entre parênteses `(4)` significa que ela continua a soar do tempo anterior. Como há um arco por cima ligando o `(4)` ao `2`, deves fazer um **pull-off** (puxar o dedo da mão esquerda da 4ª casa para a 2ª casa) no tempo exato da transição, sem palhetar ou atacar a corda novamente com a mão direita."
+  },
+  {
+   "arquivo": "q166_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 649,
+   "y": 433,
+   "passo": 17.8,
+   "significado": "Indica que deves tocar essas cordas mantendo os dedos da mão esquerda apenas encostados nelas (sem apertar contra os trastes) para abafar o som. Ao palhetar, produz apenas um som percussivo e seco (\"estalo\"), sem nota musical definida."
+  },
+  {
+   "arquivo": "q167_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1035,
+   "y": 424,
+   "passo": 17.8,
+   "significado": "Indica que deves tocar essas cordas mantendo os dedos da mão esquerda apenas encostados nelas (sem apertar contra os trastes) para abafar o som. Ao palhetar, produz apenas um som percussivo e seco (\"estalo\"), sem nota musical definida."
+  },
+  {
+   "arquivo": "q168_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1270,
+   "y": 430,
+   "passo": 17.8,
+   "significado": "Indica que deves tocar essas cordas mantendo os dedos da mão esquerda apenas encostados nelas (sem apertar contra os trastes) para abafar o som. Ao palhetar, produz apenas um som percussivo e seco (\"estalo\"), sem nota musical definida."
+  },
+  {
+   "arquivo": "q169_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1554,
+   "y": 430,
+   "passo": 17.8,
+   "significado": "Indica que deves tocar essas cordas mantendo os dedos da mão esquerda apenas encostados nelas (sem apertar contra os trastes) para abafar o som. Ao palhetar, produz apenas um som percussivo e seco (\"estalo\"), sem nota musical definida."
+  },
+  {
+   "arquivo": "q170_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1776,
+   "y": 431,
+   "passo": 17.8,
+   "significado": "Indica que deves tocar essas cordas mantendo os dedos da mão esquerda apenas encostados nelas (sem apertar contra os trastes) para abafar o som. Ao palhetar, produz apenas um som percussivo e seco (\"estalo\"), sem nota musical definida."
+  },
+  {
+   "arquivo": "q171_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 395,
+   "y": 368,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q172_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 585,
+   "y": 390,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q173_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 724,
+   "y": 386,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q174_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 908,
+   "y": 410,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q175_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1423,
+   "y": 376,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q176_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1710,
+   "y": 368,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q177_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1133,
+   "y": 405,
+   "passo": 17.8,
+   "significado": "arpejo em todas as cordas"
+  },
+  {
+   "arquivo": "q178_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 442,
+   "y": 378,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q179_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 862,
+   "y": 397,
+   "passo": 17.8,
+   "significado": "Barra de repetição dupla / Ritornelo duplo (Linhas com pontos dos dois lados): É a junção do fim de uma seção repetida com o início de outra. Os dois pontos à esquerda mandam voltar para trás para repetir a parte anterior, enquanto os dois pontos à direita marcam o ponto de partida exato para a seção que vem a seguir."
+  },
+  {
+   "arquivo": "q180_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 120,
+   "y": 394,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q181_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 233,
+   "y": 403,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q182_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 402,
+   "y": 393,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q183_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 512,
+   "y": 385,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q184_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1055,
+   "y": 403,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q185_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1400,
+   "y": 403,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q186_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1491,
+   "y": 404,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q187_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 249,
+   "y": 429,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q188_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 474,
+   "y": 429,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q189_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1581,
+   "y": 437,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q190_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1721,
+   "y": 430,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q191_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 282,
+   "y": 349,
+   "passo": 17.8,
+   "significado": "mordente (ja explicado tem um arco em cima de tres ou mais notas)"
+  },
+  {
+   "arquivo": "q192_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1434,
+   "y": 407,
+   "passo": 17.8,
+   "significado": "Trata-se de um slide descendente de saída (slide-out / slide off) aplicado a duas notas em simultâneo (um intervalo de duas cordas). Tocas as casas 4 e 5 ao mesmo tempo e deslisas os dois dedos juntos em direção às casas mais graves (para a esquerda/braço do violão), deixando o som esvanecer sem definir uma casa final exata."
+  },
+  {
+   "arquivo": "q193_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1435,
+   "y": 424,
+   "passo": 17.8,
+   "significado": "Trata-se de um slide descendente de saída (slide-out / slide off) aplicado a duas notas em simultâneo (um intervalo de duas cordas). Tocas as casas 4 e 5 ao mesmo tempo e deslisas os dois dedos juntos em direção às casas mais graves (para a esquerda/braço do violão), deixando o som esvanecer sem definir uma casa final exata."
+  },
+  {
+   "arquivo": "q194_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1833,
+   "y": 438,
+   "passo": 17.8,
+   "significado": "(acorde 2-4-3-4 com 3 traços inclinados por baixo): Esses três traços paralelos indicam trémolo (tremolo picking / rasgueado rápido). Significam que deves repetir/repicotear esse acorde muito rapidamente e ritmadamente em semicolcheias/fusas (conforme o valor da nota), criando um efeito de som contínuo e vibrante em vez de tocar apenas um golpe único."
+  },
+  {
+   "arquivo": "q195_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 44,
+   "y": 375,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q196_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 239,
+   "y": 368,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q197_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 571,
+   "y": 379,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q198_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 504,
+   "y": 383,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q199_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 610,
+   "y": 390,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q200_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1135,
+   "y": 379,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q201_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1233,
+   "y": 378,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q202_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1280,
+   "y": 381,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q203_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1420,
+   "y": 369,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q204_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1617,
+   "y": 413,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q205_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1786,
+   "y": 413,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q206_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 159,
+   "y": 435,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q207_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 518,
+   "y": 431,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q208_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 589,
+   "y": 389,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q209_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1152,
+   "y": 433,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q210_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1251,
+   "y": 375,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q211_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1539,
+   "y": 431,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q212_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1914,
+   "y": 426,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q213_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1653,
+   "y": 406,
+   "passo": 17.8,
+   "significado": "rata-se de um slide descendente de saída (slide-out / slide off)"
+  },
+  {
+   "arquivo": "q214_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1653,
+   "y": 427,
+   "passo": 17.8,
+   "significado": "rata-se de um slide descendente de saída (slide-out / slide off)"
+  },
+  {
+   "arquivo": "q215_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1226,
+   "y": 373,
+   "passo": 22.0,
+   "significado": "pull-off para a corda solta. Descrição visual e passo a passo na prática:Ataque inicial: Tocas em simultâneo o 0 na 5ª corda (grave) e o conjunto formado pelo 7 na 2ª corda e o 8 na 1ª corda. Pull-off (arco por cima): O arco liga a 8ª casa da 1ª corda diretamente para o 0 (corda solta da mesma 1ª corda). Isto significa que deves realizar um pull-off, puxando o dedo da mão esquerda da 8ª casa para fazer soar a corda solta sem voltar a palhetar/atacar a mão direita. Continuação: Logo a seguir ao pull-off, tocas o 0 na 3ª corda (corda solta) para dar sequência ao dedilhado."
+  },
+  {
+   "arquivo": "q216_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N11_robert lunn.png",
+   "frac": 0.4,
+   "x": 448,
+   "y": 654,
+   "passo": 11.0,
+   "significado": "T A B não é simbolo nenhum mas é bom não confudir esse texto que fica geralmente no inicio da tablatura de alguns canais fica na vertifica ocupando algumas cordas"
+  },
+  {
+   "arquivo": "q217_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "frac": 0.6,
+   "x": 76,
+   "y": 660,
+   "passo": 17.4,
+   "significado": "arpejo"
+  },
+  {
+   "arquivo": "q218_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "frac": 0.6,
+   "x": 219,
+   "y": 641,
+   "passo": 17.4,
+   "significado": "arpejo"
+  },
+  {
+   "arquivo": "q219_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "frac": 0.6,
+   "x": 636,
+   "y": 657,
+   "passo": 17.4,
+   "significado": "ritornello"
+  },
+  {
+   "arquivo": "q220_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "frac": 0.6,
+   "x": 1085,
+   "y": 656,
+   "passo": 17.4,
+   "significado": "ritornello"
+  },
+  {
+   "arquivo": "q221_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "frac": 0.4,
+   "x": 1264,
+   "y": 659,
+   "passo": 19.0,
+   "significado": "ritornello"
+  },
+  {
+   "arquivo": "q222_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N14_robert lunn.png",
+   "frac": 0.8,
+   "x": 1124,
+   "y": 614,
+   "passo": 16.6,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q223_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "frac": 0.8,
+   "x": 23,
+   "y": 1010,
+   "passo": 30.0,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q224_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "frac": 0.4,
+   "x": 818,
+   "y": 997,
+   "passo": 18.0,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q225_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "frac": 0.4,
+   "x": 1160,
+   "y": 940,
+   "passo": 18.0,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q226_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "frac": 0.6,
+   "x": 1250,
+   "y": 969,
+   "passo": 18.4,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q227_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "frac": 0.6,
+   "x": 1366,
+   "y": 1005,
+   "passo": 18.4,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q228_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "frac": 0.6,
+   "x": 1441,
+   "y": 1023,
+   "passo": 18.4,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q229_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "frac": 0.8,
+   "x": 1598,
+   "y": 991,
+   "passo": 18.2,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q230_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "frac": 0.8,
+   "x": 1269,
+   "y": 955,
+   "passo": 18.2,
+   "significado": "7 pequeno, números quando ficam pequenos: Significa que essa 7ª casa deve ser tocada de forma quase instantânea, sem roubar o tempo principal do compasso, servindo apenas como um enfeitinho rápido que escorrega logo para a 8ª casa que vem a seguir."
+  },
+  {
+   "arquivo": "q231_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 119,
+   "y": 669,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q232_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 731,
+   "y": 674,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q233_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 879,
+   "y": 672,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q234_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1038,
+   "y": 670,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q235_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1109,
+   "y": 672,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q236_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1231,
+   "y": 676,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q237_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1382,
+   "y": 686,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q238_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1533,
+   "y": 675,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q239_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1686,
+   "y": 674,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q240_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1835,
+   "y": 674,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q241_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 207,
+   "y": 976,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q242_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 122,
+   "y": 976,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q243_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 266,
+   "y": 978,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q244_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 347,
+   "y": 963,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q245_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 837,
+   "y": 945,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q246_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 917,
+   "y": 960,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q247_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 1028,
+   "y": 958,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q248_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 1144,
+   "y": 979,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q249_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 1227,
+   "y": 974,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q250_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "frac": 0.4,
+   "x": 1310,
+   "y": 991,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q251_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 270,
+   "y": 987,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q252_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 490,
+   "y": 970,
+   "passo": 14.8,
+   "significado": "pausa de semínima. Indica um momento de silêncio que dura exatamente 1 tempo (a mesma duração de uma semínima). Quando encontras este símbolo na tablatura, não deves palhetar nem fazer soar nenhuma nota nesse tempo específico — se houver alguma corda a ressoar do tempo anterior, deves abafá-la suavemente com os dedos ou a palma da mão."
+  },
+  {
+   "arquivo": "q253_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 603,
+   "y": 972,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q254_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 683,
+   "y": 993,
+   "passo": 14.8,
+   "significado": "mordente"
+  },
+  {
+   "arquivo": "q255_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 894,
+   "y": 963,
+   "passo": 14.8,
+   "significado": "mordente"
+  },
+  {
+   "arquivo": "q256_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 993,
+   "y": 941,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q257_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 1083,
+   "y": 951,
+   "passo": 14.8,
+   "significado": "mordente"
+  },
+  {
+   "arquivo": "q258_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "frac": 0.6,
+   "x": 1232,
+   "y": 961,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q259_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 119,
+   "y": 945,
+   "passo": 14.8,
+   "significado": "Esse símbolo é um **slide ascendente de entrada (slide-in)**. **Descrição visual:** Trata-se de uma pequena linha curva ou inclinada que vem de baixo/esquerda e liga-se diretamente à nota **7** na 2ª corda. **Como funciona na prática:** Indica que deves deslizar o dedo a partir de uma casa mais baixa (por exemplo, da 5ª ou 6ª casa) até chegar à **7ª casa**, sem marcar a nota de origem com clareza. É um efeito de ataque rápido para dar balanço e balanço suave ao início da nota."
+  },
+  {
+   "arquivo": "q260_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 187,
+   "y": 974,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q261_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 369,
+   "y": 977,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q262_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 485,
+   "y": 980,
+   "passo": 14.8,
+   "significado": "mordente"
+  },
+  {
+   "arquivo": "q263_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 815,
+   "y": 978,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q264_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 617,
+   "y": 968,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q265_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 691,
+   "y": 974,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q266_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 998,
+   "y": 971,
+   "passo": 14.8,
+   "significado": "pausa de semínima"
+  },
+  {
+   "arquivo": "q267_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1084,
+   "y": 977,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q268_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1171,
+   "y": 974,
+   "passo": 14.8,
+   "significado": "colcheia"
+  },
+  {
+   "arquivo": "q269_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1239,
+   "y": 953,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q270_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1392,
+   "y": 961,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q271_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1510,
+   "y": 976,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q272_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1637,
+   "y": 975,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q273_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1718,
+   "y": 972,
+   "passo": 14.8,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q274_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "frac": 0.8,
+   "x": 310,
+   "y": 917,
+   "passo": 14.6,
+   "significado": "ligadura de prolongamento entre a mesma nota."
+  },
+  {
+   "arquivo": "q275_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "frac": 0.8,
+   "x": 1085,
+   "y": 917,
+   "passo": 14.6,
+   "significado": "ligadura de prolongamento entre a mesma nota."
+  },
+  {
+   "arquivo": "q276_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "frac": 0.8,
+   "x": 232,
+   "y": 973,
+   "passo": 14.6,
+   "significado": "(à esquerda - retângulo sobre a linha com um ponto): É uma pausa de mínima pontuada. O retângulo fica \"assentado\" sobre uma das linhas do pauta/tablatura. A pausa de mínima dura 2 tempos, e o ponto acrescenta metade do seu valor (1 tempo), totalizando 3 tempos de silêncio."
+  },
+  {
+   "arquivo": "q277_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "frac": 0.8,
+   "x": 384,
+   "y": 972,
+   "passo": 14.6,
+   "significado": "(à direita - retângulo pendurado sob a linha): É uma pausa de semibreve (ou pausa de compasso inteiro). Fica \"pendurada\" por baixo de uma linha e indica 4 tempos de silêncio (num compasso 4/4)."
+  },
+  {
+   "arquivo": "q278_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 159,
+   "y": 335,
+   "passo": 17.8,
+   "significado": "mordente (arco quase sumindo pra fora da tablatura)"
+  },
+  {
+   "arquivo": "q279_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 273,
+   "y": 433,
+   "passo": 17.8,
+   "significado": "Indica que deves tocar essas cordas mantendo os dedos da mão esquerda apenas encostados nelas (sem apertar contra os trastes) para abafar o som. Ao palhetar, produz apenas um som percussivo e seco (\"estalo\"), sem nota musical definida."
+  },
+  {
+   "arquivo": "q280_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 532,
+   "y": 384,
+   "passo": 17.8,
+   "significado": "arpejo em todas as cordas"
+  },
+  {
+   "arquivo": "q281_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1221,
+   "y": 336,
+   "passo": 17.8,
+   "significado": "É um **pull-off ligado a uma nota que já vem ressoando**. A nota entre parênteses `(4)` significa que ela continua a soar do tempo anterior. Como há um arco por cima ligando o `(4)` ao `2`, deves fazer um **pull-off** (puxar o dedo da mão esquerda da 4ª casa para a 2ª casa) no tempo exato da transição, sem palhetar ou atacar a corda novamente com a mão direita."
+  },
+  {
+   "arquivo": "q282_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1210,
+   "y": 354,
+   "passo": 17.8,
+   "significado": "É um **pull-off ligado a uma nota que já vem ressoando**. A nota entre parênteses `(4)` significa que ela continua a soar do tempo anterior. Como há um arco por cima ligando o `(4)` ao `2`, deves fazer um **pull-off** (puxar o dedo da mão esquerda da 4ª casa para a 2ª casa) no tempo exato da transição, sem palhetar ou atacar a corda novamente com a mão direita."
+  },
+  {
+   "arquivo": "q283_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 649,
+   "y": 433,
+   "passo": 17.8,
+   "significado": "Indica que deves tocar essas cordas mantendo os dedos da mão esquerda apenas encostados nelas (sem apertar contra os trastes) para abafar o som. Ao palhetar, produz apenas um som percussivo e seco (\"estalo\"), sem nota musical definida."
+  },
+  {
+   "arquivo": "q284_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1035,
+   "y": 424,
+   "passo": 17.8,
+   "significado": "Indica que deves tocar essas cordas mantendo os dedos da mão esquerda apenas encostados nelas (sem apertar contra os trastes) para abafar o som. Ao palhetar, produz apenas um som percussivo e seco (\"estalo\"), sem nota musical definida."
+  },
+  {
+   "arquivo": "q285_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1270,
+   "y": 430,
+   "passo": 17.8,
+   "significado": "Indica que deves tocar essas cordas mantendo os dedos da mão esquerda apenas encostados nelas (sem apertar contra os trastes) para abafar o som. Ao palhetar, produz apenas um som percussivo e seco (\"estalo\"), sem nota musical definida."
+  },
+  {
+   "arquivo": "q286_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1554,
+   "y": 430,
+   "passo": 17.8,
+   "significado": "Indica que deves tocar essas cordas mantendo os dedos da mão esquerda apenas encostados nelas (sem apertar contra os trastes) para abafar o som. Ao palhetar, produz apenas um som percussivo e seco (\"estalo\"), sem nota musical definida."
+  },
+  {
+   "arquivo": "q287_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1776,
+   "y": 431,
+   "passo": 17.8,
+   "significado": "Indica que deves tocar essas cordas mantendo os dedos da mão esquerda apenas encostados nelas (sem apertar contra os trastes) para abafar o som. Ao palhetar, produz apenas um som percussivo e seco (\"estalo\"), sem nota musical definida."
+  },
+  {
+   "arquivo": "q288_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 395,
+   "y": 368,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q289_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 585,
+   "y": 390,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q290_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 724,
+   "y": 386,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q291_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 908,
+   "y": 410,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q292_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1423,
+   "y": 376,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q293_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1710,
+   "y": 368,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q294_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 1133,
+   "y": 405,
+   "passo": 17.8,
+   "significado": "arpejo em todas as cordas"
+  },
+  {
+   "arquivo": "q295_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 442,
+   "y": 378,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa para cima no acorde 4-6-4-6-4): A seta vertical a atravessar o acorde indica a direção em que deves rasguear ou varrer as cordas. Como a seta aponta para cima no papel (em direção às cordas mais agudas), deves palhetar da corda mais grave para a mais aguda num único movimento contínuo e rápido (downstroke na palheta ou varrido com o polegar/dedos)."
+  },
+  {
+   "arquivo": "q296_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "frac": 0.4,
+   "x": 862,
+   "y": 397,
+   "passo": 17.8,
+   "significado": "Barra de repetição dupla / Ritornelo duplo (Linhas com pontos dos dois lados): É a junção do fim de uma seção repetida com o início de outra. Os dois pontos à esquerda mandam voltar para trás para repetir a parte anterior, enquanto os dois pontos à direita marcam o ponto de partida exato para a seção que vem a seguir."
+  },
+  {
+   "arquivo": "q297_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 120,
+   "y": 394,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q298_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 233,
+   "y": 403,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q299_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 402,
+   "y": 393,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q300_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 512,
+   "y": 385,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q301_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1055,
+   "y": 403,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q302_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1400,
+   "y": 403,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q303_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1491,
+   "y": 404,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido"
+  },
+  {
+   "arquivo": "q304_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 249,
+   "y": 429,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q305_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 474,
+   "y": 429,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q306_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1581,
+   "y": 437,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q307_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1721,
+   "y": 430,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q308_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 282,
+   "y": 349,
+   "passo": 17.8,
+   "significado": "mordente (ja explicado tem um arco em cima de tres ou mais notas)"
+  },
+  {
+   "arquivo": "q309_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1434,
+   "y": 407,
+   "passo": 17.8,
+   "significado": "Trata-se de um slide descendente de saída (slide-out / slide off) aplicado a duas notas em simultâneo (um intervalo de duas cordas). Tocas as casas 4 e 5 ao mesmo tempo e deslisas os dois dedos juntos em direção às casas mais graves (para a esquerda/braço do violão), deixando o som esvanecer sem definir uma casa final exata."
+  },
+  {
+   "arquivo": "q310_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1435,
+   "y": 424,
+   "passo": 17.8,
+   "significado": "Trata-se de um slide descendente de saída (slide-out / slide off) aplicado a duas notas em simultâneo (um intervalo de duas cordas). Tocas as casas 4 e 5 ao mesmo tempo e deslisas os dois dedos juntos em direção às casas mais graves (para a esquerda/braço do violão), deixando o som esvanecer sem definir uma casa final exata."
+  },
+  {
+   "arquivo": "q311_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1833,
+   "y": 438,
+   "passo": 17.8,
+   "significado": "(acorde 2-4-3-4 com 3 traços inclinados por baixo): Esses três traços paralelos indicam trémolo (tremolo picking / rasgueado rápido). Significam que deves repetir/repicotear esse acorde muito rapidamente e ritmadamente em semicolcheias/fusas (conforme o valor da nota), criando um efeito de som contínuo e vibrante em vez de tocar apenas um golpe único."
+  },
+  {
+   "arquivo": "q312_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 44,
+   "y": 375,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q313_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 239,
+   "y": 368,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q314_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 571,
+   "y": 379,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q315_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 504,
+   "y": 383,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q316_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 610,
+   "y": 390,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q317_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1135,
+   "y": 379,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q318_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1233,
+   "y": 378,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q319_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1280,
+   "y": 381,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q320_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1420,
+   "y": 369,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q321_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1617,
+   "y": 413,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q322_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1786,
+   "y": 413,
+   "passo": 17.8,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q323_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 159,
+   "y": 435,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q324_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 518,
+   "y": 431,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q325_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 589,
+   "y": 389,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q326_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1152,
+   "y": 433,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q327_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1251,
+   "y": 375,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q328_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1539,
+   "y": 431,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q329_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1914,
+   "y": 426,
+   "passo": 17.8,
+   "significado": "Notas abafadas / Muted Notes"
+  },
+  {
+   "arquivo": "q330_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1653,
+   "y": 406,
+   "passo": 17.8,
+   "significado": "rata-se de um slide descendente de saída (slide-out / slide off)"
+  },
+  {
+   "arquivo": "q331_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "frac": 0.8,
+   "x": 1653,
+   "y": 427,
+   "passo": 17.8,
+   "significado": "rata-se de um slide descendente de saída (slide-out / slide off)"
+  },
+  {
+   "arquivo": "q332_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "frac": 0.6,
+   "x": 1226,
+   "y": 373,
+   "passo": 22.0,
+   "significado": "pull-off para a corda solta. Descrição visual e passo a passo na prática:Ataque inicial: Tocas em simultâneo o 0 na 5ª corda (grave) e o conjunto formado pelo 7 na 2ª corda e o 8 na 1ª corda. Pull-off (arco por cima): O arco liga a 8ª casa da 1ª corda diretamente para o 0 (corda solta da mesma 1ª corda). Isto significa que deves realizar um pull-off, puxando o dedo da mão esquerda da 8ª casa para fazer soar a corda solta sem voltar a palhetar/atacar a mão direita. Continuação: Logo a seguir ao pull-off, tocas o 0 na 3ª corda (corda solta) para dar sequência ao dedilhado."
+  },
+  {
+   "arquivo": "q333_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "frac": 0.6,
+   "x": 76,
+   "y": 660,
+   "passo": 17.4,
+   "significado": "arpejo"
+  },
+  {
+   "arquivo": "q334_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "frac": 0.6,
+   "x": 219,
+   "y": 641,
+   "passo": 17.4,
+   "significado": "arpejo"
+  },
+  {
+   "arquivo": "q335_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "frac": 0.6,
+   "x": 636,
+   "y": 657,
+   "passo": 17.4,
+   "significado": "ritornello"
+  },
+  {
+   "arquivo": "q336_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "frac": 0.6,
+   "x": 1085,
+   "y": 656,
+   "passo": 17.4,
+   "significado": "ritornello"
+  },
+  {
+   "arquivo": "q337_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "frac": 0.4,
+   "x": 1264,
+   "y": 659,
+   "passo": 19.0,
+   "significado": "ritornello"
+  },
+  {
+   "arquivo": "q338_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N14_robert lunn.png",
+   "frac": 0.8,
+   "x": 1124,
+   "y": 614,
+   "passo": 16.6,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q339_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "frac": 0.8,
+   "x": 23,
+   "y": 1010,
+   "passo": 30.0,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q340_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "frac": 0.4,
+   "x": 818,
+   "y": 997,
+   "passo": 18.0,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q341_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "frac": 0.4,
+   "x": 1160,
+   "y": 940,
+   "passo": 18.0,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q342_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "frac": 0.6,
+   "x": 1250,
+   "y": 969,
+   "passo": 18.4,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q343_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "frac": 0.6,
+   "x": 1366,
+   "y": 1005,
+   "passo": 18.4,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q344_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "frac": 0.6,
+   "x": 1441,
+   "y": 1023,
+   "passo": 18.4,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q345_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "frac": 0.8,
+   "x": 1598,
+   "y": 991,
+   "passo": 18.2,
+   "significado": "arco de ligadura"
+  },
+  {
+   "arquivo": "q346_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "frac": 0.8,
+   "x": 1269,
+   "y": 955,
+   "passo": 18.2,
+   "significado": "7 pequeno, números quando ficam pequenos: Significa que essa 7ª casa deve ser tocada de forma quase instantânea, sem roubar o tempo principal do compasso, servindo apenas como um enfeitinho rápido que escorrega logo para a 8ª casa que vem a seguir."
+  },
+  {
+   "arquivo": "q347_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 119,
+   "y": 669,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q348_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 731,
+   "y": 674,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q349_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 879,
+   "y": 672,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q350_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1038,
+   "y": 670,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q351_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1109,
+   "y": 672,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q352_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1231,
+   "y": 676,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q353_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1382,
+   "y": 686,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q354_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1533,
+   "y": 675,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q355_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1686,
+   "y": 674,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
+  },
+  {
+   "arquivo": "q356_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "frac": 0.6,
+   "x": 1835,
+   "y": 674,
+   "passo": 39.2,
+   "significado": "Acorde varrido / Arpejo rápido (Seta longa"
   }
  ],
  "negativos": [
@@ -2208,984 +4538,1516 @@
    "cy": 45
   },
   {
-   "arquivo": "g766_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1637,
-   "cy": 124
-  },
-  {
-   "arquivo": "g321_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1549,
-   "cy": 336
-  },
-  {
-   "arquivo": "g898_serge kottel.png",
+   "arquivo": "r346_serge kottel.png",
    "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1056,
-   "cy": 60
-  },
-  {
-   "arquivo": "g429_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 408,
-   "cy": 33
-  },
-  {
-   "arquivo": "g954_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 757,
-   "cy": 43
-  },
-  {
-   "arquivo": "g841_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1133,
-   "cy": 29
-  },
-  {
-   "arquivo": "g1001_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1917,
-   "cy": 29
-  },
-  {
-   "arquivo": "g896_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 984,
-   "cy": 30
-  },
-  {
-   "arquivo": "g800_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 109,
-   "cy": 15
-  },
-  {
-   "arquivo": "g654_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 639,
-   "cy": 147
-  },
-  {
-   "arquivo": "g033_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 580,
-   "cy": 305
-  },
-  {
-   "arquivo": "g1000_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1872,
-   "cy": 73
-  },
-  {
-   "arquivo": "g569_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 887,
-   "cy": 408
-  },
-  {
-   "arquivo": "g934_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 315,
-   "cy": 14
-  },
-  {
-   "arquivo": "g315_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1470,
-   "cy": 317
-  },
-  {
-   "arquivo": "g795_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 886,
-   "cy": 76
-  },
-  {
-   "arquivo": "g061_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1353,
-   "cy": 312
-  },
-  {
-   "arquivo": "g196_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 792,
-   "cy": 44
-  },
-  {
-   "arquivo": "g146_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1731,
-   "cy": 79
-  },
-  {
-   "arquivo": "g444_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 921,
-   "cy": 63
-  },
-  {
-   "arquivo": "g575_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1044,
-   "cy": 408
-  },
-  {
-   "arquivo": "g1029_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 677,
-   "cy": 15
-  },
-  {
-   "arquivo": "g312_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1392,
-   "cy": 336
-  },
-  {
-   "arquivo": "g453_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1160,
-   "cy": 33
-  },
-  {
-   "arquivo": "g672_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1287,
-   "cy": 80
-  },
-  {
-   "arquivo": "g135_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1078,
-   "cy": 146
-  },
-  {
-   "arquivo": "g703_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 87,
-   "cy": 124
-  },
-  {
-   "arquivo": "g1062_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1493,
-   "cy": 88
-  },
-  {
-   "arquivo": "g014_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 173,
-   "cy": 326
-  },
-  {
-   "arquivo": "g886_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 653,
-   "cy": 25
-  },
-  {
-   "arquivo": "g263_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 488,
-   "cy": 272
-  },
-  {
-   "arquivo": "g490_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 47,
-   "cy": 347
-  },
-  {
-   "arquivo": "g348_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 538,
-   "cy": 89
-  },
-  {
-   "arquivo": "g228_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 113,
-   "cy": 294
-  },
-  {
-   "arquivo": "g1028_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 633,
-   "cy": 44
-  },
-  {
-   "arquivo": "g924_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 91,
-   "cy": 87
-  },
-  {
-   "arquivo": "g462_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1372,
-   "cy": 63
-  },
-  {
-   "arquivo": "g199_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 875,
-   "cy": 29
-  },
-  {
-   "arquivo": "g920_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 5,
-   "cy": 14
-  },
-  {
-   "arquivo": "g956_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 781,
-   "cy": 14
-  },
-  {
-   "arquivo": "g093_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 407,
-   "cy": 72
-  },
-  {
-   "arquivo": "g178_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 205,
-   "cy": 29
-  },
-  {
-   "arquivo": "g761_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1560,
-   "cy": 81
-  },
-  {
-   "arquivo": "g1034_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 775,
-   "cy": 74
-  },
-  {
-   "arquivo": "g535_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 520,
-   "cy": 346
-  },
-  {
-   "arquivo": "g160_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 316,
-   "cy": 119
-  },
-  {
-   "arquivo": "g166_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 616,
-   "cy": 96
-  },
-  {
-   "arquivo": "g002_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1,
-   "cy": 330
-  },
-  {
-   "arquivo": "g006_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 52,
-   "cy": 340
-  },
-  {
-   "arquivo": "g256_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 375,
-   "cy": 314
-  },
-  {
-   "arquivo": "g932_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 290,
-   "cy": 14
-  },
-  {
-   "arquivo": "g262_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 451,
+   "imagem": "N01_serge kottelat.png",
+   "cx": 244,
    "cy": 338
   },
   {
-   "arquivo": "g206_serge kottel.png",
+   "arquivo": "r348_serge kottel.png",
    "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1104,
-   "cy": 44
+   "imagem": "N01_serge kottelat.png",
+   "cx": 283,
+   "cy": 338
   },
   {
-   "arquivo": "g207_serge kottel.png",
+   "arquivo": "r349_serge kottel.png",
    "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1132,
-   "cy": 29
+   "imagem": "N01_serge kottelat.png",
+   "cx": 282,
+   "cy": 350
   },
   {
-   "arquivo": "g358_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
+   "arquivo": "r356_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 439,
+   "cy": 308
+  },
+  {
+   "arquivo": "r358_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 515,
+   "cy": 308
+  },
+  {
+   "arquivo": "r359_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 543,
+   "cy": 308
+  },
+  {
+   "arquivo": "r360_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 554,
+   "cy": 308
+  },
+  {
+   "arquivo": "r364_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 739,
+   "cy": 308
+  },
+  {
+   "arquivo": "r365_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 777,
+   "cy": 323
+  },
+  {
+   "arquivo": "r369_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 896,
+   "cy": 323
+  },
+  {
+   "arquivo": "r372_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 928,
+   "cy": 335
+  },
+  {
+   "arquivo": "r373_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 968,
+   "cy": 338
+  },
+  {
+   "arquivo": "r374_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1000,
+   "cy": 323
+  },
+  {
+   "arquivo": "r377_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1044,
+   "cy": 323
+  },
+  {
+   "arquivo": "r384_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1155,
+   "cy": 338
+  },
+  {
+   "arquivo": "r386_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1160,
+   "cy": 350
+  },
+  {
+   "arquivo": "r400_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1558,
+   "cy": 323
+  },
+  {
+   "arquivo": "r415_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 284,
+   "cy": 353
+  },
+  {
+   "arquivo": "r417_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 442,
+   "cy": 342
+  },
+  {
+   "arquivo": "r418_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 440,
+   "cy": 352
+  },
+  {
+   "arquivo": "r422_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 588,
+   "cy": 353
+  },
+  {
+   "arquivo": "r430_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
    "cx": 755,
-   "cy": 16
+   "cy": 338
   },
   {
-   "arquivo": "g383_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1393,
-   "cy": 16
-  },
-  {
-   "arquivo": "g245_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 299,
-   "cy": 295
-  },
-  {
-   "arquivo": "g668_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1244,
-   "cy": 30
-  },
-  {
-   "arquivo": "g827_serge kottel.png",
+   "arquivo": "r432_serge kottel.png",
    "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 705,
-   "cy": 74
+   "imagem": "N02_serge kottelat.png",
+   "cx": 804,
+   "cy": 323
   },
   {
-   "arquivo": "g769_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1767,
-   "cy": 74
+   "arquivo": "r433_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 803,
+   "cy": 335
   },
   {
-   "arquivo": "g251_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 392,
-   "cy": 249
+   "arquivo": "r434_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 870,
+   "cy": 323
   },
   {
-   "arquivo": "g1043_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1043,
-   "cy": 59
+   "arquivo": "r437_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 920,
+   "cy": 308
   },
   {
-   "arquivo": "g1071_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1807,
-   "cy": 15
+   "arquivo": "r448_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 1167,
+   "cy": 323
   },
   {
-   "arquivo": "g243_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 297,
-   "cy": 272
+   "arquivo": "r450_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 1203,
+   "cy": 323
   },
   {
-   "arquivo": "g456_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1237,
-   "cy": 17
+   "arquivo": "r466_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 77,
+   "cy": 308
   },
   {
-   "arquivo": "g367_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 959,
-   "cy": 89
+   "arquivo": "r467_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 120,
+   "cy": 338
   },
   {
-   "arquivo": "g026_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 431,
-   "cy": 285
+   "arquivo": "r468_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 118,
+   "cy": 350
   },
   {
-   "arquivo": "g431_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 505,
-   "cy": 17
+   "arquivo": "r486_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 639,
+   "cy": 362
   },
   {
-   "arquivo": "g498_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 68,
+   "arquivo": "r489_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 742,
+   "cy": 350
+  },
+  {
+   "arquivo": "r491_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 780,
+   "cy": 350
+  },
+  {
+   "arquivo": "r492_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 821,
+   "cy": 323
+  },
+  {
+   "arquivo": "r495_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 902,
+   "cy": 308
+  },
+  {
+   "arquivo": "r496_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 913,
+   "cy": 308
+  },
+  {
+   "arquivo": "r503_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1081,
+   "cy": 308
+  },
+  {
+   "arquivo": "r505_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1115,
    "cy": 367
   },
   {
-   "arquivo": "g1024_tv on guitar.png",
+   "arquivo": "r605_tv on guitar.png",
    "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 580,
-   "cy": 15
-  },
-  {
-   "arquivo": "g185_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 393,
-   "cy": 14
-  },
-  {
-   "arquivo": "g332_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 128,
-   "cy": 75
-  },
-  {
-   "arquivo": "g075_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1676,
-   "cy": 347
-  },
-  {
-   "arquivo": "g401_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1636,
+   "imagem": "N05_tv on guitar.png",
+   "cx": 923,
    "cy": 89
   },
   {
-   "arquivo": "g370_tv on guitar.png",
+   "arquivo": "r711_tv on guitar.png",
    "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1053,
-   "cy": 89
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1833,
+   "cy": 114
   },
   {
-   "arquivo": "g977_tv on guitar.png",
+   "arquivo": "r730_tv on guitar.png",
    "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1231,
-   "cy": 73
+   "imagem": "N07_tv on guitar.png",
+   "cx": 386,
+   "cy": 18
   },
   {
-   "arquivo": "g746_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1348,
-   "cy": 106
+   "arquivo": "r893_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 76,
+   "cy": 46
   },
   {
-   "arquivo": "g725_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 497,
-   "cy": 74
+   "arquivo": "r894_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 91,
+   "cy": 47
   },
   {
-   "arquivo": "g004_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 50,
-   "cy": 305
+   "arquivo": "r895_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 76,
+   "cy": 64
   },
   {
-   "arquivo": "g738_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 930,
-   "cy": 100
+   "arquivo": "r921_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 874,
+   "cy": 99
   },
   {
-   "arquivo": "g1018_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 411,
-   "cy": 44
-  },
-  {
-   "arquivo": "g862_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1682,
+   "arquivo": "r930_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 1187,
    "cy": 29
   },
   {
-   "arquivo": "g408_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1713,
-   "cy": 45
-  },
-  {
-   "arquivo": "g076_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1732,
-   "cy": 325
-  },
-  {
-   "arquivo": "g379_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1266,
-   "cy": 16
-  },
-  {
-   "arquivo": "g425_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 260,
-   "cy": 17
-  },
-  {
-   "arquivo": "g978_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1277,
-   "cy": 43
-  },
-  {
-   "arquivo": "g375_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1201,
-   "cy": 60
-  },
-  {
-   "arquivo": "g589_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1312,
-   "cy": 367
-  },
-  {
-   "arquivo": "g851_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1387,
-   "cy": 44
-  },
-  {
-   "arquivo": "g385_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1417,
-   "cy": 16
-  },
-  {
-   "arquivo": "g231_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 184,
-   "cy": 227
-  },
-  {
-   "arquivo": "g988_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1521,
-   "cy": 14
-  },
-  {
-   "arquivo": "g578_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1122,
-   "cy": 408
-  },
-  {
-   "arquivo": "g859_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1581,
-   "cy": 59
-  },
-  {
-   "arquivo": "g222_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1665,
-   "cy": 44
-  },
-  {
-   "arquivo": "g066_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1381,
-   "cy": 347
-  },
-  {
-   "arquivo": "g322_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1602,
-   "cy": 315
-  },
-  {
-   "arquivo": "g027_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 431,
-   "cy": 305
-  },
-  {
-   "arquivo": "g907_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1359,
-   "cy": 30
-  },
-  {
-   "arquivo": "g428_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 371,
-   "cy": 79
-  },
-  {
-   "arquivo": "g484_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1801,
-   "cy": 33
-  },
-  {
-   "arquivo": "g022_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 262,
-   "cy": 367
-  },
-  {
-   "arquivo": "g678_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1287,
-   "cy": 147
-  },
-  {
-   "arquivo": "g946_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 566,
-   "cy": 58
-  },
-  {
-   "arquivo": "g503_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 154,
-   "cy": 346
-  },
-  {
-   "arquivo": "g438_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 731,
-   "cy": 17
-  },
-  {
-   "arquivo": "g449_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 1057,
-   "cy": 33
-  },
-  {
-   "arquivo": "g712_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 334,
-   "cy": 31
-  },
-  {
-   "arquivo": "g010_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 124,
-   "cy": 285
-  },
-  {
-   "arquivo": "g552_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 685,
-   "cy": 346
-  },
-  {
-   "arquivo": "g053_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1020,
-   "cy": 305
-  },
-  {
-   "arquivo": "g995_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1778,
-   "cy": 14
-  },
-  {
-   "arquivo": "g227_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 113,
-   "cy": 273
-  },
-  {
-   "arquivo": "g767_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1560,
-   "cy": 148
-  },
-  {
-   "arquivo": "g1013_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 271,
-   "cy": 73
-  },
-  {
-   "arquivo": "g152_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 56,
-   "cy": 71
-  },
-  {
-   "arquivo": "g913_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1550,
-   "cy": 75
-  },
-  {
-   "arquivo": "g311_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1412,
-   "cy": 317
-  },
-  {
-   "arquivo": "g566_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 784,
-   "cy": 367
-  },
-  {
-   "arquivo": "g414_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1798,
+   "arquivo": "r932_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 1187,
    "cy": 65
   },
   {
-   "arquivo": "g630_paolo d'ange.png",
+   "arquivo": "r933_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 1187,
+   "cy": 99
+  },
+  {
+   "arquivo": "r936_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 122,
+   "cy": 114
+  },
+  {
+   "arquivo": "r937_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 195,
+   "cy": 37
+  },
+  {
+   "arquivo": "r938_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 195,
+   "cy": 56
+  },
+  {
+   "arquivo": "r943_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 474,
+   "cy": 75
+  },
+  {
+   "arquivo": "r951_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 948,
+   "cy": 37
+  },
+  {
+   "arquivo": "r952_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 1006,
+   "cy": 56
+  },
+  {
+   "arquivo": "r953_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 1084,
+   "cy": 37
+  },
+  {
+   "arquivo": "r954_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 1084,
+   "cy": 56
+  },
+  {
+   "arquivo": "r959_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N14_robert lunn.png",
+   "cx": 280,
+   "cy": 326
+  },
+  {
+   "arquivo": "r984_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 84,
+   "cy": 350
+  },
+  {
+   "arquivo": "r986_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 331,
+   "cy": 380
+  },
+  {
+   "arquivo": "r987_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 616,
+   "cy": 380
+  },
+  {
+   "arquivo": "r990_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 789,
+   "cy": 291
+  },
+  {
+   "arquivo": "r992_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 978,
+   "cy": 291
+  },
+  {
+   "arquivo": "r993_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 978,
+   "cy": 321
+  },
+  {
+   "arquivo": "r994_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1062,
+   "cy": 291
+  },
+  {
+   "arquivo": "r1002_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1333,
+   "cy": 350
+  },
+  {
+   "arquivo": "r1003_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1495,
+   "cy": 291
+  },
+  {
+   "arquivo": "r1007_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1680,
+   "cy": 291
+  },
+  {
+   "arquivo": "r1011_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1761,
+   "cy": 291
+  },
+  {
+   "arquivo": "r1013_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1761,
+   "cy": 350
+  },
+  {
+   "arquivo": "r1015_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1842,
+   "cy": 291
+  },
+  {
+   "arquivo": "r1017_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1842,
+   "cy": 350
+  },
+  {
+   "arquivo": "r1040_paolo d'ange.png",
    "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1802,
-   "cy": 408
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 667,
+   "cy": 109
   },
   {
-   "arquivo": "g991_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1591,
-   "cy": 58
+   "arquivo": "r1067_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1389,
+   "cy": 18
   },
   {
-   "arquivo": "g645_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 449,
-   "cy": 98
-  },
-  {
-   "arquivo": "g316_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1470,
-   "cy": 336
-  },
-  {
-   "arquivo": "g1063_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 1541,
-   "cy": 59
-  },
-  {
-   "arquivo": "g957_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 804,
-   "cy": 58
-  },
-  {
-   "arquivo": "g141_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1317,
+   "arquivo": "r1070_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1459,
    "cy": 72
   },
   {
-   "arquivo": "g729_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 718,
-   "cy": 148
-  },
-  {
-   "arquivo": "g906_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1324,
-   "cy": 45
-  },
-  {
-   "arquivo": "g939_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 439,
-   "cy": 43
-  },
-  {
-   "arquivo": "g440_paolo d'ange.png",
+   "arquivo": "r1074_paolo d'ange.png",
    "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 769,
-   "cy": 63
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1589,
+   "cy": 72
   },
   {
-   "arquivo": "g364_tv on guitar.png",
+   "arquivo": "r1075_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1612,
+   "cy": 54
+  },
+  {
+   "arquivo": "r1080_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1747,
+   "cy": 72
+  },
+  {
+   "arquivo": "r1081_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1840,
+   "cy": 54
+  },
+  {
+   "arquivo": "r1097_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 255,
+   "cy": 91
+  },
+  {
+   "arquivo": "r1100_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 392,
+   "cy": 91
+  },
+  {
+   "arquivo": "r1105_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 478,
+   "cy": 91
+  },
+  {
+   "arquivo": "r1159_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1185,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1164_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1212,
+   "cy": 36
+  },
+  {
+   "arquivo": "r1166_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1212,
+   "cy": 73
+  },
+  {
+   "arquivo": "r1172_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1364,
+   "cy": 36
+  },
+  {
+   "arquivo": "r1178_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1438,
+   "cy": 86
+  },
+  {
+   "arquivo": "r1247_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1445,
+   "cy": 37
+  },
+  {
+   "arquivo": "r552_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "cx": 1334,
+   "cy": 309
+  },
+  {
+   "arquivo": "r771_tv on guitar.png",
    "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 855,
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1231,
+   "cy": 72
+  },
+  {
+   "arquivo": "r524_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1484,
+   "cy": 338
+  },
+  {
+   "arquivo": "r540_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "cx": 235,
+   "cy": 349
+  },
+  {
+   "arquivo": "r512_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1310,
+   "cy": 323
+  },
+  {
+   "arquivo": "r1237_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1134,
+   "cy": 110
+  },
+  {
+   "arquivo": "r522_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1442,
+   "cy": 350
+  },
+  {
+   "arquivo": "r1207_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 321,
+   "cy": 55
+  },
+  {
+   "arquivo": "r512_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 244,
+   "cy": 338
+  },
+  {
+   "arquivo": "r514_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 283,
+   "cy": 338
+  },
+  {
+   "arquivo": "r515_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 282,
+   "cy": 350
+  },
+  {
+   "arquivo": "r522_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 439,
+   "cy": 308
+  },
+  {
+   "arquivo": "r524_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 515,
+   "cy": 308
+  },
+  {
+   "arquivo": "r525_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 543,
+   "cy": 308
+  },
+  {
+   "arquivo": "r526_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 554,
+   "cy": 308
+  },
+  {
+   "arquivo": "r530_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 739,
+   "cy": 308
+  },
+  {
+   "arquivo": "r531_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 777,
+   "cy": 323
+  },
+  {
+   "arquivo": "r535_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 896,
+   "cy": 323
+  },
+  {
+   "arquivo": "r538_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 928,
+   "cy": 335
+  },
+  {
+   "arquivo": "r539_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 968,
+   "cy": 338
+  },
+  {
+   "arquivo": "r540_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1000,
+   "cy": 323
+  },
+  {
+   "arquivo": "r543_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1044,
+   "cy": 323
+  },
+  {
+   "arquivo": "r550_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1155,
+   "cy": 338
+  },
+  {
+   "arquivo": "r552_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1160,
+   "cy": 350
+  },
+  {
+   "arquivo": "r566_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1558,
+   "cy": 323
+  },
+  {
+   "arquivo": "r581_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 284,
+   "cy": 353
+  },
+  {
+   "arquivo": "r583_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 442,
+   "cy": 342
+  },
+  {
+   "arquivo": "r584_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 440,
+   "cy": 352
+  },
+  {
+   "arquivo": "r588_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 588,
+   "cy": 353
+  },
+  {
+   "arquivo": "r596_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 755,
+   "cy": 338
+  },
+  {
+   "arquivo": "r598_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 804,
+   "cy": 323
+  },
+  {
+   "arquivo": "r599_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 803,
+   "cy": 335
+  },
+  {
+   "arquivo": "r600_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 870,
+   "cy": 323
+  },
+  {
+   "arquivo": "r603_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 920,
+   "cy": 308
+  },
+  {
+   "arquivo": "r614_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 1167,
+   "cy": 323
+  },
+  {
+   "arquivo": "r616_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 1203,
+   "cy": 323
+  },
+  {
+   "arquivo": "r632_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 77,
+   "cy": 308
+  },
+  {
+   "arquivo": "r633_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 120,
+   "cy": 338
+  },
+  {
+   "arquivo": "r634_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 118,
+   "cy": 350
+  },
+  {
+   "arquivo": "r652_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 639,
+   "cy": 362
+  },
+  {
+   "arquivo": "r655_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 742,
+   "cy": 350
+  },
+  {
+   "arquivo": "r657_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 780,
+   "cy": 350
+  },
+  {
+   "arquivo": "r658_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 821,
+   "cy": 323
+  },
+  {
+   "arquivo": "r661_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 902,
+   "cy": 308
+  },
+  {
+   "arquivo": "r662_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 913,
+   "cy": 308
+  },
+  {
+   "arquivo": "r669_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1081,
+   "cy": 308
+  },
+  {
+   "arquivo": "r671_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1115,
+   "cy": 367
+  },
+  {
+   "arquivo": "r673_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1158,
+   "cy": 320
+  },
+  {
+   "arquivo": "r714_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "cx": 1189,
+   "cy": 309
+  },
+  {
+   "arquivo": "r717_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "cx": 1261,
+   "cy": 310
+  },
+  {
+   "arquivo": "r771_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 923,
    "cy": 89
   },
   {
-   "arquivo": "g041_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 748,
-   "cy": 367
-  },
-  {
-   "arquivo": "g518_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 292,
-   "cy": 327
-  },
-  {
-   "arquivo": "g117_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 744,
-   "cy": 97
-  },
-  {
-   "arquivo": "g255_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 412,
-   "cy": 295
-  },
-  {
-   "arquivo": "g410_tv on guitar.png",
+   "arquivo": "r877_tv on guitar.png",
    "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1737,
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1833,
+   "cy": 114
+  },
+  {
+   "arquivo": "r896_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 386,
+   "cy": 18
+  },
+  {
+   "arquivo": "r905_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 521,
+   "cy": 108
+  },
+  {
+   "arquivo": "r917_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 656,
+   "cy": 108
+  },
+  {
+   "arquivo": "r925_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 962,
+   "cy": 108
+  },
+  {
+   "arquivo": "r933_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1154,
+   "cy": 108
+  },
+  {
+   "arquivo": "r996_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 735,
+   "cy": 134
+  },
+  {
+   "arquivo": "r1004_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 877,
+   "cy": 89
+  },
+  {
+   "arquivo": "r1007_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 1019,
+   "cy": 134
+  },
+  {
+   "arquivo": "r1010_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 1207,
    "cy": 45
   },
   {
-   "arquivo": "g631_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1841,
-   "cy": 367
+   "arquivo": "r1011_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 1207,
+   "cy": 111
   },
   {
-   "arquivo": "g754_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1447,
-   "cy": 148
+   "arquivo": "r1015_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 1312,
+   "cy": 45
+  },
+  {
+   "arquivo": "r1016_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 1312,
+   "cy": 111
+  },
+  {
+   "arquivo": "r1033_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N11_robert lunn.png",
+   "cx": 448,
+   "cy": 654
+  },
+  {
+   "arquivo": "r1060_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 76,
+   "cy": 46
+  },
+  {
+   "arquivo": "r1061_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 91,
+   "cy": 47
+  },
+  {
+   "arquivo": "r1062_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 76,
+   "cy": 64
+  },
+  {
+   "arquivo": "r1088_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 874,
+   "cy": 99
+  },
+  {
+   "arquivo": "r1097_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 1187,
+   "cy": 29
+  },
+  {
+   "arquivo": "r1099_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 1187,
+   "cy": 65
+  },
+  {
+   "arquivo": "r1100_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 1187,
+   "cy": 99
+  },
+  {
+   "arquivo": "r1103_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 122,
+   "cy": 114
+  },
+  {
+   "arquivo": "r1104_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 195,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1105_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 195,
+   "cy": 56
+  },
+  {
+   "arquivo": "r1110_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 474,
+   "cy": 75
+  },
+  {
+   "arquivo": "r1118_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 948,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1119_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 1006,
+   "cy": 56
+  },
+  {
+   "arquivo": "r1120_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 1084,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1121_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 1084,
+   "cy": 56
+  },
+  {
+   "arquivo": "r1126_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N14_robert lunn.png",
+   "cx": 280,
+   "cy": 326
+  },
+  {
+   "arquivo": "r1151_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 84,
+   "cy": 350
+  },
+  {
+   "arquivo": "r1153_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 331,
+   "cy": 380
+  },
+  {
+   "arquivo": "r1154_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 616,
+   "cy": 380
+  },
+  {
+   "arquivo": "r1157_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 789,
+   "cy": 291
+  },
+  {
+   "arquivo": "r1159_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 978,
+   "cy": 291
+  },
+  {
+   "arquivo": "r1160_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 978,
+   "cy": 321
+  },
+  {
+   "arquivo": "r1161_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1062,
+   "cy": 291
+  },
+  {
+   "arquivo": "r1169_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1333,
+   "cy": 350
+  },
+  {
+   "arquivo": "r1170_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1495,
+   "cy": 291
+  },
+  {
+   "arquivo": "r1174_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1680,
+   "cy": 291
+  },
+  {
+   "arquivo": "r1178_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1761,
+   "cy": 291
+  },
+  {
+   "arquivo": "r1180_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1761,
+   "cy": 350
+  },
+  {
+   "arquivo": "r1182_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1842,
+   "cy": 291
+  },
+  {
+   "arquivo": "r1184_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1842,
+   "cy": 350
+  },
+  {
+   "arquivo": "r1207_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 667,
+   "cy": 109
+  },
+  {
+   "arquivo": "r1234_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1389,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1237_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1459,
+   "cy": 72
+  },
+  {
+   "arquivo": "r1241_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1589,
+   "cy": 72
+  },
+  {
+   "arquivo": "r1242_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1612,
+   "cy": 54
+  },
+  {
+   "arquivo": "r1247_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1747,
+   "cy": 72
+  },
+  {
+   "arquivo": "r1248_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1840,
+   "cy": 54
+  },
+  {
+   "arquivo": "r1264_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 255,
+   "cy": 91
+  },
+  {
+   "arquivo": "r1267_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 392,
+   "cy": 91
+  },
+  {
+   "arquivo": "r1272_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 478,
+   "cy": 91
+  },
+  {
+   "arquivo": "r1326_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1185,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1331_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1212,
+   "cy": 36
+  },
+  {
+   "arquivo": "r1333_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1212,
+   "cy": 73
+  },
+  {
+   "arquivo": "r1339_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1364,
+   "cy": 36
+  },
+  {
+   "arquivo": "r1345_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1438,
+   "cy": 86
+  },
+  {
+   "arquivo": "r1353_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1663,
+   "cy": 91
+  },
+  {
+   "arquivo": "r1355_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1712,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1359_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1832,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1367_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 94,
+   "cy": 92
+  },
+  {
+   "arquivo": "r1378_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 431,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1387_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 643,
+   "cy": 110
+  },
+  {
+   "arquivo": "r1410_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1286,
+   "cy": 19
+  },
+  {
+   "arquivo": "r1411_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1326,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1412_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1384,
+   "cy": 92
+  },
+  {
+   "arquivo": "r1414_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1445,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1420_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1588,
+   "cy": 73
+  },
+  {
+   "arquivo": "r1423_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1674,
+   "cy": 73
+  },
+  {
+   "arquivo": "r1424_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1699,
+   "cy": 55
+  },
+  {
+   "arquivo": "r1427_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1784,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1429_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1868,
+   "cy": 91
+  },
+  {
+   "arquivo": "r948_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1443,
+   "cy": 36
+  },
+  {
+   "arquivo": "r560_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1330,
+   "cy": 365
+  },
+  {
+   "arquivo": "r1112_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 589,
+   "cy": 37
   },
   {
    "arquivo": "g434_paolo d'ange.png",
@@ -3195,25 +6057,375 @@
    "cy": 48
   },
   {
-   "arquivo": "g187_serge kottel.png",
+   "arquivo": "r1029_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 333,
+   "cy": 55
+  },
+  {
+   "arquivo": "r1450_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 757,
+   "cy": 150
+  },
+  {
+   "arquivo": "r799_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1788,
+   "cy": 72
+  },
+  {
+   "arquivo": "r1041_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N11_robert lunn.png",
+   "cx": 506,
+   "cy": 49
+  },
+  {
+   "arquivo": "r1041_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 694,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1382_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 500,
+   "cy": 110
+  },
+  {
+   "arquivo": "r716_serge kottel.png",
    "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 521,
-   "cy": 15
+   "imagem": "N04_serge kottelat.png",
+   "cx": 1250,
+   "cy": 309
   },
   {
-   "arquivo": "g972_tv on guitar.png",
+   "arquivo": "r682_tv on guitar.png",
    "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1128,
-   "cy": 73
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1108,
+   "cy": 72
   },
   {
-   "arquivo": "g344_tv on guitar.png",
+   "arquivo": "r392_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1280,
+   "cy": 365
+  },
+  {
+   "arquivo": "r1212_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 818,
+   "cy": 60
+  },
+  {
+   "arquivo": "r1175_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1680,
+   "cy": 321
+  },
+  {
+   "arquivo": "r846_tv on guitar.png",
    "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 488,
-   "cy": 45
+   "imagem": "N09_tv on guitar.png",
+   "cx": 1242,
+   "cy": 44
+  },
+  {
+   "arquivo": "r770_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 923,
+   "cy": 71
+  },
+  {
+   "arquivo": "r510_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1223,
+   "cy": 320
+  },
+  {
+   "arquivo": "r1481_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1383,
+   "cy": 139
+  },
+  {
+   "arquivo": "r1192_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 221,
+   "cy": 54
+  },
+  {
+   "arquivo": "r520_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1434,
+   "cy": 338
+  },
+  {
+   "arquivo": "r1282_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 736,
+   "cy": 139
+  },
+  {
+   "arquivo": "r735_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 273,
+   "cy": 17
+  },
+  {
+   "arquivo": "r757_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 892,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1116_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 835,
+   "cy": 75
+  },
+  {
+   "arquivo": "r1216_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 520,
+   "cy": 37
+  },
+  {
+   "arquivo": "r730_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "cx": 1816,
+   "cy": 309
+  },
+  {
+   "arquivo": "r916_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 798,
+   "cy": 47
+  },
+  {
+   "arquivo": "r1493_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1686,
+   "cy": 110
+  },
+  {
+   "arquivo": "r508_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 161,
+   "cy": 338
+  },
+  {
+   "arquivo": "r872_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1754,
+   "cy": 36
+  },
+  {
+   "arquivo": "r1177_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1681,
+   "cy": 380
+  },
+  {
+   "arquivo": "r545_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1079,
+   "cy": 323
+  },
+  {
+   "arquivo": "r1460_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1039,
+   "cy": 139
+  },
+  {
+   "arquivo": "r494_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 867,
+   "cy": 308
+  },
+  {
+   "arquivo": "r913_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 625,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1500_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1837,
+   "cy": 110
+  },
+  {
+   "arquivo": "r637_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 196,
+   "cy": 353
+  },
+  {
+   "arquivo": "r714_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 46,
+   "cy": 35
+  },
+  {
+   "arquivo": "r651_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 640,
+   "cy": 353
+  },
+  {
+   "arquivo": "r1055_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N11_robert lunn.png",
+   "cx": 824,
+   "cy": 67
+  },
+  {
+   "arquivo": "r1285_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 887,
+   "cy": 69
+  },
+  {
+   "arquivo": "r1474_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1230,
+   "cy": 139
+  },
+  {
+   "arquivo": "r940_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 269,
+   "cy": 56
+  },
+  {
+   "arquivo": "r1049_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 910,
+   "cy": 72
+  },
+  {
+   "arquivo": "r697_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1594,
+   "cy": 338
+  },
+  {
+   "arquivo": "r1356_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1711,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1441_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 435,
+   "cy": 32
+  },
+  {
+   "arquivo": "r1198_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 382,
+   "cy": 17
+  },
+  {
+   "arquivo": "r927_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1058,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1286_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 689,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1258_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 168,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1032_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 1885,
+   "cy": 66
+  },
+  {
+   "arquivo": "r893_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 254,
+   "cy": 54
+  },
+  {
+   "arquivo": "r787_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 1439,
+   "cy": 35
+  },
+  {
+   "arquivo": "r635_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 156,
+   "cy": 338
+  },
+  {
+   "arquivo": "r778_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 1235,
+   "cy": 17
   },
   {
    "arquivo": "g857_serge kottel.png",
@@ -3223,144 +6435,270 @@
    "cy": 29
   },
   {
-   "arquivo": "g674_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1287,
-   "cy": 98
-  },
-  {
-   "arquivo": "g118_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 744,
-   "cy": 128
-  },
-  {
-   "arquivo": "g381_tv on guitar.png",
+   "arquivo": "r894_tv on guitar.png",
    "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1331,
-   "cy": 16
-  },
-  {
-   "arquivo": "g835_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 996,
-   "cy": 29
-  },
-  {
-   "arquivo": "g386_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1440,
-   "cy": 31
-  },
-  {
-   "arquivo": "g989_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 1544,
-   "cy": 87
-  },
-  {
-   "arquivo": "g223_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1701,
-   "cy": 59
-  },
-  {
-   "arquivo": "g101_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 504,
+   "imagem": "N07_tv on guitar.png",
+   "cx": 238,
    "cy": 72
   },
   {
-   "arquivo": "g770_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1865,
-   "cy": 50
-  },
-  {
-   "arquivo": "g188_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 521,
-   "cy": 74
-  },
-  {
-   "arquivo": "g876_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 419,
-   "cy": 45
-  },
-  {
-   "arquivo": "g838_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T13_serge kottelat.png",
-   "cx": 1051,
-   "cy": 25
-  },
-  {
-   "arquivo": "g378_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1234,
-   "cy": 16
-  },
-  {
-   "arquivo": "g592_paolo d'ange.png",
+   "arquivo": "r1426_paolo d'ange.png",
    "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1368,
-   "cy": 346
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1748,
+   "cy": 37
   },
   {
-   "arquivo": "g201_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 942,
+   "arquivo": "r1351_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1611,
+   "cy": 37
+  },
+  {
+   "arquivo": "r988_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 478,
    "cy": 89
   },
   {
-   "arquivo": "g875_serge kottel.png",
+   "arquivo": "r1249_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1876,
+   "cy": 36
+  },
+  {
+   "arquivo": "r868_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1579,
+   "cy": 108
+  },
+  {
+   "arquivo": "r1042_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 719,
+   "cy": 36
+  },
+  {
+   "arquivo": "r1392_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 788,
+   "cy": 37
+  },
+  {
+   "arquivo": "r594_serge kottel.png",
    "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 383,
-   "cy": 60
+   "imagem": "N02_serge kottelat.png",
+   "cx": 715,
+   "cy": 338
   },
   {
-   "arquivo": "g056_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1130,
-   "cy": 347
+   "arquivo": "r985_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 373,
+   "cy": 45
   },
   {
-   "arquivo": "g104_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 504,
-   "cy": 146
+   "arquivo": "r563_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1448,
+   "cy": 308
   },
   {
-   "arquivo": "g744_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1127,
-   "cy": 74
+   "arquivo": "r1337_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1263,
+   "cy": 31
   },
   {
-   "arquivo": "g659_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 996,
-   "cy": 129
+   "arquivo": "r1186_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 9,
+   "cy": 15
+  },
+  {
+   "arquivo": "r1269_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 140,
+   "cy": 111
+  },
+  {
+   "arquivo": "r610_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 1065,
+   "cy": 17
+  },
+  {
+   "arquivo": "r1495_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1686,
+   "cy": 139
+  },
+  {
+   "arquivo": "r926_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1011,
+   "cy": 18
+  },
+  {
+   "arquivo": "r981_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 199,
+   "cy": 89
+  },
+  {
+   "arquivo": "r1003_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 877,
+   "cy": 45
+  },
+  {
+   "arquivo": "r1357_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1736,
+   "cy": 91
+  },
+  {
+   "arquivo": "r1265_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 282,
+   "cy": 18
+  },
+  {
+   "arquivo": "g800_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "T13_serge kottelat.png",
+   "cx": 109,
+   "cy": 15
+  },
+  {
+   "arquivo": "g383_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "15_tv on guitar.png",
+   "cx": 1393,
+   "cy": 16
+  },
+  {
+   "arquivo": "r831_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 625,
+   "cy": 72
+  },
+  {
+   "arquivo": "r1303_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 890,
+   "cy": 36
+  },
+  {
+   "arquivo": "r658_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 418,
+   "cy": 90
+  },
+  {
+   "arquivo": "r446_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 1078,
+   "cy": 320
+  },
+  {
+   "arquivo": "r916_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 625,
+   "cy": 72
+  },
+  {
+   "arquivo": "r1238_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1482,
+   "cy": 18
+  },
+  {
+   "arquivo": "r861_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1416,
+   "cy": 90
+  },
+  {
+   "arquivo": "r1086_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 874,
+   "cy": 29
+  },
+  {
+   "arquivo": "r995_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 735,
+   "cy": 67
+  },
+  {
+   "arquivo": "g630_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "T04_paolo d'angelo.png",
+   "cx": 1802,
+   "cy": 408
+  },
+  {
+   "arquivo": "r1278_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 555,
+   "cy": 91
+  },
+  {
+   "arquivo": "r1019_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 1383,
+   "cy": 44
+  },
+  {
+   "arquivo": "r606_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 952,
+   "cy": 320
+  },
+  {
+   "arquivo": "g245_shin izumi.png",
+   "canal": "shin izumi",
+   "imagem": "11_shin izumi.png",
+   "cx": 299,
+   "cy": 295
+  },
+  {
+   "arquivo": "r1349_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1587,
+   "cy": 55
   },
   {
    "arquivo": "g488_paolo d'ange.png",
@@ -3370,242 +6708,1425 @@
    "cy": 33
   },
   {
-   "arquivo": "g036_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 635,
-   "cy": 326
-  },
-  {
-   "arquivo": "g301_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 1135,
-   "cy": 315
-  },
-  {
-   "arquivo": "g897_serge kottel.png",
+   "arquivo": "r724_serge kottel.png",
    "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 1020,
+   "imagem": "N04_serge kottelat.png",
+   "cx": 1493,
+   "cy": 309
+  },
+  {
+   "arquivo": "r867_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1579,
    "cy": 90
   },
   {
-   "arquivo": "g735_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 930,
-   "cy": 50
+   "arquivo": "r1301_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1129,
+   "cy": 150
   },
   {
-   "arquivo": "g1037_tv on guitar.png",
+   "arquivo": "r786_tv on guitar.png",
    "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 870,
-   "cy": 59
-  },
-  {
-   "arquivo": "g952_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 709,
-   "cy": 14
-  },
-  {
-   "arquivo": "g555_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 704,
-   "cy": 347
-  },
-  {
-   "arquivo": "g799_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 1130,
-   "cy": 95
-  },
-  {
-   "arquivo": "g506_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 173,
-   "cy": 367
-  },
-  {
-   "arquivo": "g1006_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 136,
-   "cy": 38
-  },
-  {
-   "arquivo": "g065_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1380,
-   "cy": 326
-  },
-  {
-   "arquivo": "g782_robert lunn.png",
-   "canal": "robert lunn",
-   "imagem": "T12_robert lunn.png",
-   "cx": 265,
-   "cy": 19
-  },
-  {
-   "arquivo": "g037_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 665,
-   "cy": 305
-  },
-  {
-   "arquivo": "g603_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 1463,
-   "cy": 347
-  },
-  {
-   "arquivo": "g404_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 1679,
-   "cy": 65
-  },
-  {
-   "arquivo": "g254_shin izumi.png",
-   "canal": "shin izumi",
-   "imagem": "11_shin izumi.png",
-   "cx": 375,
-   "cy": 294
-  },
-  {
-   "arquivo": "g164_pablo romé.png",
-   "canal": "pablo romé",
-   "imagem": "07_pablo romé.png",
-   "cx": 581,
-   "cy": 67
-  },
-  {
-   "arquivo": "g887_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "T14_serge kottelat.png",
-   "cx": 683,
-   "cy": 15
-  },
-  {
-   "arquivo": "g693_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T09_mr. tabs.png",
-   "cx": 1879,
-   "cy": 49
-  },
-  {
-   "arquivo": "g1030_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T20_tv on guitar.png",
-   "cx": 677,
-   "cy": 88
-  },
-  {
-   "arquivo": "g774_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "T10_mr. tabs.png",
-   "cx": 1865,
-   "cy": 148
-  },
-  {
-   "arquivo": "g497_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 86,
-   "cy": 347
-  },
-  {
-   "arquivo": "g140_mr. tabs.png",
-   "canal": "mr. tabs",
-   "imagem": "06_mr. tabs.png",
-   "cx": 1221,
-   "cy": 146
-  },
-  {
-   "arquivo": "g214_serge kottel.png",
-   "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1380,
-   "cy": 59
-  },
-  {
-   "arquivo": "g519_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 293,
-   "cy": 346
-  },
-  {
-   "arquivo": "g445_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T03_paolo d'angelo.png",
-   "cx": 980,
+   "imagem": "N05_tv on guitar.png",
+   "cx": 1439,
    "cy": 17
   },
   {
-   "arquivo": "g922_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "T19_tv on guitar.png",
-   "cx": 5,
-   "cy": 87
+   "arquivo": "r1122_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 1084,
+   "cy": 114
   },
   {
-   "arquivo": "g069_kimny's guit.png",
-   "canal": "kimny's guitar",
-   "imagem": "04_kimny's guitar.png",
-   "cx": 1529,
+   "arquivo": "r1098_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 1187,
+   "cy": 47
+  },
+  {
+   "arquivo": "r955_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 1084,
+   "cy": 114
+  },
+  {
+   "arquivo": "r601_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 881,
+   "cy": 323
+  },
+  {
+   "arquivo": "r1131_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N14_robert lunn.png",
+   "cx": 453,
+   "cy": 342
+  },
+  {
+   "arquivo": "r1478_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1403,
+   "cy": 71
+  },
+  {
+   "arquivo": "r848_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1108,
+   "cy": 72
+  },
+  {
+   "arquivo": "r519_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 366,
+   "cy": 323
+  },
+  {
+   "arquivo": "r1204_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 562,
+   "cy": 17
+  },
+  {
+   "arquivo": "r1479_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1382,
+   "cy": 110
+  },
+  {
+   "arquivo": "r849_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1137,
+   "cy": 72
+  },
+  {
+   "arquivo": "r1166_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1145,
+   "cy": 350
+  },
+  {
+   "arquivo": "r1026_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 1629,
+   "cy": 88
+  },
+  {
+   "arquivo": "r1075_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 534,
+   "cy": 12
+  },
+  {
+   "arquivo": "r750_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 460,
+   "cy": 71
+  },
+  {
+   "arquivo": "r561_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1404,
+   "cy": 323
+  },
+  {
+   "arquivo": "r982_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N14_robert lunn.png",
+   "cx": 1102,
    "cy": 326
   },
   {
-   "arquivo": "g505_paolo d'ange.png",
-   "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 154,
-   "cy": 367
-  },
-  {
-   "arquivo": "g363_tv on guitar.png",
-   "canal": "tv on guitar",
-   "imagem": "15_tv on guitar.png",
-   "cx": 855,
-   "cy": 16
-  },
-  {
-   "arquivo": "g180_serge kottel.png",
+   "arquivo": "r624_serge kottel.png",
    "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 241,
-   "cy": 15
+   "imagem": "N02_serge kottelat.png",
+   "cx": 1447,
+   "cy": 338
   },
   {
-   "arquivo": "g553_paolo d'ange.png",
+   "arquivo": "r753_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 551,
+   "cy": 35
+  },
+  {
+   "arquivo": "r755_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 551,
+   "cy": 71
+  },
+  {
+   "arquivo": "r1256_paolo d'ange.png",
    "canal": "paolo d'angelo",
-   "imagem": "T04_paolo d'angelo.png",
-   "cx": 685,
-   "cy": 367
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1674,
+   "cy": 73
   },
   {
-   "arquivo": "g764_mr. tabs.png",
+   "arquivo": "r1327_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1185,
+   "cy": 36
+  },
+  {
+   "arquivo": "r640_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 298,
+   "cy": 338
+  },
+  {
+   "arquivo": "r817_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 278,
+   "cy": 36
+  },
+  {
+   "arquivo": "r856_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1400,
+   "cy": 55
+  },
+  {
+   "arquivo": "r838_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 877,
+   "cy": 89
+  },
+  {
+   "arquivo": "r548_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1127,
+   "cy": 338
+  },
+  {
+   "arquivo": "r1447_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 736,
+   "cy": 110
+  },
+  {
+   "arquivo": "r1049_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N11_robert lunn.png",
+   "cx": 743,
+   "cy": 19
+  },
+  {
+   "arquivo": "r937_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1231,
+   "cy": 72
+  },
+  {
+   "arquivo": "r1179_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1476,
+   "cy": 91
+  },
+  {
+   "arquivo": "r1399_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 975,
+   "cy": 18
+  },
+  {
+   "arquivo": "r927_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 1112,
+   "cy": 29
+  },
+  {
+   "arquivo": "r1266_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 325,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1498_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1837,
+   "cy": 69
+  },
+  {
+   "arquivo": "r1106_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 269,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1123_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N14_robert lunn.png",
+   "cx": 201,
+   "cy": 326
+  },
+  {
+   "arquivo": "r1125_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N14_robert lunn.png",
+   "cx": 240,
+   "cy": 326
+  },
+  {
+   "arquivo": "r1111_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 532,
+   "cy": 56
+  },
+  {
+   "arquivo": "r578_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 395,
+   "cy": 53
+  },
+  {
+   "arquivo": "r1319_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1049,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1129_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N14_robert lunn.png",
+   "cx": 359,
+   "cy": 326
+  },
+  {
+   "arquivo": "r1083_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1896,
+   "cy": 17
+  },
+  {
+   "arquivo": "r663_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 948,
+   "cy": 342
+  },
+  {
+   "arquivo": "r555_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "cx": 1402,
+   "cy": 310
+  },
+  {
+   "arquivo": "r703_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1683,
+   "cy": 338
+  },
+  {
+   "arquivo": "r1226_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1171,
+   "cy": 18
+  },
+  {
+   "arquivo": "r589_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 599,
+   "cy": 353
+  },
+  {
+   "arquivo": "r903_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 279,
+   "cy": 12
+  },
+  {
+   "arquivo": "r909_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 534,
+   "cy": 82
+  },
+  {
+   "arquivo": "r760_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1011,
+   "cy": 18
+  },
+  {
+   "arquivo": "r507_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1158,
+   "cy": 320
+  },
+  {
+   "arquivo": "r1451_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 887,
+   "cy": 31
+  },
+  {
+   "arquivo": "g769_mr. tabs.png",
    "canal": "mr. tabs",
    "imagem": "T10_mr. tabs.png",
-   "cx": 1637,
-   "cy": 100
+   "cx": 1767,
+   "cy": 74
   },
   {
-   "arquivo": "g215_serge kottel.png",
+   "arquivo": "r1037_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N11_robert lunn.png",
+   "cx": 442,
+   "cy": 60
+  },
+  {
+   "arquivo": "r635_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 1722,
+   "cy": 17
+  },
+  {
+   "arquivo": "r414_serge kottel.png",
    "canal": "serge kottelat",
-   "imagem": "10_serge kottelat.png",
-   "cx": 1416,
-   "cy": 44
+   "imagem": "N02_serge kottelat.png",
+   "cx": 240,
+   "cy": 365
+  },
+  {
+   "arquivo": "r701_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1641,
+   "cy": 350
+  },
+  {
+   "arquivo": "r1066_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 220,
+   "cy": 28
+  },
+  {
+   "arquivo": "r556_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1238,
+   "cy": 350
+  },
+  {
+   "arquivo": "r795_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 1609,
+   "cy": 17
+  },
+  {
+   "arquivo": "r997_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 771,
+   "cy": 22
+  },
+  {
+   "arquivo": "r1038_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N11_robert lunn.png",
+   "cx": 454,
+   "cy": 60
+  },
+  {
+   "arquivo": "r1304_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 891,
+   "cy": 55
+  },
+  {
+   "arquivo": "r618_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 1422,
+   "cy": 53
+  },
+  {
+   "arquivo": "r502_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1070,
+   "cy": 308
+  },
+  {
+   "arquivo": "r1335_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1238,
+   "cy": 31
+  },
+  {
+   "arquivo": "r1287_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 689,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1316_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 992,
+   "cy": 55
+  },
+  {
+   "arquivo": "r1323_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1143,
+   "cy": 36
+  },
+  {
+   "arquivo": "r921_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 824,
+   "cy": 18
+  },
+  {
+   "arquivo": "r408_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 151,
+   "cy": 368
+  },
+  {
+   "arquivo": "r986_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 408,
+   "cy": 111
+  },
+  {
+   "arquivo": "r821_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 418,
+   "cy": 36
+  },
+  {
+   "arquivo": "r1313_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 964,
+   "cy": 91
+  },
+  {
+   "arquivo": "r586_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 551,
+   "cy": 352
+  },
+  {
+   "arquivo": "r1401_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1026,
+   "cy": 55
+  },
+  {
+   "arquivo": "r410_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 193,
+   "cy": 353
+  },
+  {
+   "arquivo": "r696_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1562,
+   "cy": 350
+  },
+  {
+   "arquivo": "r1434_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 140,
+   "cy": 71
+  },
+  {
+   "arquivo": "r551_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1166,
+   "cy": 338
+  },
+  {
+   "arquivo": "r1465_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1108,
+   "cy": 110
+  },
+  {
+   "arquivo": "r782_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1443,
+   "cy": 36
+  },
+  {
+   "arquivo": "r890_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 238,
+   "cy": 35
+  },
+  {
+   "arquivo": "r1313_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1403,
+   "cy": 111
+  },
+  {
+   "arquivo": "r813_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 249,
+   "cy": 54
+  },
+  {
+   "arquivo": "r1405_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1159,
+   "cy": 55
+  },
+  {
+   "arquivo": "r1044_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N11_robert lunn.png",
+   "cx": 574,
+   "cy": 14
+  },
+  {
+   "arquivo": "r604_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 921,
+   "cy": 320
+  },
+  {
+   "arquivo": "r1020_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 1382,
+   "cy": 66
+  },
+  {
+   "arquivo": "r734_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 218,
+   "cy": 17
+  },
+  {
+   "arquivo": "r1443_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 606,
+   "cy": 32
+  },
+  {
+   "arquivo": "r1462_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1117,
+   "cy": 31
+  },
+  {
+   "arquivo": "r1371_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 234,
+   "cy": 37
+  },
+  {
+   "arquivo": "r960_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1655,
+   "cy": 90
+  },
+  {
+   "arquivo": "r675_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1229,
+   "cy": 308
+  },
+  {
+   "arquivo": "r768_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 741,
+   "cy": 89
+  },
+  {
+   "arquivo": "r742_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 395,
+   "cy": 34
+  },
+  {
+   "arquivo": "r685_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1401,
+   "cy": 323
+  },
+  {
+   "arquivo": "r1404_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1134,
+   "cy": 110
+  },
+  {
+   "arquivo": "r1347_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1502,
+   "cy": 91
+  },
+  {
+   "arquivo": "r820_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 408,
+   "cy": 111
+  },
+  {
+   "arquivo": "r463_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 1611,
+   "cy": 338
+  },
+  {
+   "arquivo": "r851_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1193,
+   "cy": 36
+  },
+  {
+   "arquivo": "r1300_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 806,
+   "cy": 55
+  },
+  {
+   "arquivo": "r809_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 136,
+   "cy": 54
+  },
+  {
+   "arquivo": "r670_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1115,
+   "cy": 353
+  },
+  {
+   "arquivo": "r990_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 594,
+   "cy": 45
+  },
+  {
+   "arquivo": "r1243_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1646,
+   "cy": 36
+  },
+  {
+   "arquivo": "r1001_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 842,
+   "cy": 45
+  },
+  {
+   "arquivo": "r1039_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N11_robert lunn.png",
+   "cx": 442,
+   "cy": 67
+  },
+  {
+   "arquivo": "r350_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 322,
+   "cy": 323
+  },
+  {
+   "arquivo": "r729_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "cx": 1771,
+   "cy": 310
+  },
+  {
+   "arquivo": "r1295_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 761,
+   "cy": 36
+  },
+  {
+   "arquivo": "r678_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1310,
+   "cy": 323
+  },
+  {
+   "arquivo": "r976_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 25,
+   "cy": 67
+  },
+  {
+   "arquivo": "r694_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1554,
+   "cy": 338
+  },
+  {
+   "arquivo": "r1321_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 1049,
+   "cy": 73
+  },
+  {
+   "arquivo": "r739_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 521,
+   "cy": 108
+  },
+  {
+   "arquivo": "r1314_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 991,
+   "cy": 18
+  },
+  {
+   "arquivo": "r989_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 594,
+   "cy": 22
+  },
+  {
+   "arquivo": "r956_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N14_robert lunn.png",
+   "cx": 201,
+   "cy": 326
+  },
+  {
+   "arquivo": "r353_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 366,
+   "cy": 323
+  },
+  {
+   "arquivo": "r1092_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N12_robert lunn.png",
+   "cx": 967,
+   "cy": 82
+  },
+  {
+   "arquivo": "r684_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1359,
+   "cy": 335
+  },
+  {
+   "arquivo": "r1312_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 964,
+   "cy": 55
+  },
+  {
+   "arquivo": "r629_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 1611,
+   "cy": 338
+  },
+  {
+   "arquivo": "r965_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1788,
+   "cy": 72
+  },
+  {
+   "arquivo": "r1250_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1511,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1114_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N13_robert lunn.png",
+   "cx": 720,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1281_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 579,
+   "cy": 91
+  },
+  {
+   "arquivo": "r578_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 201,
+   "cy": 365
+  },
+  {
+   "arquivo": "r610_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 1042,
+   "cy": 308
+  },
+  {
+   "arquivo": "r1283_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 757,
+   "cy": 150
+  },
+  {
+   "arquivo": "r1091_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 168,
+   "cy": 37
+  },
+  {
+   "arquivo": "r549_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1125,
+   "cy": 350
+  },
+  {
+   "arquivo": "r572_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1822,
+   "cy": 338
+  },
+  {
+   "arquivo": "r1476_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1392,
+   "cy": 31
+  },
+  {
+   "arquivo": "r1475_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1252,
+   "cy": 150
+  },
+  {
+   "arquivo": "r477_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 332,
+   "cy": 350
+  },
+  {
+   "arquivo": "r675_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 974,
+   "cy": 72
+  },
+  {
+   "arquivo": "r479_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 443,
+   "cy": 338
+  },
+  {
+   "arquivo": "r1213_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 479,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1431_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 71,
+   "cy": 32
+  },
+  {
+   "arquivo": "r528_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 593,
+   "cy": 323
+  },
+  {
+   "arquivo": "r674_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1219,
+   "cy": 308
+  },
+  {
+   "arquivo": "r708_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "cx": 335,
+   "cy": 309
+  },
+  {
+   "arquivo": "r794_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 1552,
+   "cy": 107
+  },
+  {
+   "arquivo": "r711_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "cx": 1108,
+   "cy": 309
+  },
+  {
+   "arquivo": "r879_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 62,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1368_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 124,
+   "cy": 18
+  },
+  {
+   "arquivo": "r952_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1539,
+   "cy": 90
+  },
+  {
+   "arquivo": "r810_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 136,
+   "cy": 72
+  },
+  {
+   "arquivo": "r1467_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1108,
+   "cy": 139
+  },
+  {
+   "arquivo": "r1014_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N09_tv on guitar.png",
+   "cx": 1312,
+   "cy": 23
+  },
+  {
+   "arquivo": "r1270_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 478,
+   "cy": 36
+  },
+  {
+   "arquivo": "r1402_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1051,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1183_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1842,
+   "cy": 321
+  },
+  {
+   "arquivo": "r1369_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 164,
+   "cy": 19
+  },
+  {
+   "arquivo": "r557_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N04_serge kottelat.png",
+   "cx": 1482,
+   "cy": 309
+  },
+  {
+   "arquivo": "r1442_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 492,
+   "cy": 71
+  },
+  {
+   "arquivo": "r562_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1437,
+   "cy": 308
+  },
+  {
+   "arquivo": "r1421_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1613,
+   "cy": 73
+  },
+  {
+   "arquivo": "r1389_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 705,
+   "cy": 37
+  },
+  {
+   "arquivo": "g746_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T10_mr. tabs.png",
+   "cx": 1348,
+   "cy": 106
+  },
+  {
+   "arquivo": "r1225_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1148,
+   "cy": 91
+  },
+  {
+   "arquivo": "r642_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 334,
+   "cy": 338
+  },
+  {
+   "arquivo": "r558_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 1280,
+   "cy": 365
+  },
+  {
+   "arquivo": "r615_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 1169,
+   "cy": 335
+  },
+  {
+   "arquivo": "r534_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N01_serge kottelat.png",
+   "cx": 885,
+   "cy": 323
+  },
+  {
+   "arquivo": "r1302_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 890,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1334_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1859,
+   "cy": 111
+  },
+  {
+   "arquivo": "r1492_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1706,
+   "cy": 71
+  },
+  {
+   "arquivo": "r1439_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 352,
+   "cy": 111
+  },
+  {
+   "arquivo": "r1490_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1694,
+   "cy": 31
+  },
+  {
+   "arquivo": "g659_mr. tabs.png",
+   "canal": "mr. tabs",
+   "imagem": "T09_mr. tabs.png",
+   "cx": 996,
+   "cy": 129
+  },
+  {
+   "arquivo": "r425_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N02_serge kottelat.png",
+   "cx": 637,
+   "cy": 353
+  },
+  {
+   "arquivo": "r664_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 946,
+   "cy": 353
+  },
+  {
+   "arquivo": "r846_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1053,
+   "cy": 90
+  },
+  {
+   "arquivo": "r517_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1365,
+   "cy": 323
+  },
+  {
+   "arquivo": "r871_robert lunn.png",
+   "canal": "robert lunn",
+   "imagem": "N11_robert lunn.png",
+   "cx": 454,
+   "cy": 60
+  },
+  {
+   "arquivo": "r1256_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N21_paolo d'angelo.png",
+   "cx": 131,
+   "cy": 91
+  },
+  {
+   "arquivo": "r1503_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 1859,
+   "cy": 150
+  },
+  {
+   "arquivo": "r998_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1145,
+   "cy": 321
+  },
+  {
+   "arquivo": "r1231_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1288,
+   "cy": 36
+  },
+  {
+   "arquivo": "r951_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1443,
+   "cy": 90
+  },
+  {
+   "arquivo": "r1377_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 395,
+   "cy": 110
+  },
+  {
+   "arquivo": "r1383_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 520,
+   "cy": 37
+  },
+  {
+   "arquivo": "r1445_transcriptor.png",
+   "canal": "transcriptor",
+   "imagem": "N25_transcriptor.png",
+   "cx": 736,
+   "cy": 69
+  },
+  {
+   "arquivo": "r1419_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N22_paolo d'angelo.png",
+   "cx": 1601,
+   "cy": 60
+  },
+  {
+   "arquivo": "r690_serge kottel.png",
+   "canal": "serge kottelat",
+   "imagem": "N03_serge kottelat.png",
+   "cx": 1484,
+   "cy": 338
+  },
+  {
+   "arquivo": "r1244_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1682,
+   "cy": 18
+  },
+  {
+   "arquivo": "r1171_leonardo ram.png",
+   "canal": "leonardo ramos",
+   "imagem": "N16_leonardo ramos.png",
+   "cx": 1495,
+   "cy": 321
+  },
+  {
+   "arquivo": "r615_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N05_tv on guitar.png",
+   "cx": 1320,
+   "cy": 35
+  },
+  {
+   "arquivo": "r1229_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 1240,
+   "cy": 36
+  },
+  {
+   "arquivo": "r931_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 1153,
+   "cy": 72
+  },
+  {
+   "arquivo": "r1200_paolo d'ange.png",
+   "canal": "paolo d'angelo",
+   "imagem": "N20_paolo d'angelo.png",
+   "cx": 467,
+   "cy": 54
+  },
+  {
+   "arquivo": "r901_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N07_tv on guitar.png",
+   "cx": 521,
+   "cy": 36
+  },
+  {
+   "arquivo": "r698_tv on guitar.png",
+   "canal": "tv on guitar",
+   "imagem": "N06_tv on guitar.png",
+   "cx": 1508,
+   "cy": 72
   }
  ],
  "resumo_por_imagem": [
@@ -3719,10 +8240,12 @@
    ]
   }
  },
- "negativos_como_foi_feito": "139 negativos DIFICEIS (tokens que NAO sao algarismo, segundo o classificador de glifos) + 200 algarismos sorteados dos 937. Motivo medido: com todos os negativos, 87% eram algarismo e o detector aprendeu o ATALHO 'nao e digito = e simbolo' — o mesmo criterio errado que ele deveria substituir. Evidencia do atalho: no pipeline ele aprovava 39 de 43 candidatos (mediana 0,86), que sao justamente os NAO-digitos.",
+ "negativos_como_foi_feito": "352 dificeis + 300 algarismos de 1152; janela 2,4 x 1,6 passo",
  "marcas_do_dono": [
   "marcas_simbolos.json",
-  "marcas_simbolos_2.json"
+  "marcas_simbolos_2.json",
+  "marcas_simbolos_3.json"
  ],
- "janela": "2.4 x 1.6 passo (larga) — o arco de ligadura e mais largo que a caixa quadrada; antes era 1,6 x 1,6"
+ "janela": "2.4 x 1.6 passo (larga) — o arco de ligadura e mais largo que a caixa quadrada; antes era 1,6 x 1,6",
+ "correcoes_do_dono": "T06_tv cifras IGNORADA por instrucao dele ('filtrei errado, ja foi apagado'); a marca 'T A B nao e simbolo nenhum' entrou como NEGATIVO"
 }

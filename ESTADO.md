@@ -1131,6 +1131,44 @@ recortes dela saem das mesmas tablaturas**. O buraco é de **cobertura de vídeo
 jeito de fechá-lo é o dono marcar nos quadros onde o detector erra — que é exatamente o caso em que
 ele mandou pausar e chamá-lo.
 
+## 2026-10-09 — o dono me corrigiu: eu lia só os significados MAIS FREQUENTES das marcas
+
+Ele perguntou se eu estava lendo o JSON inteiro. **Não estava**: os meus resumos usavam
+`most_common(6)`/`most_common(8)`, e por isso eu perdi tipos que apareciam poucas vezes. Ao listar
+**todos** os ~60 significados das 241 marcas dele, apareceram coisas que eu nunca tinha citado:
+
+- **`mordente`** — e ele já tinha falado: *"quando um arco cobre três ou mais notas chama-se
+  tecnicamente mordente"* (6 marcas; **1 delas já estava no arquivo ANTERIOR**, em `T14_serge`);
+- **bend / ligadura de expressão** ("linha curva flutuante por cima do número 10");
+- **trémolo** ("3 traços inclinados por baixo");
+- **ritornello / barra de repetição dupla**;
+- **pausas**: semínima, mínima pontuada, semibreve, colcheia;
+- **slide-in** (ascendente) e **slide-out** (descendente);
+- **`(4)` = pull-off de nota que já vem ressoando**;
+- **"7 pequeno = nota quase instantânea"** (grace note);
+- e uma instrução: **"T A B não é símbolo nenhum"** → essa marca entrou como **NEGATIVO**, não
+  positivo (o rótulo `T A B` aparece em vários canais e nunca é símbolo);
+- e outra: **`T06_tv cifras` = "AULA FILTREI ERRADO, JÁ FOI APAGADO — IGNORE"** — era o vídeo que
+  ele apagou e cuja marca não entrou; a explicação estava escrita e eu não tinha lido.
+
+**Regra nova de método**: ler **todos** os significados distintos, nunca só os mais frequentes.
+Frequência não é importância — `mordente` tinha 1 marca e mudou o vocabulário.
+
+**Conjunto agora**: 356 positivos (era 123) × 652 negativos (352 difíceis + 300 algarismos),
+1008 amostras, 3 arquivos de marcas. LOCA novo:
+
+| semente | símbolos pegos | falso positivo | equilibrada |
+| --- | --- | --- | --- |
+| 1 | 342/356 (0,96) | 102/652 (16 %) | 0,902 |
+| 2 | 346/356 (0,97) | 103/652 (16 %) | 0,907 |
+| 3 | 341/356 (0,96) | 32/652 (5 %) | 0,954 |
+
+O recall segue alto, mas o **falso positivo subiu de 0,3–1 % para 5–16 %** — e isso **não é
+regressão do modelo: é o conjunto ter ficado honesto**. Antes eu media 123 positivos de 20
+tablaturas com negativos fáceis; agora são 356 positivos de 37 tablaturas de vídeos novos, com os
+abafados, setas longas, mordentes e trêmolo dele — a distribuição REAL do pipeline. O número piorou
+porque a medição melhorou.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
