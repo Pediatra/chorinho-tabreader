@@ -1891,6 +1891,32 @@ token** — ele é fino e deve estar se fundindo com a linha, ou sendo descartad
 delimitador) naquela posição — e, se existe, por qual motivo do `Grade.recusados` ele cai. Isso
 separa "o arco se funde com a linha" de "o delimitador o descarta".
 
+## 2026-10-09 — o arco se FUNDE com a linha: a medição que fecha o diagnóstico
+
+Para cada uma das 189 marcas, procurei o **componente cru** (componentes conexas na máscara da ROI,
+sem passar pelo delimitador) na posição dela:
+
+| onde a tinta da marca está | n |
+| --- | --- |
+| **componente existe, mas FORA de qualquer token** | **89 (47 %)** |
+| **nenhuma tinta no ponto** | **58 (31 %)** |
+| marca fora da ROI | 25 (13 %) |
+| componente dentro de um token | 17 (9 %) |
+
+E os exemplos de "componente fora de token" identificam a causa: um mede **1690 × 128 px** — a
+**largura inteira do painel, 6 passos de altura**; outro, 88 × 12 (largura 3,4 passos, altura 0,46).
+
+**O arco está ENCOSTADO na linha de corda e no dígito, e os três viram UM componente gigante** — que o
+delimitador recusa por tamanho (os motivos estão em `Grade.recusados`). O arco **nunca existe
+sozinho** para poder virar token. E os 31 % "sem tinta no ponto" são o arco **fino demais** para a
+binarização (limiar `média − 0,5·desvio`) — o mesmo fenômeno do "arco quase sumindo" que o dono avisou.
+
+**Onde o conserto tem de ser**: na **SEGMENTAÇÃO**, não no delimitador e não no classificador. O
+caminho clássico e medível é **remover as linhas de corda** antes de procurar componentes (abertura
+morfológica com kernel horizontal): assim o arco deixa de estar colado na linha e volta a ser um
+componente próprio — e aí ele vira token, é oferecido ao filtro, e o detector (que já acerta 0,79–0,81
+em vídeo novo) pode julgá-lo.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
