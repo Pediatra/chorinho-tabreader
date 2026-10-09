@@ -472,6 +472,23 @@ não recuperado **continua guardado como símbolo e declarado**; nota errada **c
 silêncio**. Fixado `LIMIAR_DISCRIMINADOR = 0,95` em `tab/reconhecer.py`, com a tabela no
 docstring para ninguém precisar refazer a varredura.
 
+## 2026-10-09 — coleta final com o discriminador ligado (e por que a comparação não é direta)
+
+Coleta completou sem erro: **2.213 símbolos em 4.701 tokens (47,1 %)**, 99/102 quadros com
+tablatura.
+
+**RESSALVA que impede ler isso como antes/depois**: a coleta anterior (sem discriminador)
+deu 2.188/4.573, e a diferença **não** é efeito do discriminador — a **amostra muda entre
+execuções** porque o acervo cresce e o sorteio de 3 vídeos por canal pega outros arquivos
+(o subagente de símbolos já havia medido isso: mesma semente, listas diferentes em 5+ canais).
+Comparar os dois totais seria apresentar variação de amostra como ganho — exatamente o erro
+que este projeto já pagou para aprender a não cometer.
+
+**O efeito do discriminador está medido onde a amostra é fixa**: nos 16 algarismos rotulados
+que estavam guardados como símbolo, ele recupera **14–16 de 16** (88 % no limiar 0,95) com o
+valor certo em 11–13 — e a varredura mostra que 12 % do lixo viraria nota errada no limiar
+0,5 contra **2 %** no 0,95. É esse número que sustenta a decisão, não o total da coleta.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que

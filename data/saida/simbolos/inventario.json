@@ -1,5 +1,5 @@
 {
- "gerado_em": "2026-10-09T16:31:26+00:00",
+ "gerado_em": "2026-10-09T16:55:44+00:00",
  "modelo": "/app/artefatos/oficial_2/glifo_sint.pt",
  "raiz": "/acervo",
  "fracoes": [
@@ -9,10 +9,10 @@
  "resumo": {
   "canais": 17,
   "quadros": 102,
-  "quadros_com_tablatura": 97,
-  "tokens": 4573,
-  "simbolos": 2188,
-  "fracao": 0.4785
+  "quadros_com_tablatura": 99,
+  "tokens": 4701,
+  "simbolos": 2213,
+  "fracao": 0.4708
  },
  "por_canal": {
   "cifra club": {
@@ -3067,68 +3067,54 @@
   "leonardo ramos": {
    "quadros": 6,
    "quadros_com_tablatura": 6,
-   "tokens": 209,
-   "simbolos": 91,
-   "fracao": 0.4354,
+   "tokens": 181,
+   "simbolos": 46,
+   "fracao": 0.2541,
    "simbolos_sem_hash": 0,
-   "passo_mediano": 31.6,
+   "passo_mediano": 32.7,
    "quadros_passo_plausivel": 5,
-   "simbolos_passo_plausivel": 53,
+   "simbolos_passo_plausivel": 21,
    "classes": {
-    "4": 29,
     "harmonico": 25,
-    "5": 10,
-    "1": 8,
-    "7": 5,
-    "8": 3,
-    "6": 2,
-    "9": 2,
-    "tecnica": 2,
-    "21": 2,
-    "15": 2,
-    "3": 1
+    "4": 8,
+    "tecnica": 5,
+    "5": 3,
+    "8": 1,
+    "24": 1,
+    "12": 1,
+    "7": 1,
+    "1": 1
    },
    "larguras_passo": {
-    "0.16": 1,
-    "0.24": 1,
-    "0.32": 1,
-    "0.36": 1,
-    "0.40": 2,
-    "0.41": 1,
-    "0.44": 1,
-    "0.46": 2,
-    "0.47": 1,
-    "0.48": 3,
+    "0.38": 7,
+    "0.46": 1,
     "0.49": 4,
-    "0.50": 2,
-    "0.51": 1,
-    "0.53": 1,
-    "0.56": 10,
-    "0.57": 2,
+    "0.50": 7,
+    "0.56": 3,
+    "0.57": 1,
+    "0.58": 1,
     "0.59": 4,
-    "0.60": 6,
-    "0.62": 5,
-    "0.63": 16,
-    "0.65": 7,
-    "0.66": 9,
+    "0.60": 3,
+    "0.61": 2,
+    "0.62": 12,
+    "0.65": 1,
+    "0.66": 3,
     "0.68": 1,
-    "0.70": 9,
     "0.71": 4,
-    "0.73": 25,
+    "0.73": 2,
     "0.74": 3,
-    "0.76": 4,
-    "0.79": 5,
-    "0.81": 15,
-    "0.89": 14,
-    "0.97": 6,
-    "1.05": 5,
-    "1.13": 3,
-    "1.45": 1,
-    "1.53": 1,
+    "0.75": 6,
+    "0.88": 3,
+    "1.00": 2,
+    "1.12": 2,
+    "1.25": 3,
+    "1.38": 3,
+    "1.50": 1,
     "1.60": 1,
-    "1.77": 1
+    "1.62": 1,
+    "1.75": 1
    },
-   "hashes_distintos": 91,
+   "hashes_distintos": 46,
    "hashes": [
     {
      "hash": "33d5983598a6b2eb",
@@ -3229,543 +3215,228 @@
      "png": "leonardo ramos/196524c87974391d.png"
     },
     {
-     "hash": "1b3182db0c9bef39",
+     "hash": "a699362ca1e52764",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "4",
+     "png": "leonardo ramos/a699362ca1e52764.png"
+    },
+    {
+     "hash": "46c82dc07f993587",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "5",
-     "png": "leonardo ramos/1b3182db0c9bef39.png"
+     "png": "leonardo ramos/46c82dc07f993587.png"
     },
     {
-     "hash": "2bad7abb1ad18b94",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/2bad7abb1ad18b94.png"
-    },
-    {
-     "hash": "82e23a0779678c87",
+     "hash": "15a4ee07d3aa57cf",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "5",
-     "png": "leonardo ramos/82e23a0779678c87.png"
+     "png": "leonardo ramos/15a4ee07d3aa57cf.png"
     },
     {
-     "hash": "396bd13265e04e81",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/396bd13265e04e81.png"
-    },
-    {
-     "hash": "3070caa39c017ef7",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/3070caa39c017ef7.png"
-    },
-    {
-     "hash": "168d0785e877fee6",
+     "hash": "435547bcc29fb1f2",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "5",
-     "png": "leonardo ramos/168d0785e877fee6.png"
+     "png": "leonardo ramos/435547bcc29fb1f2.png"
     },
     {
-     "hash": "4720ef46b9fbfd76",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/4720ef46b9fbfd76.png"
-    },
-    {
-     "hash": "a31b54b1bb6e984d",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "5",
-     "png": "leonardo ramos/a31b54b1bb6e984d.png"
-    },
-    {
-     "hash": "d60b0faad36a2e03",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/d60b0faad36a2e03.png"
-    },
-    {
-     "hash": "23bd67045be4a2de",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/23bd67045be4a2de.png"
-    },
-    {
-     "hash": "39f6b05f9ca92e22",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/39f6b05f9ca92e22.png"
-    },
-    {
-     "hash": "5cf4ac4e9c7fb62c",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/5cf4ac4e9c7fb62c.png"
-    },
-    {
-     "hash": "20287dc7e1e47a01",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/20287dc7e1e47a01.png"
-    },
-    {
-     "hash": "bfc904344adf1c2b",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "5",
-     "png": "leonardo ramos/bfc904344adf1c2b.png"
-    },
-    {
-     "hash": "50d433d46058d11e",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/50d433d46058d11e.png"
-    },
-    {
-     "hash": "9b90a661948a3c7d",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "6",
-     "png": "leonardo ramos/9b90a661948a3c7d.png"
-    },
-    {
-     "hash": "209d79b81cb26301",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/209d79b81cb26301.png"
-    },
-    {
-     "hash": "284fa1722055d67b",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/284fa1722055d67b.png"
-    },
-    {
-     "hash": "5a93cc8e4e164768",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "8",
-     "png": "leonardo ramos/5a93cc8e4e164768.png"
-    },
-    {
-     "hash": "11d2e57b33e953fa",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "9",
-     "png": "leonardo ramos/11d2e57b33e953fa.png"
-    },
-    {
-     "hash": "c96f3d894036f6ad",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/c96f3d894036f6ad.png"
-    },
-    {
-     "hash": "1dca4f3b70e3445e",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/1dca4f3b70e3445e.png"
-    },
-    {
-     "hash": "010d0a048b09c1aa",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "9",
-     "png": "leonardo ramos/010d0a048b09c1aa.png"
-    },
-    {
-     "hash": "88d1e6cd10b356cc",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "6",
-     "png": "leonardo ramos/88d1e6cd10b356cc.png"
-    },
-    {
-     "hash": "7168a3a74a89a713",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "harmonico",
-     "png": "leonardo ramos/7168a3a74a89a713.png"
-    },
-    {
-     "hash": "e5c78b7100ec0a80",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "5",
-     "png": "leonardo ramos/e5c78b7100ec0a80.png"
-    },
-    {
-     "hash": "5700dddac5d2448e",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "5",
-     "png": "leonardo ramos/5700dddac5d2448e.png"
-    },
-    {
-     "hash": "f01e58b662f32f47",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "5",
-     "png": "leonardo ramos/f01e58b662f32f47.png"
-    },
-    {
-     "hash": "05b3eb44ffe3a87c",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "5",
-     "png": "leonardo ramos/05b3eb44ffe3a87c.png"
-    },
-    {
-     "hash": "90bc69f8c8a1b535",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/90bc69f8c8a1b535.png"
-    },
-    {
-     "hash": "cfc9465e4dabee0e",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/cfc9465e4dabee0e.png"
-    },
-    {
-     "hash": "1101a10ad48cccfb",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/1101a10ad48cccfb.png"
-    },
-    {
-     "hash": "6fc53194ed763cfd",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/6fc53194ed763cfd.png"
-    },
-    {
-     "hash": "2e9b6fb79b8cb5ee",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/2e9b6fb79b8cb5ee.png"
-    },
-    {
-     "hash": "90ddfb93e7835b86",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/90ddfb93e7835b86.png"
-    },
-    {
-     "hash": "aaa11a3187419c90",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/aaa11a3187419c90.png"
-    },
-    {
-     "hash": "1f62d86b38b8f657",
-     "n": 1,
-     "n_passo_plausivel": 1,
-     "classe": "4",
-     "png": "leonardo ramos/1f62d86b38b8f657.png"
-    },
-    {
-     "hash": "1445f0c8c63cd9c6",
+     "hash": "608c29790a99724f",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "tecnica",
-     "png": "leonardo ramos/1445f0c8c63cd9c6.png"
+     "png": "leonardo ramos/608c29790a99724f.png"
     },
     {
-     "hash": "4a4f76da1ef776ba",
+     "hash": "e3c42bb8b53b13d5",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "4",
-     "png": "leonardo ramos/4a4f76da1ef776ba.png"
+     "png": "leonardo ramos/e3c42bb8b53b13d5.png"
     },
     {
-     "hash": "cdfd529e0da6ac8a",
+     "hash": "9c20dff35903b103",
      "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "leonardo ramos/cdfd529e0da6ac8a.png"
-    },
-    {
-     "hash": "1538e2a63683f174",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "leonardo ramos/1538e2a63683f174.png"
-    },
-    {
-     "hash": "33ff222fe2d888a3",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "leonardo ramos/33ff222fe2d888a3.png"
-    },
-    {
-     "hash": "ef668add280c0bc6",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "leonardo ramos/ef668add280c0bc6.png"
-    },
-    {
-     "hash": "1cd3151fa6be5e0c",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "3",
-     "png": "leonardo ramos/1cd3151fa6be5e0c.png"
-    },
-    {
-     "hash": "74f37017e67e8b0b",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "21",
-     "png": "leonardo ramos/74f37017e67e8b0b.png"
-    },
-    {
-     "hash": "26718dd30c189767",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "leonardo ramos/26718dd30c189767.png"
-    },
-    {
-     "hash": "8791ed2ca0cfda85",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "1",
-     "png": "leonardo ramos/8791ed2ca0cfda85.png"
-    },
-    {
-     "hash": "ee11c3d5f0f5f892",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "8",
-     "png": "leonardo ramos/ee11c3d5f0f5f892.png"
-    },
-    {
-     "hash": "961b32311c2bcfa8",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "21",
-     "png": "leonardo ramos/961b32311c2bcfa8.png"
-    },
-    {
-     "hash": "c9eb0137c0244194",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "1",
-     "png": "leonardo ramos/c9eb0137c0244194.png"
-    },
-    {
-     "hash": "fdd815b775a8200a",
-     "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
      "classe": "4",
-     "png": "leonardo ramos/fdd815b775a8200a.png"
+     "png": "leonardo ramos/9c20dff35903b103.png"
     },
     {
-     "hash": "8584e76865e2f262",
+     "hash": "9097d4ea877fc14e",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "tecnica",
-     "png": "leonardo ramos/8584e76865e2f262.png"
+     "png": "leonardo ramos/9097d4ea877fc14e.png"
     },
     {
-     "hash": "7a2ff24666a58985",
+     "hash": "0f66095281d1d718",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/0f66095281d1d718.png"
+    },
+    {
+     "hash": "874707541ec10da0",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/874707541ec10da0.png"
+    },
+    {
+     "hash": "84e37116ca4512bc",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "24",
+     "png": "leonardo ramos/84e37116ca4512bc.png"
+    },
+    {
+     "hash": "012d66e67def7204",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/012d66e67def7204.png"
+    },
+    {
+     "hash": "3415b4c8ac8ca10c",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/3415b4c8ac8ca10c.png"
+    },
+    {
+     "hash": "9dee7131fe434efa",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/9dee7131fe434efa.png"
+    },
+    {
+     "hash": "6e98fa4f9ed25fe6",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/6e98fa4f9ed25fe6.png"
+    },
+    {
+     "hash": "e047f9461981e7b4",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/e047f9461981e7b4.png"
+    },
+    {
+     "hash": "96f8df29f2a8fa32",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "tecnica",
+     "png": "leonardo ramos/96f8df29f2a8fa32.png"
+    },
+    {
+     "hash": "01731f91c1549d18",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/01731f91c1549d18.png"
+    },
+    {
+     "hash": "7fe96fc72063e0ae",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "12",
+     "png": "leonardo ramos/7fe96fc72063e0ae.png"
+    },
+    {
+     "hash": "419a2703d6d37c94",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "7",
-     "png": "leonardo ramos/7a2ff24666a58985.png"
+     "png": "leonardo ramos/419a2703d6d37c94.png"
     },
     {
-     "hash": "a7e2b19d58eaea7f",
+     "hash": "4f7bd1054cf016ce",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "leonardo ramos/a7e2b19d58eaea7f.png"
+     "classe": "harmonico",
+     "png": "leonardo ramos/4f7bd1054cf016ce.png"
     },
     {
-     "hash": "2064530c0323754c",
+     "hash": "ca049d64ebf17b9e",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/ca049d64ebf17b9e.png"
+    },
+    {
+     "hash": "47a5cb297faa8944",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "leonardo ramos/47a5cb297faa8944.png"
+    },
+    {
+     "hash": "fd7b4c5a3e8820cd",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "tecnica",
+     "png": "leonardo ramos/fd7b4c5a3e8820cd.png"
+    },
+    {
+     "hash": "feb2089b165a77ad",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "1",
-     "png": "leonardo ramos/2064530c0323754c.png"
+     "png": "leonardo ramos/feb2089b165a77ad.png"
     },
     {
-     "hash": "2da447dcd7a477cb",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "leonardo ramos/2da447dcd7a477cb.png"
-    },
-    {
-     "hash": "0940616de4420e12",
+     "hash": "a1e23f7acf58e7eb",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "leonardo ramos/0940616de4420e12.png"
+     "png": "leonardo ramos/a1e23f7acf58e7eb.png"
     },
     {
-     "hash": "628f778547e35c3a",
+     "hash": "ae6e470f05f51866",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "leonardo ramos/628f778547e35c3a.png"
+     "png": "leonardo ramos/ae6e470f05f51866.png"
     },
     {
-     "hash": "7d554fa599b80939",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "1",
-     "png": "leonardo ramos/7d554fa599b80939.png"
-    },
-    {
-     "hash": "3100ce3dd2f785b6",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "15",
-     "png": "leonardo ramos/3100ce3dd2f785b6.png"
-    },
-    {
-     "hash": "cbf376005d111de8",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "4",
-     "png": "leonardo ramos/cbf376005d111de8.png"
-    },
-    {
-     "hash": "958765730f445753",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "1",
-     "png": "leonardo ramos/958765730f445753.png"
-    },
-    {
-     "hash": "99afb6fa32baddaa",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "1",
-     "png": "leonardo ramos/99afb6fa32baddaa.png"
-    },
-    {
-     "hash": "add4674957aca73b",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "4",
-     "png": "leonardo ramos/add4674957aca73b.png"
-    },
-    {
-     "hash": "6d0a0df9ec892fb0",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "1",
-     "png": "leonardo ramos/6d0a0df9ec892fb0.png"
-    },
-    {
-     "hash": "4bfc1dd5b77f9c53",
+     "hash": "7a09ef3f81bab0d8",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "leonardo ramos/4bfc1dd5b77f9c53.png"
+     "png": "leonardo ramos/7a09ef3f81bab0d8.png"
     },
     {
-     "hash": "404804b8b13849e1",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "1",
-     "png": "leonardo ramos/404804b8b13849e1.png"
-    },
-    {
-     "hash": "75d77283efb806e3",
+     "hash": "7ff05e4a54905c85",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "leonardo ramos/75d77283efb806e3.png"
+     "png": "leonardo ramos/7ff05e4a54905c85.png"
     },
     {
-     "hash": "28cb26920f4f9e46",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "15",
-     "png": "leonardo ramos/28cb26920f4f9e46.png"
-    },
-    {
-     "hash": "adaa9052f6017551",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "5",
-     "png": "leonardo ramos/adaa9052f6017551.png"
-    },
-    {
-     "hash": "71ff1582ce2edb1e",
+     "hash": "8a20ce3a513420ba",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "leonardo ramos/71ff1582ce2edb1e.png"
+     "png": "leonardo ramos/8a20ce3a513420ba.png"
     },
     {
-     "hash": "911bdbc82287374d",
+     "hash": "34577d6722f42e2e",
      "n": 1,
      "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "leonardo ramos/911bdbc82287374d.png"
+     "classe": "tecnica",
+     "png": "leonardo ramos/34577d6722f42e2e.png"
     },
     {
-     "hash": "88583777fffd2177",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "leonardo ramos/88583777fffd2177.png"
-    },
-    {
-     "hash": "27a7f03ec96c708e",
+     "hash": "fcdb3853fccf0287",
      "n": 1,
      "n_passo_plausivel": 0,
      "classe": "harmonico",
-     "png": "leonardo ramos/27a7f03ec96c708e.png"
-    },
-    {
-     "hash": "9f072c991997e01b",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "leonardo ramos/9f072c991997e01b.png"
-    },
-    {
-     "hash": "133a353bb0081edb",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "leonardo ramos/133a353bb0081edb.png"
-    },
-    {
-     "hash": "f08cdd86b1fe6603",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "leonardo ramos/f08cdd86b1fe6603.png"
+     "png": "leonardo ramos/fcdb3853fccf0287.png"
     }
    ]
   },
@@ -13185,312 +12856,844 @@
   },
   "tv cifras": {
    "quadros": 6,
-   "quadros_com_tablatura": 3,
-   "tokens": 46,
-   "simbolos": 37,
-   "fracao": 0.8043,
+   "quadros_com_tablatura": 5,
+   "tokens": 202,
+   "simbolos": 107,
+   "fracao": 0.5297,
    "simbolos_sem_hash": 0,
-   "passo_mediano": 13.2,
-   "quadros_passo_plausivel": 1,
-   "simbolos_passo_plausivel": 4,
+   "passo_mediano": 26.4,
+   "quadros_passo_plausivel": 4,
+   "simbolos_passo_plausivel": 96,
    "classes": {
-    "harmonico": 18,
-    "7": 6,
+    "harmonico": 58,
+    "7": 13,
+    "junk": 11,
+    "12": 7,
+    "tecnica": 6,
+    "1": 5,
     "17": 4,
-    "tecnica": 3,
-    "3": 2,
-    "12": 1,
-    "15": 1,
+    "21": 1,
     "4": 1,
-    "junk": 1
+    "14": 1
    },
    "larguras_passo": {
-    "0.29": 1,
-    "0.38": 1,
-    "0.45": 1,
+    "0.08": 2,
+    "0.11": 1,
+    "0.13": 2,
+    "0.15": 2,
+    "0.16": 1,
+    "0.18": 3,
+    "0.19": 6,
+    "0.23": 1,
+    "0.24": 3,
+    "0.26": 1,
+    "0.27": 3,
+    "0.30": 5,
+    "0.32": 1,
+    "0.34": 2,
+    "0.38": 7,
+    "0.39": 2,
+    "0.42": 5,
+    "0.45": 8,
+    "0.47": 1,
+    "0.49": 4,
+    "0.50": 1,
+    "0.52": 1,
+    "0.53": 1,
     "0.56": 4,
-    "0.61": 5,
-    "0.67": 2,
-    "0.68": 1,
+    "0.57": 1,
+    "0.58": 4,
+    "0.60": 1,
+    "0.61": 1,
+    "0.64": 2,
+    "0.65": 3,
+    "0.68": 2,
+    "0.71": 3,
+    "0.74": 1,
+    "0.75": 4,
     "0.76": 1,
-    "0.78": 7,
-    "0.89": 4,
-    "0.91": 1,
-    "0.98": 2,
-    "1.00": 6,
+    "0.78": 1,
+    "0.79": 3,
+    "0.83": 5,
+    "0.84": 8,
+    "0.86": 3,
+    "0.87": 2,
+    "0.91": 6,
+    "0.94": 1,
+    "0.95": 1,
+    "0.97": 5,
+    "0.98": 1,
+    "1.02": 1,
+    "1.04": 1,
+    "1.05": 2,
     "1.06": 1,
-    "1.11": 3,
-    "1.14": 1,
-    "1.21": 3,
-    "1.22": 7,
-    "1.29": 3,
-    "1.33": 2,
-    "1.36": 1,
-    "1.42": 2,
-    "1.44": 1,
-    "1.56": 1,
-    "1.82": 1
+    "1.17": 5,
+    "1.23": 2,
+    "1.28": 1,
+    "1.30": 1,
+    "1.36": 3,
+    "1.43": 4,
+    "1.44": 3,
+    "1.49": 3,
+    "1.55": 1,
+    "1.56": 2,
+    "1.59": 1,
+    "1.62": 1,
+    "1.69": 3,
+    "1.82": 2,
+    "1.86": 1,
+    "1.88": 2
    },
-   "hashes_distintos": 37,
+   "hashes_distintos": 107,
    "hashes": [
     {
-     "hash": "b82cf525523f643f",
+     "hash": "528a4ac9687f6abc",
      "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "tv cifras/b82cf525523f643f.png"
+     "png": "tv cifras/528a4ac9687f6abc.png"
     },
     {
-     "hash": "01bd7bf452fbf211",
+     "hash": "c6542922888112fe",
      "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "tv cifras/01bd7bf452fbf211.png"
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/c6542922888112fe.png"
     },
     {
-     "hash": "7e64afcf5135f8de",
+     "hash": "de38a44073e85702",
      "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/de38a44073e85702.png"
+    },
+    {
+     "hash": "df6bdd211fef7a3a",
+     "n": 1,
+     "n_passo_plausivel": 1,
      "classe": "tecnica",
-     "png": "tv cifras/7e64afcf5135f8de.png"
+     "png": "tv cifras/df6bdd211fef7a3a.png"
     },
     {
-     "hash": "7345f5aeb89597f0",
+     "hash": "ff4b4a514d2ebb88",
      "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "tv cifras/7345f5aeb89597f0.png"
-    },
-    {
-     "hash": "4c8919d6132d1da2",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "tv cifras/4c8919d6132d1da2.png"
-    },
-    {
-     "hash": "4bff548b44753de1",
-     "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "tv cifras/4bff548b44753de1.png"
+     "png": "tv cifras/ff4b4a514d2ebb88.png"
     },
     {
-     "hash": "8ed27216d95f94c6",
+     "hash": "2d1d81a724260e8d",
      "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/2d1d81a724260e8d.png"
+    },
+    {
+     "hash": "54d1ea33c11fd09c",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "17",
+     "png": "tv cifras/54d1ea33c11fd09c.png"
+    },
+    {
+     "hash": "cb5a9a11a6e61127",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "17",
+     "png": "tv cifras/cb5a9a11a6e61127.png"
+    },
+    {
+     "hash": "3b0d703d500a59a9",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "21",
+     "png": "tv cifras/3b0d703d500a59a9.png"
+    },
+    {
+     "hash": "05f5b2e6932f6401",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/05f5b2e6932f6401.png"
+    },
+    {
+     "hash": "1cac7d650a7e0eac",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/1cac7d650a7e0eac.png"
+    },
+    {
+     "hash": "a19e01c9f65bd865",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "tv cifras/a19e01c9f65bd865.png"
+    },
+    {
+     "hash": "391c1da2beae19e2",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/391c1da2beae19e2.png"
+    },
+    {
+     "hash": "b449c7d6ebacfef6",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/b449c7d6ebacfef6.png"
+    },
+    {
+     "hash": "a2e46c690925d494",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "tv cifras/a2e46c690925d494.png"
+    },
+    {
+     "hash": "15ecc1d0cf400700",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "tv cifras/15ecc1d0cf400700.png"
+    },
+    {
+     "hash": "780836227fad81d4",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "tv cifras/780836227fad81d4.png"
+    },
+    {
+     "hash": "f5ed09c8699ffad7",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/f5ed09c8699ffad7.png"
+    },
+    {
+     "hash": "4b822b2febb72199",
+     "n": 1,
+     "n_passo_plausivel": 1,
      "classe": "12",
-     "png": "tv cifras/8ed27216d95f94c6.png"
+     "png": "tv cifras/4b822b2febb72199.png"
     },
     {
-     "hash": "941b9e858790a2cc",
+     "hash": "4502839673d66fa0",
      "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "tv cifras/941b9e858790a2cc.png"
-    },
-    {
-     "hash": "014e8dab16f67cf7",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "tv cifras/014e8dab16f67cf7.png"
-    },
-    {
-     "hash": "cfa932fd5506c47b",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "tv cifras/cfa932fd5506c47b.png"
-    },
-    {
-     "hash": "04e5a75aa2542ba2",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "15",
-     "png": "tv cifras/04e5a75aa2542ba2.png"
-    },
-    {
-     "hash": "224bfa600150f3ce",
-     "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
      "classe": "7",
-     "png": "tv cifras/224bfa600150f3ce.png"
+     "png": "tv cifras/4502839673d66fa0.png"
     },
     {
-     "hash": "01045e3f83e1d056",
+     "hash": "54e5e1c3a0e003d3",
      "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "tv cifras/01045e3f83e1d056.png"
+     "png": "tv cifras/54e5e1c3a0e003d3.png"
     },
     {
-     "hash": "e6bb3b285c06b438",
+     "hash": "0096b4a0151cbf3c",
      "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "tv cifras/e6bb3b285c06b438.png"
+     "png": "tv cifras/0096b4a0151cbf3c.png"
     },
     {
-     "hash": "69ff11415762d805",
+     "hash": "813d0ee2b2b0f91d",
      "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "17",
-     "png": "tv cifras/69ff11415762d805.png"
-    },
-    {
-     "hash": "632e061c2ec33b29",
-     "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
      "classe": "7",
-     "png": "tv cifras/632e061c2ec33b29.png"
+     "png": "tv cifras/813d0ee2b2b0f91d.png"
     },
     {
-     "hash": "43c924b92adcc046",
+     "hash": "d2f8002452cb2f0b",
      "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "tv cifras/43c924b92adcc046.png"
+     "png": "tv cifras/d2f8002452cb2f0b.png"
     },
     {
-     "hash": "6a5b3ad45c77e9e7",
+     "hash": "76f249c898783f56",
      "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "tv cifras/6a5b3ad45c77e9e7.png"
+     "png": "tv cifras/76f249c898783f56.png"
     },
     {
-     "hash": "a2dbd178e1fa1c07",
+     "hash": "96546b488e66f359",
      "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "tv cifras/a2dbd178e1fa1c07.png"
-    },
-    {
-     "hash": "485434085dfa9330",
-     "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "tv cifras/485434085dfa9330.png"
+     "png": "tv cifras/96546b488e66f359.png"
     },
     {
-     "hash": "d6b6ed0957ef54ca",
+     "hash": "c312d2199cdafc4e",
      "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "3",
-     "png": "tv cifras/d6b6ed0957ef54ca.png"
-    },
-    {
-     "hash": "62016896a7818886",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "tv cifras/62016896a7818886.png"
-    },
-    {
-     "hash": "a7167621c3023fd4",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "tv cifras/a7167621c3023fd4.png"
-    },
-    {
-     "hash": "5cdf366f6c181cde",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "4",
-     "png": "tv cifras/5cdf366f6c181cde.png"
-    },
-    {
-     "hash": "899f62a8e075b30d",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "7",
-     "png": "tv cifras/899f62a8e075b30d.png"
-    },
-    {
-     "hash": "d644ba51016498b0",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "tv cifras/d644ba51016498b0.png"
-    },
-    {
-     "hash": "3812bcad857337a4",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "tv cifras/3812bcad857337a4.png"
-    },
-    {
-     "hash": "175d121e3b089c9c",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "tv cifras/175d121e3b089c9c.png"
-    },
-    {
-     "hash": "6b2253d4fc421f45",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "tv cifras/6b2253d4fc421f45.png"
-    },
-    {
-     "hash": "ec0cd38cf0f65f9e",
-     "n": 1,
-     "n_passo_plausivel": 0,
+     "n_passo_plausivel": 1,
      "classe": "tecnica",
-     "png": "tv cifras/ec0cd38cf0f65f9e.png"
+     "png": "tv cifras/c312d2199cdafc4e.png"
     },
     {
-     "hash": "5749336a7706c511",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "tecnica",
-     "png": "tv cifras/5749336a7706c511.png"
-    },
-    {
-     "hash": "ed6854a6e075a3de",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "harmonico",
-     "png": "tv cifras/ed6854a6e075a3de.png"
-    },
-    {
-     "hash": "417f8521b28c98a9",
-     "n": 1,
-     "n_passo_plausivel": 0,
-     "classe": "3",
-     "png": "tv cifras/417f8521b28c98a9.png"
-    },
-    {
-     "hash": "70bfd749cbb8ba86",
+     "hash": "5ea7503a3f983276",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "tv cifras/70bfd749cbb8ba86.png"
+     "png": "tv cifras/5ea7503a3f983276.png"
     },
     {
-     "hash": "1853ab0604b6ccf2",
+     "hash": "d63cdabd7c09d651",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "tv cifras/1853ab0604b6ccf2.png"
+     "png": "tv cifras/d63cdabd7c09d651.png"
     },
     {
-     "hash": "74fe5869620abe92",
+     "hash": "1e63a774a571e1b6",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "harmonico",
-     "png": "tv cifras/74fe5869620abe92.png"
+     "png": "tv cifras/1e63a774a571e1b6.png"
     },
     {
-     "hash": "50e4398bbc591b5d",
+     "hash": "5edfa03e558fcf0e",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/5edfa03e558fcf0e.png"
+    },
+    {
+     "hash": "5c7f178443bc2f5f",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/5c7f178443bc2f5f.png"
+    },
+    {
+     "hash": "51a4c9c83bdc14a3",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/51a4c9c83bdc14a3.png"
+    },
+    {
+     "hash": "3d5adb74c71016e0",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/3d5adb74c71016e0.png"
+    },
+    {
+     "hash": "9ef0d0ecf532478f",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/9ef0d0ecf532478f.png"
+    },
+    {
+     "hash": "06ca1a0bfb2e83ff",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/06ca1a0bfb2e83ff.png"
+    },
+    {
+     "hash": "cf4327cf4803c9a8",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/cf4327cf4803c9a8.png"
+    },
+    {
+     "hash": "26344e369765c46b",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/26344e369765c46b.png"
+    },
+    {
+     "hash": "3da36c6bd98a084d",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/3da36c6bd98a084d.png"
+    },
+    {
+     "hash": "6eb3a3e3a5b8de1d",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/6eb3a3e3a5b8de1d.png"
+    },
+    {
+     "hash": "20bb82eb9eff6bc3",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/20bb82eb9eff6bc3.png"
+    },
+    {
+     "hash": "793eff9c7fd46dc2",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/793eff9c7fd46dc2.png"
+    },
+    {
+     "hash": "aa4d7e74065e9caa",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/aa4d7e74065e9caa.png"
+    },
+    {
+     "hash": "1d37c3cd11e56927",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/1d37c3cd11e56927.png"
+    },
+    {
+     "hash": "a8e942608bd274e7",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/a8e942608bd274e7.png"
+    },
+    {
+     "hash": "d96c5c3b11464fad",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "tv cifras/d96c5c3b11464fad.png"
+    },
+    {
+     "hash": "fde1aa318c335fab",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/fde1aa318c335fab.png"
+    },
+    {
+     "hash": "e797ab29df8e0b8b",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/e797ab29df8e0b8b.png"
+    },
+    {
+     "hash": "f667b16964798533",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "1",
+     "png": "tv cifras/f667b16964798533.png"
+    },
+    {
+     "hash": "f30b0ebbc7959da1",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "12",
+     "png": "tv cifras/f30b0ebbc7959da1.png"
+    },
+    {
+     "hash": "e69115ee5c4bc91d",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "1",
+     "png": "tv cifras/e69115ee5c4bc91d.png"
+    },
+    {
+     "hash": "330b60bdb0feebbd",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "12",
+     "png": "tv cifras/330b60bdb0feebbd.png"
+    },
+    {
+     "hash": "95e498ea3dcda604",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "12",
+     "png": "tv cifras/95e498ea3dcda604.png"
+    },
+    {
+     "hash": "efe308602942bcb2",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/efe308602942bcb2.png"
+    },
+    {
+     "hash": "ec3bdedd92b39daf",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "1",
+     "png": "tv cifras/ec3bdedd92b39daf.png"
+    },
+    {
+     "hash": "0254c39839f91fce",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "12",
+     "png": "tv cifras/0254c39839f91fce.png"
+    },
+    {
+     "hash": "1bfbe738c160136c",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/1bfbe738c160136c.png"
+    },
+    {
+     "hash": "51efa9cdcb8c1825",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/51efa9cdcb8c1825.png"
+    },
+    {
+     "hash": "71ef8d13c3f40cba",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/71ef8d13c3f40cba.png"
+    },
+    {
+     "hash": "6566fe1383275abd",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/6566fe1383275abd.png"
+    },
+    {
+     "hash": "bf3a443bc561e0ff",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/bf3a443bc561e0ff.png"
+    },
+    {
+     "hash": "2aee377914022c47",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "12",
+     "png": "tv cifras/2aee377914022c47.png"
+    },
+    {
+     "hash": "7f861d6bf4012006",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/7f861d6bf4012006.png"
+    },
+    {
+     "hash": "8e200e9c92dbeec7",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "12",
+     "png": "tv cifras/8e200e9c92dbeec7.png"
+    },
+    {
+     "hash": "62c669ef19485197",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "tv cifras/62c669ef19485197.png"
+    },
+    {
+     "hash": "4553ff4a38b81eab",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/4553ff4a38b81eab.png"
+    },
+    {
+     "hash": "d7d0f64c1790ef72",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "tv cifras/d7d0f64c1790ef72.png"
+    },
+    {
+     "hash": "65276f4cf30158bc",
      "n": 1,
      "n_passo_plausivel": 1,
      "classe": "junk",
-     "png": "tv cifras/50e4398bbc591b5d.png"
+     "png": "tv cifras/65276f4cf30158bc.png"
+    },
+    {
+     "hash": "2663b6a5672f7806",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "tv cifras/2663b6a5672f7806.png"
+    },
+    {
+     "hash": "65748f121b2a0fa6",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "17",
+     "png": "tv cifras/65748f121b2a0fa6.png"
+    },
+    {
+     "hash": "ffd9be3d77c5f7ea",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "tv cifras/ffd9be3d77c5f7ea.png"
+    },
+    {
+     "hash": "ad9f7c84954629a0",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "tv cifras/ad9f7c84954629a0.png"
+    },
+    {
+     "hash": "0011d211554388fc",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/0011d211554388fc.png"
+    },
+    {
+     "hash": "ebf6d108006e9d3a",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/ebf6d108006e9d3a.png"
+    },
+    {
+     "hash": "02d3c1f5b1b36402",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "tecnica",
+     "png": "tv cifras/02d3c1f5b1b36402.png"
+    },
+    {
+     "hash": "7e65805e6da3a074",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/7e65805e6da3a074.png"
+    },
+    {
+     "hash": "bc795841e03df5ae",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/bc795841e03df5ae.png"
+    },
+    {
+     "hash": "ab7d2e30618e0408",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/ab7d2e30618e0408.png"
+    },
+    {
+     "hash": "0833e5a54246d866",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "1",
+     "png": "tv cifras/0833e5a54246d866.png"
+    },
+    {
+     "hash": "177600b4b6602fb1",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/177600b4b6602fb1.png"
+    },
+    {
+     "hash": "4480a0066dc6c17f",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/4480a0066dc6c17f.png"
+    },
+    {
+     "hash": "a87eaed8e9100860",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/a87eaed8e9100860.png"
+    },
+    {
+     "hash": "8fa8c53c815664c5",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "tv cifras/8fa8c53c815664c5.png"
+    },
+    {
+     "hash": "a080f56bf9af2964",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "4",
+     "png": "tv cifras/a080f56bf9af2964.png"
+    },
+    {
+     "hash": "50a9521428ebe72f",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "tv cifras/50a9521428ebe72f.png"
+    },
+    {
+     "hash": "f8e75314e597928a",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "tv cifras/f8e75314e597928a.png"
+    },
+    {
+     "hash": "7b6eda50324048e4",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "tv cifras/7b6eda50324048e4.png"
+    },
+    {
+     "hash": "3ffd75945b35e8e5",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "tv cifras/3ffd75945b35e8e5.png"
+    },
+    {
+     "hash": "990cc5fbcb763cef",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "tv cifras/990cc5fbcb763cef.png"
+    },
+    {
+     "hash": "90b331dca76edafe",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "7",
+     "png": "tv cifras/90b331dca76edafe.png"
+    },
+    {
+     "hash": "22cb30172622a3f5",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "tv cifras/22cb30172622a3f5.png"
+    },
+    {
+     "hash": "f19f568180f44ed0",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "17",
+     "png": "tv cifras/f19f568180f44ed0.png"
+    },
+    {
+     "hash": "ae17be73815256a2",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "14",
+     "png": "tv cifras/ae17be73815256a2.png"
+    },
+    {
+     "hash": "581cac1ada0145bb",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "1",
+     "png": "tv cifras/581cac1ada0145bb.png"
+    },
+    {
+     "hash": "ce03103a2c4645c7",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "harmonico",
+     "png": "tv cifras/ce03103a2c4645c7.png"
+    },
+    {
+     "hash": "bf696ae49d594ac8",
+     "n": 1,
+     "n_passo_plausivel": 0,
+     "classe": "tecnica",
+     "png": "tv cifras/bf696ae49d594ac8.png"
+    },
+    {
+     "hash": "1369a79b68ede4df",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "tv cifras/1369a79b68ede4df.png"
+    },
+    {
+     "hash": "619a19ade418760b",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "tecnica",
+     "png": "tv cifras/619a19ade418760b.png"
+    },
+    {
+     "hash": "7caaef644e7208c6",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "tv cifras/7caaef644e7208c6.png"
+    },
+    {
+     "hash": "5e863ef091f78484",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "tv cifras/5e863ef091f78484.png"
+    },
+    {
+     "hash": "6bc8b6726c810a2c",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "harmonico",
+     "png": "tv cifras/6bc8b6726c810a2c.png"
+    },
+    {
+     "hash": "578ee93fe334269b",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "tv cifras/578ee93fe334269b.png"
+    },
+    {
+     "hash": "65b9854942b84fc3",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "tecnica",
+     "png": "tv cifras/65b9854942b84fc3.png"
+    },
+    {
+     "hash": "a968666ff6d07bdf",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "tv cifras/a968666ff6d07bdf.png"
+    },
+    {
+     "hash": "1109695502e70e62",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "tv cifras/1109695502e70e62.png"
+    },
+    {
+     "hash": "aa6a3561fd0ebd9b",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "7",
+     "png": "tv cifras/aa6a3561fd0ebd9b.png"
+    },
+    {
+     "hash": "a0865cee1b2caa74",
+     "n": 1,
+     "n_passo_plausivel": 1,
+     "classe": "junk",
+     "png": "tv cifras/a0865cee1b2caa74.png"
     }
    ]
   },
@@ -16849,51 +17052,51 @@
     "erro": null
    },
    {
-    "arquivo": "leonardo ramos/la porteñita (zamba fácil) 🎸 antonio sinópoli ｜ tutorial de guitarra + tabs.mp4",
+    "arquivo": "leonardo ramos/estampa de antaño (tango milonga) 🎸 alejandro spinardi ｜ tutorial de guitarra + tabs.mp4",
     "frac": 0.65,
     "via": "ffmpeg",
     "tab": true,
     "faixa": "base",
-    "uniformidade": 0.94,
-    "passo": 31.6,
-    "tokens": 38,
-    "n_simbolos": 10,
+    "uniformidade": 0.944,
+    "passo": 33.4,
+    "tokens": 28,
+    "n_simbolos": 4,
     "erro": null
    },
    {
-    "arquivo": "leonardo ramos/la porteñita (zamba fácil) 🎸 antonio sinópoli ｜ tutorial de guitarra + tabs.mp4",
+    "arquivo": "leonardo ramos/estampa de antaño (tango milonga) 🎸 alejandro spinardi ｜ tutorial de guitarra + tabs.mp4",
     "frac": 0.85,
     "via": "ffmpeg",
     "tab": true,
     "faixa": "base",
-    "uniformidade": 0.94,
-    "passo": 31.6,
-    "tokens": 23,
-    "n_simbolos": 14,
+    "uniformidade": 0.947,
+    "passo": 33.4,
+    "tokens": 26,
+    "n_simbolos": 0,
     "erro": null
    },
    {
-    "arquivo": "leonardo ramos/titina (melodía porteña) 🎸 antonio sinópoli ｜ tutorial de guitarra + tabs.mp4",
+    "arquivo": "leonardo ramos/milonga ii (suite pampas n.º 1) 🎸 héctor ayala ｜ tutorial para guitarra clásica + tabs.mp4",
     "frac": 0.65,
     "via": "ffmpeg",
     "tab": true,
     "faixa": "base",
-    "uniformidade": 0.928,
-    "passo": 30.2,
-    "tokens": 40,
-    "n_simbolos": 15,
+    "uniformidade": 0.933,
+    "passo": 33.0,
+    "tokens": 18,
+    "n_simbolos": 3,
     "erro": null
    },
    {
-    "arquivo": "leonardo ramos/titina (melodía porteña) 🎸 antonio sinópoli ｜ tutorial de guitarra + tabs.mp4",
+    "arquivo": "leonardo ramos/milonga ii (suite pampas n.º 1) 🎸 héctor ayala ｜ tutorial para guitarra clásica + tabs.mp4",
     "frac": 0.85,
     "via": "ffmpeg",
     "tab": true,
-    "faixa": "meio",
-    "uniformidade": 0.932,
-    "passo": 12.4,
-    "tokens": 56,
-    "n_simbolos": 38,
+    "faixa": "topo",
+    "uniformidade": 0.909,
+    "passo": 8.0,
+    "tokens": 57,
+    "n_simbolos": 25,
     "erro": null
    }
   ],
@@ -17491,75 +17694,75 @@
   ],
   "tv cifras": [
    {
-    "arquivo": "tv cifras/ed motta - manuel - aula de guitarra no tvcifras (farofa).mp4",
-    "frac": 0.65,
-    "via": "cv2",
-    "tab": true,
-    "faixa": "topo",
-    "uniformidade": 0.891,
-    "passo": 13.2,
-    "tokens": 18,
-    "n_simbolos": 12,
-    "erro": null
-   },
-   {
-    "arquivo": "tv cifras/ed motta - manuel - aula de guitarra no tvcifras (farofa).mp4",
-    "frac": 0.85,
-    "via": "cv2",
-    "tab": false,
-    "faixa": null,
-    "uniformidade": null,
-    "passo": null,
-    "tokens": 0,
-    "n_simbolos": 0,
-    "erro": null
-   },
-   {
-    "arquivo": "tv cifras/luan santana - cê topa？ (como tocar - aula de violão).mp4",
-    "frac": 0.65,
-    "via": "cv2",
-    "tab": false,
-    "faixa": null,
-    "uniformidade": null,
-    "passo": null,
-    "tokens": 0,
-    "n_simbolos": 0,
-    "erro": null
-   },
-   {
-    "arquivo": "tv cifras/luan santana - cê topa？ (como tocar - aula de violão).mp4",
-    "frac": 0.85,
-    "via": "cv2",
-    "tab": false,
-    "faixa": null,
-    "uniformidade": null,
-    "passo": null,
-    "tokens": 0,
-    "n_simbolos": 0,
-    "erro": null
-   },
-   {
-    "arquivo": "tv cifras/the beatles - ＂blackbird＂ -  como tocar no tv cifras.mp4",
+    "arquivo": "tv cifras/ed motta  - fora da lei - como tocar no tv cifras.mp4",
     "frac": 0.65,
     "via": "cv2",
     "tab": true,
     "faixa": "meio",
-    "uniformidade": 0.946,
-    "passo": 9.0,
-    "tokens": 23,
-    "n_simbolos": 21,
+    "uniformidade": 0.843,
+    "passo": 15.4,
+    "tokens": 81,
+    "n_simbolos": 45,
     "erro": null
    },
    {
-    "arquivo": "tv cifras/the beatles - ＂blackbird＂ -  como tocar no tv cifras.mp4",
+    "arquivo": "tv cifras/ed motta  - fora da lei - como tocar no tv cifras.mp4",
     "frac": 0.85,
     "via": "cv2",
     "tab": true,
-    "faixa": "base",
-    "uniformidade": 0.988,
-    "passo": 24.0,
-    "tokens": 5,
-    "n_simbolos": 4,
+    "faixa": "meio",
+    "uniformidade": 0.845,
+    "passo": 26.6,
+    "tokens": 46,
+    "n_simbolos": 22,
+    "erro": null
+   },
+   {
+    "arquivo": "tv cifras/losing my religion - r.e.m. (aula de violão).mp4",
+    "frac": 0.65,
+    "via": "cv2",
+    "tab": true,
+    "faixa": "topo",
+    "uniformidade": 0.872,
+    "passo": 26.4,
+    "tokens": 35,
+    "n_simbolos": 18,
+    "erro": null
+   },
+   {
+    "arquivo": "tv cifras/losing my religion - r.e.m. (aula de violão).mp4",
+    "frac": 0.85,
+    "via": "cv2",
+    "tab": false,
+    "faixa": null,
+    "uniformidade": null,
+    "passo": null,
+    "tokens": 0,
+    "n_simbolos": 0,
+    "erro": null
+   },
+   {
+    "arquivo": "tv cifras/the beatles - a hard day's night (como tocar - aula de violão).mp4",
+    "frac": 0.65,
+    "via": "cv2",
+    "tab": true,
+    "faixa": "meio",
+    "uniformidade": 0.818,
+    "passo": 13.2,
+    "tokens": 25,
+    "n_simbolos": 11,
+    "erro": null
+   },
+   {
+    "arquivo": "tv cifras/the beatles - a hard day's night (como tocar - aula de violão).mp4",
+    "frac": 0.85,
+    "via": "cv2",
+    "tab": true,
+    "faixa": "meio",
+    "uniformidade": 0.711,
+    "passo": 38.0,
+    "tokens": 15,
+    "n_simbolos": 11,
     "erro": null
    }
   ],
