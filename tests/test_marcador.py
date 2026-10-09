@@ -2,8 +2,9 @@
 
 Os testes de vídeo (série densa real) exigem o acervo e ficam de fora do gate. Aqui se
 trava o que **decide** o resultado: a agregação de vereditos por canal, a matiz mediana, o
-rebaixamento para `duvida` quando a medida não sustenta veredito, e a seleção de amostra
-(que é o que garante que um canal não seja medido só no bloco alfabético inicial).
+rebaixamento para `duvida` quando a medida não sustenta veredito, a distinção entre
+`sem_painel` e `sem_marcador`, e a seleção de amostra (que é o que garante que um canal não
+seja medido só no bloco alfabético inicial).
 """
 
 from __future__ import annotations
@@ -12,6 +13,8 @@ import json
 import os
 
 from tab.marcador import (
+    CROP_FIXO,
+    CROP_PAINEL,
     N_BINS_MATIZ,
     VEREDITOS,
     agregar_canais,
@@ -23,6 +26,7 @@ from tab.marcador import (
     listar_videos,
     mediana_do_histograma,
     tabela_texto,
+    veredito_do_video,
 )
 
 
@@ -32,17 +36,39 @@ def _serie_deslizante(n: int = 30, passo_px: int = 30) -> list[tuple[float, int]
 
 
 def _linha(veredito: str, matiz: float | None = 102.0, **extra: object) -> dict:
-    """Linha de resultado falsa, no formato do JSONL."""
+    """Linha de resultado falsa, no formato do JSONL.
+
+    Por padrão a linha tem painel e o recorte fixo com o MESMO veredito — é o caso comum.
+
+    Args:
+        veredito: veredito do recorte do painel (o método).
+        matiz: matiz mediana das detecções; None para vídeo sem detecção.
+        extra: campos que sobrescrevem o padrão (ex.: ``veredito_fixo``).
+
+    Returns:
+        A linha falsa.
+    """
     base: dict = {
         "arquivo": f"canal/{veredito}_{matiz}.mp4",
         "veredito": veredito,
-        "veredito_resumo": veredito,
+        "veredito_fixo": veredito,
+        "veredito_painel": veredito,
+        "recorte_painel": [318, 487],
         "n_deteccoes": 10,
         "matiz_mediana": matiz,
         "matiz_hist": histograma_matiz([int(matiz)] * 10 if matiz is not None else []),
+        "crops": {
+            CROP_PAINEL: {"veredito": veredito},
+            CROP_FIXO: {"veredito": veredito},
+        },
     }
     base.update(extra)
     return base
+
+
+def _contagens(texto: str) -> list[int]:
+    """As contagens de veredito da primeira linha de dados de uma tabela de texto."""
+    return [int(v) for v in texto.splitlines()[1][20:].split()[: len(VEREDITOS)]]
 
 
 def test_histograma_matiz_conta_faixas_de_cinco_graus() -> None:
@@ -134,13 +160,57 @@ def test_julgar_banda_larga_vira_duvida() -> None:
     assert r["motivo_duvida"] == "banda_larga"
 
 
-def test_julgar_movimento_dominado_por_saltos_vira_duvida() -> None:
-    """Três saltos grandes em quatro passos: o que parece deslize é teleporte."""
+def test_julgar_deslize_com_saltos_no_mesmo_sentido_nao_vira_duvida() -> None:
+    """Passo grande (>60 px) com direção consistente é marcador rápido, não artefato.
+
+    Medido: `reflection (mulan)` do `sky guitar` anda 13,2 px/s com passos de ~60 px e o
+    `resumo` diz `desliza`. Reprovar isso só porque a maioria dos passos é grande era erro
+    desta regra — ela reprovava 3 dos 48 vídeos que o `resumo` tinha aprovado.
+    """
     serie = [(0.0, 100), (0.5, 900), (1.0, 1800), (1.5, 2700), (2.0, 2710)]
     r = julgar(serie, [6] * 5, [102] * 5, 5, 5)
+    assert r["veredito"] == "desliza"
+    assert r["motivo_duvida"] is None
+    assert r["frac_trocas_grandes"] == 0.0
+    assert r["n_saltos_grandes"] == 3
+
+
+def test_julgar_deslize_com_saltos_trocando_de_sentido_vira_duvida() -> None:
+    """Salto grande que troca de direção é o detector pulando entre duas bandas."""
+    serie = [
+        (0.0, 100),
+        (0.5, 900),
+        (1.0, 910),
+        (1.5, 160),
+        (2.0, 960),
+        (2.5, 970),
+        (3.0, 220),
+        (3.5, 1020),
+        (4.0, 1030),
+        (4.5, 280),
+    ]
+    r = julgar(serie, [6] * 10, [102] * 10, 10, 10)
+    assert r["veredito_resumo"] == "desliza"  # os passos pequenos mantêm a direção
     assert r["veredito"] == "duvida"
     assert r["motivo_duvida"] == "movimento_dominado_por_saltos"
-    assert r["n_saltos_grandes"] == 3
+    assert r["frac_trocas_grandes"] > 0.3
+
+
+def test_julgar_marca_banda_visivel_mesmo_sem_veredito_utilizavel() -> None:
+    """Banda estreita em quase todas as amostras é banda VISÍVEL, ainda que parada.
+
+    É a separação que o `sky guitar` exige: 7 de 8 vídeos têm banda azul estreita em
+    89–100 % das amostras e só 3 dão veredito utilizável.
+    """
+    parada = [(i * 0.5, 300 + (i % 3)) for i in range(20)]
+    assert julgar(parada, [8] * 20, [109] * 20, 20, 20)["marcador_visivel"] is True
+    larga = julgar(parada, [120] * 20, [109] * 20, 20, 20)
+    assert larga["marcador_visivel"] is False
+    assert larga["veredito"] == "parado"
+    assert julgar([], [], [], 20, 20)["marcador_visivel"] is False
+    # banda presente em metade das amostras não é "na maior parte delas"
+    esparsa = julgar(_serie_deslizante(10), [8] * 10, [109] * 10, 20, 20)
+    assert esparsa["marcador_visivel"] is False
 
 
 def test_julgar_sem_deteccao_e_erratico_permanecem() -> None:
@@ -151,6 +221,28 @@ def test_julgar_sem_deteccao_e_erratico_permanecem() -> None:
     espalhada = [(t * 1.0, x) for t, x in enumerate([690, 341, 638, 285, 1527, 548])]
     r = julgar(espalhada, [6] * 6, [102] * 6, 6, 6)
     assert r["veredito"] == "erratico"
+
+
+def test_veredito_do_video_vem_do_recorte_do_painel() -> None:
+    """O painel responde pelo vídeo mesmo quando o recorte fixo diz outra coisa.
+
+    É o caso medido no `sky guitar` (`aguado`): recorte fixo `erratico` (pega o corpo do
+    violão) e recorte do painel `salta` (pega a faixa azul da altura da tablatura).
+    """
+    por_crop = {
+        CROP_FIXO: {"veredito": "erratico"},
+        CROP_PAINEL: {"veredito": "salta"},
+    }
+    assert veredito_do_video(por_crop) == ("salta", "painel")
+
+
+def test_sem_painel_nao_e_sem_marcador() -> None:
+    """Sem painel não se mediu nada: `sem_painel`, nunca `sem_marcador`."""
+    assert veredito_do_video({CROP_FIXO: {"veredito": "desliza"}}) == (
+        "sem_painel",
+        "sem_painel",
+    )
+    assert "sem_painel" in VEREDITOS
 
 
 def test_agregar_canal_conta_cada_veredito() -> None:
@@ -173,6 +265,29 @@ def test_agregar_canal_conta_cada_veredito() -> None:
     assert ag["matiz_mediana_por_video"] == 100.0
     assert ag["matiz_mediana_global"] == 102.5  # mediana do histograma somado
     assert len(ag["por_arquivo"]) == 7
+
+
+def test_agregar_canal_separa_o_veredito_do_recorte_fixo() -> None:
+    """O resumo guarda as DUAS contagens: o método (painel) e o antes (fixo)."""
+    resultados = [
+        _linha("salta", 100.0, veredito_fixo="erratico"),
+        _linha("sem_marcador", None, veredito_fixo="desliza"),
+        _linha(
+            "sem_painel",
+            None,
+            recorte_painel=None,
+            veredito_painel=None,
+            veredito_fixo="parado",
+        ),
+    ]
+    ag = agregar_canal(resultados)
+    assert ag["por_veredito"]["salta"] == 1
+    assert ag["por_veredito"]["sem_painel"] == 1
+    assert ag["por_veredito_fixo"]["erratico"] == 1
+    assert ag["por_veredito_fixo"]["desliza"] == 1
+    assert ag["por_veredito_fixo"]["parado"] == 1
+    assert ag["videos_com_painel"] == 2
+    assert ag["marcador_utilizavel"] == 1
 
 
 def test_agregar_canais_soma_totais() -> None:
@@ -200,6 +315,7 @@ def test_escrever_resumo_grava_e_rele(tmp_path) -> None:
     assert doc["total_videos"] == 2
     assert doc["canais"][canal]["por_veredito"]["desliza"] == 1
     assert doc["parametros"]["passo_s"] == 0.5
+    assert doc["parametros"]["recorte_fixo"] == [300, 750]
     with open(os.path.join(tmp_path, "resumo.json"), encoding="utf-8") as fh:
         lido = json.load(fh)
     assert lido["canais"][canal]["marcador_utilizavel"] == 1
@@ -241,3 +357,16 @@ def test_tabela_texto_tem_uma_linha_por_canal() -> None:
     assert "sky guitar" in linhas[1]
     assert "102" in linhas[1]
     assert "cifra club" in linhas[2]
+
+
+def test_tabela_texto_sabe_mostrar_o_recorte_fixo() -> None:
+    """A mesma tabela imprime a contagem do recorte fixo — é o antes/depois."""
+    canais = agregar_canais(
+        {"canal": [_linha("salta", 100.0, veredito_fixo="erratico")]}
+    )["canais"]
+    depois = _contagens(tabela_texto(canais))
+    antes = _contagens(tabela_texto(canais, "por_veredito_fixo"))
+    assert depois[VEREDITOS.index("salta")] == 1
+    assert depois[VEREDITOS.index("erratico")] == 0
+    assert antes[VEREDITOS.index("erratico")] == 1
+    assert antes[VEREDITOS.index("salta")] == 0

@@ -7,22 +7,33 @@
     "salta": 0,
     "parado": 0,
     "lento": 0,
+    "erratico": 0,
+    "sem_marcador": 8,
+    "sem_painel": 0,
+    "duvida": 0
+   },
+   "por_veredito_fixo": {
+    "desliza": 0,
+    "salta": 0,
+    "parado": 0,
+    "lento": 0,
     "erratico": 1,
     "sem_marcador": 7,
+    "sem_painel": 0,
     "duvida": 0
    },
    "por_veredito_resumo": {
-    "erratico": 1,
-    "sem_marcador": 7
+    "sem_marcador": 8
    },
+   "videos_com_painel": 8,
    "marcador_utilizavel": 0,
-   "n_deteccoes": 112,
-   "matiz_mediana_por_video": 11.0,
-   "matiz_mediana_global": 7.5,
-   "velocidade_mediana_px_s": 12.6,
-   "velocidade_trechos_mediana_px_s": 20.0,
+   "n_deteccoes": 0,
+   "matiz_mediana_por_video": null,
+   "matiz_mediana_global": null,
+   "velocidade_mediana_px_s": null,
+   "velocidade_trechos_mediana_px_s": null,
    "por_arquivo": {
-    "cifra club/1000 graus - renascer praise (completa) ｜ como tocar no violão.mp4": "erratico",
+    "cifra club/1000 graus - renascer praise (completa) ｜ como tocar no violão.mp4": "sem_marcador",
     "cifra club/bondade de deus - isaías saad (simplificada) ｜ como tocar no violão.mp4": "sem_marcador",
     "cifra club/disritmia - martinho da vila (completa) ｜ como tocar no violão.mp4": "sem_marcador",
     "cifra club/hotel california - eagles (aula de violão) ｜ como tocar no violão.mp4": "sem_marcador",
@@ -35,33 +46,46 @@
   "guitar dell ́arte": {
    "videos": 8,
    "por_veredito": {
+    "desliza": 1,
+    "salta": 0,
+    "parado": 0,
+    "lento": 0,
+    "erratico": 2,
+    "sem_marcador": 5,
+    "sem_painel": 0,
+    "duvida": 0
+   },
+   "por_veredito_fixo": {
     "desliza": 0,
     "salta": 0,
     "parado": 0,
     "lento": 0,
     "erratico": 7,
     "sem_marcador": 1,
+    "sem_painel": 0,
     "duvida": 0
    },
    "por_veredito_resumo": {
-    "erratico": 7,
-    "sem_marcador": 1
+    "erratico": 2,
+    "sem_marcador": 5,
+    "desliza": 1
    },
-   "marcador_utilizavel": 0,
-   "n_deteccoes": 768,
-   "matiz_mediana_por_video": 11.5,
+   "videos_com_painel": 8,
+   "marcador_utilizavel": 1,
+   "n_deteccoes": 534,
+   "matiz_mediana_por_video": 18.0,
    "matiz_mediana_global": 17.5,
-   "velocidade_mediana_px_s": 4.7,
-   "velocidade_trechos_mediana_px_s": 13.6,
+   "velocidade_mediana_px_s": 15.2,
+   "velocidade_trechos_mediana_px_s": 29.0,
    "por_arquivo": {
     "guitar dell ́arte/10 wonderful folk songs! guitar arrangements.mp4": "erratico",
-    "guitar dell ́arte/bebita (j. sagreras), guitar lesson, sheet and tab.mp4": "erratico",
-    "guitar dell ́arte/eleanor rigby (the beatles), guitar arrangement, tutorial with sheet and tab.mp4": "erratico",
+    "guitar dell ́arte/bebita (j. sagreras), guitar lesson, sheet and tab.mp4": "sem_marcador",
+    "guitar dell ́arte/eleanor rigby (the beatles), guitar arrangement, tutorial with sheet and tab.mp4": "sem_marcador",
     "guitar dell ́arte/june (p. tchaikovsky) guitar arrangement, sheet and tab.mp4": "erratico",
     "guitar dell ́arte/moon river, easy fingerstyle (h. mancini), guitar sheet and tab.mp4": "sem_marcador",
-    "guitar dell ́arte/pure imagination, guitar lesson, sheet and tab.mp4": "erratico",
-    "guitar dell ́arte/summer of 42 (l’été 42), m. legrand. arrangement for guitar with tutorial, sheet and tab.mp4": "erratico",
-    "guitar dell ́arte/concordancias no. 1 (w. henze) performance, sheet and tab.mp4": "erratico"
+    "guitar dell ́arte/pure imagination, guitar lesson, sheet and tab.mp4": "sem_marcador",
+    "guitar dell ́arte/summer of 42 (l’été 42), m. legrand. arrangement for guitar with tutorial, sheet and tab.mp4": "desliza",
+    "guitar dell ́arte/concordancias no. 1 (w. henze) performance, sheet and tab.mp4": "sem_marcador"
    }
   },
   "iwaki": {
@@ -71,29 +95,40 @@
     "salta": 0,
     "parado": 0,
     "lento": 0,
+    "erratico": 0,
+    "sem_marcador": 6,
+    "sem_painel": 0,
+    "duvida": 1
+   },
+   "por_veredito_fixo": {
+    "desliza": 1,
+    "salta": 0,
+    "parado": 0,
+    "lento": 0,
     "erratico": 1,
     "sem_marcador": 6,
+    "sem_painel": 0,
     "duvida": 0
    },
    "por_veredito_resumo": {
     "sem_marcador": 6,
-    "erratico": 1,
-    "desliza": 1
+    "desliza": 2
    },
+   "videos_com_painel": 8,
    "marcador_utilizavel": 1,
-   "n_deteccoes": 150,
-   "matiz_mediana_por_video": 58.0,
+   "n_deteccoes": 459,
+   "matiz_mediana_por_video": 102.5,
    "matiz_mediana_global": 102.5,
-   "velocidade_mediana_px_s": 9.0,
-   "velocidade_trechos_mediana_px_s": 37.0,
+   "velocidade_mediana_px_s": 13.8,
+   "velocidade_trechos_mediana_px_s": 90.0,
    "por_arquivo": {
     "iwaki/- therru's song - aoi teshima- tab.mp4": "sem_marcador",
-    "iwaki/bebu silvetti  - piano｜tab.mp4": "sem_marcador",
+    "iwaki/bebu silvetti  - piano｜tab.mp4": "duvida",
     "iwaki/el condor pasa (if i could) ｜ tab.mp4": "sem_marcador",
     "iwaki/holst ｜ jupiter  ｜ i vow to thee my country ｜ tab.mp4": "sem_marcador",
     "iwaki/merry christmas mr lawrence ⧸ ryuichi sakamoto ｜ tab.mp4": "sem_marcador",
     "iwaki/s.l.weiss - ciacona in g minor.mp4": "sem_marcador",
-    "iwaki/tico-tico no fubá ｜ tab.mp4": "erratico",
+    "iwaki/tico-tico no fubá ｜ tab.mp4": "sem_marcador",
     "iwaki/henze ｜ nocturno - guitar lesson + tab.mp4": "desliza"
    }
   },
@@ -103,61 +138,88 @@
     "desliza": 0,
     "salta": 0,
     "parado": 0,
+    "lento": 0,
+    "erratico": 2,
+    "sem_marcador": 6,
+    "sem_painel": 0,
+    "duvida": 0
+   },
+   "por_veredito_fixo": {
+    "desliza": 0,
+    "salta": 0,
+    "parado": 0,
     "lento": 1,
     "erratico": 7,
     "sem_marcador": 0,
+    "sem_painel": 0,
     "duvida": 0
    },
    "por_veredito_resumo": {
-    "erratico": 7,
-    "lento": 1
+    "sem_marcador": 6,
+    "erratico": 2
    },
+   "videos_com_painel": 8,
    "marcador_utilizavel": 0,
-   "n_deteccoes": 838,
-   "matiz_mediana_por_video": 18.0,
-   "matiz_mediana_global": 17.5,
-   "velocidade_mediana_px_s": 1.4500000000000002,
-   "velocidade_trechos_mediana_px_s": 3.5,
+   "n_deteccoes": 37,
+   "matiz_mediana_por_video": 11.25,
+   "matiz_mediana_global": 7.5,
+   "velocidade_mediana_px_s": 9.85,
+   "velocidade_trechos_mediana_px_s": 2.0,
    "por_arquivo": {
-    "shin izumi/canon in d - パッヘルベル ｜ ソロギター [tab].mp4": "erratico",
-    "shin izumi/【tab】autumn leaves - fingerstyle jazz guitar ソロギター【タブ】.mp4": "erratico",
+    "shin izumi/canon in d - パッヘルベル ｜ ソロギター [tab].mp4": "sem_marcador",
+    "shin izumi/【tab】autumn leaves - fingerstyle jazz guitar ソロギター【タブ】.mp4": "sem_marcador",
     "shin izumi/【tab】happy birthday song - fingerstyle jazz guitar ソロギター【タブ】.mp4": "erratico",
-    "shin izumi/【tab】moon river - fingerstyle jazz guitar ソロギター - audrey hepburn【タブ】.mp4": "erratico",
-    "shin izumi/【tab】someday my prince will come - fingerstyle guitar ソロギター【タブ】.mp4": "erratico",
-    "shin izumi/【tab】wonderful tonight - eric clapton - fingerstyle guitar ソロギター【タブ】.mp4": "lento",
-    "shin izumi/【tab】人生のメリーゴーランド(merry go round of life) - ハウルの動く城 - fingerstyle guitar ソロギター【タブ】.mp4": "erratico",
-    "shin izumi/晩餐歌 - tuki. ｜ ソロギター ｜ anuenue ls700 [tab].mp4": "erratico"
+    "shin izumi/【tab】moon river - fingerstyle jazz guitar ソロギター - audrey hepburn【タブ】.mp4": "sem_marcador",
+    "shin izumi/【tab】someday my prince will come - fingerstyle guitar ソロギター【タブ】.mp4": "sem_marcador",
+    "shin izumi/【tab】wonderful tonight - eric clapton - fingerstyle guitar ソロギター【タブ】.mp4": "erratico",
+    "shin izumi/【tab】人生のメリーゴーランド(merry go round of life) - ハウルの動く城 - fingerstyle guitar ソロギター【タブ】.mp4": "sem_marcador",
+    "shin izumi/晩餐歌 - tuki. ｜ ソロギター ｜ anuenue ls700 [tab].mp4": "sem_marcador"
    }
   },
   "sky guitar": {
    "videos": 8,
    "por_veredito": {
+    "desliza": 2,
+    "salta": 1,
+    "parado": 1,
+    "lento": 0,
+    "erratico": 2,
+    "sem_marcador": 0,
+    "sem_painel": 0,
+    "duvida": 2
+   },
+   "por_veredito_fixo": {
     "desliza": 0,
     "salta": 0,
     "parado": 0,
     "lento": 0,
     "erratico": 8,
     "sem_marcador": 0,
+    "sem_painel": 0,
     "duvida": 0
    },
    "por_veredito_resumo": {
-    "erratico": 8
+    "parado": 1,
+    "erratico": 2,
+    "desliza": 3,
+    "salta": 2
    },
-   "marcador_utilizavel": 0,
-   "n_deteccoes": 1026,
-   "matiz_mediana_por_video": 13.0,
-   "matiz_mediana_global": 12.5,
-   "velocidade_mediana_px_s": 6.4,
-   "velocidade_trechos_mediana_px_s": 2.0,
+   "videos_com_painel": 8,
+   "marcador_utilizavel": 3,
+   "n_deteccoes": 1446,
+   "matiz_mediana_por_video": 108.5,
+   "matiz_mediana_global": 107.5,
+   "velocidade_mediana_px_s": 18.85,
+   "velocidade_trechos_mediana_px_s": 1.0,
    "por_arquivo": {
-    "sky guitar/(aguado) etude in am - tab & lesson.mp4": "erratico",
+    "sky guitar/(aguado) etude in am - tab & lesson.mp4": "parado",
     "sky guitar/baby shark -  fingerstyle tutorial + tab.mp4": "erratico",
-    "sky guitar/el condor pasa (easy version) - fingerstyle lesson + tab.mp4": "erratico",
-    "sky guitar/he's a pirate (easy version) - guitar lesson + tab.mp4": "erratico",
-    "sky guitar/lullaby (mozart) - guitar lesson + tab.mp4": "erratico",
-    "sky guitar/reflection (mulan) - fingerstyle lesson + tab.mp4": "erratico",
+    "sky guitar/el condor pasa (easy version) - fingerstyle lesson + tab.mp4": "desliza",
+    "sky guitar/he's a pirate (easy version) - guitar lesson + tab.mp4": "desliza",
+    "sky guitar/lullaby (mozart) - guitar lesson + tab.mp4": "salta",
+    "sky guitar/reflection (mulan) - fingerstyle lesson + tab.mp4": "duvida",
     "sky guitar/the little drummer boy - fingerstyle lesson + tab.mp4": "erratico",
-    "sky guitar/(henze) nocturno - guitar lesson + tab.mp4": "erratico"
+    "sky guitar/(henze) nocturno - guitar lesson + tab.mp4": "duvida"
    }
   },
   "violaodecria": {
@@ -167,36 +229,47 @@
     "salta": 0,
     "parado": 2,
     "lento": 0,
+    "erratico": 3,
+    "sem_marcador": 3,
+    "sem_painel": 0,
+    "duvida": 0
+   },
+   "por_veredito_fixo": {
+    "desliza": 0,
+    "salta": 0,
+    "parado": 2,
+    "lento": 0,
     "erratico": 1,
     "sem_marcador": 4,
+    "sem_painel": 0,
     "duvida": 1
    },
    "por_veredito_resumo": {
-    "sem_marcador": 4,
+    "erratico": 3,
     "parado": 2,
-    "erratico": 1,
-    "desliza": 1
+    "sem_marcador": 3
    },
+   "videos_com_painel": 8,
    "marcador_utilizavel": 0,
-   "n_deteccoes": 84,
+   "n_deteccoes": 179,
    "matiz_mediana_por_video": 13.0,
    "matiz_mediana_global": 12.5,
-   "velocidade_mediana_px_s": 1.35,
-   "velocidade_trechos_mediana_px_s": 3.0,
+   "velocidade_mediana_px_s": 1.7,
+   "velocidade_trechos_mediana_px_s": 2.0,
    "por_arquivo": {
-    "violaodecria/#auladeviolao #violao #funk  [7402262306521910534].mp4": "sem_marcador",
+    "violaodecria/#auladeviolao #violao #funk  [7402262306521910534].mp4": "erratico",
     "violaodecria/black rainbow - grim salvo ft. witchouse 40k - aprenda a tocar comple... [7520349299117395256].mp4": "parado",
-    "violaodecria/eu sou cantor não sou bandido - mc leozinho zs, mc lele jp, mc joãozi... [7432274289979706629].mp4": "sem_marcador",
+    "violaodecria/eu sou cantor não sou bandido - mc leozinho zs, mc lele jp, mc joãozi... [7432274289979706629].mp4": "erratico",
     "violaodecria/já agradeço - victin (prod ajaxx) #victin #ajaxx #trap #rap #violao #... [7356993279734369541].mp4": "erratico",
     "violaodecria/o tempo tem pressa - chris ft. dapaz (lucas malak) - pineapplestorm #... [7351045808650833157].mp4": "sem_marcador",
     "violaodecria/respondendo a @david araujo  quando a vontade bater - pk e pk delas (... [7387773642907618566].mp4": "parado",
-    "violaodecria/seu jeito simples faz meu coração vibrar - kn mc #violao #funk #medle... [7562597835053583634].mp4": "duvida",
+    "violaodecria/seu jeito simples faz meu coração vibrar - kn mc #violao #funk #medle... [7562597835053583634].mp4": "sem_marcador",
     "violaodecria/“boka loka 2” - dj boy - mc’s vine7, v7, erik, don juan, kako, joãozi... [7538399498150694149].mp4": "sem_marcador"
    }
   }
  },
  "total_videos": 48,
- "total_utilizavel": 1,
+ "total_utilizavel": 5,
  "parametros": {
   "passo_s": 0.5,
   "janela_s": 120.0,

@@ -20,20 +20,22 @@ O que este módulo mede, por vídeo:
 
 Recorte: **dois** por vídeo, porque um só dá falso negativo — medido, não suposto:
 
-  - ``fixo`` = ``fr[300:750, :]``, o mesmo da medição anterior (trocar o recorte invalida
-    a comparação, regra 9 do AGENTS.md). É ele que pega o playhead que atravessa partitura
-    **e** tablatura (o ``henze``: 141 detecções, ``desliza``);
-  - ``justo`` = recorte colado nas linhas do painel, achado por ``tab.painel.candidatos``
-    (y da primeira à última corda, mais folga). É ele que pega o playhead da **altura da
-    tablatura**: no `sky guitar` (`aguado`) o recorte fixo tem 450 px e o portão de altura
-    do detector exige banda de 225 px, então a faixa azul (~140 px) é **rejeitada** e o
-    detector cai no objeto colorido mais cheio — o corpo do violão e a mão (matiz 17) — e
-    o veredito sai ``erratico``. Com o recorte justo (y = 118–347) a mesma série vira
-    ``salta``, matiz 109, com a escada de patamares que a rodada 1 descreveu.
+  - ``painel`` = y colado no sistema de cordas do painel escolhido (``tab.painel.escolher``
+    + ``tab.pipeline.roi_das_cordas``), com x no quadro inteiro. **É o método.** Ele é que
+    pega o playhead da **altura da tablatura**: no `sky guitar` (`aguado`) o recorte fixo
+    tem 450 px e o portão de altura do detector exige banda de 225 px, então a faixa azul
+    (~140 px) é **rejeitada** e o detector cai no objeto colorido mais cheio — o corpo do
+    violão e a mão (matiz 17) — e o veredito sai ``erratico``. Com o recorte do painel
+    (y = 118–347) a mesma série vira ``salta``, matiz 109, com a escada de patamares que a
+    rodada 1 descreveu;
+  - ``fixo`` = ``fr[300:750, :]``, o da medição ANTERIOR, medido junto só para a comparação
+    antes/depois (trocar o recorte invalida a comparação, regra 9 do AGENTS.md). Não
+    responde pelo vídeo.
 
-  O veredito do vídeo é o do recorte utilizável; com os dois utilizáveis, ganha o de banda
-  mais estreita (mais parecido com cursor); sem nenhum utilizável, vale o ``justo``. Os
-  dois vereditos ficam gravados na linha, e a escolha também.
+O veredito do vídeo é o do recorte do painel. Quando não há painel no instante amostrado,
+o veredito é ``sem_painel`` — que **não** é ``sem_marcador``: ali não se sabe se há
+marcador, aqui se sabe que não há. O painel é escolhido uma vez por vídeo (meio da janela;
+se não houver, o início), e o instante fica gravado.
 
 A via de leitura (``cv2`` ou ``ffmpeg``) fica gravada em cada linha, e o ``ffmpeg``
 decodifica a janela **uma vez** para os dois recortes.
@@ -57,7 +59,8 @@ import numpy as np
 
 from .caminhos import SAIDA, acervo
 from .cursor import detectar_cursor
-from .painel import candidatos, melhor
+from .painel import escolher
+from .pipeline import roi_das_cordas
 from .tempo import SALTO_MAX_PX, resumo
 from .varredura import Leitor, _ffmpeg_em, canais_e_videos, duracao_s, ja_feitos
 
@@ -71,15 +74,12 @@ JANELA_S = 120.0
 #: Onde a janela começa (fração da duração). A tablatura aparece da metade para o fim.
 FRAC_INICIO = 0.55
 
-#: Recorte vertical padrão do quadro — o mesmo da medição anterior do marcador.
+#: Recorte vertical fixo do quadro — o da medição ANTERIOR, mantido só para comparação.
 RECORTE_PADRAO = (300, 750)
 
-#: Nome dos dois recortes medidos por vídeo: o fixo e o colado nas linhas do painel.
+#: Os dois recortes medidos por vídeo: o do painel (método) e o fixo (antes/depois).
+CROP_PAINEL = "painel"
 CROP_FIXO = "fixo"
-CROP_JUSTO = "justo"
-
-#: Folga do recorte justo, de cada lado, em fração do passo entre cordas.
-MARGEM_JUSTO_FRAC = 0.75
 
 #: Orçamento de leitura por vídeo, em segundos. O `ffmpeg` gasta ~0,4 s por quadro em
 #: AV1 (44 % do acervo); um vídeo que estoure o orçamento vira `duvida`, não trava a fila.
@@ -97,10 +97,17 @@ LARGURA_MAX_MARCADOR_PX = 40.0
 #: Amostragem prevista que precisa ser cumprida para o veredito valer.
 FRACAO_AMOSTRAGEM_MINIMA = 0.8
 
+#: Cobertura mínima para dizer que há BANDA no recorte (não que a série seja invertível).
+#: É o que separa `sky guitar` 3/8 utilizável de 8/8 com banda visível: ali a banda azul
+#: aparece em ~90 % das amostras, mas a série não tem sentido único — o detector alterna
+#: entre duas bandas azuis do MESMO recorte (medido: 89 saltos grandes em 154 passos).
+COBERTURA_VISIVEL = 0.6
+
 #: Faixas de matiz no histograma (OpenCV: matiz 0–179, então 36 faixas de 5 graus).
 N_BINS_MATIZ = 36
 
-#: Os vereditos possíveis. `duvida` é a resposta honesta quando a medida não decide.
+#: Os vereditos possíveis. `duvida` é a resposta honesta quando a medida não decide, e
+#: `sem_painel` quando nem houve painel para medir (não é o mesmo que "sem marcador").
 VEREDITOS = (
     "desliza",
     "salta",
@@ -108,6 +115,7 @@ VEREDITOS = (
     "lento",
     "erratico",
     "sem_marcador",
+    "sem_painel",
     "duvida",
 )
 
@@ -236,39 +244,46 @@ def _amostrar_cv2(
     t0_s: float,
     n: int,
     passo_s: float,
-    recorte: tuple[int, int],
+    recortes: list[tuple[str, tuple[int, int]]],
     orcamento_s: float,
     inicio: float,
-) -> tuple[list[tuple[float, int, int, int] | None], str | None]:
+) -> tuple[dict[str, list[tuple[float, int, int, int] | None]], str | None]:
     """Amostra o vídeo em sequência com o OpenCV, pulando os quadros intermediários.
+
+    Os recortes são avaliados no MESMO quadro lido: o custo de ler o vídeo é o gargalo, e
+    a detecção em si é barata.
 
     Args:
         caminho: vídeo.
         t0_s: instante da primeira amostra.
         n: quantas amostras.
         passo_s: passo entre amostras, em segundos.
-        recorte: ``(y0, y1)`` do recorte do painel.
+        recortes: ``[(nome, (y0, y1))]`` dos recortes a medir.
         orcamento_s: tempo máximo desta leitura.
         inicio: instante em que a medição do vídeo começou.
 
     Returns:
-        ``(amostras, erro)``; menos de ``n`` amostras quando o OpenCV falha no meio, e
-        ``erro`` ``orcamento_esgotado`` quando o tempo acabou antes do fim da janela.
+        ``(por_recorte, erro)``; menos de ``n`` amostras por recorte quando o OpenCV falha
+        no meio, e ``erro`` ``orcamento_esgotado`` quando o tempo acabou antes do fim.
     """
-    y0, y1 = recorte
-    amostras: list[tuple[float, int, int, int] | None] = []
+    amostras: dict[str, list[tuple[float, int, int, int] | None]] = {
+        nome: [] for nome, _ in recortes
+    }
     estourou = False
+    lidas = 0
     cap = cv2.VideoCapture(caminho)
     try:
         if not cap.isOpened():
-            return [], None
+            return amostras, None
         fps = float(cap.get(cv2.CAP_PROP_FPS) or 30.0)
         passo_frames = max(1, round(passo_s * fps))
         cap.set(cv2.CAP_PROP_POS_MSEC, max(0.0, t0_s) * 1000.0)
         ok, quadro = cap.read()
-        while ok and quadro is not None and quadro.size and len(amostras) < n:
-            det = detectar_cursor(quadro[y0:y1, :])
-            amostras.append(_montar(det, t0_s + len(amostras) * passo_s))
+        while ok and quadro is not None and quadro.size and lidas < n:
+            t = t0_s + lidas * passo_s
+            for nome, (y0, y1) in recortes:
+                amostras[nome].append(_montar(detectar_cursor(quadro[y0:y1, :]), t))
+            lidas += 1
             if time.time() - inicio > orcamento_s:
                 estourou = True
                 break
@@ -286,34 +301,36 @@ def _amostrar_ffmpeg(
     t0_s: float,
     n: int,
     passo_s: float,
-    recorte: tuple[int, int],
+    recortes: list[tuple[str, tuple[int, int]]],
     orcamento_s: float,
     inicio: float,
-) -> tuple[list[tuple[float, int, int, int] | None], str | None]:
+) -> tuple[dict[str, list[tuple[float, int, int, int] | None]], str | None]:
     """Amostra o vídeo pelo ``ffmpeg``, decodificando a janela em uma passada só.
 
     O caminho lento (um processo por amostra) foi medido em 128 s por vídeo AV1: são 241
     seeks e, a cada seek, o decodificador volta ao *keyframe*. Aqui a janela é
     decodificada **em uma passada**, com o filtro ``fps`` pedindo exatamente o passo
     desejado — menos trabalho de decodificação e muito menos busca no HD (que é
-    compartilhado com outros agentes).
+    compartilhado com outros agentes). Os dois recortes saem do mesmo quadro decodificado.
 
     Args:
         caminho: vídeo.
         t0_s: instante da primeira amostra.
         n: quantas amostras.
         passo_s: passo entre amostras, em segundos.
-        recorte: ``(y0, y1)`` do recorte do painel.
+        recortes: ``[(nome, (y0, y1))]`` dos recortes a medir.
         orcamento_s: tempo máximo desta leitura.
         inicio: instante em que a medição do vídeo começou.
 
     Returns:
-        ``(amostras, erro)``. Quando a extração em passada única não devolve quadro
+        ``(por_recorte, erro)``. Quando a extração em passada única não devolve quadro
         nenhum, cai para o caminho lento (um processo por amostra).
     """
     dims = _dimensoes(caminho)
-    y0, y1 = recorte
-    amostras: list[tuple[float, int, int, int] | None] = []
+    amostras: dict[str, list[tuple[float, int, int, int] | None]] = {
+        nome: [] for nome, _ in recortes
+    }
+    lidas = 0
     if dims is not None:
         largura, altura = dims
         tamanho = largura * altura * 3
@@ -348,8 +365,12 @@ def _amostrar_ffmpeg(
                     if not bruto or len(bruto) < tamanho:
                         break
                     quadro = np.frombuffer(bruto, np.uint8).reshape(altura, largura, 3)
-                    det = detectar_cursor(quadro[y0:y1, :])
-                    amostras.append(_montar(det, t0_s + k * passo_s))
+                    t = t0_s + k * passo_s
+                    for nome, (y0, y1) in recortes:
+                        amostras[nome].append(
+                            _montar(detectar_cursor(quadro[y0:y1, :]), t)
+                        )
+                    lidas += 1
                     if time.time() - inicio > orcamento_s:
                         return amostras, "orcamento_esgotado"
         finally:
@@ -358,10 +379,10 @@ def _amostrar_ffmpeg(
             if saida is not None:
                 saida.close()
             proc.wait()
-    if amostras:
+    if lidas:
         return amostras, None
     return _amostrar_ffmpeg_lento(
-        caminho, t0_s, n, passo_s, recorte, orcamento_s, inicio
+        caminho, t0_s, n, passo_s, recortes, orcamento_s, inicio
     )
 
 
@@ -370,10 +391,10 @@ def _amostrar_ffmpeg_lento(
     t0_s: float,
     n: int,
     passo_s: float,
-    recorte: tuple[int, int],
+    recortes: list[tuple[str, tuple[int, int]]],
     orcamento_s: float,
     inicio: float,
-) -> tuple[list[tuple[float, int, int, int] | None], str | None]:
+) -> tuple[dict[str, list[tuple[float, int, int, int] | None]], str | None]:
     """Um processo ``ffmpeg`` por amostra — o caminho reserva, para quando a passada falha.
 
     Args:
@@ -381,22 +402,25 @@ def _amostrar_ffmpeg_lento(
         t0_s: instante da primeira amostra.
         n: quantas amostras.
         passo_s: passo entre amostras, em segundos.
-        recorte: ``(y0, y1)`` do recorte do painel.
+        recortes: ``[(nome, (y0, y1))]`` dos recortes a medir.
         orcamento_s: tempo máximo desta leitura.
         inicio: instante em que a medição do vídeo começou.
 
     Returns:
-        ``(amostras, erro)``; ``erro`` é ``sem_quadro`` quando nenhuma amostra veio.
+        ``(por_recorte, erro)``; ``erro`` é ``sem_quadro`` quando nenhuma amostra veio.
     """
-    y0, y1 = recorte
-    amostras: list[tuple[float, int, int, int] | None] = []
+    amostras: dict[str, list[tuple[float, int, int, int] | None]] = {
+        nome: [] for nome, _ in recortes
+    }
     vazias = 0
     for k in range(n):
         quadro = _ffmpeg_em(caminho, t0_s + k * passo_s)
         if quadro is None:
             vazias += 1
-        det = detectar_cursor(quadro[y0:y1, :]) if quadro is not None else None
-        amostras.append(_montar(det, t0_s + k * passo_s))
+        t = t0_s + k * passo_s
+        for nome, (y0, y1) in recortes:
+            det = detectar_cursor(quadro[y0:y1, :]) if quadro is not None else None
+            amostras[nome].append(_montar(det, t))
         if time.time() - inicio > orcamento_s:
             return amostras, "orcamento_esgotado"
     return amostras, ("sem_quadro" if n and vazias == n else None)
@@ -406,55 +430,59 @@ def serie_do_video(
     caminho: str,
     t0_s: float,
     n_previstas: int,
+    recortes: list[tuple[str, tuple[int, int]]],
     passo_s: float = PASSO_S,
-    recorte: tuple[int, int] = RECORTE_PADRAO,
     orcamento_s: float = ORCAMENTO_S,
 ) -> dict:
-    """Monta a série densa ``x(t)`` do marcador, amostra a amostra.
+    """Monta a série densa ``x(t)`` do marcador, amostra a amostra, por recorte.
 
     A leitura é **sequencial** dentro da janela (um quadro a cada ``passo_s``), e não por
     seek a cada amostra: o seek custa ~80 ms por amostra no OpenCV e obriga o
     decodificador a voltar ao keyframe no ffmpeg. Quando o OpenCV não abre ou não
     decodifica o arquivo (44 % do acervo é AV1), o resto da série é lido pelo ``ffmpeg``,
-    que decodifica a janela inteira de uma vez.
+    que decodifica a janela inteira de uma vez para todos os recortes.
 
     Args:
         caminho: vídeo.
         t0_s: início da janela, em segundos.
         n_previstas: quantas amostras a janela pede.
+        recortes: ``[(nome, (y0, y1))]`` dos recortes a medir; x é absoluto no quadro.
         passo_s: passo entre amostras, em segundos.
-        recorte: ``(y0, y1)`` do recorte do painel; x é absoluto no quadro.
         orcamento_s: tempo máximo de leitura antes de cortar e devolver o que tem.
 
     Returns:
-        Dicionário com ``serie`` (pontos ``(t, x)``), ``larguras``, ``matizes``, ``via``
+        Dicionário com ``por_recorte`` (nome -> ``serie``/``larguras``/``matizes``), ``via``
         (``cv2``, ``ffmpeg`` ou ``cv2+ffmpeg``), ``n_lidas`` (amostras medidas, com ou sem
         detecção) e ``erro``.
     """
     inicio = time.time()
-    amostras, erro = _amostrar_cv2(
-        caminho, t0_s, n_previstas, passo_s, recorte, orcamento_s, inicio
+    por_recorte, erro = _amostrar_cv2(
+        caminho, t0_s, n_previstas, passo_s, recortes, orcamento_s, inicio
     )
+    lidas = max((len(v) for v in por_recorte.values()), default=0)
     via = "cv2"
-    if erro is None and len(amostras) < n_previstas:
+    if erro is None and lidas < n_previstas:
         resto, erro = _amostrar_ffmpeg(
             caminho,
-            t0_s + len(amostras) * passo_s,
-            n_previstas - len(amostras),
+            t0_s + lidas * passo_s,
+            n_previstas - lidas,
             passo_s,
-            recorte,
+            recortes,
             orcamento_s,
             inicio,
         )
-        via = "ffmpeg" if not amostras else "cv2+ffmpeg"
-        amostras = amostras + resto
-    serie, larguras, matizes = _separar(amostras)
+        via = "ffmpeg" if not lidas else "cv2+ffmpeg"
+        for nome in por_recorte:
+            por_recorte[nome] = por_recorte[nome] + resto[nome]
+        lidas = max((len(v) for v in por_recorte.values()), default=0)
+    saida: dict[str, dict[str, list]] = {}
+    for nome, amostras in por_recorte.items():
+        serie, larguras, matizes = _separar(amostras)
+        saida[nome] = {"serie": serie, "larguras": larguras, "matizes": matizes}
     return {
-        "serie": serie,
-        "larguras": larguras,
-        "matizes": matizes,
+        "por_recorte": saida,
         "via": via,
-        "n_lidas": len(amostras),
+        "n_lidas": lidas,
         "erro": erro,
     }
 
@@ -471,7 +499,15 @@ def julgar(
     O veredito bruto é o de ``tab.tempo.resumo``. Ele é rebaixado para ``duvida`` quando a
     medida não sustenta a conclusão — e os motivos são explícitos, não um julgamento
     solto: amostragem incompleta (é o caso que gera aliasing), poucas detecções, banda
-    larga demais para ser cursor, ou movimento dominado por saltos grandes.
+    larga demais para ser cursor, ou salto grande **trocando de direção** num `desliza`.
+
+    O último merece explicação, porque já esteve errado aqui: marcador que SALTA anda em
+    patamares separados por saltos maiores que ``SALTO_MAX_PX`` — isso é o mecanismo do
+    `salta`, não artefato (medido no `sky guitar`: patamares de ~130 px). O que denuncia
+    artefato é o salto trocar de direção (o detector alternando entre duas bandas do mesmo
+    recorte). Por isso a regra exige as três coisas: `desliza` **e** maioria de passos
+    grandes **e** direções trocando. Antes ela disparava só com a maioria de passos
+    grandes e reprovava 3 dos 48 vídeos que o `resumo` tinha aprovado.
 
     Args:
         serie: pontos ``(t, x)`` do marcador.
@@ -481,18 +517,28 @@ def julgar(
         n_previstas: quantas amostras a janela pedia.
 
     Returns:
-        Dicionário com ``veredito``, ``veredito_resumo``, ``motivo_duvida``, ``pontos``,
-        ``deslocamento_total_px``, ``velocidade_px_s``, ``velocidade_trechos_px_s``,
-        ``passo_mediano_px``, ``n_deteccoes``, ``cobertura``, ``n_saltos_grandes``,
-        ``frac_passos_grandes``, ``largura_mediana_px``, ``matiz_mediana``, ``matiz_p10``,
-        ``matiz_p90`` e ``matiz_hist``.
+        Dicionário com ``veredito``, ``veredito_resumo``, ``marcador_visivel``,
+        ``motivo_duvida``, ``pontos``, ``deslocamento_total_px``, ``velocidade_px_s``,
+        ``velocidade_trechos_px_s``, ``passo_mediano_px``, ``n_deteccoes``, ``cobertura``,
+        ``n_saltos_grandes``, ``frac_passos_grandes``, ``frac_trocas_grandes``,
+        ``largura_mediana_px``, ``matiz_mediana``, ``matiz_p10``, ``matiz_p90`` e
+        ``matiz_hist``.
     """
     r = resumo(serie)
     veredito = r["veredito"]
     motivo: str | None = None
     pares = list(itertools.pairwise(serie))
-    grandes = sum(1 for (_, a), (_, b) in pares if abs(b - a) > SALTO_MAX_PX)
-    frac_grandes = grandes / len(pares) if pares else 0.0
+    grandes = [b - a for (_, a), (_, b) in pares if abs(b - a) > SALTO_MAX_PX]
+    frac_grandes = len(grandes) / len(pares) if pares else 0.0
+    # Direção dos passos GRANDES. Medido: o marcador do `sky guitar` salta ~130 px de nota
+    # em nota — patamares separados por saltos > 60 px são o MECANISMO do `salta`, não
+    # artefato. O que denuncia artefato é o salto trocar de direção (o detector alternando
+    # entre duas bandas do mesmo recorte), e é isso que `trocas_grandes` mede.
+    sinais_grandes = [1 if d > 0 else -1 for d in grandes]
+    trocas_grandes = sum(1 for x, y in itertools.pairwise(sinais_grandes) if x != y)
+    frac_trocas_grandes = (
+        trocas_grandes / len(sinais_grandes) if sinais_grandes else 0.0
+    )
     # Velocidade DENTRO dos trechos (entre um salto grande e o seguinte). A velocidade do
     # `resumo` é o deslocamento total sobre a janela inteira; em série que volta ao início
     # (o playhead do `henze` reinicia a cada ~21,5 s) ela subestima o passo real — medido
@@ -511,15 +557,24 @@ def julgar(
             motivo = "poucas_deteccoes"
         elif cobertura < COBERTURA_MINIMA:
             motivo = "serie_esparsa"
-        elif frac_grandes > 0.5:
+        elif veredito == "desliza" and frac_grandes > 0.5 and frac_trocas_grandes > 0.3:
             motivo = "movimento_dominado_por_saltos"
         elif largura_mediana > LARGURA_MAX_MARCADOR_PX:
             motivo = "banda_larga"
     if motivo is not None:
         veredito = "duvida"
+    # Banda VISÍVEL não é série invertível: no `sky guitar` a banda azul aparece em ~90 %
+    # das amostras de 7 de 8 vídeos, e só 3 dão veredito utilizável. Sem esta coluna, o
+    # relatório diria "sem marcador" onde o que falta é a série ter sentido único.
+    visivel = bool(
+        cobertura >= COBERTURA_VISIVEL
+        and largura_mediana > 0
+        and largura_mediana <= LARGURA_MAX_MARCADOR_PX
+    )
     return {
         "veredito": veredito,
         "veredito_resumo": r["veredito"],
+        "marcador_visivel": visivel,
         "motivo_duvida": motivo,
         "pontos": r.get("pontos", 0),
         "deslocamento_total_px": r.get("deslocamento_total_px"),
@@ -530,8 +585,9 @@ def julgar(
         "passo_mediano_px": r.get("passo_mediano_px"),
         "n_deteccoes": len(serie),
         "cobertura": round(cobertura, 3),
-        "n_saltos_grandes": grandes,
+        "n_saltos_grandes": len(grandes),
         "frac_passos_grandes": round(frac_grandes, 3),
+        "frac_trocas_grandes": round(frac_trocas_grandes, 3),
         "largura_mediana_px": largura_mediana or None,
         "matiz_mediana": float(np.median(matizes)) if matizes else None,
         "matiz_p10": float(np.percentile(matizes, 10)) if matizes else None,
@@ -540,68 +596,54 @@ def julgar(
     }
 
 
-def escolher_veredito(por_crop: dict[str, dict]) -> tuple[str, str, str]:
-    """Qual recorte responde pelo vídeo, e por quê.
+def veredito_do_video(por_crop: dict[str, dict]) -> tuple[str, str]:
+    """Veredito do vídeo: o do recorte do PAINEL; ``sem_painel`` quando não houve painel.
 
-    Regras, todas explícitas para poderem ser contestadas: recorte utilizável
-    (``desliza``/``salta``) ganha de recorte não utilizável; com dois utilizáveis, ganha o
-    de **banda mais estreita** (o cursor medido no acervo tem 5–7 px, objeto colorido tem
-    dezenas); sem nenhum utilizável, vale o ``justo``, que é o mais colado na notação.
+    O recorte do painel é o método (é ele que não mistura a tablatura com o vídeo abaixo).
+    O recorte fixo é medido junto só para a comparação antes/depois e **não** responde pelo
+    vídeo. Sem painel no instante amostrado, o veredito é ``sem_painel`` — que é diferente
+    de ``sem_marcador``: ali não se sabe se há marcador, aqui se sabe que não há.
 
     Args:
         por_crop: nome do recorte -> resultado de ``julgar``.
 
     Returns:
-        ``(recorte_escolhido, veredito, motivo_escolha)``.
+        ``(veredito, motivo)``.
     """
-    utilizaveis = {
-        nome: r for nome, r in por_crop.items() if r["veredito"] in {"desliza", "salta"}
-    }
-    if len(utilizaveis) > 1:
-        escolhido = min(
-            utilizaveis,
-            key=lambda n: (utilizaveis[n]["largura_mediana_px"] or 1e9, n),
-        )
-        return escolhido, por_crop[escolhido]["veredito"], "banda_mais_estreita"
-    if len(utilizaveis) == 1:
-        escolhido = next(iter(utilizaveis))
-        return escolhido, por_crop[escolhido]["veredito"], "unico_utilizavel"
-    escolhido = CROP_JUSTO if CROP_JUSTO in por_crop else next(iter(por_crop))
-    return escolhido, por_crop[escolhido]["veredito"], "sem_utilizavel"
+    if CROP_PAINEL in por_crop:
+        return por_crop[CROP_PAINEL]["veredito"], "painel"
+    return "sem_painel", "sem_painel"
 
 
-def recorte_justo(
-    quadro: np.ndarray, margem_frac: float = MARGEM_JUSTO_FRAC
-) -> tuple[int, int] | None:
-    """Recorte em y colado nas linhas do painel, achado por ``tab.painel``.
+def recorte_do_painel(quadro: np.ndarray) -> tuple[tuple[int, int], str] | None:
+    """Recorte em y colado no sistema de cordas do painel, e o nome da faixa.
 
-    O recorte fixo ``fr[300:750]`` tem 450 px de altura e o portão do detector exige banda
-    de 50 % disso (225 px). O playhead do `sky guitar` tem a **altura da tablatura**
-    (~140 px, medido no `aguado`): ele é rejeitado, e o detector cai no candidato mais
-    cheio — o corpo do violão e a mão, matiz 17 — produzindo ``erratico`` onde há marcador.
-    Colar o recorte nas cordas do painel resolve: 229 px de altura, e a faixa azul cobre
-    quase tudo.
+    **Por que não usar o recorte fixo**: ``fr[300:750]`` tem 450 px de altura e o portão do
+    detector exige banda de 50 % disso (225 px). O playhead do `sky guitar` tem a **altura
+    da tablatura** (~140 px, medido no `aguado`): ele é rejeitado, e o detector cai no
+    candidato mais cheio do recorte — o corpo do violão e a mão, matiz 17 — produzindo
+    ``erratico`` onde há marcador. Colar o recorte nas cordas mede 229 px naquele vídeo e a
+    faixa azul (matiz 109) aparece inteira, em escada, veredito ``salta``.
+
+    O y vem de ``tab.pipeline.roi_das_cordas`` (margem de um passo) e a x continua sendo o
+    quadro inteiro, como na série original.
 
     Args:
         quadro: quadro inteiro.
-        margem_frac: folga de cada lado, em fração do passo entre cordas.
 
     Returns:
-        ``(y0, y1)`` do recorte, ou None se o quadro não tem painel de 6 linhas.
+        ``((y0, y1), nome_da_faixa)``, ou None se não há painel de tablatura no quadro.
     """
     try:
-        cand = melhor(candidatos(quadro))
+        cand = escolher(quadro)
     except Exception:
         return None
-    if cand is None or len(cand.grade.linhas_y) < 2:
+    if cand is None:
         return None
-    linhas = cand.grade.linhas_y
-    margem = max(8, round(margem_frac * cand.passo))
-    y0 = max(0, cand.y0 + min(linhas) - margem)
-    y1 = min(quadro.shape[0], cand.y0 + max(linhas) + margem)
+    y0, y1 = roi_das_cordas(cand)
     if y1 - y0 < 30:
         return None
-    return int(y0), int(y1)
+    return (int(y0), int(y1)), cand.nome
 
 
 def medir_video(
@@ -611,10 +653,14 @@ def medir_video(
     janela_s: float = JANELA_S,
     frac_inicio: float = FRAC_INICIO,
     recorte: tuple[int, int] = RECORTE_PADRAO,
-    painel: str = "fixo",
+    crops: str = "ambos",
     orcamento_s: float = ORCAMENTO_S,
 ) -> dict:
     """Mede um vídeo e devolve a linha do JSONL (série resumida, não os pontos).
+
+    O painel é escolhido **uma vez** por vídeo, no meio da janela (e, se ali não houver,
+    no início dela): `escolher` custa 0,3–1 s por quadro e a tablatura não muda de lugar
+    durante o vídeo. O instante usado fica gravado em ``painel_em_s``.
 
     Args:
         caminho: vídeo.
@@ -622,9 +668,8 @@ def medir_video(
         passo_s: passo entre amostras, em segundos.
         janela_s: tamanho máximo da janela, em segundos.
         frac_inicio: fração da duração onde a janela começa.
-        recorte: ``(y0, y1)`` usado quando ``painel`` é ``fixo`` ou quando a escolha
-            automática não acha painel.
-        painel: ``auto`` escolhe a faixa pelo fundo; ``fixo`` usa ``recorte`` sempre.
+        recorte: ``(y0, y1)`` do recorte FIXO (o da medição anterior, para comparação).
+        crops: ``ambos`` mede painel e fixo; ``painel`` só o painel; ``fixo`` só o fixo.
         orcamento_s: tempo máximo de leitura antes de cortar a série.
 
     Returns:
@@ -649,34 +694,45 @@ def medir_video(
         return linha
     n_previstas = int(janela / passo_s) + 1
 
-    nome_painel = None
-    if painel == "auto":
+    recortes: list[tuple[str, tuple[int, int]]] = []
+    if crops in {"ambos", "fixo"}:
+        recortes.append((CROP_FIXO, recorte))
+    nome_painel: str | None = None
+    recorte_painel: tuple[int, int] | None = None
+    painel_em_s: float | None = None
+    tentativas = 0
+    if crops in {"ambos", "painel"}:
         leitor = Leitor(caminho)
         try:
-            quadro = leitor.ler(t0)
+            for instante in (t0 + janela / 2, t0):
+                tentativas += 1
+                quadro = leitor.ler(instante)
+                achado = recorte_do_painel(quadro) if quadro is not None else None
+                if achado is not None:
+                    recorte_painel, nome_painel = achado
+                    painel_em_s = round(instante, 1)
+                    break
         finally:
             leitor.fechar()
-        if quadro is not None:
-            try:
-                cand = melhor(candidatos(quadro))
-            except Exception:
-                cand = None
-            if cand is not None:
-                recorte = (cand.y0, cand.y1)
-                nome_painel = cand.nome
+    if recorte_painel is not None:
+        recortes.append((CROP_PAINEL, recorte_painel))
+    if not recortes:
+        recortes.append((CROP_FIXO, recorte))
 
-    medida = serie_do_video(caminho, t0, n_previstas, passo_s, recorte, orcamento_s)
-    julgamento = julgar(
-        medida["serie"],
-        medida["larguras"],
-        medida["matizes"],
-        medida["n_lidas"],
-        n_previstas,
-    )
-    xs = [x for _, x in medida["serie"]]
-    linha.update(julgamento)
+    medida = serie_do_video(caminho, t0, n_previstas, recortes, passo_s, orcamento_s)
+    por_crop = {
+        nome: julgar(
+            d["serie"], d["larguras"], d["matizes"], medida["n_lidas"], n_previstas
+        )
+        for nome, d in medida["por_recorte"].items()
+    }
+    veredito, motivo = veredito_do_video(por_crop)
     linha.update(
         {
+            "veredito": veredito,
+            "veredito_por": motivo,
+            "veredito_fixo": por_crop.get(CROP_FIXO, {}).get("veredito"),
+            "veredito_painel": por_crop.get(CROP_PAINEL, {}).get("veredito"),
             "t_inicio_s": round(t0, 1),
             "janela_s": round(janela, 1),
             "passo_s": passo_s,
@@ -684,12 +740,18 @@ def medir_video(
             "n_lidas": medida["n_lidas"],
             "via": medida["via"],
             "painel": nome_painel,
-            "recorte": [int(recorte[0]), int(recorte[1])],
-            "x_min": min(xs) if xs else None,
-            "x_max": max(xs) if xs else None,
+            "painel_em_s": painel_em_s,
+            "painel_tentativas": tentativas,
+            "recorte_painel": list(recorte_painel) if recorte_painel else None,
+            "recorte_fixo": [int(recorte[0]), int(recorte[1])],
             "erro": medida["erro"],
+            "crops": por_crop,
         }
     )
+    # Os campos de medida no topo da linha são os do recorte do painel — é ele o método.
+    if CROP_PAINEL in por_crop:
+        linha.update(por_crop[CROP_PAINEL])
+        linha["veredito"] = veredito
     return linha
 
 
@@ -750,6 +812,28 @@ def listar_videos(
     return {c: amostra_espacada(v, por_canal, incluir) for c, v in achados.items()}
 
 
+def _banda_visivel(linha: dict) -> bool:
+    """O vídeo tem BANDA no recorte do painel, mesmo sem veredito utilizável?
+
+    Lê ``marcador_visivel`` da linha e, para linhas antigas (gravadas antes deste campo),
+    recalcula a partir de ``cobertura`` e ``largura_mediana_px``.
+
+    Args:
+        linha: uma linha medida.
+
+    Returns:
+        True se há banda estreita na maior parte das amostras do recorte do painel.
+    """
+    if "marcador_visivel" in linha:
+        return bool(linha["marcador_visivel"])
+    largura = linha.get("largura_mediana_px")
+    return bool(
+        float(linha.get("cobertura") or 0.0) >= COBERTURA_VISIVEL
+        and largura
+        and float(largura) <= LARGURA_MAX_MARCADOR_PX
+    )
+
+
 def agregar_canal(resultados: list[dict]) -> dict:
     """Agrega os resultados de um canal: contagem por veredito e matiz mediana.
 
@@ -762,16 +846,29 @@ def agregar_canal(resultados: list[dict]) -> dict:
         resultados: linhas medidas do canal (dicts do JSONL).
 
     Returns:
-        Dicionário com ``videos``, ``por_veredito``, ``por_veredito_resumo``,
+        Dicionário com ``videos``, ``por_veredito``, ``por_veredito_fixo``,
+        ``por_veredito_resumo``, ``videos_com_painel``, ``videos_com_banda_visivel``,
         ``marcador_utilizavel``, ``n_deteccoes``, ``matiz_mediana_por_video``,
         ``matiz_mediana_global``, ``velocidade_mediana_px_s``,
         ``velocidade_trechos_mediana_px_s`` e ``por_arquivo``.
     """
     por_veredito = dict.fromkeys(VEREDITOS, 0)
+    por_veredito_fixo = dict.fromkeys(VEREDITOS, 0)
     por_veredito_resumo: dict[str, int] = {}
+    com_painel = 0
+    com_banda = 0
     for r in resultados:
         v = r.get("veredito", "duvida")
         por_veredito[v] = por_veredito.get(v, 0) + 1
+        vf = r.get("veredito_fixo") or (r.get("crops") or {}).get(CROP_FIXO, {}).get(
+            "veredito"
+        )
+        if vf:
+            por_veredito_fixo[vf] = por_veredito_fixo.get(vf, 0) + 1
+        if r.get("recorte_painel"):
+            com_painel += 1
+        if _banda_visivel(r):
+            com_banda += 1
         vr = r.get("veredito_resumo")
         if vr:
             por_veredito_resumo[vr] = por_veredito_resumo.get(vr, 0) + 1
@@ -799,7 +896,10 @@ def agregar_canal(resultados: list[dict]) -> dict:
     return {
         "videos": len(resultados),
         "por_veredito": por_veredito,
+        "por_veredito_fixo": por_veredito_fixo,
         "por_veredito_resumo": por_veredito_resumo,
+        "videos_com_painel": com_painel,
+        "videos_com_banda_visivel": com_banda,
         "marcador_utilizavel": utilizavel,
         "n_deteccoes": sum(int(r.get("n_deteccoes") or 0) for r in resultados),
         "matiz_mediana_por_video": float(np.median(medias)) if medias else None,
@@ -890,23 +990,25 @@ def escrever_resumo(saida: str, canais: list[str] | None = None) -> dict:
     return doc
 
 
-def tabela_texto(canais: dict[str, dict]) -> str:
+def tabela_texto(canais: dict[str, dict], chave: str = "por_veredito") -> str:
     """Tabela legível do resumo por canal.
 
     Args:
         canais: campo ``canais`` do resumo.
+        chave: qual contagem mostrar; ``por_veredito`` é o método (recorte do painel) e
+            ``por_veredito_fixo`` é o recorte fixo da medição anterior.
 
     Returns:
         Texto pronto para imprimir.
     """
-    largura_veredito = 8
+    largura_veredito = 9
     cabecalho = f"{'canal':<20}" + "".join(
-        f"{v[: largura_veredito - 3]:>{largura_veredito}}" for v in VEREDITOS
+        f"{v[: largura_veredito - 1]:>{largura_veredito}}" for v in VEREDITOS
     )
-    cabecalho += f"{'util':>6}{'matiz':>8}"
+    cabecalho += f"{'util':>6}{'banda':>6}{'matiz':>8}"
     linhas = [cabecalho]
     for canal, ag in canais.items():
-        contagens = ag.get("por_veredito", {})
+        contagens = ag.get(chave, {})
         matiz = ag.get("matiz_mediana_global")
         if matiz is None:
             matiz = ag.get("matiz_mediana_por_video")
@@ -914,6 +1016,7 @@ def tabela_texto(canais: dict[str, dict]) -> str:
             f"{contagens.get(v, 0):>{largura_veredito}}" for v in VEREDITOS
         )
         linha += f"{ag.get('marcador_utilizavel', 0):>6}"
+        linha += f"{ag.get('videos_com_banda_visivel', 0):>6}"
         linha += f"{matiz:>8.0f}" if matiz is not None else f"{'-':>8}"
         linhas.append(linha)
     return "\n".join(linhas)
@@ -933,7 +1036,7 @@ def main() -> int:
     ap.add_argument("--passo", type=float, default=PASSO_S)
     ap.add_argument("--janela", type=float, default=JANELA_S)
     ap.add_argument("--frac-inicio", type=float, default=FRAC_INICIO)
-    ap.add_argument("--painel", choices=["auto", "fixo"], default="fixo")
+    ap.add_argument("--crops", choices=["ambos", "painel", "fixo"], default="ambos")
     ap.add_argument("--orcamento-s", type=float, default=ORCAMENTO_S)
     ap.add_argument(
         "--incluir",
@@ -951,7 +1054,10 @@ def main() -> int:
     os.makedirs(args.saida, exist_ok=True)
     if args.resumir:
         doc = escrever_resumo(args.saida, args.canais)
+        print("MÉTODO (recorte do painel):")
         print(tabela_texto(doc["canais"]))
+        print("\nANTES (recorte fixo 300:750):")
+        print(tabela_texto(doc["canais"], "por_veredito_fixo"))
         return 0
 
     canais = listar_videos(
@@ -962,7 +1068,7 @@ def main() -> int:
     )
     print(
         f"canais: {len(canais)} | vídeos: {sum(len(v) for v in canais.values())} | "
-        f"passo: {args.passo}s | janela: {args.janela}s | painel: {args.painel}",
+        f"passo: {args.passo}s | janela: {args.janela}s | crops: {args.crops}",
         flush=True,
     )
     inicio = time.time()
@@ -993,7 +1099,7 @@ def main() -> int:
                         args.janela,
                         args.frac_inicio,
                         RECORTE_PADRAO,
-                        args.painel,
+                        args.crops,
                         args.orcamento_s,
                     )
                 except Exception as exc:
@@ -1010,17 +1116,20 @@ def main() -> int:
                 processados += 1
                 print(
                     f"  [{i}/{len(pendentes)}] {os.path.basename(video)[:40]:<40} "
-                    f"{linha.get('veredito')} n={linha.get('n_deteccoes')}"
-                    f"/{linha.get('n_lidas')} via={linha.get('via')} "
-                    f"matiz={linha.get('matiz_mediana')} "
-                    f"{time.time() - t_video:.0f}s",
+                    f"{linha.get('veredito')} (fixo={linha.get('veredito_fixo')}) "
+                    f"n={linha.get('n_deteccoes')}/{linha.get('n_lidas')} "
+                    f"via={linha.get('via')} matiz={linha.get('matiz_mediana')} "
+                    f"rec={linha.get('recorte_painel')} {time.time() - t_video:.0f}s",
                     flush=True,
                 )
     doc = escrever_resumo(args.saida, list(canais))
     print(
         f"\n{processados} vídeos em {(time.time() - inicio) / 60:.1f} min", flush=True
     )
+    print("MÉTODO (recorte do painel):")
     print(tabela_texto(doc["canais"]))
+    print("\nANTES (recorte fixo 300:750):")
+    print(tabela_texto(doc["canais"], "por_veredito_fixo"))
     return 0
 
 
