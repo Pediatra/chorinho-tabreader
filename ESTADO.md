@@ -1169,6 +1169,31 @@ tablaturas com negativos fáceis; agora são 356 positivos de 37 tablaturas de v
 abafados, setas longas, mordentes e trêmolo dele — a distribuição REAL do pipeline. O número piorou
 porque a medição melhorou.
 
+## 2026-10-09 — A CAUSA: a coleta amostra vídeos que o dono NUNCA marcou (interseção = 1 de 51)
+
+Depois de retreinar com 3× mais dados (356 positivos, 37 tablaturas) e o número da coleta **não se
+mexer** (979 símbolos; algarismo ainda ~58 % na amostra no olho), medi o que faltava medir — a
+sobreposição entre os VÍDEOS:
+
+| | |
+| --- | --- |
+| vídeos das tablaturas marcadas pelo dono | **28** |
+| vídeos que a coleta amostra | **51** |
+| **interseção** | **1** |
+| canais que a coleta cobre e NÃO têm nenhuma tablatura marcada | `cifra club`, `guitar dell'arte`, `violaodecria` |
+
+**É isto.** O detector é treinado em 28 vídeos e aplicado em 51 **quase disjuntos**. A validação por
+canal (LOCA) **não podia ver isso**, porque ela deixa um CANAL de fora mas todos os recortes dela
+saem dos mesmos 28 vídeos. Todo o mistério do goal — "separa 123/123 no gabarito e aprova dígito no
+pipeline" — era isto: **o gabarito e o pipeline não compartilham vídeos.**
+
+Consequência prática, e é o próximo passo: extrair tablaturas **dos vídeos que a própria coleta
+amostra** (`sorted(glob)[:3]` por canal) e pedir ao dono para marcar ESSES. Aí treino e teste
+passam a falar da mesma distribuição — e aí o número vai dizer algo de verdade.
+
+E os 3 canais sem nenhuma tablatura marcada não têm como ser avaliados de jeito nenhum: é preciso
+marcar pelo menos um vídeo de cada.
+
 ## Noite de 2026-10-08/09
 
 O acervo cresceu para **3.993 vídeos / 183 GB / 17 canais** (ainda baixando). O que
