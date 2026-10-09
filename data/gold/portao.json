@@ -1,5 +1,5 @@
 {
- "como_foi_rotulado": "recortes de painel lidos um a um no olho, em folhas de 32 com indice (data/saida/frames/folha_A/B/C.png)",
+ "como_foi_rotulado": "recortes de painel lidos um a um no olho, em folhas com indice desenhado: folha_A/B/C (32 por folha, 121 casos, 8 canais) e folha_D..N (16 por folha, 168 casos novos de 'sky guitar' e 'iwaki'); as folhas estao em data/saida/frames/",
  "folhas": [
   "data/saida/frames/folha_A.png",
   "data/saida/frames/folha_B.png",

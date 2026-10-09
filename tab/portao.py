@@ -237,7 +237,9 @@ def cena_em_quadro(cena: np.ndarray, rng: random.Random) -> np.ndarray:
     return quadro[y0:y1, :]
 
 
-def montar_dataset(n_por_classe: int, seed: int = 0) -> tuple[np.ndarray, np.ndarray]:
+def montar_dataset(
+    n_por_classe: int, seed: int = 0, n_negativos: int | None = None
+) -> tuple[np.ndarray, np.ndarray]:
     """Monta o conjunto com o MESMO recorte que o pipeline vê em produção.
 
     Positivo: linha de tablatura do gerador posta numa faixa de um quadro de vídeo
@@ -246,12 +248,17 @@ def montar_dataset(n_por_classe: int, seed: int = 0) -> tuple[np.ndarray, np.nda
     vai de fato tomar, e não a diferença entre dois desenhos limpos.
 
     Args:
-        n_por_classe: quantos exemplos de cada classe.
+        n_por_classe: quantos exemplos positivos (tablatura sintética).
         seed: semente do sorteio.
+        n_negativos: quantos negativos; padrão igual aos positivos. Pedir **mais
+            negativos que positivos** é o que cobre "foto de instrumento" sem ensinar o
+            positivo a ser o desenho sintético — medido: o positivo sintético derruba a
+            validação por canal (ver `docs/rodadas/`).
 
     Returns:
         ``(X, y)`` com X em ``(N, 1, ALTURA, LARGURA)`` e y em ``{0, 1}``.
     """
+    quantos_neg = n_por_classe if n_negativos is None else n_negativos
     rng = random.Random(seed)
     X: list[np.ndarray] = []
     y: list[int] = []
@@ -259,7 +266,7 @@ def montar_dataset(n_por_classe: int, seed: int = 0) -> tuple[np.ndarray, np.nda
         linha, _ = gerar_linha(rng)
         X.append(preparar(cena_em_quadro(linha, rng)))
         y.append(1)
-    for i in range(n_por_classe):
+    for i in range(quantos_neg):
         desenhar = NEGATIVOS_SINTETICOS[i % len(NEGATIVOS_SINTETICOS)]
         X.append(preparar(cena_em_quadro(desenhar(rng), rng)))
         y.append(0)
@@ -532,28 +539,37 @@ def pesos_de_classe(y: np.ndarray) -> np.ndarray:
 
 
 def montar_treino(
-    casos: list[dict], n_sint: int, seed: int, excluir_canal: str | None = None
-) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    casos: list[dict],
+    n_sint: int,
+    seed: int,
+    excluir_canal: str | None = None,
+    n_sint_neg: int | None = None,
+    balancear: bool = True,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray | None]:
     """Conjunto de treino: recortes reais rotulados + sintéticos alinhados.
 
     Args:
         casos: casos do gabarito.
-        n_sint: exemplos sintéticos por classe (0 = só recorte real).
+        n_sint: positivos sintéticos (0 = só recorte real).
         seed: semente do gerador sintético.
         excluir_canal: canal deixado de fora (validação leave-one-channel-out).
+        n_sint_neg: negativos sintéticos (padrão: igual a ``n_sint``).
+        usar_pesos: peso de classe na perda.
+        balancear: usar peso de classe na perda (``False`` = perda crua, para medir
+            o efeito do balanceamento).
 
     Returns:
-        ``(X, y, pesos)``.
+        ``(X, y, pesos)``; ``pesos`` é ``None`` quando ``balancear`` é falso.
     """
     X, y, canais = dataset_real(casos)
     if excluir_canal is not None and len(y):
         fora = np.array([c == excluir_canal for c in canais])
         X, y = X[~fora], y[~fora]
-    if n_sint:
-        Xs, ys = montar_dataset(n_sint, seed=seed)
+    if n_sint or n_sint_neg:
+        Xs, ys = montar_dataset(n_sint, seed=seed, n_negativos=n_sint_neg)
         X = np.concatenate([X, Xs])
         y = np.concatenate([y, ys])
-    return X, y, pesos_de_classe(y)
+    return X, y, pesos_de_classe(y) if balancear else None
 
 
 def treinar(
@@ -696,7 +712,13 @@ def avaliar(modelo, dev) -> dict:
 
 
 def validar_por_canal(
-    casos: list[dict], n_sint: int, epocas: int, seed: int, lote: int = 64
+    casos: list[dict],
+    n_sint: int,
+    epocas: int,
+    seed: int,
+    lote: int = 64,
+    n_sint_neg: int | None = None,
+    usar_pesos: bool = True,
 ) -> dict:
     """Leave-one-channel-out: treina sem um canal e mede nele.
 
@@ -710,26 +732,51 @@ def validar_por_canal(
         epocas: passagens pelo conjunto.
         seed: semente do treino e do sintético.
         lote: tamanho do lote.
+        n_sint_neg: negativos sintéticos (padrão: igual a ``n_sint``).
+        usar_pesos: peso de classe na perda.
 
     Returns:
-        ``{canal: {"acertos", "total", "positivos"}}`` e a chave ``"total"`` com a soma
-        de todos os casos deixados de fora.
+        ``{canal: {"acertos", "total", "positivos", "acertos_positivos"}}`` e a chave
+        ``"total"`` com a soma de todos os casos deixados de fora. As duas contagens
+        importam: acertar 65 negativos e errar 20 tablaturas não é o mesmo que o
+        contrário, e o total sozinho esconde qual dos dois aconteceu.
     """
     _, _, canais = dataset_real(casos)
     resultado: dict = {}
-    acertos = total = 0
+    acertos = total = pos_total = ac_pos_total = 0
     for canal in sorted(set(canais)):
-        X, y, pesos = montar_treino(casos, n_sint, seed, excluir_canal=canal)
+        X, y, pesos = montar_treino(
+            casos,
+            n_sint,
+            seed,
+            excluir_canal=canal,
+            n_sint_neg=n_sint_neg,
+            balancear=usar_pesos,
+        )
         modelo, dev = treinar(
             X, y, "", epocas, seed, lote=lote, pesos=pesos, salvar=False
         )
         Xc, yc, _ = dataset_real([c for c in casos if c["canal"] == canal])
         p = probabilidade_lote(Xc, modelo, dev)
-        ac = int(((p >= 0.5) == (yc == 1)).sum())
-        resultado[canal] = {"acertos": ac, "total": len(yc), "positivos": int(yc.sum())}
+        acerto = (p >= 0.5) == (yc == 1)
+        ac = int(acerto.sum())
+        pos = np.asarray(yc == 1)
+        resultado[canal] = {
+            "acertos": ac,
+            "total": len(yc),
+            "positivos": int(pos.sum()),
+            "acertos_positivos": int((acerto & pos).sum()),
+        }
         acertos += ac
         total += len(yc)
-    resultado["total"] = {"acertos": acertos, "total": total}
+        pos_total += int(pos.sum())
+        ac_pos_total += int((acerto & pos).sum())
+    resultado["total"] = {
+        "acertos": acertos,
+        "total": total,
+        "positivos": pos_total,
+        "acertos_positivos": ac_pos_total,
+    }
     return resultado
 
 
@@ -761,6 +808,15 @@ def main() -> int:
         "--gold", action="store_true", help="inclui os recortes reais rotulados"
     )
     ap.add_argument("--pesos", action="store_true", help="peso de classe na perda")
+    ap.add_argument(
+        "--n-neg",
+        type=int,
+        default=None,
+        help="negativos sintéticos (padrão: igual a --n)",
+    )
+    ap.add_argument(
+        "--sem-pesos", action="store_true", help="perda crua (sem peso de classe)"
+    )
     ap.add_argument(
         "--canal", default="sky guitar", help="canal(is) da coleta, vírgula"
     )
@@ -838,7 +894,7 @@ def main() -> int:
         if args.gold:
             casos = [c for c in casos_do_gold() if c.get("rotulo") in ROTULOS_BINARIOS]
             _, y_real, _ = dataset_real(casos)
-            X, y, pesos = montar_treino(casos, args.n, args.seed)
+            X, y, pesos = montar_treino(casos, args.n, args.seed, n_sint_neg=args.n_neg)
             if not args.pesos:
                 pesos = None
             print(
@@ -855,6 +911,7 @@ def main() -> int:
                 pesos=pesos,
                 extra={
                     "n_sint": args.n,
+                    "n_sint_neg": args.n_neg,
                     "gold": len(casos),
                     "positivos_reais": int(y_real.sum()),
                     "pesos": bool(args.pesos),
@@ -862,7 +919,7 @@ def main() -> int:
             )
             print(f"\nmodelo salvo em {args.saida}", flush=True)
         else:
-            X, y = montar_dataset(args.n, seed=args.seed)
+            X, y = montar_dataset(args.n, seed=args.seed, n_negativos=args.n_neg)
             print(
                 f"conjunto: {X.shape} | tablatura {int(y.sum())} de {len(y)}",
                 flush=True,
@@ -873,7 +930,14 @@ def main() -> int:
         casos = [c for c in casos_do_gold() if c.get("rotulo") in ROTULOS_BINARIOS]
         print(
             json.dumps(
-                validar_por_canal(casos, args.n, args.epocas, args.seed),
+                validar_por_canal(
+                    casos,
+                    args.n,
+                    args.epocas,
+                    args.seed,
+                    n_sint_neg=args.n_neg,
+                    usar_pesos=not args.sem_pesos,
+                ),
                 ensure_ascii=False,
                 indent=1,
             ),

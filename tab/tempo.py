@@ -171,43 +171,63 @@ def resumo(serie: list[tuple[float, int]]) -> dict:
     # serve aqui — medida e descartada: ela achatava justamente os saltos grandes que
     # caracterizam o artefato, e a série errática do `iwaki/henze` passava a "parado".
     # round() de float já devolve int neste Python (medido — regra 8 do AGENTS.md).
+    # round() de float já devolve int neste Python (medido — regra 8 do AGENTS.md).
     quant = [(t_, round(x / QUANTIZACAO_PX) * QUANTIZACAO_PX) for t_, x in serie]
+    # O sentido é julgado no nível dos PATAMARES, não dos passos pequenos: é o nível em que
+    # o mecanismo opera (o marcador fica parado na nota e salta para a próxima) e é o único
+    # que não confunde trepidação com mudança de rumo. Medido no `sky guitar` (aguado), com
+    # o mesmo instante e a mesma janela: o quociente de trocas ficava colado no limiar
+    # (`11/33 = 0,333` contra limiar `0,30`) e **um patamar a mais virava o veredito** — o
+    # mesmo vídeo saía `parado` num recorte e `salta` noutro. Os saltos de VOLTA AO INÍCIO
+    # da linha (|dx| > SALTO_MAX_PX) não contam como mudança de sentido: são a virada de
+    # sistema da tablatura, não indecisão do marcador.
+    degraus = patamares(quant)
+    avancos = [
+        x2 - x1 for (_, _, x1), (_, _, x2) in itertools.pairwise(degraus) if x2 != x1
+    ]
+    normais = [d for d in avancos if abs(d) <= SALTO_MAX_PX]
+    sentido = [1 if d > 0 else -1 for d in normais]
+    trocas = sum(1 for a, b in itertools.pairwise(sentido) if a != b)
+    razao_trocas = trocas / len(sentido) if sentido else 0.0
     todos = [x2 - x1 for (_, x1), (_, x2) in itertools.pairwise(quant)]
-    passos = [p for p in todos if abs(p) <= SALTO_MAX_PX]
+    passos = [p for p in todos if 0 < abs(p) <= SALTO_MAX_PX]
     grandes = [p for p in todos if abs(p) > SALTO_MAX_PX]
-    if not passos:
-        # Só saltos grandes: a "detecção" aparece em pontos sem relação entre si. Medido
-        # no `iwaki/henze` ao longo dos 342 s: x = 230, 285, 341, 548, 638, 690, 844,
-        # 1184, 1491, 1527... — um movimento suave de 4 s dentro disso me fez concluir
-        # "o marcador desliza" quando era coincidência.
+    if not any(todos):
+        # Nenhum movimento: o marcador está parado (não é artefato — é ausência de avanço).
+        # (`todos` não serve: é uma lista de ZEROS, que é truthy — erro meu, pego por teste.)
+        return {"pontos": len(serie), "veredito": "parado"}
+    if not passos and not avancos:
+        # Só saltos grandes e nenhum patamar: é o artefato (a série "errática" do iwaki/henze).
         return {
             "pontos": len(serie),
             "saltos_grandes": len(grandes),
-            "veredito": "erratico" if len(grandes) >= 2 else "sem_marcador",
+            "veredito": "erratico",
         }
     ordenados = sorted(abs(p) for p in passos)
-    mediana = ordenados[len(ordenados) // 2]
-    total = max(x for _, x in quant) - min(x for _, x in quant)
-    # Marcador de execução anda para UM lado; série que troca de sentido é artefato.
-    sinais = [1 if p > 0 else -1 for p in passos if p != 0]
-    trocas = sum(1 for a, b in itertools.pairwise(sinais) if a != b)
-    if sinais and trocas / len(sinais) > 0.3:
+    mediana = ordenados[len(ordenados) // 2] if ordenados else 0
+    if razao_trocas > 0.3:
         veredito = "erratico"
     elif mediana >= 3:
         veredito = "desliza"
+    elif len(degraus) >= 3:
+        veredito = "salta"
     else:
-        # x praticamente parado entre amostras: ou é patamar de cursor que salta, ou é
-        # ruído parado. Patamares com avanço em UM sentido = cursor que salta.
-        degraus = patamares(quant)
-        avancos = [
-            x2 - x1
-            for (_, _, x1), (_, _, x2) in itertools.pairwise(degraus)
-            if x2 != x1
-        ]
-        sentido = [1 if d > 0 else -1 for d in avancos]
-        troca_sentido = sum(1 for a, b in itertools.pairwise(sentido) if a != b)
-        avanca = bool(sentido) and troca_sentido / len(sentido) <= 0.3
-        veredito = "salta" if (len(degraus) >= 3 and avanca) else "parado"
+        veredito = "parado"
+    total = max(x for _, x in quant) - min(x for _, x in quant)
+    intervalo = serie[-1][0] - serie[0][0]
+    velocidade = (total / intervalo) if intervalo > 0 else 0.0
+    if veredito in {"desliza", "salta"} and velocidade < VELOCIDADE_MINIMA_PX_S:
+        veredito = "lento"
+    return {
+        "pontos": len(serie),
+        "deslocamento_total_px": int(total),
+        "passo_mediano_px": int(mediana),
+        "patamares": len(degraus),
+        "trocas_de_sentido": trocas,
+        "velocidade_px_s": round(velocidade, 1),
+        "veredito": veredito,
+    }
+
     # Velocidade: um marcador que acompanha NOTA POR NOTA anda, no mínimo, uma fração do
     # passo por nota. Medido no `asturias`, a banda laranja anda 10 px em 17 s (0,6 px/s):
     # mesmo sendo a favor de um sentido, não serve para dar onset de nota.
