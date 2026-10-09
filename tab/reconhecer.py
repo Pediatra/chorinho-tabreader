@@ -208,10 +208,14 @@ def reconhecer_linha(
     # assim `reconhecer` não importa `digito`, que importa `_recortar` daqui.
     if discriminador is not None:
         idx_dig = [k for k, r in enumerate(rotulos) if r in ALGARISMOS]
+        # `classes` pode ter MENOS entradas que `tokens` (o primeiro passo só classifica o
+        # que passou no portão de forma). Iterar sobre `tokens` estourava IndexError — medido
+        # no `ギタロー/guitarous`: 41 tokens e `classes` menor. O que não foi classificado não
+        # tem classe para contestar, então fica de fora.
         alvos_d = [
             i
-            for i, tk in enumerate(tokens)
-            if classes[i][0] not in ALGARISMOS and len(tk.componentes or ()) <= 1
+            for i in range(min(len(tokens), len(classes)))
+            if classes[i][0] not in ALGARISMOS and len(tokens[i].componentes or ()) <= 1
         ]
         if alvos_d:
             recortes_d = [
