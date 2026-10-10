@@ -3822,3 +3822,39 @@ diz que o OpenCV *"falha em **49 %** do acervo (AV1 sem aceleração)"* ✓, enq
 `AGENTS.md` falam de **44 %** de AV1 ✓. Os dois podem estar certos ✓ (44 % AV1 **mais** algum H.264 que o
 `cv2` também não decodifica ✓), mas **não medi** qual é o caso ✗ — fica registrado como número a
 reconciliar, **sem** assumir que um está errado ✓.
+
+## 2026-10-10 — FASE 1 / T1.1 FEITO: `tab/leitor.py` — e o AV1 passa a decodificar (60 quadros em 10 s)
+
+**Criado `tab/leitor.py`** ✓ (o único jeito de ler vídeo ✓), montado **reaproveitando** o que já existia ✓ —
+não reescrito ✗: `info`/`dimensoes` por `ffprobe` ✓; `quadro_em` da invocação do `varredura._ffmpeg_em` ✓;
+`quadros` da **passada única** do `marcador._amostrar_ffmpeg` ✓; `Leitor` = `varredura.Leitor` promovido ✓
+(decide **uma vez** por vídeo e cai para `ffmpeg` no meio ✓). CLI de inspeção: `python -m tab.leitor VIDEO
+--info | --quadro-em T | --janela T0 T1 --qps Q` ✓.
+
+**Medido, rodando de verdade** (§4.2 passo 5):
+
+| vídeo | `info()` |
+| --- | --- |
+| `sky guitar/retrato brasileiro` | `h264 · 1920×1080 · 29,97 fps · 678,974 s` ✓ |
+| **`mr. tabs` (AV1)** | `av1 · 1920×1080 · **60 fps** · 282,894 s` ✓ |
+
+**E a PROVA que o T1.1 existia para dar** — o mesmo vídeo AV1 em que o `cv2` **falhava calado** ✗
+(`grab()` falhou em **30 de 30**, T0.3 evidência 4 ✓):
+
+```
+python -m tab.leitor "<mr. tabs AV1>" --janela 100 110 --qps 6
+  t=100.333 quadro=(1080, 1920, 3)
+quadros(100.0, 110.0, qps=6.0): 60 quadros        <- 10 s × 6 qps = 60, exato ✓
+```
+
+E no H.264: `quadro_em(245.5)` → ok ✓; `--janela 245.5 248.5 --qps 6` → **18 quadros** ✓ (3 s × 6 ✓).
+
+**O gate barrou o primeiro commit** ✓ com **3 `RUF100`** — `noqa` **inúteis** que eu escrevi para `BLE001` e
+`S101`, que **não estão ligados** neste projeto ✓ (eu os copiei de outro contexto ✗). O `ruff check --fix`
+removeu os três ✓ e o `ruff format` ajustou a formatação ✓ → gate verde ✓. **O veto funcionou**: nada foi
+commitado com o gate vermelho ✓.
+
+**O que ainda falta na Fase 1**: T1.2 (migrar `cursor.rastrear`, `transcrever.*`, `pipeline.*`,
+`marcador._amostrar_cv2`, `varredura.Leitor` para o leitor ✓ + o teste que proíbe `VideoCapture(` fora de
+`tab/leitor.py` ✓ + `tab.avaliar` **idêntico** antes/depois ✓), T1.3 (espaço de coordenadas do quadro com
+`x0` no `Candidato` ✓) e T1.4 (`tab/colunas.py` ✓).
