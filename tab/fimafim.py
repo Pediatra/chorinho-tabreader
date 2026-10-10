@@ -1,16 +1,23 @@
 """Mede o detector de símbolo DE PONTA A PONTA, contra as marcas do dono.
 
-Por que este módulo existe no repositório e não em `/tmp`: ele já foi perdido num reboot, e a medição que
-ele faz é a única que responde se o caminho do símbolo melhorou. O `AGENTS.md` diz que caminho não se
-espalha — e isso vale para os meus instrumentos.
+Existe no repositório (e não em `/tmp`) porque já foi perdido num reboot, e é a medição que responde se o
+caminho do símbolo melhorou.
 
-A métrica mede **contra as marcas**, e isso é um **PISO de precisão**, não o valor real: a auditoria do
-dono mostrou que 9 de 10 "falsos positivos" eram símbolos que ele **não tinha marcado**. Por isso o módulo
-imprime o número com essa ressalva junto.
+Duas coisas que este módulo faz de propósito, cada uma por um erro meu já cometido:
+
+1. **Conta AS DUAS passadas** do `reconhecer_linha` — a primeira (tokens da grade, que trazem o símbolo
+   junto do dígito) e a segunda (`origem == "simbolo"`, candidatos do caminho do símbolo). Contar só a
+   segunda deu 29 aprovados onde a referência dava 178, e a comparação parecia não mudar nada.
+2. **Imprime o caminho do modelo** que carregou. Sem isso, uma troca de `SAIDA_SIMBOLO` que não surtisse
+   efeito passaria como "a mudança não ajudou".
+
+A precisão é medida **contra as marcas** e isso é um **PISO**, não o valor real: a auditoria do dono
+mostrou que 9 de 10 "falsos positivos" eram símbolos que ele **não tinha marcado**. O módulo imprime essa
+ressalva junto do número.
 
 Uso:
 
-    python -m tab.fimafim --marca data/gold/marcas_simbolos_6.json --jx 1.5 --jy 1.25
+    python -m tab.fimafim --jx 1.5 --jy 1.25
 """
 
 import argparse
@@ -39,6 +46,12 @@ def main() -> int:
     ap.add_argument("--limiar2", type=float, default=0.5)
     args = ap.parse_args()
 
+    arq_simbolo = (
+        pathlib.Path(os.environ.get("SAIDA_SIMBOLO", "artefatos"))
+        / "simbolo_2"
+        / "simbolo.pt"
+    )
+    print(f"modelo de simbolo: {arq_simbolo} | existe={arq_simbolo.exists()}")
     modelo, rotulos, dev = carregar_modelo(args.modelo)
     filtro, disc = carregar_simbolo(), carregar_discriminador()
     indice = {
@@ -57,10 +70,9 @@ def main() -> int:
         if reg is None:
             continue
         base = os.path.basename(str(reg["video"]))
-        canal = reg["canal"]
         videos = [
             v
-            for v in glob.glob(f"/acervo/{canal}/*.mp4")
+            for v in glob.glob(f"/acervo/{reg['canal']}/*.mp4")
             if os.path.basename(v).startswith(base[:24])
         ]
         if not videos:
@@ -85,18 +97,19 @@ def main() -> int:
             janela_simbolo=(args.jx, args.jy),
             limiar_simbolo2=args.limiar2,
         )
+        gs = list(cand.grade.glifos)
         aprovados = []
-        for nota in r["notas"]:
+        for i, nota in enumerate(r["notas"]):
             dados = nota.get("simbolo_cru")
             if not (isinstance(dados, dict) and "prob_simbolo" in dados):
                 continue
             caixa = dados.get("caixa_token")
-            if (
-                nota.get("origem") == "simbolo"
-                and isinstance(caixa, (list, tuple))
-                and len(caixa) == 4
-            ):
+            if nota.get("origem") == "simbolo":
+                if not (isinstance(caixa, (list, tuple)) and len(caixa) == 4):
+                    continue
                 x0, y0t, x1, y1t = caixa
+            elif i < len(gs):
+                x0, y0t, x1, y1t = gs[i].x0, gs[i].y0, gs[i].x1, gs[i].y1
             else:
                 continue
             aprovados.append(((x0 + x1) // 2, (y0t + y1t) // 2 + roi_y0 - y0))
@@ -117,11 +130,13 @@ def main() -> int:
     total = len(
         json.loads(pathlib.Path(args.marca).read_text(encoding="utf-8"))["marcas"]
     )
-    print(f"marcas={total} | aprovados={tp + fp} | BATE={tp} nao={fp} nao_pego={fn}")
+    print(
+        f"J={args.jx}x{args.jy} marcas={total} aprovados={tp + fp} BATE={tp} nao={fp} nao_pego={fn}"
+    )
     if tp + fp:
         print(
-            f"PRECISAO = {tp}/{tp + fp} = {tp / (tp + fp):.3f}  (PISO: a régua 'está em cima de uma "
-            f"marca' perde símbolos, como a auditoria do dono mostrou)"
+            f"PRECISAO = {tp}/{tp + fp} = {tp / (tp + fp):.3f}  (PISO: a regua 'esta em cima de uma "
+            f"marca' perde simbolos, como a auditoria do dono mostrou)"
         )
     if tp + fn:
         print(f"RECALL    = {tp}/{tp + fn} = {tp / (tp + fn):.3f}")

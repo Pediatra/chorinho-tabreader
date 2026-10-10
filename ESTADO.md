@@ -3150,3 +3150,29 @@ carregado é o novo** (imprimir o caminho de onde ele veio).
 **Estado entregue nesta rodada**: `tab/fimafim.py` (instrumento no repositório, com a ressalva do PISO de
 precisão na própria saída), `tab/regerar_janela.py`, `compose.podman.yaml`, o conserto do `map_location`,
 o conjunto da janela nova (511 positivos / 908 negativos) e os modelos `artefatos/j25/`.
+
+## 2026-10-09 — o conserto da captura (janela 3,0x2,5 + RETREINO) NÃO muda nada: 78 acertos nos dois lados
+
+Instrumento corrigido (`tab/fimafim.py` conta **as duas passadas** e **imprime o caminho do modelo** — a
+troca de `SAIDA_SIMBOLO` está **provada** pelo caminho impresso, não suposta):
+
+| | referência (1,2×0,8 + modelo antigo) | **janela nova (1,5×1,25 + retreinado)** |
+| --- | --- | --- |
+| modelo carregado | `artefatos/simbolo_2/simbolo.pt` | **`artefatos/j25/simbolo_2/simbolo.pt`** |
+| aprovados | 271 | 277 |
+| **batem** | **78** | **78** |
+| precisão | 0,288 | 0,282 |
+| recall | 0,481 | 0,481 |
+
+**A janela maior COM retreino não muda nada** — os 78 acertos são idênticos. A troca de modelo funcionou
+e mesmo assim **não há ganho**: a precisão cai 0,006 e o recall fica igual.
+
+**Conclusão do objetivo (3)**: o conserto da captura **por esta via** (janela + retreino) **não se paga**.
+Fica **desligado por padrão** (`janela_simbolo` continua (1,2, 0,8) e o modelo padrão continua o antigo);
+os artefatos novos ficam em `artefatos/j25/` como registro, sem alterar o comportamento do pipeline. É a
+sexta hipótese minha medida e **não adotada** — depois do piso de tinta, do dedupe, do contraste local, do
+filtro de forma e da janela sem retreino.
+
+**O que a rodada entrega de verdade**: `tab/fimafim.py` (instrumento no repositório, conta as duas
+passadas, imprime o modelo e declara que a precisão é PISO), o conserto do `torch.load` sem
+`map_location` (que travava TUDO nesta máquina sem GPU) e a prova de que a troca de modelo surte efeito.
