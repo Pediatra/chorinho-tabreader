@@ -3071,3 +3071,21 @@ algarismo intacto** (0,917 / 0,986 / 0,944) — como esperado, porque o dígito 
 coisas **juntas**: (a) janela nova; (b) **retreinar** com ela; (c) **rotular na janela nova** — senão o
 dono vê um pedaço e rotula o todo, que é exatamente o vício que ele apontou. Nenhuma das três resolve
 sozinha, e (b) e (c) dependem de dado dele.
+
+## 2026-10-09 — o gabarito TEM as coordenadas: o retreino na janela nova é tarefa conhecida e pequena
+
+Inspecionando `data/gold/simbolos_marcados.json` (antes de retreinar):
+
+| parte | campos | o que permite |
+| --- | --- | --- |
+| **523 positivos** | `x`, `y`, `frac`, `passo`, `significado`, `canal`, `imagem` | **regerar cada recorte na janela NOVA sem o dono** |
+| 1.278 negativos | `cx`, `cy` | idem — **mas o espaço de coordenada tem de ser conferido antes** |
+
+**A receita do (3) então é executável por mim**: regerar positivos **e** negativos em 3,0 × 2,5 passos,
+retreinar as 3 sementes e medir **gabarito (tem de ficar 0,917 / 0,986 / 0,944)** e **fim a fim
+(referência 0,197 / 0,216)**.
+
+**E o aviso que eu gravo antes de começar**: `cx, cy` dos negativos **não dizem em que espaço estão** —
+quadro ou ROI. Foi exatamente esse erro que já me custou uma rodada inteira (negativos recortados do
+lugar errado; a LOCA caiu de 0,89–0,91 para 0,74–0,79 quando eu consertei). **Antes de regerar, conferir o
+espaço por medição** (qual dos dois recortes contém tinta), nunca por suposição.
