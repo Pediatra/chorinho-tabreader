@@ -26,6 +26,9 @@ import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
 
+import cv2
+import numpy as np
+
 from . import leitor
 from .caminhos import MODELO_PADRAO
 from .colunas import Coluna, agrupar_colunas
@@ -61,6 +64,16 @@ COR_MEDIANA_PISO = 0.5
 #: a faixa clara some de vários quadros e a régua lia uma coluna antiga como estado atual
 #: (medido na Fase 5, t = 394, 480 e 512 s: a faixa estava lá, no quadro de seek).
 SATURACAO_MARCADOR = 20
+
+#: Diferença de cinza (0-255) abaixo da mediana da faixa para um pixel contar como TINTA: traço
+#: do papel visto por dentro da faixa.
+DIFERENCA_TINTA = 40
+
+#: Fração mínima da faixa que precisa ser tinta para a faixa contar como marcador. O marcador real
+#: é uma tinta translúcida sobre o papel: cordas e notas aparecem através dela (medido no
+#: ``retrato brasileiro``, 6 qps, em 40 quadros de 245 a 265 s: 0,094 a 0,122). A moldura verde de
+#: uma ilustração (sólida, 12 px) tem 0,000 em todos os quadros do mesmo intervalo.
+TINTA_MINIMA_FAIXA = 0.02
 
 
 @dataclass
@@ -266,6 +279,32 @@ def estado_por_cor(
     }
 
 
+def faixa_translucida(quadro: np.ndarray, x0: int, x1: int) -> bool:
+    """Diz se a faixa ``[x0, x1]`` é um marcador translúcido sobre o papel (e não um traço sólido).
+
+    Regra de aparência, sem cor e sem passagem: o marcador é uma tinta por cima da tela, então o
+    papel e as cordas continuam visíveis dentro dela. Uma faixa sólida (a moldura de uma ilustração,
+    por exemplo) não mostra nada por dentro. Mede-se a fração de pixels do miolo da faixa mais
+    escuros que a mediana dela em ``DIFERENCA_TINTA``; abaixo de ``TINTA_MINIMA_FAIXA``, não é marcador.
+
+    Args:
+        quadro: quadro (ou recorte da faixa da tela), em BGR.
+        x0: primeira coluna da faixa.
+        x1: última coluna da faixa.
+
+    Returns:
+        ``True`` se a faixa tem tinta suficiente por dentro para ser o marcador.
+    """
+    largura = x1 - x0 + 1
+    miolo = quadro[:, x0 + 3 : x1 - 2] if largura > 8 else quadro[:, x0 : x1 + 1]
+    if miolo.size == 0:
+        return False
+    cinza = cv2.cvtColor(miolo, cv2.COLOR_BGR2GRAY).astype(np.float32)
+    mediana = float(np.median(cinza))
+    tinta = float(np.mean(cinza < mediana - DIFERENCA_TINTA))
+    return tinta >= TINTA_MINIMA_FAIXA
+
+
 def ler_amostras(
     video: str,
     t0: float,
@@ -296,7 +335,11 @@ def ler_amostras(
     for t, quadro in leitor.quadros_pts(video, t0, t1, qps, recorte_y=recorte_y):
         det = detectar_cursor(quadro, sat_min=SATURACAO_MARCADOR)
         x = None
-        if det is not None and det[1] - det[0] + 1 >= LARGURA_MINIMA_MARCADOR:
+        if (
+            det is not None
+            and det[1] - det[0] + 1 >= LARGURA_MINIMA_MARCADOR
+            and faixa_translucida(quadro, det[0], det[1])
+        ):
             x = (det[0] + det[1]) / 2.0
         cores = []
         for cx in caixas:

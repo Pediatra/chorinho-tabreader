@@ -19,6 +19,7 @@ from tab.estado import (
     corridas_estaveis,
     estados_cor,
     estados_posicao,
+    faixa_translucida,
     observar,
     passagens_de,
     refinar_inicios,
@@ -309,3 +310,44 @@ def test_faixa_clara_do_marcador_so_aparece_com_corte_de_saturacao_baixo():
     det = detectar_cursor(quadro, sat_min=SATURACAO_MARCADOR)
     assert det is not None
     assert abs(det[0] - 90) <= 1 and abs(det[1] - 97) <= 1
+
+
+def _papel_com_cordas(altura: int = 150, largura: int = 400) -> np.ndarray:
+    """Papel claro com cinco cordas escuras (duas linhas de pixel cada), como a tablatura."""
+    quadro = np.full((altura, largura, 3), 245, np.uint8)
+    for y in (30, 50, 70, 90, 110):
+        quadro[y : y + 2, :] = 60
+    return quadro
+
+
+def test_marcador_translucido_mostra_as_cordas_por_dentro():
+    """Tinta translúcida sobre o papel: as cordas aparecem através da faixa, então ela é marcador."""
+    quadro = _papel_com_cordas()
+    cor = np.array([200, 120, 60], np.float32)  # BGR, azul-clara
+    x0, x1 = 200, 245
+    faixa = quadro[:, x0 : x1 + 1].astype(np.float32)
+    quadro[:, x0 : x1 + 1] = (0.75 * faixa + 0.25 * cor).astype(np.uint8)
+    assert faixa_translucida(quadro, x0, x1)
+
+
+def test_moldura_solida_nao_e_marcador():
+    """Moldura verde sólida (12 px) por cima da tablatura não mostra as cordas: não é marcador.
+
+    Caso medido no ``retrato brasileiro`` (239 a 244 s): faixa de 12 px, saturação 118, sem
+    nenhum pixel de tinta por dentro, sobre a ilustração das mãos.
+    """
+    quadro = _papel_com_cordas()
+    x0, x1 = 200, 211
+    quadro[:, x0 : x1 + 1] = (136, 253, 177)  # verde sólido, BGR
+    assert not faixa_translucida(quadro, x0, x1)
+
+
+def test_faixa_estreita_translucida_ainda_conta():
+    """Faixa de 3 px (o mínimo de largura) translúcida com cordas por dentro conta como marcador."""
+    quadro = _papel_com_cordas()
+    x0, x1 = 100, 102
+    faixa = quadro[:, x0 : x1 + 1].astype(np.float32)
+    quadro[:, x0 : x1 + 1] = (0.75 * faixa + 0.25 * np.array([200, 120, 60])).astype(
+        np.uint8
+    )
+    assert faixa_translucida(quadro, x0, x1)
