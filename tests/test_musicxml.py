@@ -11,7 +11,7 @@ from __future__ import annotations
 from xml.etree import ElementTree as ET
 
 from tab.esquema import ESQUEMA
-from tab.musicxml import exportar, midi_da_corda, pitch_de_midi
+from tab.musicxml import TICKS_COMPASSO, exportar, midi_da_corda, pitch_de_midi
 
 
 def test_midi_e_pitch_da_corda() -> None:
@@ -159,72 +159,187 @@ def test_tempo_bom_e_aceito() -> None:
     assert relatorio["pulso_s"] == 0.5
 
 
-def _nota(
-    coluna: int, corda: int, casa: int, t: float | None, passagem: int = 1
+def _nv(
+    tela: int,
+    coluna: int,
+    corda: int,
+    casa: int,
+    x: float,
+    t: float | None = None,
+    passagem: int = 1,
 ) -> dict:
-    """Uma entrada do v1 (uma passagem), com os campos que o exportador lê."""
+    """Uma entrada do v1 com ``x_quadro``, que a ordem por x precisa."""
     return {
-        "tela": 1,
+        "tela": tela,
         "passagem": passagem,
         "exibicao": None if t is None else 0,
         "coluna": coluna,
         "corda": corda,
         "casa": casa,
+        "x_quadro": x,
         "compasso": 1,
         "tecnica": None,
+        "confianca": 0.9,
         "t_ini": t,
     }
 
 
-def _v1(notas: list[dict]) -> dict:
+def _v1_telas(notas: list[dict], telas: list[dict]) -> dict:
+    """JSON v1 com telas (barras e passo) para a exportação de partitura."""
     return {
         "esquema": ESQUEMA,
         "video": {},
-        "telas": [],
+        "telas": telas,
         "nao_notas": [],
         "notas": notas,
     }
 
 
-def test_v1_notas_distintas_em_ordem_de_tempo() -> None:
-    """Uma nota repetida em outra passagem conta uma vez, e a ordem é a do tempo."""
-    notas = [
-        _nota(1, 2, 0, 10.0),
-        _nota(2, 3, 5, 11.0),
-        _nota(3, 4, 2, 12.5),
-        _nota(2, 3, 5, 20.0, passagem=2),
-    ]
-    xml, rel = exportar(_v1(notas))
-    raiz = ET.fromstring(xml)
-    assert [f.text for f in raiz.iter("fret")] == ["0", "5", "2"]
-    assert rel["notas_exportadas"] == 3
-    assert rel["tempo_medido"] is True
+def _tela(id_: int, barras: list[int], passo: float = 20.0) -> dict:
+    """Uma tela com barras; os campos que ``exportar`` lê."""
+    return {"id": id_, "passo": passo, "barlines_x": barras}
 
 
-def test_v1_sem_tempo_declara_duracao_constante() -> None:
-    """Sem onset, a ordem é de tela e coluna, e a duração constante é declarada."""
-    notas = [_nota(2, 3, 5, None), _nota(1, 2, 0, None)]
-    xml, rel = exportar(_v1(notas))
-    raiz = ET.fromstring(xml)
-    assert [f.text for f in raiz.iter("fret")] == ["0", "5"]
-    assert len({d.text for d in raiz.iter("duration")}) == 1
-    assert rel["tempo_medido"] is False
-    assert "NÃO medida" in rel["duracao"]
+def _fretes(raiz: ET.Element) -> list[str]:
+    """Casas na ordem em que saem no XML."""
+    return [f.text for f in raiz.iter("fret")]
 
 
-def test_v1_acorde_nao_infla_o_compasso() -> None:
-    """Notas do mesmo ataque viram ``chord`` e não somam tempo ao compasso.
+def test_v1_ordem_e_de_partitura_nao_de_tempo() -> None:
+    """Tela 2 com t_ini ANTERIOR à tela 1 continua depois da tela 1.
 
-    Quatro notas em três ataques (10, 10, 11, 12 s) com pulso de 1 s dão 3 batidas, não 4.
+    É o relato do dono: a parte final da primeira tela aparecia no começo porque o
+    primeiro t_ini a punha na frente. A ordem é tela (id) e coluna (x).
     """
+    telas = [_tela(1, [10, 300, 600]), _tela(2, [10, 300, 600])]
     notas = [
-        _nota(1, 1, 0, 10.0),
-        _nota(1, 2, 1, 10.0),
-        _nota(2, 3, 2, 11.0),
-        _nota(3, 4, 3, 12.0),
+        _nv(2, 1, 1, 0, 50, t=5.0),
+        _nv(1, 2, 2, 1, 120, t=20.0),
+        _nv(1, 1, 3, 2, 50, t=30.0),
+        _nv(1, 1, 3, 2, 50, t=2.0, passagem=2),  # mesma nota, passagem antiga
     ]
-    xml, rel = exportar(_v1(notas))
+    xml, rel = exportar(_v1_telas(notas, telas))
+    raiz = ET.fromstring(xml)
+    # tela 1 (col 1: corda 3 casa 2; col 2: corda 2 casa 1), depois tela 2 (corda 1 casa 0)
+    assert _fretes(raiz) == ["2", "1", "0"]
+    assert rel["notas_exportadas"] == 3
+    assert rel["tempo_usado"] is False
+
+
+def test_v1_compasso_segue_a_barra_da_tela() -> None:
+    """Primeiro compasso = colunas antes da 1a barra útil; uma barra por compasso.
+
+    Tela com barras 10, 300, 600 e notas em x 50, 120 (compasso 1) e 350 (compasso 2).
+    """
+    telas = [_tela(1, [10, 300, 600])]
+    notas = [
+        _nv(1, 1, 1, 0, 50),
+        _nv(1, 2, 2, 0, 120),
+        _nv(1, 3, 3, 0, 350),
+    ]
+    xml, rel = exportar(_v1_telas(notas, telas))
+    raiz = ET.fromstring(xml)
+    medidas = raiz.findall("part/measure")
+    assert len(medidas) == 2
+    assert [len(m.findall("note")) for m in medidas] == [2, 1]
+    assert rel["compassos"] == 2
+    assert rel["compassos_por_tela"] == {1: 2}
+
+
+def test_v1_compasso_2_4_declarado_e_duracao_uniforme() -> None:
+    """2/4 declarado, cada compasso soma 2048 ticks e as colunas dividem igual."""
+    telas = [_tela(1, [10, 300, 600])]
+    notas = [_nv(1, c, 1, 0, 50 + 20 * c) for c in range(1, 5)]
+    xml, rel = exportar(_v1_telas(notas, telas))
+    raiz = ET.fromstring(xml)
+    assert raiz.find(".//time/beats").text == "2"
+    assert raiz.find(".//time/beat-type").text == "4"
+    somas = [
+        sum(
+            int(n.findtext("duration"))
+            for n in m.findall("note")
+            if n.find("chord") is None
+        )
+        for m in raiz.findall("part/measure")
+    ]
+    assert somas == [TICKS_COMPASSO]
+    assert "NÃO medida" in rel["duracao"]
+    decl = {
+        c.get("name"): c.text
+        for c in raiz.findall("identification/miscellaneous/miscellaneous-field")
+    }
+    assert "2/4 é DECLARADA" in decl["compasso"]
+    assert "UMA vez" in decl["repeticoes"]
+
+
+def test_v1_acorde_fica_na_mesma_coluna_e_soma_uma_vez() -> None:
+    """Notas da mesma coluna viram ``chord`` e dividem o mesmo intervalo do compasso."""
+    telas = [_tela(1, [10, 600])]
+    notas = [
+        _nv(1, 1, 1, 0, 50),
+        _nv(1, 1, 2, 1, 50),
+        _nv(1, 2, 3, 2, 150),
+        _nv(1, 3, 4, 3, 250),
+    ]
+    xml, _ = exportar(_v1_telas(notas, telas))
     raiz = ET.fromstring(xml)
     assert len(raiz.findall(".//chord")) == 1
-    assert raiz.find(".//time/beats").text == "3"
-    assert rel["instantes_distintos"] == 3
+    cabecas = [n for n in raiz.findall(".//note") if n.find("chord") is None]
+    assert len(cabecas) == 3
+
+
+def test_v1_barra_que_e_traco_duplo_e_fundida() -> None:
+    """Duas barras a 4 px (traço duplo) viram uma; a segunda não cria compasso."""
+    telas = [_tela(1, [10, 300, 304, 600])]
+    notas = [_nv(1, 1, 1, 0, 150), _nv(1, 2, 2, 0, 450)]
+    xml, rel = exportar(_v1_telas(notas, telas))
+    assert len(ET.fromstring(xml).findall("part/measure")) == 2
+    assert rel["telas"][1]["fundidas"] == 1
+
+
+def test_v1_haste_lida_como_barra_e_removida() -> None:
+    """Segmento de 1 a 3 notas e largura < metade da mediana sai (haste).
+
+    Medido na tela 1 do `retrato brasileiro`: barra em 1181 entre 1012 e 1440, com 3 notas
+    de um lado, 169 px, contra 420 a 470 px dos outros compassos.
+    """
+    barras = [94, 592, 1012, 1181, 1440, 1841]
+    telas = [_tela(1, barras)]
+    notas = [
+        _nv(1, 1, 1, 0, 200),
+        _nv(1, 2, 2, 0, 400),
+        _nv(1, 3, 3, 0, 700),
+        _nv(1, 4, 4, 0, 800),
+        _nv(1, 5, 5, 0, 1050),
+        _nv(1, 6, 6, 0, 1100),
+        _nv(1, 7, 1, 0, 1150),
+        _nv(1, 8, 2, 0, 1300),
+        _nv(1, 9, 3, 0, 1500),
+        _nv(1, 10, 4, 0, 1600),
+    ]
+    xml, rel = exportar(_v1_telas(notas, telas))
+    medidas = ET.fromstring(xml).findall("part/measure")
+    # 4 compassos: 94-592, 592-1012, 1012-1440 (com a haste de 1181 fora), 1440-1841
+    assert len(medidas) == 4
+    assert [len(m.findall("note")) for m in medidas] == [2, 2, 4, 2]
+    assert rel["telas"][1]["hastes_removidas"] == [1181]
+    assert rel["notas_exportadas"] == 10
+
+
+def test_v1_nota_que_nao_e_algarismo_nao_vira_nota() -> None:
+    """Casa fora dos algarismos não entra no XML (e é contada)."""
+    telas = [_tela(1, [10, 600])]
+    notas = [_nv(1, 1, 1, 0, 50), {**_nv(1, 2, 2, 0, 150), "casa": "junk"}]
+    xml, rel = exportar(_v1_telas(notas, telas))
+    assert xml.count("<note>") == 1
+    assert rel["notas_nao_exportadas"] == 1
+    assert rel["motivo_nao_exportada"] == ["junk"]
+
+
+def test_v1_tela_sem_barra_vira_um_compasso_declarado() -> None:
+    """Sem barra, a tela é um compasso só, e o relatório diz que não havia barra."""
+    telas = [_tela(1, [])]
+    notas = [_nv(1, 1, 1, 0, 50), _nv(1, 2, 2, 0, 150)]
+    _, rel = exportar(_v1_telas(notas, telas))
+    assert rel["telas"][1]["sem_barra"] is True
+    assert rel["compassos"] == 1
