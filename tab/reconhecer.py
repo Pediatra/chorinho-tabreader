@@ -209,6 +209,7 @@ def reconhecer_linha(
     limiar_simbolo2: float | None = None,
     forma_simbolo: tuple[float, float] = (1.5, 1.5),
     quantizacao_simbolo: float = 0.5,
+    janela_simbolo: tuple[float, float] = (1.2, 0.8),
 ) -> dict:
     """Lê uma linha de tablatura: geometria + classificação + símbolo cru.
 
@@ -498,7 +499,7 @@ def reconhecer_linha(
             # dono marcou — e o centro da caixa cai na corda, não no traço do arco.
             cx = (tk.x0 + tk.x1) // 2
             cy = tk.y0
-            hx, hy = round(1.2 * g.passo), round(0.8 * g.passo)
+            hx, hy = round(janela_simbolo[0] * g.passo), round(janela_simbolo[1] * g.passo)
             rec = gray[max(0, cy - hy) : cy + hy, max(0, cx - hx) : cx + hx]
             if rec.size == 0:
                 continue

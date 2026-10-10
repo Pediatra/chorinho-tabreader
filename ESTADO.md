@@ -3049,3 +3049,25 @@ A queixa é precisa e é sobre a **janela do símbolo**, não sobre o algarismo.
 símbolo** (crescer, e para multi-corda não recortar na corda). O que ainda **não** está medido é o custo:
 janela maior carrega **mais contexto** (dígito, linha) e pode **aumentar o falso positivo** do filtro —
 é a medição que precede a mudança, e a referência é precisão 0,197 / recall 0,216.
+
+## 2026-10-09 — varrer a JANELA: crescer é neutro-para-pior — porque o modelo foi TREINADO na janela pequena
+
+`janela_simbolo` parametrizada **só na segunda passada** (o caminho do símbolo) e varrida, contra a
+referência `_6` (precisão 0,197 / recall 0,216):
+
+| janela | aprovados | batem | precisão | recall |
+| --- | --- | --- | --- | --- |
+| **1,2 × 0,8** (2,4×1,6, a atual) | 178 | 35 | **0,197** | **0,216** |
+| 1,5 × 1,25 (3,0×2,5) | 176 | 34 | 0,193 | 0,210 |
+| 2,0 × 1,5 (4,0×3,0) | 176 | 34 | 0,193 | 0,210 |
+| 2,5 × 2,0 (5,0×4,0) | 177 | 34 | 0,192 | 0,210 |
+
+**Crescer a janela NÃO melhora nada** — neutro-para-pior. **E o motivo é o ponto 8 da revisão**: o modelo
+foi **treinado** com a janela de 1,2 × 0,8 (os positivos do gabarito são recortes desse tamanho). Uma
+janela maior é **entrada fora da distribuição**: a decisão não melhora, apenas se desloca. **Gabarito de
+algarismo intacto** (0,917 / 0,986 / 0,944) — como esperado, porque o dígito não passa por essa janela.
+
+**Conclusão para o goal (3)**: a janela **não é parâmetro, é retreino**. Consertar a captura exige as três
+coisas **juntas**: (a) janela nova; (b) **retreinar** com ela; (c) **rotular na janela nova** — senão o
+dono vê um pedaço e rotula o todo, que é exatamente o vício que ele apontou. Nenhuma das três resolve
+sozinha, e (b) e (c) dependem de dado dele.
