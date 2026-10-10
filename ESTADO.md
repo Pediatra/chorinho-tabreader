@@ -2943,3 +2943,32 @@ o valor verdadeiro é **maior** — e **quanto maior, mais atraente fica a opç�
 **É exatamente essa a pergunta que a auditoria do pool responde** — e ela não é acadêmica: ela decide
 entre **0,197/0,216** (conservador) e um ponto perto de **0,41 de recall** com precisão **desconhecida
 hoje, mas maior que 0,044**.
+
+## 2026-10-09 — MULTI-CORDA: 1 %, não 75 % — e a imagem mostra o que é (slides, dígitos fundidos, chaves cortadas)
+
+Medição em 9 painéis (máscara `otsu`, componentes conexas):
+
+| | n |
+| --- | --- |
+| componentes | 842 |
+| "cruzam linha de corda" | 628 (**75 %**) |
+| **multi-corda de verdade** (altura >= 1,8 passo **e** largura <= 6 passos) | **7 (1 %)** |
+
+**O 75 % era inflado por DÍGITO APOIADO NA CORDA** — um algarismo encostado na linha tem pixel acima e
+abaixo dela, então "cruza" no meu critério frouxo (**13ª vez** que um critério meu mede a coisa errada).
+Com o critério honesto (mais alto que qualquer dígito e não tira de linha), sobra **1 %**.
+
+**E a imagem dos 7 é o produto da rodada** (`data/saida/multicorda/folha_0.png` e os recortes
+individuais):
+
+| o que é | n | leitura |
+| --- | --- | --- |
+| **dois dígitos empilhados FUNDIDOS** (`0/2`, `0/2`, `5/7`; 0,7 × 2,0 passos) | 3 | é **acorde** (notas empilhadas), não símbolo |
+| **linha curva COM SETA** (1,1 × 2,1 e 1,6 × 2,1 passos) | 2 | **slide/glissando cruzando cordas: símbolo multi-corda DE VERDADE** |
+| **fragmentos de `)` e `}`** | 2 | **chave cortada** — a queixa do dono, visível no dado |
+
+**Conclusões honestas**: (a) símbolo multi-corda é **raro** (~0,2 % dos componentes) — refazer a
+arquitetura **para isso** pagaria pouco; (b) mas a **chave cortada** aparece já nesta amostra de 9
+painéis, e o **dígito fundido em acorde** é um problema **separado e provavelmente mais frequente** que
+o multi-corda; (c) o critério de componente único **subconta** multi-corda (um símbolo tracejado vira
+vários pedaços), então 1 % é **piso**, não teto.

@@ -1,0 +1,1262 @@
+[
+ {
+  "id": 0,
+  "n_marcas": 1,
+  "img": "C02_guitar dellarte.png",
+  "x": 335,
+  "y": 6,
+  "canal": "guitar dell ́arte",
+  "p": 18.8,
+  "arq": "ex000.png"
+ },
+ {
+  "id": 1,
+  "n_marcas": 1,
+  "img": "C04_iwaki.png",
+  "x": 592,
+  "y": 101,
+  "canal": "iwaki",
+  "p": 27.2,
+  "arq": "ex001.png"
+ },
+ {
+  "id": 2,
+  "n_marcas": 1,
+  "img": "C04_iwaki.png",
+  "x": 943,
+  "y": 94,
+  "canal": "iwaki",
+  "p": 27.2,
+  "arq": "ex002.png"
+ },
+ {
+  "id": 3,
+  "n_marcas": 1,
+  "img": "C04_iwaki.png",
+  "x": 1347,
+  "y": 100,
+  "canal": "iwaki",
+  "p": 27.2,
+  "arq": "ex003.png"
+ },
+ {
+  "id": 4,
+  "n_marcas": 1,
+  "img": "C04_iwaki.png",
+  "x": 1630,
+  "y": 84,
+  "canal": "iwaki",
+  "p": 27.2,
+  "arq": "ex004.png"
+ },
+ {
+  "id": 5,
+  "n_marcas": 3,
+  "img": "C06_kimny's guitar.png",
+  "x": 190,
+  "y": 2,
+  "canal": "kimny's guitar",
+  "p": 20.8,
+  "arq": "ex005.png"
+ },
+ {
+  "id": 6,
+  "n_marcas": 1,
+  "img": "C06_kimny's guitar.png",
+  "x": 715,
+  "y": 46,
+  "canal": "kimny's guitar",
+  "p": 20.8,
+  "arq": "ex006.png"
+ },
+ {
+  "id": 7,
+  "n_marcas": 1,
+  "img": "C06_kimny's guitar.png",
+  "x": 1269,
+  "y": 19,
+  "canal": "kimny's guitar",
+  "p": 20.8,
+  "arq": "ex007.png"
+ },
+ {
+  "id": 8,
+  "n_marcas": 1,
+  "img": "C06_kimny's guitar.png",
+  "x": 1418,
+  "y": 84,
+  "canal": "kimny's guitar",
+  "p": 20.8,
+  "arq": "ex008.png"
+ },
+ {
+  "id": 9,
+  "n_marcas": 1,
+  "img": "C06_kimny's guitar.png",
+  "x": 1524,
+  "y": 27,
+  "canal": "kimny's guitar",
+  "p": 20.8,
+  "arq": "ex009.png"
+ },
+ {
+  "id": 10,
+  "n_marcas": 1,
+  "img": "C06_kimny's guitar.png",
+  "x": 244,
+  "y": 45,
+  "canal": "kimny's guitar",
+  "p": 20.8,
+  "arq": "ex010.png"
+ },
+ {
+  "id": 11,
+  "n_marcas": 1,
+  "img": "C06_kimny's guitar.png",
+  "x": 656,
+  "y": 45,
+  "canal": "kimny's guitar",
+  "p": 20.8,
+  "arq": "ex011.png"
+ },
+ {
+  "id": 12,
+  "n_marcas": 1,
+  "img": "C06_kimny's guitar.png",
+  "x": 1458,
+  "y": 25,
+  "canal": "kimny's guitar",
+  "p": 20.8,
+  "arq": "ex012.png"
+ },
+ {
+  "id": 13,
+  "n_marcas": 1,
+  "img": "C07_kimny's guitar.png",
+  "x": 210,
+  "y": 9,
+  "canal": "kimny's guitar",
+  "p": 20.6,
+  "arq": "ex013.png"
+ },
+ {
+  "id": 14,
+  "n_marcas": 1,
+  "img": "C07_kimny's guitar.png",
+  "x": 1235,
+  "y": 137,
+  "canal": "kimny's guitar",
+  "p": 20.6,
+  "arq": "ex014.png"
+ },
+ {
+  "id": 15,
+  "n_marcas": 1,
+  "img": "C07_kimny's guitar.png",
+  "x": 647,
+  "y": 137,
+  "canal": "kimny's guitar",
+  "p": 20.6,
+  "arq": "ex015.png"
+ },
+ {
+  "id": 16,
+  "n_marcas": 1,
+  "img": "C07_kimny's guitar.png",
+  "x": 1430,
+  "y": 13,
+  "canal": "kimny's guitar",
+  "p": 20.6,
+  "arq": "ex016.png"
+ },
+ {
+  "id": 17,
+  "n_marcas": 1,
+  "img": "C07_kimny's guitar.png",
+  "x": 1481,
+  "y": 9,
+  "canal": "kimny's guitar",
+  "p": 20.6,
+  "arq": "ex017.png"
+ },
+ {
+  "id": 18,
+  "n_marcas": 1,
+  "img": "C07_kimny's guitar.png",
+  "x": 1551,
+  "y": 10,
+  "canal": "kimny's guitar",
+  "p": 20.6,
+  "arq": "ex018.png"
+ },
+ {
+  "id": 19,
+  "n_marcas": 1,
+  "img": "C07_kimny's guitar.png",
+  "x": 1479,
+  "y": 134,
+  "canal": "kimny's guitar",
+  "p": 20.6,
+  "arq": "ex019.png"
+ },
+ {
+  "id": 20,
+  "n_marcas": 1,
+  "img": "C07_kimny's guitar.png",
+  "x": 1527,
+  "y": 136,
+  "canal": "kimny's guitar",
+  "p": 20.6,
+  "arq": "ex020.png"
+ },
+ {
+  "id": 21,
+  "n_marcas": 1,
+  "img": "C07_kimny's guitar.png",
+  "x": 1625,
+  "y": 41,
+  "canal": "kimny's guitar",
+  "p": 20.6,
+  "arq": "ex021.png"
+ },
+ {
+  "id": 22,
+  "n_marcas": 1,
+  "img": "C07_kimny's guitar.png",
+  "x": 1717,
+  "y": 58,
+  "canal": "kimny's guitar",
+  "p": 20.6,
+  "arq": "ex022.png"
+ },
+ {
+  "id": 23,
+  "n_marcas": 1,
+  "img": "C07_kimny's guitar.png",
+  "x": 1557,
+  "y": 53,
+  "canal": "kimny's guitar",
+  "p": 20.6,
+  "arq": "ex023.png"
+ },
+ {
+  "id": 24,
+  "n_marcas": 1,
+  "img": "C09_leonardo ramos.png",
+  "x": 345,
+  "y": 121,
+  "canal": "leonardo ramos",
+  "p": 31.2,
+  "arq": "ex024.png"
+ },
+ {
+  "id": 25,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 140,
+  "y": 48,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex025.png"
+ },
+ {
+  "id": 26,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 141,
+  "y": 127,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex026.png"
+ },
+ {
+  "id": 27,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 140,
+  "y": 158,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex027.png"
+ },
+ {
+  "id": 28,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 823,
+  "y": 43,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex028.png"
+ },
+ {
+  "id": 29,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 827,
+  "y": 64,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex029.png"
+ },
+ {
+  "id": 30,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 824,
+  "y": 115,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex030.png"
+ },
+ {
+  "id": 31,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 891,
+  "y": 53,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex031.png"
+ },
+ {
+  "id": 32,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 892,
+  "y": 108,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex032.png"
+ },
+ {
+  "id": 33,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 890,
+  "y": 77,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex033.png"
+ },
+ {
+  "id": 34,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 1065,
+  "y": 51,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex034.png"
+ },
+ {
+  "id": 35,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 1068,
+  "y": 130,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex035.png"
+ },
+ {
+  "id": 36,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 1072,
+  "y": 158,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex036.png"
+ },
+ {
+  "id": 37,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 1526,
+  "y": 32,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex037.png"
+ },
+ {
+  "id": 38,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 1529,
+  "y": 52,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex038.png"
+ },
+ {
+  "id": 39,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 1519,
+  "y": 138,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex039.png"
+ },
+ {
+  "id": 40,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 1631,
+  "y": 38,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex040.png"
+ },
+ {
+  "id": 41,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 1680,
+  "y": 34,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex041.png"
+ },
+ {
+  "id": 42,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 1839,
+  "y": 41,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex042.png"
+ },
+ {
+  "id": 43,
+  "n_marcas": 1,
+  "img": "C10_mr. tabs.png",
+  "x": 1906,
+  "y": 41,
+  "canal": "mr. tabs",
+  "p": 26.2,
+  "arq": "ex043.png"
+ },
+ {
+  "id": 44,
+  "n_marcas": 1,
+  "img": "C11_mr. tabs.png",
+  "x": 178,
+  "y": 38,
+  "canal": "mr. tabs",
+  "p": 26.0,
+  "arq": "ex044.png"
+ },
+ {
+  "id": 45,
+  "n_marcas": 1,
+  "img": "C11_mr. tabs.png",
+  "x": 173,
+  "y": 65,
+  "canal": "mr. tabs",
+  "p": 26.0,
+  "arq": "ex045.png"
+ },
+ {
+  "id": 46,
+  "n_marcas": 1,
+  "img": "C11_mr. tabs.png",
+  "x": 183,
+  "y": 114,
+  "canal": "mr. tabs",
+  "p": 26.0,
+  "arq": "ex046.png"
+ },
+ {
+  "id": 47,
+  "n_marcas": 1,
+  "img": "C11_mr. tabs.png",
+  "x": 408,
+  "y": 53,
+  "canal": "mr. tabs",
+  "p": 26.0,
+  "arq": "ex047.png"
+ },
+ {
+  "id": 48,
+  "n_marcas": 1,
+  "img": "C11_mr. tabs.png",
+  "x": 411,
+  "y": 132,
+  "canal": "mr. tabs",
+  "p": 26.0,
+  "arq": "ex048.png"
+ },
+ {
+  "id": 49,
+  "n_marcas": 1,
+  "img": "C11_mr. tabs.png",
+  "x": 410,
+  "y": 157,
+  "canal": "mr. tabs",
+  "p": 26.0,
+  "arq": "ex049.png"
+ },
+ {
+  "id": 50,
+  "n_marcas": 1,
+  "img": "C11_mr. tabs.png",
+  "x": 1093,
+  "y": 116,
+  "canal": "mr. tabs",
+  "p": 26.0,
+  "arq": "ex050.png"
+ },
+ {
+  "id": 51,
+  "n_marcas": 1,
+  "img": "C11_mr. tabs.png",
+  "x": 1099,
+  "y": 64,
+  "canal": "mr. tabs",
+  "p": 26.0,
+  "arq": "ex051.png"
+ },
+ {
+  "id": 52,
+  "n_marcas": 1,
+  "img": "C11_mr. tabs.png",
+  "x": 1095,
+  "y": 37,
+  "canal": "mr. tabs",
+  "p": 26.0,
+  "arq": "ex052.png"
+ },
+ {
+  "id": 53,
+  "n_marcas": 1,
+  "img": "C11_mr. tabs.png",
+  "x": 1335,
+  "y": 127,
+  "canal": "mr. tabs",
+  "p": 26.0,
+  "arq": "ex053.png"
+ },
+ {
+  "id": 54,
+  "n_marcas": 1,
+  "img": "C11_mr. tabs.png",
+  "x": 1340,
+  "y": 153,
+  "canal": "mr. tabs",
+  "p": 26.0,
+  "arq": "ex054.png"
+ },
+ {
+  "id": 55,
+  "n_marcas": 1,
+  "img": "C11_mr. tabs.png",
+  "x": 1335,
+  "y": 54,
+  "canal": "mr. tabs",
+  "p": 26.0,
+  "arq": "ex055.png"
+ },
+ {
+  "id": 56,
+  "n_marcas": 1,
+  "img": "C14_robert lunn.png",
+  "x": 1090,
+  "y": 17,
+  "canal": "robert lunn",
+  "p": 31.0,
+  "arq": "ex056.png"
+ },
+ {
+  "id": 57,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 193,
+  "y": 43,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex057.png"
+ },
+ {
+  "id": 58,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 193,
+  "y": 63,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex058.png"
+ },
+ {
+  "id": 59,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 225,
+  "y": 60,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex059.png"
+ },
+ {
+  "id": 60,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 382,
+  "y": 30,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex060.png"
+ },
+ {
+  "id": 61,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 427,
+  "y": 46,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex061.png"
+ },
+ {
+  "id": 62,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 427,
+  "y": 59,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex062.png"
+ },
+ {
+  "id": 63,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 508,
+  "y": 47,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex063.png"
+ },
+ {
+  "id": 64,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 512,
+  "y": 65,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex064.png"
+ },
+ {
+  "id": 65,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 609,
+  "y": 44,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex065.png"
+ },
+ {
+  "id": 66,
+  "n_marcas": 4,
+  "img": "C15_serge kottelat.png",
+  "x": 651,
+  "y": 68,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex066.png"
+ },
+ {
+  "id": 67,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 731,
+  "y": 62,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex067.png"
+ },
+ {
+  "id": 68,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 774,
+  "y": 63,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex068.png"
+ },
+ {
+  "id": 69,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 767,
+  "y": 46,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex069.png"
+ },
+ {
+  "id": 70,
+  "n_marcas": 2,
+  "img": "C15_serge kottelat.png",
+  "x": 1105,
+  "y": 48,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex070.png"
+ },
+ {
+  "id": 71,
+  "n_marcas": 3,
+  "img": "C15_serge kottelat.png",
+  "x": 1289,
+  "y": 32,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex071.png"
+ },
+ {
+  "id": 72,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 127,
+  "y": 39,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex072.png"
+ },
+ {
+  "id": 73,
+  "n_marcas": 1,
+  "img": "C15_serge kottelat.png",
+  "x": 459,
+  "y": 64,
+  "canal": "serge kottelat",
+  "p": 15.0,
+  "arq": "ex073.png"
+ },
+ {
+  "id": 74,
+  "n_marcas": 1,
+  "img": "C16_shin izumi.png",
+  "x": 1066,
+  "y": 42,
+  "canal": "shin izumi",
+  "p": 21.4,
+  "arq": "ex074.png"
+ },
+ {
+  "id": 75,
+  "n_marcas": 1,
+  "img": "C16_shin izumi.png",
+  "x": 67,
+  "y": 105,
+  "canal": "shin izumi",
+  "p": 21.4,
+  "arq": "ex075.png"
+ },
+ {
+  "id": 76,
+  "n_marcas": 1,
+  "img": "C17_shin izumi.png",
+  "x": 1439,
+  "y": 64,
+  "canal": "shin izumi",
+  "p": 21.8,
+  "arq": "ex076.png"
+ },
+ {
+  "id": 77,
+  "n_marcas": 1,
+  "img": "C17_shin izumi.png",
+  "x": 1436,
+  "y": 82,
+  "canal": "shin izumi",
+  "p": 21.8,
+  "arq": "ex077.png"
+ },
+ {
+  "id": 78,
+  "n_marcas": 1,
+  "img": "C17_shin izumi.png",
+  "x": 1439,
+  "y": 107,
+  "canal": "shin izumi",
+  "p": 21.8,
+  "arq": "ex078.png"
+ },
+ {
+  "id": 79,
+  "n_marcas": 1,
+  "img": "C18_sky guitar.png",
+  "x": 294,
+  "y": 62,
+  "canal": "sky guitar",
+  "p": 24.4,
+  "arq": "ex079.png"
+ },
+ {
+  "id": 80,
+  "n_marcas": 1,
+  "img": "C18_sky guitar.png",
+  "x": 792,
+  "y": 91,
+  "canal": "sky guitar",
+  "p": 24.4,
+  "arq": "ex080.png"
+ },
+ {
+  "id": 81,
+  "n_marcas": 1,
+  "img": "C18_sky guitar.png",
+  "x": 1330,
+  "y": 31,
+  "canal": "sky guitar",
+  "p": 24.4,
+  "arq": "ex081.png"
+ },
+ {
+  "id": 82,
+  "n_marcas": 1,
+  "img": "C18_sky guitar.png",
+  "x": 1438,
+  "y": 55,
+  "canal": "sky guitar",
+  "p": 24.4,
+  "arq": "ex082.png"
+ },
+ {
+  "id": 83,
+  "n_marcas": 1,
+  "img": "C19_sky guitar.png",
+  "x": 411,
+  "y": 143,
+  "canal": "sky guitar",
+  "p": 24.4,
+  "arq": "ex083.png"
+ },
+ {
+  "id": 84,
+  "n_marcas": 1,
+  "img": "C19_sky guitar.png",
+  "x": 953,
+  "y": 144,
+  "canal": "sky guitar",
+  "p": 24.4,
+  "arq": "ex084.png"
+ },
+ {
+  "id": 85,
+  "n_marcas": 1,
+  "img": "C19_sky guitar.png",
+  "x": 1517,
+  "y": 143,
+  "canal": "sky guitar",
+  "p": 24.4,
+  "arq": "ex085.png"
+ },
+ {
+  "id": 86,
+  "n_marcas": 1,
+  "img": "C20_transcriptor.png",
+  "x": 51,
+  "y": 59,
+  "canal": "transcriptor",
+  "p": 21.4,
+  "arq": "ex086.png"
+ },
+ {
+  "id": 87,
+  "n_marcas": 1,
+  "img": "C20_transcriptor.png",
+  "x": 105,
+  "y": 67,
+  "canal": "transcriptor",
+  "p": 21.4,
+  "arq": "ex087.png"
+ },
+ {
+  "id": 88,
+  "n_marcas": 1,
+  "img": "C20_transcriptor.png",
+  "x": 151,
+  "y": 60,
+  "canal": "transcriptor",
+  "p": 21.4,
+  "arq": "ex088.png"
+ },
+ {
+  "id": 89,
+  "n_marcas": 1,
+  "img": "C20_transcriptor.png",
+  "x": 247,
+  "y": 71,
+  "canal": "transcriptor",
+  "p": 21.4,
+  "arq": "ex089.png"
+ },
+ {
+  "id": 90,
+  "n_marcas": 1,
+  "img": "C20_transcriptor.png",
+  "x": 312,
+  "y": 70,
+  "canal": "transcriptor",
+  "p": 21.4,
+  "arq": "ex090.png"
+ },
+ {
+  "id": 91,
+  "n_marcas": 1,
+  "img": "C20_transcriptor.png",
+  "x": 357,
+  "y": 66,
+  "canal": "transcriptor",
+  "p": 21.4,
+  "arq": "ex091.png"
+ },
+ {
+  "id": 92,
+  "n_marcas": 1,
+  "img": "C20_transcriptor.png",
+  "x": 447,
+  "y": 62,
+  "canal": "transcriptor",
+  "p": 21.4,
+  "arq": "ex092.png"
+ },
+ {
+  "id": 93,
+  "n_marcas": 1,
+  "img": "C20_transcriptor.png",
+  "x": 509,
+  "y": 63,
+  "canal": "transcriptor",
+  "p": 21.4,
+  "arq": "ex093.png"
+ },
+ {
+  "id": 94,
+  "n_marcas": 1,
+  "img": "C20_transcriptor.png",
+  "x": 555,
+  "y": 66,
+  "canal": "transcriptor",
+  "p": 21.4,
+  "arq": "ex094.png"
+ },
+ {
+  "id": 95,
+  "n_marcas": 1,
+  "img": "C20_transcriptor.png",
+  "x": 655,
+  "y": 66,
+  "canal": "transcriptor",
+  "p": 21.4,
+  "arq": "ex095.png"
+ },
+ {
+  "id": 96,
+  "n_marcas": 1,
+  "img": "C20_transcriptor.png",
+  "x": 702,
+  "y": 64,
+  "canal": "transcriptor",
+  "p": 21.4,
+  "arq": "ex096.png"
+ },
+ {
+  "id": 97,
+  "n_marcas": 1,
+  "img": "C20_transcriptor.png",
+  "x": 760,
+  "y": 61,
+  "canal": "transcriptor",
+  "p": 21.4,
+  "arq": "ex097.png"
+ },
+ {
+  "id": 98,
+  "n_marcas": 4,
+  "img": "C22_tv on guitar.png",
+  "x": 734,
+  "y": 13,
+  "canal": "tv on guitar",
+  "p": 14.6,
+  "arq": "ex098.png"
+ },
+ {
+  "id": 99,
+  "n_marcas": 1,
+  "img": "C22_tv on guitar.png",
+  "x": 1183,
+  "y": 51,
+  "canal": "tv on guitar",
+  "p": 14.6,
+  "arq": "ex099.png"
+ },
+ {
+  "id": 100,
+  "n_marcas": 1,
+  "img": "C22_tv on guitar.png",
+  "x": 1486,
+  "y": 27,
+  "canal": "tv on guitar",
+  "p": 14.6,
+  "arq": "ex100.png"
+ },
+ {
+  "id": 101,
+  "n_marcas": 1,
+  "img": "C22_tv on guitar.png",
+  "x": 1554,
+  "y": 63,
+  "canal": "tv on guitar",
+  "p": 14.6,
+  "arq": "ex101.png"
+ },
+ {
+  "id": 102,
+  "n_marcas": 1,
+  "img": "C22_tv on guitar.png",
+  "x": 1555,
+  "y": 77,
+  "canal": "tv on guitar",
+  "p": 14.6,
+  "arq": "ex102.png"
+ },
+ {
+  "id": 103,
+  "n_marcas": 1,
+  "img": "C22_tv on guitar.png",
+  "x": 1626,
+  "y": 64,
+  "canal": "tv on guitar",
+  "p": 14.6,
+  "arq": "ex103.png"
+ },
+ {
+  "id": 104,
+  "n_marcas": 1,
+  "img": "C22_tv on guitar.png",
+  "x": 1623,
+  "y": 75,
+  "canal": "tv on guitar",
+  "p": 14.6,
+  "arq": "ex104.png"
+ },
+ {
+  "id": 105,
+  "n_marcas": 1,
+  "img": "C22_tv on guitar.png",
+  "x": 1682,
+  "y": 63,
+  "canal": "tv on guitar",
+  "p": 14.6,
+  "arq": "ex105.png"
+ },
+ {
+  "id": 106,
+  "n_marcas": 1,
+  "img": "C22_tv on guitar.png",
+  "x": 1681,
+  "y": 78,
+  "canal": "tv on guitar",
+  "p": 14.6,
+  "arq": "ex106.png"
+ },
+ {
+  "id": 107,
+  "n_marcas": 1,
+  "img": "C22_tv on guitar.png",
+  "x": 1798,
+  "y": 63,
+  "canal": "tv on guitar",
+  "p": 14.6,
+  "arq": "ex107.png"
+ },
+ {
+  "id": 108,
+  "n_marcas": 1,
+  "img": "C22_tv on guitar.png",
+  "x": 1802,
+  "y": 80,
+  "canal": "tv on guitar",
+  "p": 14.6,
+  "arq": "ex108.png"
+ },
+ {
+  "id": 109,
+  "n_marcas": 1,
+  "img": "C22_tv on guitar.png",
+  "x": 933,
+  "y": 39,
+  "canal": "tv on guitar",
+  "p": 14.6,
+  "arq": "ex109.png"
+ },
+ {
+  "id": 110,
+  "n_marcas": 1,
+  "img": "C23_tv on guitar.png",
+  "x": 68,
+  "y": 47,
+  "canal": "tv on guitar",
+  "p": 14.2,
+  "arq": "ex110.png"
+ },
+ {
+  "id": 111,
+  "n_marcas": 1,
+  "img": "C23_tv on guitar.png",
+  "x": 410,
+  "y": 34,
+  "canal": "tv on guitar",
+  "p": 14.2,
+  "arq": "ex111.png"
+ },
+ {
+  "id": 112,
+  "n_marcas": 1,
+  "img": "C23_tv on guitar.png",
+  "x": 1210,
+  "y": 63,
+  "canal": "tv on guitar",
+  "p": 14.2,
+  "arq": "ex112.png"
+ },
+ {
+  "id": 113,
+  "n_marcas": 1,
+  "img": "C23_tv on guitar.png",
+  "x": 1758,
+  "y": 28,
+  "canal": "tv on guitar",
+  "p": 14.2,
+  "arq": "ex113.png"
+ },
+ {
+  "id": 114,
+  "n_marcas": 1,
+  "img": "C23_tv on guitar.png",
+  "x": 1760,
+  "y": 53,
+  "canal": "tv on guitar",
+  "p": 14.2,
+  "arq": "ex114.png"
+ },
+ {
+  "id": 115,
+  "n_marcas": 1,
+  "img": "C23_tv on guitar.png",
+  "x": 1758,
+  "y": 86,
+  "canal": "tv on guitar",
+  "p": 14.2,
+  "arq": "ex115.png"
+ },
+ {
+  "id": 116,
+  "n_marcas": 1,
+  "img": "C23_tv on guitar.png",
+  "x": 1860,
+  "y": 74,
+  "canal": "tv on guitar",
+  "p": 14.2,
+  "arq": "ex116.png"
+ },
+ {
+  "id": 117,
+  "n_marcas": 1,
+  "img": "C23_tv on guitar.png",
+  "x": 1815,
+  "y": 50,
+  "canal": "tv on guitar",
+  "p": 14.2,
+  "arq": "ex117.png"
+ },
+ {
+  "id": 118,
+  "n_marcas": 1,
+  "img": "C26_ギタロー ⧸ guitarous.png",
+  "x": 304,
+  "y": 15,
+  "canal": "ギタロー ⧸ guitarous",
+  "p": 15.4,
+  "arq": "ex118.png"
+ },
+ {
+  "id": 119,
+  "n_marcas": 1,
+  "img": "C26_ギタロー ⧸ guitarous.png",
+  "x": 895,
+  "y": 29,
+  "canal": "ギタロー ⧸ guitarous",
+  "p": 15.4,
+  "arq": "ex119.png"
+ },
+ {
+  "id": 120,
+  "n_marcas": 1,
+  "img": "C26_ギタロー ⧸ guitarous.png",
+  "x": 1148,
+  "y": 28,
+  "canal": "ギタロー ⧸ guitarous",
+  "p": 15.4,
+  "arq": "ex120.png"
+ },
+ {
+  "id": 121,
+  "n_marcas": 1,
+  "img": "C26_ギタロー ⧸ guitarous.png",
+  "x": 1007,
+  "y": 44,
+  "canal": "ギタロー ⧸ guitarous",
+  "p": 15.4,
+  "arq": "ex121.png"
+ },
+ {
+  "id": 122,
+  "n_marcas": 1,
+  "img": "C26_ギタロー ⧸ guitarous.png",
+  "x": 1010,
+  "y": 63,
+  "canal": "ギタロー ⧸ guitarous",
+  "p": 15.4,
+  "arq": "ex122.png"
+ },
+ {
+  "id": 123,
+  "n_marcas": 1,
+  "img": "C26_ギタロー ⧸ guitarous.png",
+  "x": 1012,
+  "y": 82,
+  "canal": "ギタロー ⧸ guitarous",
+  "p": 15.4,
+  "arq": "ex123.png"
+ },
+ {
+  "id": 124,
+  "n_marcas": 1,
+  "img": "C27_ギタロー ⧸ guitarous.png",
+  "x": 89,
+  "y": 35,
+  "canal": "ギタロー ⧸ guitarous",
+  "p": 15.4,
+  "arq": "ex124.png"
+ },
+ {
+  "id": 125,
+  "n_marcas": 1,
+  "img": "C27_ギタロー ⧸ guitarous.png",
+  "x": 90,
+  "y": 67,
+  "canal": "ギタロー ⧸ guitarous",
+  "p": 15.4,
+  "arq": "ex125.png"
+ }
+]
