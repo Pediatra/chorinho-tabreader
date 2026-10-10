@@ -12,7 +12,8 @@ import numpy as np
 import pytest
 
 from tab.caminhos import acervo
-from tab.leitor import info, quadro_em, quadros
+from tab.estado import ler_amostras
+from tab.leitor import info, quadro_em, quadros, quadros_pts
 
 FPS = 10.0
 LARGURA = 160
@@ -206,3 +207,44 @@ def test_recorte_de_altura_impar_bate_com_seek(tmp_path: Path) -> None:
         assert dif.mean() < 0.5, (
             f"quadro em t={t:.3f} desalinhado (dif {dif.mean():.2f})"
         )
+
+
+def test_quadros_pts_rotula_com_o_pts_do_quadro_lido(video_barra: str) -> None:
+    """``quadros_pts`` rotula cada quadro com o PTS do quadro que foi lido (não com a grade).
+
+    Regressão da Fase 6: a grade ``t0 + k/qps`` começava fora do quadro (t0 = 0,03 s, quadros em
+    0,1 s) e o tempo ficava 2 a 3 quadros adiantado. Aqui o instante da grade (0,03; 0,13; ...)
+    cai no quadro nativo mais próximo, e o rótulo é o PTS dele: a barra lida é a do próprio
+    quadro rotulado.
+    """
+    lidos = list(quadros_pts(video_barra, 0.03, 2.0, FPS))
+    assert len(lidos) >= 15
+    for t, quadro in lidos:
+        k = round(t * FPS)
+        assert abs(t * FPS - k) < 1e-6, f"rótulo {t} não é um PTS de quadro"
+        assert abs(_centro_da_barra(quadro) - _centro_esperado(k)) < METADE_PASSO
+    tempos = [t for t, _ in lidos]
+    assert tempos == sorted(set(tempos)), (
+        "um quadro nativo não pode aparecer duas vezes"
+    )
+
+
+def test_quadros_pts_nao_repete_quadro_quando_qps_e_menor_que_o_nativo(
+    video_barra: str,
+) -> None:
+    """Com 6 qps num vídeo de 10 fps, cada instante da grade pega um quadro distinto e em ordem."""
+    lidos = list(quadros_pts(video_barra, 0.0, 2.0, 6.0))
+    tempos = [t for t, _ in lidos]
+    assert tempos == sorted(set(tempos))
+    assert len(tempos) == len(set(tempos)) > 0
+    for t, quadro in lidos:
+        k = round(t * FPS)
+        assert abs(_centro_da_barra(quadro) - _centro_esperado(k)) < METADE_PASSO
+
+
+def test_amostras_do_tempo_herdam_o_pts_do_quadro(video_barra: str) -> None:
+    """``ler_amostras`` (o caminho do tempo, ``tab.estado``) rotula com o PTS do quadro nativo."""
+    amostras = ler_amostras(video_barra, 0.03, 2.0, 6.0, (0, ALTURA), [[]])
+    assert amostras
+    for a in amostras:
+        assert abs(a.t * FPS - round(a.t * FPS)) < 1e-6

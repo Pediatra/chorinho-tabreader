@@ -26,6 +26,7 @@ Uso:
 """
 
 import argparse
+import bisect
 import json
 import subprocess
 import sys
@@ -224,6 +225,160 @@ def quadros(
             quadro = np.frombuffer(bruto, np.uint8).reshape((altura_rec, largura, 3))
             yield t0 + k / qps, quadro
             k += 1
+    finally:
+        if proc.stdout is not None:
+            proc.stdout.close()
+        proc.wait()
+
+
+def pts_nativos(caminho: str, t0: float, t1: float) -> list[float]:
+    """Instante (PTS, em segundos) de cada quadro nativo de ``t0`` a ``t1``, por ``ffprobe``.
+
+    É o instante que o próprio vídeo declara para o quadro, não uma grade calculada. A lista
+    começa no primeiro quadro com PTS ``>= t0``, que é onde o ``ffmpeg`` com ``-ss`` antes do
+    ``-i`` começa a entregar quadros.
+
+    Args:
+        caminho: vídeo.
+        t0: instante inicial, em segundos.
+        t1: instante final, em segundos (exclusivo).
+
+    Returns:
+        Lista crescente de PTS, em segundos; vazia se o ``ffprobe`` não responder.
+    """
+    inicio = max(0.0, t0)
+    try:
+        proc = subprocess.run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-select_streams",
+                "v:0",
+                "-read_intervals",
+                f"{inicio:.3f}%{t1:.3f}",
+                "-show_entries",
+                "frame=pts_time",
+                "-of",
+                "csv=p=0",
+                caminho,
+            ],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+    except Exception:
+        return []
+    pts: list[float] = []
+    for campo in proc.stdout.split():
+        valor = campo.strip(",")
+        if valor:
+            try:
+                pts.append(float(valor))
+            except ValueError:
+                continue
+    return [p for p in pts if inicio - 1e-4 <= p < t1]
+
+
+def quadros_pts(
+    caminho: str,
+    t0: float,
+    t1: float,
+    qps: float,
+    recorte_y: tuple[int, int] | None = None,
+) -> Iterator[tuple[float, np.ndarray]]:
+    """``(t, quadro)`` com ``t`` = PTS do quadro nativo mais próximo de cada instante da grade.
+
+    Diferente de ``quadros``, que rotula o quadro com ``t0 + k / qps`` (grade calculada), aqui o
+    rótulo é o PTS do quadro que de fato foi lido. Medido no ``retrato brasileiro`` (30000/1001,
+    ``start_time 0``): a grade de ``quadros`` ficava de 0,01 a 0,07 s do quadro que entregava, e
+    a marcação de 6 qps adiantava o início de coluna em 2 a 3 quadros. Por isso o tempo
+    (``tab.estado``) lê por aqui.
+
+    Para cada ``k``, o instante ``t0 + k / qps`` pega o quadro nativo de PTS mais próximo (um
+    quadro por instante da grade; dois instantes nunca dividem o mesmo quadro). Os quadros são
+    lidos numa passada de ``ffmpeg`` e só os escolhidos saem.
+
+    Args:
+        caminho: vídeo.
+        t0: instante inicial, em segundos.
+        t1: instante final, em segundos (exclusivo).
+        qps: quadros por segundo da grade (use a taxa nativa para ler quadro a quadro).
+        recorte_y: ``(y0, y1)`` a recortar de cada quadro, ou ``None`` para o quadro inteiro.
+
+    Yields:
+        ``(pts, quadro)`` em ordem de tempo, com o quadro em BGR.
+    """
+    dims = dimensoes(caminho)
+    if dims is None or qps <= 0 or t1 <= t0:
+        return
+    largura, altura = dims
+    y0, y1 = (
+        (0, altura)
+        if recorte_y is None
+        else (max(0, recorte_y[0]), min(altura, recorte_y[1]))
+    )
+    if y1 <= y0:
+        return
+    pts = pts_nativos(caminho, t0, t1)
+    if not pts:
+        return
+    escolhidos: list[int] = []
+    k = 0
+    while t0 + k / qps < t1:
+        alvo = t0 + k / qps
+        i = bisect.bisect_left(pts, alvo)
+        candidatos = [j for j in (i - 1, i) if 0 <= j < len(pts)]
+        melhor = min(candidatos, key=lambda j: abs(pts[j] - alvo))
+        if not escolhidos or escolhidos[-1] != melhor:
+            escolhidos.append(melhor)
+        k += 1
+    if not escolhidos:
+        return
+    altura_rec = y1 - y0
+    tamanho = largura * altura_rec * 3
+    filtro = "format=bgr24"
+    if recorte_y is not None:
+        filtro = f"{filtro},crop={largura}:{altura_rec}:0:{y0}"
+    proc = subprocess.Popen(
+        [
+            "ffmpeg",
+            "-v",
+            "error",
+            "-nostdin",
+            "-ss",
+            f"{max(0.0, t0):.3f}",
+            "-i",
+            caminho,
+            "-t",
+            f"{t1 - t0:.3f}",
+            "-vf",
+            filtro,
+            "-f",
+            "rawvideo",
+            "-pix_fmt",
+            "bgr24",
+            "-",
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+    )
+    try:
+        assert proc.stdout is not None
+        proximo = iter(escolhidos)
+        alvo_j = next(proximo, None)
+        j = 0
+        while alvo_j is not None:
+            bruto = proc.stdout.read(tamanho)
+            if not bruto or len(bruto) < tamanho:
+                break
+            if j == alvo_j:
+                quadro = np.frombuffer(bruto, np.uint8).reshape(
+                    (altura_rec, largura, 3)
+                )
+                yield pts[j], quadro
+                alvo_j = next(proximo, None)
+            j += 1
     finally:
         if proc.stdout is not None:
             proc.stdout.close()

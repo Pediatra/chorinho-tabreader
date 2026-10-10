@@ -293,7 +293,7 @@ def ler_amostras(
         Uma ``Amostra`` por quadro lido, em ordem de tempo.
     """
     amostras: list[Amostra] = []
-    for t, quadro in leitor.quadros(video, t0, t1, qps, recorte_y=recorte_y):
+    for t, quadro in leitor.quadros_pts(video, t0, t1, qps, recorte_y=recorte_y):
         det = detectar_cursor(quadro, sat_min=SATURACAO_MARCADOR)
         x = None
         if det is not None and det[1] - det[0] + 1 >= LARGURA_MINIMA_MARCADOR:

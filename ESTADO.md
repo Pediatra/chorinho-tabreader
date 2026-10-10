@@ -4700,3 +4700,64 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
 - **Não repetir**: (a) 0,2 s de tolerância para a coluna anterior não resolve o rótulo antes do
   onset (é outro caso); (b) comparar o rótulo com o `t_ini` cru, sem a grade, reprova 500 s por
   0,0086 s; (c) não aumentar a régua para 2 quadros nem arredondar o rótulo para trás.
+
+## 2026-10-10 — FASE 6: a folha estava certa, o JSON estava 2 a 3 quadros cedo. Conserto no tempo: folha 30 de 30
+
+- **Pergunta**: a folha ou o JSON mentia? **Resposta medida: o JSON.** O quadro desenhado (`quadro_em`) bate com o PTS
+  do quadro nativo (seek preciso, ffmpeg) e com o leitor, em todos os 12 instantes. O JSON é que dava o início da coluna
+  antes do quadro em que ela aparece. Não é a hipótese (a) (folha errada), nem a (c) (instante colado na transição): a
+  transição real estava 74 a 115 ms (2 a 3 quadros) depois do `t_ini` do JSON.
+- **Causa (medida)**: o tempo vinha de rótulos de grade calculada (`t0 + k/qps`), não do PTS do quadro lido. Em
+  `retrato brasileiro` (30000/1001, `start_time 0`) o amostrador de 6 qps rotulou 449,708 com o conteúdo do quadro
+  de 449,783 (coluna 3, quando o quadro de 449,716 ainda mostra a coluna 2). O refino (`refinar_inicios`) só olhava
+  até `t_ini + 1 quadro`, e a transição estava fora dessa janela: o erro não podia ser corrigido depois.
+- **Números medidos no JSON antigo (`mvp_antes`, `contar.py`, PTS exato)**: 12 instantes da semente 0: itens 4, 5 e 11
+  com a faixa na coluna anterior (transições em 449,783; 486,987; 590,657 contra `t_ini` 449,708; 486,875; 590,542).
+  Na folha de 30 (semente 1): **22 de 30**. Quase todos os erros são de uma coluna adiantada.
+- **Conserto (um commit, 4 arquivos)**:
+  1. `tab/leitor.py::quadros_pts`: rotula cada quadro com o PTS que o vídeo declara (`ffprobe`), para cada instante da
+     grade o quadro nativo mais próximo, e nunca repete quadro. `quadros` fica intacto (telas, cursor, transcrever,
+     ouro e pipeline continuam com a grade antiga, que não foi medida como errada fora do tempo).
+  2. `tab/estado.py::ler_amostras` passa a ler por `quadros_pts` (o tempo e o refino herdam o PTS).
+  3. `tab/conferir.py`: a folha desenha o quadro de PTS mais próximo de `t` (`quadro_em(t - ½ quadro)`), e não `t + ½`.
+     É a checagem mais estrita: com `t` no PTS do primeiro quadro, o quadro de `t + ½` já seria o seguinte.
+- **Validação do leitor**: `quadros_pts` na janela 449,2–450,0 s: rótulo = PTS real e quadro igual ao `quadro_em` no
+  PTS em **22 de 22**; 3 testes novos em `tests/test_leitor.py` (rótulo = PTS com grade fora do quadro; sem repetição
+  com 6 qps em vídeo de 10 fps; `ler_amostras` herda o PTS).
+- **Números finais (JSON `data/saida/produto/mvp.json`, código final)**:
+
+  | medida | antes | depois |
+  | --- | --- | --- |
+  | folha de 30 (semente 1), coluna = faixa | 22 de 30 | **30 de 30** (aceite ≥ 29) |
+  | folha de 12 (semente 0), coluna = faixa | 9 de 12 (erram 4, 5 e 11) | **12 de 12** |
+  | régua: estado certo (40) | 39 (acerto 37, 1 quadro antes 2, erro 1) | **38** (acerto 37, 1 quadro antes 1, erro 2) |
+  | régua: tempo falso | 0 | **0** |
+  | notas: precisão | 485/486 | 485/485 |
+  | notas: revocação | 485/491 | 485/491 |
+  | notas: casa | 482/485 | 483/485 |
+  | `tab.avaliar` (oficial_1/2/3) | 66, 71, 68 de 72 | **66, 71, 68 de 72** |
+
+- **O ESTADO NÃO FECHOU o aceite de estado (≥ 39/40): 38/40.** A causa é um instante do ouro, não o código:
+  **t = 500 s** (tela 5, coluna x 1061,9 = coluna 19). Medido com PTS exato: o marcador está na coluna 16 (x 982,5)
+  até o quadro de **500,0000**, e chega à coluna 19 no quadro de **500,0662** (2 quadros depois do rótulo, não 1).
+  O JSON antigo dava 500,042, que estava 1 quadro cedo e passava pela tolerância "1 quadro antes". Com o JSON certo
+  (500,066) o rótulo fica 2 quadros antes e reprova. Não afrouxei a régua para 2 quadros (isso é ajuste ao gabarito, e a
+  regra é decisão do dono). **Decisão pendente do dono**: o rótulo de t = 500 s está 2 quadros antes do primeiro quadro
+  que mostra a coluna. Se o rótulo estiver certo e o vídeo errado, algo no quadro é diferente do que medi; se o rótulo
+  for leitura de pouco mais de 1 quadro, a régua precisa de outra decisão explícita. t = 350 s continua "1 quadro antes";
+  t = 672 s continua erro (a coluna 1760 não tem nota no JSON, não é tempo).
+- **Notas: a mudança de 485/486 para 485/485 e de casa 482 para 483 NÃO vem desta correção.** A correção não toca o
+  caminho das notas (`tab/video.py` usa o `estado` só para o tempo). A diferença está em casas de dois dígitos
+  (ex.: `13` no lugar de `1` na tela 8, corda 3), e o `tab/reconhecer.py` com esse ajuste é um diff **não commitado de
+  outro agente**. O `mvp_antes` foi gerado antes desse diff. Fica declarado como dívida de comparação: a linha de base
+  de nota é a do `reconhecer` daquele dia.
+- **Gate**: `ruff check .` ✓ (`All checks passed!`, exit 0); `ruff format --check .` ✓ (77 arquivos); `pytest tests/ -q
+  -p no:cacheprovider` **317 passed, 3 deselected** (integração), exit 0.
+- **Artefatos**: `data/saida/produto/mvp.json` (regenerado), `data/saida/produto/conferencia_mvp.png` (12, semente 0),
+  `data/saida/fase6_conf/conferencia_30_semente1.png` (30, semente 1), `data/saida/produto/avaliacao_mvp.json`.
+  Diagnóstico (scripts `vizinhos.py`, `medir.py`, `janela.py`, `rotulo.py`, `contar.py`, `validar_pts.py`) em
+  `data/saida/fase6_diag/`.
+- **Não repetir**: (a) rótulo de quadro pela grade `t0 + k/qps` para tempo; (b) janela de refino só até `t_ini + 1
+  quadro`; (c) afrouxar a régua de 1 para 2 quadros para passar 39/40; (d) atribuir a mudança de nota ao tempo.
+- **Não feito**: o aceite de estado 39/40 depende da decisão do dono sobre t = 500 s; `docs/rodadas/0004-mvp-video-inteiro.md`
+  e a aprovação do dono (CA-10) continuam pendentes.

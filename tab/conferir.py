@@ -236,8 +236,8 @@ def folha(
         video: caminho do vídeo (lido por ``tab.leitor``).
         dados: JSON ``chorinho/video@1``.
         escolhidos: instantes sorteados (de ``instantes``).
-        fps: taxa do vídeo; o quadro é lido meio quadro depois do onset, para cair
-            dentro do quadro em que a coluna já está acesa.
+        fps: taxa do vídeo; o quadro desenhado é o de PTS mais próximo de ``t`` (meio quadro
+            antes do instante pedido, para o ``-ss`` cair no próprio quadro, e não no seguinte).
 
     Returns:
         A folha, ou ``None`` se não há instante.
@@ -247,7 +247,7 @@ def folha(
     blocos: list[Image.Image] = []
     for k, inst in enumerate(escolhidos, start=1):
         t = float(inst["t_ini"])
-        quadro = _quadro_rgb(leitor.quadro_em(video, t + 0.5 / fps))
+        quadro = _quadro_rgb(leitor.quadro_em(video, max(0.0, t - 0.5 / fps)))
         x = x_da_coluna(dados, inst["tela"], inst["coluna"])
         caixa = None if x is None else caixa_da_coluna(x, inst["passo"], inst["painel"])
         notas = notas_da_coluna(dados, inst["tela"], inst["coluna"])
