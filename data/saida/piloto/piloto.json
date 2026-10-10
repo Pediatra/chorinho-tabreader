@@ -1,0 +1,3020 @@
+{
+ "passo": 22.2,
+ "linhas_y": [
+  22,
+  44,
+  66,
+  89,
+  112,
+  133
+ ],
+ "barlines_x": [
+  13,
+  408,
+  733,
+  740,
+  959,
+  967,
+  1317,
+  1330
+ ],
+ "notas": [
+  {
+   "ordem": 1,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 102,
+   "confianca": 0.841,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "caixa_token": [
+     102,
+     38,
+     107,
+     54
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.23,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      5,
+      5
+     ],
+     [
+      3,
+      7,
+      5,
+      16
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.841
+     ],
+     [
+      "14",
+      0.058
+     ],
+     [
+      "4",
+      0.053
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.508
+     ],
+     [
+      "harmonico",
+      0.41
+     ],
+     [
+      "24",
+      0.064
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.508,
+    "tinta": 0.112
+   }
+  },
+  {
+   "ordem": 2,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 100,
+   "confianca": 0.496,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "9",
+   "simbolo_cru": {
+    "caixa_token": [
+     100,
+     61,
+     110,
+     77
+    ],
+    "partes": 2,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "2",
+    "top3": [
+     [
+      "2",
+      0.496
+     ],
+     [
+      "harmonico",
+      0.287
+     ],
+     [
+      "24",
+      0.128
+     ]
+    ],
+    "top3_componente": [
+     [
+      "9",
+      0.412
+     ],
+     [
+      "2",
+      0.325
+     ],
+     [
+      "harmonico",
+      0.149
+     ]
+    ],
+    "casa_recuperada": "9",
+    "confianca_recuperada": 0.412,
+    "tinta": 0.123
+   }
+  },
+  {
+   "ordem": 3,
+   "corda": 6,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 102,
+   "confianca": 0.822,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "caixa_token": [
+     102,
+     128,
+     107,
+     144
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.23,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      5,
+      5
+     ],
+     [
+      3,
+      7,
+      5,
+      16
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.822
+     ],
+     [
+      "14",
+      0.087
+     ],
+     [
+      "4",
+      0.035
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.763
+     ],
+     [
+      "harmonico",
+      0.199
+     ],
+     [
+      "14",
+      0.023
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.763,
+    "tinta": 0.082
+   }
+  },
+  {
+   "ordem": 4,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 140,
+   "confianca": 0.623,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "caixa_token": [
+     140,
+     38,
+     146,
+     54
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.27,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      6,
+      5
+     ],
+     [
+      4,
+      7,
+      6,
+      16
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.623
+     ],
+     [
+      "14",
+      0.187
+     ],
+     [
+      "4",
+      0.08
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.763
+     ],
+     [
+      "harmonico",
+      0.199
+     ],
+     [
+      "14",
+      0.023
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.763,
+    "tinta": 0.102
+   }
+  },
+  {
+   "ordem": 5,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 179,
+   "confianca": 0.751,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "caixa_token": [
+     179,
+     38,
+     185,
+     43
+    ],
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.27
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      6,
+      5
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "4",
+      0.751
+     ],
+     [
+      "harmonico",
+      0.207
+     ],
+     [
+      "14",
+      0.031
+     ]
+    ],
+    "top3_componente": [
+     [
+      "4",
+      0.751
+     ],
+     [
+      "harmonico",
+      0.207
+     ],
+     [
+      "14",
+      0.031
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.751,
+    "tinta": 0.134
+   }
+  },
+  {
+   "ordem": 6,
+   "corda": 6,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 178,
+   "confianca": 0.857,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "caixa_token": [
+     178,
+     128,
+     188,
+     144
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.41,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      9,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.857
+     ],
+     [
+      "3",
+      0.059
+     ],
+     [
+      "5",
+      0.053
+     ]
+    ],
+    "top3_componente": [
+     [
+      "9",
+      0.268
+     ],
+     [
+      "8",
+      0.193
+     ],
+     [
+      "2",
+      0.127
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.532,
+    "tinta": 0.103
+   }
+  },
+  {
+   "ordem": 7,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 216,
+   "confianca": 0.963,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "2",
+   "simbolo_cru": {
+    "caixa_token": [
+     216,
+     38,
+     226,
+     54
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.41,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      9,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "3",
+    "top3": [
+     [
+      "3",
+      0.963
+     ],
+     [
+      "tecnica",
+      0.023
+     ],
+     [
+      "9",
+      0.007
+     ]
+    ],
+    "top3_componente": [
+     [
+      "2",
+      0.714
+     ],
+     [
+      "9",
+      0.136
+     ],
+     [
+      "3",
+      0.081
+     ]
+    ],
+    "casa_recuperada": "2",
+    "confianca_recuperada": 0.714,
+    "tinta": 0.118
+   }
+  },
+  {
+   "ordem": 8,
+   "corda": 1,
+   "casa": "0",
+   "tecnica": null,
+   "x": 254,
+   "confianca": 0.595,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "caixa_token": [
+     254,
+     16,
+     264,
+     32
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "0",
+    "top3": [
+     [
+      "0",
+      0.595
+     ],
+     [
+      "tecnica",
+      0.281
+     ],
+     [
+      "harmonico",
+      0.057
+     ]
+    ],
+    "top3_componente": [
+     [
+      "9",
+      0.364
+     ],
+     [
+      "harmonico",
+      0.226
+     ],
+     [
+      "0",
+      0.225
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.508,
+    "tinta": 0.107
+   }
+  },
+  {
+   "ordem": 9,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 256,
+   "confianca": 0.825,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "caixa_token": [
+     256,
+     38,
+     261,
+     43
+    ],
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.23
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      5,
+      5
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "harmonico",
+      0.825
+     ],
+     [
+      "24",
+      0.113
+     ],
+     [
+      "tecnica",
+      0.048
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.825
+     ],
+     [
+      "24",
+      0.113
+     ],
+     [
+      "tecnica",
+      0.048
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.147
+   }
+  },
+  {
+   "ordem": 10,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 254,
+   "confianca": 0.758,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "caixa_token": [
+     254,
+     61,
+     264,
+     77
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "0",
+    "top3": [
+     [
+      "0",
+      0.758
+     ],
+     [
+      "tecnica",
+      0.097
+     ],
+     [
+      "harmonico",
+      0.053
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.37
+     ],
+     [
+      "9",
+      0.358
+     ],
+     [
+      "harmonico",
+      0.193
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.37,
+    "tinta": 0.128
+   }
+  },
+  {
+   "ordem": 11,
+   "corda": 5,
+   "casa": "3",
+   "tecnica": null,
+   "x": 254,
+   "confianca": 0.521,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "caixa_token": [
+     254,
+     106,
+     264,
+     122
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      10,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "3",
+    "top3": [
+     [
+      "3",
+      0.521
+     ],
+     [
+      "tecnica",
+      0.3
+     ],
+     [
+      "5",
+      0.118
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.817
+     ],
+     [
+      "1",
+      0.064
+     ],
+     [
+      "harmonico",
+      0.049
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.817,
+    "tinta": 0.099
+   }
+  },
+  {
+   "ordem": 12,
+   "corda": 4,
+   "casa": "2",
+   "tecnica": null,
+   "x": 296,
+   "confianca": 0.6,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "caixa_token": [
+     296,
+     83,
+     306,
+     99
+    ],
+    "partes": 2,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "2",
+    "top3": [
+     [
+      "2",
+      0.6
+     ],
+     [
+      "24",
+      0.168
+     ],
+     [
+      "harmonico",
+      0.11
+     ]
+    ],
+    "top3_componente": [
+     [
+      "9",
+      0.731
+     ],
+     [
+      "0",
+      0.113
+     ],
+     [
+      "4",
+      0.11
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.968,
+    "tinta": 0.12
+   }
+  },
+  {
+   "ordem": 13,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 335,
+   "confianca": 0.723,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "caixa_token": [
+     335,
+     61,
+     345,
+     77
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "0",
+    "top3": [
+     [
+      "0",
+      0.723
+     ],
+     [
+      "6",
+      0.099
+     ],
+     [
+      "tecnica",
+      0.066
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.817
+     ],
+     [
+      "9",
+      0.086
+     ],
+     [
+      "harmonico",
+      0.081
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.817,
+    "tinta": 0.121
+   }
+  },
+  {
+   "ordem": 14,
+   "corda": 1,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 355,
+   "confianca": 0.452,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "caixa_token": [
+     355,
+     16,
+     365,
+     32
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.452
+     ],
+     [
+      "5",
+      0.382
+     ],
+     [
+      "harmonico",
+      0.074
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.658
+     ],
+     [
+      "harmonico",
+      0.187
+     ],
+     [
+      "6",
+      0.07
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.658,
+    "tinta": 0.099
+   }
+  },
+  {
+   "ordem": 15,
+   "corda": 1,
+   "casa": "5",
+   "tecnica": null,
+   "x": 438,
+   "confianca": 0.951,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "caixa_token": [
+     438,
+     16,
+     448,
+     32
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      10,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.951
+     ],
+     [
+      "tecnica",
+      0.041
+     ],
+     [
+      "1",
+      0.006
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.576
+     ],
+     [
+      "0",
+      0.339
+     ],
+     [
+      "5",
+      0.07
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.095
+   }
+  },
+  {
+   "ordem": 16,
+   "corda": 3,
+   "casa": "5",
+   "tecnica": null,
+   "x": 438,
+   "confianca": 0.961,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "caixa_token": [
+     438,
+     61,
+     448,
+     77
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      10,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.961
+     ],
+     [
+      "tecnica",
+      0.03
+     ],
+     [
+      "1",
+      0.006
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.292
+     ],
+     [
+      "5",
+      0.291
+     ],
+     [
+      "harmonico",
+      0.179
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.292,
+    "tinta": 0.13
+   }
+  },
+  {
+   "ordem": 17,
+   "corda": 4,
+   "casa": "3",
+   "tecnica": null,
+   "x": 438,
+   "confianca": 0.621,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "caixa_token": [
+     438,
+     83,
+     448,
+     99
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      10,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "3",
+    "top3": [
+     [
+      "3",
+      0.621
+     ],
+     [
+      "tecnica",
+      0.217
+     ],
+     [
+      "5",
+      0.13
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.514
+     ],
+     [
+      "harmonico",
+      0.272
+     ],
+     [
+      "5",
+      0.135
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.514,
+    "tinta": 0.131
+   }
+  },
+  {
+   "ordem": 18,
+   "corda": 1,
+   "casa": "5",
+   "tecnica": null,
+   "x": 496,
+   "confianca": 0.948,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "caixa_token": [
+     496,
+     16,
+     506,
+     32
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      10,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.948
+     ],
+     [
+      "tecnica",
+      0.047
+     ],
+     [
+      "1",
+      0.003
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.598
+     ],
+     [
+      "0",
+      0.304
+     ],
+     [
+      "5",
+      0.08
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.096
+   }
+  },
+  {
+   "ordem": 19,
+   "corda": 1,
+   "casa": "7",
+   "tecnica": null,
+   "x": 541,
+   "confianca": 0.996,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "caixa_token": [
+     541,
+     16,
+     551,
+     32
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.18
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      2,
+      7,
+      6,
+      16
+     ]
+    ],
+    "classe": "7",
+    "top3": [
+     [
+      "7",
+      0.996
+     ],
+     [
+      "tecnica",
+      0.003
+     ],
+     [
+      "harmonico",
+      0.0
+     ]
+    ],
+    "top3_componente": [
+     [
+      "7",
+      0.962
+     ],
+     [
+      "17",
+      0.024
+     ],
+     [
+      "harmonico",
+      0.006
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.962,
+    "tinta": 0.09
+   }
+  },
+  {
+   "ordem": 20,
+   "corda": 1,
+   "casa": "5",
+   "tecnica": null,
+   "x": 581,
+   "confianca": 0.573,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "caixa_token": [
+     581,
+     16,
+     591,
+     32
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      10,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.573
+     ],
+     [
+      "tecnica",
+      0.332
+     ],
+     [
+      "1",
+      0.071
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.51
+     ],
+     [
+      "harmonico",
+      0.458
+     ],
+     [
+      "5",
+      0.021
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.51,
+    "tinta": 0.108
+   }
+  },
+  {
+   "ordem": 21,
+   "corda": 2,
+   "casa": "6",
+   "tecnica": null,
+   "x": 581,
+   "confianca": 0.215,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "caixa_token": [
+     581,
+     38,
+     592,
+     54
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.5,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      11,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "6",
+    "top3": [
+     [
+      "6",
+      0.215
+     ],
+     [
+      "tecnica",
+      0.2
+     ],
+     [
+      "harmonico",
+      0.198
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.631
+     ],
+     [
+      "tecnica",
+      0.188
+     ],
+     [
+      "5",
+      0.08
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.144
+   }
+  },
+  {
+   "ordem": 22,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 581,
+   "confianca": 0.772,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "caixa_token": [
+     581,
+     61,
+     591,
+     77
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "0",
+    "top3": [
+     [
+      "0",
+      0.772
+     ],
+     [
+      "tecnica",
+      0.098
+     ],
+     [
+      "harmonico",
+      0.061
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.653
+     ],
+     [
+      "harmonico",
+      0.243
+     ],
+     [
+      "9",
+      0.066
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.653,
+    "tinta": 0.134
+   }
+  },
+  {
+   "ordem": 23,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 581,
+   "confianca": 0.506,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "2",
+   "simbolo_cru": {
+    "caixa_token": [
+     581,
+     128,
+     591,
+     144
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      10,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "0",
+    "top3": [
+     [
+      "0",
+      0.506
+     ],
+     [
+      "tecnica",
+      0.266
+     ],
+     [
+      "harmonico",
+      0.083
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.456
+     ],
+     [
+      "5",
+      0.185
+     ],
+     [
+      "tecnica",
+      0.127
+     ]
+    ],
+    "casa_recuperada": "2",
+    "confianca_recuperada": 0.231,
+    "tinta": 0.105
+   }
+  },
+  {
+   "ordem": 24,
+   "corda": 1,
+   "casa": "5",
+   "tecnica": null,
+   "x": 632,
+   "confianca": 0.526,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "caixa_token": [
+     632,
+     16,
+     642,
+     32
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.526
+     ],
+     [
+      "tecnica",
+      0.384
+     ],
+     [
+      "harmonico",
+      0.053
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.658
+     ],
+     [
+      "9",
+      0.13
+     ],
+     [
+      "6",
+      0.101
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.658,
+    "tinta": 0.103
+   }
+  },
+  {
+   "ordem": 25,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 661,
+   "confianca": 0.619,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "caixa_token": [
+     661,
+     38,
+     671,
+     54
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      10,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "3",
+    "top3": [
+     [
+      "3",
+      0.619
+     ],
+     [
+      "tecnica",
+      0.329
+     ],
+     [
+      "5",
+      0.031
+     ]
+    ],
+    "top3_componente": [
+     [
+      "5",
+      0.547
+     ],
+     [
+      "harmonico",
+      0.112
+     ],
+     [
+      "0",
+      0.11
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.547,
+    "tinta": 0.124
+   }
+  },
+  {
+   "ordem": 26,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 695,
+   "confianca": 0.357,
+   "corrigido_pela_forma": true,
+   "simbolo_recusado": {
+    "caixa_token": [
+     695,
+     45,
+     697,
+     54
+    ],
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      2,
+      9
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "7",
+      0.357
+     ],
+     [
+      "1",
+      0.173
+     ],
+     [
+      "15",
+      0.125
+     ]
+    ],
+    "top3_componente": [
+     [
+      "7",
+      0.357
+     ],
+     [
+      "1",
+      0.173
+     ],
+     [
+      "15",
+      0.125
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.125,
+    "recusado_por_forma": "barra_vertical (razao 0.30)"
+   }
+  },
+  {
+   "ordem": 27,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 802,
+   "confianca": 0.86,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "9",
+   "simbolo_cru": {
+    "caixa_token": [
+     802,
+     38,
+     812,
+     54
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      10,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "3",
+    "top3": [
+     [
+      "3",
+      0.86
+     ],
+     [
+      "tecnica",
+      0.065
+     ],
+     [
+      "5",
+      0.039
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.408
+     ],
+     [
+      "0",
+      0.226
+     ],
+     [
+      "5",
+      0.142
+     ]
+    ],
+    "casa_recuperada": "9",
+    "confianca_recuperada": 0.71,
+    "tinta": 0.13
+   }
+  },
+  {
+   "ordem": 28,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 802,
+   "confianca": 0.289,
+   "corrigido_pela_forma": true,
+   "casa_recuperada": "2",
+   "simbolo_cru": {
+    "caixa_token": [
+     802,
+     61,
+     813,
+     77
+    ],
+    "partes": 2,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.5,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      11,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "2",
+    "top3": [
+     [
+      "24",
+      0.289
+     ],
+     [
+      "2",
+      0.225
+     ],
+     [
+      "harmonico",
+      0.207
+     ]
+    ],
+    "top3_componente": [
+     [
+      "2",
+      0.429
+     ],
+     [
+      "harmonico",
+      0.21
+     ],
+     [
+      "3",
+      0.18
+     ]
+    ],
+    "casa_recuperada": "2",
+    "confianca_recuperada": 0.429,
+    "tinta": 0.143
+   }
+  },
+  {
+   "ordem": 29,
+   "corda": 4,
+   "casa": "0",
+   "tecnica": null,
+   "x": 802,
+   "confianca": 0.529,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "9",
+   "simbolo_cru": {
+    "caixa_token": [
+     802,
+     83,
+     813,
+     99
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.5,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      11,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "0",
+    "top3": [
+     [
+      "0",
+      0.529
+     ],
+     [
+      "6",
+      0.134
+     ],
+     [
+      "tecnica",
+      0.085
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.826
+     ],
+     [
+      "tecnica",
+      0.07
+     ],
+     [
+      "5",
+      0.051
+     ]
+    ],
+    "casa_recuperada": "9",
+    "confianca_recuperada": 0.7,
+    "tinta": 0.135
+   }
+  },
+  {
+   "ordem": 30,
+   "corda": 1,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 840,
+   "confianca": 0.429,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "caixa_token": [
+     840,
+     16,
+     850,
+     32
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.429
+     ],
+     [
+      "0",
+      0.222
+     ],
+     [
+      "5",
+      0.164
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.277
+     ],
+     [
+      "2",
+      0.196
+     ],
+     [
+      "9",
+      0.137
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.433,
+    "tinta": 0.099
+   }
+  },
+  {
+   "ordem": 31,
+   "corda": 2,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 880,
+   "confianca": 0.828,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "caixa_token": [
+     880,
+     38,
+     885,
+     54
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.23,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      5,
+      5
+     ],
+     [
+      3,
+      7,
+      5,
+      16
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.828
+     ],
+     [
+      "4",
+      0.066
+     ],
+     [
+      "14",
+      0.061
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.478
+     ],
+     [
+      "4",
+      0.424
+     ],
+     [
+      "24",
+      0.076
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.102
+   }
+  },
+  {
+   "ordem": 32,
+   "corda": 2,
+   "casa": "3",
+   "tecnica": null,
+   "x": 916,
+   "confianca": 0.909,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "caixa_token": [
+     916,
+     38,
+     926,
+     54
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.41,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      9,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "3",
+    "top3": [
+     [
+      "3",
+      0.909
+     ],
+     [
+      "tecnica",
+      0.082
+     ],
+     [
+      "9",
+      0.004
+     ]
+    ],
+    "top3_componente": [
+     [
+      "2",
+      0.587
+     ],
+     [
+      "9",
+      0.296
+     ],
+     [
+      "0",
+      0.053
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.699,
+    "tinta": 0.118
+   }
+  },
+  {
+   "ordem": 33,
+   "corda": 1,
+   "casa": "5",
+   "tecnica": null,
+   "x": 1049,
+   "confianca": 0.488,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "caixa_token": [
+     1049,
+     16,
+     1059,
+     32
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "5",
+    "top3": [
+     [
+      "5",
+      0.488
+     ],
+     [
+      "tecnica",
+      0.4
+     ],
+     [
+      "harmonico",
+      0.054
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.543
+     ],
+     [
+      "8",
+      0.164
+     ],
+     [
+      "9",
+      0.123
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.543,
+    "tinta": 0.111
+   }
+  },
+  {
+   "ordem": 34,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1048,
+   "confianca": 0.482,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "caixa_token": [
+     1048,
+     38,
+     1059,
+     54
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.5,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      11,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "0",
+    "top3": [
+     [
+      "0",
+      0.482
+     ],
+     [
+      "tecnica",
+      0.207
+     ],
+     [
+      "5",
+      0.151
+     ]
+    ],
+    "top3_componente": [
+     [
+      "5",
+      0.472
+     ],
+     [
+      "harmonico",
+      0.273
+     ],
+     [
+      "tecnica",
+      0.125
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.472,
+    "tinta": 0.129
+   }
+  },
+  {
+   "ordem": 35,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1048,
+   "confianca": 0.354,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "2",
+   "simbolo_cru": {
+    "caixa_token": [
+     1048,
+     61,
+     1059,
+     77
+    ],
+    "partes": 2,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.5,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      11,
+      16
+     ],
+     [
+      1,
+      0,
+      11,
+      5
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.354
+     ],
+     [
+      "2",
+      0.299
+     ],
+     [
+      "3",
+      0.091
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.953
+     ],
+     [
+      "2",
+      0.017
+     ],
+     [
+      "4",
+      0.013
+     ]
+    ],
+    "casa_recuperada": "2",
+    "confianca_recuperada": 0.806,
+    "tinta": 0.132
+   }
+  },
+  {
+   "ordem": 36,
+   "corda": 6,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 1049,
+   "confianca": 0.559,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "5",
+   "simbolo_cru": {
+    "caixa_token": [
+     1049,
+     128,
+     1059,
+     144
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.41,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      9,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.559
+     ],
+     [
+      "5",
+      0.186
+     ],
+     [
+      "0",
+      0.076
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.359
+     ],
+     [
+      "6",
+      0.299
+     ],
+     [
+      "harmonico",
+      0.173
+     ]
+    ],
+    "casa_recuperada": "5",
+    "confianca_recuperada": 0.476,
+    "tinta": 0.107
+   }
+  },
+  {
+   "ordem": 37,
+   "corda": 4,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1091,
+   "confianca": 0.593,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "caixa_token": [
+     1091,
+     83,
+     1101,
+     99
+    ],
+    "partes": 2,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "2",
+    "top3": [
+     [
+      "2",
+      0.593
+     ],
+     [
+      "24",
+      0.139
+     ],
+     [
+      "harmonico",
+      0.123
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.557
+     ],
+     [
+      "4",
+      0.116
+     ],
+     [
+      "9",
+      0.069
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.968,
+    "tinta": 0.119
+   }
+  },
+  {
+   "ordem": 38,
+   "corda": 3,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1130,
+   "confianca": 0.409,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "2",
+   "simbolo_cru": {
+    "caixa_token": [
+     1130,
+     61,
+     1140,
+     77
+    ],
+    "partes": 2,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.409
+     ],
+     [
+      "2",
+      0.277
+     ],
+     [
+      "24",
+      0.118
+     ]
+    ],
+    "top3_componente": [
+     [
+      "2",
+      0.785
+     ],
+     [
+      "3",
+      0.179
+     ],
+     [
+      "9",
+      0.012
+     ]
+    ],
+    "casa_recuperada": "2",
+    "confianca_recuperada": 0.785,
+    "tinta": 0.119
+   }
+  },
+  {
+   "ordem": 39,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1168,
+   "confianca": 0.589,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "caixa_token": [
+     1168,
+     38,
+     1179,
+     54
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.5,
+     0.41
+    ],
+    "componentes": [
+     [
+      0,
+      7,
+      11,
+      16
+     ],
+     [
+      1,
+      0,
+      10,
+      5
+     ]
+    ],
+    "classe": "0",
+    "top3": [
+     [
+      "0",
+      0.589
+     ],
+     [
+      "6",
+      0.107
+     ],
+     [
+      "tecnica",
+      0.097
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.756
+     ],
+     [
+      "tecnica",
+      0.09
+     ],
+     [
+      "0",
+      0.071
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.395,
+    "tinta": 0.123
+   }
+  },
+  {
+   "ordem": 40,
+   "corda": 3,
+   "casa": "junk",
+   "tecnica": null,
+   "x": 1218,
+   "confianca": 0.896,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "caixa_token": [
+     1218,
+     61,
+     1224,
+     77
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.27,
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      6,
+      5
+     ],
+     [
+      4,
+      7,
+      6,
+      16
+     ]
+    ],
+    "classe": "junk",
+    "top3": [
+     [
+      "1",
+      0.896
+     ],
+     [
+      "14",
+      0.034
+     ],
+     [
+      "harmonico",
+      0.024
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.641
+     ],
+     [
+      "24",
+      0.151
+     ],
+     [
+      "4",
+      0.139
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.113
+   }
+  },
+  {
+   "ordem": 41,
+   "corda": 4,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1217,
+   "confianca": 0.505,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "caixa_token": [
+     1217,
+     83,
+     1227,
+     99
+    ],
+    "partes": 2,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "2",
+    "top3": [
+     [
+      "2",
+      0.505
+     ],
+     [
+      "24",
+      0.127
+     ],
+     [
+      "harmonico",
+      0.127
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.275
+     ],
+     [
+      "3",
+      0.168
+     ],
+     [
+      "9",
+      0.157
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.97,
+    "tinta": 0.133
+   }
+  },
+  {
+   "ordem": 42,
+   "corda": 5,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1217,
+   "confianca": 0.628,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "2",
+   "simbolo_cru": {
+    "caixa_token": [
+     1217,
+     106,
+     1227,
+     122
+    ],
+    "partes": 2,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "2",
+    "top3": [
+     [
+      "2",
+      0.628
+     ],
+     [
+      "harmonico",
+      0.175
+     ],
+     [
+      "12",
+      0.073
+     ]
+    ],
+    "top3_componente": [
+     [
+      "2",
+      0.429
+     ],
+     [
+      "9",
+      0.204
+     ],
+     [
+      "3",
+      0.098
+     ]
+    ],
+    "casa_recuperada": "2",
+    "confianca_recuperada": 0.429,
+    "tinta": 0.118
+   }
+  },
+  {
+   "ordem": 43,
+   "corda": 6,
+   "casa": "tecnica",
+   "tecnica": null,
+   "x": 1217,
+   "confianca": 0.353,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "0",
+   "simbolo_cru": {
+    "caixa_token": [
+     1217,
+     128,
+     1227,
+     144
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.45,
+     0.45
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      10,
+      5
+     ],
+     [
+      0,
+      7,
+      10,
+      16
+     ]
+    ],
+    "classe": "tecnica",
+    "top3": [
+     [
+      "tecnica",
+      0.353
+     ],
+     [
+      "0",
+      0.234
+     ],
+     [
+      "5",
+      0.164
+     ]
+    ],
+    "top3_componente": [
+     [
+      "0",
+      0.455
+     ],
+     [
+      "8",
+      0.132
+     ],
+     [
+      "6",
+      0.12
+     ]
+    ],
+    "casa_recuperada": "0",
+    "confianca_recuperada": 0.455,
+    "tinta": 0.12
+   }
+  }
+ ],
+ "tempo": {
+  "medido": false,
+  "motivo": "marcador sem_marcador na janela varrida",
+  "serie": {
+   "pontos": 0,
+   "veredito": "sem_marcador"
+  }
+ },
+ "video": "- therru's song - aoi teshima- tab.mp4",
+ "painel": "y929",
+ "quadro_em_s": 71.9,
+ "lido_via": "cv2",
+ "janelas_com_cursor": [],
+ "segundos_com_cursor": 0
+}

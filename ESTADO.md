@@ -3301,3 +3301,29 @@ aconteceu na rodada do "componente gigante de 73 passos", onde apagar a mesma fa
 **Próximo passo, e não por tentativa**: **varrer a espessura da faixa** (0,15 / 0,2 / 0,3 passo) medindo
 **os dois lados**: quanto o `C06_010` encolhe **×** se o `C07_028` (arpejo, 55 × 117) **sobrevive inteiro**.
 A faixa certa é a **menor que desconecta o arco** — e o arpejo é o juiz.
+
+## 2026-10-10 — PILOTO de ponta a ponta: a cadeia estava QUEBRADA (2 bugs) e o MARCADOR não aparece
+
+Piloto pedido pelo dono, num vídeo do `iwaki` (`- therru's song - aoi teshima- tab.mp4`, 60 s a partir de
+0,4). **A cadeia completa (`tab.transcrever`) não rodava** — e nunca tinha rodado nesta sessão:
+
+| bug | o que era |
+| --- | --- |
+| `KeyError: 'y929'` | o `achar_painel` evoluiu e devolve painel com nome por **coordenada**; o `transcrever` ainda procurava nos **três nomes fixos de faixa** (`FAIXAS`). **Cadeia inteira parada** ✗ |
+| `NameError: name 'nome' is not defined` | **introduzido por mim** ao corrigir o primeiro: eu tirei a linha que definia `nome` e ela ainda era usada no JSON ✗ |
+
+Conserto: a faixa vem de **`roi_das_cordas(m)`** (a faixa das cordas no quadro, que é o que o cursor varre).
+
+**Resultado do piloto**: JSON gerado com **43 notas** em 60 s. Estrutura: `passo`, `linhas_y`, `barlines_x`,
+`notas`, `tempo`, `video`, `painel`, `quadro_em_s`, `lido_via`, `janelas_com_cursor`, `segundos_com_cursor`.
+Casas lidas: **0, 2, 3, 5, 6, 7** + as classes `harmonico`, `junk`, `tecnica`.
+
+**E o achado que responde à pergunta do dono**: **`tempo: {"medido": false, "motivo": "marcador
+sem_marcador na janela varrida", "pontos": 0}`** ✗ — **o marcador não foi encontrado**, então **0 de 43
+notas têm instante** ✗. O núcleo do produto (cada nota no seu tempo) **não está entregue** neste vídeo.
+
+**Resposta a "dá para transformar todos os vídeos?"**: **não ainda** ✗ — e agora com a lista exata:
+(a) a cadeia ponta a ponta **estava quebrada** e agora roda ✓; (b) o **marcador** (que dá o tempo) **falta
+em pelo menos este vídeo** ✗ — e sem ele o JSON é uma tablatura **sem tempo**, que não é o produto ✗;
+(c) a **casa fora do gabarito** (4 canais / casas 0–7) segue **não validada** ✗; (d) o **acorde de dígitos
+empilhados** segue **não medido** ✗.

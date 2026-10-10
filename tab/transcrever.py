@@ -20,8 +20,9 @@ import numpy as np
 from .caminhos import MODELO_PADRAO, SAIDA
 from .cursor import detectar_cursor
 from .digito import carregar
-from .inventario import FAIXAS, ler_quadro
+from .inventario import ler_quadro
 from .painel import escolher
+from .pipeline import roi_das_cordas
 from .reconhecer import carregar_modelo, completar, reconhecer_linha
 from .tempo import atribuir_tempos, resumo, tempos_por_patamar
 
@@ -254,10 +255,14 @@ def main() -> int:
     if m is None:
         print("nenhuma pauta de tablatura encontrada", file=sys.stderr)
         return 3
+    # A FAIXA VEM DO PRÓPRIO PAINEL, não de nomes fixos. O `achar_painel` evoluiu: ele devolve um
+    # `Candidato` cujo nome é a COORDENADA (ex.: `y929`), e a busca em `FAIXAS` (nomes fixos de banda,
+    # de quando o painel era escolhido entre 3 faixas) quebrava com `KeyError: 'y929'` — a cadeia
+    # ponta a ponta ficava inteira parada. `roi_das_cordas` dá a faixa das cordas no quadro, que é o
+    # que o cursor precisa varrer.
     nome, roi = m.nome, m.roi
-    limites = {f[0]: (f[1], f[2]) for f in FAIXAS}
-    y0 = limites[nome][0]
-    y1 = min(limites[nome][1], frame.shape[0])
+    y0, y1 = roi_das_cordas(m)
+    y1 = min(y1, frame.shape[0])
 
     modelo, rotulos, dev = carregar_modelo(args.modelo)
     # Símbolo não se descarta: o ponta a ponta também grava o recorte cru.
