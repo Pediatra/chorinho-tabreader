@@ -31,8 +31,8 @@ from __future__ import annotations
 import argparse
 import collections
 import json
-import pathlib
 import os
+import pathlib
 
 import cv2
 import numpy as np
@@ -177,7 +177,9 @@ def treinar(sementes: list[int] | None = None) -> None:
         # SAIDA_SIMBOLO permite treinar num diretório NOVO quando os artefatos antigos são
         # root-owned no host (armadilha do AGENTS.md: o container escreve como root e o host
         # não altera; com podman mapeado, o container também não). O padrão não muda.
-        destino = pathlib.Path(os.environ.get("SAIDA_SIMBOLO", ARTEFATOS)) / f"simbolo_{seed}"
+        destino = (
+            pathlib.Path(os.environ.get("SAIDA_SIMBOLO", ARTEFATOS)) / f"simbolo_{seed}"
+        )
         os.makedirs(destino, exist_ok=True)
         torch.save(
             {"state_dict": modelo.state_dict(), "seed": seed, "tarefa": "simbolo"},
@@ -198,7 +200,9 @@ def carregar(caminho: str | None = None):
         centrado): a moldura é entrada do modelo, não detalhe de implementação.
     """
     destino = caminho or str(
-        pathlib.Path(os.environ.get("SAIDA_SIMBOLO", ARTEFATOS)) / "simbolo_2" / "simbolo.pt"
+        pathlib.Path(os.environ.get("SAIDA_SIMBOLO", ARTEFATOS))
+        / "simbolo_2"
+        / "simbolo.pt"
     )
     estado = torch.load(destino, map_location="cpu", weights_only=False)
     modelo = DigitoCNN()

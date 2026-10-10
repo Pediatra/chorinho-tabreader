@@ -39,9 +39,9 @@ justamente o que cruza várias.
 ### 4. O delimitador recusa por tamanho — `tab/tabseg.py:328-330`, usado em `:511-515`
 
 ```python
-LARGURA_MAX_PASSOS = 2.0   # tab/tabseg.py:328
-ALTURA_MAX_PASSOS  = 2.0   # tab/tabseg.py:329
-ALTURA_MIN_PASSOS  = 0.20  # tab/tabseg.py:330
+LARGURA_MAX_PASSOS = 2.0  # tab/tabseg.py:328
+ALTURA_MAX_PASSOS = 2.0  # tab/tabseg.py:329
+ALTURA_MIN_PASSOS = 0.20  # tab/tabseg.py:330
 ```
 
 Qualquer componente com **mais de 2 passos de altura** cai em `alto_demais`; **mais de 2 de largura**,
@@ -52,7 +52,7 @@ Qualquer componente com **mais de 2 passos de altura** cai em `alto_demais`; **m
 ### 5. A JANELA que o modelo vê tem 1,6 passo de altura — `tab/reconhecer.py:375`, `:404`, `:501`
 
 ```python
-hx, hy = round(1.2 * g.passo), round(0.8 * g.passo)   # janela 2,4 x 1,6 passos
+hx, hy = round(1.2 * g.passo), round(0.8 * g.passo)  # janela 2,4 x 1,6 passos
 ```
 
 O recorte que entra na rede tem **1,6 passo de altura — menos de duas cordas**. **Um símbolo multi-corda
@@ -63,7 +63,8 @@ inteiro.
 
 ```python
 forma_simbolo: tuple[float, float] = (1.5, 1.5)
-if (tk.x1 - tk.x0) < 1.5 * g.passo or (tk.y1 - tk.y0) > 1.5 * g.passo: continue
+if (tk.x1 - tk.x0) < 1.5 * g.passo or (tk.y1 - tk.y0) > 1.5 * g.passo:
+    continue
 ```
 
 Passa só o que tem **≥1,5 passo de largura e ≤1,5 de altura** — a assinatura de um arco de uma corda.

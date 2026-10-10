@@ -499,7 +499,10 @@ def reconhecer_linha(
             # dono marcou — e o centro da caixa cai na corda, não no traço do arco.
             cx = (tk.x0 + tk.x1) // 2
             cy = tk.y0
-            hx, hy = round(janela_simbolo[0] * g.passo), round(janela_simbolo[1] * g.passo)
+            hx, hy = (
+                round(janela_simbolo[0] * g.passo),
+                round(janela_simbolo[1] * g.passo),
+            )
             rec = gray[max(0, cy - hy) : cy + hy, max(0, cx - hx) : cx + hx]
             if rec.size == 0:
                 continue

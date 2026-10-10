@@ -72,13 +72,19 @@ def conferir_espaco(dados: dict, cache: dict, amostras: int = 40) -> str:
             continue
         passo = painel.grade.passo
         hx, hy = int(0.5 * passo), int(0.4 * passo)
-        cinza_roi = painel.roi if painel.roi.ndim == 2 else cv2.cvtColor(painel.roi, cv2.COLOR_BGR2GRAY)
-        cinza_quadro = bruto if bruto.ndim == 2 else cv2.cvtColor(bruto, cv2.COLOR_BGR2GRAY)
+        cinza_roi = (
+            painel.roi
+            if painel.roi.ndim == 2
+            else cv2.cvtColor(painel.roi, cv2.COLOR_BGR2GRAY)
+        )
+        cinza_quadro = (
+            bruto if bruto.ndim == 2 else cv2.cvtColor(bruto, cv2.COLOR_BGR2GRAY)
+        )
         for nome, base in (("ROI", cinza_roi), ("QUADRO", cinza_quadro)):
             y, x = int(caso["cy"]), int(caso["cx"])
             if not (0 <= y < base.shape[0] and 0 <= x < base.shape[1]):
                 continue
-            rec = base[max(0, y - hy):y + hy, max(0, x - hx):x + hx]
+            rec = base[max(0, y - hy) : y + hy, max(0, x - hx) : x + hx]
             if rec.size and (rec < (rec.mean() - 0.5 * rec.std())).mean() > 0.05:
                 if nome == "ROI":
                     roi += 1
@@ -101,7 +107,10 @@ def main() -> int:
     espaco = conferir_espaco(dados, cache)
     print(f"espaço dos negativos (medido): {espaco}")
     if espaco != "ROI":
-        print("espaço inesperado — abortando em vez de recortar do lugar errado", file=sys.stderr)
+        print(
+            "espaço inesperado — abortando em vez de recortar do lugar errado",
+            file=sys.stderr,
+        )
         return 2
 
     frac_por_imagem: dict[str, float] = {}
@@ -120,7 +129,7 @@ def main() -> int:
         cinza = quadro if quadro.ndim == 2 else cv2.cvtColor(quadro, cv2.COLOR_BGR2GRAY)
         hx, hy = int(args.jx * passo), int(args.jy * passo)
         x, y = int(caso["x"]), int(caso["y"])
-        rec = cinza[max(0, y - hy):y + hy, max(0, x - hx):x + hx]
+        rec = cinza[max(0, y - hy) : y + hy, max(0, x - hx) : x + hx]
         if rec.shape[0] < 14 or rec.shape[1] < 14:
             continue
         nome = f"p{i:04d}.png"
@@ -128,11 +137,17 @@ def main() -> int:
         novos_pos.append({**caso, "arquivo": nome})
 
     for i, caso in enumerate(dados["negativos"]):
-        _bruto, painel = _painel(caso["canal"], frac_por_imagem.get(caso["imagem"], 0.5), cache)
+        _bruto, painel = _painel(
+            caso["canal"], frac_por_imagem.get(caso["imagem"], 0.5), cache
+        )
         if painel is None or not (14 <= painel.grade.passo <= 45):
             continue
         passo = painel.grade.passo
-        cinza = painel.roi if painel.roi.ndim == 2 else cv2.cvtColor(painel.roi, cv2.COLOR_BGR2GRAY)
+        cinza = (
+            painel.roi
+            if painel.roi.ndim == 2
+            else cv2.cvtColor(painel.roi, cv2.COLOR_BGR2GRAY)
+        )
         hx, hy = int(args.jx * passo), int(args.jy * passo)
         # DOIS FORMATOS de negativo, os dois em coordenada da ROI: os de token usam `cx, cy` e os de
         # janela vazia usam `x, y` (com `vazio: true`). Sem tratar os dois, o módulo quebra no meio.
@@ -142,7 +157,7 @@ def main() -> int:
             x, y = int(caso["x"]), int(caso["y"])
         else:
             continue
-        rec = cinza[max(0, y - hy):y + hy, max(0, x - hx):x + hx]
+        rec = cinza[max(0, y - hy) : y + hy, max(0, x - hx) : x + hx]
         if rec.shape[0] < 14 or rec.shape[1] < 14:
             continue
         nome = f"n{i:04d}.png"
@@ -164,7 +179,9 @@ def main() -> int:
         ),
         encoding="utf-8",
     )
-    print(f"POSITIVOS {len(novos_pos)} | NEGATIVOS {len(novos_neg)} | janela {args.jx}x{args.jy}")
+    print(
+        f"POSITIVOS {len(novos_pos)} | NEGATIVOS {len(novos_neg)} | janela {args.jx}x{args.jy}"
+    )
     return 0
 
 
