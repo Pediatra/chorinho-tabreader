@@ -17,6 +17,7 @@ import argparse
 import glob
 import json
 import os
+import pathlib
 import sys
 
 from .digito import carregar as carregar_discriminador
@@ -41,10 +42,13 @@ def main() -> int:
     modelo, rotulos, dev = carregar_modelo(args.modelo)
     filtro, disc = carregar_simbolo(), carregar_discriminador()
     indice = {
-        r["arq"]: r for r in json.loads(open(args.indice, encoding="utf-8").read())
+        r["arq"]: r
+        for r in json.loads(pathlib.Path(args.indice).read_text(encoding="utf-8"))
     }
     marcas: dict[str, list[dict]] = {}
-    for marca in json.loads(open(args.marca, encoding="utf-8").read())["marcas"]:
+    for marca in json.loads(pathlib.Path(args.marca).read_text(encoding="utf-8"))[
+        "marcas"
+    ]:
         marcas.setdefault(marca["imagem"], []).append(marca)
 
     tp = fp = fn = 0
@@ -110,7 +114,9 @@ def main() -> int:
             fp += not casou
         fn += len(ms) - len(usados)
 
-    total = len(json.loads(open(args.marca, encoding="utf-8").read())["marcas"])
+    total = len(
+        json.loads(pathlib.Path(args.marca).read_text(encoding="utf-8"))["marcas"]
+    )
     print(f"marcas={total} | aprovados={tp + fp} | BATE={tp} nao={fp} nao_pego={fn}")
     if tp + fp:
         print(
