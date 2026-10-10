@@ -3644,3 +3644,26 @@ a **mesma** associação ✓ — converter `fração × duração` ✓.
 **Nota de arquitetura para o próximo round**: `ler_quadro` pode passar a **devolver** a duração também ✓
 (em vez de duplicar a chamada de ffprobe ✓) — mas isso muda a assinatura usada em **todo** o projeto ✗, então
 o helper separado é o caminho de menor risco ✓, e a unificação fica como decisão à parte ✓.
+
+## 2026-10-10 — OBSERVADOR DE COR LIGADO NO PRODUTO: mr. tabs de 0 para 16, e o gabarito segue INTACTO
+
+Última peça do goal ✓, e ela entrou **ao lado** do observador de posição ✓, alimentando a **mesma**
+associação (a célula de x ✓) — muda só **quem** aponta a nota acesa ✓:
+
+```python
+# SEGUNDO OBSERVADOR: A COR DO ALGARISMO. O mr. tabs (e o kimny's guitar) nao tem FAIXA vertical
+# nenhuma — o marcador deles e um algarismo ACESO, e o rastrear so procura faixa. Medido: coloracao
+# 22,7 contra mediana 0,0, e destaque achado em 30 de 30 amostras. Ele devolve FRACAO, entao converte
+# com a duracao do video (novo helper `duracao()` em tab/inventario.py, a MESMA chamada de ffprobe que
+# o ler_quadro ja fazia para o AV1 e nao devolvia).
+```
+
+| vídeo | observador | antes | **agora** |
+| --- | --- | --- | --- |
+| `sky guitar` | posição (patamares) | 0 de 44 ✗ | **40 de 44** ✓ |
+| **`mr. tabs`** | **cor** | **0** ✗ | **16 de 68** ✓ — `mecanismo: "estado do marcador (algarismo aceso, por cor)"` ✓ |
+| `iwaki` | nenhum | 0 ✓ | **0 de 43, com motivo** ✓ |
+
+**Os dois observadores estão no produto, com UMA regra de associação** ✓ — nenhuma linha menciona estilo ✓.
+E o `ler_quadro` **continua com a assinatura antiga** ✓ (o helper é separado ✓ — a unificação fica como
+decisão à parte, registrada ✓).

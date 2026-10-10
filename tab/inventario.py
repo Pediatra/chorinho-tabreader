@@ -28,6 +28,40 @@ from .painel import FAIXAS, escolher  # noqa: F401  (re-export)
 # FAIXAS vem de tab.painel: uma fonte só para as faixas candidatas.
 
 
+def duracao(caminho: str) -> float:
+    """Duração do vídeo em segundos, por ffprobe.
+
+    Existe porque o observador de **cor** do marcador devolve onsets em **fração** e o JSON precisa de
+    **segundos**. O `ler_quadro` já faz esta chamada de ffprobe para o fallback de AV1, mas **não devolve**
+    a duração — devolver mudaria uma assinatura usada em todo o projeto, então o helper fica separado.
+
+    Args:
+        caminho: caminho do vídeo.
+
+    Returns:
+        Duração em segundos, ou ``0.0`` se o ffprobe não responder.
+    """
+    try:
+        proc = subprocess.run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-show_entries",
+                "format=duration",
+                "-of",
+                "csv=p=0",
+                caminho,
+            ],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        return float(proc.stdout.strip() or 0)
+    except Exception:
+        return 0.0
+
+
 def ler_quadro(caminho: str, frac: float = 0.35) -> tuple[np.ndarray | None, str]:
     """Lê um quadro. Tenta o OpenCV e, se falhar (AV1 sem decodificação no cv2),
     cai para o ffmpeg em software. Devolve (quadro, via)."""

@@ -21,8 +21,9 @@ from .caminhos import MODELO_PADRAO, SAIDA
 from .cursor import detectar_cursor
 from .cursor import rastrear as rastrear_estado
 from .digito import carregar
+from .estado import estado_por_cor
 from .estado import onsets as onsets_do_estado
-from .inventario import ler_quadro
+from .inventario import duracao, ler_quadro
 from .painel import escolher
 from .pipeline import roi_das_cordas
 from .reconhecer import carregar_modelo, completar, reconhecer_linha
@@ -325,13 +326,44 @@ def main() -> int:
                 "notas_com_tempo": sum(1 for t in lista if t is not None),
             }
         else:
-            # NÃO atribuir tempo sem estado legível. Nota sem tempo é dívida; nota com tempo
-            # falso é mentira.
-            r["tempo"] = {
-                "medido": False,
-                "motivo": f"marcador {veredito['veredito']} na janela varrida, e o estado nao deu onset",
-                "serie": veredito,
-            }
+            # SEGUNDO OBSERVADOR: A COR DO ALGARISMO. O `mr. tabs` (e o `kimny's guitar`) nao tem FAIXA
+            # vertical nenhuma — o marcador deles e um algarismo ACESO, e o `rastrear` so procura faixa,
+            # por isso os dois caem aqui. Medido: coloracao 22,7 contra mediana 0,0 (outlier limpo) e
+            # destaque achado em 30 de 30 amostras. A associacao e a MESMA (a celula de x) — so muda o
+            # observador. Ele devolve FRACAO, entao converte com a duracao do video.
+            dur = duracao(args.video)
+            frac_fim = min(0.99, args.inicio + (args.janela / dur if dur > 0 else 0.1))
+            cor = estado_por_cor(
+                args.video,
+                m,
+                [n["x"] for n in r["notas"]],
+                max(4, int(args.janela / 2)),
+                args.inicio,
+                frac_fim,
+            )
+            if cor["onsets"] and dur > 0:
+                lista = [cor["onsets"].get(i) for i in range(len(r["notas"]))]
+                lista = [t * dur if t is not None else None for t in lista]
+                r = completar(r, [(t, None) if t is not None else None for t in lista])
+                r["tempo"] = {
+                    "medido": True,
+                    "mecanismo": "estado do marcador (algarismo aceso, por cor)",
+                    "onset": "primeiro instante em que o algarismo passa a ser o aceso",
+                    "duracoes": "inferidas (intervalo ate o proximo onset)",
+                    "serie": veredito,
+                    "notas_com_tempo": sum(1 for t in lista if t is not None),
+                }
+            else:
+                # NÃO atribuir tempo sem estado legível. Nota sem tempo é dívida; nota com tempo
+                # falso é mentira.
+                r["tempo"] = {
+                    "medido": False,
+                    "motivo": (
+                        f"marcador {veredito['veredito']} na janela varrida, sem onset por posicao "
+                        f"nem por cor ({cor['motivo'] or 'sem destaque'})"
+                    ),
+                    "serie": veredito,
+                }
     r.update(
         {
             "video": os.path.basename(args.video),
