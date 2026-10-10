@@ -3259,8 +3259,8 @@
   {
    "t": 500,
    "tela": 5,
-   "coluna_x_quadro": 1061.9,
-   "obs": "",
+   "coluna_x_quadro": 986.4,
+   "obs": "Decisão do dono (2026-10-10, quadro nativo de 500,000 s em data/saida/t500/quadros_500.jpg): o marcador está sobre o '0' da corda 2 (x_centro 984,5), a coluna anterior ao '2⌒4'; o '2⌒4' só aparece a partir de 500,033 s. Coluna corrigida de 1061,9 para 986,4 (mesmo offset coluna-centro da mediana das demais colunas, +1,85 px).",
    "tela_confirmada": true
   },
   {
@@ -11166,8 +11166,8 @@
     "estado": "coluna",
     "tela": 5,
     "tela_v1": 6,
-    "coluna_x_quadro": 1061.9,
-    "obs": "",
+    "coluna_x_quadro": 986.4,
+    "obs": "Decisão do dono (2026-10-10, quadro nativo de 500,000 s em data/saida/t500/quadros_500.jpg): o marcador está sobre o '0' da corda 2 (x_centro 984,5), a coluna anterior ao '2⌒4'; o '2⌒4' só aparece a partir de 500,033 s. Coluna corrigida de 1061,9 para 986,4 (mesmo offset coluna-centro da mediana das demais colunas, +1,85 px).",
     "tela_confirmada": true
    },
    {
