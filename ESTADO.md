@@ -4351,3 +4351,43 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
   aceitar a casa só pelo vão.
 - **Defeito separado, não corrigido**: no `reconhecer_linha` o bloco do discriminador de algarismo roda antes de `classes`
   ser preenchido; pela ordem do código, `alvos_d` é sempre vazio e o discriminador não atua. Medir o efeito de corrigir é a próxima rodada.
+
+## 2026-10-10 — Fase 7.0: precisão do detector de presença no `portao.json` (só medição, detector intacto)
+
+- **O que foi medido**: o critério de presença que o produto usa, `tab.telas.painel_do_quadro` (que chama
+  `painel.escolher` + portões de passo, saturação e cinza), no **quadro inteiro** de cada caso do `data/gold/portao.json`
+  (`tab.leitor.quadro_em` no instante `instante_frac × duração`). Os 289 casos têm vídeo e instante; nenhum é só recorte.
+  `duvida` excluído (2). Lidos: 287; sem quadro: 0.
+- **Comando**: `python -m tab.presenca_aval` (no container). Saída: `data/saida/presenca/resultado.json`,
+  `fp_presenca_{1..4}.png` (41 quadros FP), `vp_presenca_1.png` (10 VP espalhados), `tipos_fp_quadros.json` (minha
+  classificação das 41 FP, quadro a quadro). Teste puro em `tests/test_presenca_aval.py` (no gate, 232 passando).
+- **Por recorte** (287 casos, 1 linha por recorte): VP 97, **FP 139**, VN 45, FN 6. Precisão **0,411**, revocação **0,942**.
+- **Por quadro** (144 quadros únicos; um quadro tem 1 ou 2 recortes, e o detector responde por quadro inteiro):
+  VP 77, **FP 41**, VN 20, FN 6. Precisão **0,653**, revocação **0,928**. Este é o número que vale para "há tablatura
+  neste quadro".
+- **Por canal, por quadro** (VP / FP / VN / FN; precisão):
+  `sky guitar` 43/1/1/3 (0,977) · `iwaki` 16/22/3/2 (0,421) · `kimny's guitar` 5/3/0/0 (0,625) · `leonardo ramos`
+  6/0/1/1 (1,000) · `mr. tabs` 7/1/0/0 (0,875) · `pablo romé` 0/6/1/0 (0,000) · `paolo d'angelo` 0/3/3/0 (0,000) ·
+  `guitar dell'arte` 0/5/3/0 (0,000) · `cifra club` 0/0/8/0 (sem FP).
+- **Portão aprendido** (`artefatos/portao_real_1`, o `tab.portao` com seed 1, limiar 0,5), **só para comparar; NÃO é o
+  usado pelo produto**, e foi treinado nestes mesmos casos (número dentro da amostra, otimista): por quadro VP 77,
+  FP 35, VN 26, FN 6, precisão 0,688, revocação 0,928 (iwaki 18 FP). Por recorte FP 127, precisão 0,433.
+- **Classificação das 41 FP (olhei cada folha; a caixa do detector desenhada na imagem)**:
+  - **32 com tablatura real dentro da caixa** (TAB com números sobre as cordas, ou partitura com pauta de TAB embaixo,
+    que a caixa cobre): o detector acertou no quadro; o `portao.json` rotulou `nao_tablatura` os **outros** recortes do
+    mesmo quadro (topo/meio/base que o dono olhou). Isto é divergência de rótulo por recorte, não erro de presença.
+    Pendente de confirmação do dono; se ele confirmar, a precisão por quadro vai para 109/118 = **0,924** (sem mudar
+    o detector).
+  - **5 braço do violão** (a caixa cobre o braço, sem TAB): `guitar dell'arte` t=181,92 e 242,0; `kimny's guitar`
+    t=112,9 e 147,64; `mr. tabs` t=220,92. **Erro de verdade do detector.**
+  - **4 partitura de 5 linhas sem TAB dentro da caixa**: `iwaki` t=38,82, 53,71, 85,41 e 118,16. **Erro de verdade.**
+  - Tarraxa, piano, banner, tela preta e fade: **0** no conjunto.
+- **Os 10 VP** (`vp_presenca_1.png`): todos com TAB real dentro da caixa (inclusive `mr. tabs` t=348,34 em guitarra elétrica).
+- **Leitura**: o FP de **verdade** do critério atual é pequeno no conjunto (9 de 41 quadros), e vem de braço e de pauta
+  sem TAB. A maior parte do "erro" medido contra o `portao.json` é o rótulo ser por recorte: o gabarito não cobre o
+  quadro inteiro. Isto muda o que se pode afirmar: o `portao.json` **não** serve como medida de presença por quadro sem
+  o dono rotular o quadro inteiro (ou dizer que a faixa 'nao' não cobre a TAB do quadro).
+- **Limites**: medido só nos instantes 0,25 a 0,9 de cada vídeo (os do gabarito); não é varredura de vídeo inteiro (a
+  Fase 7 mede o acervo).
+- **Não repetir**: montar folha de FP por *caso* (139 células, 480 px) é ilegível e conta cada quadro duas vezes; a folha
+  é por quadro (`fps_quadros`).
