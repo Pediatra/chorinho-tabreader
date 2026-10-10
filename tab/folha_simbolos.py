@@ -87,7 +87,7 @@ def main() -> int:
             et = np.full((16, im.shape[1], 3), 255, np.uint8)
             cv2.putText(
                 et,
-                imagem.split("_")[0],
+                nome[:-4],
                 (2, 12),
                 cv2.FONT_HERSHEY_PLAIN,
                 0.9,
