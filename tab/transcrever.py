@@ -3,31 +3,26 @@
 painel (3 faixas) -> grade de 6 cordas -> tokens -> classificador sintético
 -> compasso (barlines) -> tempo de cada nota (cursor) -> JSON.
 
-Uso:
-    python -m tab.transcrever VIDEO [--inicio 0.4] [--janela 30] [--json saida.json]
+Pela CLI, ``python -m tab.transcrever VIDEO --json saida.json`` lê o vídeo inteiro e
+grava o JSON ``chorinho/video@1`` (ver ``tab.esquema``). Os auxiliares de tempo abaixo
+são do ramo antigo (um quadro, ``janela``) e saem em commit separado do MVP.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
-import os
 import sys
+from pathlib import Path
 
 import numpy as np
 
 from . import leitor
-from .caminhos import MODELO_PADRAO, SAIDA
-from .colunas import agrupar_colunas
+from .caminhos import MODELO_PADRAO
 from .cursor import detectar_cursor
-from .cursor import rastrear as rastrear_estado
-from .digito import carregar
-from .estado import estado_por_cor, expandir_para_notas, onsets_por_coluna
-from .inventario import duracao, ler_quadro
+from .esquema import validar
 from .painel import escolher
-from .pipeline import roi_das_cordas
-from .reconhecer import carregar_modelo, completar, reconhecer_linha
-from .tempo import atribuir_tempos, resumo, tempos_por_patamar
+from .video import IMAGEM_PADRAO, IMAGENS, _json_seguro, transcrever_video
 
 
 def achar_painel(frame):
@@ -206,194 +201,48 @@ def janela_serie(t0: float, janela: float, dur: float) -> tuple[float, float]:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser()
+    """CLI fina: ``python -m tab.transcrever VIDEO --json saida.json``.
+
+    Lê o vídeo inteiro com ``tab.video.transcrever_video``, valida o resultado com
+    ``tab.esquema.validar`` e só então grava o JSON. Erro de esquema é falha alta: nada
+    é gravado e o processo termina com código 1.
+
+    Returns:
+        ``0`` ao gravar um JSON válido; ``1`` se o esquema recusar a saída.
+    """
+    ap = argparse.ArgumentParser(description="VÍDEO -> JSON chorinho/video@1.")
     ap.add_argument("video")
-    ap.add_argument("--inicio", type=float, default=0.4, help="fração do vídeo")
-    ap.add_argument("--janela", type=float, default=30.0, help="segundos a transcrever")
-    ap.add_argument(
-        "--varredura",
-        type=float,
-        default=180.0,
-        help="segundos a varrer atrás do cursor",
-    )
+    ap.add_argument("--json", required=True, help="onde gravar o JSON v1")
     ap.add_argument("--modelo", default=str(MODELO_PADRAO))
-    ap.add_argument(
-        "--simbolos",
-        default=str(SAIDA / "simbolos"),
-        help="diretório dos recortes crus de símbolo ('' desliga)",
-    )
-    ap.add_argument("--json")
+    ap.add_argument("--imagem", choices=IMAGENS, default=IMAGEM_PADRAO)
     args = ap.parse_args()
-
-    # duração para converter a fração em segundos
-    dur = duracao(args.video)
-    t0 = dur * args.inicio if dur else 0.0
-    # Quadro que o painel foi lido: é aqui, antes de `t0` ser trocado pelo início da janela
-    # do cursor. `quadro_em_s` (abaixo) é o `t0` já trocado, não o quadro lido.
-    t_lido = t0
-
-    frame, via = ler_quadro(args.video, args.inicio)
-    if frame is None:
-        print("não consegui ler quadro", file=sys.stderr)
-        return 2
-    m = achar_painel(frame)
-    if m is None:
-        print("nenhuma pauta de tablatura encontrada", file=sys.stderr)
-        return 3
-    # A FAIXA VEM DO PRÓPRIO PAINEL, não de nomes fixos. O `achar_painel` evoluiu: ele devolve um
-    # `Candidato` cujo nome é a COORDENADA (ex.: `y929`), e a busca em `FAIXAS` (nomes fixos de banda,
-    # de quando o painel era escolhido entre 3 faixas) quebrava com `KeyError: 'y929'` — a cadeia
-    # ponta a ponta ficava inteira parada. `roi_das_cordas` dá a faixa das cordas no quadro, que é o
-    # que o cursor precisa varrer.
-    nome, roi = m.nome, m.roi
-    y0, y1 = roi_das_cordas(m)
-    y1 = min(y1, frame.shape[0])
-
-    modelo, rotulos, dev = carregar_modelo(args.modelo)
-    # Símbolo não se descarta: o ponta a ponta também grava o recorte cru.
-    r = reconhecer_linha(
-        roi,
-        modelo,
-        rotulos,
-        dev,
-        dir_simbolos=args.simbolos or None,
-        prefixo=os.path.basename(os.path.dirname(os.path.abspath(args.video))),
-        discriminador=carregar(),
+    dados = transcrever_video(args.video, modelo=args.modelo, imagem=args.imagem)
+    erros = validar(dados)
+    if erros:
+        for erro in erros[:20]:
+            print(f"ERRO DE ESQUEMA: {erro}", file=sys.stderr)
+        print(
+            f"{len(erros)} erro(s) de esquema: JSON NAO gravado em {args.json}",
+            file=sys.stderr,
+        )
+        return 1
+    destino = Path(args.json)
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    destino.write_text(
+        json.dumps(dados, ensure_ascii=False, indent=1, default=_json_seguro),
+        encoding="utf-8",
     )
-    # O x da nota é da ROI recortada; o do marcador é do QUADRO. Converte na fronteira.
-    # `x_quadro` é a BORDA esquerda do token (como sempre foi); `x_centro_quadro` é o
-    # centro, a convenção do ouro e da régua (`tab.avaliar_video`). Nada disto entra no
-    # classificador: é só o registro de saída.
-    for n in r["notas"]:
-        n["x_quadro"] = m.x0 + n["x"]
-        n["x_centro_quadro"] = round(m.x0 + n.pop("x_centro"), 1)
-    xs_quadro = [n["x_quadro"] for n in r["notas"]]
-    # ACORDE = UMA COLUNA. Notas com o mesmo x dividem a célula do estado; agrupadas, cada coluna
-    # tem UM onset e ele vale para todas as notas dela (medido: `sky guitar`, a coluna 1 tinha
-    # duas notas e só uma recebia tempo). `passo` vem da grade lida no próprio quadro.
-    colunas = agrupar_colunas(xs_quadro, r["passo"])
-    xs_colunas = [c.x_quadro for c in colunas]
-    janelas = varrer_cursor(args.video, (y0, y1), t_max=args.varredura)
-    # TEMPO POR TRAVESSIA. Medido no `iwaki/henze`: o marcador desliza ~65 px/s, então o
-    # onset da nota é quando ele cruza o x dela — invertível. O `tempos_do_cursor`
-    # antigo devolvia o MESMO instante para notas diferentes (3 instantes para 36 notas,
-    # 1 para 3), que é a classe do erro histórico "323 notas com tempo" (eram 3).
-    # A janela de tempo tem de ser onde o marcador ESTÁ ativo, não onde o
-    # `--inicio` caiu: medido no `iwaki/henze`, as janelas ativas estavam em
-    # 113,5–143 s e o `--inicio 0.48` apontava para 164 s, onde ele está parado.
-    if janelas:
-        t0 = janelas[0][0]
-    serie = serie_cursor(args.video, (y0, y1), t0, args.janela, passo_s=0.25)
-    # Intervalo que o tempo cobre. Os caminhos de estado trocam por o seu (abaixo).
-    janela_tempo = janela_serie(t0, args.janela, dur)
-    veredito = resumo(serie)
-    if veredito["veredito"] in {"desliza", "salta"}:
-        # Calcula por COLUNA (um onset por acorde) e expande para as notas dela.
-        if veredito["veredito"] == "desliza":
-            onsets_c = atribuir_tempos(xs_colunas, serie)
-        else:
-            # marcador que SALTA: o onset é o início do patamar, não uma travessia
-            onsets_c = tempos_por_patamar(xs_colunas, serie)
-        por_nota = expandir_para_notas(
-            {k: t for k, t in enumerate(onsets_c) if t is not None}, colunas
-        )
-        onsets = [por_nota.get(i) for i in range(len(r["notas"]))]
-        r = completar(r, [(t, None) if t is not None else None for t in onsets])
-        r["tempo"] = {
-            "medido": True,
-            "mecanismo": "travessia do marcador (banda que desliza)",
-            "onset": "instante em que o marcador cruza o x da nota",
-            "duracoes": "inferidas (intervalo até o próximo onset)",
-            "serie": veredito,
-        }
-    else:
-        # REGRA DO ESTADO. O veredito por VELOCIDADE nao reconhece esta serie: medido no `sky guitar`,
-        # ele devolvia `lento` e ZERO tempos com o marcador perfeitamente legivel em PATAMARES. O estado
-        # ("qual nota esta acesa") e lido pela celula de x, e o onset e o primeiro instante em que a nota
-        # passa a ser a atual — a MESMA regra para salto, varredura e o que mais aparecer. Amostra a cada
-        # 5 quadros porque foi medido que 30 quadros (1 s) PERDE patamares (34 -> 47 onsets no `serge`).
-        amostras_estado = (
-            rastrear_estado(args.video, (y0, y1), passo=5).get("amostras") or []
-        )
-        achados = expandir_para_notas(
-            onsets_por_coluna(amostras_estado, colunas), colunas
-        )
-        if achados:
-            # O rastrear lê o vídeo inteiro: o tempo cobre do primeiro ao último quadro lido.
-            ts_estado = [a["t"] for a in amostras_estado]
-            janela_tempo = (min(ts_estado), max(ts_estado))
-            lista = [achados.get(i) for i in range(len(r["notas"]))]
-            r = completar(r, [(t, None) if t is not None else None for t in lista])
-            r["tempo"] = {
-                "medido": True,
-                "mecanismo": "estado do marcador (qual nota esta acesa)",
-                "onset": "primeiro instante em que a nota passa a ser a atual",
-                "duracoes": "inferidas (intervalo ate o proximo onset)",
-                "serie": veredito,
-                "notas_com_tempo": sum(1 for t in lista if t is not None),
-            }
-        else:
-            # SEGUNDO OBSERVADOR: A COR DO ALGARISMO. O `mr. tabs` (e o `kimny's guitar`) nao tem FAIXA
-            # vertical nenhuma — o marcador deles e um algarismo ACESO, e o `rastrear` so procura faixa,
-            # por isso os dois caem aqui. Medido: coloracao 22,7 contra mediana 0,0 (outlier limpo) e
-            # destaque achado em 30 de 30 amostras. A associacao e a MESMA (a celula de x) — so muda o
-            # observador. Ele devolve FRACAO, entao converte com a duracao do video.
-            dur = duracao(args.video)
-            frac_fim = min(0.99, args.inicio + (args.janela / dur if dur > 0 else 0.1))
-            cor = estado_por_cor(
-                args.video,
-                m,
-                colunas,
-                max(4, int(args.janela / 2)),
-                args.inicio,
-                frac_fim,
-            )
-            if cor["onsets"] and dur > 0:
-                # A cor é amostrada de `--inicio` até `frac_fim`, em frações do vídeo.
-                janela_tempo = (args.inicio * dur, frac_fim * dur)
-                por_nota = expandir_para_notas(cor["onsets"], colunas)
-                lista = [por_nota.get(i) for i in range(len(r["notas"]))]
-                lista = [t * dur if t is not None else None for t in lista]
-                r = completar(r, [(t, None) if t is not None else None for t in lista])
-                r["tempo"] = {
-                    "medido": True,
-                    "mecanismo": "estado do marcador (algarismo aceso, por cor)",
-                    "onset": "primeiro instante em que o algarismo passa a ser o aceso",
-                    "duracoes": "inferidas (intervalo ate o proximo onset)",
-                    "serie": veredito,
-                    "notas_com_tempo": sum(1 for t in lista if t is not None),
-                }
-            else:
-                # NÃO atribuir tempo sem estado legível. Nota sem tempo é dívida; nota com tempo
-                # falso é mentira.
-                r["tempo"] = {
-                    "medido": False,
-                    "motivo": (
-                        f"marcador {veredito['veredito']} na janela varrida, sem onset por posicao "
-                        f"nem por cor ({cor['motivo'] or 'sem destaque'})"
-                    ),
-                    "serie": veredito,
-                }
-    r.update(
-        {
-            "video": os.path.basename(args.video),
-            "painel": nome,
-            "quadro_em_s": round(t0, 1),
-            "quadro_lido_s": round(t_lido, 1),
-            "janela_s": [round(janela_tempo[0], 1), round(janela_tempo[1], 1)],
-            "lido_via": via,
-            "janelas_com_cursor": janelas,
-            "segundos_com_cursor": round(sum(b - a for a, b in janelas), 1),
-        }
+    r = dados["resumo"]
+    print(
+        f"{r['telas']} telas, {r['exibicoes']} exibicoes, {r['notas']} notas, "
+        f"{r['nao_notas']} nao-notas -> {destino}"
     )
-    print(json.dumps({k: v for k, v in r.items() if k != "notas"}, ensure_ascii=False))
-    print("primeiras 3 notas:", json.dumps(r["notas"][:3], ensure_ascii=False))
-    if args.json:
-        with open(args.json, "w") as destino:
-            json.dump(r, destino, ensure_ascii=False, indent=1)
-        print("salvo em", args.json)
+    print(
+        f"tempo: {r['notas_com_tempo']} notas com t_ini, {r['instantes_distintos']} "
+        f"instantes, telas sem tempo {r['telas_sem_tempo']} | esquema: ok"
+    )
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    sys.exit(main())
