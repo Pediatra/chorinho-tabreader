@@ -3403,3 +3403,23 @@ estado pode ser lido **sem saber o estilo do vídeo** ✓.
 tem apóstrofo e quebrou a citação no meu comando de shell ✗ (erro de **método** meu, não do código ✓). É
 retestar com aspas corretas. E o `shin izumi` segue **indefinido** ✗ — na imagem eu não vi destaque ✓, e
 esta medição vai dizer se é ausência de verdade ✓ ou um destaque que eu não vi ✓.
+
+## 2026-10-10 — A REGRA DO ESTADO FUNCIONA: sky 0 -> 29 de 38, e o sem-marcador continua 0 COM MOTIVO
+
+`tab/estado.py` (módulo novo) implementa a formulação acordada: **o estado é a nota cuja célula de x contém
+o marcador** — células formadas pelas fronteiras **no meio** entre notas consecutivas. É isso que faz a
+**mesma** regra valer para os dois estilos: no **salto** o marcador **cai dentro** da célula; na
+**varredura** ele **entra** nela. O **onset** é o primeiro instante de cada passagem.
+
+| piloto | antes | **agora** |
+| --- | --- | --- |
+| **`sky guitar`** (marcador por patamares) | **0 de 44** ✗ | **ONSETS = 29 de 38** (76 %) ✓ |
+| **`iwaki`** (sem marcador) | 0 ✓ | **0 de 28, com o MOTIVO escrito** ✓ |
+
+Os tempos do `sky` são **coerentes entre si**: `245,25 · 246,25 · 247,25 · 248,25 · 249,25` — **um segundo de
+intervalo** ✓, que é o ritmo dos pulos medido no marcador (0,67–1 s ✓). E o `iwaki` imprime
+**"MOTIVO: nenhuma amostra com x (marcador ausente na janela) — tempo NAO medido"** ✓ — o silêncio é
+**declarado**, não escondido ✓.
+
+**Nenhuma linha de código menciona estilo** ✓: nem "patamar", nem "deslizamento", nem canal. A regra é uma
+só — **qual nota é a atual** — e ela cobre os dois casos que eu medi ✓.
