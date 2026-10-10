@@ -2075,7 +2075,7 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | `artefatos/` | pesos treinados (**nunca** em `/tmp`) |
 | `configs/` | mapa por canal e mapa de símbolos (**a criar**) |
 | caixa de presença pela **uniformidade do fundo** na reserva (critério atual) | erra os 9 erros de caixa: 5 braço e 4 pauta, todos com TAB na faixa base; a TAB densa tem mais tinta e perde para o braço liso (Fase 7.1, rodada 0007) |
-| caixa pela **fração de papel branco** na reserva (C1) | precisão de caixa **0,952** sob o rótulo do dono (aceite 0,98): não adotado; 5 VN com TAB visível contam como erro (Fase 7.1, rodada 0007) |
+| caixa pela **fração de papel branco** na reserva (C1) | precisão de caixa **0,976** (123/126) com o gabarito de 7.1 + rótulos visuais do agente (aceite 0,98): não adotado; as 3 caixas erradas são sobre a pauta (VN18, VN20, FP38); MVP sem regressão (Fase 7.1, rodada 0007) |
 | separar pauta de TAB pelo **preenchimento médio** dos tokens | sobrepõe: TAB 0,46 a 0,91 contra pauta 0,49 a 0,59 (Fase 7.1) |
 | separar pauta de TAB pelo **`tab.digito`** (P de algarismo por token) | marca as cabeças de nota da pauta como algarismo, p≈1,0 nas 4 pautas (Fase 7.1) |
 
@@ -4397,7 +4397,7 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
 - **Não repetir**: montar folha de FP por *caso* (139 células, 480 px) é ilegível e conta cada quadro duas vezes; a folha
   é por quadro (`fps_quadros`).
 
-## 2026-10-10 — Fase 7.1: gabarito de caixa por quadro (dono) e candidato de reserva NÃO adotado
+## 2026-10-10 — Fase 7.1: gabarito de caixa por quadro (dono) e candidato de reserva C1 NÃO adotado (aceite 0,976 < 0,98)
 
 - **Gabarito versionado**: `data/gold/presenca_quadros.json`, 144 quadros lidos pelo dono (9 de 41 FP
   marcados como não tablatura). `tablatura_no_quadro` em 124 quadros; caixa em 118 (109 sobre TAB).
@@ -4418,6 +4418,30 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
 - **Decisões pendentes do dono** (ver a rodada 0007): (1) VN15, VN17, VN18, VN19 e VN20
   mostram TAB visível embaixo; o `portao.json` os rotulou `nao_tablatura` por recorte. Confirmar o rótulo
   decide se o C1 passa. (2) FP38: a caixa cobre só a pauta (conferido na imagem). (3) regressão do FP12.
+- **Decisão do dono (2026-10-10, olhando os quadros), aplicada no gabarito** (commit `05ec67b1`):
+  VN15, VN17, VN18, VN19 e VN20 têm TAB no quadro (`tablatura_no_quadro=true`); `quadros.tablatura_no_quadro`
+  124 → **129**; `suspeitas_rotulo_nao` esvaziada. FP38 confirmado: caixa sobre a pauta (`caixa_sobre_tablatura=false`).
+  Com o rótulo novo, **HEAD**: precisão de caixa **0,923** (108/117), revocação **0,837** (108/129); presença
+  VP 117 FP 0 VN 15 FN 12.
+- **C1 medido com o gabarito novo** (`tab/painel.py`, reserva `escolher_rapido` por fração de papel branco,
+  `papel_branco`, cinza > 200): o detector desenha 20 caixas que o gabarito não tinha no quadro. Cada uma foi
+  rotulada por **leitura visual do agente** (não do dono; ficam em `caixas_revistas` só para a medição,
+  listadas em `data/saida/c1/presenca_quadros_com_revistas_c1.json`): 17 cobrem TAB, 3 cobrem só a pauta
+  (VN18, VN20, FP38). Resultado: **caixa 123/126 = 0,976** (aceite ≥ 0,98: **NÃO atingido**); revocação
+  123/129 = 0,953; presença VP 126 FP 0 VN 15 FN 3. Por canal, o erro está todo no `iwaki` (40/43).
+- **Checagens do MVP, C1 vs HEAD** (rodadas em `data/saida/c1/{head,c1}/`, script `data/saida/c1/run.sh`):
+  - `tab.telas` retrato: 13/13 telas, 40/40 instantes (igual).
+  - `tab.video` + `tab.avaliar_video`: precisão 485/486 = 0,998, revocação 485/491 = 0,988, casa 482/485 = 0,994
+    (igual); tempo **33/40**, tempo falso **0** (igual).
+  - `tab.avaliar` sementes 1/2/3: 66/72, 71/72, 68/72 (igual).
+  - gate verde com o C1 (ruff check, ruff format --check, pytest 274 passam com 2 testes de `papel_branco`).
+  O C1 não regride o MVP, mas **não foi adotado** porque o aceite de caixa falhou. Código revertido
+  (`tab/painel.py` e `tests/test_painel.py` no HEAD).
+- **Pendência para o dono**: confirmar os 20 rótulos visuais do agente em `caixas_revistas` (17 TAB, 3 pauta).
+  Se o dono confirmar, o C1 fica a 0,976 e não passa; o que faltaria é separar as 3 caixas da pauta no iwaki
+  (VN18, VN20, FP38), não o critério de reserva.
+- **Dúvida aberta**: FP12 perdeu a caixa desde a 7.0. Com C1 a caixa de FP12 volta; a causa no código atual
+  continua não investigada.
 - **Não repetir**: ver as 4 linhas novas na tabela "O que foi tentado e falhou".
 - Rodada: `docs/rodadas/0007-presenca-caixa-por-quadro.md`. Medições e scripts de diagnóstico em
   `data/saida/presenca_7_1/` (não versionados).

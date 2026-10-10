@@ -95,3 +95,14 @@ checagens antes de qualquer adoção.
 
 Artefatos (não versionados): `data/saida/presenca_7_1/` (medições JSON, folhas e os
 scripts de diagnóstico usados aqui).
+
+## Medição C1 com o gabarito novo (2026-10-10, mesma rodada)
+
+- Gabarito: VN15, VN17, VN18, VN19 e VN20 com TAB no quadro (decisão do dono); FP38 confirmado sobre a pauta.
+  HEAD: caixa precisão 0,923 (108/117), revocação 0,837 (108/129).
+- C1 (`escolher_rapido` por `papel_branco`): 20 caixas que não batiam com o gabarito, rotuladas por leitura
+  visual do agente (não do dono): 17 cobrem TAB, 3 cobrem só a pauta (VN18, VN20, FP38).
+  Resultado: caixa **123/126 = 0,976** (aceite 0,98 **não atingido**), revocação 123/129 = 0,953.
+- MVP com C1: telas 13/13 e 40/40 instantes; notas 485/486 precisão, 485/491 revocação, casa 482/485;
+  tempo 33/40 com falso 0; `tab.avaliar` 66/71/68. Igual ao HEAD.
+- Decisão: C1 **não adotado**. `tab/painel.py` segue no HEAD. Medições em `data/saida/c1/`.
