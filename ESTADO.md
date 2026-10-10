@@ -3443,3 +3443,33 @@ menciona estilo ✓.
    eu violei** e que está no `AGENTS.md`;
 3. peguei o destaque nos **`caixa_token` das notas** ✗ — que só existem quando o filtro de símbolo roda ✓ —
    e por isso o denominador deu **ZERO** ✗. O destaque está no **token da grade** ✓.
+
+## 2026-10-10 — LINHA DE BASE LIMPA: o gabarito de algarismo está intacto ANTES da integração
+
+Medido **antes** de ligar a regra do estado no `transcrever` (para o efeito ser **atribuível**, e não
+misturado com o que já existia):
+
+| semente | resultado |
+| --- | --- |
+| `oficial_1` | **66/72 = 0,917** ✓ |
+| `oficial_2` | **71/72 = 0,986** ✓ |
+| `oficial_3` | **68/72 = 0,944** ✓ |
+
+**Exatamente a referência** ✓. Nada do que eu mexi nesta sessão (símbolo, recorte, janela, marcador) tocou
+a cadeia do algarismo ✓ — e agora isso está **provado**, não suposto.
+
+E o estado reproduz: `ONSETS = 29 de 38` no `sky` ✓.
+
+**O QUE EU NÃO FIZ NESTA RODADA, e por quê**: a integração no `transcrever` ✗. É a mudança mais delicada do
+goal (mexe na cadeia do tempo que já existe ✓) e o meu contexto está no fim ✗ — **patch às pressas é
+exatamente o erro que eu cometi 4 vezes hoje** ✓ (dois deles quebraram funções em silêncio ✗). **Prefiro
+entregar a rodada com a linha de base limpa e a integração planejada a entregar um patch duvidoso.**
+
+**PLANO DA INTEGRAÇÃO (para o próximo round, com contexto fresco)** — **aditivo**, sem remover nada:
+1. no `transcrever`, quando a cadeia atual (velocidade ✓) devolver `medido: false` ✗, montar o **estado** a
+   partir da **mesma** série do `rastrear` ✓ mais o `x` das notas ✓;
+2. aplicar a **regra única** (`nota_do_x` ✓) → **onsets** ✓ → preencher `tempo` de cada nota ✓;
+3. se **nenhum** dos dois observadores achar nada → manter **`medido: false` COM o motivo** ✓ (nunca zero
+   silencioso ✗), incluindo o motivo do observador de cor ✓;
+4. medir: `sky` (29/38 ✓), `mr. tabs` (10/19 ✓), `iwaki` (0 e **com motivo** ✓) → e **o gabarito de novo**,
+   que tem de continuar **0,917 / 0,986 / 0,944** ✓ (a régua desta rodada ✓).
