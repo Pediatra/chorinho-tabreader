@@ -3089,3 +3089,32 @@ retreinar as 3 sementes e medir **gabarito (tem de ficar 0,917 / 0,986 / 0,944)*
 quadro ou ROI. Foi exatamente esse erro que já me custou uma rodada inteira (negativos recortados do
 lugar errado; a LOCA caiu de 0,89–0,91 para 0,74–0,79 quando eu consertei). **Antes de regerar, conferir o
 espaço por medição** (qual dos dois recortes contém tinta), nunca por suposição.
+
+## 2026-10-09 (pós-reboot) — infraestrutura, conjunto novo e modelos treinados na janela 3,0x2,5
+
+**O reboot trocou a infraestrutura e eu perdi tempo por não ler o guia:**
+
+| o que | estado |
+| --- | --- |
+| daemon do Docker | **não subiu**; o CLI passou a falar com o **podman** (`/run/user/1000/podman/podman.sock`) |
+| imagem `chorinho:dev` | **não existia** → **cada `docker compose run` tentava reconstruí-la** e estourava o tempo (2 min por comando). O `AGENTS.md` manda **`make build`** antes: feito, 8 min, resolveu |
+| bind-mount `.:/app` | **Permission denied** com podman+SELinux → override **`compose.podman.yaml`** com `label=disable` (novo, no repositório) |
+| `artefatos/` | **dono root do host** das execuções antigas; o container (mapeado no usuário) não escreve nem com `chmod` (que **falhou em silêncio** porque eu escondi o erro — erro meu) |
+
+**Conserto estrutural para não perder mais nada no reboot**: os instrumentos saíram de `/tmp` e viraram
+**módulo do projeto** — `tab/regerar_janela.py` (com `main()` e docstring, como o guia pede).
+
+**Conjunto novo (janela 3,0 × 2,5 passos)**, gerado por esse módulo:
+
+| | n |
+| --- | --- |
+| positivos | **511** |
+| negativos | **908** (dos 1.278 originais: **370 perdidos**, porque só os positivos guardam o `frac` da imagem — declarado) |
+| espaço dos negativos | **ROI — conferido por medição** (40 com tinta na ROI × 35 no quadro), não por suposição |
+
+**Dois bugs meus pegos antes de virar resultado**: (1) o módulo tratava o caso "QUADRO" comparando contra
+a ROI de novo (a conferência de espaço não media nada); (2) ele quebrava no meio com `KeyError: 'cx'`
+porque os negativos têm **dois formatos** (`cx, cy` para token e `x, y` para janela vazia).
+
+**Modelos treinados** com o conjunto novo: `artefatos/j25/simbolo_{1,2,3}/simbolo.pt` (via
+`SAIDA_SIMBOLO`, variável nova que não muda o padrão).

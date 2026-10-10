@@ -31,6 +31,7 @@ from __future__ import annotations
 import argparse
 import collections
 import json
+import pathlib
 import os
 
 import cv2
@@ -173,7 +174,10 @@ def treinar(sementes: list[int] | None = None) -> None:
     X, y, _canais = montar_conjunto()
     for seed in sementes or [1, 2, 3]:
         modelo, _dev = _treinar(X, y, seed)
-        destino = ARTEFATOS / f"simbolo_{seed}"
+        # SAIDA_SIMBOLO permite treinar num diretório NOVO quando os artefatos antigos são
+        # root-owned no host (armadilha do AGENTS.md: o container escreve como root e o host
+        # não altera; com podman mapeado, o container também não). O padrão não muda.
+        destino = pathlib.Path(os.environ.get("SAIDA_SIMBOLO", ARTEFATOS)) / f"simbolo_{seed}"
         os.makedirs(destino, exist_ok=True)
         torch.save(
             {"state_dict": modelo.state_dict(), "seed": seed, "tarefa": "simbolo"},
@@ -193,7 +197,9 @@ def carregar(caminho: str | None = None):
         de "é símbolo". **O recorte tem de vir na janela do treino** (2,4 × 1,6 passo,
         centrado): a moldura é entrada do modelo, não detalhe de implementação.
     """
-    destino = caminho or str(ARTEFATOS / "simbolo_2" / "simbolo.pt")
+    destino = caminho or str(
+        pathlib.Path(os.environ.get("SAIDA_SIMBOLO", ARTEFATOS)) / "simbolo_2" / "simbolo.pt"
+    )
     estado = torch.load(destino, map_location="cpu", weights_only=False)
     modelo = DigitoCNN()
     modelo.load_state_dict(estado["state_dict"])

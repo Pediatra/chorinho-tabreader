@@ -1,0 +1,13 @@
+# Override para quando o `docker` é o PODMAN (caso deste host depois do reboot de 09/10).
+#
+# O daemon do Docker não subiu no reboot e o CLI passou a falar com o socket do podman
+# (`/run/user/1000/podman/podman.sock`). Com podman + SELinux (Fedora), o bind-mount `.:/app` do
+# compose.yaml dá **Permission denied** dentro do container; `label=disable` resolve.
+#
+# Uso:
+#   export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
+#   docker compose -f compose.yaml -f compose.podman.yaml run --rm chorinho ...
+services:
+  chorinho:
+    security_opt:
+      - label=disable
