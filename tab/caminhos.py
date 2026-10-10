@@ -33,7 +33,12 @@ ARTEFATOS = RAIZ / "artefatos"
 PARTES = RAIZ / "parts"
 
 #: Modelo de glifos usado por padrão no ponta a ponta.
-MODELO_PADRAO = ARTEFATOS / "glifo_sint.pt"
+# PROCEDÊNCIA MEDIDA (Fase 0 / T0.2). O `glifo_sint.pt` daqui dava **72/72 = 1,000** no próprio
+# gabarito que serve de régua — perfeição na régua é sinal de sobreajuste a ela, não de qualidade —
+# e ele NÃO está na tabela de procedência do `artefatos/LEIA-ME.md`. Passa a valer a semente
+# MEDIANA (oficial_3, 68/72 = 0,944), e não a melhor (oficial_2, 0,986): escolher a melhor pelo
+# gabarito de 72 glifos é sobreajustar a régua. Ver docs/decisoes/0008-modelo-do-produto.md.
+MODELO_PADRAO = ARTEFATOS / "oficial_3" / "glifo_sint.pt"
 
 
 def acervo() -> Path:

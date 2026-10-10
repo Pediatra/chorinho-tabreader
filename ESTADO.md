@@ -3698,3 +3698,38 @@ verde na árvore limpa ✓. **Isto é desvio registrado** e vai para o relatóri
 **esquecido o `ruff format --check`** naqueles dois comandos ✗. Ou seja: eu afirmei "gate verde" com um dos
 três passos **não rodado** ✗. É exatamente o que o T0.4 existe para impedir, e é a razão de o gate ter de
 ser um **alvo só**, e não três comandos que eu copio de memória ✗.
+
+## 2026-10-10 — FASE 0 / T0.2: `MODELO_PADRAO` passa a `oficial_3` (68/72) — e o antigo dava 72/72 = 1,000
+
+**Medido antes de mexer** (§4.2):
+
+| modelo | no gabarito de 72 glifos | procedência |
+| --- | --- | --- |
+| **`artefatos/glifo_sint.pt`** (o que o produto usava) | **72/72 = 1,000** ✗ | **desconhecida** — não está na tabela do `artefatos/LEIA-ME.md` |
+| `artefatos/oficial_2` | 71/72 = 0,986 | semente 2 |
+| **`artefatos/oficial_3`** | **68/72 = 0,944** | semente 3 (**mediana**) |
+| `artefatos/oficial_1` | 66/72 = 0,917 | semente 1 |
+
+**O achado**: o modelo do produto dava **perfeição exatamente na régua que é o gabarito** ✓ — isso não é
+qualidade, é **sobreajuste à régua** ✗, e a procedência dele é desconhecida ✗. O plano já mandava trocar
+(não escolher pelo gabarito ✓); agora o motivo está **medido**, não suposto ✓.
+
+**Decisão** (opção 3 do T0.2): `MODELO_PADRAO = ARTEFATOS / "oficial_3" / "glifo_sint.pt"` — a semente
+**mediana**, não a melhor ✓ (escolher a melhor pelo gabarito de 72 glifos é sobreajustar a régua). Registro
+completo em **`docs/decisoes/0008-modelo-do-produto.md`** ✓ (contexto, 4 opções, decisão, consequência) ✓.
+O comitê das 3 sementes fica **opcional**, com o critério de adoção escrito ✓. O `glifo_sint.pt` **não se
+apaga** ✓ (artefato é registro).
+
+**E um conserto que o CA exigiu**: o CA do T0.2 diz *"tab.avaliar com o MODELO_PADRAO novo **imprime o
+caminho**"* — e o `tab/avaliar.py` **não imprimia** ✗ (saía só o `RESULTADO`). O §4.3 do plano exige dizer
+qual modelo rodou em **todo** número ✓, então o `avaliar` passou a imprimir
+`modelo carregado: <caminho>` ✓.
+
+**CA do T0.2, conferido**: `python -m tab.avaliar` →
+`modelo carregado: /app/artefatos/oficial_3/glifo_sint.pt` + `TOTAL=68/72=0.944` ✓ (era exatamente o que o
+CA pedia: imprime o caminho **e** dá 68/72 ✓); com `--modelo artefatos/oficial_1/glifo_sint.pt` → 66/72 ✓
+(não quebrou o caminho explícito ✓); `make gate` **EXIT=0** ("All checks passed!" + "120 passed") ✓.
+
+**Para o cérebro**: o plano troca um modelo que faz **1,000 na régua** por um de **0,944** ✓. A decisão do
+plano é explícita e a queda é esperada ✓ — mas o plano **não tinha a medição de 1,000** ✗ (só dizia que a
+procedência era desconhecida ✓). Vale o cérebro saber que o antigo era **perfeito no próprio gabarito** ✓.

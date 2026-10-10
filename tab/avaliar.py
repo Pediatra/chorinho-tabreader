@@ -148,6 +148,10 @@ def avaliar(
         Uma tupla ``(canal, acertos, total)`` por amostra do gabarito.
     """
     modelo, rotulos, dev = carregar_modelo(caminho_modelo)
+    # O CASO `t_ini` do CONTEXTO §12 e a regra do §4.3: TODO numero diz qual modelo rodou,
+    # imprimindo o caminho. O CA do T0.2 exige isto ("imprime o caminho").
+    print(f"modelo carregado: {caminho_modelo}")
+
     return avaliar_com_modelo(modelo, rotulos, dev, usar_recuperada)
 
 
