@@ -19,6 +19,7 @@ from tab.ouro_video import (
     gravar_atomico,
     histograma,
     montar_ouro,
+    painel_com_caixas,
     sortear_instantes,
     validar_ouro,
 )
@@ -243,3 +244,24 @@ def test_servidor_grava_no_post(tmp_path: Path) -> None:
     finally:
         servidor.shutdown()
         servidor.server_close()
+
+
+def test_painel_com_caixas_contem_todas() -> None:
+    """Painel estreito + caixas largas (tela 1 do retrato): o recorte as contém."""
+    caixas = [[100, 300, 120, 320], [1790, 310, 1810, 330], [60, 280, 80, 300]]
+    x0, y0, x1, y1 = painel_com_caixas((70, 285, 1217, 457), caixas, (1080, 1920, 3))
+    assert all(x0 <= c[0] and c[2] <= x1 for c in caixas)
+    assert all(y0 <= c[1] and c[3] <= y1 for c in caixas)
+    assert (x0, y0, x1, y1) == (52, 272, 1818, 457)
+
+
+def test_painel_com_caixas_nao_mexe_se_ja_contem() -> None:
+    """Sem caixa fora, o painel fica como está (e respeita a borda do quadro)."""
+    rect = (70, 285, 1854, 457)
+    assert painel_com_caixas(rect, [[100, 300, 120, 320]], (1080, 1920, 3)) == rect
+    assert painel_com_caixas((0, 0, 50, 50), [[40, 40, 60, 60]], (55, 55, 3)) == (
+        0,
+        0,
+        55,
+        55,
+    )

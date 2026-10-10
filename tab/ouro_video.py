@@ -93,6 +93,9 @@ LARGURA_ALGARISMO_PASSOS = 0.5
 #: Tolerância (px) para considerar que o painel "não mudou de lugar" entre quadros.
 TOLERANCIA_RETANGULO = 6
 
+#: Folga (px) em volta de caixas que ficariam fora do painel da tela.
+MARGEM_PAINEL_PX = 8
+
 #: Páginas servidas: só estes tipos saem da pasta (nada de listar diretório).
 _TIPOS = {".png": "image/png", ".json": "application/json; charset=utf-8"}
 
@@ -590,6 +593,33 @@ def retangulo_do_painel(cand: Candidato, forma: tuple[int, ...]) -> Retangulo:
     return int(x0), int(y0), int(x1), int(y1)
 
 
+def painel_com_caixas(
+    rect: Retangulo,
+    caixas: list[list[float]],
+    forma: tuple[int, ...],
+    margem: int = MARGEM_PAINEL_PX,
+) -> Retangulo:
+    """Painel final da tela: ``rect`` ampliado até conter TODAS as caixas (mais margem).
+
+    O recorte da imagem e as caixas têm de sair do mesmo painel; se o painel do primeiro
+    quadro da tela é mais estreito que o do quadro de referência, a imagem cortava notas.
+
+    Args:
+        rect: painel candidato, no quadro.
+        caixas: caixas ``[x0, y0, x1, y1]`` no quadro.
+        forma: ``quadro.shape`` (limita o resultado às bordas).
+        margem: folga, em px, em volta das caixas que sobraram fora de ``rect``.
+
+    Returns:
+        ``(x0, y0, x1, y1)`` que contém ``rect`` e todas as caixas.
+    """
+    x0, y0, x1, y1 = rect
+    for c in caixas:
+        x0, y0 = min(x0, int(c[0]) - margem), min(y0, int(c[1]) - margem)
+        x1, y1 = max(x1, int(c[2]) + margem), max(y1, int(c[3]) + margem)
+    return max(0, x0), max(0, y0), min(forma[1], x1), min(forma[0], y1)
+
+
 def ler_notas(cand: Candidato, modelo, rotulos, dev, discriminador) -> dict:
     """Pré-leitura de uma tela: algarismos viram nota, o resto vira ``nao_nota``.
 
@@ -697,7 +727,17 @@ def preparar(
             melhor = escolher(tela.melhor_quadro)
             cand = melhor if melhor is not None else cand
         pre = ler_notas(cand, modelo, rotulos, dev, discriminador)
-        miolo = recortar(tela.melhor_quadro, tela.rect)
+        forma = tela.melhor_quadro.shape
+        rect = retangulo_do_painel(cand, forma)
+        rect = (
+            min(rect[0], tela.rect[0]),
+            min(rect[1], tela.rect[1]),
+            max(rect[2], tela.rect[2]),
+            max(rect[3], tela.rect[3]),
+        )
+        caixas = [n["caixa"] for n in pre["notas"] + pre["nao_nota"]]
+        rect = painel_com_caixas(rect, caixas, forma)
+        miolo = recortar(tela.melhor_quadro, rect)
         ampliada = cv2.resize(
             miolo, None, fx=ESCALA_TELA, fy=ESCALA_TELA, interpolation=cv2.INTER_CUBIC
         )
@@ -711,7 +751,7 @@ def preparar(
                 "t_ini": tela.t_ini,
                 "t_fim": tela.t_fim,
                 "n_quadros": tela.n_quadros,
-                "painel": list(tela.rect),
+                "painel": list(rect),
                 "escala": ESCALA_TELA,
                 **pre,
             }
