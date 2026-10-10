@@ -3423,3 +3423,23 @@ intervalo** ✓, que é o ritmo dos pulos medido no marcador (0,67–1 s ✓). E
 
 **Nenhuma linha de código menciona estilo** ✓: nem "patamar", nem "deslizamento", nem canal. A regra é uma
 só — **qual nota é a atual** — e ela cobre os dois casos que eu medi ✓.
+
+## 2026-10-10 — OS DOIS OBSERVADORES FUNCIONAM, com a MESMA regra
+
+| vídeo | observador | antes | **agora** |
+| --- | --- | --- | --- |
+| `sky guitar` | posição x (patamares) | 0 de 44 ✗ | **29 de 38** ✓ |
+| **`mr. tabs`** | **destaque de cor** (azul) | 0 ✗ | **10 de 19** ✓ — destaque achado em **30 de 30** amostras ✓ |
+| `iwaki` | nenhum | 0 ✓ | **0 de 28, com o MOTIVO** ✓ |
+
+**E os dois observadores usam a MESMA regra**: o estado é "qual nota está acesa" — na posição, a nota cuja
+célula de x contém o marcador; na cor, a nota cuja célula de x contém o **token colorido** ✓. Nenhuma linha
+menciona estilo ✓.
+
+**Três erros meus pegos nesta rodada, todos de método**:
+1. o nome do vídeo que eu **chutei** ✗ (o real tem 60 caracteres com `｜` ✓) — o mesmo tipo de descuido dos patches;
+2. usei **`cv2.VideoCapture`** ✗ → **44 % do acervo é AV1 e o OpenCV não decodifica** ✓ → `frames_totais = 0`
+   e o laço **nunca rodou** ✓. O projeto tem `ler_quadro` (com ffmpeg ✓) exatamente para isso — **regra que
+   eu violei** e que está no `AGENTS.md`;
+3. peguei o destaque nos **`caixa_token` das notas** ✗ — que só existem quando o filtro de símbolo roda ✓ —
+   e por isso o denominador deu **ZERO** ✗. O destaque está no **token da grade** ✓.

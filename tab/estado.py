@@ -25,6 +25,7 @@ import sys
 
 from .caminhos import MODELO_PADRAO
 from .cursor import rastrear
+from .destaque import coloracao
 from .inventario import ler_quadro
 from .painel import escolher
 from .pipeline import roi_das_cordas
@@ -75,6 +76,74 @@ def onsets(amostras: list[dict], xs: list[int]) -> dict[int, float]:
     return achados
 
 
+def estado_por_cor(
+    video: str,
+    cand,
+    xs: list[int],
+    n_amostras: int,
+    frac_ini: float = 0.5,
+    frac_fim: float = 0.6,
+) -> dict:
+    """Lê o estado pela COR DO ALGARISMO — o segundo observador, para quem não tem faixa vertical.
+
+    O `mr. tabs` mostrou o sinal limpo: **um** algarismo com coloração 22,7 e a **mediana em 0,0**. A regra
+    é a mesma da posição, só troca o observador: a nota atual é a do algarismo **aceso** (o outlier de
+    coloração), e o onset é o primeiro instante em que ele passa a ser o aceso.
+
+    **Usa `ler_quadro`, não `cv2.VideoCapture`**: 44 % do acervo é AV1 e o OpenCV não decodifica — foi o que
+    fez a primeira versão ler ZERO quadros. Além disso, amostra por **fração** (não por índice de quadro),
+    que é como o resto do projeto lê.
+
+    Args:
+        video: caminho do vídeo.
+        cand: painel escolhido (dá a origem da ROI em ``y0``).
+        xs: x das notas (a célula de x mapeia o token aceso para a nota).
+        n_amostras: quantas frações amostrar entre ``frac_ini`` e ``frac_fim``.
+        frac_ini: fração inicial.
+        frac_fim: fração final.
+
+    Returns:
+        ``{"onsets": {índice: fração}, "amostras": n, "com_destaque": n, "motivo": str|None}``.
+    """
+    onsets: dict[int, float] = {}
+    amostras = com = 0
+    for k in range(max(1, n_amostras)):
+        frac = frac_ini + (frac_fim - frac_ini) * k / max(1, n_amostras - 1)
+        quadro, _ = ler_quadro(video, frac)
+        if quadro is None:
+            continue
+        amostras += 1
+        melhor, melhor_c, outras = -1, 0.0, []
+        # O DESTAQUE ESTA NO TOKEN DA GRADE (nao no `caixa_token` da nota, que so existe quando o filtro
+        # de simbolo roda — foi esse engano que deu denominador ZERO na primeira tentativa).
+        for i, tk in enumerate(cand.grade.glifos):
+            rec = quadro[cand.y0 + tk.y0 : cand.y0 + tk.y1, tk.x0 : tk.x1]
+            c = coloracao(rec)
+            outras.append(c)
+            if c > melhor_c:
+                melhor, melhor_c = i, c
+        mediana = sorted(outras)[len(outras) // 2] if outras else 0.0
+        if melhor >= 0 and melhor_c >= 5.0 and melhor_c >= 3.0 * max(mediana, 0.5):
+            com += 1
+            # A MESMA REGRA do outro observador: qual NOTA esta acesa — aqui, a nota cuja celula de x
+            # contem o token colorido.
+            tk = cand.grade.glifos[melhor]
+            atual = nota_do_x(float((tk.x0 + tk.x1) / 2), xs)
+            if atual >= 0 and atual not in onsets:
+                onsets[atual] = frac
+    motivo = None
+    if amostras == 0:
+        motivo = "nenhum quadro lido na janela (leitor falhou)"
+    elif com == 0:
+        motivo = "nenhum algarismo em destaque de cor (nao ha marcador por cor)"
+    return {
+        "onsets": onsets,
+        "amostras": amostras,
+        "com_destaque": com,
+        "motivo": motivo,
+    }
+
+
 def main() -> int:
     """Mede, num vídeo, quantas notas ganham onset pela regra do ESTADO."""
     ap = argparse.ArgumentParser()
@@ -82,6 +151,9 @@ def main() -> int:
     ap.add_argument("--inicio", type=float, default=0.5)
     ap.add_argument("--janela", type=float, default=60.0)
     ap.add_argument("--passo", type=int, default=30)
+    ap.add_argument(
+        "--por-cor", action="store_true", help="usa o destaque de cor como observador"
+    )
     args = ap.parse_args()
 
     modelo, rotulos, dev = carregar_modelo(str(MODELO_PADRAO))
@@ -103,6 +175,22 @@ def main() -> int:
     if args.janela:
         t0 = amostras[0]["t"] if amostras else 0.0
         amostras = [a for a in amostras if t0 <= a["t"] <= t0 + args.janela]
+    if args.por_cor:
+        cor = estado_por_cor(
+            args.video,
+            cand,
+            xs,
+            max(4, int(args.janela / 2)),
+            args.inicio,
+            min(0.99, args.inicio + args.janela / 600.0),
+        )
+        print(
+            f"[COR] amostras={cor['amostras']} com_destaque={cor['com_destaque']} "
+            f"ONSETS={len(cor['onsets'])} de {len(notas)}"
+        )
+        if cor["motivo"]:
+            print(f"MOTIVO: {cor['motivo']}")
+        return 0
     achados = onsets(amostras, xs)
     com_x = [a for a in amostras if a.get("x") is not None]
     print(
