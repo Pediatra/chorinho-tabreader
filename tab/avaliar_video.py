@@ -8,8 +8,18 @@ contra ele, três coisas:
 3. **tempo**: em cada instante do ouro, se a predição diz a coluna certa acesa em ``t``.
 
 Aceita dois formatos de predição. O v1 (``esquema: chorinho/video@1``) e o legado que o
-``tab.transcrever`` gera hoje, tratado como uma tela cuja exibição é o vídeo inteiro. No
-legado sem ``x_quadro`` a régua diz por que não avalia notas nem tempo.
+``tab.transcrever`` gera hoje, tratado como uma tela só. No legado:
+
+- a tela prevista é pareada com a tela do ouro que estava na tela em ``quadro_lido_s``:
+  1. a do ``pre.json`` cujo ``[t_ini, t_fim]`` contém o quadro lido;
+  2. senão, a do instante do ouro mais próximo do quadro lido;
+  3. senão, a de mais notas casadas (por conteúdo; empate pelo ``quadro_ref_s`` mais perto);
+  o critério usado sai na saída (``pareamento:``);
+- a exibição prevista é ``janela_s`` (o intervalo que o tempo cobre); sem ``janela_s``,
+  ``[quadro_em_s, quadro_em_s]``, e a saída declara isso. Instante do ouro fora dela conta
+  como ``json_sem_tempo``, não como erro.
+
+No legado sem ``x_quadro`` a régua diz por que não avalia notas nem tempo.
 
 Toda comparação de x é pelo **centro** do token (``x_centro_quadro``), a mesma convenção
 do ouro (``tab.ouro_video``) e da coluna acesa que o ouro grava no clique. Quando uma nota
@@ -29,6 +39,7 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from .caminhos import SAIDA
 from .colunas import agrupar_colunas
 
 FORMATO_V1 = "chorinho/video@1"
@@ -101,6 +112,9 @@ class Predicao:
         modelo: caminho do modelo que gerou a predição, se constar.
         commit: commit do código que gerou a predição, se constar.
         video: nome do vídeo segundo a predição, se constar.
+        quadro_lido_s: instante do quadro em que o painel foi lido, se constar; no legado,
+            serve de referência para desempatar o pareamento.
+        exibicao: texto que declara de onde veio a exibição prevista (para a saída).
     """
 
     formato: str
@@ -108,6 +122,8 @@ class Predicao:
     modelo: str | None
     commit: str | None
     video: str | None
+    quadro_lido_s: float | None = None
+    exibicao: str = ""
 
 
 @dataclass(frozen=True)
@@ -331,7 +347,7 @@ def classificar_instante(
     return "erro"
 
 
-def avaliar(ouro: dict, predicao: Predicao) -> dict:
+def avaliar(ouro: dict, predicao: Predicao, pre: dict | None = None) -> dict:
     """Calcula as três medidas da régua: telas, notas e tempo.
 
     A função é pura: a mesma entrada dá sempre o mesmo relatório.
@@ -339,6 +355,7 @@ def avaliar(ouro: dict, predicao: Predicao) -> dict:
     Args:
         ouro: JSON do ouro de vídeo, já validado por ``validar_ouro``.
         predicao: predição normalizada por ``ler_predicao``.
+        pre: ``pre.json`` da tela do ouro, usado no pareamento do legado (ou ``None``).
 
     Returns:
         Relatório com ``telas``, ``notas`` e ``tempo``, mais os metadados da predição.
@@ -348,7 +365,11 @@ def avaliar(ouro: dict, predicao: Predicao) -> dict:
     telas_ouro = ouro.get("telas", [])
     instantes = ouro.get("instantes", [])
     ids_ouro = [int(tela["id"]) for tela in telas_ouro]
-    mapa = casar_telas(ids_ouro, instantes, predicao.telas)
+    if predicao.formato == "legado":
+        mapa, pareamento = escolher_tela_legado(telas_ouro, instantes, predicao, pre)
+    else:
+        mapa = casar_telas(ids_ouro, instantes, predicao.telas)
+        pareamento = "por instantes (v1)"
     casadas = sum(1 for previsto in mapa.values() if previsto is not None)
     sem_centro_ouro, total_ouro = _fallback_ouro(telas_ouro)
     sem_centro_pred = sum(1 for t in predicao.telas for n in t.notas if n.de_fallback)
@@ -366,6 +387,8 @@ def avaliar(ouro: dict, predicao: Predicao) -> dict:
         "commit": predicao.commit,
         "video": ouro.get("video"),
         "video_predicao": predicao.video,
+        "quadro_lido_s": predicao.quadro_lido_s,
+        "exibicao_previsao": predicao.exibicao,
         "tolerancia_s": TOLERANCIA_S,
         "fracao_passo": FRACAO_PASSO,
         "x_fallback": {
@@ -379,6 +402,7 @@ def avaliar(ouro: dict, predicao: Predicao) -> dict:
             "casadas": casadas,
             "previstas": len(predicao.telas),
             "sem_par_no_ouro": len(predicao.telas) - casadas,
+            "pareamento": pareamento,
             "mapa": {str(k): v for k, v in mapa.items()},
         },
         "notas": notas,
@@ -396,6 +420,8 @@ def linhas_do_relatorio(rel: dict) -> list[str]:
         Linhas de texto, sem quebra de linha no fim.
     """
     telas = rel["telas"]
+    lido = rel["quadro_lido_s"]
+    texto_lido = "não consta" if lido is None else f"{lido} s"
     linhas = [
         f"ouro:     {rel['ouro_caminho']}  (vídeo: {rel['video'] or 'não consta'})",
         f"predição: {rel['predicao_caminho']}  (formato: {rel['formato_predicao']};"
@@ -404,6 +430,8 @@ def linhas_do_relatorio(rel: dict) -> list[str]:
         f"telas: {telas['casadas']} de {telas['ouro']} telas do ouro com par previsto"
         f" (previstas: {telas['previstas']}; sem par no ouro:"
         f" {telas['sem_par_no_ouro']})",
+        f"pareamento: {telas['pareamento']}; exibição prevista:"
+        f" {rel['exibicao_previsao']}; quadro lido: {texto_lido}",
     ]
     linhas += _linhas_notas(rel["notas"])
     linhas += _linhas_tempo(rel["tempo"])
@@ -461,22 +489,45 @@ def _ler_v1(dados: dict) -> Predicao:
         modelo=gerado.get("modelo"),
         commit=gerado.get("commit"),
         video=video.get("arquivo"),
+        exibicao="exibicoes de cada tela (v1)",
     )
 
 
 def _ler_legado(dados: dict) -> Predicao:
-    """Lê o formato legado do ``tab.transcrever``: uma tela, exibição = vídeo inteiro.
+    """Lê o formato legado do ``tab.transcrever``: uma tela, exibida na janela do tempo.
+
+    A exibição é ``janela_s`` quando o JSON a grava. Um JSON sem ela (gerado antes de
+    ``janela_s`` existir) cai em ``[quadro_em_s, quadro_em_s]``, e a saída diz isso.
 
     Args:
         dados: JSON da predição legada.
 
     Returns:
         A ``Predicao`` com uma tela de id 0 e todas as notas do JSON.
+
+    Raises:
+        ValueError: se ``janela_s`` não for um par ``[t_inicio, t_fim]`` numérico.
     """
+    janela = dados.get("janela_s")
+    quadro_em = _float_ou_none(dados.get("quadro_em_s"))
+    quadro_lido = _float_ou_none(dados.get("quadro_lido_s"))
+    if janela is not None:
+        if not (isinstance(janela, list) and len(janela) == 2):
+            raise ValueError("janela_s deve ser [t_inicio, t_fim]")
+        exibicoes = [(float(janela[0]), float(janela[1]))]
+        exibicao = f"janela_s {janela[0]} a {janela[1]} s (intervalo do tempo)"
+    elif quadro_em is not None:
+        exibicoes = [(quadro_em, quadro_em)]
+        exibicao = (
+            f"quadro_em_s {quadro_em} s (JSON sem janela_s: só esse instante conta)"
+        )
+    else:
+        exibicoes = []
+        exibicao = "sem janela_s nem quadro_em_s: nenhum instante tem tela"
     tela = TelaPrevista(
         id=0,
         passo=_float_ou_none(dados.get("passo")),
-        exibicoes=[(-math.inf, math.inf)],
+        exibicoes=exibicoes,
         medido=_medido(dados),
         notas=[_nota(n) for n in dados.get("notas", [])],
     )
@@ -486,7 +537,98 @@ def _ler_legado(dados: dict) -> Predicao:
         modelo=None,
         commit=None,
         video=dados.get("video"),
+        quadro_lido_s=quadro_lido if quadro_lido is not None else quadro_em,
+        exibicao=exibicao,
     )
+
+
+def escolher_tela_legado(
+    telas_ouro: list[dict],
+    instantes: list[dict],
+    predicao: Predicao,
+    pre: dict | None = None,
+) -> tuple[dict[int, int | None], str]:
+    """Escolhe a tela do ouro que o legado mostra no quadro lido.
+
+    O legado lê UM quadro, então a tela certa é a que estava na tela em ``quadro_lido_s``.
+    Ordem dos critérios (o primeiro que decide vale):
+
+    1. a tela do ``pre.json`` (``data/saida/ouro_video/<slug>/pre.json``) cujo
+       ``[t_ini, t_fim]`` contém ``quadro_lido_s``;
+    2. a tela do instante do ouro (com tela) mais próximo de ``quadro_lido_s``;
+    3. conteúdo: a tela do ouro de mais notas casadas (``casar_legado``).
+
+    Args:
+        telas_ouro: telas do ouro (cada uma com ``id``, ``quadro_ref_s`` e ``notas``).
+        instantes: instantes do ouro (cada um com ``t`` e ``tela``).
+        predicao: predição legada normalizada (uma tela).
+        pre: ``pre.json`` da tela do ouro, ou ``None`` se não existe.
+
+    Returns:
+        ``(mapa, criterio)``: o mapa ``id da tela do ouro -> 0 ou None`` e o texto do critério
+        usado, que vai para a saída.
+    """
+    ids = [int(tela["id"]) for tela in telas_ouro]
+    lido = predicao.quadro_lido_s
+    alvo: int | None = None
+    criterio = ""
+    if predicao.telas and lido is not None:
+        if pre is not None:
+            for tela in pre.get("telas", []):
+                if float(tela["t_ini"]) <= lido <= float(tela["t_fim"]):
+                    alvo = int(tela["id"])
+                    criterio = "tela do pre.json em quadro_lido_s"
+                    break
+        if alvo is None:
+            com_tela = [i for i in instantes if i.get("tela") is not None]
+            if com_tela:
+                mais_perto = min(
+                    com_tela, key=lambda i: (abs(float(i["t"]) - lido), float(i["t"]))
+                )
+                alvo = int(mais_perto["tela"])
+                criterio = "tela do instante do ouro mais próximo de quadro_lido_s"
+    if alvo is not None and alvo in ids:
+        tela_prevista = predicao.telas[0].id
+        mapa = {tid: (tela_prevista if tid == alvo else None) for tid in ids}
+        return mapa, criterio
+    return casar_legado(telas_ouro, predicao), "por conteudo (legado)"
+
+
+def casar_legado(telas_ouro: list[dict], predicao: Predicao) -> dict[int, int | None]:
+    """Pareia a tela do legado com a tela do ouro de maior número de notas casadas.
+
+    O legado tem uma tela só. Para cada tela do ouro conta as notas que casam com ela
+    (mesma regra da régua: corda e ``|Δx| <= FRACAO_PASSO * passo``), e escolhe a de mais
+    notas casadas. Empate vai para a tela do ouro cujo ``quadro_ref_s`` está mais perto do
+    quadro lido, e depois para o menor id. Não usa os instantes: pareamento por instantes
+    escolheu outra página do vídeo na linha de base.
+
+    Args:
+        telas_ouro: telas do ouro (cada uma com ``id``, ``quadro_ref_s`` e ``notas``).
+        predicao: predição legada normalizada (uma tela).
+
+    Returns:
+        Mapa ``id da tela do ouro -> 0`` para a escolhida, ``None`` para as outras.
+    """
+    ids = [int(tela["id"]) for tela in telas_ouro]
+    if not telas_ouro or not predicao.telas:
+        return dict.fromkeys(ids)
+    tela_prevista = predicao.telas[0]
+    previstas = [n for n in tela_prevista.notas if n.casa is not None]
+    meia = FRACAO_PASSO * (tela_prevista.passo or 0.0)
+    referencia = predicao.quadro_lido_s
+
+    def ordem(tela_ouro: dict) -> tuple[int, float, int]:
+        casadas = len(casar_notas(tela_ouro.get("notas", []), previstas, meia))
+        ref = tela_ouro.get("quadro_ref_s")
+        if ref is None or referencia is None:
+            distancia = math.inf
+        else:
+            distancia = abs(float(ref) - referencia)
+        return (-casadas, distancia, int(tela_ouro["id"]))
+
+    escolhida = int(min(telas_ouro, key=ordem)["id"])
+    return {tid: (tela_prevista.id if tid == escolhida else None) for tid in ids}
 
 
 def _medido(bruto: dict) -> bool:
@@ -880,12 +1022,28 @@ def main() -> int:
     ap.add_argument("--ouro", required=True, help="data/gold/ouro_video/<slug>.json")
     ap.add_argument("--pred", required=True, help="saída do tab.transcrever (JSON)")
     ap.add_argument("--json", help="grava o relatório completo neste arquivo")
+    ap.add_argument(
+        "--pre",
+        help="pre.json da tela do ouro (padrão: data/saida/ouro_video/<slug>/pre.json)",
+    )
     args = ap.parse_args()
 
     caminho_ouro = Path(args.ouro)
     caminho_pred = Path(args.pred)
     ouro = json.loads(caminho_ouro.read_text(encoding="utf-8"))
     dados = json.loads(caminho_pred.read_text(encoding="utf-8"))
+    caminho_pre = (
+        Path(args.pre)
+        if args.pre
+        else SAIDA / "ouro_video" / caminho_ouro.stem / "pre.json"
+    )
+    if caminho_pre.exists():
+        pre = json.loads(caminho_pre.read_text(encoding="utf-8"))
+    elif args.pre:
+        print(f"pre.json não encontrado: {caminho_pre}", file=sys.stderr)
+        return 2
+    else:
+        pre = None
     try:
         validar_ouro(ouro)
         predicao = ler_predicao(dados)
@@ -893,7 +1051,8 @@ def main() -> int:
         print(f"entrada inválida: {erro}", file=sys.stderr)
         return 2
 
-    rel = avaliar(ouro, predicao)
+    rel = avaliar(ouro, predicao, pre=pre)
+    rel["pre_caminho"] = str(caminho_pre) if pre is not None else None
     rel["ouro_caminho"] = str(caminho_ouro)
     rel["predicao_caminho"] = str(caminho_pred)
     for linha in linhas_do_relatorio(rel):

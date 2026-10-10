@@ -2046,6 +2046,7 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | associar a série do marcador do **vídeo inteiro** às notas de **um** quadro | onsets de **outra página**: no `sky2.json` a nota da coluna 2 recebeu **266,1 s**, quando a tela mostrava o compasso 5 (T0.3) |
 | misturar `x` da **ROI recortada** com `x` do **quadro** | coluna errada: no `retrato brasileiro` o recorte começa em **x0 = 70 px** e o marcador de 245,5 s caiu na **coluna 3** em vez da 1 (T0.3) |
 | `cv2.VideoCapture` fora do leitor | **falha calada em 44 %** do acervo (AV1): **abre**, informa `FRAME_COUNT` e **não decodifica** — `rastrear` devolve 0 amostras, indistinguível de "sem marcador" (T0.3) |
+| pareamento da tela do legado por instantes, com exibição = vídeo inteiro | escolheu a tela com mais instantes (5), não a página lida; instante fora da janela contava como erro. Corrigido: pareamento por conteúdo e exibição = `janela_s` |
 
 ## Lições metodológicas (custaram rodadas)
 
@@ -4125,39 +4126,51 @@ nota acrescentada por clique: centro = clique, `x_quadro` estimado = clique - 0,
   `docs/guias/plano-do-produto.md` (significado de símbolo/técnica, arco de ligadura incluído).
 - **Dívida**: a caixa do arco precisa de janela larga, medida no quadro, antes de qualquer campo `tecnica` depender dela.
 
-## 2026-10-10 — LINHA DE BASE do produto contra o ouro de vídeo
+## 2026-10-10 — LINHA DE BASE do produto contra o ouro de vídeo (corrigida: fase 2, correção da régua)
 
-- **Ouro**: `data/gold/ouro_video/retrato_brasileiro.json` (11 telas, 397 notas, 40 instantes com coluna acesa),
-  commit `69c3ec6e` (rotulado pelo dono; não editado).
-- **Modelo**: `artefatos/oficial_3/glifo_sint.pt` (`MODELO_PADRAO` em `tab/caminhos.py`). O JSON legado não grava
-  modelo nem commit, então a régua imprime "não consta"; por isso o registro está aqui.
-- **Commit do código**: `69c3ec6e` (nenhuma mudança de código nesta rodada; `make gate` verde: `All checks passed!`,
-  167 testes passando).
-- **Predição A (padrão)**: `python -m tab.transcrever "/acervo/sky guitar/retrato brasileiro - tab & lesson.mp4" --json data/saida/avaliar_video/base_transcrever.json`
-  com `--simbolos data/saida/avaliar_video/simbolos` (ver desvio abaixo). Parâmetros reais do padrão: `--inicio 0.4 --janela 30`.
-- **Predição B**: mesmo vídeo com `--inicio 0.5 --janela 30 --simbolos ""`, saída `data/saida/avaliar_video/base_meio30s.json`
-  (idêntica, byte a byte, ao `pred_smoke.json` de antes).
-- **Régua** (`python -m tab.avaliar_video --ouro data/gold/ouro_video/retrato_brasileiro.json --pred <predição> --json <relatório>`),
-  2 execuções por predição; os relatórios saíram idênticos (`cmp`):
-  - **A (padrão)**: telas 1 de 11 telas do ouro com par previsto. Notas: precisão 9 de 43 entregues; revocação
-    9 de 397 do ouro; inventadas 34 de 43; perdidas 388 de 397; acerto de casa 3 de 9 casadas. Tempo: 1 de 40 instantes
-    com o estado certo (acerto 1, erro 39, json sem tempo 0, tempo falso 0; ausência certa 0 de 0).
-  - **B (meio, sem símbolos)**: telas 1 de 11. Notas: precisão 5 de 37 entregues; revocação 5 de 397; inventadas
-    32 de 37; perdidas 392 de 397; acerto de casa 1 de 5. Tempo: 0 de 40 (erro 40).
-- **O que o número quer dizer**: o produto atual lê uma janela de 30 s (`--janela 30`), e o JSON legado é uma tela só.
-  A revocação baixa é esperada: a régua só deixa uma tela prevista casar com uma tela do ouro (no padrão, a tela 5,
-  com 33 notas), então o teto de revocação do legado é 33 de 397. Fase 3 (telas no tempo) e Fase 4 (leitura por tela)
-  resolvem isso.
-- **Problema da régua, não corrigido**: o legado vira uma tela com exibição do vídeo inteiro. Por isso os instantes do
-  ouro depois da janela transcrita (A: janela 239,2 a 294,6 s; 36 dos 40 instantes estão depois, em 260 a 672 s) caem em
-  `erro` (a última coluna continua "acesa"), e não em `json_sem_tempo`. Dentro da janela (t <= 294,6 s, medido sem mudar
-  código), A dá tempo 0 de 4 instantes (erro 4) e notas 5 de 397 de revocação. Corrigir isso é decidir a exibição de um
-  JSON legado (a janela transcrita não é gravada no JSON); fica para o dono, junto com a Fase 3.
-- **Desvio de execução**: o `--simbolos` padrão (`data/saida/simbolos`) não é gravável pelo container (pertence a um uid
-  mapeado pelo podman rootless, `nobody` dentro do container), e a execução padrão falhou com `PermissionError`. A
-  predição A saiu com os recortes em `data/saida/avaliar_video/simbolos`. Isso só muda onde ficam os recortes de símbolo,
-  mas não foi comparado com uma execução idêntica usando `--simbolos ""`.
-- **Não feito**: nada além de medir e registrar. O ouro não foi tocado; `data/saida/avaliar_video/` não foi commitado.
+**Os números da primeira linha de base estão INVÁLIDOS: pareamento por instantes escolheu outra página.**
+Com o legado tratado como uma tela de exibição = vídeo inteiro, a régua pareava a tela prevista com a tela do
+ouro que mais aparece nos instantes (tela 5), não com a página que foi lida (quadro em 271 s), e instante fora
+da janela transcrita contava como `erro`. Esses números ficam só como registro:
+
+- ~~A (padrão): telas 1 de 11; precisão 9 de 43; revocação 9 de 397; tempo 1 de 40 (erro 39)~~ **inválido**
+- ~~B (meio, sem símbolos): telas 1 de 11; precisão 5 de 37; revocação 5 de 397; tempo 0 de 40 (erro 40)~~ **inválido**
+
+**Números novos** (régua corrigida; pareamento pelo critério do coordenador: tela do `pre.json` que
+contém o quadro lido, depois instante do ouro mais próximo do quadro lido, por último conteúdo):
+
+- **Mudança de código** (nada commitado ainda, ver abaixo): `tab/transcrever.py` grava `quadro_lido_s` (o
+  quadro em que o painel foi lido) e `janela_s` (o intervalo que o tempo cobre); `tab/avaliar_video.py`, no
+  legado, escolhe a tela pelo critério acima (`escolher_tela_legado`) e declara `pareamento:` na saída. A
+  régua lê `data/saida/ouro_video/<slug>/pre.json` por padrão (`--pre` para outro caminho).
+- **Predição A** (`--inicio 0.4`, padrão, `--simbolos ""`): `quadro_lido_s` 271,6 s, `janela_s` [239,2; 673,8].
+  Pareada: **ouro tela 1** (`pre.json` t_ini 240, t_fim 306: contém 271,6 s; **sanidade OK**). Telas 1 de 11.
+  Notas: precisão 5 de 43 entregues = 0,116; revocação 5 de 397 do ouro = 0,013; inventadas 38 de 43; perdidas
+  392 de 397; acerto de casa 1 de 5 casadas = 0,200. Tempo: 1 de 40 com o estado certo (acerto 1, erro 39, json
+  sem tempo 0). Régua 2x: idênticas.
+  - Antes, pelo critério de conteúdo, a régua pareava a tela 5 (9 de 43). Esse número sai do critério novo.
+- **Predição B** (`--inicio 0.5 --janela 30 --simbolos ""`): `quadro_lido_s` 339,5 s, `janela_s` [237,6; 669,5].
+  Pareada: **ouro tela 3** (`pre.json` t_ini 328, t_fim 390: contém 339,5 s; sanidade OK). Telas 1 de 11. Notas:
+  precisão 35 de 37 entregues = 0,946; revocação 35 de 397 do ouro = 0,088; inventadas 2 de 37; perdidas 362 de
+  397; acerto de casa 35 de 35 casadas = 1,000. Tempo: 0 de 40 com o estado certo (erro 39, json sem tempo 1).
+  Régua 2x: idênticas.
+- **Tempo**: erro em 39 de 40 nas duas predições. Não é efeito da janela: em A o número não mudou; em B o único
+  instante fora da janela passou de `erro` para `json_sem_tempo`. A causa do erro de tempo **não foi investigada**.
+- **Limites da `janela_s`**: é o primeiro e o último quadro em que o marcador foi detectado (série de estado),
+  não a varredura inteira. `quadro_em_s` continua sendo o `t0` (já trocado pela janela do cursor); o quadro lido é
+  `quadro_lido_s`. Nas duas predições são iguais porque não houve janela de cursor.
+- **Decisão do coordenador**: o legado lê um quadro, então a tela certa é a que estava na tela em
+  `quadro_lido_s`. Critério implementado na ordem acima. O conteúdo ficou só como último recurso.
+- **RESSALVA (pareamento por intervalo)**: a tela do ouro junta várias páginas (a tela 1, 240–306 s, cobre 4 páginas,
+  segundo a Fase 3). Então o pareamento por `[t_ini, t_fim]` pode cair na tela "certa" do ouro com conteúdo de outra
+  página. Os números de nota destas linhas de base **só valem quando `quadro_lido_s` está na mesma página do
+  `quadro_ref_s` da tela pareada**. Isso NÃO foi verificado: A lê 271,6 s e a tela 1 tem `quadro_ref_s` 302 s;
+  B lê 339,5 s e a tela 3 tem `quadro_ref_s` 328 s.
+- **Commit**: não feito; aguarda o gate do repositório (`tab/telas.py` e `tests/test_telas.py` do outro
+  agente). Nos meus arquivos, 34 de 34 testes passam (`tests/test_avaliar_video.py` e
+  `tests/test_transcrever_janela.py`), e o ruff passa neles.
+- Predições em `data/saida/avaliar_video/base_transcrever.json` e `base_meio30s.json`, relatórios
+  `*_relatorio.json`. Não commitadas.
 
 ## 2026-10-10 — FASE 3: `tab/telas.py` (telas = páginas de tablatura no tempo)
 

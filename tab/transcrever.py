@@ -188,6 +188,23 @@ def tempos_por_travessia(amostras, tokens):
     return saida
 
 
+def janela_serie(t0: float, janela: float, dur: float) -> tuple[float, float]:
+    """Intervalo de vídeo que a série de tempo varre: ``[t0, t0 + janela]``.
+
+    Args:
+        t0: início da varredura, em segundos.
+        janela: duração pedida, em segundos.
+        dur: duração do vídeo, em segundos (``0`` se desconhecida: sem corte).
+
+    Returns:
+        ``(t_inicio, t_fim)``, com ``t_fim`` limitado à duração do vídeo quando ela é conhecida.
+    """
+    fim = t0 + janela
+    if dur > 0:
+        fim = min(fim, dur)
+    return (t0, fim)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("video")
@@ -211,6 +228,9 @@ def main() -> int:
     # duração para converter a fração em segundos
     dur = duracao(args.video)
     t0 = dur * args.inicio if dur else 0.0
+    # Quadro que o painel foi lido: é aqui, antes de `t0` ser trocado pelo início da janela
+    # do cursor. `quadro_em_s` (abaixo) é o `t0` já trocado, não o quadro lido.
+    t_lido = t0
 
     frame, via = ler_quadro(args.video, args.inicio)
     if frame is None:
@@ -264,6 +284,8 @@ def main() -> int:
     if janelas:
         t0 = janelas[0][0]
     serie = serie_cursor(args.video, (y0, y1), t0, args.janela, passo_s=0.25)
+    # Intervalo que o tempo cobre. Os caminhos de estado trocam por o seu (abaixo).
+    janela_tempo = janela_serie(t0, args.janela, dur)
     veredito = resumo(serie)
     if veredito["veredito"] in {"desliza", "salta"}:
         # Calcula por COLUNA (um onset por acorde) e expande para as notas dela.
@@ -290,14 +312,16 @@ def main() -> int:
         # ("qual nota esta acesa") e lido pela celula de x, e o onset e o primeiro instante em que a nota
         # passa a ser a atual — a MESMA regra para salto, varredura e o que mais aparecer. Amostra a cada
         # 5 quadros porque foi medido que 30 quadros (1 s) PERDE patamares (34 -> 47 onsets no `serge`).
+        amostras_estado = (
+            rastrear_estado(args.video, (y0, y1), passo=5).get("amostras") or []
+        )
         achados = expandir_para_notas(
-            onsets_por_coluna(
-                rastrear_estado(args.video, (y0, y1), passo=5).get("amostras") or [],
-                colunas,
-            ),
-            colunas,
+            onsets_por_coluna(amostras_estado, colunas), colunas
         )
         if achados:
+            # O rastrear lê o vídeo inteiro: o tempo cobre do primeiro ao último quadro lido.
+            ts_estado = [a["t"] for a in amostras_estado]
+            janela_tempo = (min(ts_estado), max(ts_estado))
             lista = [achados.get(i) for i in range(len(r["notas"]))]
             r = completar(r, [(t, None) if t is not None else None for t in lista])
             r["tempo"] = {
@@ -325,6 +349,8 @@ def main() -> int:
                 frac_fim,
             )
             if cor["onsets"] and dur > 0:
+                # A cor é amostrada de `--inicio` até `frac_fim`, em frações do vídeo.
+                janela_tempo = (args.inicio * dur, frac_fim * dur)
                 por_nota = expandir_para_notas(cor["onsets"], colunas)
                 lista = [por_nota.get(i) for i in range(len(r["notas"]))]
                 lista = [t * dur if t is not None else None for t in lista]
@@ -353,6 +379,8 @@ def main() -> int:
             "video": os.path.basename(args.video),
             "painel": nome,
             "quadro_em_s": round(t0, 1),
+            "quadro_lido_s": round(t_lido, 1),
+            "janela_s": [round(janela_tempo[0], 1), round(janela_tempo[1], 1)],
             "lido_via": via,
             "janelas_com_cursor": janelas,
             "segundos_com_cursor": round(sum(b - a for a, b in janelas), 1),

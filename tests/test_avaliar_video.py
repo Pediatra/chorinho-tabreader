@@ -13,8 +13,10 @@ import pytest
 
 from tab.avaliar_video import (
     avaliar,
+    casar_legado,
     casar_telas,
     coluna_atual,
+    escolher_tela_legado,
     ler_predicao,
     linhas_do_relatorio,
     ocorrencias,
@@ -172,10 +174,13 @@ def test_instante_fora_da_tolerancia_e_erro():
     assert tempo["classes"]["acerto_tolerancia"] == 0
 
 
-def test_formato_legado_avalia_como_uma_tela_inteira():
+def test_formato_legado_avalia_na_janela_transcrita():
+    # Ajustado: antes o legado tinha exibição = vídeo inteiro (o defeito). Agora a exibição
+    # é a janela gravada pelo transcrever, que cobre os instantes de tempo deste cenário.
     legado = {
         "passo": 16.0,
         "tempo": {"medido": True},
+        "janela_s": [0.0, 100.0],
         "notas": [
             {"corda": 2, "casa": "0", "x": 10, "x_quadro": 224, "t_ini": 12.0},
             {"corda": 6, "casa": "0", "x": 10, "x_quadro": 224, "t_ini": 12.0},
@@ -331,3 +336,211 @@ def test_chaves_extras_do_ouro_nao_quebram():
     rel = _rodar(ouro, _pred_v1())
     assert rel["telas"]["ouro"] == 1
     assert rel["notas"]["total"]["casadas"] == 4
+
+
+def _legado(notas: list[dict], **extra) -> dict:
+    """Predição legada (uma tela, passo 16) com as notas dadas e campos extras."""
+    dados = {"passo": 16.0, "tempo": {"medido": True}, "notas": notas}
+    dados.update(extra)
+    return dados
+
+
+NOTAS_LEGADO = [
+    {"corda": 2, "casa": "0", "x_quadro": 224, "t_ini": 12.0},
+    {"corda": 6, "casa": "0", "x_quadro": 224, "t_ini": 12.0},
+    {"corda": 3, "casa": "2", "x_quadro": 240, "t_ini": 20.0},
+    {"corda": 1, "casa": "3", "x_quadro": 300, "t_ini": 30.0},
+]
+
+
+def test_legado_pareia_pelo_conteudo_e_nao_pelos_instantes():
+    # A tela 1 do ouro tem os instantes (3 deles), mas nenhuma nota da predição. A tela 2
+    # tem as 4 notas. Pareamento por instantes escolheria a 1; por conteúdo, a 2.
+    ouro = {
+        "video": "exemplo/video.mp4",
+        "telas": [
+            {
+                "id": 1,
+                "quadro_ref_s": 12.0,
+                "notas": [{"corda": 1, "casa": 9, "x_quadro": 900}],
+            },
+            {
+                "id": 2,
+                "quadro_ref_s": 300.0,
+                "notas": [
+                    {"corda": 2, "casa": 0, "x_quadro": 224},
+                    {"corda": 6, "casa": 0, "x_quadro": 224},
+                    {"corda": 3, "casa": 2, "x_quadro": 240},
+                    {"corda": 1, "casa": 3, "x_quadro": 300},
+                ],
+            },
+        ],
+        "instantes": [
+            {"t": 12.0, "tela": 1, "coluna_x_quadro": 900},
+            {"t": 13.0, "tela": 1, "coluna_x_quadro": 900},
+            {"t": 14.0, "tela": 1, "coluna_x_quadro": 900},
+            {"t": 20.0, "tela": 2, "coluna_x_quadro": 240},
+        ],
+    }
+    rel = _rodar(ouro, _legado(NOTAS_LEGADO, janela_s=[0.0, 100.0]))
+    assert rel["telas"]["pareamento"] == "por conteudo (legado)"
+    assert rel["telas"]["mapa"] == {"1": None, "2": 0}
+    assert rel["telas"]["casadas"] == 1
+    assert rel["notas"]["total"]["casadas"] == 4
+
+
+def test_legado_empate_de_notas_desempata_pelo_quadro_lido():
+    # As duas telas do ouro casam as mesmas 4 notas. O quadro lido (239 s) está perto
+    # do quadro_ref_s da tela 2, então a 2 vence, mesmo com id maior.
+    notas_tela = [
+        {"corda": 2, "casa": 0, "x_quadro": 224},
+        {"corda": 6, "casa": 0, "x_quadro": 224},
+        {"corda": 3, "casa": 2, "x_quadro": 240},
+        {"corda": 1, "casa": 3, "x_quadro": 300},
+    ]
+    ouro = {
+        "video": "exemplo/video.mp4",
+        "telas": [
+            {"id": 1, "quadro_ref_s": 10.0, "notas": copy.deepcopy(notas_tela)},
+            {"id": 2, "quadro_ref_s": 240.0, "notas": copy.deepcopy(notas_tela)},
+        ],
+        "instantes": [{"t": 12.0, "tela": 1, "coluna_x_quadro": 224}],
+    }
+    predicao = ler_predicao(
+        _legado(NOTAS_LEGADO, janela_s=[0.0, 300.0], quadro_lido_s=239.2)
+    )
+    assert casar_legado(ouro["telas"], predicao) == {1: None, 2: 0}
+    # Sem referência de quadro, o empate cai no menor id.
+    sem_ref = ler_predicao(_legado(NOTAS_LEGADO, janela_s=[0.0, 300.0]))
+    assert casar_legado(ouro["telas"], sem_ref) == {1: 0, 2: None}
+
+
+def test_legado_instante_fora_da_janela_e_json_sem_tempo_nao_erro():
+    # A predição cobre só 10 a 40 s. O instante do ouro em t=60 tem coluna acesa (300),
+    # e a predição não tem tela ali: é "sem tempo", não "erro".
+    ouro = copy.deepcopy(OURO_BASE)
+    ouro["instantes"].append({"t": 60.0, "tela": 1, "coluna_x_quadro": 300})
+    rel = _rodar(ouro, _legado(NOTAS_LEGADO, janela_s=[10.0, 40.0]))
+    classes = rel["tempo"]["classes"]
+    assert classes["json_sem_tempo"] == 1
+    assert classes["erro"] == 0
+    assert classes["acerto"] == 3
+    assert rel["exibicao_previsao"].startswith("janela_s 10.0 a 40.0")
+
+
+def test_legado_sem_janela_declara_quadro_em_s_e_nao_vira_erro():
+    # Sem janela_s, a exibição é só o instante quadro_em_s (12 s), e a saída diz isso.
+    rel = _rodar(OURO_BASE, _legado(NOTAS_LEGADO, quadro_em_s=12.0))
+    classes = rel["tempo"]["classes"]
+    assert classes["erro"] == 0
+    assert classes["acerto"] == 1  # só o instante t=12 está na exibição
+    assert classes["json_sem_tempo"] == 2  # t=20 e t=30 caem fora
+    assert "quadro_em_s 12.0 s" in rel["exibicao_previsao"]
+    # linhas_do_relatorio recebe os caminhos que o main preenche.
+    rel["ouro_caminho"] = "ouro.json"
+    rel["predicao_caminho"] = "pred.json"
+    assert "pareamento: tela do instante do ouro mais próximo" in "\n".join(
+        linhas_do_relatorio(rel)
+    )
+
+
+def test_legado_janela_malformada_e_recusada():
+    with pytest.raises(ValueError, match="janela_s"):
+        ler_predicao(_legado(NOTAS_LEGADO, janela_s=[10.0]))
+
+
+def test_v1_continua_pareando_por_instantes():
+    rel = _rodar(OURO_BASE, _pred_v1())
+    assert rel["telas"]["pareamento"] == "por instantes (v1)"
+    assert rel["telas"]["mapa"] == {"1": 1}
+
+
+def _ouro_duas_telas() -> dict:
+    """Ouro com duas telas: a 1 tem o instante t=20 e a 2 tem as notas casadas pela predição."""
+    return {
+        "video": "exemplo/video.mp4",
+        "telas": [
+            {
+                "id": 1,
+                "quadro_ref_s": 100.0,
+                "notas": [{"corda": 1, "casa": 9, "x_quadro": 900}],
+            },
+            {
+                "id": 2,
+                "quadro_ref_s": 300.0,
+                "notas": [
+                    {"corda": 2, "casa": 0, "x_quadro": 224},
+                    {"corda": 6, "casa": 0, "x_quadro": 224},
+                    {"corda": 3, "casa": 2, "x_quadro": 240},
+                    {"corda": 1, "casa": 3, "x_quadro": 300},
+                ],
+            },
+        ],
+        "instantes": [
+            {"t": 20.0, "tela": 1, "coluna_x_quadro": 900},
+            {"t": 270.0, "tela": 2, "coluna_x_quadro": 240},
+        ],
+    }
+
+
+def test_escolha_legado_ramo_pre_json_vence_os_outros():
+    # Quadro lido 271,6 s está em [240, 306] da tela 1 do pre.json. O conteúdo daria a 2.
+    pre = {
+        "telas": [
+            {"id": 1, "t_ini": 240.0, "t_fim": 306.0},
+            {"id": 2, "t_ini": 308.0, "t_fim": 326.0},
+        ]
+    }
+    ouro = _ouro_duas_telas()
+    predicao = ler_predicao(_legado(NOTAS_LEGADO, quadro_lido_s=271.6))
+    mapa, criterio = escolher_tela_legado(
+        ouro["telas"], ouro["instantes"], predicao, pre
+    )
+    assert mapa == {1: 0, 2: None}
+    assert criterio == "tela do pre.json em quadro_lido_s"
+
+
+def test_escolha_legado_ramo_instante_mais_proximo_sem_pre():
+    # Sem pre.json, o instante do ouro mais perto de 271,6 s (t=270, tela 2) decide.
+    ouro = _ouro_duas_telas()
+    predicao = ler_predicao(_legado(NOTAS_LEGADO, quadro_lido_s=271.6))
+    mapa, criterio = escolher_tela_legado(
+        ouro["telas"], ouro["instantes"], predicao, None
+    )
+    assert mapa == {1: None, 2: 0}
+    assert criterio == "tela do instante do ouro mais próximo de quadro_lido_s"
+
+
+def test_escolha_legado_pre_sem_o_quadro_cai_no_instante():
+    # O pre.json não cobre 271,6 s, então vale o instante mais próximo.
+    pre = {"telas": [{"id": 1, "t_ini": 0.0, "t_fim": 100.0}]}
+    ouro = _ouro_duas_telas()
+    predicao = ler_predicao(_legado(NOTAS_LEGADO, quadro_lido_s=271.6))
+    mapa, criterio = escolher_tela_legado(
+        ouro["telas"], ouro["instantes"], predicao, pre
+    )
+    assert mapa == {1: None, 2: 0}
+    assert criterio.startswith("tela do instante")
+
+
+def test_escolha_legado_ramo_conteudo_sem_quadro_nem_pre():
+    # Sem quadro lido não há como usar pre nem instante: vale o conteúdo (tela 2).
+    ouro = _ouro_duas_telas()
+    ouro["instantes"] = []
+    predicao = ler_predicao(_legado(NOTAS_LEGADO))
+    mapa, criterio = escolher_tela_legado(
+        ouro["telas"], ouro["instantes"], predicao, None
+    )
+    assert mapa == {1: None, 2: 0}
+    assert criterio == "por conteudo (legado)"
+
+
+def test_avaliar_declara_o_criterio_de_pareamento():
+    ouro = _ouro_duas_telas()
+    pre = {"telas": [{"id": 1, "t_ini": 240.0, "t_fim": 306.0}]}
+    predicao = ler_predicao(
+        _legado(NOTAS_LEGADO, quadro_lido_s=271.6, janela_s=[0, 500])
+    )
+    rel = avaliar(ouro, predicao, pre=pre)
+    assert rel["telas"]["pareamento"] == "tela do pre.json em quadro_lido_s"
+    assert rel["telas"]["mapa"] == {"1": 0, "2": None}
