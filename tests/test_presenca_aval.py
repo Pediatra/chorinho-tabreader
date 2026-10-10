@@ -132,12 +132,15 @@ def test_caixas_revistas_do_dono_2026_10_10():
     assert revistas[("FP11", (966, 797, 1920, 1006))]["caixa_sobre_tablatura"] is False
     assert revistas[("FP11", (966, 797, 1920, 1006))]["parcial"] is True
     assert revistas[("FN01", (75, 395, 1857, 599))]["caixa_sobre_tablatura"] is True
-    assert len(revistas) == 21
+    assert len(revistas) == 22
+    fn05 = revistas[("FN05", (62, 710, 1850, 1080))]
+    assert fn05["caixa_sobre_tablatura"] is False
+    assert fn05["grande_demais"] is True
     casos = {c["codigo"]: c for c in g["casos"]}
     assert casos["VN14"]["tablatura_no_quadro"] is True
     assert casos["VN14"]["caixa"] is None
     com_caixa = {c["codigo"] for c in g["casos"] if c["caixa"] is not None}
     com_caixa |= {r["codigo"] for r in g["caixas_revistas"]}
-    assert len(com_caixa) == 127
-    assert g["quadros"]["com_caixa"] == 127
+    assert len(com_caixa) == 128
+    assert g["quadros"]["com_caixa"] == 128
     assert g["quadros"]["tablatura_no_quadro"] == 130
