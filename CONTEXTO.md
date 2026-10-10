@@ -402,6 +402,90 @@ estreito), `6c6baa68` (janela maior rejeitada), `49c241ad` (`map_location`), `4d
 
 ---
 
+## 16. As IMAGENS e as CLASSIFICAÇÕES do dono (o que cada uma decidiu)
+
+**Por que esta seção existe**: nesta sessão, **17 vezes** uma hipótese minha só caiu **olhando a
+imagem** — folha inteira de braço de violão entregue como símbolo, arco largo, "ausente" que tinha
+cor. A regra 4 do `AGENTS.md` ("olhe o quadro antes de teorizar") **não é estilo: é o mecanismo**.
+E as classificações do dono são o **único dado do projeto que não depende de um instrumento meu**.
+
+### 16.1 As imagens decisivas (embutidas — abra estas primeiro)
+
+![folha de símbolos inteiros](data/saida/folha_inteira/folha_0.png)
+
+*`data/saida/folha_inteira/folha_0.png` — 24 dos **162 recortes** das marcas do dono, janela de
+**4,0 × 3,2 passos**, **rótulo único por recorte** (`C06_003`). É a folha que o dono validou
+("o recorte do símbolo tá perfeito"). Nela se vê **arco inteiro** (`2—2`, `4—4`, `0—0`), os
+**`(7)` dentro de chaves**, o **`♩` com haste** e a **seta do slide** (`4→6·6`).*
+
+![os três "ausente"](data/saida/piloto/ausentes.png)
+
+*`data/saida/piloto/ausentes.png` — dois quadros de cada um dos três canais que o detector de
+faixa chamou de "ausente". **Decidiu a virada do projeto**: `kimny's guitar` tem um **algarismo
+VERDE** e `mr. tabs` um **destaque AZUL** — marcador por **cor no algarismo**, invisível ao
+`rastrear`. É esta imagem que provou que "ausente" significava "sem FAIXA", não "sem marcador".*
+
+![quadros do iwaki](data/saida/piloto/quadros.png)
+
+*`data/saida/piloto/quadros.png` — a faixa de tablatura do `iwaki` em três instantes: tablatura
+renderizada, **sem marcador nenhum**. Provou que o `amostras_com_cursor: 0` (de 4.312 quadros)
+estava **certo** e que o problema não era o detector — foi o que motivou trocar de vídeo e achar o
+`sky guitar`.*
+
+![o arpejo cortado e inteiro](data/saida/folha_inteira/C07_028.png)
+
+*`data/saida/folha_inteira/C07_028.png` — **o ARPEJO**, recortado pela caixa do componente unida à
+janela: a linha ondulada **inteira** e as **5 cordas** que ela cruza. Antes deste conserto ele
+saía **cortado** (82 × 64 px) e a altura — que É a informação de quais cordas arpejar — se perdia.*
+
+| imagem | o que mostra | o que **decidiu** |
+| --- | --- | --- |
+| `folha_inteira/folha_0.png` … `folha_6.png` (7 folhas) | os 162 recortes das marcas do dono, símbolo **inteiro**, com nome único | validou a exibição ("recorte perfeito") e revelou as classes do §13.4 |
+| `folha_inteira/` (162 PNGs) | **um arquivo por recorte**, nome = o rótulo que o dono cita | permite o dono dizer "`C06_003` não é símbolo" e eu achar o recorte **exato** |
+| `piloto/ausentes.png` | os três "ausente" em dois instantes cada | o marcador por **cor** existe → o estado ganhou **segundo observador** |
+| `piloto/quadros.png` | a tablatura do `iwaki` em 3 instantes | "sem marcador" é **real**, não falha do detector |
+| `piloto/_par_C07.png` | `C07_028` e `C07_029` lado a lado | o par que originou os rótulos do arpejo |
+| `multicorda/folha_borda.png` | o que caía na **borda** do painel | mediu o corte de borda (8 % da máscara crua, **1 de 1.455** glifos entregues) |
+| `auditoria_simbolo/auditoria.html` · `auditoria_pool/auditoria.html` | as páginas de auditoria (149 rótulos ✓ · 200 sorteados de 1.869 ✓) | as classificações do dono registradas em JSON |
+
+**Para ver as imagens no navegador** (job de fundo gerenciado — processo solto **morre** com o
+shell do comando, foi assim que a página caiu uma vez):
+
+```bash
+python3 -m http.server 8099 --bind 127.0.0.1 --directory data/saida
+# http://127.0.0.1:8099/folha_inteira/folha_0.png   (folha_1 … folha_6)
+# http://127.0.0.1:8099/piloto/ausentes.png  ·  /piloto/quadros.png
+```
+
+### 16.2 As classificações do dono — o ativo mais valioso do projeto
+
+| conjunto | onde | tamanho | o que **fixou** |
+| --- | --- | --- | --- |
+| **Marcas nas folhas de símbolo inteiro** | `data/gold/folha_labels.json` | `folha_0`: **21 símbolos**, 3 não; `folha_1`: 1 não | o **vocabulário**: `C06_008`/`C06_009` = dígitos isolados (`3`, `1`) **não** são símbolo; `C06_010` = **arco de ligadura simples** (é símbolo); `C07_029` **não** é; `C07_028` = **ARPEJO de altura variável** (§13.4) |
+| **Marcas no `marcar.html`** | `data/gold/marcas_simbolos.json`, `_2` … `_6` | **200 → 164 → 173** marcas | a referência honesta do fim a fim é **`marcas_simbolos_6.json`** (as anteriores tinham contagem inflada) |
+| **Auditoria do símbolo** | `data/gold/auditoria_simbolo_rotulada.json` | **149** rótulos | **29 de 29** aprovados eram símbolo, **0 erros do modelo**; 9 símbolos não marcados; **36 marcas que não são símbolo** |
+| **Auditoria do pool** | `data/saida/auditoria_pool/` | **200** sorteados de **1.869** | **1.258** candidatos aprovados |
+| **Gabarito da janela nova** | `data/gold/simbolos_marcados_j25/` | **511 positivos / 908 negativos** | o conjunto da janela 3,0 × 2,5 (com 370 negativos perdidos, **declarados**) |
+
+**O status dessas classificações é CONTRATO** (§13.2): o que ele marcou como símbolo **é** símbolo,
+e o que ele marcou como não-símbolo **não é** — e isso vale **mesmo quando contradiz uma medição
+minha** (foi o caso dos dígitos de acorde: eu contava "componente alto" como candidato a símbolo ✗
+e ele mostrou que era o **dígito** do acorde ✓).
+
+**O que ainda NÃO está classificado — e é o gargalo do projeto (tempo do dono, não código)**:
+1. as **folhas 2 a 6** (~138 recortes): ele já declarou "todos são símbolo" ✓, mas olhando o
+   **recorte antigo** ✗ — com o recorte novo, vale uma passada de olho;
+2. **símbolo multi-corda** exige ferramenta com janela **alta** (ele recusa rotular vendo um
+   fragmento — §13.5);
+3. a **semântica** de cada símbolo (o que cada um faz no produto): arpejo ✓ (já resolvido: quais
+   cordas), ligadura simples × com parênteses ✗, `♩` com haste ✗, seta de slide ✗, `(7)` ✗;
+4. a **casa fora do gabarito** (4 canais / casas 0–7) — o número que decide se o produto escala
+   (§9.3) — e é rótulo **barato** (só números);
+5. os **acordes de dígitos empilhados** (§9.4) — o dono já disse que **não** são símbolo ✓; falta
+   **medir quanto** existe no acervo (barato, sem rótulo).
+
+---
+
 ### Resumo de uma linha para quem chega agora
 
 **A cadeia de algarismo (o núcleo) está sólida e medida; o tempo por nota passou a funcionar com
