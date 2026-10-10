@@ -14,9 +14,9 @@ import json
 import os
 import sys
 
-import cv2
 import numpy as np
 
+from . import leitor
 from .caminhos import MODELO_PADRAO, SAIDA
 from .cursor import detectar_cursor
 from .cursor import rastrear as rastrear_estado
@@ -53,24 +53,10 @@ def varrer_cursor(video, roi_abs, passo_s=0.5, t_max=180.0):
     50 % o mantêm por 12 s contínuos). Assumir cursor no vídeo inteiro faz o produto
     devolver tempo vazio; procurar as janelas é o que torna o anexo de tempo confiável.
     """
-    cap = cv2.VideoCapture(video)
-    if not cap.isOpened():
-        return []
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
     marcas = []
-    t = 0.0
-    prox = 0.0
-    while t < t_max:
-        if not cap.grab():
-            break
-        if t >= prox:
-            ok, fr = cap.retrieve()
-            if ok:
-                det = detectar_cursor(fr[roi_abs[0] : roi_abs[1], :])
-                marcas.append((t, bool(det)))
-            prox += passo_s
-        t += 1.0 / fps
-    cap.release()
+    for t, fr in leitor.quadros(video, 0.0, t_max, 1.0 / passo_s, recorte_y=roi_abs):
+        det = detectar_cursor(fr)
+        marcas.append((t, bool(det)))
     janelas, ini = [], None
     for t, d in marcas:
         if d and ini is None:
@@ -86,23 +72,13 @@ def varrer_cursor(video, roi_abs, passo_s=0.5, t_max=180.0):
 
 def tempos_do_cursor(video, roi_abs, tokens, t0, janela, passo_s=0.15):
     """Segue a banda colorida e devolve o instante em que ela para em cada coluna."""
-    cap = cv2.VideoCapture(video)
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
-    cap.set(cv2.CAP_PROP_POS_MSEC, t0 * 1000)
     marcador = []
-    t = t0
-    while t < t0 + janela:
-        ok = cap.grab()
-        if not ok:
-            break
-        if round((t - t0) / passo_s) != round((t - passo_s - t0) / passo_s):
-            ok, fr = cap.retrieve()
-            if ok:
-                det = detectar_cursor(fr[roi_abs[0] : roi_abs[1], :])
-                if det:
-                    marcador.append(((det[0] + det[1]) / 2.0, t))
-        t += 1.0 / fps
-    cap.release()
+    for t, fr in leitor.quadros(
+        video, t0, t0 + janela, 1.0 / passo_s, recorte_y=roi_abs
+    ):
+        det = detectar_cursor(fr)
+        if det:
+            marcador.append(((det[0] + det[1]) / 2.0, t))
     if not marcador:
         return [None] * len(tokens)
     # patamares: x constante por >= 3 amostras
@@ -138,24 +114,13 @@ def tempos_do_cursor(video, roi_abs, tokens, t0, janela, passo_s=0.15):
 
 def serie_cursor(video, roi_abs, t0, janela, passo_s=0.1):
     """Série x(t) do cursor, SEM exigir patamar (o cursor que desliza nunca para)."""
-    cap = cv2.VideoCapture(video)
-    if not cap.isOpened():
-        return []
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
-    cap.set(cv2.CAP_PROP_POS_MSEC, t0 * 1000)
-    amostras, t, prox = [], t0, t0
-    while t < t0 + janela:
-        if not cap.grab():
-            break
-        if t >= prox:
-            ok, fr = cap.retrieve()
-            if ok:
-                det = detectar_cursor(fr[roi_abs[0] : roi_abs[1], :])
-                if det:
-                    amostras.append(((det[0] + det[1]) / 2.0, t))
-            prox += passo_s
-        t += 1.0 / fps
-    cap.release()
+    amostras = []
+    for t, fr in leitor.quadros(
+        video, t0, t0 + janela, 1.0 / passo_s, recorte_y=roi_abs
+    ):
+        det = detectar_cursor(fr)
+        if det:
+            amostras.append(((det[0] + det[1]) / 2.0, t))
     return amostras
 
 
@@ -244,11 +209,8 @@ def main() -> int:
     args = ap.parse_args()
 
     # duração para converter a fração em segundos
-    cap = cv2.VideoCapture(args.video)
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
-    n = cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0
-    cap.release()
-    t0 = (n / fps) * args.inicio if n else 0.0
+    dur = duracao(args.video)
+    t0 = dur * args.inicio if dur else 0.0
 
     frame, via = ler_quadro(args.video, args.inicio)
     if frame is None:

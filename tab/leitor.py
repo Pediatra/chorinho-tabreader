@@ -16,6 +16,8 @@ O que veio de onde (reaproveitar, não reinventar):
 - `quadro_em`: a invocação do `varredura._ffmpeg_em` (um quadro por `-frames:v 1` + `image2pipe`);
 - `quadros`: a **passada única** do `marcador._amostrar_ffmpeg` (`-ss` antes do `-i`, filtro `fps`, `rawvideo`
   `bgr24` pelo stdout) — é ela que torna o AV1 viável;
+- `quadros_cv2`: a leitura sequencial do `marcador._amostrar_cv2`, mantida aqui e não trocada por `quadros`
+  porque as séries já medidas dependem dela (ver a docstring);
 - `Leitor`: a classe `varredura.Leitor` promovida (decide **uma vez** por vídeo e cai para `ffmpeg` no meio).
 
 Uso:
@@ -222,6 +224,46 @@ def quadros(
         if proc.stdout is not None:
             proc.stdout.close()
         proc.wait()
+
+
+def quadros_cv2(
+    caminho: str, t0: float, n: int, passo_s: float
+) -> Iterator[tuple[float, np.ndarray]]:
+    """``(t, quadro)`` de ``n`` amostras a cada ``passo_s`` segundos, lidas em sequência pelo OpenCV.
+
+    Um *seek* até ``t0`` e depois ``grab`` entre as amostras. Só entrega quadro que o OpenCV de fato
+    decodificou; em AV1 ele não entrega nenhum e o chamador segue pelo ``ffmpeg``. Não é trocado por
+    ``quadros``: medido em ``retrato brasileiro`` (H.264, 60 amostras a cada 0,5 s), as duas leituras
+    divergem em 21 amostras, e o ``marcador`` mantém a leitura do OpenCV para não invalidar as séries
+    já medidas (regra 9 do AGENTS.md).
+
+    Args:
+        caminho: vídeo.
+        t0: instante da primeira amostra, em segundos.
+        n: quantas amostras no máximo.
+        passo_s: passo entre amostras, em segundos.
+
+    Yields:
+        ``(t, quadro)`` com ``t = t0 + k * passo_s`` (segundos) e o quadro em BGR.
+    """
+    cap = cv2.VideoCapture(caminho)
+    try:
+        if not cap.isOpened():
+            return
+        fps = float(cap.get(cv2.CAP_PROP_FPS) or 30.0)
+        passo_quadros = max(1, round(passo_s * fps))
+        cap.set(cv2.CAP_PROP_POS_MSEC, max(0.0, t0) * 1000.0)
+        ok, quadro = cap.read()
+        lidas = 0
+        while ok and quadro is not None and quadro.size and lidas < n:
+            yield t0 + lidas * passo_s, quadro
+            lidas += 1
+            for _ in range(passo_quadros - 1):
+                if not cap.grab():
+                    break
+            ok, quadro = cap.read()
+    finally:
+        cap.release()
 
 
 class Leitor:

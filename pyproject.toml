@@ -36,6 +36,9 @@ convention = "google"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+# Gate padrão sem os testes que exigem o acervo; `make test-integration` passa `-m integration`,
+# e o último `-m` da linha de comando é o que vale.
+addopts = "-m 'not integration'"
 markers = [
     "integration: exige dados externos (acervo real no HD); fora do gate padrão",
 ]

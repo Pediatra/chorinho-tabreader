@@ -21,8 +21,7 @@ import json
 import os
 from dataclasses import dataclass, field
 
-import cv2
-
+from . import leitor
 from .caminhos import MODELO_PADRAO, SAIDA
 from .cursor import detectar_cursor
 from .digito import carregar
@@ -100,11 +99,7 @@ def amostrar_presenca(
     Returns:
         Uma entrada por fração, com ``t``, ``tem_notacao``, faixa, uniformidade e passo.
     """
-    cap = cv2.VideoCapture(video)
-    n = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
-    duracao = n / fps if n else 0.0
-    cap.release()
+    duracao = leitor.info(video)["duracao_s"]
     if duracao <= 0:
         return []
 
@@ -201,23 +196,14 @@ def serie_do_marcador(
     `erratico` e 241 pontos a cada 0,5 s dão `desliza`. O marcador se move devagar e a
     amostra grossa o encontra em posições que parecem aleatórias.
     """
-    cap = cv2.VideoCapture(video)
-    if not cap.isOpened():
-        return []
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
-    n = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
-    duracao = n / fps if n else 0.0
+    duracao = leitor.info(video)["duracao_s"]
     pontos: list[tuple[float, int]] = []
-    t = t0
-    while t <= min(t0 + janela, duracao):
-        cap.set(cv2.CAP_PROP_POS_MSEC, t * 1000)
-        ok, quadro = cap.read()
-        if ok:
-            det = detectar_cursor(quadro[roi_y[0] : roi_y[1], :])
-            if det:
-                pontos.append((round(t, 2), int(det[0])))
-        t += passo_s
-    cap.release()
+    for t, quadro in leitor.quadros(
+        video, t0, min(t0 + janela, duracao), 1.0 / passo_s, recorte_y=roi_y
+    ):
+        det = detectar_cursor(quadro)
+        if det:
+            pontos.append((round(t, 2), int(det[0])))
     return pontos
 
 

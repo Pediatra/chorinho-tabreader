@@ -54,9 +54,9 @@ import os
 import subprocess
 import time
 
-import cv2
 import numpy as np
 
+from . import leitor
 from .caminhos import SAIDA, acervo
 from .cursor import detectar_cursor
 from .painel import escolher
@@ -270,29 +270,12 @@ def _amostrar_cv2(
         nome: [] for nome, _ in recortes
     }
     estourou = False
-    lidas = 0
-    cap = cv2.VideoCapture(caminho)
-    try:
-        if not cap.isOpened():
-            return amostras, None
-        fps = float(cap.get(cv2.CAP_PROP_FPS) or 30.0)
-        passo_frames = max(1, round(passo_s * fps))
-        cap.set(cv2.CAP_PROP_POS_MSEC, max(0.0, t0_s) * 1000.0)
-        ok, quadro = cap.read()
-        while ok and quadro is not None and quadro.size and lidas < n:
-            t = t0_s + lidas * passo_s
-            for nome, (y0, y1) in recortes:
-                amostras[nome].append(_montar(detectar_cursor(quadro[y0:y1, :]), t))
-            lidas += 1
-            if time.time() - inicio > orcamento_s:
-                estourou = True
-                break
-            for _ in range(passo_frames - 1):
-                if not cap.grab():
-                    break
-            ok, quadro = cap.read()
-    finally:
-        cap.release()
+    for t, quadro in leitor.quadros_cv2(caminho, t0_s, n, passo_s):
+        for nome, (y0, y1) in recortes:
+            amostras[nome].append(_montar(detectar_cursor(quadro[y0:y1, :]), t))
+        if time.time() - inicio > orcamento_s:
+            estourou = True
+            break
     return amostras, ("orcamento_esgotado" if estourou else None)
 
 

@@ -3970,3 +3970,26 @@ mais próximo do instante, em vez do `grab()` de 1 a cada 30 índices. AV1: a **
 mas as 52 "detecções" têm largura mediana 1 px, matiz 98, 29 retrocessos e salto mediano de 347 px — são
 **ruído**, não cursor (o `mr. tabs` marca a nota por cor, não por faixa). Não afirmar cursor ali.
 `tab.avaliar` nas 3 sementes: 66/72, 71/72, 68/72 (inalterado).
+
+## 2026-10-10 — FASE 1 / T1.2 (fim): zero `VideoCapture` fora do leitor
+
+Trocados por `tab.leitor` (`info`, `quadros`): `transcrever.varrer_cursor`, `tempos_do_cursor`, `serie_cursor`
+e `main` (duração); `pipeline.amostrar_presenca` (duração) e `serie_do_marcador`.
+
+`marcador._amostrar_cv2` **não** foi trocado pelo `ffmpeg`: medido em `retrato brasileiro` (H.264, 60 amostras
+a cada 0,5 s a partir de 245,5 s, recorte 280–462), o caminho `cv2` e o `ffmpeg` divergem em **21 de 60**
+amostras (20 com x diferindo mais de 3 px). Trocar mudaria as séries já medidas do censo (regra 9). A leitura
+sequencial do `cv2` foi movida para `tab.leitor.quadros_cv2` (cópia exata): saída idêntica (sha `62b531cfb0cb`
+antes e depois). **Decisão em aberto:** qual dos dois caminhos é o certo para o `marcador`.
+
+Trava: `tests/test_sem_videocapture.py` (falha e diz o arquivo). `pyproject.toml`: `addopts = "-m 'not
+integration'"`; `make test-integration` continua com 1 passou, 126 desmarcados.
+
+| medida | antes (HEAD) | depois |
+| --- | --- | --- |
+| `tab.avaliar` sementes 1/2/3 | 66/72, 71/72, 68/72 | 66/72, 71/72, 68/72 |
+| `transcrever` retrato brasileiro H.264 (`--inicio 0.5 --janela 30`) | medido, 40 notas com tempo, 0 janelas, série 120 pontos | medido, 40 notas com tempo, 0 janelas, série 119 pontos |
+| `transcrever` mr. tabs AV1 (mesmos parâmetros) | medido, 39 notas com tempo, **0 janelas** (cv2 não decodifica) | medido, 39 notas com tempo, **29 janelas** de "cursor" entre 4,5 s e 179,5 s |
+
+As 29 janelas do AV1 são **suspeitas**: o `mr. tabs` marca a nota por cor (ver a seção T1.2 acima), e o
+detector de faixa é o mesmo. Não afirmar cursor ali até medir. O `notas_com_tempo` (39) não mudou.
