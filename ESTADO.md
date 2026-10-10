@@ -3502,3 +3502,28 @@ são **dois caminhos separados** ✗ e por isso **deixam de fora tudo que o vere
 regra única **substitui o `if/else` do veredito** ✓ — uma passagem só, com o estado ✓, o que também
 **apaga** a bifurcação por estilo ✓. Isso é uma **limpeza**, não um remendo ✓ — e é por isso que ela merece
 contexto fresco ✓, não o meu fim de sessão ✗.
+
+## 2026-10-10 — A REGRA ÚNICA EM CINCO VÍDEOS: 96 % no `salta`, e DUAS FORMAS AINDA SEM EXPLICAÇÃO
+
+Rodei a **mesma** regra (observador de posição ✓) em um vídeo de cada forma medida:
+
+| canal | forma | passo 30 | **passo 5** |
+| --- | --- | --- | --- |
+| `sky guitar` | salta | 29 de 38 | — |
+| **`serge kottelat`** | **salta** | 34 de 49 | **47 de 49 = 96 %** ✓✓ |
+| `robert lunn` | varre | 4 de 18 | **4 de 18** ✗ |
+| `leonardo ramos` | pisca | 1 de 45 | **1 de 45** ✗ |
+
+**O que está PROVADO**: a regra funciona **muito bem no `salta`** ✓ (76 % no `sky` ✓, **96 %** no `serge` ✓) —
+e a **amostragem importa** ✓ (34 → 47 ✓): amostrar a cada 1 s perdia patamares ✓. **Uma regra, dois canais,
+duas séries diferentes ✓.**
+
+**O que NÃO está explicado, e eu não vou fingir que está** ✗:
+1. **`varre` = 4 de 18** ✗ — e **não é aliasing** ✗: com `passo=5` ele tem **242 amostras, todas com x** ✓ e o
+   número **não mudou** ✓. Hipótese a testar: na **janela** varrida o marcador está **parado** (a forma
+   "varre" veio do vídeo inteiro ✓), ou o `x` das notas e o `x` do marcador **não se alinham** ✗;
+2. **`pisca` = 1 de 45** ✗ com **1 única amostra com x** ✗ em 60 s — o `rastrear` achou o marcador **uma vez**
+   ✗. Antes de qualquer teoria: **olhar** o vídeo e **despejar a série** ✓ (a regra 4 do `AGENTS.md`: olhe o
+   quadro antes de teorizar ✓).
+
+**Registrado com os números, incluindo os que não fecharam** ✓ — é a regra 11 do projeto ✓.
