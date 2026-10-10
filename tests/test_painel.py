@@ -10,7 +10,15 @@ from __future__ import annotations
 import cv2
 import numpy as np
 
-from tab.painel import candidatos, escolher, espacamento_regular, uniformidade
+from tab.painel import (
+    candidatos,
+    e_pauta,
+    escolher,
+    espacamento_regular,
+    mesmas_linhas,
+    papel_branco,
+    uniformidade,
+)
 
 
 def _faixa_tablatura(semente: int = 0) -> np.ndarray:
@@ -81,3 +89,44 @@ def test_espacamento_irregular_reprova_o_painel() -> None:
     assert espacamento_regular([8, 38, 67, 97, 127, 156]) is True  # passo ~30 regular
     assert espacamento_regular([10, 22, 34, 46, 58]) is True
     assert espacamento_regular([10]) is False
+
+
+def test_papel_branco_separa_tablatura_do_braco() -> None:
+    """A TAB sobre papel tem muito branco; a madeira do braço quase nenhum (C1, rodada 0007)."""
+    assert papel_branco(_faixa_tablatura()) > papel_branco(_faixa_braco()) + 0.5
+
+
+def test_cinco_linhas_fortes_mais_uma_fraca_e_pauta() -> None:
+    """Pauta: 5 linhas cheias e 1 linha fraca (viga/haste) no mesmo espaçamento.
+
+    Medido nos iwaki VN18, VN20 e FP38 (rodada 0007): a 6ª linha tem força ~0,38 e as
+    outras ~0,86. Essa faixa não é tablatura, mesmo com espaçamento regular.
+    """
+    img = np.full((200, 1200, 3), 245, np.uint8)
+    for i in range(5):
+        y = 40 + i * 14
+        cv2.line(img, (20, y), (1180, y), (30, 30, 30), 2)
+    cv2.line(img, (400, 26), (520, 26), (30, 30, 30), 1)  # linha fraca, acima
+    linhas = [26, 40, 54, 68, 82, 96]
+    assert espacamento_regular(linhas)
+    assert e_pauta(img, linhas) is True
+
+
+def test_seis_linhas_fortes_nao_sao_pauta() -> None:
+    """A TAB de 6 cordas cheias não é recusada pelo critério da pauta."""
+    img = np.full((200, 1200, 3), 245, np.uint8)
+    linhas = [30 + i * 20 for i in range(6)]
+    for y in linhas:
+        cv2.line(img, (20, y), (1180, y), (30, 30, 30), 2)
+    assert e_pauta(img, linhas) is False
+
+
+def test_mesmas_linhas_tolera_so_desvio_pequeno() -> None:
+    """Refinar só estreita em x: as cordas em y têm de ser as mesmas."""
+    assert mesmas_linhas(
+        [945, 966, 988, 1009, 1030, 1051], [946, 966, 988, 1010, 1030, 1051]
+    )
+    assert not mesmas_linhas(
+        [945, 966, 988, 1009, 1030, 1051], [767, 781, 796, 810, 824, 838]
+    )
+    assert not mesmas_linhas([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5])

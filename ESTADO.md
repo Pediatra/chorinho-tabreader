@@ -2078,6 +2078,8 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | caixa pela **fração de papel branco** na reserva (C1) | precisão de caixa **0,976** (123/126) com o gabarito de 7.1 + rótulos visuais do agente (aceite 0,98): não adotado; as 3 caixas erradas são sobre a pauta (VN18, VN20, FP38); MVP sem regressão (Fase 7.1, rodada 0007) |
 | separar pauta de TAB pelo **preenchimento médio** dos tokens | sobrepõe: TAB 0,46 a 0,91 contra pauta 0,49 a 0,59 (Fase 7.1) |
 | separar pauta de TAB pelo **`tab.digito`** (P de algarismo por token) | marca as cabeças de nota da pauta como algarismo, p≈1,0 nas 4 pautas (Fase 7.1) |
+| regra "5 linhas fortes + 1 fraca = pauta" **sozinha**, sobre o recorte re-segmentado do `refinar` | não pega a VN18: no recorte estreitado as 6 linhas da pauta são todas fortes (espaçamento 14); a caixa continuava na pauta (Fase 7.1 C1b) |
+| `refinar` que re-segmenta o recorte sem conferir as cordas em y | a re-segmentação troca a TAB pelas linhas da pauta (VN18, FP38); só vale se as cordas em y forem as do candidato (Fase 7.1 C1b) |
 
 ## Próximo passo
 
@@ -4445,6 +4447,41 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
 - **Não repetir**: ver as 4 linhas novas na tabela "O que foi tentado e falhou".
 - Rodada: `docs/rodadas/0007-presenca-caixa-por-quadro.md`. Medições e scripts de diagnóstico em
   `data/saida/presenca_7_1/` (não versionados).
+
+## 2026-10-10 — Fase 7.1 (C1b): C1 ADOTADO com regra de pauta (5 x 6 linhas) e `refinar` que mantém as cordas
+
+- **Supera a entrada anterior**: o C1 (reserva por papel branco) foi a base; agora ele entra com duas
+  regras em `tab/painel.py`. Commit deste item (ver a mensagem).
+- **Causa dos 3 erros da pauta** (olhado nos quadros, `data/saida/c1b/crop_*.png`): na faixa `base`, o
+  `segmentar` acha 5 linhas fortes da pauta mais 1 fraca (viga, força ~0,38 contra ~0,86). No `refinar`,
+  o recorte estreitado em x era re-segmentado e passava a dar as linhas da pauta (6 fortes), e a caixa
+  saía sobre a partitura. VN18 e FP38 sofriam disso; VN20 caía direto na `base` pauta.
+- **Regra 1** (`e_pauta`, dentro de `criar`): grupo de 6 linhas com exatamente 5 fortes (força >= 0,5 da
+  mais forte) é pauta, não TAB. A reserva segue para a faixa vizinha (a TAB, com 6 fortes).
+- **Regra 2** (`refinar`): o recorte só estreita em x. Se a re-segmentação der cordas com outro y
+  (`mesmas_linhas`, tolerância 2 px), fica com o candidato original.
+- **Medido (gabarito commitado + 4 caixas novas rotuladas à parte, `data/saida/c1b/gold_visual.json`)**:
+  caixa **125/126 = 0,992** (aceite 0,98: **passa**); revocação de caixa 124/129 = 0,961 (C1 era 123/129 = 0,953).
+  Presença: VP 125 FP 1 VN 14 FN 4. Caixa de HEAD: 108/117 = 0,923.
+- **Caixas novas sem rótulo do dono** (rótulo visual do agente, em `data/saida/c1b/folha_novas.jpg`):
+  VN18 e FP38 sobre a TAB (certas); **VN14** sobre TAB visível (certa visualmente, mas o gabarito diz
+  `tablatura_no_quadro=false`: suspeita de rótulo do quadro, a decidir pelo dono); **FP02 errada**: caixa
+  nova `[0,0,1920,106]` no topo, sobre a faixa preta e as cordas do violão do vídeo. É a 1ª FP de caixa
+  nova que o HEAD não tinha (o HEAD não desenhava nada no FP02). Não separada: as 6 linhas do topo são
+  fortes (0,61-0,65) e regulares, igual às cordas do vídeo.
+- **MVP, HEAD limpo vs HEAD + este painel** (cópia do `git archive HEAD` no scratchpad, sem os arquivos
+  de outros agentes): telas 13/13 e 40/40 (igual); notas 485/486, 485/491, casa 482/485 (igual); tempo
+  33/40, erro 5, json sem tempo 2 (**igual**); `tab.avaliar` 66/72, 71/72, 68/72 (igual).
+- **Atenção**: a árvore de trabalho com o trabalho em andamento da Fase 5 (`tab/video.py`, `tab/leitor.py`,
+  `tab/estado.py`) dá tempo 37/40, o que **não** vem deste painel (medido). Não confundir os dois.
+- **Gate**: na cópia HEAD + painel: `ruff check .` ok, `ruff format --check .` ok, `pytest tests/` 276
+  passando. Testes novos em `tests/test_painel.py`: papel branco separa TAB do braço; 5 fortes + 1 fraca
+  é pauta; 6 fortes não é; `mesmas_linhas` tolera só desvio pequeno.
+- **Limites e pendências para o dono**: (1) confirmar a VN14 (TAB visível, gabarito diz sem TAB); (2)
+  FP02, caixa nova no topo, não separada; (3) o gabarito commitado ainda não tem os 4 rótulos novos
+  (ficaram em arquivo à parte, como pedido); (4) FP12 voltou a ter caixa sobre a TAB (medido); a causa
+  de ele ter perdido a caixa entre a 7.0 e a 7.1 continua sem investigação. (5) VN20 deixou de ter caixa (era
+  a caixa da pauta): tinha TAB no quadro, então a revocação cai nesse quadro.
 
 ## 2026-10-10 — Fase 4: `tab/video.py` (todas as telas, JSON v1) e a régua que pareia tela sem instante
 

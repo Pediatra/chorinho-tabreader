@@ -34,6 +34,7 @@ import numpy as np
 
 from .tabseg import (
     Grade,
+    _uniao_mascaras,
     extensao_das_linhas,
     mascaras_candidatas,
     picos_de_linha,
@@ -97,6 +98,25 @@ def uniformidade(roi: np.ndarray, k: int = 15, tol: int = 12) -> float:
     mediana = cv2.medianBlur(cinza, k)
     diferenca = np.abs(cinza.astype(np.int16) - mediana.astype(np.int16))
     return float((diferenca <= tol).mean())
+
+
+def papel_branco(roi: np.ndarray, limiar: int = 200) -> float:
+    """Fração de pixels de papel (cinza acima do limiar) no recorte.
+
+    Medido na rodada 0007: a faixa da TAB sobre papel tem muito branco e a faixa do braço
+    do violão quase nenhum. Usado para ordenar a reserva (C1).
+
+    Args:
+        roi: recorte (BGR ou cinza).
+        limiar: nível de cinza acima do qual o pixel conta como papel.
+
+    Returns:
+        Fração entre 0 e 1 (0 se o recorte estiver vazio).
+    """
+    cinza = roi if roi.ndim == 2 else cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+    if cinza.size == 0:
+        return 0.0
+    return float((cinza > limiar).mean())
 
 
 def candidatos(frame: np.ndarray, min_glifos: int = MIN_GLIFOS) -> list[Candidato]:
@@ -301,7 +321,31 @@ def refinar(c: Candidato, margem: int = 12) -> Candidato:
     novo = criar(c.nome, c.y0, c.y1, recorte, grade, min_glifos=1, x0=c.x0 + x0)
     if novo is None:
         return c
+    # O recorte só estreita em x: as cordas têm de ser as mesmas em y. Medido (rodada 0007,
+    # iwaki VN18 e FP38): a re-segmentação do recorte trocava as 6 cordas da TAB pelas da
+    # pauta (6 linhas fortes, espaçamento 14, que e_pauta não separa aqui), e a caixa saía
+    # sobre a partitura. Se as linhas mudaram, fica com o original.
+    if not mesmas_linhas(novo.grade.linhas_y, c.grade.linhas_y):
+        return c
     return novo
+
+
+def mesmas_linhas(a: list[int], b: list[int], tolerancia: float = 2.0) -> bool:
+    """As duas listas de cordas (em y) são as mesmas, a menos de ``tolerancia`` px?
+
+    Args:
+        a: y das linhas do primeiro grupo.
+        b: y das linhas do segundo grupo.
+        tolerancia: desvio máximo, em px, por linha.
+
+    Returns:
+        True se houver o mesmo número de linhas e cada uma bater com a sua.
+    """
+    if len(a) != len(b):
+        return False
+    return all(
+        abs(x - y) <= tolerancia for x, y in zip(sorted(a), sorted(b), strict=True)
+    )
 
 
 def melhor(achados: list[Candidato]) -> Candidato | None:
@@ -356,6 +400,53 @@ def espacamento_regular(linhas_y: list[int], tolerancia: float | None = None) ->
     return max(lacunas) / min(lacunas) <= tolerancia
 
 
+#: Linha é "forte" se sua tinta for pelo menos esta fração da mais forte do grupo.
+FRACAO_LINHA_FORTE = 0.5
+
+
+def forcas_das_linhas(roi: np.ndarray, linhas_y: list[int]) -> list[float]:
+    """Força (fração de tinta na linha) de cada linha do grupo, no recorte.
+
+    Medida no perfil horizontal da máscara de tinta (união das máscaras do `segmentar`),
+    com 2 px de folga para cada lado da linha.
+
+    Args:
+        roi: recorte da faixa (BGR ou cinza).
+        linhas_y: y das linhas, relativas ao recorte.
+
+    Returns:
+        Uma força por linha, na mesma ordem de ``linhas_y``.
+    """
+    perfil = _uniao_mascaras(roi).mean(axis=1)
+    return [
+        float(perfil[max(0, y - 2) : min(len(perfil), y + 3)].max()) for y in linhas_y
+    ]
+
+
+def e_pauta(roi: np.ndarray, linhas_y: list[int]) -> bool:
+    """O grupo de 6 linhas é, na verdade, uma pauta de 5 linhas mais uma linha fraca?
+
+    Medido na rodada 0007 (iwaki VN18, VN20, FP38): o `segmentar` acha as 5 linhas da
+    pauta fortes (força ~0,86) e uma 6ª linha fraca (~0,38, viga ou haste). Essa 6ª linha
+    passa no teste de espaçamento regular porque a pauta tem espaçamento constante. A TAB
+    de verdade tem as 6 cordas fortes (0,75 a 0,94 nos quadros conferidos). Regra: se
+    exatamente 5 linhas forem fortes, o grupo é pauta, não tablatura.
+
+    Args:
+        roi: recorte da faixa.
+        linhas_y: y das 6 linhas, relativas ao recorte.
+
+    Returns:
+        True se houver 5 linhas fortes (a faixa vizinha com 6 fortes deve ser preferida).
+    """
+    forcas = forcas_das_linhas(roi, linhas_y)
+    if not forcas:
+        return False
+    corte = FRACAO_LINHA_FORTE * max(forcas)
+    fortes = sum(1 for f in forcas if f >= corte)
+    return fortes == 5
+
+
 def criar(
     nome: str,
     y0: int,
@@ -386,6 +477,8 @@ def criar(
         return None
     if not espacamento_regular(grade.linhas_y):
         return None  # 5 linhas de partitura + 1 de tablatura não é pauta de cordas
+    if e_pauta(roi, grade.linhas_y):
+        return None  # 5 linhas fortes + 1 fraca (viga/haste): é pauta, não tablatura
     u = uniformidade(roi)
     return Candidato(
         nome=nome,
@@ -404,11 +497,11 @@ def escolher_rapido(frame: np.ndarray) -> Candidato | None:
 
     Medido num quadro real (1920x1080): `segmentar` custa **52 ms** na faixa da
     tablatura, **190 ms** na do meio e **758 ms** na faixa do braço — porque ali a
-    cascata de máscaras é tentada inteira e falha. Como a regra decidida é
-    *uniformidade primeiro*, dá para medir o fundo das três faixas (38 ms cada) e
-    rodar `segmentar` **em ordem decrescente de uniformidade, parando na primeira que
-    serve**: o resultado é o mesmo e o custo cai ~4x nos vídeos em que a primeira ou a
-    segunda faixa já serve.
+    cascata de máscaras é tentada inteira e falha. Na reserva a ordem é por **papel
+    branco** (C1, rodada 0007: a uniformidade punha o braço à frente da TAB densa).
+    Mede-se a fração de papel das três faixas (barato) e roda-se `segmentar` **em ordem
+    decrescente de papel, parando na primeira que serve**: o custo cai nos vídeos em que
+    a primeira ou a segunda faixa já serve.
 
     Args:
         frame: quadro inteiro.
@@ -422,8 +515,8 @@ def escolher_rapido(frame: np.ndarray) -> Candidato | None:
         if y1 - y0 < 60:
             continue
         roi = frame[y0:y1, :]
-        medidas.append((uniformidade(roi), nome, y0, y1, roi))
-    for _uniform, nome, y0, y1, roi in sorted(medidas, key=lambda m: -m[0]):
+        medidas.append((papel_branco(roi), nome, y0, y1, roi))
+    for _papel, nome, y0, y1, roi in sorted(medidas, key=lambda m: -m[0]):
         try:
             g = segmentar(roi)
         except Exception:

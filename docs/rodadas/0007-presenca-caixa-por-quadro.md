@@ -106,3 +106,34 @@ scripts de diagnóstico usados aqui).
 - MVP com C1: telas 13/13 e 40/40 instantes; notas 485/486 precisão, 485/491 revocação, casa 482/485;
   tempo 33/40 com falso 0; `tab.avaliar` 66/71/68. Igual ao HEAD.
 - Decisão: C1 **não adotado**. `tab/painel.py` segue no HEAD. Medições em `data/saida/c1/`.
+
+## Adoção: C1 com regra de pauta (C1b)
+
+Os 3 erros do C1 eram pauta (VN18, VN20, FP38). Olhado nos quadros (`data/saida/c1b/crop_*.png`):
+a faixa `base` acha as 5 linhas fortes da pauta mais uma linha fraca de viga (força ~0,38 contra
+~0,86). No `refinar`, o recorte estreitado em x era re-segmentado e a TAB saía trocada pelas linhas
+da pauta. Duas regras em `tab/painel.py`:
+
+1. `e_pauta` (em `criar`): exatamente 5 linhas fortes (força >= 0,5 da mais forte) = pauta, recusa.
+   A reserva segue para a faixa vizinha.
+2. `refinar`: o recorte só estreita em x. Se a re-segmentação der cordas com outro y
+   (`mesmas_linhas`, 2 px), fica com o candidato original.
+
+A regra 1 sozinha não pega a VN18 (no recorte as 6 linhas da pauta são fortes); a regra 2 é a que resolve.
+
+| | caixas | corretas | precisão | revocação de caixa |
+| --- | --- | --- | --- | --- |
+| HEAD (89154a8c) | 117 | 108 | 0,923 | 108/129 = 0,837 |
+| C1 (papel branco, sem regra de pauta) | 126 | 123 | 0,976 | 123/129 = 0,953 |
+| **C1b (este)** | **126** | **125** | **0,992** | **124/129 = 0,961** |
+
+Gabarito: o commitado mais 4 caixas novas rotuladas à parte (`data/saida/c1b/gold_visual.json`):
+FP02 (falsa), VN14 (TAB visível; o gabarito diz sem TAB), VN18 e FP38 (sobre a TAB). Folha:
+`data/saida/c1b/folha_novas.jpg`.
+
+Erro restante: FP02, caixa nova `[0,0,1920,106]` no topo (faixa preta e cordas do vídeo). Não separada.
+Presença: VP 125, FP 1, VN 14, FN 4. VN20 perdeu a caixa da pauta (era a única falha de VN com caixa).
+
+MVP em HEAD limpo (cópia de `git archive HEAD`) contra HEAD + este painel: telas 13/13 e 40/40, notas
+485/486, 485/491, casa 482/485, tempo 33/40 (igual), `tab.avaliar` 66, 71, 68 (igual). A árvore com o
+trabalho em andamento da Fase 5 dá tempo 37/40; esse ganho não vem deste painel.
