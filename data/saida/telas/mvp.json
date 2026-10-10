@@ -1,0 +1,525 @@
+{
+ "video": "/acervo/sky guitar/retrato brasileiro - tab & lesson.mp4",
+ "duracao_s": 678.974,
+ "modo": "paginado",
+ "limiar_troca": 0.3,
+ "limiar_mesma": 0.3,
+ "trechos": [
+  [
+   239.375,
+   673.75,
+   [
+    69,
+    284,
+    1854,
+    503
+   ]
+  ]
+ ],
+ "histograma": {
+  "[0,0.02)": 846,
+  "[0.02,0.05)": 0,
+  "[0.05,0.1)": 0,
+  "[0.1,0.15)": 0,
+  "[0.15,0.2)": 0,
+  "[0.2,0.3)": 0,
+  "[0.3,0.4)": 0,
+  "[0.4,0.5)": 0,
+  "[0.5,0.6)": 1,
+  "[0.6,0.8)": 16,
+  "[0.8,1)": 5
+ },
+ "histograma_entre_paginas": {
+  "[0,0.02)": 9,
+  "[0.02,0.05)": 0,
+  "[0.05,0.1)": 0,
+  "[0.1,0.15)": 0,
+  "[0.15,0.2)": 0,
+  "[0.2,0.3)": 0,
+  "[0.3,0.4)": 0,
+  "[0.4,0.5)": 0,
+  "[0.5,0.6)": 1,
+  "[0.6,0.8)": 11,
+  "[0.8,1)": 1
+ },
+ "pares": 868,
+ "pares_rolando": 0,
+ "tempo_execucao_s": 161.6,
+ "telas": [
+  {
+   "id": 1,
+   "painel": [
+    70,
+    285,
+    1854,
+    458
+   ],
+   "exibicoes": [
+    [
+     239.375,
+     245.25
+    ]
+   ],
+   "quadro_ref_s": 239.875,
+   "modo": "paginado"
+  },
+  {
+   "id": 2,
+   "painel": [
+    70,
+    284,
+    1854,
+    459
+   ],
+   "exibicoes": [
+    [
+     245.25,
+     265.875
+    ],
+    [
+     328.375,
+     349.375
+    ]
+   ],
+   "quadro_ref_s": 328.875,
+   "modo": "paginado"
+  },
+  {
+   "id": 3,
+   "painel": [
+    70,
+    286,
+    1854,
+    458
+   ],
+   "exibicoes": [
+    [
+     265.875,
+     286.8125
+    ],
+    [
+     349.375,
+     370.3125
+    ]
+   ],
+   "quadro_ref_s": 275.375,
+   "modo": "paginado"
+  },
+  {
+   "id": 4,
+   "painel": [
+    70,
+    284,
+    1854,
+    501
+   ],
+   "exibicoes": [
+    [
+     286.8125,
+     307.6875
+    ],
+    [
+     370.3125,
+     391.125
+    ]
+   ],
+   "quadro_ref_s": 288.875,
+   "modo": "paginado"
+  },
+  {
+   "id": 5,
+   "painel": [
+    70,
+    329,
+    1854,
+    501
+   ],
+   "exibicoes": [
+    [
+     307.6875,
+     328.375
+    ],
+    [
+     391.125,
+     406.75
+    ]
+   ],
+   "quadro_ref_s": 391.875,
+   "modo": "paginado"
+  },
+  {
+   "id": 6,
+   "painel": [
+    70,
+    286,
+    1854,
+    501
+   ],
+   "exibicoes": [
+    [
+     406.75,
+     427.6875
+    ],
+    [
+     495.375,
+     510.875
+    ]
+   ],
+   "quadro_ref_s": 407.375,
+   "modo": "paginado"
+  },
+  {
+   "id": 7,
+   "painel": [
+    70,
+    284,
+    1854,
+    459
+   ],
+   "exibicoes": [
+    [
+     427.6875,
+     448.375
+    ],
+    [
+     510.875,
+     531.875
+    ]
+   ],
+   "quadro_ref_s": 511.375,
+   "modo": "paginado"
+  },
+  {
+   "id": 8,
+   "painel": [
+    70,
+    284,
+    1854,
+    459
+   ],
+   "exibicoes": [
+    [
+     448.375,
+     469.375
+    ],
+    [
+     531.875,
+     552.875
+    ]
+   ],
+   "quadro_ref_s": 532.375,
+   "modo": "paginado"
+  },
+  {
+   "id": 9,
+   "painel": [
+    70,
+    286,
+    1854,
+    503
+   ],
+   "exibicoes": [
+    [
+     469.375,
+     490.3125
+    ],
+    [
+     552.875,
+     573.75
+    ]
+   ],
+   "quadro_ref_s": 469.875,
+   "modo": "paginado"
+  },
+  {
+   "id": 10,
+   "painel": [
+    70,
+    328,
+    1854,
+    503
+   ],
+   "exibicoes": [
+    [
+     490.3125,
+     495.375
+    ],
+    [
+     573.75,
+     589.375
+    ]
+   ],
+   "quadro_ref_s": 574.375,
+   "modo": "paginado"
+  },
+  {
+   "id": 11,
+   "painel": [
+    70,
+    284,
+    1854,
+    459
+   ],
+   "exibicoes": [
+    [
+     589.375,
+     610.3125
+    ]
+   ],
+   "quadro_ref_s": 589.875,
+   "modo": "paginado"
+  },
+  {
+   "id": 12,
+   "painel": [
+    69,
+    286,
+    1854,
+    472
+   ],
+   "exibicoes": [
+    [
+     610.3125,
+     631.1875
+    ]
+   ],
+   "quadro_ref_s": 612.875,
+   "modo": "paginado"
+  },
+  {
+   "id": 13,
+   "painel": [
+    70,
+    297,
+    1854,
+    478
+   ],
+   "exibicoes": [
+    [
+     631.1875,
+     651.875
+    ]
+   ],
+   "quadro_ref_s": 631.875,
+   "modo": "paginado"
+  },
+  {
+   "id": 14,
+   "painel": [
+    70,
+    306,
+    1854,
+    478
+   ],
+   "exibicoes": [
+    [
+     651.875,
+     673.75
+    ]
+   ],
+   "quadro_ref_s": 672.875,
+   "modo": "paginado"
+  }
+ ],
+ "ouro": {
+  "instantes_certos": 18,
+  "instantes": 40,
+  "telas_ouro": 11,
+  "telas_ouro_com_prevista": 11,
+  "telas_previstas": 14,
+  "previstas_a_mais": 7,
+  "correspondente": {
+   "1": 4,
+   "2": 5,
+   "3": 5,
+   "4": 5,
+   "5": 7,
+   "6": 10,
+   "7": 7,
+   "8": 10,
+   "9": 12,
+   "10": 13,
+   "11": 14
+  },
+  "ouro_juntadas_pelo_produto": {
+   "5": [
+    2,
+    3,
+    4
+   ],
+   "7": [
+    5,
+    7
+   ],
+   "10": [
+    6,
+    8
+   ]
+  },
+  "telas_ouro_que_misturam_paginas": [
+   1,
+   3,
+   4,
+   5,
+   7,
+   9
+  ],
+  "erros_com_ouro_misturado": 20,
+  "erros": [
+   {
+    "t": 260,
+    "tela_ouro": 1,
+    "prevista": 2,
+    "esperada": 4,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 276,
+    "tela_ouro": 1,
+    "prevista": 3,
+    "esperada": 4,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 350,
+    "tela_ouro": 3,
+    "prevista": 3,
+    "esperada": 5,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 368,
+    "tela_ouro": 3,
+    "prevista": 3,
+    "esperada": 5,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 372,
+    "tela_ouro": 3,
+    "prevista": 4,
+    "esperada": 5,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 384,
+    "tela_ouro": 3,
+    "prevista": 4,
+    "esperada": 5,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 408,
+    "tela_ouro": 4,
+    "prevista": 6,
+    "esperada": 5,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 420,
+    "tela_ouro": 4,
+    "prevista": 6,
+    "esperada": 5,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 422,
+    "tela_ouro": 4,
+    "prevista": 6,
+    "esperada": 5,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 454,
+    "tela_ouro": 5,
+    "prevista": 8,
+    "esperada": 7,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 462,
+    "tela_ouro": 5,
+    "prevista": 8,
+    "esperada": 7,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 480,
+    "tela_ouro": 5,
+    "prevista": 9,
+    "esperada": 7,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 484,
+    "tela_ouro": 5,
+    "prevista": 9,
+    "esperada": 7,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 488,
+    "tela_ouro": 5,
+    "prevista": 9,
+    "esperada": 7,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 498,
+    "tela_ouro": 6,
+    "prevista": 6,
+    "esperada": 10,
+    "ouro_mistura_paginas": false
+   },
+   {
+    "t": 500,
+    "tela_ouro": 6,
+    "prevista": 6,
+    "esperada": 10,
+    "ouro_mistura_paginas": false
+   },
+   {
+    "t": 538,
+    "tela_ouro": 7,
+    "prevista": 8,
+    "esperada": 7,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 548,
+    "tela_ouro": 7,
+    "prevista": 8,
+    "esperada": 7,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 552,
+    "tela_ouro": 7,
+    "prevista": 8,
+    "esperada": 7,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 556,
+    "tela_ouro": 7,
+    "prevista": 9,
+    "esperada": 7,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 590,
+    "tela_ouro": 9,
+    "prevista": 11,
+    "esperada": 12,
+    "ouro_mistura_paginas": true
+   },
+   {
+    "t": 600,
+    "tela_ouro": 9,
+    "prevista": 11,
+    "esperada": 12,
+    "ouro_mistura_paginas": true
+   }
+  ]
+ }
+}

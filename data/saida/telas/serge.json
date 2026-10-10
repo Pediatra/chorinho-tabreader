@@ -1,0 +1,186 @@
+{
+ "video": "/acervo/serge kottelat/chloe (joe pass style) ｜ claude hauser on gibson l-4 • transcription with tab.mp4",
+ "duracao_s": 90.574,
+ "modo": "paginado",
+ "limiar_troca": 0.3,
+ "limiar_mesma": 0.3,
+ "trechos": [
+  [
+   0.0,
+   79.375,
+   [
+    52,
+    940,
+    1867,
+    1061
+   ]
+  ]
+ ],
+ "histograma": {
+  "[0,0.02)": 144,
+  "[0.02,0.05)": 6,
+  "[0.05,0.1)": 0,
+  "[0.1,0.15)": 0,
+  "[0.15,0.2)": 1,
+  "[0.2,0.3)": 0,
+  "[0.3,0.4)": 0,
+  "[0.4,0.5)": 0,
+  "[0.5,0.6)": 0,
+  "[0.6,0.8)": 0,
+  "[0.8,1)": 7
+ },
+ "histograma_entre_paginas": {
+  "[0,0.02)": 0,
+  "[0.02,0.05)": 0,
+  "[0.05,0.1)": 0,
+  "[0.1,0.15)": 0,
+  "[0.15,0.2)": 0,
+  "[0.2,0.3)": 0,
+  "[0.3,0.4)": 0,
+  "[0.4,0.5)": 0,
+  "[0.5,0.6)": 0,
+  "[0.6,0.8)": 0,
+  "[0.8,1)": 7
+ },
+ "pares": 158,
+ "pares_rolando": 0,
+ "tempo_execucao_s": 39.1,
+ "telas": [
+  {
+   "id": 1,
+   "painel": [
+    52,
+    942,
+    1867,
+    1059
+   ],
+   "exibicoes": [
+    [
+     0.0,
+     11.5
+    ]
+   ],
+   "quadro_ref_s": 3.0,
+   "modo": "paginado"
+  },
+  {
+   "id": 2,
+   "painel": [
+    52,
+    940,
+    1867,
+    1059
+   ],
+   "exibicoes": [
+    [
+     11.5,
+     21.3125
+    ]
+   ],
+   "quadro_ref_s": 12.0,
+   "modo": "paginado"
+  },
+  {
+   "id": 3,
+   "painel": [
+    52,
+    940,
+    1867,
+    1059
+   ],
+   "exibicoes": [
+    [
+     21.3125,
+     31.0
+    ]
+   ],
+   "quadro_ref_s": 26.5,
+   "modo": "paginado"
+  },
+  {
+   "id": 4,
+   "painel": [
+    52,
+    942,
+    1867,
+    1061
+   ],
+   "exibicoes": [
+    [
+     31.0,
+     41.0
+    ]
+   ],
+   "quadro_ref_s": 37.5,
+   "modo": "paginado"
+  },
+  {
+   "id": 5,
+   "painel": [
+    52,
+    942,
+    1867,
+    1061
+   ],
+   "exibicoes": [
+    [
+     41.0,
+     51.0
+    ]
+   ],
+   "quadro_ref_s": 49.5,
+   "modo": "paginado"
+  },
+  {
+   "id": 6,
+   "painel": [
+    52,
+    940,
+    1867,
+    1059
+   ],
+   "exibicoes": [
+    [
+     51.0,
+     60.5
+    ]
+   ],
+   "quadro_ref_s": 54.5,
+   "modo": "paginado"
+  },
+  {
+   "id": 7,
+   "painel": [
+    52,
+    940,
+    1867,
+    1059
+   ],
+   "exibicoes": [
+    [
+     60.5,
+     70.4375
+    ]
+   ],
+   "quadro_ref_s": 65.5,
+   "modo": "paginado"
+  },
+  {
+   "id": 8,
+   "painel": [
+    52,
+    941,
+    1867,
+    1059
+   ],
+   "exibicoes": [
+    [
+     70.4375,
+     79.375
+    ]
+   ],
+   "quadro_ref_s": 78.5,
+   "modo": "paginado"
+  }
+ ]
+}

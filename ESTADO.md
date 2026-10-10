@@ -4158,3 +4158,58 @@ nota acrescentada por clique: centro = clique, `x_quadro` estimado = clique - 0,
   predição A saiu com os recortes em `data/saida/avaliar_video/simbolos`. Isso só muda onde ficam os recortes de símbolo,
   mas não foi comparado com uma execução idêntica usando `--simbolos ""`.
 - **Não feito**: nada além de medir e registrar. O ouro não foi tocado; `data/saida/avaliar_video/` não foi commitado.
+
+## 2026-10-10 — FASE 3: `tab/telas.py` (telas = páginas de tablatura no tempo)
+
+- **Comando**: `python -m tab.telas VIDEO --json saida.json [--folha PASTA] [--ouro data/gold/ouro_video/<slug>.json]`
+  (no container; `--ouro` mede o CA contra o ouro e não o altera). Medições em `data/saida/telas/{mvp,serge,cifra}.json`
+  e imagens de conferência em `data/saida/telas/{mvp,serge,cifra}/` (`folha.png` + `tela_NN.png` do `quadro_ref_s`).
+- **Cadeia**: presença a cada 5 s com `painel.escolher` + portões (passo 14-45, saturação mediana <= 25, cinza mediano
+  >= 20), bordas refinadas por busca binária até 1 s; amostras a 2 qps no trecho (uma passada do `tab.leitor`);
+  assinatura de tinta; troca/repetição por `1 − IoU`; rolagem só detectada (`phaseCorrelate`), declarada em `modo`;
+  a troca entre duas amostras é afinada para 0,1 s (busca binária com `quadro_em`).
+- **Medido no `retrato brasileiro`** (h264, 679 s; trecho 239,4-673,8 s; 869 amostras; 14 telas, 23 exibições, 160 s):
+  histograma de `1 − IoU` entre amostras consecutivas (868 pares): `[0,0.02)=846, [0.02,0.5)=0, [0.5,0.6)=1, [0.6,0.8)=16,
+  [0.8,1)=5`. Repetição (distância da página nova à tela mais parecida, 22 comparações): `[0,0.02)=9, [0.02,0.5)=0,
+  [0.5,0.6)=1, [0.6,0.8)=11, [0.8,1)=1`. **Vale vazio de 0,02 a 0,5 nos dois histogramas.**
+- **`serge kottelat` (`chloe (joe pass style)…`, av1, 91 s; trecho 0-79,4 s; 159 amostras; 8 telas)**: consecutivas
+  `[0,0.02)=144, [0.02,0.05)=6, [0.15,0.2)=1 (o fade do início), [0.8,1)=7`; repetição `[0.8,1)=7`. Mesmo vale.
+- **`cifra club` (`a banda - chico buarque…`, av1, 211 s)**: **sem tablatura** (a cifra é de acordes). O detector deu
+  presença em 199,4-203,1 s: é o **banner de patrocinadores** do vídeo (imagem aberta: EAGLE/Acústico/DATALINK/SHURE),
+  falso positivo do `painel.escolher` num trecho de 3,75 s. Não corrigido (portão da presença, dívida). Uma varredura de
+  9 vídeos do canal a cada 30 s achou **0** quadros com painel: o canal não tem tablatura legível por esta cadeia.
+- **Limiar**: `LIMIAR_TROCA = LIMIAR_MESMA = 0,3` (meio do vale vazio; constantes comentadas em `tab/telas.py`).
+- **CA contra o ouro (`retrato_brasileiro.json`, 40 instantes, 11 telas)**: **18 de 40 instantes (0,45) na tela
+  certa. NÃO cumpre os 98 %.** Revocação de telas **11 de 11** (cada tela do ouro tem prevista no seu `quadro_ref_s`).
+  Previstas 14; **7** sem tela do ouro correspondente (7 de 11 = 64 %, longe de <= 10 %). Os 22 instantes errados têm
+  uma só causa, medida: **7 das 11 telas do ouro cobrem mais de uma página** (a ferramenta do ouro agrupava por
+  diferença média em cinza <= 2,0, que não vê a troca entre páginas de mesmo leiaute). Por intervalo `t_ini`-`t_fim` do
+  `pre.json`: ouro 1 (240-306) = 4 páginas previstas; ouro 3 (328-390) = 3; ouro 4 = 2; ouro 5 (428-488) = 3; ouro 6
+  (490-510) = 2; ouro 7 (512-572) = 3; ouro 9 = 2; as telas 2, 8, 10 e 11 do ouro = 1. As imagens (`mvp/tela_02.png`,
+  `tela_03.png`, `tela_04.png`) mostram as 3 páginas distintas dentro da tela 1 do ouro (compassos 1-4, 5-8 e 9-12;
+  quadros 255 s, 276 s e 302 s). O ouro **não foi editado**. A medição vale sem erro do produto só se o dono aceitar
+  que as páginas previstas são páginas diferentes; senão, reabrir as telas do ouro com o `ouro_video` e separar as
+  7 páginas extras. **Decisão do dono**: separar o ouro (e rotular as páginas que faltam) ou aceitar a segmentação por página.
+- **Telas do ouro que o produto junta** (`ouro.ouro_juntadas_pelo_produto` em `data/saida/telas/mvp.json`): ouro 2+3+4
+  -> prevista 5, ouro 5+7 -> prevista 7, ouro 6+8 -> prevista 10. Duas causas: (a) a página 308-328 s é a mesma
+  em 391-407 s (repetição legítima: mesma tela, 2 exibições) e o ouro a separou em telas 2 e 4; (b) o `quadro_ref_s`
+  do ouro 3 é 328,0 s, e a troca de página está em 328,4 s: a prevista em 328,0 é a página anterior.
+- **Achado para o `tab.leitor` (Fase 1, não corrigido)**: em torno dessa troca, `leitor.quadros(v, 326, 330,5, 4 qps)`
+  vira entre 328,25 e 328,5 s e `leitor.quadro_em(v, t)` vira entre 328,5 e 328,75 s: **as duas leituras diferem em
+  ~0,25 s** no mesmo vídeo (h264, 29,97 fps). A troca afinada por `quadro_em` pode estar até 0,25 s depois da vista pelas
+  amostras. Isso importa para o tempo da Fase 5 (onset do marcador) e para a conferência por instante do ouro.
+- **Não repetir (falhou antes de chegar nisso)**:
+  1. `S > 25` do HSV como "marcador": em pixel escuro um desvio de 2 níveis dá S > 25, e **64-68 % dos pixels de tinta
+     da tablatura** passavam por "coloridos" (a assinatura apagava os algarismos; o teste com mp4v sintético falhou
+     por isso). Trocado por **croma `max − min` > 15** (faixa do marcador: croma mediano 34, p10 16; fundo: mediana 3).
+  2. Tinta com as cordas: entre páginas de mesmo leiaute o `1 − IoU` dava 0,03-0,12, igual ao ruído (as cordas são a
+     mesma tinta em toda página). Tirar as corridas horizontais >= 40 px separa: 0,5-1,0 contra <= 0,05.
+  3. Comparar sem máscara de "tinta conhecida": a faixa que anda dava 0,10-0,15 entre quadros da MESMA página (`serge`).
+  4. Restringir a assinatura à faixa das 6 cordas (para juntar páginas com a mesma tablatura e compassos diferentes):
+     **não mudou nada** (A em 245 s e A' em 287 s têm o mesmo desenho, mas o leiaute desloca 5-15 px; continuam
+     telas distintas). Descartado por simplicidade.
+- **Testes** (gate): `tests/test_telas.py` (vídeo sintético A, B, A com faixa colorida andando: 2 telas, A com 2
+  exibições, faixa sem troca; assinatura sem marcador e em tema escuro; IoU; corte de páginas e transição; rolagem;
+  voto; busca binária; ouro).
+- **Limites**: `modo` é por vídeo; rolagem só detectada (T8.4 faz o resto). Um painel com a mesma tinta em duas páginas
+  (música que repete exatamente) vira a MESMA tela. Presença é amostrada a 5 s: tablatura com menos de 5 s pode passar.
