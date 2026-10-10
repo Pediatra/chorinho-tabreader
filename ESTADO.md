@@ -3327,3 +3327,30 @@ notas têm instante** ✗. O núcleo do produto (cada nota no seu tempo) **não 
 em pelo menos este vídeo** ✗ — e sem ele o JSON é uma tablatura **sem tempo**, que não é o produto ✗;
 (c) a **casa fora do gabarito** (4 canais / casas 0–7) segue **não validada** ✗; (d) o **acorde de dígitos
 empilhados** segue **não medido** ✗.
+
+## 2026-10-10 — DISTRIBUIÇÃO DE FORMAS DO MARCADOR (17 canais, 1 vídeo cada) — o número que define o desenho
+
+Varredura com `tab.formas_do_marcador` (módulo novo, no repositório) e `tab.cursor.rastrear` a cada 30
+quadros:
+
+| forma | n | canais |
+| --- | --- | --- |
+| **ausente** | **8** | cifra club · guitar dell'arte · iwaki · **kimny's guitar** · mr. tabs · shin izumi · tv on guitar · ギタロー |
+| **pisca** | **3** | leonardo ramos · pablo romé · transcriptor |
+| **salta** (patamares) | **4** | paolo d'angelo · serge kottelat · **sky guitar** · tv cifras |
+| **varre** (desliza) | **2** | robert lunn · violaodecria |
+| **destaque** | **0** | — |
+
+**Consequência para o desenho**: **todas as formas não-ausentes (9 de 17) são SÉRIES DE POSIÇÃO** ✓ — então
+o **estado = posição x** ✓ cobre `varre`, `salta` e `pisca` com **UMA regra** ✓ (o onset = o primeiro quadro
+em que a nota passa a ser a atual). Não é preciso uma regra por estilo ✓ — a objeção do dono está
+respondida **com dado**.
+
+**RESSALVA que eu registro antes de comemorar**: o `rastrear` procura a **faixa vertical** (o marcador de
+posição). Um marcador por **destaque de dígito** — que o próprio `AGENTS.md` descreve ("cor no algarismo")
+— seria contado como **ausente** ✗. Ou seja: os **8 "ausente" podem ser dois grupos diferentes**, e só
+olhar separa. **Antes de declarar "sem tempo" para 8 canais, eu olho.**
+
+**Rótulo que dói e é útil**: o `kimny's guitar` — o canal de onde vêm **as 200 marcas de símbolo** do dono
+— tem, no vídeo amostrado, **marcador AUSENTE** ✗. Isso não invalida os rótulos de símbolo (símbolo é
+geometria, não tempo ✓), mas significa que **aquele canal pode não entregar tempo** ✗.

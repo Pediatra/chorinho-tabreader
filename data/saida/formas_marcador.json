@@ -1,0 +1,197 @@
+{
+ "linhas": [
+  {
+   "canal": "cifra club",
+   "video": "1000 graus - renascer praise (completa) ｜ como tocar no violão.mp4",
+   "forma": "ausente",
+   "cobertura": 0.0,
+   "saltos": 0,
+   "distintas": 0,
+   "salto_px": null,
+   "intervalo_s": null,
+   "matiz": null
+  },
+  {
+   "canal": "guitar dell ́arte",
+   "video": "10 wonderful folk songs! guitar arrangements.mp4",
+   "forma": "ausente",
+   "cobertura": 0.0,
+   "saltos": 0,
+   "distintas": 0,
+   "salto_px": null,
+   "intervalo_s": null,
+   "matiz": null
+  },
+  {
+   "canal": "iwaki",
+   "video": "- therru's song - aoi teshima- tab.mp4",
+   "forma": "ausente",
+   "cobertura": 0.0,
+   "saltos": 0,
+   "distintas": 0,
+   "salto_px": null,
+   "intervalo_s": null,
+   "matiz": null
+  },
+  {
+   "canal": "kimny's guitar",
+   "video": "[ tab ] a flower is not a flower - ryuichi sakamoto ｜ fingerstyle guitar cover.mp4",
+   "forma": "ausente",
+   "cobertura": 0.0,
+   "saltos": 0,
+   "distintas": 0,
+   "salto_px": null,
+   "intervalo_s": null,
+   "matiz": null
+  },
+  {
+   "canal": "leonardo ramos",
+   "video": "9 de julio (tango) 🎸 josé luis padula ｜｜ tutorial para guitarra clásica + tabs.mp4",
+   "forma": "pisca",
+   "cobertura": 0.006,
+   "saltos": 0,
+   "distintas": 1,
+   "salto_px": null,
+   "intervalo_s": null,
+   "matiz": 9.0
+  },
+  {
+   "canal": "mr. tabs",
+   "video": "blind melon - no rain - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ lead only.mp4",
+   "forma": "ausente",
+   "cobertura": 0.0,
+   "saltos": 0,
+   "distintas": 0,
+   "salto_px": null,
+   "intervalo_s": null,
+   "matiz": null
+  },
+  {
+   "canal": "pablo romé",
+   "video": "3 piezas de guitarra 🎸 para impresionar 😱🔥.mp4",
+   "forma": "pisca",
+   "cobertura": 0.007,
+   "saltos": 2,
+   "distintas": 3,
+   "salto_px": 1355.0,
+   "intervalo_s": 1.1999999999999957,
+   "matiz": 178.0
+  },
+  {
+   "canal": "paolo d'angelo",
+   "video": "barcarolle i op. 60 ｜ f. kleynjans ｜ guitar tab ｜ classical tutorial.mp4",
+   "forma": "salta",
+   "cobertura": 0.791,
+   "saltos": 40,
+   "distintas": 31,
+   "salto_px": 502.25,
+   "intervalo_s": 1.000997340425542,
+   "matiz": 19.0
+  },
+  {
+   "canal": "robert lunn",
+   "video": "10 favorite guitar licks! - includes tab - robert lunn.mp4",
+   "forma": "varre",
+   "cobertura": 0.477,
+   "saltos": 10,
+   "distintas": 11,
+   "salto_px": 410.0,
+   "intervalo_s": 8.758750000000006,
+   "matiz": 13.0
+  },
+  {
+   "canal": "serge kottelat",
+   "video": "baden powell live 1970 – manhã de carnaval (black orpheus, luiz bonfá) ｜ guitar score + tabs.mp4",
+   "forma": "salta",
+   "cobertura": 0.928,
+   "saltos": 128,
+   "distintas": 125,
+   "salto_px": 172.25,
+   "intervalo_s": 1.2000000000000028,
+   "matiz": 1.0
+  },
+  {
+   "canal": "shin izumi",
+   "video": "canon in d - パッヘルベル ｜ ソロギター [tab].mp4",
+   "forma": "ausente",
+   "cobertura": 0.0,
+   "saltos": 0,
+   "distintas": 0,
+   "salto_px": null,
+   "intervalo_s": null,
+   "matiz": null
+  },
+  {
+   "canal": "sky guitar",
+   "video": "(aguado) etude in am - tab & lesson.mp4",
+   "forma": "salta",
+   "cobertura": 0.678,
+   "saltos": 102,
+   "distintas": 96,
+   "salto_px": 136.0,
+   "intervalo_s": 1.0010000000000048,
+   "matiz": 109.0
+  },
+  {
+   "canal": "transcriptor",
+   "video": "altiplano - valle del alto - 1°guitarra - tablatura.mp4",
+   "forma": "pisca",
+   "cobertura": 0.011,
+   "saltos": 1,
+   "distintas": 2,
+   "salto_px": 1797.5,
+   "intervalo_s": null,
+   "matiz": 112.0
+  },
+  {
+   "canal": "tv cifras",
+   "video": "(i can't get no) satisfaction - the rolling stones (aula de guitarra completa).mp4",
+   "forma": "salta",
+   "cobertura": 0.597,
+   "saltos": 474,
+   "distintas": 321,
+   "salto_px": 82.0,
+   "intervalo_s": 1.0010000000000332,
+   "matiz": 16.0
+  },
+  {
+   "canal": "tv on guitar",
+   "video": "athletic theme (from super mario world) guitar tab and standard notation ｜ tvonguitar.mp4",
+   "forma": "ausente",
+   "cobertura": 0.0,
+   "saltos": 0,
+   "distintas": 0,
+   "salto_px": null,
+   "intervalo_s": null,
+   "matiz": null
+  },
+  {
+   "canal": "violaodecria",
+   "video": "#auladeviolao #violao #funk  [7402262306521910534].mp4",
+   "forma": "varre",
+   "cobertura": 0.612,
+   "saltos": 10,
+   "distintas": 17,
+   "salto_px": 64.25,
+   "intervalo_s": 5.0,
+   "matiz": 16.0
+  },
+  {
+   "canal": "ギタロー ⧸ guitarous",
+   "video": "ffx ザナルカンドにて ソロギター 初心者向け タブ譜.mp4",
+   "forma": "ausente",
+   "cobertura": 0.0,
+   "saltos": 0,
+   "distintas": 0,
+   "salto_px": null,
+   "intervalo_s": null,
+   "matiz": null
+  }
+ ],
+ "distribuicao": {
+  "ausente": 8,
+  "pisca": 3,
+  "salta": 4,
+  "varre": 2
+ }
+}
