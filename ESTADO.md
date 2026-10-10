@@ -2972,3 +2972,29 @@ arquitetura **para isso** pagaria pouco; (b) mas a **chave cortada** aparece já
 painéis, e o **dígito fundido em acorde** é um problema **separado e provavelmente mais frequente** que
 o multi-corda; (c) o critério de componente único **subconta** multi-corda (um símbolo tracejado vira
 vários pedaços), então 1 % é **piso**, não teto.
+
+## 2026-10-09 — TAMANHO DO PROBLEMA no acervo da coleta: o corte na borda (8 %) é 8x o multi-corda (1 %)
+
+24 painéis, 2.163 componentes (máscara `otsu`, componentes conexas, área >= 12 px):
+
+| | n | % dos componentes |
+| --- | --- | --- |
+| componentes | 2.163 | 100 % |
+| **cortados na borda de CIMA do painel** | **69** | **3,2 %** |
+| **cortados na borda de BAIXO** | **104** | **4,8 %** |
+| **cortados pelas bordas (total)** | **173** | **8,0 %** |
+| alto >= 1,8 passo (tira de linha, chave, slide) | 220 | 10,2 % |
+| **acorde fundido** (1,7–2,8 de altura, <=1,2 de largura) | **49** | **2,3 %** |
+| multi-corda estrito (rodada anterior) | ~7 de 842 | **~1 %** |
+| toca borda esquerda/direita | 76 | 3,5 % |
+
+**A prioridade mudou de lugar, e agora com número**: o maior problema é **o CORTE NA BORDA (8 %)**, que é
+o **ponto 7 da revisão** (`roi_das_cordas`, `tab/pipeline.py:184`, margem de 1 passo): símbolo que passa
+da faixa é **ceifado**. É **8x mais frequente que multi-corda** — e é exatamente a queixa do dono
+("tá cortando muita coisa").
+
+Ordem de prioridade medida: **(1) corte na borda 8 %** > **(2) acorde fundido 2,3 %** > **(3) multi-corda
+1 %**. Refazer a arquitetura para o (3) — que era o meu plano — seria atacar o menor dos três.
+
+Por painel, a variação é grande: `C02`/`C03` (guitar dell'arte) têm **0** componentes altos; `C06`
+(kimny's) tem **13**. Não é um problema uniforme no acervo.
