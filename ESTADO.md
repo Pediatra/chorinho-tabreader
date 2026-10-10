@@ -3218,3 +3218,24 @@ a medição diz (janela maior não muda os 78 acertos).
 
 **Próximo passo combinado com ele**: ele ofereceu rotular mais se eu pedir — as **6 folhas restantes**
 (`folha_1` … `folha_6`, 138 recortes) pelo **nome único** de cada recorte.
+
+## 2026-10-09 — O ARPEJO: o dono apontou que o TAMANHO do símbolo É A INFORMAÇÃO (e a imagem confirma o corte)
+
+Rótulos dele na `folha_1`: **o único que não é símbolo é `C07_029`**; tudo o mais é símbolo.
+
+**E a observação que vale mais que o rótulo**, textual: **"o C07_28 é o arpejo, um símbolo que tem tamanho
+variável dependendo de quantas cordas tem que ser tocadas — seria interessante se ele pegasse ele por
+inteiro para definir quais cordas devem ser arpejadas."**
+
+**Confirmei por imagem**: o recorte de `C07_028` (82 x 64 px, janela 4,0 x 3,2 passos) **corta o arpejo** —
+a linha ondulada **começa acima do topo e continua abaixo** do recorte ✗. **O corte apaga a informação**:
+a **altura** do arpejo é **quais cordas** devem ser tocadas.
+
+**Consequência para o produto**: para o arpejo (e para todo símbolo cujo tamanho significa algo), o recorte
+**não pode ser uma janela fixa** — tem de ser **o próprio componente** (a caixa do traço, com margem) ✓. A
+caixa do componente dá, de graça, **exatamente as cordas que ele cobre** — que é a definição do arpejo.
+
+**E é a segunda vez que ele me dá uma classe do vocabulário vendo o dado**: primeiro o dígito de acorde
+empilhado (`C06_008/009/010`, que eu contava como símbolo), agora o arpejo com papel semântico. **O
+vocabulário está saindo dele, do dado certo** — que é o que eu queria desde o começo e não conseguia
+produzir sozinho.

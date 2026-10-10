@@ -10,6 +10,14 @@
    "o_que_sao": "digitos de acorde EMPILHADOS que viraram UM componente (2/3, 0/1, 0/4)",
    "regra_do_dono": "tudo o mais nesta folha E simbolo",
    "veredito_do_dono_sobre_o_recorte": "o recorte do simbolo ta perfeito"
+  },
+  "folha_1": {
+   "nao_e_simbolo": [
+    "C07_029"
+   ],
+   "regra_do_dono": "tudo o mais nesta folha E simbolo",
+   "nota_do_dono_sobre_o_ARPEJO": "C07_28 e o ARPEJO: simbolo de TAMANHO VARIAVEL, que depende de quantas cordas devem ser tocadas. Precisa ser pego INTEIRO para definir QUAIS cordas sao arpejadas.",
+   "verificado_por_imagem": "o recorte de C07_028 (82x64 px, janela 4,0x3,2 passos) CORTA o arpejo: a linha ondulada comeca acima do topo e continua abaixo — o corte APAGA a informacao de quais cordas"
   }
  },
  "consequencia_medida": "o 'acorde fundido' que eu contava como 2,3% dos componentes e tratava como candidato a simbolo NAO E SIMBOLO — ele e o DIGITO do acorde"
