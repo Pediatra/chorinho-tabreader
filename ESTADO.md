@@ -3379,3 +3379,27 @@ A associação (estado → onset ✓) é **a mesma** para as duas ✓.
 
 **Confirmação de brinde**: em `kimny's` e `shin izumi` os quadros de 0,35/0,65 mostram **o braço do
 violão** ✗ — a tablatura **aparece e desaparece** ✓, como a regra 10 do `AGENTS.md` já dizia ✓.
+
+## 2026-10-10 — O SEGUNDO OBSERVADOR É VIÁVEL: um algarismo colorido (22,7) e TODOS os outros em ZERO
+
+`tab/destaque.py` (módulo novo, no repositório) mede a **coloração** de cada token com
+`max(canais) - min(canais)` — que é **invariante ao brilho** (algarismo claro e escuro, ambos cinzas, dão
+zero ✓; verde dá alto ✓). E o sinal **não precisa de rótulo**: se um algarismo está aceso e os outros não,
+ele é **outlier**.
+
+Resultado no `mr. tabs` (o vídeo do destaque azul ✓):
+
+| | |
+| --- | --- |
+| tokens no quadro | **68** |
+| **mediana da coloração** | **0,0** |
+| **máximo** | **22,7** |
+
+**Um algarismo colorido e todos os outros em zero exato** — a separação **é** o sinal, e é limpa. Ou seja:
+o segundo observador do estado (o "destaque de dígito" que o `AGENTS.md` já descrevia ✓) é **viável**, e o
+estado pode ser lido **sem saber o estilo do vídeo** ✓.
+
+**O que ficou pendente** (e é do próximo round): o `kimny's guitar` **não deu saída** ✗ — o nome do vídeo
+tem apóstrofo e quebrou a citação no meu comando de shell ✗ (erro de **método** meu, não do código ✓). É
+retestar com aspas corretas. E o `shin izumi` segue **indefinido** ✗ — na imagem eu não vi destaque ✓, e
+esta medição vai dizer se é ausência de verdade ✓ ou um destaque que eu não vi ✓.
