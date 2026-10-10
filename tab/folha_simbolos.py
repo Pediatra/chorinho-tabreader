@@ -34,7 +34,9 @@ from .pipeline import roi_das_cordas
 from .tabseg import mascaras_candidatas
 
 
-def _caixa_do_simbolo(cinza: np.ndarray, x: int, y: int, passo: float) -> tuple[int, int, int, int]:
+def _caixa_do_simbolo(
+    cinza: np.ndarray, x: int, y: int, passo: float
+) -> tuple[int, int, int, int]:
     """Devolve a caixa que contém o símbolo da marca: união dos componentes vizinhos.
 
     Args:
@@ -50,7 +52,9 @@ def _caixa_do_simbolo(cinza: np.ndarray, x: int, y: int, passo: float) -> tuple[
     hx, hy = int(2.0 * passo), int(1.6 * passo)
     if mascara is None:
         return x - hx, y - hy, x + hx, y + hy
-    n, _rot, stats, _cent = cv2.connectedComponentsWithStats(mascara.astype(np.uint8), 8)
+    n, _rot, stats, _cent = cv2.connectedComponentsWithStats(
+        mascara.astype(np.uint8), 8
+    )
     x0 = y0 = 10**9
     x1 = y1 = -1
     perto_x, perto_y = int(1.5 * passo), int(2.5 * passo)
@@ -86,9 +90,14 @@ def main() -> int:
     args = ap.parse_args()
 
     os.makedirs(args.saida, exist_ok=True)
-    indice = {r["arq"]: r for r in json.loads(pathlib.Path(args.indice).read_text(encoding="utf-8"))}
+    indice = {
+        r["arq"]: r
+        for r in json.loads(pathlib.Path(args.indice).read_text(encoding="utf-8"))
+    }
     marcas: dict[str, list[dict]] = {}
-    for marca in json.loads(pathlib.Path(args.marca).read_text(encoding="utf-8"))["marcas"]:
+    for marca in json.loads(pathlib.Path(args.marca).read_text(encoding="utf-8"))[
+        "marcas"
+    ]:
         marcas.setdefault(marca["imagem"], []).append(marca)
 
     celulas = []
@@ -116,7 +125,7 @@ def main() -> int:
             # A MARCA ESTA EM COORDENADA DA FAIXA (y ~ 0..190), NAO DO QUADRO: y_quadro = y_faixa + y0.
             x, y = int(marca["x"]), int(marca["y"]) + y0
             x0, y0c, x1, y1c = _caixa_do_simbolo(cinza, x, y, passo)
-            rec = cinza[max(0, y0c):y1c, max(0, x0):x1]
+            rec = cinza[max(0, y0c) : y1c, max(0, x0) : x1]
             if rec.shape[0] < 16 or rec.shape[1] < 16:
                 continue
             nome = f"{imagem.split('_')[0]}_{k:03d}.png"
@@ -127,30 +136,50 @@ def main() -> int:
             im = cv2.cvtColor(im, cv2.COLOR_GRAY2BGR)
             et = np.full((16, im.shape[1], 3), 255, np.uint8)
             # ROTULO UNICO: o nome do recorte (`C06_003`), nao so o prefixo da imagem.
-            cv2.putText(et, nome[:-4], (2, 12), cv2.FONT_HERSHEY_PLAIN, 0.8, (0, 0, 200), 1)
+            cv2.putText(
+                et, nome[:-4], (2, 12), cv2.FONT_HERSHEY_PLAIN, 0.8, (0, 0, 200), 1
+            )
             celulas.append(np.vstack([et, im]))
 
     for s in range(0, len(celulas), 24):
-        grupo = celulas[s:s + 24]
+        grupo = celulas[s : s + 24]
         linhas = []
         for i in range(0, len(grupo), 6):
-            linha = grupo[i:i + 6]
+            linha = grupo[i : i + 6]
             largura = max(c.shape[1] for c in linha)
             linha = [
-                cv2.copyMakeBorder(c, 0, 6, 0, largura - c.shape[1], cv2.BORDER_CONSTANT, value=(255, 255, 255))
+                cv2.copyMakeBorder(
+                    c,
+                    0,
+                    6,
+                    0,
+                    largura - c.shape[1],
+                    cv2.BORDER_CONSTANT,
+                    value=(255, 255, 255),
+                )
                 for c in linha
             ]
             linhas.append(np.hstack(linha))
         largura = max(ln.shape[1] for ln in linhas)
         linhas = [
-            cv2.copyMakeBorder(ln, 0, 6, 0, largura - ln.shape[1], cv2.BORDER_CONSTANT, value=(180, 180, 180))
+            cv2.copyMakeBorder(
+                ln,
+                0,
+                6,
+                0,
+                largura - ln.shape[1],
+                cv2.BORDER_CONSTANT,
+                value=(180, 180, 180),
+            )
             for ln in linhas
         ]
         cv2.imwrite(f"{args.saida}/folha_{s // 24}.png", np.vstack(linhas))
     if alturas:
         a = np.array(alturas)
-        print(f"recortes: {len(celulas)} | folhas: {(len(celulas) + 23) // 24} | "
-              f"altura em passos: mediana {np.median(a):.2f} | p90 {np.percentile(a, 90):.2f} | max {a.max():.2f}")
+        print(
+            f"recortes: {len(celulas)} | folhas: {(len(celulas) + 23) // 24} | "
+            f"altura em passos: mediana {np.median(a):.2f} | p90 {np.percentile(a, 90):.2f} | max {a.max():.2f}"
+        )
     return 0
 
 
