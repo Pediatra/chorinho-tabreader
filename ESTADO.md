@@ -2080,6 +2080,7 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | separar pauta de TAB pelo **`tab.digito`** (P de algarismo por token) | marca as cabeças de nota da pauta como algarismo, p≈1,0 nas 4 pautas (Fase 7.1) |
 | regra "5 linhas fortes + 1 fraca = pauta" **sozinha**, sobre o recorte re-segmentado do `refinar` | não pega a VN18: no recorte estreitado as 6 linhas da pauta são todas fortes (espaçamento 14); a caixa continuava na pauta (Fase 7.1 C1b) |
 | `refinar` que re-segmenta o recorte sem conferir as cordas em y | a re-segmentação troca a TAB pelas linhas da pauta (VN18, FP38); só vale se as cordas em y forem as do candidato (Fase 7.1 C1b) |
+| casa de dois algarismos fora da classe do modelo também no glifo de dois componentes (`_casa_das_partes` sem o caminho do par) | um `3` lido como `2`+`0` virou `20`; `oficial_3` caiu 68 → 67/72 (amostra paolo 3). **Revertido**: a casa fora do modelo vale só para o par geométrico de dois tokens isolados (rodada 0008) |
 
 ## Próximo passo
 
@@ -4761,3 +4762,22 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
   quadro`; (c) afrouxar a régua de 1 para 2 quadros para passar 39/40; (d) atribuir a mudança de nota ao tempo.
 - **Não feito**: o aceite de estado 39/40 depende da decisão do dono sobre t = 500 s; `docs/rodadas/0004-mvp-video-inteiro.md`
   e a aprovação do dono (CA-10) continuam pendentes.
+
+## 2026-10-10 — Fase 4: casa 13 (par de algarismos sem classe no modelo). Inventadas 1 → 0
+
+Detalhe e tabelas em `docs/rodadas/0008-casa-13-par-de-algarismos.md`. Linha de base: HEAD `b5841c27` (medida em árvore limpa).
+
+- **Causa**: o `13` da tela 8, corda 3 (vão 0,324 passo) era `1` + `3` separados. `_casa_das_partes` exigia a concatenação
+  como classe do modelo, e o oficial não tem `13`. O vão não separa (notas distintas vizinhas vão até 0,37).
+- **Regra nova** (`tab/reconhecer.py`): casa fora do modelo sai do **par geométrico** de dois tokens isolados quando a
+  concatenação está em 10–24 e cada parte tem confiança ≥ `LIMIAR_PARTE_DIGITO` = 0,5. Par com casa possível que não passa
+  na leitura segura vai para `nao_notas` com o símbolo cru (não vira nota, não é descartado).
+- **Números (ouro v2, `tab.avaliar_video`, árvore limpa em `b5841c27`)**: precisão **485/486 → 485/485** (inventadas 1 → 0);
+  revocação 485/491 (igual); casa **482/485 → 483/485**; tempo 39/40 com falso 0 (igual); `tab.telas` 13/13 e 40/40;
+  `tab.avaliar` oficial_1/2/3 = **66, 71, 68** (igual ao HEAD). Diferença de notas: só a tela 8, corda 3 (`1`+`3` → `13`).
+- **Amostra a amostra dos glifos**: idêntica ao HEAD depois da correção (ver "não repetir").
+- **Gate** (árvore limpa = `b5841c27` + os dois arquivos): `ruff check .` e `ruff format --check .` ✓; `pytest tests/` 315 passed, 1 skipped, 3 deselected.
+- **Limites**: medido em um vídeo com 6 candidatos a dois dígitos; sem negativos reais de notas distintas com concatenação 10–24 no ouro;
+  a regra de "inseguro" muda também pares com casa conhecida e token < 0,80 (antes eram duas notas), sem efeito no ouro nem no gabarito de glifos.
+- **Não repetir**: (a) aplicar a casa fora do modelo ao glifo de dois componentes (um `3` virou `20`, −1 no `oficial_3`);
+  (b) limiar de vão para separar `13` de notas distintas (ver a Fase 4 acima; não separa).

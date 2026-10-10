@@ -61,6 +61,12 @@ LIMIAR_DISCRIMINADOR = 0.95
 #: Medido no ouro v2 (5 casos de dois dígitos): 0,83 a 0,91 nos casos reais de 10, 12 e 14.
 LIMIAR_CASA_DOIS = 0.80
 
+#: Confiança mínima de CADA parte para formar uma casa de dois dígitos que o modelo não tem como
+#: classe (`13`, `11`, `16`, `18`, `20`, `22`, `23`). É a maioria da massa de probabilidade: a
+#: parte é o algarismo mais provável e vence os outros somados. Medido no ouro v2: o `1` do `13`
+#: (tela 8, corda 3) tem 0,622 e o `3`, 0,993; o `12` e o `10` passam pela classe do modelo.
+LIMIAR_PARTE_DIGITO = 0.5
+
 #: Vão mínimo (passos) acima do qual `agrupar_tokens` já separa os componentes.
 VAO_AGRUPAR_PASSOS = 0.25
 
@@ -105,6 +111,20 @@ def compativel(classe: str, tk, passo: float) -> bool:
     return True
 
 
+def _numero_de_dois_digitos(lidos: list[str]) -> bool:
+    """As duas partes são algarismos e formam um número entre 10 e 24 (casa do instrumento).
+
+    Args:
+        lidos: classe top-1 de cada parte, na ordem da esquerda para a direita.
+
+    Returns:
+        True quando a concatenação das partes é uma casa de dois dígitos possível.
+    """
+    if len(lidos) != 2 or not all(len(t) == 1 and t.isdigit() for t in lidos):
+        return False
+    return 10 <= int(lidos[0] + lidos[1]) <= 24
+
+
 def _casa_das_partes(lidos: list[str], probs_token: np.ndarray, rotulos) -> str | None:
     """A casa de dois dígitos que as partes lidas formam, se o modelo a conhece com confiança.
 
@@ -122,10 +142,10 @@ def _casa_das_partes(lidos: list[str], probs_token: np.ndarray, rotulos) -> str 
     Returns:
         A casa (ex.: ``"12"``), ou None quando o token não é um número de dois dígitos confiável.
     """
-    if len(lidos) != 2 or not all(len(t) == 1 and t.isdigit() for t in lidos):
+    if not _numero_de_dois_digitos(lidos):
         return None
     casa = lidos[0] + lidos[1]
-    if casa not in rotulos or not 10 <= int(casa) <= 24:
+    if casa not in rotulos:
         return None
     if float(probs_token[rotulos.index(casa)]) < LIMIAR_CASA_DOIS:
         return None
@@ -139,13 +159,22 @@ def _fundir_pares_de_digitos(
     modelo,
     rotulos,
     dev,
-) -> list:
+) -> tuple[list, set[int], dict[int, str]]:
     """Funde vizinhos de um dígito cujo vão passa do limiar de `agrupar_tokens`.
 
     Só entra o par em que os dois são componentes isolados (um dígito cada) e o vão está em
     ``(VAO_AGRUPAR_PASSOS, VAO_CASA_PASSOS]``. O par vira um token só quando `_casa_das_partes`
     aceita a concatenação. No ouro v2, `10` e `12` da pág. 12 têm vão 0,275 e ficam separados
-    pelo limiar de 0,25. Já `13` (vão 0,324) não é classe do modelo e continua separado.
+    pelo limiar de 0,25.
+
+    Casa que o modelo NÃO tem como classe (`13`, `11`, `16`...) sai do par de dois tokens
+    isolados quando cada parte é o algarismo mais provável com ao menos `LIMIAR_PARTE_DIGITO`.
+    Essa via vale só para o par geométrico, nunca para um glifo com dois componentes (medido: um
+    `3` com componentes lidos como `2` e `0` virava `20`).
+
+    Um par cuja concatenação é casa possível (10 a 24) e que não passa na leitura segura não vira
+    duas notas: os dois tokens saem em ``inseguros``, e quem chama os manda para ``nao_notas`` com
+    o símbolo cru. O `1` do `13` (tela 8, corda 3) era a nota inventada antes desta regra.
 
     Args:
         tokens: tokens da grade, ordenados por coluna e corda.
@@ -156,7 +185,9 @@ def _fundir_pares_de_digitos(
         dev: dispositivo do modelo.
 
     Returns:
-        A lista de tokens com os pares aceitos fundidos (mesma ordem de entrada).
+        ``(tokens, inseguros, fora_do_modelo)``: a lista com os pares aceitos fundidos (mesma
+        ordem de entrada); o conjunto de ``id()`` dos tokens de par de casa com leitura insegura;
+        e um mapa ``id()`` do token fundido -> casa, para as casas que o modelo não tem.
     """
     por_corda: dict[int, list[int]] = {}
     for k, tk in enumerate(tokens):
@@ -171,7 +202,7 @@ def _fundir_pares_de_digitos(
             if VAO_AGRUPAR_PASSOS < vao <= VAO_CASA_PASSOS:
                 pares.append((a, b))
     if not pares:
-        return tokens
+        return tokens, set(), {}
     recortes = []
     for a, b in pares:
         ta, tb = tokens[a], tokens[b]
@@ -190,19 +221,34 @@ def _fundir_pares_de_digitos(
     fundidos: dict[int, object] = {}
     descartar: set[int] = set()
     usados: set[int] = set()
+    marcados: set[int] = set()
+    fora_do_modelo: dict[int, str] = {}
     for j, (a, b) in enumerate(pares):
         if a in usados or b in usados:
             continue
         lidos = [rotulos[int(np.argmax(p[j, 0]))], rotulos[int(np.argmax(p[j, 1]))]]
-        if _casa_das_partes(lidos, p[j, 2], rotulos) is None:
-            continue
+        casa = _casa_das_partes(lidos, p[j, 2], rotulos)
+        if casa is None:
+            if not _numero_de_dois_digitos(lidos):
+                continue
+            concat = lidos[0] + lidos[1]
+            confs = (float(np.max(p[j, 0])), float(np.max(p[j, 1])))
+            if concat in rotulos or min(confs) < LIMIAR_PARTE_DIGITO:
+                marcados.update((a, b))
+                continue
+            casa = concat
         usados.update((a, b))
-        fundidos[a] = _fundir([tokens[a], tokens[b]], passo)
+        novo = _fundir([tokens[a], tokens[b]], passo)
+        fundidos[a] = novo
         descartar.add(b)
+        if casa not in rotulos:
+            fora_do_modelo[id(novo)] = casa
+    inseguros = {id(tokens[k]) for k in marcados if k not in usados}
     if not fundidos:
-        return tokens
+        return tokens, inseguros, fora_do_modelo
     novos = [fundidos.get(k, tk) for k, tk in enumerate(tokens) if k not in descartar]
-    return sorted(novos, key=lambda x: (x.coluna, x.corda))
+    ordenados = sorted(novos, key=lambda x: (x.coluna, x.corda))
+    return ordenados, inseguros, fora_do_modelo
 
 
 def carregar_modelo(caminho: str):
@@ -367,7 +413,9 @@ def reconhecer_linha(
     tokens = sorted(g.glifos, key=lambda x: (x.coluna, x.corda))
     if not tokens:
         return {"passo": g.passo, "linhas_y": g.linhas_y, "notas": []}
-    tokens = _fundir_pares_de_digitos(tokens, gray, g.passo, modelo, rotulos, dev)
+    tokens, inseguros, fora_do_modelo = _fundir_pares_de_digitos(
+        tokens, gray, g.passo, modelo, rotulos, dev
+    )
     probs = _probs(
         [_recortar(gray, t.x0, t.y0, t.x1, t.y1) for t in tokens], modelo, dev
     )
@@ -429,8 +477,17 @@ def reconhecer_linha(
                     )
 
     for i, tk in enumerate(tokens):
+        # Par de casa com leitura insegura (ex.: `1` + `3` sem a classe `13`): não vira nota
+        # inventada nem é descartado; vai para símbolo cru (`nao_notas`).
+        if id(tk) in inseguros:
+            classes.append(("simbolo", False))
+            continue
         if recusar and (tk.x1 - tk.x0) < 0.30 * g.passo:
             classes.append(("junk", True))
+            continue
+        # Par de algarismos isolados fundido numa casa que o modelo não tem (ex.: `13`).
+        if id(tk) in fora_do_modelo:
+            classes.append((fora_do_modelo[id(tk)], False))
             continue
         if i in lidos_partes:
             casa_partes = _casa_das_partes(lidos_partes[i], probs[i], rotulos)

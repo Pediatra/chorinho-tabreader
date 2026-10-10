@@ -21,6 +21,7 @@ from tab import reconhecer
 from tab.reconhecer import (
     _casa_das_partes,
     _fundir_pares_de_digitos,
+    _numero_de_dois_digitos,
     carregar_modelo,
     reconhecer_linha,
 )
@@ -67,8 +68,13 @@ class _Glifo:
         self.componentes = ((x0, 10, x1, 30),)
 
 
-def _fundir_com(monkeypatch, tokens, filas: list[np.ndarray]) -> tuple[list, list[int]]:
-    """Roda a fusão com `_probs` trocado por `filas` (um vetor por recorte) e conta as chamadas."""
+def _fundir_com(
+    monkeypatch, tokens, filas: list[np.ndarray]
+) -> tuple[list, set[int], dict[int, str], list[int]]:
+    """Roda a fusão com `_probs` trocado por `filas` (um vetor por recorte) e conta as chamadas.
+
+    Devolve ``(tokens_de_saida, ids_inseguros, fora_do_modelo, tamanhos_dos_lotes)``.
+    """
     chamadas: list[int] = []
 
     def _probs(recortes, modelo, dev):
@@ -76,10 +82,10 @@ def _fundir_com(monkeypatch, tokens, filas: list[np.ndarray]) -> tuple[list, lis
         return np.stack(filas[: len(recortes)])
 
     monkeypatch.setattr(reconhecer, "_probs", _probs)
-    saida = _fundir_pares_de_digitos(
+    saida, inseguros, fora = _fundir_pares_de_digitos(
         tokens, np.zeros((60, 200), np.uint8), PASSO, None, ROTULOS, "cpu"
     )
-    return saida, chamadas
+    return saida, inseguros, fora, chamadas
 
 
 def test_casa_das_partes_12_com_confianca_vira_12() -> None:
@@ -95,9 +101,19 @@ def test_casa_das_partes_sem_confianca_nao_vira_casa() -> None:
 
 
 def test_casa_das_partes_numero_que_o_modelo_nao_conhece_nao_vira_casa() -> None:
-    """`13` não é classe do modelo: as partes `1` e `3` não viram casa, mesmo com confiança."""
+    """`13` não é classe do modelo: a casa de um glifo só sai de classe do modelo."""
     probs = _vetor({"tecnica": 0.9})
     assert _casa_das_partes(["1", "3"], probs, ROTULOS) is None
+
+
+def test_casa_das_partes_20_de_um_glifo_fora_do_modelo_nao_vira_casa() -> None:
+    """Um `3` de dois componentes lidos como `2` e `0` não vira `20`: `20` não é classe.
+
+    Medido no gabarito de glifos (paolo, amostra 3): a regra fora do modelo, aplicada ao glifo
+    de dois componentes, trocava um `3` certo por `20`.
+    """
+    probs = _vetor({"3": 0.9})
+    assert _casa_das_partes(["2", "0"], probs, ROTULOS) is None
 
 
 def test_casa_das_partes_so_com_algarismos() -> None:
@@ -120,18 +136,64 @@ def test_fundir_12_com_vao_entre_os_limites_funde(monkeypatch) -> None:
         _vetor({"2": 0.9}),
         _vetor({"12": 0.9, "tecnica": 0.05}),
     ]
-    saida, _ = _fundir_com(monkeypatch, tokens, filas)
+    saida, _, _, _ = _fundir_com(monkeypatch, tokens, filas)
     assert len(saida) == 1
     assert saida[0].partes == 2
     assert (saida[0].x0, saida[0].x1) == (0, 28)
 
 
-def test_fundir_nao_funde_quando_o_numero_nao_e_classe(monkeypatch) -> None:
-    """`1` e `3` com vão de 0,3 passo continuam dois: `13` não é classe do modelo."""
+def test_fundir_13_sem_classe_funde_quando_as_partes_sao_seguras(monkeypatch) -> None:
+    """`1` (0,62) e `3` (0,99) com vão de 0,3 passo viram `13`, que o modelo não tem como classe."""
     tokens = [_Glifo(0, 10), _Glifo(16, 28)]
-    filas = [_vetor({"1": 0.9}), _vetor({"3": 0.9}), _vetor({"tecnica": 0.9})]
-    saida, _ = _fundir_com(monkeypatch, tokens, filas)
-    assert [t.partes for t in saida] == [1, 1]
+    filas = [_vetor({"1": 0.62}), _vetor({"3": 0.99}), _vetor({"tecnica": 0.9})]
+    saida, inseguros, fora, _ = _fundir_com(monkeypatch, tokens, filas)
+    assert len(saida) == 1
+    assert saida[0].partes == 2
+    assert inseguros == set()
+    assert fora == {id(saida[0]): "13"}
+
+
+def test_fundir_par_inseguro_nao_funde_e_vai_para_inseguros(monkeypatch) -> None:
+    """`1` com 0,40 de confiança e vão de 0,3 passo: o par `1x` fica separado e marcado.
+
+    A concatenação é casa possível, então o par não pode virar duas notas: quem chama o manda
+    para símbolo cru (`nao_notas`).
+    """
+    tokens = [_Glifo(0, 10), _Glifo(16, 28)]
+    filas = [
+        _vetor({"1": 0.40, "7": 0.35}),
+        _vetor({"3": 0.99}),
+        _vetor({"tecnica": 0.9}),
+    ]
+    saida, inseguros, fora, _ = _fundir_com(monkeypatch, tokens, filas)
+    assert len(saida) == 2
+    assert inseguros == {id(tokens[0]), id(tokens[1])}
+    assert fora == {}
+
+
+def test_par_de_notas_distintas_fora_da_faixa_nao_e_inseguro(monkeypatch) -> None:
+    """`2` e `7` (pág. 5): `27` não é casa, então não é par inseguro, só duas notas."""
+    tokens = [_Glifo(0, 10), _Glifo(17, 27)]
+    filas = [
+        _vetor({"2": 0.93}),
+        _vetor({"7": 0.97}),
+        _vetor({"14": 0.08, "tecnica": 0.8}),
+    ]
+    saida, inseguros, fora, _ = _fundir_com(monkeypatch, tokens, filas)
+    assert len(saida) == 2
+    assert inseguros == set()
+    assert fora == {}
+
+
+def test_numero_de_dois_digitos_limites() -> None:
+    """Casa é o número de 10 a 24 com dois algarismos: 09, 25 e 27 não são."""
+    assert _numero_de_dois_digitos(["1", "0"])
+    assert _numero_de_dois_digitos(["2", "4"])
+    assert _numero_de_dois_digitos(["1", "3"])
+    assert not _numero_de_dois_digitos(["0", "9"])
+    assert not _numero_de_dois_digitos(["2", "5"])
+    assert not _numero_de_dois_digitos(["2", "7"])
+    assert not _numero_de_dois_digitos(["1", "tecnica"])
 
 
 def test_fundir_nao_funde_dois_algarismos_de_notas_distintas(monkeypatch) -> None:
@@ -142,14 +204,14 @@ def test_fundir_nao_funde_dois_algarismos_de_notas_distintas(monkeypatch) -> Non
         _vetor({"7": 0.97}),
         _vetor({"14": 0.08, "tecnica": 0.8}),
     ]
-    saida, _ = _fundir_com(monkeypatch, tokens, filas)
+    saida, _, _, _ = _fundir_com(monkeypatch, tokens, filas)
     assert len(saida) == 2
 
 
 def test_vao_no_limiar_do_agrupar_nao_e_tocado(monkeypatch) -> None:
     """Vão de 0,2 passo já é fundido por `agrupar_tokens`: esta função não olha esse par."""
     tokens = [_Glifo(0, 10), _Glifo(14, 24)]
-    saida, chamadas = _fundir_com(monkeypatch, tokens, [])
+    saida, _, _, chamadas = _fundir_com(monkeypatch, tokens, [])
     assert saida == tokens
     assert chamadas == []
 
@@ -157,7 +219,7 @@ def test_vao_no_limiar_do_agrupar_nao_e_tocado(monkeypatch) -> None:
 def test_vao_grande_demais_nao_e_tentado(monkeypatch) -> None:
     """Vão de 0,5 passo é nota distinta: nem chega ao classificador."""
     tokens = [_Glifo(0, 10), _Glifo(20, 30)]
-    saida, chamadas = _fundir_com(monkeypatch, tokens, [])
+    saida, _, _, chamadas = _fundir_com(monkeypatch, tokens, [])
     assert saida == tokens
     assert chamadas == []
 
@@ -165,7 +227,7 @@ def test_vao_grande_demais_nao_e_tentado(monkeypatch) -> None:
 def test_digito_unico_isolado_nao_muda(monkeypatch) -> None:
     """Um `7` sozinho passa intacto: a regra de casa de dois dígitos não toca dígito único."""
     tokens = [_Glifo(0, 10), _Glifo(40, 50, corda=2)]
-    saida, chamadas = _fundir_com(monkeypatch, tokens, [])
+    saida, _, _, chamadas = _fundir_com(monkeypatch, tokens, [])
     assert saida == tokens
     assert chamadas == []
 
