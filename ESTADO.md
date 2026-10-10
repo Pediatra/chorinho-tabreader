@@ -3622,3 +3622,25 @@ E o `iwaki` (sem marcador ✓): **43 notas, 0 com tempo** ✓, com o motivo **de
 | `sky guitar` | patamares (64 %) | 0 de 44 ✗ | **40 de 44** ✓ |
 | `iwaki` | ausente | 0 de 43 ✓ | **0 de 43, com motivo** ✓ |
 | `mr. tabs` | **cor no algarismo** (azul) | 0 ✗ | **0 no `transcrever`** ✗ — o observador de **cor** está medido e funcionando no `tab.estado` (10 de 19 ✓) mas **ainda não está ligado no JSON** ✗ |
+
+## 2026-10-10 — a ÚLTIMA incógnita da integração de cor: a duração JÁ é obtida (e não é devolvida)
+
+Lendo antes de escrever (a lição dos rounds 7 a 9 ✓), a incógnita que faltava para ligar o observador de
+**cor** no `transcrever` está resolvida: os onsets de cor vêm em **fração** ✓ e o JSON precisa de
+**segundos** ✓ — o que exige a **duração** ✓.
+
+**Ela já é obtida** ✓, em `tab/inventario.py`: o `ler_quadro` chama **`ffprobe -show_entries
+format=duration`** ✓ (linhas 46-59 ✓) para calcular o `ss` do fallback de AV1 ✓ — mas **não devolve** a
+duração ✗ (a assinatura é `(quadro, via)` ✓).
+
+**Portanto o que falta é pequeno e conhecido** ✓: um helper `duracao(caminho)` que faça a **mesma** chamada
+de ffprobe ✓ (10 linhas ✓), e no `else` do `transcrever` — ao lado do observador de posição ✓, alimentando
+a **mesma** associação ✓ — converter `fração × duração` ✓.
+
+**Onde o observador de cor já está pronto e medido**: `tab.estado.estado_por_cor` ✓ — **10 de 19 onsets** no
+`mr. tabs` ✓, destaque achado em **30 de 30** amostras ✓, com a coloração medindo **22,7 contra mediana
+0,0** ✓. Ele usa `ler_quadro` por fração ✓ (o leitor certo para AV1 ✓) e a **mesma** célula de x ✓.
+
+**Nota de arquitetura para o próximo round**: `ler_quadro` pode passar a **devolver** a duração também ✓
+(em vez de duplicar a chamada de ffprobe ✓) — mas isso muda a assinatura usada em **todo** o projeto ✗, então
+o helper separado é o caminho de menor risco ✓, e a unificação fica como decisão à parte ✓.
