@@ -280,3 +280,26 @@ E1=____  E5=6-cordas  F1=____  F2=ambos  F4=marcar  F5=sim  F6=sim  F7=sim
 G1=33ms  G2=onset  G3=audio  G7=absoluto  H1=glifo  H4=____  I5=sintetico
 J1=____  J4=____  J5=____  J7=____
 ```
+
+---
+
+## 4ª rodada — decisões do plano do produto (D1–D7)
+
+> **Origem**: `docs/guias/plano-do-produto.md`, §5. Estas são as perguntas que **só o dono** responde.
+> **Enquanto ele não responder, o executor segue o ⭐ e registra no `ESTADO.md` que foi SUPOSIÇÃO** ✓
+> (não invente resposta nem trate suposição como decisão).
+
+| # | pergunta | ⭐ padrão que o executor usa se não houver resposta |
+| --- | --- | --- |
+| **D1** | Os limiares do §1 do plano (casa ≥ 0,97 · inventada ≤ 0,5 % · tempo ≥ 0,95) servem? (H2/H3/H7 nunca foram respondidas) | os do §1 |
+| **D2** | Se a aula **repete** um trecho, o JSON traz **uma entrada por passagem** ou deduplica? | uma entrada por passagem, com `tela` e `passagem` para o consumidor deduplicar |
+| **D3** | Qual vídeo é o do MVP? | `sky guitar/retrato brasileiro - tab & lesson.mp4` (já explorado; H.264; paginado; faixa **e** cor) |
+| **D4** | Vídeo **sem marcador**: entrega as notas com o tempo **da tela** (início/fim da exibição) declarado, ou sem tempo nenhum? | notas + `exibicoes` da tela; `t_ini` por nota fica `null` com motivo; áudio fica para depois |
+| **D5** | Canal cuja casa não passar no CA-4: não entrega a casa, ou entrega com bandeira? | entrega com `casa_validada: false` |
+| **D6** | Tempo do dono para rotular: o plano estima **~2 h** até o MVP e **~8 h** até o fim | — (só informar) |
+| **D7** | Tablatura **rolante** (contínua) entra no escopo agora? | só se o censo (Fase 7) mostrar **≥ 10 %** do acervo |
+
+**Observação do executor (para o cérebro, não é pergunta ao dono)**: há uma **inconsistência de estimativa**
+entre o D6 e o §9 do plano — o D6 diz **~2 h** do dono até o MVP, enquanto a tabela do §9 soma, até o MVP,
+Fase 0 (**10 min**) + Fase 2 (**~40 min**) + Fase 6 (**5 min**) ≈ **55 min** ✓. O executor segue o §9 para
+planejamento e **não** usa o D6 como compromisso ✓.

@@ -2042,6 +2042,10 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | `lim_x` por margem de barline | apagaria **506 glifos (4,3%)** em 60 linhas |
 | **recuperar a casa de dentro do símbolo fundido** (`casa_recuperada`) | **−0,20** (0,889 → 0,687), pior nas 3 sementes; `paolo` 25→10 |
 | margem simétrica no recorte do classificador | **−0,02** com os MESMOS pesos (0,865 → 0,844): pré-processamento é entrada do modelo |
+| contar notas que **receberam algum tempo** sem gabarito de tempo | número inflado: "sky 40/44" **não é** tempo certo — não existe gabarito de tempo (T0.3) |
+| associar a série do marcador do **vídeo inteiro** às notas de **um** quadro | onsets de **outra página**: no `sky2.json` a nota da coluna 2 recebeu **266,1 s**, quando a tela mostrava o compasso 5 (T0.3) |
+| misturar `x` da **ROI recortada** com `x` do **quadro** | coluna errada: no `retrato brasileiro` o recorte começa em **x0 = 70 px** e o marcador de 245,5 s caiu na **coluna 3** em vez da 1 (T0.3) |
+| `cv2.VideoCapture` fora do leitor | **falha calada em 44 %** do acervo (AV1): **abre**, informa `FRAME_COUNT` e **não decodifica** — `rastrear` devolve 0 amostras, indistinguível de "sem marcador" (T0.3) |
 
 ## Lições metodológicas (custaram rodadas)
 
@@ -3752,3 +3756,39 @@ rodada: o commit seguinte **não** saiu ✓.
 **Item para o cérebro**: o alvo `gate` **depende do `DOCKER_HOST`** e falha com um erro de socket do Docker ✓
 em vez de dizer o que falta ✗. Sugestão: o próprio alvo verificar a variável (ou o `Makefile` exportá-la com
 `?=`) e falhar com mensagem clara ✓.
+
+## 2026-10-10 — FASE 0 / T0.3: os números de TEMPO de 2026-10-10 ficam NÃO VALIDADOS (com as quatro evidências)
+
+Os números de tempo que eu registrei em 2026-10-10 — **"sky 40/44"**, **"mr. tabs 16/68"**, **"serge 47/49"**
+— contam **notas que receberam ALGUM número**, não notas com o **tempo certo** ✓. **Não existe gabarito de
+tempo** ✓, e por isso o erro passou. Ficam **NÃO VALIDADOS** ✓ (é o mesmo tipo de erro do histórico
+"323 notas com tempo eram 3 instantes" — `AGENTS.md` regra 3 ✓).
+
+As quatro evidências, medidas e conferidas na leitura do plano (§2.3 e §2.4):
+
+1. **Espaço de coordenada misturado (medido)** ✗: `painel.refinar` recorta a ROI em `x` e **não guarda o
+   deslocamento** ✓. No `retrato brasileiro` o recorte começa em **x0 = 70 px** ✓ — o `x` das notas está no
+   espaço da **ROI recortada** e o `x` do marcador (`cursor.rastrear`, que só corta em `y`) está no espaço do
+   **quadro** ✓. Efeito: no quadro de 245,5 s o marcador está na **coluna 1** (x da ROI = 154, x do quadro ≈
+   228) ✓, mas comparado sem o deslocamento `x = 228` cai na célula da **coluna 3** ✓ — o JSON deu à coluna 3
+   o onset **245,25 s** e a **coluna 1 ficou sem tempo** ✓. **O mesmo erro existe em `estado.estado_por_cor`**
+   ✓, que recorta `quadro[..., tk.x0:tk.x1]` **sem somar o deslocamento** ✗ — código que **eu escrevi nesta
+   sessão** ✓. No `mr. tabs` o recorte foi **x0 = 0** ✓, então lá o erro **não aparece por acaso** ✓.
+2. **Onsets vindos de OUTRA página** ✗: `rastrear` percorre o **vídeo inteiro** ✓ e o onset é "a primeira vez
+   que o marcador entra na célula", em **qualquer** página ✓. A nota da coluna 2 recebeu **266,1 s**, quando a
+   tela mostrava o **compasso 5** ✓. Os onsets do JSON vão de **239 s a 584 s** para notas de **uma** página ✓.
+3. **Acorde recebe no máximo um onset** ✗: duas notas com o **mesmo `x`** deixam a célula de uma delas **vazia**
+   ✓ (`nota_do_x` usa o ponto médio entre vizinhos, que vira o próprio `x` ✓). No `sky2.json` o acorde da
+   coluna 1 (cordas 2 e 6) ficou **sem tempo** ✓.
+4. **AV1: a cadeia de tempo falha CALADA em 44 % do acervo** ✗: medido no `mr. tabs` (codec `av1`),
+   `cv2.VideoCapture` **abre** (`isOpened() = True`) e informa `FRAME_COUNT = 16972`, mas `grab()` falha em
+   **30 de 30** tentativas ✓ — `cursor.rastrear` devolve **0 amostras**, **indistinguível** de "vídeo sem
+   marcador" ✓. **Correção ao `CONTEXTO.md` §3**: lá está "AV1 → `FRAME_COUNT=0`" ✗ — neste arquivo o
+   `FRAME_COUNT` veio **preenchido**; o que falha é a **decodificação** ✓. A consequência é a mesma, só que
+   **mais traiçoeira**: o código pensa que leu o vídeo ✓.
+
+**Sintoma que fecha o caso**: ordenando as notas por `x`, os onsets **invertem a ordem** em **12 de 39** pares
+no `sky2.json` ✓ e em **8 de 15** no `mrtabs.json` ✓ — ou seja, o "tempo" contradiz a própria ordem da
+música ✓.
+
+**Os quatro itens entraram na tabela "não repetir"** ✓ (fim do arquivo, seção "O que foi tentado e falhou").
