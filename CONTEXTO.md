@@ -486,6 +486,88 @@ e ele mostrou que era o **dígito** do acorde ✓).
 
 ---
 
+## 17. Os JSONs — o que é gabarito, o que é rótulo do dono, o que é produto
+
+⚠️ **Os JSONs deste projeto têm formatos DIFERENTES entre si** (uns são `dict` com `casos`, outros
+listas, outros com `marcas`). **Não presuma a estrutura: leia as chaves antes de consumir.** Abaixo
+está o que eu **verifiquei** abrindo cada um.
+
+### 17.1 Gabaritos e rótulos (entrada — `data/gold/`)
+
+| arquivo | estrutura verificada | o que é / o que fixa |
+| --- | --- | --- |
+| `gabarito.json` (2 KB) | `{versao, como_foi_rotulado, amostras}` | **o gabarito do ALGARISMO**, o que o `tab.avaliar` usa (a régua 0,917/0,986/0,944). Leia `como_foi_rotulado` antes de citar número — é a chave da discrepância do §2 |
+| `portao.json` (80 KB) | `{como_foi_rotulado, folhas, casos}` | o gabarito do **"portão"** (tem tablatura na tela?) |
+| **`simbolos.json`** (11 KB) | `{como_foi_rotulado, folha, criterio, resumo, casos, **rotulos_do_dono**, **convergencia**, **divergencias**, resumo_dono}` | o **confronto dono × modelo** no símbolo. **Tem os rótulos do dono e as divergências** — é leitura obrigatória antes de mexer no classificador |
+| `auditoria_simbolo_rotulada.json` (35 KB) | `{rotulos: [...]}` — **149** | os 149 rótulos da primeira auditoria: **29 de 29** aprovados eram símbolo, **0 erros do modelo**, 9 não marcados, 36 marcas que não são símbolo |
+| **`folha_labels.json`** (1 KB) | `{origem, folhas, consequencia_medida}` | **os rótulos do dono nas folhas de símbolo inteiro** (§16.2). Estrutura: `folhas.folha_N.nao_e_simbolo[]`, `regra_do_dono`, e a nota sobre o **ARPEJO** |
+| **`simbolos_marcados.json`** (386 KB) | `{origem, **regra_do_dono**, positivos, negativos, resumo_por_imagem, **vocabulario**, negativos_como_foi_feito, marcas_do_dono, janela}` | o conjunto de símbolos da janela antiga. **Tem a chave `vocabulario`** — o vocabulário do dono **dentro do JSON** — e a `regra_do_dono` explícita |
+| `simbolos_marcados_j25/simbolos_marcados.json` (274 KB) | `{origem, regra_do_dono, janela, positivos, negativos, **espaco_dos_negativos**, nota}` | o conjunto da **janela nova** (3,0 × 2,5): **511 positivos / 908 negativos**. `espaco_dos_negativos` é a medição que provou que os negativos estão em **coordenada de ROI** |
+
+**As marcas do dono no `marcar.html` — contagem verificada por arquivo** (a evolução importa):
+
+| arquivo | marcas |
+| --- | --- |
+| `marcas_simbolos.json` | **46** |
+| `marcas_simbolos_2.json` | **78** |
+| `marcas_simbolos_3.json` | **117** |
+| `marcas_simbolos_4.json` | **200** |
+| `marcas_simbolos_5.json` | **164** |
+| **`marcas_simbolos_6.json`** | **173** ← **a referência honesta** do fim a fim (precisão **0,197 (PISO)** / recall **0,216**) |
+
+> As contagens **200 → 164 → 173** são as de `_4`/`_5`/`_6`. Os números de precisão/recall por
+> arquivo estão no `ESTADO.md`; **não os recalculei nesta seção** ✗.
+
+### 17.2 O JSON do PRODUTO (saída — a forma do entregável)
+
+Saída de `python -m tab.transcrever <video> --inicio X --janela S --json <saida>`:
+
+```
+{passo, linhas_y, barlines_x, notas[], notas_por_compasso, andamento, tempo{}, video, painel,
+ quadro_em_s, lido_via, janelas_com_cursor, segundos_com_cursor}
+```
+
+Cada nota: `ordem, corda, casa, x, confianca, corrigido_pela_forma, casa_recuperada` (ou
+`simbolo_cru` / `simbolo_recusado` com o glifo cru), `compasso`, e **`t_ini`** quando há tempo.
+`tempo` traz `medido`, `mecanismo`, `onset`, `duracoes`, `serie` e **`notas_com_tempo`** — ou, quando
+não há marcador legível, `medido: false` **+ `motivo`**.
+
+| arquivo | notas | observação |
+| --- | --- | --- |
+| `data/saida/piloto/sky2.json` (14 KB) | **44** | `tempo.medido: true`, 40 com `t_ini` — o caso dos **patamares** |
+| `data/saida/piloto/mrtabs.json` (52 KB) | **68** | `mecanismo: "... (algarismo aceso, por cor)"`, 16 com `t_ini` |
+| `data/saida/piloto/iwaki2.json` (37 KB) | **43** | `medido: false` **com motivo** — o caso sem marcador |
+| `data/saida/video_completo.json` (10 KB) | 57 | saída **histórica** (sem `tempo` medido) |
+| `data/saida/mvp_sky4.json` (1 KB) + `mvp_sky4.musicxml` | 3 | o **MVP** antigo: o par JSON + MusicXML |
+
+> ⚠️ **ITEM ABERTO QUE EU ACABEI DE VER E NÃO ESTAVA REGISTRADO**: **a forma do JSON varia conforme
+> o caminho do código** ✗ — `sky2.json` e `mrtabs.json` têm `notas_por_compasso` **e** `andamento`;
+> `iwaki2.json` (o caminho do `else`, sem tempo medido) **não tem nenhum dos dois**;
+> `video_completo.json` tem `notas_por_compasso` mas **não** `andamento`. **Antes de um rollout, a
+> forma do JSON deveria ser a MESMA em todos os caminhos** — senão o consumidor recebe campos
+> diferentes por vídeo. Não medi a causa; **verifiquei só a presença das chaves.**
+
+### 17.3 Índices e varreduras (JSONs de apoio)
+
+| arquivo | estrutura verificada | para que serve |
+| --- | --- | --- |
+| `data/saida/coleta_marcar/indice.json` (7 KB) | **lista de 27**, item = `{arq, canal, video, frac, passo, rotulo}` | o **índice que liga a imagem da auditoria ao vídeo, ao instante e ao canal** — é o que permite recortar o quadro de uma marca do dono (`folha_simbolos.py` usa isto) |
+| `data/saida/formas_marcador.json` (4 KB) | `{linhas: [...17], distribuicao: {...}}` | a **distribuição de formas do marcador** (§8): ausente 8 · salta 4 · varre 2 · "pisca" 3 (e este balde está errado) |
+| `data/saida/varredura/`, `rollout/`, `intervalos*/`, `tablaturas/`, `novas*`, `paineis/` | várias | saídas de varredura/rollout **históricas**; a varredura é **retomável** (`tab.varredura`, com `--frac-inicio/--frac-fim`) |
+| `data/saida/cifra_abanda.json`, `exemplo_0..2.json`, `portao_rotulos*.json` | — | registros de canais/casos específicos (**não inspecionei**) |
+
+### 17.4 Regra de ouro para quem chega
+
+1. **Antes de consumir qualquer JSON, imprima as chaves** (`list(d.keys())`) — os formatos não são
+   uniformes ✗;
+2. **`como_foi_rotulado` e `regra_do_dono` são parte do dado**, não comentário: dizem **como** o
+   gabarito nasceu (e é onde está a resposta da discrepância do §2);
+3. **Rótulo do dono não se reinterpreta** (§13.2) — e quando ele contradiz uma medição, **ele está
+   certo**;
+4. **Nota com tempo falso é mentira** — o JSON declara `medido: false` com motivo por design ✓.
+
+---
+
 ### Resumo de uma linha para quem chega agora
 
 **A cadeia de algarismo (o núcleo) está sólida e medida; o tempo por nota passou a funcionar com
