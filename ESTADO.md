@@ -4391,3 +4391,24 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
   Fase 7 mede o acervo).
 - **Não repetir**: montar folha de FP por *caso* (139 células, 480 px) é ilegível e conta cada quadro duas vezes; a folha
   é por quadro (`fps_quadros`).
+
+## 2026-10-10 — Fase 4: `tab/video.py` (todas as telas, JSON v1) e a régua que pareia tela sem instante
+
+- **Comando**: `python -m tab.video "/acervo/sky guitar/retrato brasileiro - tab & lesson.mp4" --json data/saida/fase4/oficial_v1.json`
+  (imagem `quadro`, modelo `artefatos/oficial_3/glifo_sint.pt`, CPU: a GPU segue indisponível no container). Saída medida:
+  13 telas, 22 exibições, 506 notas, 27 não-notas. `gerado_por.commit` sai `desconhecido` (o container não tem git).
+- **Régua corrigida** (`python -m tab.avaliar_video --ouro data/gold/ouro_video/retrato_brasileiro_v2.json --pred data/saida/fase4/oficial_v1.json`), 2 execuções, JSON idêntico:
+  - telas: 13 de 13 pareadas (12 por instantes, 1 por `quadro_ref_s`);
+  - precisão 487 de 506 = 0,962; revocação 487 de 493 = 0,988; inventadas 19; perdidas 6;
+  - acerto de casa 484 de 487 casadas = 0,994; tempo 0 de 40 (Fase 5).
+- **CA da Fase 4**: casa+corda nas casadas 0,994 (meta 0,99): **bate**. Revocação 0,988 (meta 0,98): **bate**.
+  Inventadas 19 (meta 0): **não bate**.
+- **Defeito da régua, corrigido**: a tela 9 do ouro v2 não tem nenhum instante, então `casar_telas` nunca a pareava. Efeito antes: 36 notas perdidas e 37 inventadas falsas (revocação por instantes 0,915 contra 0,988 agora). `casar_sem_instante` pareia pela exibição prevista que contém o `quadro_ref_s` (sem reusar tela já casada), e `telas.criterio` declara o critério por tela. Testes em `tests/test_avaliar_video.py`.
+- **Imagem limpa (T4.1, regra 9)**: medido com o mesmo pareamento por `quadro_ref_s`. `quadro`: 481 de 486 casadas com casa certa (0,9897), 7 perdidas. `mediana` (7 quadros da maior exibição): 487 de 493 (0,9878), 0 perdidas. Fica `quadro` (maior acerto de casa). A mediana recupera as perdidas do marcador, mas troca uma casa certa por errada; seu teste (`tests/test_video.py`) segue no gate.
+- **Erros por causa** (medidos com a imagem `quadro` antes da fusão de dois algarismos; ver `data/saida/fase4/erros/grade.png`):
+  1. **Arco de ligadura lido como algarismo**: cerca de 18 das inventadas. Verificado a olho em T3 x491, T1 x550 e T5 x711; os outros casos seguem o mesmo padrão, não conferidos um a um. Próxima alavanca: o filtro de símbolo (`tab.simbolo`), que `transcrever` não usa.
+  2. **Dois algarismos** (13, 10, 12): era o principal erro de casa; a fusão pela forma (`4d844220`) já atacou esse grupo.
+  3. **Marcador colorido ou faixa azul sobre o algarismo**: 6 perdidas e 1 casa (T4 c5, 6 lido como 5). A mediana resolve, mas perde no critério de casa.
+  4. **Classificador**: T11 c6, 0 lido como 2. Não verificado visualmente.
+- **Não repetir**: pareamento só por instantes deixa de fora uma tela do ouro sem instante e inventa notas; a regua tem que cair no `quadro_ref_s`. Trocar a imagem por mediana para ganhar revocação custa casa (0,9897 → 0,9878).
+- **Limites**: tempo por exibição ainda não existe (Fase 5); a régua de tempo segue marcando 0 de 40. Os números dependem da fusão de dois algarismos do `reconhecer` (commit `4d844220`).
