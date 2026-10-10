@@ -3195,3 +3195,26 @@ corrigido; a correção é `y_quadro = y_faixa + y0`.
 1,6 que a auditoria mostrava). Mostrar o símbolo inteiro **é de graça e não muda a detecção** (medido: 78
 acertos com janela pequena e com janela grande). Ou seja: **exibição e detecção são coisas separadas** — e
 eu as tinha misturado, fazendo o dono ver um recorte que o modelo usava.
+
+## 2026-10-09 — O DONO ROTULOU A FOLHA 0: só C06_008, C06_009 e C06_010 não são símbolos — e são DÍGITOS DE ACORDE
+
+Veredito dele, textual: **"os únicos que não são símbolos dessa imagem C06_008, C06_009, C06_010"** e
+**"o recorte do símbolo tá perfeito"**.
+
+| o que ele apontou | o que é |
+| --- | --- |
+| `C06_008` (`2/3`), `C06_009` (`0/1`), `C06_010` | **dígitos de acorde EMPILHADOS que viraram UM componente** |
+
+**Isso corrige uma medição minha**: o "acorde fundido" que eu contava como **2,3 % dos componentes** e
+tratava como **candidato a símbolo** — **não é símbolo**: é o **dígito do acorde**. Ou seja, os
+componentes altos que eu media como "multi-corda / símbolo" incluem **notas empilhadas da própria
+tablatura** — e o dono acabou de separar as duas coisas para mim.
+
+**E valida o conserto da exibição**: "o recorte do símbolo tá perfeito" — a janela de 4,0 x 3,2 passos
+mostra o símbolo inteiro, e ele confirmou olhando. **Exibição resolvida**; a detecção continua sendo o que
+a medição diz (janela maior não muda os 78 acertos).
+
+**Rótulos salvos** em `data/gold/folha_labels.json` (para não se perderem num reboot, como já aconteceu).
+
+**Próximo passo combinado com ele**: ele ofereceu rotular mais se eu pedir — as **6 folhas restantes**
+(`folha_1` … `folha_6`, 138 recortes) pelo **nome único** de cada recorte.

@@ -1,0 +1,16 @@
+{
+ "origem": "rotulos do dono na folha de simbolos inteiros (--jx 2.0 --jy 1.6)",
+ "folhas": {
+  "folha_0": {
+   "nao_e_simbolo": [
+    "C06_008",
+    "C06_009",
+    "C06_010"
+   ],
+   "o_que_sao": "digitos de acorde EMPILHADOS que viraram UM componente (2/3, 0/1, 0/4)",
+   "regra_do_dono": "tudo o mais nesta folha E simbolo",
+   "veredito_do_dono_sobre_o_recorte": "o recorte do simbolo ta perfeito"
+  }
+ },
+ "consequencia_medida": "o 'acorde fundido' que eu contava como 2,3% dos componentes e tratava como candidato a simbolo NAO E SIMBOLO — ele e o DIGITO do acorde"
+}
