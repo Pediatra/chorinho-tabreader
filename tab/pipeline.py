@@ -266,7 +266,8 @@ def transcrever_intervalo(
         discriminador=carregar(),
     )
     for n in r["notas"]:  # x da nota é da ROI; o do marcador é do QUADRO
-        n["x_quadro"] = candidato.x0 + n["x"]
+        n["x_quadro"] = candidato.x0 + n["x"]  # borda esquerda do token
+        n["x_centro_quadro"] = round(candidato.x0 + n.pop("x_centro"), 1)  # centro
     resultado.update(
         {
             "painel": candidato.nome,

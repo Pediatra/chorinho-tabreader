@@ -329,6 +329,7 @@ def reconhecer_linha(
             "casa": classe,
             "tecnica": "harmonico" if classe == "harmonico" else None,
             "x": int(tk.x0),
+            "x_centro": (tk.x0 + tk.x1) / 2,
             "confianca": round(float(probs[i][int(np.argmax(probs[i]))]), 3),
             "corrigido_pela_forma": corrigido,
         }
@@ -516,6 +517,7 @@ def reconhecer_linha(
                     "casa": None,
                     "tecnica": None,
                     "x": int(tk.x0),
+                    "x_centro": (tk.x0 + tk.x1) / 2,
                     "confianca": round(prob, 3),
                     "origem": "simbolo",
                     "simbolo_cru": {

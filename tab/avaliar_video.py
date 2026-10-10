@@ -11,6 +11,12 @@ Aceita dois formatos de predição. O v1 (``esquema: chorinho/video@1``) e o leg
 ``tab.transcrever`` gera hoje, tratado como uma tela cuja exibição é o vídeo inteiro. No
 legado sem ``x_quadro`` a régua diz por que não avalia notas nem tempo.
 
+Toda comparação de x é pelo **centro** do token (``x_centro_quadro``), a mesma convenção
+do ouro (``tab.ouro_video``) e da coluna acesa que o ouro grava no clique. Quando uma nota
+não traz ``x_centro_quadro``, a régua usa ``x_quadro`` (borda esquerda) e DECLARA quantas
+notas caíram nesse fallback, no ouro e na predição. Sem essa correção, a borda contra o
+centro deslocava cada coluna por meia largura do algarismo.
+
 Todo número sai como "X de Y". As funções são puras; ``main`` só lê, chama e imprime.
 """
 
@@ -53,14 +59,17 @@ class NotaPrevista:
     Attributes:
         corda: número da corda (1 a 6).
         casa: casa como inteiro; ``None`` quando o símbolo não é numérico (não é entregue).
-        x: ``x_quadro`` da nota; ``None`` em JSON anterior ao espaço do quadro.
+        x: centro do token no quadro (``x_centro_quadro``); se a nota não o traz, o
+            ``x_quadro`` (borda), e então ``de_fallback`` é ``True``. ``None`` se não há nenhum.
         t_ini: instante de início em segundos; ``None`` quando não há tempo.
+        de_fallback: ``True`` quando ``x`` veio de ``x_quadro`` (sem ``x_centro_quadro``).
     """
 
     corda: int
     casa: int | None
     x: float | None
     t_ini: float | None
+    de_fallback: bool = False
 
 
 @dataclass
@@ -206,7 +215,8 @@ def casar_notas(
     par. Só as notas com casa numérica devem chegar em ``previstas``.
 
     Args:
-        notas_ouro: notas do ouro de uma tela (com ``corda``, ``casa`` e ``x_quadro``).
+        notas_ouro: notas do ouro de uma tela (com ``corda``, ``casa`` e ``x_centro_quadro``
+            ou, sem ele, ``x_quadro``).
         previstas: notas entregues da tela prevista (casa numérica e ``x`` presente).
         meia_janela: ``FRACAO_PASSO * passo``, em px.
 
@@ -218,7 +228,7 @@ def casar_notas(
         for j, prevista in enumerate(previstas):
             if prevista.x is None or prevista.corda != nota["corda"]:
                 continue
-            distancia = abs(float(nota["x_quadro"]) - prevista.x)
+            distancia = abs(_x_ouro(nota) - prevista.x)
             if distancia <= meia_janela:
                 candidatos.append((distancia, i, j))
     candidatos.sort()
@@ -340,6 +350,9 @@ def avaliar(ouro: dict, predicao: Predicao) -> dict:
     ids_ouro = [int(tela["id"]) for tela in telas_ouro]
     mapa = casar_telas(ids_ouro, instantes, predicao.telas)
     casadas = sum(1 for previsto in mapa.values() if previsto is not None)
+    sem_centro_ouro, total_ouro = _fallback_ouro(telas_ouro)
+    sem_centro_pred = sum(1 for t in predicao.telas for n in t.notas if n.de_fallback)
+    total_pred = sum(len(t.notas) for t in predicao.telas)
     motivo = _motivo_nao_avaliavel(predicao)
     if motivo is None:
         notas = _avaliar_notas(telas_ouro, mapa, predicao.telas)
@@ -355,6 +368,12 @@ def avaliar(ouro: dict, predicao: Predicao) -> dict:
         "video_predicao": predicao.video,
         "tolerancia_s": TOLERANCIA_S,
         "fracao_passo": FRACAO_PASSO,
+        "x_fallback": {
+            "ouro": sem_centro_ouro,
+            "ouro_total": total_ouro,
+            "previsao": sem_centro_pred,
+            "previsao_total": total_pred,
+        },
         "telas": {
             "ouro": len(ids_ouro),
             "casadas": casadas,
@@ -388,6 +407,12 @@ def linhas_do_relatorio(rel: dict) -> list[str]:
     ]
     linhas += _linhas_notas(rel["notas"])
     linhas += _linhas_tempo(rel["tempo"])
+    fb = rel["x_fallback"]
+    linhas.append(
+        "x: comparado pelo centro do token; sem x_centro_quadro (usou x_quadro, borda):"
+        f" ouro {fb['ouro']} de {fb['ouro_total']} notas,"
+        f" predição {fb['previsao']} de {fb['previsao_total']} notas"
+    )
     linhas.append(
         f"tolerância: {rel['tolerancia_s']} s (coluna imediatamente anterior);"
         f" casamento de x: {rel['fracao_passo']} * passo"
@@ -486,12 +511,42 @@ def _nota(bruta: dict) -> NotaPrevista:
     Returns:
         A ``NotaPrevista``. A casa só é numérica se for dígitos.
     """
+    centro = _float_ou_none(bruta.get("x_centro_quadro"))
+    borda = _float_ou_none(bruta.get("x_quadro"))
     return NotaPrevista(
         corda=int(bruta["corda"]),
         casa=_casa(bruta.get("casa")),
-        x=_float_ou_none(bruta.get("x_quadro")),
+        x=centro if centro is not None else borda,
         t_ini=_float_ou_none(bruta.get("t_ini")),
+        de_fallback=centro is None and borda is not None,
     )
+
+
+def _x_ouro(nota: dict) -> float:
+    """x de uma nota do ouro, no centro do token quando o ouro o traz.
+
+    Args:
+        nota: nota do ouro, com ``x_quadro`` e, opcionalmente, ``x_centro_quadro``.
+
+    Returns:
+        ``x_centro_quadro`` se presente, senão ``x_quadro`` (fallback declarado no relatório).
+    """
+    centro = nota.get("x_centro_quadro")
+    return float(centro if centro is not None else nota["x_quadro"])
+
+
+def _fallback_ouro(telas_ouro: list[dict]) -> tuple[int, int]:
+    """Conta as notas do ouro que não trazem ``x_centro_quadro``.
+
+    Args:
+        telas_ouro: telas do ouro, cada uma com ``notas``.
+
+    Returns:
+        ``(notas sem centro, notas no total)``.
+    """
+    notas = [n for tela in telas_ouro for n in tela.get("notas", [])]
+    sem_centro = sum(1 for n in notas if n.get("x_centro_quadro") is None)
+    return sem_centro, len(notas)
 
 
 def _casa(valor: object) -> int | None:

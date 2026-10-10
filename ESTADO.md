@@ -4095,3 +4095,19 @@ tablatura colorido seria recusado.
 Convenção de x: nota pré-lida `x_quadro` = borda esquerda do token (igual ao `tab.transcrever`) + `x_centro_quadro`;
 nota acrescentada por clique: centro = clique, `x_quadro` estimado = clique - 0,25 passo. Imagens ignoradas pelo git
 (`data/saida/ouro_video/*/telas|instantes`); `pre.json` versionado. O ouro (`data/gold/ouro_video/*.json`) é do dono.
+
+## 2026-10-10 — Fase 2 / conciliação de x: régua e transcrever comparam pelo CENTRO do token
+
+- **Problema**: o ouro grava o clique (centro) na coluna acesa e `x_centro_quadro` nas notas, mas a predição
+  só tinha `x_quadro` (borda esquerda). A régua comparava borda com centro: viés de meia largura do algarismo.
+- **Conserto**: `tab.reconhecer` registra o centro do token (`(x0+x1)/2`, ROI), e `tab.transcrever` /
+  `tab.pipeline` gravam `x_centro_quadro` (quadro). `x` e `x_quadro` não mudaram; nada que entra no classificador mudou.
+  `tab.avaliar_video` compara sempre pelo centro (`x_centro_quadro`, senão `x_quadro` com fallback declarado no
+  relatório: `x_fallback`), coluna prevista = mediana dos centros.
+- **Medido**: `tab.avaliar` nas 3 sementes oficiais: 66/72, 71/72, 68/72 (inalterado).
+  `tab.transcrever` smoke (`retrato brasileiro`, `--inicio 0.5 --janela 30 --simbolos ""`): 44 de 44 notas com
+  `x_centro_quadro`, todas com centro > borda (ex.: `x_quadro` 224 → `x_centro_quadro` 231,0).
+- **Testes**: `tests/test_avaliar_video.py` com 20 passando (5 novos: ouro com centro, predição com centro, coluna
+  pela mediana dos centros, fallback declarado com contagem, chaves extras `juntadas`/`ferramenta`).
+- **Não feito**: o agrupamento de colunas do `tab.transcrever` (onset) ainda usa `x_quadro`; trocar isso muda a saída
+  de tempo e fica para uma rodada própria, medida.

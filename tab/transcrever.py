@@ -241,8 +241,12 @@ def main() -> int:
         discriminador=carregar(),
     )
     # O x da nota é da ROI recortada; o do marcador é do QUADRO. Converte na fronteira.
+    # `x_quadro` é a BORDA esquerda do token (como sempre foi); `x_centro_quadro` é o
+    # centro, a convenção do ouro e da régua (`tab.avaliar_video`). Nada disto entra no
+    # classificador: é só o registro de saída.
     for n in r["notas"]:
         n["x_quadro"] = m.x0 + n["x"]
+        n["x_centro_quadro"] = round(m.x0 + n.pop("x_centro"), 1)
     xs_quadro = [n["x_quadro"] for n in r["notas"]]
     # ACORDE = UMA COLUNA. Notas com o mesmo x dividem a célula do estado; agrupadas, cada coluna
     # tem UM onset e ele vale para todas as notas dela (medido: `sky guitar`, a coluna 1 tinha
