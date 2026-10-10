@@ -3176,3 +3176,22 @@ filtro de forma e da janela sem retreino.
 **O que a rodada entrega de verdade**: `tab/fimafim.py` (instrumento no repositório, conta as duas
 passadas, imprime o modelo e declara que a precisão é PISO), o conserto do `torch.load` sem
 `map_location` (que travava TUDO nesta máquina sem GPU) e a prova de que a troca de modelo surte efeito.
+
+## 2026-10-09 — FOLHA DO SÍMBOLO INTEIRO: o "corte" era a minha exibição, e ele se resolve de graça
+
+`tab/folha_simbolos.py` recorta cada marca do dono numa janela **generosa (4,0 x 3,2 passos)** e monta
+folhas de 24 — **sem tocar no pipeline**. Resultado: **162 recortes em 7 folhas**
+(`data/saida/folha_inteira/folha_*.png`), e nela aparecem **os símbolos inteiros**: o arco completo
+(`2—2`, `4—4`, `0—0`), os **`(7)` dentro de chaves** (a chave inteira), o **`♩` com haste**, o
+**`4 -> 6·6` com seta** (slide).
+
+**E eu repeti um erro de coordenada que já me custou uma rodada**: a primeira folha saiu cheia de **braço de
+violão e fundo** ✗ porque a marca está em **coordenada da FAIXA** (y ~ 0..190) e eu recortei no **y do
+quadro** (~800..900). É o **mesmo** erro de espaço da rodada dos negativos — e eu só peguei porque
+**olhei a folha** antes de te mandar. **16ª vez** que um critério/medida meu precisa de imagem para ser
+corrigido; a correção é `y_quadro = y_faixa + y0`.
+
+**Conclusão que fecha a queixa do dono**: o corte que ele viu era a **minha exibição** (a janela de 2,4 x
+1,6 que a auditoria mostrava). Mostrar o símbolo inteiro **é de graça e não muda a detecção** (medido: 78
+acertos com janela pequena e com janela grande). Ou seja: **exibição e detecção são coisas separadas** — e
+eu as tinha misturado, fazendo o dono ver um recorte que o modelo usava.
