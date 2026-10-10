@@ -35,7 +35,7 @@ crescendo** — o dono segue baixando. Fonte no host:
 | **Cadeia de símbolo** | precisão fim a fim **0,197 (PISO)** / recall **0,216** contra `data/gold/marcas_simbolos_6.json` |
 | **Classificador de símbolo (LOCA)** | **0,74–0,79**; deixando **vídeo** de fora (leave-one-VIDEO-out), precisão **0,79–0,81** |
 | **Auditoria do dono** | **29 de 29** aprovados eram símbolo, **0 erros do modelo**; 9 símbolos não marcados; 36 marcas que **não** são símbolo |
-| **Pool de candidatos** | **1.869** candidatos; **1.258** aprovados (o dono rotulou 200 sorteados) |
+| **Pool de candidatos** | **1.869** candidatos; "**1.258** aprovados" — ⚠️ **número NÃO reproduzível**: as respostas do pool **não foram salvas em JSON** (ver §18.2) |
 | **Multi-corda estrito** | **~1 %** (7/842); corte de borda: **8 %** dos componentes da máscara crua, mas **1 de 1.455** glifos **entregues** |
 | **Acorde fundido** | 2,3 % dos componentes — **e o dono diz que não são símbolo** (§13) |
 
@@ -565,6 +565,72 @@ não há marcador legível, `medido: false` **+ `motivo`**.
 3. **Rótulo do dono não se reinterpreta** (§13.2) — e quando ele contradiz uma medição, **ele está
    certo**;
 4. **Nota com tempo falso é mentira** — o JSON declara `medido: false` com motivo por design ✓.
+
+---
+
+## 18. As SUAS respostas (os JSONs das marcações) — o ativo, e um aviso
+
+Esta é a parte do acervo de dados que **não depende de instrumento nenhum meu** ✓. Verifiquei cada
+arquivo abrindo e lendo as chaves.
+
+| arquivo | o que VOCÊ respondeu | estrutura verificada | tamanho |
+| --- | --- | --- | --- |
+| **`data/gold/auditoria_simbolo_rotulada.json`** | card a card na auditoria: **aprovado ou não** | `{rotulos: [...]}`, item = `{janela, contexto, prob, casa_com_marca, aprovado, canal, imagem, …}` | **149** |
+| **`data/gold/marcas_simbolos.json` … `_6.json`** | as marcas clicadas no `marcar.html` | `{como_usar, marcas: [...]}`; item = `{imagem, rotulo_imagem, x, y, …}` | **46 → 78 → 117 → 200 → 164 → 173** |
+| `data/gold/marcas_simbolos_5.json` e `_6.json` | **as suas correções** depois da auditoria | chaves extras **`correcao_do_dono`** e **`acrescimo_da_auditoria`** | — |
+| **`data/gold/folha_labels.json`** | os rótulos nas **folhas de símbolo inteiro** (§16.2) | `{origem, folhas, consequencia_medida}` | 1 KB |
+| **`data/gold/simbolos_marcados.json`** | o conjunto antigo de símbolos | `{origem, **regra_do_dono**, positivos, negativos, **vocabulario**, marcas_do_dono, janela, …}` | **523 positivos / 1.278 negativos** |
+| `data/gold/simbolos_marcados_j25/simbolos_marcados.json` | o conjunto da janela nova | `{origem, regra_do_dono, janela, positivos, negativos, espaco_dos_negativos, nota}` | **511 / 908** |
+| `data/gold/simbolos.json` | o confronto dono × modelo | `{convergencia: {mesma_resposta, algarismo_e_valor_iguais}, divergencias: [...], resumo, **resumo_dono**: {algarismo, nada, partitura, tablatura, simbolo}}` | 11 KB |
+
+### 18.1 As suas palavras estão GRAVADAS dentro dos JSONs (leia antes de tudo)
+
+Isto eu não sabia até abrir agora, e é o mais valioso do conjunto:
+
+- **`regra_do_dono`** (dentro de `simbolos_marcados.json`), textual:
+  *"tudo que marquei como nao e simbolo NAO E SIMBOLO apenas"* ✓
+- **`correcao_do_dono`** (em `marcas_simbolos_6.json`):
+  `{fonte: "auditoria_simbolo_rotulada.json", removidas_por_nao_ser_simbolo: **36**,
+  confirmadas_como_simbolo: **83**, regra_do_dono: …}` ✓
+- **`acrescimo_da_auditoria`**: `{simbolos_que_o_dono_nao_tinha_marcado: **9**, por_que: "a metrica
+  contava como falso positivo todo aprovado fora de uma marca…"}` ✓ — **é a explicação, escrita, de
+  por que a métrica de símbolo estava injusta com o modelo** ✓
+- **`como_usar`** (em todos os `marcas_simbolos*.json`):
+  *"marcas feitas clicando na imagem; **x,y em pixels da imagem original**"* ✓ — a convenção de
+  coordenada das suas marcas, dita por você e gravada ✓
+- **`vocabulario`** (dentro de `simbolos_marcados.json`) — as chaves verificadas:
+  **`formula_compasso` · `arpejo_vertical` · `arco_ligadura` · `arco_slide` · `pausa`** ✓
+  → **é a sua classificação semântica de símbolo, por tipo.** Se algum dia alguém perguntar "o que
+  significa este símbolo no produto?", **a resposta já está no repositório** ✓
+- `simbolos_marcados.json.marcas_do_dono` = a **lista dos arquivos** de marcas que alimentaram o
+  conjunto (`["marcas_simbolos.json", …]`) ✓ — a **procedência** das suas marcas está registrada ✓
+
+### 18.2 ⚠️ AVISO: as respostas da auditoria do POOL não foram salvas
+
+Eu procurei (`data/**/*pool*.json`, `*rotulad*.json`, `*auditoria*.json`) e **não existe JSON com as
+suas 200 respostas do pool** ✗. Em `data/saida/auditoria_pool/` há **somente 200 PNGs**
+(`j_p0000.png` … `j_p0199.png`) **e o `auditoria.html`** — as respostas **viveram no navegador e não
+foram persistidas** ✗ (o mesmo vale para `data/saida/auditoria_simbolo/`, cujos rótulos sobreviveram
+**porque** alguém os gravou em `auditoria_simbolo_rotulada.json` ✓).
+
+**Consequências, e são duas**:
+1. o número **"1.258 aprovados"** que aparecia neste documento (§2) **não é reproduzível a partir do
+   repositório** ✗ — **eu o havia registrado sem poder re-derivá-lo**. Está **marcado como não
+   reproduzível** na tabela do §2;
+2. **antes de qualquer nova auditoria, o instrumento tem de GRAVAR a resposta enquanto o dono clica**
+   ✓ (download de JSON, ou escrita num arquivo) — senão o tempo dele **se perde de novo** ✗. Isso é
+   conserto de ferramenta, não de modelo, e é **barato**.
+
+### 18.3 O funil completo das suas marcações (o que existe hoje)
+
+| etapa | ferramenta | o que você fez | onde está |
+| --- | --- | --- | --- |
+| 1 | `marcar.html` | 46 → 78 → 117 → 200 marcas de símbolo | `data/gold/marcas_simbolos{,_2,_3,_4}.json` ✓ |
+| 2 | auditoria de símbolo (149 cartões) | aprovou/reprovou pelo recorte | `auditoria_simbolo_rotulada.json` ✓ |
+| 3 | **correção** | 36 removidas por não serem símbolo, 83 confirmadas | `correcao_do_dono` em `_5`/`_6` ✓ |
+| 4 | **acréscimo** | +9 símbolos que você não havia marcado (com o porquê) | `acrescimo_da_auditoria` em `_6` ✓ |
+| 5 | **folhas de símbolo inteiro** | os rótulos de vocabulário (dígitos de acorde, arco, **arpejo**) | `folha_labels.json` ✓ |
+| 6 | **auditoria do pool** (200 de 1.869) | apontou quais candidatos são símbolo | ⚠️ **PNGs + HTML, respostas NÃO salvas** ✗ |
 
 ---
 
