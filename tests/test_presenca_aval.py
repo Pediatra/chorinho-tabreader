@@ -103,7 +103,7 @@ def test_gabarito_por_quadro_tem_o_contrato_do_dono():
     com_caixa = [c for c in casos if c["caixa"] is not None]
     assert len(com_caixa) == 118
     assert sum(1 for c in com_caixa if c["caixa_sobre_tablatura"]) == 109
-    assert sum(1 for c in casos if c["tablatura_no_quadro"]) == 124
+    assert sum(1 for c in casos if c["tablatura_no_quadro"]) == 129
     nao_tab = {c["codigo"] for c in com_caixa if c["caixa_sobre_tablatura"] is False}
     assert nao_tab == {
         "FP02",
