@@ -3792,3 +3792,33 @@ no `sky2.json` ✓ e em **8 de 15** no `mrtabs.json` ✓ — ou seja, o "tempo" 
 música ✓.
 
 **Os quatro itens entraram na tabela "não repetir"** ✓ (fim do arquivo, seção "O que foi tentado e falhou").
+
+## 2026-10-10 — FASE 1 / T1.1 (passo 1: LER antes de escrever): o que o `tab/leitor.py` vai REAPROVEITAR
+
+O plano manda (`docs/guias/plano-do-produto.md`, T1.1) **ler** `marcador._amostrar_ffmpeg` e
+`varredura.Leitor` **antes** de escrever, para reaproveitar em vez de reinventar ✓. Feito:
+
+**1. `marcador._amostrar_ffmpeg` (linha 299)** — é a **passada única** que o T1.1 pede ✓:
+`subprocess.Popen([...])` com o filtro `fps` pedindo o passo desejado ✓, os recortes saindo do **mesmo**
+quadro decodificado ✓, e **fallback para o caminho lento** quando a passada única não devolve quadro ✓.
+**E o motivo está medido no próprio docstring**: o caminho lento (um processo por amostra) deu
+**128 s por vídeo AV1** — são 241 *seeks* e, a cada *seek*, o decodificador volta ao *keyframe* ✓. Ou seja:
+a passada única não é otimização de gosto, é o que torna AV1 viável no HD compartilhado ✓.
+
+**2. `varredura.Leitor` (linha 104)** — **já implementa duas regras que o T1.1 exige** ✓:
+- **decide uma vez por vídeo** qual caminho usar ✓ (`via` = `"cv2"` ou `"ffmpeg"` ✓);
+- **não confia em `isOpened()`**: lê **um quadro de verdade** e só adota o `cv2` se ele **decodificar** ✓
+  (é literalmente a regra do T1.1: *"não basta `isOpened()`, ver §2.4"* ✓);
+- e cai para `ffmpeg` **no meio do vídeo** se o `cv2` falhar depois ✓.
+
+**Conclusão de desenho (para o próximo passo desta tarefa)**: o `tab/leitor.py` é **`varredura.Leitor`
+promovido** ✓ (mesma semântica, no lugar certo ✓) **mais** a janela em passada única do
+`marcador._amostrar_ffmpeg` ✓, com a interface do plano (`info()` por ffprobe ✓, `quadro_em(t_s)` ✓,
+`quadros(t0, t1, qps, recorte_y=None)` ✓) — e `inventario.ler_quadro`/`duracao` passam a **delegar**,
+mantendo as assinaturas (são usadas no projeto todo) ✓.
+
+**DISCREPÂNCIA DE NÚMERO, registrada para o cérebro (não resolvida)**: o docstring do `varredura.Leitor`
+diz que o OpenCV *"falha em **49 %** do acervo (AV1 sem aceleração)"* ✓, enquanto o plano (§2.4) e o
+`AGENTS.md` falam de **44 %** de AV1 ✓. Os dois podem estar certos ✓ (44 % AV1 **mais** algum H.264 que o
+`cv2` também não decodifica ✓), mas **não medi** qual é o caso ✗ — fica registrado como número a
+reconciliar, **sem** assumir que um está errado ✓.
