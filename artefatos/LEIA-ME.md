@@ -11,13 +11,18 @@ todo peso daqui é **reproduzível** pelo comando registrado.
 | `oficial_2` | idem, `--seed 2 --saida artefatos/oficial_2` | 88/96 = **0,917** |
 | `oficial_3` | idem, `--seed 3 --saida artefatos/oficial_3` | 85/96 = **0,885** |
 | `det_C` | idem, `--seed 2 --saida artefatos/det_C` | experimento de determinismo (ver abaixo) |
-| `casas24_1` | `python -m tab.sintetico --n-linhas 320 --epocas 22 --seed 1 --saida artefatos/casas24_1` (gerador com casas 0–24, 2026-10-10; GPU) | 70/72 = **0,972** (régua 72 glifos; não adotado, ver ESTADO) |
+| `casas24_1` | `python -m tab.sintetico --n-linhas 320 --epocas 22 --seed 1 --casas todas --saida artefatos/casas24_1` (lista 0–24; GPU) | 70/72 = **0,972** (régua 72 glifos; não adotado, ver ESTADO) |
 | `casas24_2` | idem, `--seed 2 --saida artefatos/casas24_2` | 69/72 = **0,958** |
 | `casas24_3` | idem, `--seed 3 --saida artefatos/casas24_3` | 70/72 = **0,972** |
 
-`casas24_*` usam um gerador diferente dos `oficial_*` (lista de casas 0–24 em vez de 0–10,12,14,15,17,19,21,24),
-então **não são o modelo oficial**: o `MODELO_PADRAO` continua `oficial_3`. Medidos no ouro de vídeo v2 (493 notas,
+`casas24_*` foram treinados com **`--casas todas`** (lista 0–24). O comando acima antes saiu sem essa flag:
+até f76e73ca a lista 0–24 era o padrão do gerador, e a flag não existia. Desde a restauração, sem `--casas`
+o gerador usa a lista **oficial** (0–10,12,14,15,17,19,21,24), e só `--casas todas` reproduz os `casas24_*`.
+`casas24_*` **não são o modelo oficial**: o `MODELO_PADRAO` continua `oficial_3`. Medidos no ouro de vídeo v2 (493 notas,
 `comparar_paginas.py`): casas certas 473/473/480 contra 470/478/484 dos `oficial_*`; inventadas 24/31/24 contra 20/26/19.
+
+Reprodutibilidade da lista oficial (2026-10-10): `montar(320, seed=1)` com o padrão dá 6.663 glifos e 20 classes
+(igual ao registrado antes de f76e73ca); `--casas todas` dá 6.948 glifos e 27 classes.
 
 **Número oficial: média das 3 sementes = **0,949** (66/72, 71/72, 68/72, em **72 glifos / 3 canais** — o `raman korshun` saiu em 2026-10-09, guitarra elétrica, e o denominador caiu de 96 glifos / 4 canais; **não é ganho**)** (amplitude 0,052). Cada semente dá o
 mesmo total em execuções repetidas — medido 2× cada.

@@ -73,12 +73,42 @@ def _resolver_fontes() -> list[str]:
 FONTES = _resolver_fontes()
 CORES_VOZ = [(0, 0, 0), (41, 89, 197), (23, 148, 95), (200, 40, 40)]
 
-#: Casas desenhadas pelo gerador (com repetição = peso). As casas baixas (0-5)
-#: são as mais comuns no acervo e continuam com mais peso. Casas 11, 13, 16,
-#: 18, 20, 22 e 23 entraram em 2026-10-10: antes NUNCA eram desenhadas, então o
-#: modelo não tinha essas classes e nenhum `13` podia sair certo (regra 6 do
-#: AGENTS.md: cobertura do gerador é o gargalo).
-CASAS_SORTEAVEIS = (
+#: Casas desenhadas pelo gerador (com repetição = peso) na lista OFICIAL: é a que
+#: gerou os pesos `oficial_*` e a régua de 0,949. Não mexer sem trocar o comando
+#: registrado em `artefatos/LEIA-ME.md`. Casas 0-10, 12, 14, 15, 17, 19, 21, 24.
+CASAS_OFICIAIS = (
+    0,
+    0,
+    0,
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    4,
+    5,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    12,
+    12,
+    14,
+    15,
+    17,
+    19,
+    21,
+    24,
+)
+
+#: Lista EXPERIMENTAL com casas 0-24 (cada casa nova uma vez; as baixas seguem com
+#: mais peso). Entrou em 2026-10-10 e só é usada com `--casas todas`: os pesos
+#: `casas24_*` saíram dela. Não é o padrão porque mudou a distribuição do treino e
+#: não melhorou o ouro de vídeo (ver ESTADO.md, 2026-10-10).
+CASAS_TODAS = (
     0,
     0,
     0,
@@ -113,9 +143,22 @@ CASAS_SORTEAVEIS = (
     24,
 )
 
+#: Listas de casas aceitas por `--casas`. O padrão é `oficial`.
+LISTAS_CASAS = {"oficial": CASAS_OFICIAIS, "todas": CASAS_TODAS}
 
-def gerar_linha(rng: random.Random) -> tuple[np.ndarray, list[dict]]:
-    """Desenha uma linha de tablatura aleatória e devolve (imagem, notas)."""
+
+def gerar_linha(
+    rng: random.Random, casas: tuple[int, ...] = CASAS_OFICIAIS
+) -> tuple[np.ndarray, list[dict]]:
+    """Desenha uma linha de tablatura aleatória e devolve (imagem, notas).
+
+    Args:
+        rng: gerador aleatório; a sequência de sorteios depende só dele e de ``casas``.
+        casas: lista de casas sorteáveis (com repetição = peso).
+
+    Returns:
+        Tupla (imagem BGR, lista de notas desenhadas).
+    """
     passo = rng.choice([14, 16, 18, 20, 22, 24, 28, 30, 36])
     n_compassos = rng.randint(2, 5)
     n_col = rng.randint(8, 26)
@@ -169,7 +212,7 @@ def gerar_linha(rng: random.Random) -> tuple[np.ndarray, list[dict]]:
         if escuro and cor == (0, 0, 0):
             cor = (255, 255, 255)
         for c in cordas:
-            casa = rng.choice(CASAS_SORTEAVEIS)
+            casa = rng.choice(casas)
             tecnica = None
             txt = str(casa)
             if rng.random() < 0.10:  # harmônico <n>
@@ -249,13 +292,24 @@ def conferir_fontes() -> None:
         )
 
 
-def montar(n_linhas: int, seed: int = 0) -> tuple[list, list, list]:
-    """Gera linhas, passa pelo extrator e casa cada glifo extraído com a nota desenhada."""
+def montar(
+    n_linhas: int, seed: int = 0, casas: tuple[int, ...] = CASAS_OFICIAIS
+) -> tuple[list, list, list]:
+    """Gera linhas, passa pelo extrator e casa cada glifo extraído com a nota desenhada.
+
+    Args:
+        n_linhas: quantas linhas desenhar (as que não têm 6 cordas são descartadas).
+        seed: semente do ``random.Random`` que sorteia as linhas.
+        casas: lista de casas do gerador; ver ``LISTAS_CASAS``.
+
+    Returns:
+        Tupla (glifos normalizados, rótulos, identificadores de canal).
+    """
     conferir_fontes()
     rng = random.Random(seed)
     X, y, canais = [], [], []
     for i in range(n_linhas):
-        img, notas = gerar_linha(rng)
+        img, notas = gerar_linha(rng, casas)
         g = segmentar(img)
         if len(g.linhas_y) != 6:
             continue
@@ -397,16 +451,31 @@ def treinar(X, y, saida: str, epocas: int, lote: int = 128, seed: int = 0):
     return modelo, rotulos, dev
 
 
-def main() -> int:
+def _parser() -> argparse.ArgumentParser:
+    """Monta os argumentos da CLI (o padrão de ``--casas`` é ``oficial``).
+
+    Returns:
+        O ``ArgumentParser`` do módulo.
+    """
     ap = argparse.ArgumentParser()
     ap.add_argument("--n-linhas", type=int, default=400)
     ap.add_argument("--epocas", type=int, default=25)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--saida", default=str(ARTEFATOS))
     ap.add_argument("--gabarito", default=str(GABARITO))
-    args = ap.parse_args()
+    ap.add_argument(
+        "--casas",
+        choices=sorted(LISTAS_CASAS),
+        default="oficial",
+        help="oficial = pesos oficial_* (padrão); todas = 0-24 (pesos casas24_*)",
+    )
+    return ap
 
-    X, y, _ = montar(args.n_linhas, seed=1)
+
+def main() -> int:
+    args = _parser().parse_args()
+
+    X, y, _ = montar(args.n_linhas, seed=1, casas=LISTAS_CASAS[args.casas])
     print(
         f"sintético: {len(X)} glifos extraídos de {args.n_linhas} linhas | "
         f"{len(set(y))} classes"
