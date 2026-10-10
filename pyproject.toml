@@ -9,6 +9,12 @@ requires-python = ">=3.14"
 # roda é a imagem. Declarar de novo aqui garante divergência entre os dois.
 
 [tool.ruff]
+# Os documentos de docs/ contem blocos de codigo de EXEMPLO (o plano do produto, por
+# exemplo) que NAO sao codigo do projeto: formata-los mexeria no conteudo do documento e
+# derrubava o gate. Medido em 2026-10-10: `ruff format --check .` falhava em 1 arquivo
+# (docs/guias/plano-do-produto.md) e o `make gate` ficava vermelho na arvore limpa.
+extend-exclude = ["docs"]
+
 line-length = 88
 exclude = ["data", "artefatos", ".venv"]
 

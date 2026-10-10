@@ -1,10 +1,10 @@
 # Todo comando do projeto roda DENTRO do container (Regra de Ouro do AGENTS.md).
 # O host só tem o .venv do editor; ele não executa o pipeline.
 
-COMPOSE := docker compose
+COMPOSE ?= docker compose -f compose.yaml -f compose.podman.yaml
 RUN     := $(COMPOSE) run --rm chorinho
 
-.PHONY: help build verify-install lint format test test-integration shell avaliar
+.PHONY: help build verify-install lint format test test-integration shell avaliar gate
 
 help:
 	@grep -E '^[a-z-]+:' Makefile | cut -d: -f1 | grep -v help
@@ -35,3 +35,8 @@ avaliar:
 
 shell:
 	$(COMPOSE) run --rm chorinho bash
+
+gate:
+	$(COMPOSE) run --rm -e RUFF_CACHE_DIR=/tmp/ruffcache chorinho ruff check .
+	$(COMPOSE) run --rm -e RUFF_CACHE_DIR=/tmp/ruffcache chorinho ruff format --check .
+	$(COMPOSE) run --rm chorinho pytest tests/ -q -p no:cacheprovider

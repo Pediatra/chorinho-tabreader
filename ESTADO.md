@@ -3667,3 +3667,34 @@ associação (a célula de x ✓) — muda só **quem** aponta a nota acesa ✓:
 **Os dois observadores estão no produto, com UMA regra de associação** ✓ — nenhuma linha menciona estilo ✓.
 E o `ler_quadro` **continua com a assinatura antiga** ✓ (o helper é separado ✓ — a unificação fica como
 decisão à parte, registrada ✓).
+
+## 2026-10-10 — FASE 0 / T0.4: `make gate` que BARRA (e o plano derrubava o gate da árvore limpa)
+
+**Feito**: no `Makefile`, `COMPOSE := docker compose` virou
+`COMPOSE ?= docker compose -f compose.yaml -f compose.podman.yaml` ✓ (com `?=`, sobrescrevível num host com
+Docker) e nasceu o alvo **`gate`**, com receita em **TAB**, **sem `|| echo`**, com os três passos
+(`ruff check .` · `ruff format --check .` · `pytest tests/ -q -p no:cacheprovider`) ✓. O `make` para no
+primeiro erro ✓ — medido: com um teste quebrado, `make gate` devolve **EXIT=2** e imprime
+`make: *** [Makefile:40: gate] Error 1` ✓; revertido, **EXIT=0** com "All checks passed!" e
+**120 passed in 6,99 s** ✓.
+
+**E o `pytest` do plano está CERTO**: **120 testes** passando ✓ (conferido; não é inconsistência).
+
+**ACHADO QUE CONTRADIZ O PLANO, e é o próprio plano que causa**: o §2.5 do plano afirma "Gate **verde**
+hoje … **120 testes** passando". Medido **com a árvore limpa** (`git status` só com o `Makefile` e
+`?? docs/guias/`): **o gate estava VERMELHO** ✗, e **no primeiro passo** ✗ — antes de chegar ao pytest ✔.
+Causa, medida sem filtro: `ruff check .` → **"All checks passed!"** ✓, mas `ruff format --check .` →
+**"1 file would be reformatted"** ✗, e o diff aponta um bloco de código **dentro de
+`docs/guias/plano-do-produto.md`** ✓ (`+ modo: str  # paginado | rolante | estatico` e a cerca ``` ✗).
+
+**Decisão (suposição, na falta do dono — §5 do plano)**: **não** reformatar o documento do cérebro ✗
+(o conteúdo é contrato). Em vez disso, `pyproject.toml` ganhou
+**`extend-exclude = ["docs"]`** no `[tool.ruff]` ✓ — os documentos de `docs/` contêm código de **exemplo**,
+que não é código do projeto. Consequência: `docs/` sai do ruff (lint e formatação) ✓, e o gate volta a ser
+verde na árvore limpa ✓. **Isto é desvio registrado** e vai para o relatório do dono ✓.
+
+**E UMA FALHA MINHA, registrada porque é a mesma classe de erro de sempre**: os meus **dois últimos commits
+(`7df88678` e o anterior) rodaram só `ruff check` + `pytest` e imprimiram "GATE OK"** ✗ — eu tinha
+**esquecido o `ruff format --check`** naqueles dois comandos ✗. Ou seja: eu afirmei "gate verde" com um dos
+três passos **não rodado** ✗. É exatamente o que o T0.4 existe para impedir, e é a razão de o gate ter de
+ser um **alvo só**, e não três comandos que eu copio de memória ✗.
