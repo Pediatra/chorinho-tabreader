@@ -3473,3 +3473,32 @@ entregar a rodada com a linha de base limpa e a integração planejada a entrega
    silencioso ✗), incluindo o motivo do observador de cor ✓;
 4. medir: `sky` (29/38 ✓), `mr. tabs` (10/19 ✓), `iwaki` (0 e **com motivo** ✓) → e **o gabarito de novo**,
    que tem de continuar **0,917 / 0,986 / 0,944** ✓ (a régua desta rodada ✓).
+
+## 2026-10-10 — DESCOBERTA QUE MUDA A INTEGRAÇÃO: a regra dos patamares JÁ EXISTIA
+
+Lendo a região do tempo no `transcrever` **antes** de tocar (a lição dos 4 patches falhados ✓), achei o que
+eu não sabia:
+
+```python
+if veredito["veredito"] in {"desliza", "salta"}:
+    if veredito["veredito"] == "desliza":
+        onsets = atribuir_tempos([n["x"] for n in r["notas"]], serie)
+    else:
+        onsets = tempos_por_patamar([n["x"] for n in r["notas"]], serie)   # <- JÁ EXISTE
+else:
+    ... "medido": False ...
+```
+
+**O código já trata "salta" com `tempos_por_patamar`.** O problema do `sky` **não é falta de regra** ✗ — é
+que o **veredito** (`resumo`) classifica a série dele como **`"lento"`** ✗, cai no `else` ✓ e devolve zero
+tempos ✗.
+
+**Consequência, e ela é boa**: a minha regra do estado **não é uma regra nova** ✓ — é a **generalização das
+duas que já existem** (`atribuir_tempos` para "desliza" ✓ + `tempos_por_patamar` para "salta" ✓), que hoje
+são **dois caminhos separados** ✗ e por isso **deixam de fora tudo que o veredito não reconhece** ✗ (o
+`sky` é o caso vivo ✓).
+
+**Onde a integração deve entrar** (e não é onde eu ia mexer ✗): em vez de **acrescentar** mais um ramo ✗, a
+regra única **substitui o `if/else` do veredito** ✓ — uma passagem só, com o estado ✓, o que também
+**apaga** a bifurcação por estilo ✓. Isso é uma **limpeza**, não um remendo ✓ — e é por isso que ela merece
+contexto fresco ✓, não o meu fim de sessão ✗.
