@@ -12,6 +12,7 @@ import copy
 import pytest
 
 from tab.avaliar_video import (
+    NotaPrevista,
     avaliar,
     casar_legado,
     casar_telas,
@@ -19,6 +20,7 @@ from tab.avaliar_video import (
     escolher_tela_legado,
     ler_predicao,
     linhas_do_relatorio,
+    notas_distintas,
     ocorrencias,
     tela_em_t,
     validar_ouro,
@@ -607,3 +609,49 @@ def test_quadro_ref_nao_reusa_tela_prevista_ja_casada():
     }
     rel = avaliar(ouro, _predicao_duas_exibicoes())
     assert rel["telas"]["mapa"] == {"1": 1, "2": None}
+
+
+def test_notas_distintas_conta_cada_nota_uma_vez():
+    # Uma nota por (corda, x): a segunda passagem da mesma nota não conta de novo.
+    notas = [
+        NotaPrevista(corda=3, casa=2, x=240.0, t_ini=20.0),
+        NotaPrevista(corda=3, casa=2, x=240.0, t_ini=40.0),
+        NotaPrevista(corda=3, casa=2, x=300.0, t_ini=40.0),
+        NotaPrevista(corda=2, casa=2, x=240.0, t_ini=40.0),
+    ]
+    distintas = notas_distintas(notas)
+    assert [(n.corda, n.x, n.t_ini) for n in distintas] == [
+        (3, 240.0, 20.0),
+        (3, 300.0, 40.0),
+        (2, 240.0, 40.0),
+    ]
+
+
+def test_notas_distintas_sem_x_nao_deduplica():
+    # Sem x não há como saber se duas entradas são a mesma nota: ficam as duas.
+    notas = [
+        NotaPrevista(corda=3, casa=2, x=None, t_ini=20.0),
+        NotaPrevista(corda=3, casa=2, x=None, t_ini=40.0),
+    ]
+    assert len(notas_distintas(notas)) == 2
+
+
+def test_passagem_repetida_nao_inventa_nota():
+    # A mesma nota (corda 3, x 240) nas passagens t=20 e t=40: uma nota, não duas.
+    notas = [*_pred_v1()["notas"], _nota(3, 2, 240, 40.0)]
+    rel = _rodar(OURO_BASE, _pred_v1(notas))
+    total = rel["notas"]["total"]
+    assert total["entregues"] == 4
+    assert total["casadas"] == 4
+    assert total["inventadas"] == 0
+    assert total["precisao"] == 1.0
+    assert total["revocacao"] == 1.0
+
+
+def test_passagem_repetida_nao_muda_o_tempo():
+    # O tempo usa todas as entradas: a entrada extra não altera a classificação.
+    base = _rodar(OURO_BASE, _pred_v1())["tempo"]
+    notas = [*_pred_v1()["notas"], _nota(3, 2, 240, 40.0)]
+    repetido = _rodar(OURO_BASE, _pred_v1(notas))["tempo"]
+    assert repetido["classes"] == base["classes"]
+    assert repetido["estado_certo"] == base["estado_certo"] == 3

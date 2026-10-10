@@ -834,10 +834,42 @@ def _motivo_nao_avaliavel(predicao: Predicao) -> str | None:
     return None
 
 
+def notas_distintas(notas: list[NotaPrevista]) -> list[NotaPrevista]:
+    """Devolve uma entrada por nota, deduplicando as passagens de uma mesma nota.
+
+    ``tab.video`` emite uma entrada por passagem e exibição: a mesma nota (mesma corda,
+    mesmo x) aparece várias vezes. Para a régua de notas, cada par ``(corda, x)`` conta
+    uma vez, pela primeira entrada na ordem do JSON. Notas sem ``x`` não se deduplicam
+    (não há como saber se são a mesma). A lista de entrada não é alterada: a régua de
+    tempo continua usando todas as entradas.
+
+    Args:
+        notas: notas de uma tela prevista, na ordem do JSON.
+
+    Returns:
+        As notas distintas, na mesma ordem relativa.
+    """
+    vistas: set[tuple[int, float]] = set()
+    distintas: list[NotaPrevista] = []
+    for nota in notas:
+        if nota.x is None:
+            distintas.append(nota)
+            continue
+        chave = (nota.corda, nota.x)
+        if chave in vistas:
+            continue
+        vistas.add(chave)
+        distintas.append(nota)
+    return distintas
+
+
 def _avaliar_notas(
     telas_ouro: list[dict], mapa: dict[int, int | None], telas: list[TelaPrevista]
 ) -> dict:
     """Mede casa e corda, por par de telas e no total.
+
+    As notas entregues são contadas por nota distinta (``notas_distintas``), não por
+    entrada do JSON.
 
     Args:
         telas_ouro: telas do ouro (cada uma com ``id`` e ``notas``).
@@ -847,7 +879,9 @@ def _avaliar_notas(
     Returns:
         Dicionário com ``por_tela``, ``previsoes_sem_par`` e ``total``.
     """
-    previstas_por_id = {t.id: [n for n in t.notas if n.casa is not None] for t in telas}
+    previstas_por_id = {
+        t.id: notas_distintas([n for n in t.notas if n.casa is not None]) for t in telas
+    }
     passo_por_id = {t.id: t.passo for t in telas}
     por_tela = []
     for tela in telas_ouro:
