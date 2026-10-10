@@ -31,11 +31,11 @@ import numpy as np
 from .inventario import ler_quadro
 from .painel import escolher
 from .pipeline import roi_das_cordas
-from .tabseg import mascaras_candidatas
+from .tabseg import _sem_faixas, mascaras_candidatas
 
 
 def _caixa_do_simbolo(
-    cinza: np.ndarray, x: int, y: int, passo: float
+    cinza: np.ndarray, x: int, y: int, passo: float, linhas: list[int]
 ) -> tuple[int, int, int, int]:
     """Devolve a caixa que contém o símbolo da marca: união dos componentes vizinhos.
 
@@ -48,7 +48,13 @@ def _caixa_do_simbolo(
     Returns:
         ``(x0, y0, x1, y1)`` com margem; se nenhum componente aparecer, uma janela fixa de 2,0 x 1,6 passos.
     """
+    # AS FAIXAS DAS CORDAS SAEM DA MÁSCARA. Motivo medido: o ARCO encosta na linha e o componente
+    # dele traz um pedaço de linha junto (235 px de largura para um arco ✗), e o dono pediu duas
+    # vezes "a imagem podia ser menor". Sem as faixas o arco fica justo, e o ARPEJO — que cruza as
+    # linhas — vira pedaços cuja UNIÃO cobre o arpejo inteiro (a altura dele é a informação).
     mascara = dict(mascaras_candidatas(cinza)).get("otsu")
+    if mascara is not None:
+        mascara = _sem_faixas(mascara, linhas, passo)
     hx, hy = int(2.0 * passo), int(1.6 * passo)
     if mascara is None:
         return x - hx, y - hy, x + hx, y + hy
@@ -130,7 +136,9 @@ def main() -> int:
         for k, marca in enumerate(ms):
             # A MARCA ESTA EM COORDENADA DA FAIXA (y ~ 0..190), NAO DO QUADRO: y_quadro = y_faixa + y0.
             x, y = int(marca["x"]), int(marca["y"]) + y0
-            x0, y0c, x1, y1c = _caixa_do_simbolo(cinza, x, y, passo)
+            x0, y0c, x1, y1c = _caixa_do_simbolo(
+                cinza, x, y, passo, list(cand.grade.linhas_y)
+            )
             rec = cinza[max(0, y0c) : y1c, max(0, x0) : x1]
             if rec.shape[0] < 16 or rec.shape[1] < 16:
                 continue

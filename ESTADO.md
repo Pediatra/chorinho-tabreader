@@ -3282,3 +3282,22 @@ COMPONENTE do arco encosta na linha de corda e traz um pedaço de linha junto** 
 as faixas (`_sem_faixas`) **na hora de medir a caixa** — mas isso **cortaria o arpejo**, que **cruza** as
 linhas ✗. É um trade-off que exige medição própria (quanto o arco encolhe × se o arpejo sobrevive), e
 **não** entra por tentativa.
+
+## 2026-10-09 — o arco largo: apagar as faixas a 0,12 passo NÃO muda nada (a faixa é mais fina que a linha)
+
+O dono mandou **duas vezes** o mesmo pedido — *"C06_010 é um arco de ligadura simples mas expandiu demais
+para a esquerda, a imagem podia ser menor"* — e ele está certo: eu tinha **diagnosticado** e parado para
+"medir o trade-off" em vez de consertar ✗.
+
+Tentei o conserto que o diagnóstico pedia: **apagar as faixas das cordas na máscara do recorte** (`_sem_faixas`
+com ±0,12 passo) para o componente do arco não trazer a linha junto.
+
+**Resultado: NADA mudou.** `C06_010` continua **235 × 80**, idêntico a antes ✗.
+
+**E o motivo eu já tinha medido nesta sessão**: **as linhas têm 3–5 px = 0,15–0,23 passo** e a minha faixa
+tem **±0,12 passo** ✗ — **a faixa é mais fina que a linha**, então não a desconecta ✓. É exatamente o que
+aconteceu na rodada do "componente gigante de 73 passos", onde apagar a mesma faixa também foi neutro.
+
+**Próximo passo, e não por tentativa**: **varrer a espessura da faixa** (0,15 / 0,2 / 0,3 passo) medindo
+**os dois lados**: quanto o `C06_010` encolhe **×** se o `C07_028` (arpejo, 55 × 117) **sobrevive inteiro**.
+A faixa certa é a **menor que desconecta o arco** — e o arpejo é o juiz.
