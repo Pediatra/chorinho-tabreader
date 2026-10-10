@@ -265,6 +265,8 @@ def transcrever_intervalo(
         prefixo=prefixo,
         discriminador=carregar(),
     )
+    for n in r["notas"]:  # x da nota é da ROI; o do marcador é do QUADRO
+        n["x_quadro"] = candidato.x0 + n["x"]
     resultado.update(
         {
             "painel": candidato.nome,
@@ -278,7 +280,7 @@ def transcrever_intervalo(
     serie = serie_do_marcador(video, roi_y, intervalo.t0, intervalo.t1 - intervalo.t0)
     veredito = resumo(serie)
     if veredito["veredito"] in {"desliza", "salta"}:
-        xs = [n["x"] for n in r["notas"]]
+        xs = [n["x_quadro"] for n in r["notas"]]
         onsets = (
             atribuir_tempos(xs, serie)
             if veredito["veredito"] == "desliza"

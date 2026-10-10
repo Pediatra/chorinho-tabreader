@@ -68,6 +68,8 @@ class Candidato:
     grade: Grade
     uniformidade: float
     score: tuple[float, int]
+    #: Deslocamento em x do recorte ``roi`` no QUADRO (``x_quadro = x0 + x_roi``).
+    x0: int = 0
 
     @property
     def passo(self) -> float:
@@ -296,7 +298,7 @@ def refinar(c: Candidato, margem: int = 12) -> Candidato:
     # Piso 1, não 5: medido neste quadro, o painel de verdade tem TRÊS algarismos
     # (o `0 2 3` da 5ª corda) e um piso alto descartava a leitura correta para
     # ficar com 36 tokens, 33 deles lixo do vídeo ao lado. Painel pequeno é painel.
-    novo = criar(c.nome, c.y0, c.y1, recorte, grade, min_glifos=1)
+    novo = criar(c.nome, c.y0, c.y1, recorte, grade, min_glifos=1, x0=c.x0 + x0)
     if novo is None:
         return c
     return novo
@@ -361,6 +363,7 @@ def criar(
     roi: np.ndarray,
     grade: Grade,
     min_glifos: int = MIN_GLIFOS,
+    x0: int = 0,
 ) -> Candidato | None:
     """Monta um candidato a partir de uma grade JÁ segmentada.
 
@@ -373,6 +376,8 @@ def criar(
         y1: base da faixa no quadro.
         roi: recorte da faixa.
         grade: resultado de ``segmentar(roi)``.
+        min_glifos: mínimo de glifos para aceitar a faixa.
+        x0: deslocamento em x do ``roi`` no quadro.
 
     Returns:
         O candidato, ou None se a faixa não tem 6 cordas nem glifos suficientes.
@@ -390,6 +395,7 @@ def criar(
         grade=grade,
         uniformidade=u,
         score=(round(u, 3), grade.glifos_centrados),
+        x0=x0,
     )
 
 

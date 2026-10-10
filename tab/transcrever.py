@@ -240,6 +240,10 @@ def main() -> int:
         prefixo=os.path.basename(os.path.dirname(os.path.abspath(args.video))),
         discriminador=carregar(),
     )
+    # O x da nota é da ROI recortada; o do marcador é do QUADRO. Converte na fronteira.
+    for n in r["notas"]:
+        n["x_quadro"] = m.x0 + n["x"]
+    xs_quadro = [n["x_quadro"] for n in r["notas"]]
     janelas = varrer_cursor(args.video, (y0, y1), t_max=args.varredura)
     # TEMPO POR TRAVESSIA. Medido no `iwaki/henze`: o marcador desliza ~65 px/s, então o
     # onset da nota é quando ele cruza o x dela — invertível. O `tempos_do_cursor`
@@ -254,10 +258,10 @@ def main() -> int:
     veredito = resumo(serie)
     if veredito["veredito"] in {"desliza", "salta"}:
         if veredito["veredito"] == "desliza":
-            onsets = atribuir_tempos([n["x"] for n in r["notas"]], serie)
+            onsets = atribuir_tempos(xs_quadro, serie)
         else:
             # marcador que SALTA: o onset é o início do patamar, não uma travessia
-            onsets = tempos_por_patamar([n["x"] for n in r["notas"]], serie)
+            onsets = tempos_por_patamar(xs_quadro, serie)
         r = completar(r, [(t, None) if t is not None else None for t in onsets])
         r["tempo"] = {
             "medido": True,
@@ -274,7 +278,7 @@ def main() -> int:
         # 5 quadros porque foi medido que 30 quadros (1 s) PERDE patamares (34 -> 47 onsets no `serge`).
         achados = onsets_do_estado(
             rastrear_estado(args.video, (y0, y1), passo=5).get("amostras") or [],
-            [n["x"] for n in r["notas"]],
+            xs_quadro,
         )
         if achados:
             lista = [achados.get(i) for i in range(len(r["notas"]))]
@@ -298,7 +302,7 @@ def main() -> int:
             cor = estado_por_cor(
                 args.video,
                 m,
-                [n["x"] for n in r["notas"]],
+                xs_quadro,
                 max(4, int(args.janela / 2)),
                 args.inicio,
                 frac_fim,

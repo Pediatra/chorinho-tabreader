@@ -3993,3 +3993,17 @@ integration'"`; `make test-integration` continua com 1 passou, 126 desmarcados.
 
 As 29 janelas do AV1 são **suspeitas**: o `mr. tabs` marca a nota por cor (ver a seção T1.2 acima), e o
 detector de faixa é o mesmo. Não afirmar cursor ali até medir. O `notas_com_tempo` (39) não mudou.
+
+## 2026-10-10 — Fase 1 / T1.3: um espaço de coordenadas (o do quadro)
+
+`painel.Candidato` ganhou `x0` (deslocamento da ROI no quadro); `criar(..., x0=)` o recebe e `refinar` grava
+`c.x0 + x0_do_recorte`. `candidatos` constrói com `x0=0` (ROI de largura cheia). O `x` de `reconhecer_linha`
+**não mudou** (é entrada do classificador, regra 9); a conversão é na fronteira: `transcrever` e `pipeline`
+gravam `x_quadro = cand.x0 + x` em cada nota (o `x` fica, por compatibilidade) e comparam **esse** com a série
+do marcador; `estado_por_cor` recorta com `cand.x0 + tk.x0` e recebe `xs` em `x_quadro`.
+
+Medido no `retrato brasileiro` (frac 0,5): `cand.x0 == 70`. Em t=245,5 s o marcador (`detectar_cursor`) está em
+x_quadro 230,5 (banda 224-237); a coluna 1 das notas tem x_roi 154 = x_quadro 224. Antes caía na coluna 3.
+`tab.avaliar` idêntico: 66/72, 71/72, 68/72. `transcrever` (`--inicio 0.5 --janela 30`): `medido: true`,
+`notas_com_tempo` 42 (era 40); as notas da coluna 1 agora têm `t_ini`. **Os tempos ainda não são confiáveis:** a
+associação usa a série do vídeo inteiro (onsets de outras páginas); conserto é da Fase 5.

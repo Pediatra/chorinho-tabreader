@@ -96,8 +96,9 @@ def estado_por_cor(
 
     Args:
         video: caminho do vídeo.
-        cand: painel escolhido (dá a origem da ROI em ``y0``).
-        xs: x das notas (a célula de x mapeia o token aceso para a nota).
+        cand: painel escolhido (dá a origem da ROI em ``y0`` e ``x0``).
+        xs: ``x_quadro`` das notas (espaço do QUADRO; a célula de x mapeia o
+            token aceso para a nota).
         n_amostras: quantas frações amostrar entre ``frac_ini`` e ``frac_fim``.
         frac_ini: fração inicial.
         frac_fim: fração final.
@@ -117,7 +118,9 @@ def estado_por_cor(
         # O DESTAQUE ESTA NO TOKEN DA GRADE (nao no `caixa_token` da nota, que so existe quando o filtro
         # de simbolo roda — foi esse engano que deu denominador ZERO na primeira tentativa).
         for i, tk in enumerate(cand.grade.glifos):
-            rec = quadro[cand.y0 + tk.y0 : cand.y0 + tk.y1, tk.x0 : tk.x1]
+            rec = quadro[
+                cand.y0 + tk.y0 : cand.y0 + tk.y1, cand.x0 + tk.x0 : cand.x0 + tk.x1
+            ]
             c = coloracao(rec)
             outras.append(c)
             if c > melhor_c:
@@ -128,7 +131,7 @@ def estado_por_cor(
             # A MESMA REGRA do outro observador: qual NOTA esta acesa — aqui, a nota cuja celula de x
             # contem o token colorido.
             tk = cand.grade.glifos[melhor]
-            atual = nota_do_x(float((tk.x0 + tk.x1) / 2), xs)
+            atual = nota_do_x(cand.x0 + float((tk.x0 + tk.x1) / 2), xs)
             if atual >= 0 and atual not in onsets:
                 onsets[atual] = frac
     motivo = None
@@ -170,7 +173,8 @@ def main() -> int:
     notas = [
         n for n in r["notas"] if isinstance(n.get("casa"), str) and n["casa"].isdigit()
     ]
-    xs = [int(n["x"]) for n in notas]
+    x_quadro = [cand.x0 + int(n["x"]) for n in notas]
+    xs = x_quadro
     amostras = rastrear(args.video, (y0, y1), passo=args.passo).get("amostras") or []
     if args.janela:
         # A JANELA VEM DE ONDE O MARCADOR ESTA ATIVO, nao do `t` da PRIMEIRA amostra. Medido no
