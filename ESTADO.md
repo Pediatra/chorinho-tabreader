@@ -4111,3 +4111,16 @@ nota acrescentada por clique: centro = clique, `x_quadro` estimado = clique - 0,
   pela mediana dos centros, fallback declarado com contagem, chaves extras `juntadas`/`ferramenta`).
 - **Não feito**: o agrupamento de colunas do `tab.transcrever` (onset) ainda usa `x_quadro`; trocar isso muda a saída
   de tempo e fica para uma rodada própria, medida.
+
+## 2026-10-10 — relato do dono: caixa do ARCO de ligadura não cobre o símbolo inteiro (dívida da Fase 10)
+
+- **Relato**: durante a rotulagem do ouro de vídeo (`data/saida/ouro_video/retrato_brasileiro`, ferramenta
+  `tab.ouro_video`), o dono reportou que as caixas de símbolo, nos arcos de ligadura, saem recortadas de forma
+  errada e não cobrem o arco inteiro. Registrado como relato, sem medida de recorte nesta rodada.
+- **Não afeta o ouro do MVP**: o ouro mede só nota (corda + casa) e tempo; símbolo é só exibição e não entra no
+  gabarito nem na régua (`tab.avaliar_video`).
+- **Risco correlato a vigiar**: arco cuja caixa engole um algarismo faz a nota sumir do recorte. O dono foi
+  orientado a acrescentar essa nota por clique no ouro.
+- **Liga com**: `CONTEXTO.md` §13.3 ("arcos precisam de janela larga") e o item 1 da Fase 10 em
+  `docs/guias/plano-do-produto.md` (significado de símbolo/técnica, arco de ligadura incluído).
+- **Dívida**: a caixa do arco precisa de janela larga, medida no quadro, antes de qualquer campo `tecnica` depender dela.
