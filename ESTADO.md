@@ -3884,3 +3884,25 @@ quinta vez nesta sessão que **ler/o que é exato** vence **lembrar** ✓.
 **Falta no T1.2**: migrar `cursor.rastrear`, `transcrever.*` (4 usos), `pipeline.*` (2), `marcador._amostrar_cv2`
 e `varredura.Leitor` ✓; e então **acrescentar o teste** que proíbe `VideoCapture(` fora de `tab/leitor.py` ✓
 (a ordem importa: o teste entra quando ele puder passar ✓, senão o gate fica vermelho ✓).
+
+## 2026-10-10 — FASE 1 / T1.2: `varredura.Leitor` vira SUBCLASSE do leitor único (9 usos restantes em 5 arquivos)
+
+**Feito**: a classe `Leitor` do `varredura.py` (104-143) foi substituída por uma **subclasse** de
+`tab/leitor.Leitor` ✓ — ela era um **duplicado** do que o T1.1 promoveu ✓, então a migração é de
+**compatibilidade**, não de semântica nova ✓. `varredura.py` deixa de ter `cv2.VideoCapture` ✓.
+
+**Conferido antes de trocar** (o receio era quebrar atributos internos ✗): os únicos usos de `_primeiro` eram
+dentro da própria classe ✓, e o `marcador.py` importa `Leitor` **de** `varredura` ✓ — que continua existindo,
+como subclasse ✓, então o import não quebra ✓. Verificado rodando:
+`varredura.Leitor("...retrato brasileiro").ler(245.5)` → `via cv2 · quadro (1080, 1920, 3)` ✓ e
+`issubclass(varredura.Leitor, leitor.Leitor) == True` ✓.
+
+**Contagem de `cv2.VideoCapture`**: de **11 usos em 7 arquivos** → **9 usos em 5 arquivos** ✓:
+`cursor.py` (1) · `marcador.py` (1) · `pipeline.py` (2) · `transcrever.py` (4) · e `leitor.py` (1, o dono ✓).
+
+**Regressão (regra 9)**: `tab.avaliar` → **66/72, 71/72, 68/72** ✓ — **idêntico** à linha de base ✓.
+
+**Falta no T1.2**: `cursor.rastrear` (1) · `marcador._amostrar_cv2` (1) · `pipeline.*` (2) · `transcrever.*` (4)
+— estas **não** são cópia de código ✗: cada uma tem laço próprio de leitura e precisa passar a usar
+`leitor.quadros(...)` (a passada única) ✓, o que muda **como** o quadro é obtido ✓. Por isso o teste que
+proíbe `VideoCapture(` só entra quando as cinco estiverem migradas ✓ (senão o gate fica vermelho ✓).

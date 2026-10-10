@@ -33,6 +33,7 @@ import time
 import cv2
 import numpy as np
 
+from . import leitor
 from .caminhos import SAIDA
 from .cursor import detectar_cursor
 from .painel import FAIXAS, candidatos_quadro, criar, refinar, uniformidade
@@ -101,46 +102,14 @@ def _ffmpeg_em(caminho: str, t_s: float) -> np.ndarray | None:
     return None
 
 
-class Leitor:
-    """Lê quadros de um vídeo escolhendo o caminho mais rápido que funcionar.
+class Leitor(leitor.Leitor):
+    """O leitor de vídeo do projeto é o `tab/leitor.py` (T1.2 do plano do produto).
 
-    O OpenCV é ~2,4x mais rápido, mas falha em 49% do acervo (AV1 sem aceleração).
-    A escolha é feita UMA vez por vídeo e vale para todos os instantes dele.
+    Esta classe existe só para **compatibilidade**: quem já chamava `varredura.Leitor` continua
+    funcionando, e o `cv2.VideoCapture` deixa de existir fora do leitor único.
     """
 
-    def __init__(self, caminho: str) -> None:
-        self.caminho = caminho
-        self.cap: cv2.VideoCapture | None = None
-        self.via = "ffmpeg"
-        cap = cv2.VideoCapture(caminho)
-        if cap.isOpened():
-            ok, frame = cap.read()
-            if ok and frame is not None and frame.size:
-                self.cap = cap
-                self.via = "cv2"
-                self._primeiro = frame
-            else:
-                cap.release()
-        self._primeiro: np.ndarray | None = getattr(self, "_primeiro", None)
-
-    def ler(self, t_s: float) -> np.ndarray | None:
-        """Quadro no instante t (segundos)."""
-        if self.cap is not None:
-            self.cap.set(cv2.CAP_PROP_POS_MSEC, max(0.0, t_s) * 1000.0)
-            ok, frame = self.cap.read()
-            if ok and frame is not None and frame.size:
-                return frame
-            # cv2 falhou no meio do vídeo: cai para ffmpeg daqui em diante
-            self.cap.release()
-            self.cap = None
-            self.via = "ffmpeg"
-        return _ffmpeg_em(self.caminho, t_s)
-
-    def fechar(self) -> None:
-        """Libera o decodificador."""
-        if self.cap is not None:
-            self.cap.release()
-            self.cap = None
+    _primeiro: np.ndarray | None = None  # compatibilidade com o uso antigo
 
 
 def medir_linhas(banda: np.ndarray) -> dict:
