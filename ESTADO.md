@@ -3260,3 +3260,25 @@ Duas lições do dono embutidas no recorte (`tab/folha_simbolos.py`), cada uma c
 **Alturas dos 162 recortes**: mediana **3,30 passos**, p90 **4,85**, máximo **7,40** (antes o teto era 3,2 por
 construção). Confirmado **por imagem**, não por suposição — e as duas tentativas erradas foram pegas
 olhando: a caixa por componente sozinha **perdia o arpejo**, e eu ia te mandar isso como conserto ✗.
+
+## 2026-10-09 — recorte: lateral estreito (o dono achou largo) e a causa REAL do arco largo
+
+Rótulos dele nesta rodada, refinando os anteriores: **`C06_008` e `C06_009` não são símbolos**;
+**`C06_010` É símbolo** ("um arco de ligadura simples") — e a crítica: **"expandiu demais para a esquerda, a
+imagem podia ser menor"**.
+
+**Conserto**: o eixo **x** leva só **0,6 passo** de margem (a janela fixa de ±2,0 entrando inteira no x era
+o que alargava); o **y** mantém a generosidade, porque **é a altura que carrega informação** (o arpejo diz
+quais cordas).
+
+| recorte | antes | depois |
+| --- | --- | --- |
+| `C07_028` (arpejo) | 84 × 117 | **55 × 117** — **a linha ondulada inteira e as 5 cordas, com menos gordura** ✓ |
+
+**Confirmado por imagem**, não por suposição.
+
+**E a causa do arco largo ficou identificada — não é a janela**: `C06_010` mede **235 px de largura porque o
+COMPONENTE do arco encosta na linha de corda e traz um pedaço de linha junto** ✗. A correção seria apagar
+as faixas (`_sem_faixas`) **na hora de medir a caixa** — mas isso **cortaria o arpejo**, que **cruza** as
+linhas ✗. É um trade-off que exige medição própria (quanto o arco encolhe × se o arpejo sobrevive), e
+**não** entra por tentativa.

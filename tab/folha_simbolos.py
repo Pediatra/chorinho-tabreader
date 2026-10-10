@@ -72,10 +72,16 @@ def _caixa_do_simbolo(
     # deixou o `C07_028` com 28 x 117 px — ALTO e ESTREITO — mostrando a coluna de dígitos e PERDENDO a
     # linha ondulada do arpejo, que fica ao lado. A caixa por componente pega o que o modelo vê; a janela
     # fixa garante o CONTEXTO lateral do símbolo (arpejo, chaves, parênteses com arco).
+    # LATERAL ESTREITO, VERTICAL GENEROSO. O dono apontou que o recorte "expandiu demais para a esquerda"
+    # (o `C06_010`, um arco de ligadura simples, saiu largo): a janela fixa de ±2,0 passos entrava inteira
+    # no eixo x. Ela existia para compensar uma SELEÇÃO ruim, não para enquadrar. Agora o x leva só uma
+    # margem pequena; o y mantém a janela inteira, porque é a ALTURA que carrega informação (o arpejo
+    # diz quais cordas).
+    lateral = int(0.6 * passo)
     return (
-        min(x0 - margem, x - hx),
+        min(x0 - margem, x - lateral),
         min(y0 - margem, y - hy),
-        max(x1 + margem, x + hx),
+        max(x1 + margem, x + lateral),
         max(y1 + margem, y + hy),
     )
 
