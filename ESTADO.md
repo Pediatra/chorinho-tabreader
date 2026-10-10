@@ -2998,3 +2998,32 @@ Ordem de prioridade medida: **(1) corte na borda 8 %** > **(2) acorde fundido 2,
 
 Por painel, a variação é grande: `C02`/`C03` (guitar dell'arte) têm **0** componentes altos; `C06`
 (kimny's) tem **13**. Não é um problema uniforme no acervo.
+
+## 2026-10-09 — OLHEI a folha da borda: o corte é de DÍGITO e de LINHA, não de símbolo (14ª correção)
+
+Refinei os 173 "cortados na borda": **tira de linha 24** (corte legítimo), **fragmento baixo 48**,
+**"candidato a símbolo" 96**. E então **olhei a folha** (`data/saida/multicorda/folha_borda.png`, 30
+recortes):
+
+| o que aparece | o que é |
+| --- | --- |
+| formas em `U`, metades de algarismo (0,9–1,0 × 0,4 passo) | **DÍGITO CORTADO AO MEIO** |
+| tiras de 1,5–3,0 × 0,5 passo com barras verticais | linha de corda + barline (legítimo) |
+| fragmentos de 0,1–0,4 passo | ruído / anti-serrilhado |
+| blocos claros (C14) | área de vídeo, não tablatura |
+
+**O corte na borda NÃO é problema de símbolo — é de DÍGITO e de LINHA.** Os "96 candidatos a símbolo
+cortado" são, na maioria, **algarismos decepados**. Isso é **pior** para o produto (o algarismo é o núcleo
+da entrega), mas **não** é o problema de símbolo que eu estava perseguindo.
+
+**14ª vez que um número meu precisou de imagem para ser corrigido** — e a segunda rodada seguida em que a
+folha de contato desfaz a minha conclusão anterior (multi-corda 75 % → 1 %; corte 8 % → dígito).
+
+**Isso reorganiza a prioridade do goal outra vez**: (a) os problemas **de símbolo** medidos são pequenos
+(multi-corda ~1 %, símbolo cortado < 4 % e boa parte é dígito); (b) o **dígito decepado na borda** e o
+**dígito fundido em acorde** (2,3 %) são **problemas do núcleo do produto**; (c) a queixa do dono ("tá
+cortando muita coisa") aponta para (b), não para (a).
+
+**Próxima medição**: quantos algarismos decepados pela borda existem no acervo **e quantos deles o
+classificador erra** — porque um dígito cortado é uma **perda de exatidão no número oficial**, e isso
+tem de estar medido antes de qualquer reforma de símbolo.
