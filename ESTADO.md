@@ -3118,3 +3118,35 @@ porque os negativos têm **dois formatos** (`cx, cy` para token e `x, y` para ja
 
 **Modelos treinados** com o conjunto novo: `artefatos/j25/simbolo_{1,2,3}/simbolo.pt` (via
 `SAIDA_SIMBOLO`, variável nova que não muda o padrão).
+
+## 2026-10-09 — GPU/CDI fora do ar depois do reboot, `torch.load` sem `map_location`, e uma medição que NÃO vale
+
+**A minha primeira hipótese sobre o reboot estava certa e eu abandonei cedo demais**: `/var/run/cdi/` está
+**vazio** (é tmpfs) → o container **não tem GPU** ✗. E isso quebrou o carregamento do modelo de
+algarismo, que foi salvo em CUDA:
+
+```
+RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False
+```
+
+**Corrigido**: `tab/reconhecer.py:78` e `tab/portao.py:641` faziam `torch.load(caminho)` **sem
+`map_location`** — agora `map_location="cpu"` (o `tab/digito.py` já fazia certo). **Sem esse conserto,
+nada roda nesta máquina desde o reboot** — é regressão de ambiente, não do meu código.
+
+**E a medição do critério duplo NÃO está pronta — eu não vou apresentá-la como resultado:**
+
+| | referência (script antigo: as duas passadas) | módulo novo |
+| --- | --- | --- |
+| aprovados | 178 | **29** |
+| precisão | 0,197 | 0,931 |
+| recall | 0,216 | 0,167 |
+
+O módulo novo conta **só a segunda passada** (`origem == "simbolo"`) e, pior, os **dois lados deram
+exatamente o mesmo número** (27/29) — o que indica que **a troca de modelo pode não estar surtindo
+efeito** (`SAIDA_SIMBOLO`). **Números que deviam diferir e não diferem = instrumento quebrado, não
+achado.** Antes de qualquer conclusão: corrigir a contagem (as duas passadas) e **provar que o modelo
+carregado é o novo** (imprimir o caminho de onde ele veio).
+
+**Estado entregue nesta rodada**: `tab/fimafim.py` (instrumento no repositório, com a ressalva do PISO de
+precisão na própria saída), `tab/regerar_janela.py`, `compose.podman.yaml`, o conserto do `map_location`,
+o conjunto da janela nova (511 positivos / 908 negativos) e os modelos `artefatos/j25/`.

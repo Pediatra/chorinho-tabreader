@@ -75,7 +75,7 @@ def compativel(classe: str, tk, passo: float) -> bool:
 
 
 def carregar_modelo(caminho: str):
-    ck = torch.load(caminho)
+    ck = torch.load(caminho, map_location="cpu")
     rot = ck["rotulos"]
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     m = GlifoCNN(len(rot)).to(dev)

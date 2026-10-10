@@ -638,7 +638,7 @@ def treinar(
 
 def carregar_modelo(caminho: str):
     """Carrega o portão do disco (em modo de avaliação)."""
-    ck = torch.load(caminho)
+    ck = torch.load(caminho, map_location="cpu")
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     modelo = PortaoCNN().to(dev)
     modelo.load_state_dict(ck["state_dict"])
