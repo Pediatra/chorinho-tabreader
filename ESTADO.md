@@ -3952,3 +3952,21 @@ quadro" ✓) e **remove** a aritmética de índice ✓.
 174-186 (campos do `resumo` ✓) **não apareceram** na minha leitura filtrada ✗, e uma reescrita por intervalo
 de AST as **apagaria em silêncio** ✗ — o mesmo erro de classe que o `nome` ✗ e o `transcrever` ✗ me custaram
 antes ✓. **Preservar o que não se viu é a regra.**
+
+## 2026-10-10 — FASE 1 / T1.2 (cursor): `rastrear` agora lê pelo leitor único
+
+`tab/cursor.py:rastrear` trocou `cv2.VideoCapture` por `tab.leitor.quadros` (passada única de `ffmpeg`,
+`qps = fps / passo`, `t` em segundos vindo do leitor, `frame = round(t * fps)`). Vídeo ilegível agora vira
+`resumo["erro"]` (antes: `SystemExit` ou 0 amostras calado). Novo campo `quadros_lidos`. Teste:
+`tests/test_cursor_leitor.py`.
+
+| vídeo (roi, passo) | antes | depois |
+| --- | --- | --- |
+| `sky guitar/retrato brasileiro` H.264 (280-462, 30) | 434 amostras, x 197–1810,5, 404 saltos | 434 amostras, x 197–1841, 406 saltos |
+| `mr. tabs/blind melon` AV1 (827-997, 300) | 0 amostras (`cv2` não decodifica) | `quadros_lidos`=57, 52 amostras, `frames_totais`=16974 |
+
+H.264: mesmas 434 amostras; a diferença (x_max, +2 saltos) vem de o filtro `fps` do `ffmpeg` escolher o quadro
+mais próximo do instante, em vez do `grab()` de 1 a cada 30 índices. AV1: a **leitura** funciona (57 quadros);
+mas as 52 "detecções" têm largura mediana 1 px, matiz 98, 29 retrocessos e salto mediano de 347 px — são
+**ruído**, não cursor (o `mr. tabs` marca a nota por cor, não por faixa). Não afirmar cursor ali.
+`tab.avaliar` nas 3 sementes: 66/72, 71/72, 68/72 (inalterado).

@@ -23,6 +23,8 @@ import json
 import cv2
 import numpy as np
 
+from . import leitor
+
 
 def detectar_cursor(
     frame_bgr: np.ndarray,
@@ -100,32 +102,49 @@ def rastrear(
     passo: int = 1,
     debug_dir: str | None = None,
 ) -> dict:
-    cap = cv2.VideoCapture(caminho)
-    if not cap.isOpened():
-        raise SystemExit(f"não abri {caminho}")
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
-    n = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
+    """Rastreia a faixa do cursor ao longo do vídeo, lendo pelo leitor único.
+
+    A leitura é uma passada de ``ffmpeg`` (``tab.leitor.quadros``), que decodifica AV1; o
+    ``cv2.VideoCapture`` abria o AV1 e devolvia 0 amostras calado. O tempo de cada amostra é
+    o ``t`` em segundos que o leitor devolve; ``frame`` é só o índice equivalente
+    ``round(t * fps)``.
+
+    Args:
+        caminho: vídeo.
+        roi: ``(y0, y1)`` do painel, ou ``None`` para o quadro inteiro.
+        passo: amostra um quadro a cada ``passo`` quadros (``qps = fps / passo``).
+        debug_dir: pasta para as 3 primeiras visões de depuração, ou ``None``.
+
+    Returns:
+        ``{"resumo", "amostras"}``. Se o vídeo não puder ser lido, o ``resumo`` traz a
+        chave ``"erro"`` (e ``amostras`` vazia) em vez de parecer "vídeo sem cursor".
+    """
+    meta = leitor.info(caminho)
+    fps = meta["fps"] or 30.0
+    duracao = float(meta["duracao_s"] or 0.0)
+    n = round(duracao * fps)
     y0, y1 = roi if roi else (0, 0)
+    erro = None
+    if not meta["largura"] or not meta["altura"]:
+        erro = "ffprobe não leu as dimensões do vídeo"
+    elif duracao <= 0:
+        erro = "ffprobe não informou a duração do vídeo"
 
     amostras = []
-    i = 0
-    while True:
-        ok = cap.grab()
-        if not ok:
-            break
-        if i % passo == 0:
-            ok, frame = cap.retrieve()
-            if not ok:
-                break
-            if y1 > y0:
-                frame = frame[y0:y1, :]
+    lidos = 0
+    if erro is None:
+        qps = fps / max(1, passo)
+        recorte = (y0, y1) if y1 > y0 else None
+        for t_s, frame in leitor.quadros(caminho, 0.0, duracao, qps, recorte_y=recorte):
+            lidos += 1
+            i = round(t_s * fps)
             det = detectar_cursor(frame)
             if det:
                 x0, x1, (matiz, s) = det
                 amostras.append(
                     {
                         "frame": i,
-                        "t": i / fps,
+                        "t": t_s,
                         "x": (x0 + x1) / 2.0,
                         "x0": x0,
                         "x1": x1,
@@ -141,9 +160,9 @@ def rastrear(
                         vis, (det[0], 0), (det[1], vis.shape[0] - 1), (0, 0, 255), 2
                     )
                 cv2.imwrite(f"{debug_dir}/cursor_f{i:06d}.png", vis)
-        i += 1
+        if lidos == 0:
+            erro = "o leitor não devolveu nenhum quadro (ffmpeg não decodificou)"
 
-    cap.release()
     xs = np.array([a["x"] for a in amostras])
     ts = np.array([a["t"] for a in amostras])
     # O cursor NÃO desliza: ele salta de nota em nota e fica parado enquanto a nota
@@ -163,6 +182,7 @@ def rastrear(
     resumo = {
         "fps": fps,
         "frames_totais": n,
+        "quadros_lidos": lidos,
         "amostras_com_cursor": len(amostras),
         "cobertura": (len(amostras) / max(1, n / passo)),
         "x_min": float(xs.min()) if len(xs) else None,
@@ -180,6 +200,8 @@ def rastrear(
         if len(intervalos)
         else None,
     }
+    if erro:
+        resumo["erro"] = erro
     return {"resumo": resumo, "amostras": amostras}
 
 
