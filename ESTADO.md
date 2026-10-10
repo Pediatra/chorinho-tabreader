@@ -3592,3 +3592,33 @@ em **`t_ini`** ✓ — o resumo imprimiu "0 com tempo" ✗ enquanto o JSON tinha
 lendo a saída** ✓ (o `t_ini: 266.1` estava visível na terceira nota ✓), não confiando no meu próprio
 resumo ✗. Desta vez a mentira foi para o lado **pessimista** ✓ — o que é o menos perigoso dos dois ✓, mas é
 a mesma classe de erro que me fez afirmar "gate verde" quatro vezes ✗.
+
+## 2026-10-10 — CRITÉRIO DUPLO CUMPRIDO: o gabarito NÃO caiu e o sem-marcador continua DECLARADO
+
+**Depois** da integração (o número que podia ter sido afetado ✓, medido por isso mesmo ✓):
+
+| semente | resultado | referência |
+| --- | --- | --- |
+| `oficial_1` | **66/72 = 0,917** ✓ | 0,917 ✓ |
+| `oficial_2` | **71/72 = 0,986** ✓ | 0,986 ✓ |
+| `oficial_3` | **68/72 = 0,944** ✓ | 0,944 ✓ |
+
+**Idêntico à referência** ✓ — a integração **não tocou a cadeia do algarismo** ✓ (a mudança é só no `else` da
+cadeia do tempo ✓), e agora isso está **provado**, não suposto ✓.
+
+E o `iwaki` (sem marcador ✓): **43 notas, 0 com tempo** ✓, com o motivo **declarado** ✓:
+
+```
+"medido": false,
+"motivo": "marcador sem_marcador na janela varrida, e o estado nao deu onset"
+```
+
+**O silêncio continua declarado** ✓ — e agora o motivo cita **também** o estado ✓ (nunca zero silencioso ✓).
+
+**Os três pilotos, lado a lado**:
+
+| vídeo | marcador | antes | **agora** |
+| --- | --- | --- | --- |
+| `sky guitar` | patamares (64 %) | 0 de 44 ✗ | **40 de 44** ✓ |
+| `iwaki` | ausente | 0 de 43 ✓ | **0 de 43, com motivo** ✓ |
+| `mr. tabs` | **cor no algarismo** (azul) | 0 ✗ | **0 no `transcrever`** ✗ — o observador de **cor** está medido e funcionando no `tab.estado` (10 de 19 ✓) mas **ainda não está ligado no JSON** ✗ |
