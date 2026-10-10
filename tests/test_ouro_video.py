@@ -12,13 +12,16 @@ from tab.ouro_video import (
     Agrupador,
     agrupar_telas,
     clique_para_quadro,
+    comparar_notas,
     corda_mais_proxima,
     criar_servidor,
     diferenca_cinza,
     fazer_slug,
+    fundir_ouro,
     gravar_atomico,
     histograma,
     montar_ouro,
+    pagina_em,
     painel_com_caixas,
     sortear_instantes,
     validar_ouro,
@@ -264,4 +267,151 @@ def test_painel_com_caixas_nao_mexe_se_ja_contem() -> None:
         0,
         55,
         55,
+    )
+
+
+# --- ouro v2: fusão do v1 com as páginas do tab.telas ---------------------------
+
+
+def _nota(corda: int, casa: int, x: float) -> dict:
+    return {"corda": corda, "casa": casa, "x_quadro": x, "x_centro_quadro": x + 5}
+
+
+def _pagina(id_: int, ref: float, exib: list, notas: list | None = None) -> dict:
+    return {
+        "id": id_,
+        "quadro_ref_s": ref,
+        "exibicoes": exib,
+        "passo": 20.0,
+        "notas": notas or [_nota(1, 9, 50.0)],
+    }
+
+
+def _v1() -> dict:
+    return {
+        "telas": [
+            {"id": 1, "quadro_ref_s": 15.0, "notas": [_nota(1, 0, 10.0)]},
+            {"id": 2, "quadro_ref_s": 42.0, "notas": [_nota(2, 3, 30.0)]},
+            {"id": 3, "quadro_ref_s": 48.0, "notas": [_nota(2, 3, 31.0)]},
+        ],
+        "instantes": [
+            {"t": 44, "tela": 2, "coluna_x_quadro": 30.5, "obs": "x"},
+            {"t": 12, "tela": 1, "coluna_x_quadro": None, "obs": "nenhuma acesa"},
+            {"t": 90, "tela": None, "coluna_x_quadro": None, "obs": "sem tablatura"},
+            {"t": 25, "tela": 1, "coluna_x_quadro": 70.0, "obs": ""},
+        ],
+    }
+
+
+def _paginas() -> list[dict]:
+    return [
+        _pagina(1, 15.0, [[10, 20]]),
+        _pagina(2, 28.0, [[20, 40]]),
+        _pagina(3, 46.0, [[40, 60], [100, 110]]),
+    ]
+
+
+def test_pagina_em_usa_exibicao_semiaberta() -> None:
+    """A exibição é [t0, t1): t1 já é a página seguinte."""
+    paginas = _paginas()
+    assert pagina_em(paginas, 20.0) == 2
+    assert pagina_em(paginas, 105.0) == 3
+    assert pagina_em(paginas, 75.0) is None
+
+
+def test_fusao_copia_pelo_quadro_ref_e_marca_origem() -> None:
+    """A tela v1 cujo quadro_ref_s cai na exibição dá as notas à página."""
+    estado, rel = fundir_ouro(_v1(), _paginas())
+    p1 = estado["telas"][0]
+    assert p1["origem"].startswith("ouro_v1") and p1["conferida"] is True
+    assert [(n["corda"], n["casa"]) for n in p1["notas"]] == [(1, "0")]
+    assert rel["herdadas"] == [1, 3] and rel["a_rotular"] == [2]
+
+
+def test_fusao_pagina_sem_v1_fica_com_o_modelo_a_rotular() -> None:
+    """Página sem tela v1: notas do modelo, não conferida, a rotular."""
+    estado, rel = fundir_ouro(_v1(), _paginas())
+    p2 = estado["telas"][1]
+    assert p2["origem"].startswith("modelo") and p2["conferida"] is False
+    assert [(n["corda"], n["casa"], n["origem"]) for n in p2["notas"]] == [
+        (1, "9", "modelo")
+    ]
+    assert rel["notas_a_rotular"] == 1
+
+
+def test_fusao_conflito_de_duas_telas_v1_na_mesma_pagina() -> None:
+    """Duas telas v1 na página 3: usa a de ref mais próxima e RELATA a divergência."""
+    v1 = _v1()
+    v1["telas"][2]["notas"] = [_nota(2, 5, 31.0)]  # casa diferente da tela 2
+    estado, rel = fundir_ouro(v1, _paginas())
+    assert estado["telas"][2]["v1_usada"] == 3  # ref 48 é a mais perto de 45
+    assert estado["telas"][2]["v1_telas"] == [2, 3]
+    assert estado["telas"][2]["conferida"] is False  # conflito: o dono decide
+    assert estado["telas"][0]["conferida"] is True
+    assert len(rel["conflitos"]) == 1
+    c = rel["conflitos"][0]
+    assert (c["pagina"], c["usada_v1"], c["outra_v1"]) == (3, 3, 2)
+    assert c["so_na_usada"] == [(2, "5", 31.0)] and c["so_na_outra"] == [(2, "3", 30.0)]
+
+
+def test_fusao_duas_telas_v1_que_concordam_nao_geram_conflito() -> None:
+    """Mesma nota a 1 px de diferença: concordam."""
+    _, rel = fundir_ouro(_v1(), _paginas())
+    assert rel["conflitos"] == []
+
+
+def test_fusao_reatribui_instante_por_tempo() -> None:
+    """t, coluna e obs ficam; a tela vira a página da exibição; não confirmada."""
+    estado, rel = fundir_ouro(_v1(), _paginas())
+    por_t = {i["t"]: i for i in estado["instantes"]}
+    assert [i["t"] for i in estado["instantes"]] == [12, 25, 44, 90]
+    assert por_t[25]["tela"] == 2 and por_t[25]["tela_v1"] == 1  # v1 dizia tela 1
+    assert por_t[25]["coluna_x_quadro"] == 70.0 and por_t[44]["obs"] == "x"
+    assert por_t[44]["tela"] == 3 and por_t[12]["estado"] == "nenhuma"
+    assert por_t[90]["estado"] == "sem_tablatura" and por_t[90]["tela"] is None
+    assert not any(i["tela_confirmada"] for i in estado["instantes"])
+    assert [r["t"] for r in rel["instantes_reatribuidos"]] == [25]
+
+
+def test_montar_ouro_v2_leva_origem_e_confirmacao_e_valida() -> None:
+    """O estado fundido vira um ouro válido com origem, v1_telas e tela_confirmada."""
+    estado, rel = fundir_ouro(_v1(), _paginas())
+    pre = {
+        "video": "v.mp4",
+        "modelo": "m.pt",
+        "como_foi_rotulado": "fusão",
+        "telas": [
+            {"id": p["id"], "quadro_ref_s": p["quadro_ref_s"]} for p in _paginas()
+        ],
+    }
+    ouro = montar_ouro(pre, estado, agora="2026-10-10T00:00:00")
+    assert validar_ouro(ouro) == []
+    assert ouro["como_foi_rotulado"] == "fusão"
+    assert ouro["telas"][0]["origem"].startswith("ouro_v1")
+    assert ouro["telas"][2]["v1_telas"] == [2, 3]
+    assert all(i["tela_confirmada"] is False for i in ouro["instantes"])
+    assert rel["n_paginas"] == 3
+
+
+def test_montar_ouro_v1_continua_sem_campos_novos() -> None:
+    """Compatibilidade: estado do v1 (sem origem/tela_confirmada) não ganha campos."""
+    pre = {"video": "v", "modelo": "m", "telas": [{"id": 1, "quadro_ref_s": 1.0}]}
+    estado = {
+        "telas": [{"id": 1, "notas": []}],
+        "instantes": [{"t": 1, "estado": "nenhuma", "tela": 1}],
+    }
+    ouro = montar_ouro(pre, estado)
+    assert "origem" not in ouro["telas"][0]
+    assert "tela_confirmada" not in ouro["instantes"][0]
+
+
+def test_comparar_notas_tolera_x() -> None:
+    """Mesma corda/casa com x a 5 px é igual; casa diferente não."""
+    a = [_nota(1, 3, 10.0), _nota(2, 0, 50.0)]
+    b = [_nota(1, 3, 15.0), _nota(2, 1, 50.0)]
+    r = comparar_notas(a, b)
+    assert (
+        r["iguais"] == 1
+        and r["so_a"] == [(2, "0", 50.0)]
+        and r["so_b"] == [(2, "1", 50.0)]
     )

@@ -4226,3 +4226,17 @@ contém o quadro lido, depois instante do ouro mais próximo do quadro lido, por
   voto; busca binária; ouro).
 - **Limites**: `modo` é por vídeo; rolagem só detectada (T8.4 faz o resto). Um painel com a mesma tinta em duas páginas
   (música que repete exatamente) vira a MESMA tela. Presença é amostrada a 5 s: tablatura com menos de 5 s pode passar.
+
+## 2026-10-10 — FASE 2: ouro v2 (páginas pelo `tab.telas`, notas do dono herdadas do v1)
+
+- **Comando**: `python -m tab.ouro_video completar VIDEO --ouro-v1 data/gold/ouro_video/retrato_brasileiro.json --ouro-v2 data/gold/ouro_video/retrato_brasileiro_v2.json --saida data/saida/ouro_video/retrato_brasileiro_v2 [--telas-json data/saida/telas/mvp.json]`
+  (recusa sobrescrever um v2 existente; o v1 só é lido). `fundir_ouro` é pura e testada.
+- **Regra**: tela v1 com `quadro_ref_s` dentro de uma exibição da página dá as notas (origem `ouro_v1 (dono)`, conferida);
+  várias telas v1 na mesma página: usa a de `quadro_ref_s` mais próximo do da página e COMPARA as outras (conflito é
+  relatado, a página fica `conferida: false`); página sem v1: notas do modelo, `modelo — a rotular`. Instantes: `t`,
+  coluna e obs do dono; `tela` pelo tempo; `tela_confirmada: false`.
+- **MVP**: 14 páginas; 7 herdadas (4, 5, 7, 10, 12, 13, 14; 255 notas); 7 a rotular (1, 2, 3, 6, 8, 9, 11; 271 notas do
+  modelo); 22 de 40 instantes reatribuídos; 2 conflitos, ambos na página 5 (v1 telas 2, 3 e 4 caem nela; usada a 4):
+  as notas das telas 2/3 divergem das da 4 (corda/x), a conferir pelo dono.
+- **Página** (`servir`): aba Telas com filtro "só a rotular" e destaque das herdadas; aba Instantes com a imagem do instante
+  ao lado da página atribuída (com a coluna marcada) e botões "é esta página" / "outra página". Compatível com o v1.

@@ -22,6 +22,8 @@ EXATAMENTE como o ``tab.transcrever`` (assim a régua compara igual com igual) e
 
 Uso:
     python -m tab.ouro_video preparar VIDEO --saida data/saida/ouro_video/<slug>/
+    python -m tab.ouro_video completar VIDEO --ouro-v1 data/gold/ouro_video/<slug>.json \
+        --ouro-v2 data/gold/ouro_video/<slug>_v2.json --saida data/saida/ouro_video/<slug>_v2/
     python -m tab.ouro_video servir --pasta data/saida/ouro_video/<slug>/ \
         --ouro data/gold/ouro_video/<slug>.json --porta 8099
 """
@@ -40,13 +42,14 @@ import threading
 import time
 import unicodedata
 from collections.abc import Callable
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 import cv2
 import numpy as np
 
 from . import leitor
+from . import telas as segmentacao
 from .caminhos import MODELO_PADRAO, RAIZ, SAIDA, acervo
 from .digito import carregar
 from .painel import PASSO_MAXIMO_PX, PASSO_MINIMO_PX, Candidato, escolher
@@ -440,6 +443,13 @@ def _raiz_da_juncao(juntadas: dict[int, int], id_: int) -> int:
     return id_
 
 
+def _confirmacao(instante: dict) -> dict:
+    """``{"tela_confirmada": bool}`` se o instante é do v2 (tem o campo); senão vazio."""
+    if "tela_confirmada" not in instante:
+        return {}
+    return {"tela_confirmada": bool(instante["tela_confirmada"])}
+
+
 def montar_ouro(pre: dict, estado: dict, agora: str | None = None) -> dict:
     """Monta o JSON do ouro (formato do plano) a partir do estado da ferramenta.
 
@@ -483,14 +493,16 @@ def montar_ouro(pre: dict, estado: dict, agora: str | None = None) -> dict:
                 nota["x_centro_quadro"] = round(float(n["x_centro_quadro"]), 1)
             notas.append(nota)
         notas.sort(key=lambda n: (n["x_quadro"], n["corda"]))
-        telas.append(
-            {
-                "id": int(t["id"]),
-                "quadro_ref_s": ref_s[t["id"]],
-                "conferida": bool(t.get("conferida")),
-                "notas": notas,
-            }
-        )
+        tela = {
+            "id": int(t["id"]),
+            "quadro_ref_s": ref_s[t["id"]],
+            "conferida": bool(t.get("conferida")),
+            "notas": notas,
+        }
+        if t.get("origem"):
+            tela["origem"] = t["origem"]
+            tela["v1_telas"] = t.get("v1_telas") or []
+        telas.append(tela)
     ids = {t["id"] for t in telas}
     instantes = []
     for i in estado.get("instantes", []):
@@ -504,6 +516,7 @@ def montar_ouro(pre: dict, estado: dict, agora: str | None = None) -> dict:
                     "tela": None,
                     "coluna_x_quadro": None,
                     "obs": "sem tablatura",
+                    **_confirmacao(i),
                 }
             )
             continue
@@ -519,12 +532,14 @@ def montar_ouro(pre: dict, estado: dict, agora: str | None = None) -> dict:
             if situacao == "nenhuma"
             else round(float(i["coluna_x_quadro"]), 1),
             "obs": "nenhuma acesa" if situacao == "nenhuma" else i.get("obs", ""),
+            **_confirmacao(i),
         }
         instantes.append(item)
     instantes.sort(key=lambda i: i["t"])
     ouro = {
         "video": pre["video"],
-        "como_foi_rotulado": (
+        "como_foi_rotulado": pre.get("como_foi_rotulado")
+        or (
             f"pre-preenchido pelo modelo {pre['modelo']}; conferido e corrigido "
             "pelo dono por leitura visual"
         ),
@@ -554,6 +569,298 @@ def gravar_atomico(destino: Path, conteudo: dict) -> None:
         f.flush()
         os.fsync(f.fileno())
     os.replace(tmp, destino)
+
+
+# ---------------------------------------------------------------------------------
+# Ouro v2: páginas do tab.telas + notas herdadas do ouro v1 (decisão do dono)
+# ---------------------------------------------------------------------------------
+
+#: Tolerância (px, no quadro) em x para duas notas rotuladas serem "a mesma nota".
+TOLERANCIA_X_NOTA_PX = 6.0
+
+#: Passo (px) usado só se a página não traz o dela (para a caixa de nota sem caixa).
+PASSO_PADRAO_PX = 20.0
+
+ORIGEM_V1 = "ouro_v1 (dono)"
+ORIGEM_MODELO = "modelo — a rotular"
+
+
+def pagina_em(paginas: list[dict], t: float) -> int | None:
+    """Id da página cuja exibição contém ``t`` (``None`` se nenhuma).
+
+    Args:
+        paginas: páginas com ``id`` e ``exibicoes`` (lista de ``[t0, t1]``).
+        t: instante, em segundos.
+
+    Returns:
+        O id da página, ou ``None``.
+    """
+    for p in paginas:
+        for t0, t1 in p["exibicoes"]:
+            if t0 <= t < t1:
+                return int(p["id"])
+    return None
+
+
+def comparar_notas(
+    a: list[dict], b: list[dict], tol_x: float = TOLERANCIA_X_NOTA_PX
+) -> dict:
+    """Compara duas listas de notas rotuladas (mesma corda, casa e x dentro de ``tol_x``).
+
+    Args:
+        a: notas (``corda``, ``casa``, ``x_quadro``).
+        b: notas a comparar com ``a``.
+        tol_x: tolerância de x, em px.
+
+    Returns:
+        ``{"iguais": n, "so_a": [...], "so_b": [...]}``, notas como ``(corda, casa, x)``.
+    """
+    restantes = list(b)
+    so_a, iguais = [], 0
+    for n in sorted(a, key=lambda n: (n["x_quadro"], n["corda"])):
+        achou = None
+        for m in restantes:
+            if (
+                m["corda"] == n["corda"]
+                and str(m["casa"]) == str(n["casa"])
+                and abs(float(m["x_quadro"]) - float(n["x_quadro"])) <= tol_x
+            ):
+                achou = m
+                break
+        if achou is None:
+            so_a.append((n["corda"], str(n["casa"]), round(float(n["x_quadro"]), 1)))
+        else:
+            restantes.remove(achou)
+            iguais += 1
+    so_b = [
+        (m["corda"], str(m["casa"]), round(float(m["x_quadro"]), 1)) for m in restantes
+    ]
+    return {"iguais": iguais, "so_a": so_a, "so_b": so_b}
+
+
+def _notas_herdadas(
+    ouro_v1: dict, tela_v1: dict, pagina: dict, prefixo: str
+) -> list[dict]:
+    """Notas do ouro v1 no formato de estado da ferramenta (com caixa, se o v1 a tem).
+
+    Args:
+        ouro_v1: o ouro v1 inteiro (``ferramenta`` dá caixa e origem da nota).
+        tela_v1: a tela do v1 de onde copiar.
+        pagina: a página nova (dá o passo, se faltar caixa).
+        prefixo: prefixo dos ids das notas copiadas.
+
+    Returns:
+        Notas do estado (``removida`` falso), em ordem de x.
+    """
+    ferr = next(
+        (
+            t
+            for t in (ouro_v1.get("ferramenta") or {}).get("telas", [])
+            if t["id"] == tela_v1["id"]
+        ),
+        {},
+    )
+    por_chave = {
+        (n["corda"], round(float(n["x_quadro"]), 1)): n
+        for n in ferr.get("notas", [])
+        if not n.get("removida")
+    }
+    passo = float(pagina.get("passo") or PASSO_PADRAO_PX)
+    notas = []
+    for i, n in enumerate(tela_v1["notas"]):
+        fn = por_chave.get((n["corda"], round(float(n["x_quadro"]), 1)), {})
+        centro = n.get("x_centro_quadro", fn.get("x_centro_quadro"))
+        if centro is None:
+            centro = float(n["x_quadro"]) + 0.25 * passo
+        nota = {
+            "id": f"{prefixo}{i}",
+            "corda": int(n["corda"]),
+            "casa": str(n["casa"]),
+            "x_quadro": n["x_quadro"],
+            "x_centro_quadro": centro,
+            "origem": fn.get("origem", "dono"),
+            "removida": False,
+        }
+        if fn.get("caixa"):
+            nota["caixa"] = list(fn["caixa"])
+        notas.append(nota)
+    notas.sort(key=lambda n: (n["x_quadro"], n["corda"]))
+    return notas
+
+
+def _estado_do_instante(i: dict) -> str:
+    """Estado do instante do ouro (``coluna``, ``nenhuma`` ou ``sem_tablatura``)."""
+    if i.get("coluna_x_quadro") is not None:
+        return "coluna"
+    if i.get("tela") is None:
+        return "sem_tablatura"
+    return "nenhuma"
+
+
+def fundir_ouro(ouro_v1: dict, paginas: list[dict]) -> tuple[dict, dict]:
+    """Funde o ouro v1 com as páginas do ``tab.telas``: o estado da ferramenta do v2.
+
+    Regras (decisão do dono): a tela v1 cujo ``quadro_ref_s`` cai numa exibição da página
+    dá as notas à página (``conferida``). Se mais de uma tela v1 cai na mesma página, usa-se
+    a de ``quadro_ref_s`` mais próximo do da página e as outras só são COMPARADAS: a
+    divergência vai para ``conflitos`` (não se resolve sozinho). Página sem tela v1 fica
+    com as notas do modelo (``paginas[i]["notas"]``), a rotular. Os instantes mantêm
+    ``t``, coluna e obs do dono; a ``tela`` passa a ser a página cuja exibição contém ``t``,
+    com ``tela_confirmada`` falso.
+
+    Args:
+        ouro_v1: o ouro v1 (não é alterado).
+        paginas: páginas com ``id``, ``exibicoes``, ``quadro_ref_s`` e ``notas`` do modelo
+            (com ``corda``, ``casa``, ``x_quadro``, ``x_centro_quadro``, ``caixa``).
+
+    Returns:
+        ``(estado, relatorio)``; ``estado`` é o da ferramenta (``telas``, ``instantes``...).
+    """
+    tela_v1_por_id = {int(t["id"]): t for t in ouro_v1["telas"]}
+    do_v1: dict[int, list[int]] = {}
+    v1_sem_pagina = []
+    pagina_do_v1 = {}
+    for t in ouro_v1["telas"]:
+        pid = pagina_em(paginas, float(t["quadro_ref_s"]))
+        pagina_do_v1[int(t["id"])] = pid
+        if pid is None:
+            v1_sem_pagina.append(int(t["id"]))
+        else:
+            do_v1.setdefault(pid, []).append(int(t["id"]))
+    telas, conflitos, herdadas = [], [], []
+    for p in paginas:
+        candidatas = do_v1.get(int(p["id"]), [])
+        if not candidatas:
+            notas = [
+                {
+                    "id": f"m{i}",
+                    "corda": n["corda"],
+                    "casa": str(n["casa"]),
+                    "x_quadro": n["x_quadro"],
+                    "x_centro_quadro": n.get("x_centro_quadro"),
+                    "origem": "modelo",
+                    "removida": False,
+                    "caixa": n.get("caixa"),
+                }
+                for i, n in enumerate(p["notas"])
+            ]
+            telas.append(
+                {
+                    "id": int(p["id"]),
+                    "conferida": False,
+                    "junta_em": None,
+                    "origem": ORIGEM_MODELO,
+                    "v1_telas": [],
+                    "notas": notas,
+                }
+            )
+            continue
+        usada = min(
+            candidatas,
+            key=lambda k: (
+                abs(
+                    float(tela_v1_por_id[k]["quadro_ref_s"]) - float(p["quadro_ref_s"])
+                ),
+                k,
+            ),
+        )
+        for outra in candidatas:
+            if outra == usada:
+                continue
+            cmp = comparar_notas(
+                tela_v1_por_id[usada]["notas"], tela_v1_por_id[outra]["notas"]
+            )
+            if cmp["so_a"] or cmp["so_b"]:
+                conflitos.append(
+                    {
+                        "pagina": int(p["id"]),
+                        "usada_v1": usada,
+                        "outra_v1": outra,
+                        "iguais": cmp["iguais"],
+                        "so_na_usada": cmp["so_a"],
+                        "so_na_outra": cmp["so_b"],
+                    }
+                )
+        herdadas.append(int(p["id"]))
+        em_conflito = any(c["pagina"] == int(p["id"]) for c in conflitos)
+        telas.append(
+            {
+                "id": int(p["id"]),
+                "conferida": not em_conflito,  # conflito: o dono decide, não eu
+                "junta_em": None,
+                "origem": ORIGEM_V1,
+                "v1_telas": candidatas,
+                "v1_usada": usada,
+                "notas": _notas_herdadas(
+                    ouro_v1, tela_v1_por_id[usada], p, f"h{int(p['id'])}_"
+                ),
+            }
+        )
+    instantes, reatribuidos, sem_pagina = [], [], []
+    for i in sorted(ouro_v1["instantes"], key=lambda i: i["t"]):
+        estado = _estado_do_instante(i)
+        pagina = (
+            None if estado == "sem_tablatura" else pagina_em(paginas, float(i["t"]))
+        )
+        if estado != "sem_tablatura" and pagina is None:
+            sem_pagina.append(i["t"])
+        v1 = i.get("tela")
+        if estado != "sem_tablatura" and pagina_do_v1.get(v1) != pagina:
+            reatribuidos.append({"t": i["t"], "tela_v1": v1, "pagina": pagina})
+        instantes.append(
+            {
+                "t": i["t"],
+                "estado": estado,
+                "tela": pagina,
+                "tela_v1": v1,
+                "coluna_x_quadro": i.get("coluna_x_quadro"),
+                "obs": i.get("obs", ""),
+                "tela_confirmada": False,
+            }
+        )
+    estado = {
+        "proximo": 1,
+        "tela_atual": paginas[0]["id"] if paginas else None,
+        "inst_atual": 0,
+        "telas": telas,
+        "instantes": instantes,
+    }
+    a_rotular = [t for t in telas if t["origem"] == ORIGEM_MODELO]
+    relatorio = {
+        "n_paginas": len(paginas),
+        "herdadas": herdadas,
+        "a_rotular": [t["id"] for t in a_rotular],
+        "notas_a_rotular": sum(len(t["notas"]) for t in a_rotular),
+        "notas_herdadas": sum(len(t["notas"]) for t in telas if t["id"] in herdadas),
+        "conflitos": conflitos,
+        "telas_v1_sem_pagina": v1_sem_pagina,
+        "pagina_do_v1": {str(k): v for k, v in pagina_do_v1.items()},
+        "instantes_reatribuidos": reatribuidos,
+        "instantes_sem_pagina": sem_pagina,
+    }
+    return estado, relatorio
+
+
+def texto_fusao(relatorio: dict, video_v1: str) -> str:
+    """Frase do ``como_foi_rotulado`` do ouro v2.
+
+    Args:
+        relatorio: o relatório de ``fundir_ouro``.
+        video_v1: nome do arquivo do ouro v1 (para citar).
+
+    Returns:
+        O texto explicando a fusão v1 para v2.
+    """
+    return (
+        f"v2 = fusão do {video_v1} (rotulado pelo dono olhando o quadro_ref_s de cada "
+        "tela, agrupadas por diferença média em cinza, que juntou páginas diferentes de "
+        "mesmo leiaute) com as páginas do tab.telas (1 - IoU da tinta, limiar 0,3). "
+        f"{len(relatorio['herdadas'])} páginas herdam as notas do dono (tela v1 com "
+        "quadro_ref_s dentro da exibição; origem 'ouro_v1 (dono)'); "
+        f"{len(relatorio['a_rotular'])} vêm pré-preenchidas pelo modelo e esperam o dono "
+        "(origem 'modelo — a rotular'). Instantes: t, coluna e obs são do dono; a página "
+        "foi reatribuída pelo tempo (tela_confirmada=false até o dono confirmar)."
+    )
 
 
 # ---------------------------------------------------------------------------------
@@ -828,6 +1135,181 @@ def preparar(
     return pre
 
 
+def _candidato_da_pagina(video: str, pagina: dict) -> tuple[np.ndarray, Candidato]:
+    """Quadro e painel da página: tenta o ``quadro_ref_s`` e depois o meio das exibições.
+
+    Args:
+        video: caminho do vídeo.
+        pagina: página com ``quadro_ref_s`` e ``exibicoes``.
+
+    Returns:
+        ``(quadro, candidato)``.
+
+    Raises:
+        RuntimeError: se nenhum quadro da página tem painel.
+    """
+    instantes = [float(pagina["quadro_ref_s"])] + [
+        (a + b) / 2 for a, b in pagina["exibicoes"]
+    ]
+    for t in instantes:
+        quadro = leitor.quadro_em(video, t)
+        if quadro is None:
+            continue
+        cand = escolher(quadro)
+        if cand is not None and PASSO_MINIMO_PX <= cand.passo <= PASSO_MAXIMO_PX:
+            return quadro, cand
+    raise RuntimeError(f"página {pagina['id']}: nenhum quadro com painel")
+
+
+def completar(
+    video: str,
+    ouro_v1: Path,
+    saida: Path,
+    ouro_v2: Path,
+    telas_json: Path | None = None,
+    modelo_caminho: Path = MODELO_PADRAO,
+) -> dict:
+    """Prepara o ouro v2: páginas do ``tab.telas`` + notas do dono herdadas do v1.
+
+    Grava ``saida/telas/NNN.png``, ``saida/instantes/NNN.png`` e ``saida/pre.json``, e o
+    ouro v2 inicial em ``ouro_v2`` (NUNCA o v1, que só é lido; o v2 existente não é
+    sobrescrito, pois guarda trabalho do dono).
+
+    Args:
+        video: caminho do vídeo.
+        ouro_v1: ouro v1 (só leitura).
+        saida: pasta de saída.
+        ouro_v2: ouro v2 a criar.
+        telas_json: saída já pronta de ``python -m tab.telas`` (pula a segmentação).
+        modelo_caminho: pesos do classificador de glifos.
+
+    Returns:
+        O ``pre.json`` gravado (com ``fusao``).
+
+    Raises:
+        FileExistsError: se ``ouro_v2`` já existe.
+    """
+    if ouro_v2.exists():
+        raise FileExistsError(f"{ouro_v2} já existe; não sobrescrevo trabalho do dono")
+    v1 = json.loads(ouro_v1.read_text(encoding="utf-8"))
+    if telas_json is not None:
+        previstas = json.loads(telas_json.read_text(encoding="utf-8"))["telas"]
+    else:
+        previstas = [asdict(t) for t in segmentacao.telas(video)]
+    (saida / "telas").mkdir(parents=True, exist_ok=True)
+    (saida / "instantes").mkdir(parents=True, exist_ok=True)
+    meta = leitor.info(video)
+    modelo, rotulos, dev = carregar_modelo(str(modelo_caminho))
+    discriminador = carregar()
+    paginas, quadros = [], {}
+    for p in previstas:
+        quadro, cand = _candidato_da_pagina(video, p)
+        pre_leitura = ler_notas(cand, modelo, rotulos, dev, discriminador)
+        rect = retangulo_do_painel(cand, quadro.shape)
+        painel = tuple(p["painel"])
+        rect = (
+            min(rect[0], painel[0]),
+            min(rect[1], painel[1]),
+            max(rect[2], painel[2]),
+            max(rect[3], painel[3]),
+        )
+        paginas.append(
+            {
+                "id": int(p["id"]),
+                "quadro_ref_s": float(p["quadro_ref_s"]),
+                "exibicoes": [list(e) for e in p["exibicoes"]],
+                "painel": rect,
+                "modo": p.get("modo", "estatico"),
+                **pre_leitura,
+            }
+        )
+        quadros[int(p["id"])] = quadro
+        _log(f"página {p['id']:02d}: {len(pre_leitura['notas'])} notas pré-lidas")
+    estado, fusao = fundir_ouro(v1, paginas)
+    caixas_v1 = {
+        t["id"]: [n["caixa"] for n in t["notas"] if n.get("caixa")]
+        for t in estado["telas"]
+    }
+    pre_telas = []
+    for p in paginas:
+        caixas = [n["caixa"] for n in p["notas"] + p["nao_nota"]] + caixas_v1[p["id"]]
+        rect = painel_com_caixas(p["painel"], caixas, quadros[p["id"]].shape)
+        miolo = recortar(quadros[p["id"]], rect)
+        ampliada = cv2.resize(
+            miolo, None, fx=ESCALA_TELA, fy=ESCALA_TELA, interpolation=cv2.INTER_CUBIC
+        )
+        arquivo = f"telas/{p['id']:03d}.png"
+        cv2.imwrite(str(saida / arquivo), ampliada)
+        exib = p["exibicoes"]
+        pre_telas.append(
+            {
+                "id": p["id"],
+                "arquivo": arquivo,
+                "quadro_ref_s": p["quadro_ref_s"],
+                "t_ini": exib[0][0],
+                "t_fim": exib[-1][1],
+                "exibicoes": exib,
+                "modo": p["modo"],
+                "painel": list(rect),
+                "escala": ESCALA_TELA,
+                "passo": p["passo"],
+                "linhas_y": p["linhas_y"],
+                "notas": p["notas"],
+                "nao_nota": p["nao_nota"],
+            }
+        )
+    por_id = {p["id"]: p for p in pre_telas}
+    pre_instantes = []
+    for ordem, i in enumerate(estado["instantes"], start=1):
+        quadro = leitor.quadro_em(video, float(i["t"]))
+        if quadro is None:
+            raise RuntimeError(f"instante {i['t']}s: sem quadro")
+        ref = por_id.get(i["tela"]) or pre_telas[0]
+        _, y0, _, y1 = ref["painel"]
+        cv2.imwrite(
+            str(saida / f"instantes/{ordem:03d}.png"),
+            recortar(quadro, (0, y0, quadro.shape[1], y1)),
+        )
+        pre_instantes.append(
+            {
+                "t": i["t"],
+                "arquivo": f"instantes/{ordem:03d}.png",
+                "tela_sugerida": i["tela"],
+                "tela_v1": i["tela_v1"],
+                "recorte": [0, y0, int(quadro.shape[1]), y1],
+                "escala": 1,
+            }
+        )
+    try:
+        nome_video = str(Path(video).resolve().relative_to(acervo().resolve()))
+    except ValueError:
+        nome_video = video
+    try:
+        modelo_txt = str(Path(modelo_caminho).resolve().relative_to(RAIZ))
+    except ValueError:
+        modelo_txt = str(modelo_caminho)
+    pre = {
+        "video": nome_video,
+        "modelo": modelo_txt,
+        "preparado_em": datetime.datetime.now().isoformat(timespec="seconds"),
+        "duracao_s": float(meta["duracao_s"] or 0.0),
+        "codec": meta["codec"],
+        "segmentacao": "telas",
+        "como_foi_rotulado": texto_fusao(fusao, ouro_v1.name),
+        "telas": pre_telas,
+        "instantes": pre_instantes,
+        "estado_inicial": estado,
+        "fusao": fusao,
+    }
+    gravar_atomico(saida / "pre.json", pre)
+    gravar_atomico(ouro_v2, montar_ouro(pre, estado))
+    _log(
+        f"pronto: {fusao['n_paginas']} páginas, {len(fusao['herdadas'])} herdadas, "
+        f"{len(fusao['a_rotular'])} a rotular, {len(fusao['conflitos'])} conflitos"
+    )
+    return pre
+
+
 # ---------------------------------------------------------------------------------
 # servir
 # ---------------------------------------------------------------------------------
@@ -966,6 +1448,9 @@ table{border-collapse:collapse;margin-top:10px}td,th{padding:3px 8px;border-bott
 td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.removida td:last-child{text-decoration:none;opacity:1}
 .linha{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
 .suave{color:var(--suave)}
+#lista button.herdada{border-left:5px solid var(--ok)}#lista button.rotular{border-left:5px solid var(--ruim)}
+.par{display:flex;gap:12px;align-items:flex-start;flex-wrap:nowrap}.par>div{min-width:0}.par.vertical{flex-direction:column}
+.ok-txt{color:var(--ok);font-weight:600}.ruim-txt{color:var(--ruim);font-weight:600}
 @media (max-width:700px){main{flex-direction:column}#lista{flex:none;flex-direction:row;max-height:none}}
 </style></head><body>
 <header>
@@ -977,7 +1462,7 @@ td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.rem
 <main><div id="lista"></div><div id="conteudo"></div></main>
 <script>
 "use strict";
-let PRE = null, E = null, ABA = "telas", sujo = false, versao = 0, ultimoOuro = null, temporizador = null;
+let PRE = null, E = null, SO_ROTULAR = false, EMPILHAR = false, OUTRA = false, ABA = "telas", sujo = false, versao = 0, ultimoOuro = null, temporizador = null;
 
 function h(tag, attrs, ...filhos) {
   const e = document.createElement(tag);
@@ -999,6 +1484,7 @@ function cordaMaisProxima(y, linhas) {
 }
 
 function estadoInicial() {
+  if (PRE.estado_inicial) return JSON.parse(JSON.stringify(PRE.estado_inicial));
   return {
     proximo: 1, tela_atual: PRE.telas.length ? PRE.telas[0].id : null, inst_atual: 0,
     telas: PRE.telas.map(t => ({
@@ -1038,22 +1524,28 @@ document.getElementById("baixar").onclick = () => {
 };
 
 /* ---- aba TELAS ---- */
+function herdada(t) { return !!t.origem && t.origem.startsWith("ouro_v1"); }
 function telaPre(id) { return PRE.telas.find(t => t.id === id); }
 function telaEst(id) { return E.telas.find(t => t.id === id); }
 
 function listaTelas() {
   const l = document.getElementById("lista"); l.replaceChildren();
+  const v2 = E.telas.some(t => t.origem);
+  if (v2) l.append(h("label", {class: "suave"}, h("input", {type: "checkbox", checked: SO_ROTULAR, onchange: ev => { SO_ROTULAR = ev.target.checked; desenhar(); }}), " só a rotular"));
   for (const t of E.telas) {
+    if (SO_ROTULAR && (herdada(t) || t.conferida) && t.id !== E.tela_atual) continue;
     const n = t.notas.filter(x => !x.removida).length;
-    const rot = String(t.id).padStart(3, "0") + (t.conferida ? " ✓" : "") + (t.junta_em ? " = " + t.junta_em : "") + " · " + n;
-    l.append(h("button", {class: t.id === E.tela_atual ? "on" : "", onclick: () => { E.tela_atual = t.id; desenhar(); }}, rot));
+    const rot = String(t.id).padStart(3, "0") + (herdada(t) ? " ★" : "") + (t.conferida ? " ✓" : "") + (t.junta_em ? " = " + t.junta_em : "") + " · " + n;
+    const cls = (t.id === E.tela_atual ? "on " : "") + (herdada(t) ? "herdada" : t.origem ? "rotular" : "");
+    l.append(h("button", {class: cls, title: t.origem || "", onclick: () => { E.tela_atual = t.id; desenhar(); }}, rot));
   }
 }
 function listaInstantes() {
   const l = document.getElementById("lista"); l.replaceChildren();
   E.instantes.forEach((i, k) => {
     const marca = i.estado === null ? "" : i.estado === "coluna" ? " ●" : i.estado === "nenhuma" ? " ○" : " ∅";
-    l.append(h("button", {class: k === E.inst_atual ? "on" : "", onclick: () => { E.inst_atual = k; desenhar(); }}, String(k + 1).padStart(2, "0") + marca));
+    const pag = i.tela_confirmada === undefined ? "" : i.tela_confirmada ? " ✓" : " ?";
+    l.append(h("button", {class: k === E.inst_atual ? "on" : "", onclick: () => { E.inst_atual = k; OUTRA = false; desenhar(); }}, String(k + 1).padStart(2, "0") + marca + pag));
   });
 }
 
@@ -1099,7 +1591,9 @@ function desenharTela() {
   });
   const sem = te.notas.filter(n => !n.removida && !String(n.casa).trim()).length;
   c.append(
-    h("div", {class: "linha"}, h("b", {}, "Tela " + tp.id), h("span", {class: "suave"}, `ref. ${tp.quadro_ref_s}s · vista de ${tp.t_ini}s a ${tp.t_fim}s`)),
+    h("div", {class: "linha"}, h("b", {}, "Tela " + tp.id), h("span", {class: "suave"}, `ref. ${tp.quadro_ref_s}s · vista de ${tp.t_ini}s a ${tp.t_fim}s`),
+      te.origem ? h("span", {class: herdada(te) ? "ok-txt" : "ruim-txt"}, te.origem + (te.v1_telas && te.v1_telas.length ? " (tela v1 " + te.v1_telas.join(", ") + ")" : "")) : "",
+      tp.exibicoes ? h("span", {class: "suave"}, "exibições: " + tp.exibicoes.map(e => Math.round(e[0]) + "-" + Math.round(e[1])).join(", ")) : ""),
     h("div", {class: "linha"},
       h("button", {class: te.conferida ? "ok" : "", onclick: () => { te.conferida = !te.conferida; mudou(); desenhar(); }}, te.conferida ? "✓ conferida" : "tela conferida"),
       sel,
@@ -1113,30 +1607,58 @@ function desenharInstante() {
   const c = document.getElementById("conteudo"); c.replaceChildren();
   const k = E.inst_atual, ie = E.instantes[k], ip = PRE.instantes[k];
   if (!ie) { c.append("Sem instantes."); return; }
+  const v2 = ie.tela_confirmada !== undefined;
   const mold = h("div", {class: "moldura"}, h("img", {src: "/" + ip.arquivo, draggable: "false"}));
   const w = ip.recorte[2] - ip.recorte[0];
   if (ie.estado === "coluna") mold.append(h("div", {class: "coluna", style: `left:${(ie.coluna_x_quadro - ip.recorte[0]) / w * 100}%`}));
-  const avancar = () => { if (E.inst_atual < E.instantes.length - 1) E.inst_atual++; desenhar(); };
+  const avancar = () => { OUTRA = false; if (E.inst_atual < E.instantes.length - 1) E.inst_atual++; desenhar(); };
   mold.addEventListener("click", ev => {
     const rc = mold.getBoundingClientRect(); if (rc.width < 50) return;
     const fx = (ev.clientX - rc.left) / rc.width;
     ie.estado = "coluna"; ie.coluna_x_quadro = Math.round(cliqueParaQuadro(fx * w * ip.escala, ip.escala, ip.recorte[0]) * 10) / 10;
-    ie.tela = ip.tela_sugerida; mudou(); avancar();
+    if (ie.tela == null) ie.tela = ip.tela_sugerida;
+    mudou(); if (v2) desenhar(); else avancar();
   });
-  const marcar = (estado) => { ie.estado = estado; ie.coluna_x_quadro = null; ie.tela = estado === "nenhuma" ? ip.tela_sugerida : null; mudou(); avancar(); };
+  const marcar = (estado) => { ie.estado = estado; ie.coluna_x_quadro = null; if (estado === "sem_tablatura") ie.tela = null; else if (ie.tela == null) ie.tela = ip.tela_sugerida; mudou(); if (v2) desenhar(); else avancar(); };
   const feitos = E.instantes.filter(i => i.estado !== null).length;
   const atual = ie.estado === null ? "ainda sem resposta" : ie.estado === "coluna" ? "coluna em x=" + ie.coluna_x_quadro : ie.estado === "nenhuma" ? "nenhuma acesa" : "sem tablatura";
-  c.append(
-    h("div", {class: "linha"}, h("b", {}, `Instante ${k + 1}/${E.instantes.length}`), h("span", {class: "suave"}, `${feitos} respondidos · agora: ${atual}`)),
+  const conf = E.instantes.filter(i => i.tela_confirmada).length;
+  const linhas = [
+    h("div", {class: "linha"}, h("b", {}, `Instante ${k + 1}/${E.instantes.length} · t=${ie.t}s`), h("span", {class: "suave"}, `${feitos} respondidos · agora: ${atual}` + (v2 ? ` · ${conf}/${E.instantes.length} páginas confirmadas` : ""))),
     h("div", {class: "linha"},
-      h("button", {onclick: () => { if (E.inst_atual > 0) E.inst_atual--; desenhar(); }}, "← anterior"),
+      h("button", {onclick: () => { OUTRA = false; if (E.inst_atual > 0) E.inst_atual--; desenhar(); }}, "← anterior"),
       h("button", {onclick: () => marcar("nenhuma")}, "nenhuma acesa (N)"),
       h("button", {onclick: () => marcar("sem_tablatura")}, "sem tablatura (S)"),
       h("button", {onclick: () => { ie.estado = null; ie.coluna_x_quadro = null; mudou(); desenhar(); }}, "limpar"),
-      h("button", {onclick: avancar}, "próximo →")),
-    h("div", {class: "suave"}, "Clique na COLUNA ACESA (a nota que está marcada agora). Depois da resposta a página avança."),
-    mold);
-  c._atalhos = {n: () => marcar("nenhuma"), s: () => marcar("sem_tablatura")};
+      h("button", {onclick: avancar}, "próximo →"),
+      v2 ? h("label", {class: "suave"}, h("input", {type: "checkbox", checked: EMPILHAR, onchange: ev => { EMPILHAR = ev.target.checked; desenhar(); }}), " empilhar") : ""),
+    h("div", {class: "suave"}, "Clique na COLUNA ACESA (a nota que está marcada agora)." + (v2 ? " À direita, a página atribuída: confirme ou troque." : " Depois da resposta a página avança.")),
+  ];
+  if (!v2) { c.append(...linhas, mold); c._atalhos = {n: () => marcar("nenhuma"), s: () => marcar("sem_tablatura")}; return; }
+  const tp = ie.tela == null ? null : telaPre(ie.tela);
+  const lado = h("div", {});
+  if (ie.estado === "sem_tablatura") {
+    lado.append(h("div", {class: "suave"}, "sem tablatura: não há página a confirmar."));
+  } else if (tp) {
+    const mp = h("div", {class: "moldura", style: "cursor:default"}, h("img", {src: "/" + tp.arquivo, draggable: "false"}));
+    if (ie.estado === "coluna") mp.append(h("div", {class: "coluna", style: `left:${(ie.coluna_x_quadro - tp.painel[0]) / (tp.painel[2] - tp.painel[0]) * 100}%`}));
+    lado.append(h("div", {class: "linha"}, h("b", {}, "Página " + tp.id), h("span", {class: "suave"}, "exibições: " + tp.exibicoes.map(e => Math.round(e[0]) + "-" + Math.round(e[1])).join(", ")),
+      h("span", {class: ie.tela_confirmada ? "ok-txt" : "ruim-txt"}, ie.tela_confirmada ? "confirmada" : "a confirmar")), mp);
+  } else {
+    lado.append(h("div", {class: "ruim-txt"}, "nenhuma página cobre t=" + ie.t + "s: escolha em 'outra página'."));
+  }
+  if (ie.estado !== "sem_tablatura" || ie.tela_confirmada !== undefined) {
+    const botoes = h("div", {class: "linha"},
+      h("button", {class: ie.tela_confirmada ? "ok" : "", onclick: () => { ie.tela_confirmada = true; mudou(); avancar(); }}, "é esta página"),
+      h("button", {class: OUTRA ? "on" : "", onclick: () => { OUTRA = !OUTRA; desenhar(); }}, "outra página"));
+    if (OUTRA) botoes.append(h("select", {onchange: ev => { if (!ev.target.value) return; ie.tela = Number(ev.target.value); ie.tela_confirmada = true; mudou(); avancar(); }},
+      h("option", {value: ""}, "— escolher —"),
+      PRE.telas.map(t => h("option", {value: t.id, selected: ie.tela === t.id}, "página " + t.id + " (" + t.exibicoes.map(e => Math.round(e[0]) + "-" + Math.round(e[1])).join(", ") + ")"))));
+    lado.prepend(botoes);
+  }
+  const par = h("div", {class: "par" + (EMPILHAR ? " vertical" : "")}, h("div", {style: EMPILHAR ? "" : "flex:3 1 0"}, mold), h("div", {style: EMPILHAR ? "" : "flex:2 1 0"}, lado));
+  c.append(...linhas, par);
+  c._atalhos = {n: () => marcar("nenhuma"), s: () => marcar("sem_tablatura"), c: () => { ie.tela_confirmada = true; mudou(); avancar(); }};
 }
 document.addEventListener("keydown", ev => {
   if (ABA !== "instantes" || ev.target.tagName === "INPUT" || ev.target.tagName === "SELECT") return;
@@ -1200,7 +1722,7 @@ def servir(pasta: Path, ouro: Path, porta: int) -> int:
 
 
 def main() -> int:
-    """Ponto de entrada: ``preparar`` ou ``servir``.
+    """Ponto de entrada: ``preparar``, ``completar`` ou ``servir``.
 
     Returns:
         Código de saída do processo.
@@ -1215,11 +1737,31 @@ def main() -> int:
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--limiar", type=float, default=LIMIAR_DIFERENCA)
     p.add_argument("--modelo", type=Path, default=MODELO_PADRAO)
+    c = sub.add_parser(
+        "completar", help="ouro v2: páginas do tab.telas + notas do dono herdadas do v1"
+    )
+    c.add_argument("video")
+    c.add_argument("--ouro-v1", type=Path, required=True)
+    c.add_argument("--ouro-v2", type=Path, required=True)
+    c.add_argument("--saida", type=Path, required=True)
+    c.add_argument("--telas-json", type=Path, default=None)
+    c.add_argument("--modelo", type=Path, default=MODELO_PADRAO)
     s = sub.add_parser("servir", help="serve a ferramenta de rotular (autosave)")
     s.add_argument("--pasta", type=Path, required=True)
     s.add_argument("--ouro", type=Path, required=True)
     s.add_argument("--porta", type=int, default=8099)
     args = ap.parse_args()
+    if args.comando == "completar":
+        pre = completar(
+            args.video,
+            args.ouro_v1,
+            args.saida,
+            args.ouro_v2,
+            telas_json=args.telas_json,
+            modelo_caminho=args.modelo,
+        )
+        print(json.dumps(pre["fusao"], ensure_ascii=False, indent=1))
+        return 0
     if args.comando == "preparar":
         saida = args.saida or SAIDA / "ouro_video" / fazer_slug(Path(args.video).stem)
         preparar(
