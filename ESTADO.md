@@ -4412,3 +4412,8 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
   4. **Classificador**: T11 c6, 0 lido como 2. Não verificado visualmente.
 - **Não repetir**: pareamento só por instantes deixa de fora uma tela do ouro sem instante e inventa notas; a regua tem que cair no `quadro_ref_s`. Trocar a imagem por mediana para ganhar revocação custa casa (0,9897 → 0,9878).
 - **Limites**: tempo por exibição ainda não existe (Fase 5); a régua de tempo segue marcando 0 de 40. Os números dependem da fusão de dois algarismos do `reconhecer` (commit `4d844220`).
+
+## 2026-10-10 — GPU no podman: `devices: nvidia.com/gpu=all` (CDI por device)
+
+- O `gpus: all` do `compose.yaml` não chega ao podman: o container dava `torch.cuda.is_available() == False`. Agora `compose.podman.yaml` declara `devices: - nvidia.com/gpu=all`, e o mesmo comando dá `True NVIDIA GeForce RTX 3060 Ti`.
+- Armadilha: `/var/run/cdi/` é tmpfs e some no reboot. Regenerar com `sudo nvidia-ctk cdi generate --output=/var/run/cdi/nvidia.yaml`.

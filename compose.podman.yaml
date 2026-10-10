@@ -11,3 +11,9 @@ services:
   chorinho:
     security_opt:
       - label=disable
+    # GPU no podman: o `gpus: all` do compose.yaml não chega ao podman (dá cuda False).
+    # O podman usa CDI por device. Pré-requisito: /var/run/cdi/nvidia.yaml. /var/run/cdi é
+    # tmpfs e some no reboot; regenerar com:
+    #   sudo nvidia-ctk cdi generate --output=/var/run/cdi/nvidia.yaml
+    devices:
+      - nvidia.com/gpu=all
