@@ -1,9 +1,9 @@
 {
- "como_foi_rotulado": "Folhas fp_presenca_1..4 da Fase 7.0 (data/saida/presenca/) e vp_presenca_1, lidas quadro a quadro. O dono (2026-10-10, por escrito) marcou os 9 falsos positivos que NAO sao tablatura: FP02, FP03, FP09, FP10, FP11 (braco do violao escolhido; a TAB real esta em outra regiao do mesmo quadro) e FP30, FP31, FP37, FP38 (partitura de 5 linhas sem TAB). Os demais 32 FP + 77 VP estao confirmados como caixa sobre tablatura. Os 26 quadros em que o detector disse nao (20 VN, 6 FN) usam o rotulo do data/gold/portao.json (por recorte, tirado para o quadro: tablatura se algum recorte do quadro tem rotulo tablatura). Por isso tablatura_no_quadro e caixa_sobre_tablatura sao campos distintos: a caixa mede PRECISAO, tablatura_no_quadro mede REVOCACAO. Revisao visual da Fase 7.1: nos 4 quadros FP30, FP31, FP37 e FP38 a caixa cobre so a pauta de 5 linhas, e a TAB de 6 cordas com algarismos esta embaixo, no mesmo quadro (faixa base); por isso tablatura_no_quadro=true nesses 4, e caixa_sobre_tablatura=false (caixa sobre a pauta). DECISAO DO DONO (2026-10-10, por escrito, olhando os quadros): VN15, VN17, VN18, VN19 e VN20 TEM tablatura no quadro (faixa base); portao.json os rotulou nao_tablatura por recorte. tablatura_no_quadro=true nesses 5. FP38 confirmado: caixa [0,624,1920,763] fica acima da tablatura, sobre a pauta; caixa_sobre_tablatura=false. DECISAO DO DONO (2026-10-10, por escrito, olhando data/saida/c1b/folha_novas.jpg), sobre as 4 caixas novas do commit 1d4fbfc0 (gravadas em caixas_revistas): FP02 caixa [0,0,1920,106] NAO e tablatura (caixa_sobre_tablatura=false); VN14 caixa [0,917,1920,1077] E tablatura (caixa_sobre_tablatura=true e tablatura_no_quadro=true, 129 -> 130); VN18 caixa [0,913,1920,1080] E tablatura (true); FP38 caixa [0,903,1920,1080] E tablatura (true). quadros.com_caixa 118 -> 120 (casos + caixas_revistas). DECISAO DO DONO (2026-10-10, olhando o quadro com a caixa): FP03 caixa [0,915,1920,1076] COBRE a tablatura (caixa_sobre_tablatura=true), gravada em caixas_revistas junto das 4 acima.",
+ "como_foi_rotulado": "Folhas fp_presenca_1..4 da Fase 7.0 (data/saida/presenca/) e vp_presenca_1, lidas quadro a quadro. O dono (2026-10-10, por escrito) marcou os 9 falsos positivos que NAO sao tablatura: FP02, FP03, FP09, FP10, FP11 (braco do violao escolhido; a TAB real esta em outra regiao do mesmo quadro) e FP30, FP31, FP37, FP38 (partitura de 5 linhas sem TAB). Os demais 32 FP + 77 VP estao confirmados como caixa sobre tablatura. Os 26 quadros em que o detector disse nao (20 VN, 6 FN) usam o rotulo do data/gold/portao.json (por recorte, tirado para o quadro: tablatura se algum recorte do quadro tem rotulo tablatura). Por isso tablatura_no_quadro e caixa_sobre_tablatura sao campos distintos: a caixa mede PRECISAO, tablatura_no_quadro mede REVOCACAO. Revisao visual da Fase 7.1: nos 4 quadros FP30, FP31, FP37 e FP38 a caixa cobre so a pauta de 5 linhas, e a TAB de 6 cordas com algarismos esta embaixo, no mesmo quadro (faixa base); por isso tablatura_no_quadro=true nesses 4, e caixa_sobre_tablatura=false (caixa sobre a pauta). DECISAO DO DONO (2026-10-10, por escrito, olhando os quadros): VN15, VN17, VN18, VN19 e VN20 TEM tablatura no quadro (faixa base); portao.json os rotulou nao_tablatura por recorte. tablatura_no_quadro=true nesses 5. FP38 confirmado: caixa [0,624,1920,763] fica acima da tablatura, sobre a pauta; caixa_sobre_tablatura=false. DECISAO DO DONO (2026-10-10, por escrito, olhando data/saida/c1b/folha_novas.jpg), sobre as 4 caixas novas do commit 1d4fbfc0 (gravadas em caixas_revistas): FP02 caixa [0,0,1920,106] NAO e tablatura (caixa_sobre_tablatura=false); VN14 caixa [0,917,1920,1077] E tablatura (caixa_sobre_tablatura=true e tablatura_no_quadro=true, 129 -> 130); VN18 caixa [0,913,1920,1080] E tablatura (true); FP38 caixa [0,903,1920,1080] E tablatura (true). quadros.com_caixa 118 -> 120 (casos + caixas_revistas). DECISAO DO DONO (2026-10-10, olhando o quadro com a caixa): FP03 caixa [0,915,1920,1076] COBRE a tablatura (caixa_sobre_tablatura=true), gravada em caixas_revistas junto das 4 acima. DECISAO DO DONO (2026-10-10, por escrito, olhando folha_15a/folha_15b): das 15 caixas de caixas_revistas pendentes, 14 cobrem a tablatura (caixa_sobre_tablatura=true): FN01, VP05, FP09, FP10, VN15, VN17, FN03, FN04, VP58, FN06, VN19, FP30, FP31, FP37. FP11 [966,797,1920,1006] e PARCIAL: cobre so metade da tablatura (caixa_sobre_tablatura=false, parcial=true). Conta como defeito de precisao.",
  "criterio": "caixa_sobre_tablatura: a caixa do detector (caixa, no quadro inteiro) cobre tablatura real. null quando o detector nao desenhou caixa. tablatura_no_quadro: ha TAB em alguma regiao do quadro.",
  "quadros": {
   "total": 144,
-  "com_caixa": 120,
+  "com_caixa": 127,
   "tablatura_no_quadro": 130
  },
  "casos": [
@@ -1960,6 +1960,172 @@
    ],
    "caixa_sobre_tablatura": true,
    "motivo": "Decisao do dono (2026-10-10, olhando o quadro com a caixa): COBRE a tablatura."
+  },
+  {
+   "codigo": "FN01",
+   "caixa": [
+    75,
+    395,
+    1857,
+    599
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "VP05",
+   "caixa": [
+    125,
+    836,
+    1794,
+    1012
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "FP09",
+   "caixa": [
+    62,
+    851,
+    1873,
+    1016
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "FP10",
+   "caixa": [
+    63,
+    855,
+    1410,
+    1020
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "VN15",
+   "caixa": [
+    0,
+    946,
+    1920,
+    1070
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "VN17",
+   "caixa": [
+    70,
+    895,
+    1854,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "FN03",
+   "caixa": [
+    71,
+    887,
+    1855,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "FN04",
+   "caixa": [
+    62,
+    881,
+    1850,
+    1074
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "VP58",
+   "caixa": [
+    70,
+    889,
+    1854,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "FN06",
+   "caixa": [
+    125,
+    929,
+    1794,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "VN19",
+   "caixa": [
+    125,
+    914,
+    1794,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "FP30",
+   "caixa": [
+    125,
+    897,
+    1794,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "FP31",
+   "caixa": [
+    125,
+    851,
+    1794,
+    1039
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "FP37",
+   "caixa": [
+    125,
+    867,
+    1794,
+    1053
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "Decisao do dono (2026-10-10, olhando folha_15a/folha_15b): cobre a tablatura."
+  },
+  {
+   "codigo": "FP11",
+   "caixa": [
+    966,
+    797,
+    1920,
+    1006
+   ],
+   "caixa_sobre_tablatura": false,
+   "parcial": true,
+   "motivo": "parcial: cobre so metade da tablatura (dono, 2026-10-10, folha_15a item 5). Defeito do detector."
   }
  ],
  "suspeitas_rotulo_nao": []

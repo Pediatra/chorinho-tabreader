@@ -4484,6 +4484,18 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
   de ele ter perdido a caixa entre a 7.0 e a 7.1 continua sem investigação. (5) VN20 deixou de ter caixa (era
   a caixa da pauta): tinha TAB no quadro, então a revocação cai nesse quadro.
 
+- **Medição oficial com o gabarito completo** (`python -m tab.presenca_aval`, sem `--gold`, rótulos
+  só do dono): 21 caixas revistas em `data/gold/presenca_quadros.json` (FP02, FP03, FP38, VN14, VN18, FP09 e
+  as 15 caixas da folha 15a/b; FP11 marcada `parcial`, cobre só metade da TAB).
+  - **Precisão de caixa 124/126 = 0,984** (aceite ≥ 0,98: passa). **Revocação de caixa 124/130 = 0,954**.
+  - Presença por quadro (referência): VP 126, FP 0, VN 14, FN 4; precisão 1,000, revocação 0,969.
+  - Por canal (caixas corretas/caixas): iwaki 42/42; sky guitar 46/46; kimny's guitar 8/8; pablo romé 6/6;
+    leonardo ramos 6/6; paolo d'angelo 5/5; mr. tabs 7/8 (erra FP11, parcial); guitar dell'arte 4/5 (erra
+    FP02, caixa no topo sobre o braço); cifra club sem caixa.
+  - Os 2 erros: FP02 (caixa no topo) e FP11 (parcial). Os números desta rodada usam rótulo do dono; não se
+    comparam com o 0,992 da rodada r3, que usava rótulos visuais do agente.
+- Commit do gabarito: `1423c59f` (decisões do dono até a 1ª leva). Esta medição fecha o gabarito.
+
 ## 2026-10-10 — Fase 4: `tab/video.py` (todas as telas, JSON v1) e a régua que pareia tela sem instante
 
 - **Comando**: `python -m tab.video "/acervo/sky guitar/retrato brasileiro - tab & lesson.mp4" --json data/saida/fase4/oficial_v1.json`
