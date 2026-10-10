@@ -1,6 +1,6 @@
 {
  "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
- "como_foi_rotulado": "v2 = fusão do retrato_brasileiro.json (rotulado pelo dono olhando o quadro_ref_s de cada tela, agrupadas por diferença média em cinza, que juntou páginas diferentes de mesmo leiaute) com as páginas do tab.telas (1 - IoU da tinta, limiar 0,3). 9 páginas herdam as notas do dono (tela v1 com quadro_ref_s dentro da exibição; origem 'ouro_v1 (dono)'); 4 vêm pré-preenchidas pelo modelo e esperam o dono (origem 'modelo — a rotular'). Instantes: t, coluna e obs são do dono; a página foi reatribuída pelo tempo (tela_confirmada=false até o dono confirmar).",
+ "como_foi_rotulado": "v2 = fusão do retrato_brasileiro.json (rotulado pelo dono olhando o quadro_ref_s de cada tela, agrupadas por diferença média em cinza, que juntou páginas diferentes de mesmo leiaute) com as páginas do tab.telas (1 - IoU da tinta, limiar 0,3). 9 páginas herdam as notas do dono (tela v1 com quadro_ref_s dentro da exibição; origem 'ouro_v1 (dono)'); 4 vêm pré-preenchidas pelo modelo e esperam o dono (origem 'modelo — a rotular'). Instantes: t, coluna e obs são do dono; a página foi reatribuída pelo tempo (tela_confirmada=false até o dono confirmar). Páginas 2, 7, 8 e 10 marcadas conferidas pelo coordenador em 2026-10-10 por declaração escrita do dono ('conferi tudo minuciosamente'); nenhuma nota alterada.",
  "rotulado_em": "2026-10-10T16:27:33",
  "telas": [
   {
@@ -227,7 +227,7 @@
   {
    "id": 2,
    "quadro_ref_s": 275.375,
-   "conferida": false,
+   "conferida": true,
    "notas": [
     {
      "corda": 2,
@@ -1421,7 +1421,7 @@
   {
    "id": 7,
    "quadro_ref_s": 458.875,
-   "conferida": false,
+   "conferida": true,
    "notas": [
     {
      "corda": 1,
@@ -1658,7 +1658,7 @@
   {
    "id": 8,
    "quadro_ref_s": 479.875,
-   "conferida": false,
+   "conferida": true,
    "notas": [
     {
      "corda": 1,
@@ -2153,7 +2153,7 @@
   {
    "id": 10,
    "quadro_ref_s": 599.875,
-   "conferida": false,
+   "conferida": true,
    "notas": [
     {
      "corda": 2,

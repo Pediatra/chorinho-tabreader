@@ -4307,6 +4307,7 @@ contém o quadro lido, depois instante do ouro mais próximo do quadro lido, por
 - **Comandos das predições**: `python -m tab.transcrever "<vídeo>" --simbolos "" --json data/saida/avaliar_video/base_transcrever.json`
   e `python -m tab.transcrever "<vídeo>" --inicio 0.5 --janela 30 --simbolos "" --json data/saida/avaliar_video/base_meio30s.json`.
 - Artefatos não commitados: `data/saida/telas/v2_ca.json`, `data/saida/telas/v2_ca_r2.json`, `data/saida/avaliar_video/*_v2_r{1,2}.json`.
+- **Atualização (2026-10-10)**: páginas 2, 7, 8 e 10 marcadas `conferida: true` por declaração escrita do dono ('conferi tudo minuciosamente'); a bullet acima sobre `conferida: false` está superada. Nenhuma nota, instante ou outro campo alterado.
 
 ## 2026-10-10 — Fase 4: casa de dois algarismos. Limiar de fusão por vão NÃO separa (revertido)
 
