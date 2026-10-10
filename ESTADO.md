@@ -3239,3 +3239,24 @@ caixa do componente dá, de graça, **exatamente as cordas que ele cobre** — q
 empilhado (`C06_008/009/010`, que eu contava como símbolo), agora o arpejo com papel semântico. **O
 vocabulário está saindo dele, do dado certo** — que é o que eu queria desde o começo e não conseguia
 produzir sozinho.
+
+## 2026-10-09 — (a) RECORTE DO SÍMBOLO: componente + janela fixa — e o arpejo aparece INTEIRO com as cordas
+
+Duas lições do dono embutidas no recorte (`tab/folha_simbolos.py`), cada uma corrigindo um corte meu:
+
+1. **ARPEJO** (ele: *"tem tamanho variável dependendo de quantas cordas tem que ser tocadas — seria
+   interessante se ele pegasse ele por inteiro para definir quais cordas devem ser arpejadas"*): o recorte
+   **não é mais janela fixa** — é a **caixa dos componentes vizinhos da marca**;
+2. **SÍMBOLO COMPOSTO** (parênteses + arco, observação dele): são **componentes separados**, então a caixa
+   por componente sozinha continua cortando — daí a **união com a janela fixa**, que garante o **contexto
+   lateral**.
+
+| recorte do `C07_028` (o arpejo) | resultado |
+| --- | --- |
+| janela fixa (antes) | **82 × 64 px** — começa acima do topo e continua abaixo: **cortado** |
+| só a caixa do componente | **28 × 117 px** — alto mas estreito: **perde a linha ondulada** ✗ |
+| **componente ∪ janela fixa** | **84 × 117 px** — **o arpejo inteiro e as 5 cordas que ele cruza** ✓ |
+
+**Alturas dos 162 recortes**: mediana **3,30 passos**, p90 **4,85**, máximo **7,40** (antes o teto era 3,2 por
+construção). Confirmado **por imagem**, não por suposição — e as duas tentativas erradas foram pegas
+olhando: a caixa por componente sozinha **perdia o arpejo**, e eu ia te mandar isso como conserto ✗.
