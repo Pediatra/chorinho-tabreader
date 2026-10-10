@@ -19,7 +19,9 @@ import numpy as np
 
 from .caminhos import MODELO_PADRAO, SAIDA
 from .cursor import detectar_cursor
+from .cursor import rastrear as rastrear_estado
 from .digito import carregar
+from .estado import onsets as onsets_do_estado
 from .inventario import ler_quadro
 from .painel import escolher
 from .pipeline import roi_das_cordas
@@ -302,13 +304,34 @@ def main() -> int:
             "serie": veredito,
         }
     else:
-        # NÃO atribuir tempo sem travessia. Nota sem tempo é dívida; nota com tempo
-        # falso é mentira.
-        r["tempo"] = {
-            "medido": False,
-            "motivo": f"marcador {veredito['veredito']} na janela varrida",
-            "serie": veredito,
-        }
+        # REGRA DO ESTADO. O veredito por VELOCIDADE nao reconhece esta serie: medido no `sky guitar`,
+        # ele devolvia `lento` e ZERO tempos com o marcador perfeitamente legivel em PATAMARES. O estado
+        # ("qual nota esta acesa") e lido pela celula de x, e o onset e o primeiro instante em que a nota
+        # passa a ser a atual — a MESMA regra para salto, varredura e o que mais aparecer. Amostra a cada
+        # 5 quadros porque foi medido que 30 quadros (1 s) PERDE patamares (34 -> 47 onsets no `serge`).
+        achados = onsets_do_estado(
+            rastrear_estado(args.video, (y0, y1), passo=5).get("amostras") or [],
+            [n["x"] for n in r["notas"]],
+        )
+        if achados:
+            lista = [achados.get(i) for i in range(len(r["notas"]))]
+            r = completar(r, [(t, None) if t is not None else None for t in lista])
+            r["tempo"] = {
+                "medido": True,
+                "mecanismo": "estado do marcador (qual nota esta acesa)",
+                "onset": "primeiro instante em que a nota passa a ser a atual",
+                "duracoes": "inferidas (intervalo ate o proximo onset)",
+                "serie": veredito,
+                "notas_com_tempo": sum(1 for t in lista if t is not None),
+            }
+        else:
+            # NÃO atribuir tempo sem estado legível. Nota sem tempo é dívida; nota com tempo
+            # falso é mentira.
+            r["tempo"] = {
+                "medido": False,
+                "motivo": f"marcador {veredito['veredito']} na janela varrida, e o estado nao deu onset",
+                "serie": veredito,
+            }
     r.update(
         {
             "video": os.path.basename(args.video),

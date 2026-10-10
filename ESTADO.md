@@ -3573,3 +3573,22 @@ mesmo olhar ✓).
 
 **O que a integração deve fazer com esse caso, e já está decidido**: `medido: false` **com o motivo escrito**
 ✓ ("marcador quase ausente: N amostras em M") ✓ — nunca zero silencioso ✗.
+
+## 2026-10-10 — INTEGRAÇÃO FEITA: o `sky guitar` saiu de 0 para 40 de 44 notas datadas
+
+O `else` da cadeia de velocidade (o caminho que **só desistia** ✗) agora tenta a **regra do estado** ✓ antes
+de desistir ✓. Imports no topo ✓ (a regra `PLC0415` ✓). Amostragem a cada **5 quadros** ✓ — porque foi
+**medido** que 30 quadros (1 s) **perde patamares** ✓ (34 → 47 onsets no `serge` ✓).
+
+| | antes | **agora** |
+| --- | --- | --- |
+| `sky guitar` — notas com tempo | **0 de 44** ✗ | **40 de 44** ✓ |
+| mecanismo no JSON | `medido: false`, motivo `marcador lento` ✗ | **`medido: true`**, `mecanismo: "estado do marcador (qual nota esta acesa)"` ✓ |
+
+E o JSON passou a trazer **`notas_com_tempo`** ✓ — o número visível sem precisar contar ✓.
+
+**E o meu cheque mentiu outra vez** ✗ (a quinta hoje ✓): eu procurei a chave `tempo` na nota e o tempo está
+em **`t_ini`** ✓ — o resumo imprimiu "0 com tempo" ✗ enquanto o JSON tinha **40** ✓. **O erro foi pego
+lendo a saída** ✓ (o `t_ini: 266.1` estava visível na terceira nota ✓), não confiando no meu próprio
+resumo ✗. Desta vez a mentira foi para o lado **pessimista** ✓ — o que é o menos perigoso dos dois ✓, mas é
+a mesma classe de erro que me fez afirmar "gate verde" quatro vezes ✗.

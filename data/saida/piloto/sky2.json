@@ -1,0 +1,978 @@
+{
+ "passo": 21.8,
+ "linhas_y": [
+  21,
+  43,
+  65,
+  87,
+  109,
+  130
+ ],
+ "barlines_x": [
+  15,
+  24,
+  522,
+  942,
+  996,
+  1370,
+  1772
+ ],
+ "notas": [
+  {
+   "ordem": 1,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 154,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 2
+  },
+  {
+   "ordem": 2,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 154,
+   "confianca": 0.996,
+   "corrigido_pela_forma": false,
+   "compasso": 2
+  },
+  {
+   "ordem": 3,
+   "corda": 5,
+   "casa": "2",
+   "tecnica": null,
+   "x": 199,
+   "confianca": 0.974,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 266.1
+  },
+  {
+   "ordem": 4,
+   "corda": 4,
+   "casa": "2",
+   "tecnica": null,
+   "x": 245,
+   "confianca": 0.985,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 245.25
+  },
+  {
+   "ordem": 5,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 293,
+   "confianca": 0.996,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 245.75
+  },
+  {
+   "ordem": 6,
+   "corda": 5,
+   "casa": "2",
+   "tecnica": null,
+   "x": 338,
+   "confianca": 0.986,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 246.41
+  },
+  {
+   "ordem": 7,
+   "corda": 4,
+   "casa": "2",
+   "tecnica": null,
+   "x": 384,
+   "confianca": 0.873,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 247.08
+  },
+  {
+   "ordem": 8,
+   "corda": 1,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 438,
+   "confianca": 0.478,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "caixa_token": [
+     438,
+     25,
+     450,
+     32
+    ],
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.55
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      12,
+      7
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.478
+     ],
+     [
+      "14",
+      0.309
+     ],
+     [
+      "4",
+      0.144
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.478
+     ],
+     [
+      "14",
+      0.309
+     ],
+     [
+      "4",
+      0.144
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.178
+   },
+   "compasso": 2,
+   "t_ini": 289.96
+  },
+  {
+   "ordem": 9,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 433,
+   "confianca": 0.983,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 247.75
+  },
+  {
+   "ordem": 10,
+   "corda": 1,
+   "casa": "9",
+   "tecnica": null,
+   "x": 474,
+   "confianca": 0.461,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 248.41
+  },
+  {
+   "ordem": 11,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 478,
+   "confianca": 0.997,
+   "corrigido_pela_forma": false,
+   "compasso": 2,
+   "t_ini": 249.08
+  },
+  {
+   "ordem": 12,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 549,
+   "confianca": 0.997,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 249.75
+  },
+  {
+   "ordem": 13,
+   "corda": 6,
+   "casa": "2",
+   "tecnica": null,
+   "x": 599,
+   "confianca": 0.979,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 271.27
+  },
+  {
+   "ordem": 14,
+   "corda": 4,
+   "casa": "2",
+   "tecnica": null,
+   "x": 647,
+   "confianca": 0.986,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 250.25
+  },
+  {
+   "ordem": 15,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 697,
+   "confianca": 0.973,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 250.92
+  },
+  {
+   "ordem": 16,
+   "corda": 4,
+   "casa": "1",
+   "tecnica": null,
+   "x": 748,
+   "confianca": 0.972,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 251.58
+  },
+  {
+   "ordem": 17,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 795,
+   "confianca": 0.983,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 294.63
+  },
+  {
+   "ordem": 18,
+   "corda": 1,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 852,
+   "confianca": 0.509,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "caixa_token": [
+     852,
+     24,
+     867,
+     32
+    ],
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.69
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      15,
+      8
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.509
+     ],
+     [
+      "4",
+      0.253
+     ],
+     [
+      "14",
+      0.197
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.509
+     ],
+     [
+      "4",
+      0.253
+     ],
+     [
+      "14",
+      0.197
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.176
+   },
+   "compasso": 3,
+   "t_ini": 295.3
+  },
+  {
+   "ordem": 19,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 846,
+   "confianca": 0.983,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 252.92
+  },
+  {
+   "ordem": 20,
+   "corda": 1,
+   "casa": "3",
+   "tecnica": null,
+   "x": 891,
+   "confianca": 0.283,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 253.59
+  },
+  {
+   "ordem": 21,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 895,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "compasso": 3,
+   "t_ini": 295.96
+  },
+  {
+   "ordem": 22,
+   "corda": 1,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 950,
+   "confianca": 0.132,
+   "corrigido_pela_forma": true,
+   "simbolo_recusado": {
+    "caixa_token": [
+     950,
+     11,
+     952,
+     20
+    ],
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.09
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      2,
+      9
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "1",
+      0.132
+     ],
+     [
+      "harmonico",
+      0.111
+     ],
+     [
+      "0",
+      0.1
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.132
+     ],
+     [
+      "harmonico",
+      0.111
+     ],
+     [
+      "0",
+      0.1
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.115,
+    "recusado_por_forma": "barra_vertical (razao 0.30)"
+   },
+   "compasso": 4,
+   "t_ini": 254.25
+  },
+  {
+   "ordem": 23,
+   "corda": 4,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 950,
+   "confianca": 0.132,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "caixa_token": [
+     950,
+     90,
+     953,
+     98
+    ],
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      8
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "1",
+      0.132
+     ],
+     [
+      "harmonico",
+      0.111
+     ],
+     [
+      "0",
+      0.1
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.132
+     ],
+     [
+      "harmonico",
+      0.111
+     ],
+     [
+      "0",
+      0.1
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.2
+   },
+   "compasso": 4
+  },
+  {
+   "ordem": 24,
+   "corda": 5,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 950,
+   "confianca": 0.132,
+   "corrigido_pela_forma": true,
+   "simbolo_cru": {
+    "caixa_token": [
+     950,
+     99,
+     953,
+     105
+    ],
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.14
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      3,
+      6
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "1",
+      0.132
+     ],
+     [
+      "harmonico",
+      0.111
+     ],
+     [
+      "0",
+      0.1
+     ]
+    ],
+    "top3_componente": [
+     [
+      "1",
+      0.132
+     ],
+     [
+      "harmonico",
+      0.111
+     ],
+     [
+      "0",
+      0.1
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.2
+   },
+   "compasso": 4,
+   "t_ini": 296.63
+  },
+  {
+   "ordem": 25,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 968,
+   "confianca": 0.39,
+   "corrigido_pela_forma": false,
+   "compasso": 4,
+   "t_ini": 254.92
+  },
+  {
+   "ordem": 26,
+   "corda": 6,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1025,
+   "confianca": 0.663,
+   "corrigido_pela_forma": false,
+   "compasso": 5,
+   "t_ini": 255.42
+  },
+  {
+   "ordem": 27,
+   "corda": 4,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1076,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "compasso": 5,
+   "t_ini": 256.09
+  },
+  {
+   "ordem": 28,
+   "corda": 3,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1128,
+   "confianca": 0.913,
+   "corrigido_pela_forma": false,
+   "compasso": 5,
+   "t_ini": 256.76
+  },
+  {
+   "ordem": 29,
+   "corda": 3,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1184,
+   "confianca": 0.635,
+   "corrigido_pela_forma": false,
+   "compasso": 5,
+   "t_ini": 239.41
+  },
+  {
+   "ordem": 30,
+   "corda": 4,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1182,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "compasso": 5,
+   "t_ini": 278.28
+  },
+  {
+   "ordem": 31,
+   "corda": 6,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1182,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "compasso": 5
+  },
+  {
+   "ordem": 32,
+   "corda": 1,
+   "casa": "harmonico",
+   "tecnica": "harmonico",
+   "x": 1273,
+   "confianca": 0.668,
+   "corrigido_pela_forma": false,
+   "simbolo_cru": {
+    "caixa_token": [
+     1273,
+     24,
+     1287,
+     32
+    ],
+    "partes": 1,
+    "partes_digito": 1,
+    "larguras_passo": [
+     0.64
+    ],
+    "componentes": [
+     [
+      0,
+      0,
+      14,
+      8
+     ]
+    ],
+    "classe": "harmonico",
+    "top3": [
+     [
+      "harmonico",
+      0.668
+     ],
+     [
+      "7",
+      0.105
+     ],
+     [
+      "4",
+      0.087
+     ]
+    ],
+    "top3_componente": [
+     [
+      "harmonico",
+      0.668
+     ],
+     [
+      "7",
+      0.105
+     ],
+     [
+      "4",
+      0.087
+     ]
+    ],
+    "casa_recuperada": null,
+    "confianca_recuperada": 0.0,
+    "tinta": 0.173
+   },
+   "compasso": 5,
+   "t_ini": 581.58
+  },
+  {
+   "ordem": 33,
+   "corda": 2,
+   "casa": "1",
+   "tecnica": null,
+   "x": 1268,
+   "confianca": 0.929,
+   "corrigido_pela_forma": false,
+   "compasso": 5,
+   "t_ini": 258.09
+  },
+  {
+   "ordem": 34,
+   "corda": 1,
+   "casa": "4",
+   "tecnica": null,
+   "x": 1313,
+   "confianca": 0.838,
+   "corrigido_pela_forma": false,
+   "compasso": 5,
+   "t_ini": 419.92
+  },
+  {
+   "ordem": 35,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1319,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "compasso": 5,
+   "t_ini": 280.28
+  },
+  {
+   "ordem": 36,
+   "corda": 1,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1404,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 6,
+   "t_ini": 583.58
+  },
+  {
+   "ordem": 37,
+   "corda": 5,
+   "casa": "4",
+   "tecnica": null,
+   "x": 1403,
+   "confianca": 0.99,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "4",
+   "simbolo_cru": {
+    "caixa_token": [
+     1403,
+     99,
+     1419,
+     120
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.73,
+     0.55
+    ],
+    "componentes": [
+     [
+      0,
+      14,
+      16,
+      21
+     ],
+     [
+      1,
+      0,
+      13,
+      12
+     ]
+    ],
+    "classe": "4",
+    "top3": [
+     [
+      "4",
+      0.99
+     ],
+     [
+      "24",
+      0.005
+     ],
+     [
+      "harmonico",
+      0.002
+     ]
+    ],
+    "top3_componente": [
+     [
+      "7",
+      0.491
+     ],
+     [
+      "harmonico",
+      0.136
+     ],
+     [
+      "17",
+      0.109
+     ]
+    ],
+    "casa_recuperada": "4",
+    "confianca_recuperada": 0.575,
+    "tinta": 0.131
+   },
+   "compasso": 6,
+   "t_ini": 280.95
+  },
+  {
+   "ordem": 38,
+   "corda": 4,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1450,
+   "confianca": 0.966,
+   "corrigido_pela_forma": false,
+   "compasso": 6,
+   "t_ini": 281.61
+  },
+  {
+   "ordem": 39,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1497,
+   "confianca": 0.998,
+   "corrigido_pela_forma": false,
+   "compasso": 6,
+   "t_ini": 257.42
+  },
+  {
+   "ordem": 40,
+   "corda": 2,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1543,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "compasso": 6,
+   "t_ini": 261.43
+  },
+  {
+   "ordem": 41,
+   "corda": 5,
+   "casa": "4",
+   "tecnica": null,
+   "x": 1588,
+   "confianca": 0.966,
+   "corrigido_pela_forma": false,
+   "casa_recuperada": "7",
+   "simbolo_cru": {
+    "caixa_token": [
+     1588,
+     99,
+     1603,
+     120
+    ],
+    "partes": 2,
+    "partes_digito": 2,
+    "larguras_passo": [
+     0.69,
+     0.5
+    ],
+    "componentes": [
+     [
+      0,
+      14,
+      15,
+      21
+     ],
+     [
+      1,
+      0,
+      12,
+      12
+     ]
+    ],
+    "classe": "4",
+    "top3": [
+     [
+      "4",
+      0.966
+     ],
+     [
+      "harmonico",
+      0.016
+     ],
+     [
+      "24",
+      0.012
+     ]
+    ],
+    "top3_componente": [
+     [
+      "7",
+      0.686
+     ],
+     [
+      "17",
+      0.11
+     ],
+     [
+      "harmonico",
+      0.085
+     ]
+    ],
+    "casa_recuperada": "7",
+    "confianca_recuperada": 0.686,
+    "tinta": 0.132
+   },
+   "compasso": 6,
+   "t_ini": 262.1
+  },
+  {
+   "ordem": 42,
+   "corda": 4,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1634,
+   "confianca": 0.983,
+   "corrigido_pela_forma": false,
+   "compasso": 6,
+   "t_ini": 262.76
+  },
+  {
+   "ordem": 43,
+   "corda": 3,
+   "casa": "0",
+   "tecnica": null,
+   "x": 1681,
+   "confianca": 0.999,
+   "corrigido_pela_forma": false,
+   "compasso": 6,
+   "t_ini": 263.26
+  },
+  {
+   "ordem": 44,
+   "corda": 4,
+   "casa": "2",
+   "tecnica": null,
+   "x": 1727,
+   "confianca": 0.96,
+   "corrigido_pela_forma": false,
+   "compasso": 6,
+   "t_ini": 263.93
+  }
+ ],
+ "notas_por_compasso": {
+  "2": 11,
+  "3": 10,
+  "4": 4,
+  "5": 10,
+  "6": 9
+ },
+ "andamento": {
+  "notas_por_minuto": 89.9,
+  "intervalo_mediano_s": 0.667,
+  "notas_por_compasso_medido": 8.8,
+  "bpm_se_1_nota_por_tempo": 89.9
+ },
+ "tempo": {
+  "medido": true,
+  "mecanismo": "estado do marcador (qual nota esta acesa)",
+  "onset": "primeiro instante em que a nota passa a ser a atual",
+  "duracoes": "inferidas (intervalo ate o proximo onset)",
+  "serie": {
+   "pontos": 240,
+   "deslocamento_total_px": 60,
+   "passo_mediano_px": 10,
+   "patamares": 7,
+   "trocas_de_sentido": 0,
+   "velocidade_px_s": 0.0,
+   "veredito": "lento"
+  },
+  "notas_com_tempo": 40
+ },
+ "video": "retrato brasileiro - tab & lesson.mp4",
+ "painel": "y296",
+ "quadro_em_s": 339.5,
+ "lido_via": "cv2",
+ "janelas_com_cursor": [],
+ "segundos_com_cursor": 0
+}
