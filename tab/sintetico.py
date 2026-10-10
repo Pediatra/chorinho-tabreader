@@ -73,6 +73,46 @@ def _resolver_fontes() -> list[str]:
 FONTES = _resolver_fontes()
 CORES_VOZ = [(0, 0, 0), (41, 89, 197), (23, 148, 95), (200, 40, 40)]
 
+#: Casas desenhadas pelo gerador (com repetição = peso). As casas baixas (0-5)
+#: são as mais comuns no acervo e continuam com mais peso. Casas 11, 13, 16,
+#: 18, 20, 22 e 23 entraram em 2026-10-10: antes NUNCA eram desenhadas, então o
+#: modelo não tinha essas classes e nenhum `13` podia sair certo (regra 6 do
+#: AGENTS.md: cobertura do gerador é o gargalo).
+CASAS_SORTEAVEIS = (
+    0,
+    0,
+    0,
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    4,
+    5,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+)
+
 
 def gerar_linha(rng: random.Random) -> tuple[np.ndarray, list[dict]]:
     """Desenha uma linha de tablatura aleatória e devolve (imagem, notas)."""
@@ -129,35 +169,7 @@ def gerar_linha(rng: random.Random) -> tuple[np.ndarray, list[dict]]:
         if escuro and cor == (0, 0, 0):
             cor = (255, 255, 255)
         for c in cordas:
-            casa = rng.choice(
-                [
-                    0,
-                    0,
-                    0,
-                    1,
-                    1,
-                    2,
-                    2,
-                    3,
-                    3,
-                    4,
-                    5,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    12,
-                    12,
-                    14,
-                    15,
-                    17,
-                    19,
-                    21,
-                    24,
-                ]
-            )
+            casa = rng.choice(CASAS_SORTEAVEIS)
             tecnica = None
             txt = str(casa)
             if rng.random() < 0.10:  # harmônico <n>

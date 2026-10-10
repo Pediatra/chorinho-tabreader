@@ -4417,3 +4417,27 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
 
 - O `gpus: all` do `compose.yaml` não chega ao podman: o container dava `torch.cuda.is_available() == False`. Agora `compose.podman.yaml` declara `devices: - nvidia.com/gpu=all`, e o mesmo comando dá `True NVIDIA GeForce RTX 3060 Ti`.
 - Armadilha: `/var/run/cdi/` é tmpfs e some no reboot. Regenerar com `sudo nvidia-ctk cdi generate --output=/var/run/cdi/nvidia.yaml`.
+
+## 2026-10-10 — Gerador: casas 11,13,16,18,20,22,23 (cobertura do sintético; NÃO adotado)
+
+- **Achado**: `tab/sintetico.py` sorteava 18 casas distintas (0–10, 12, 14, 15, 17, 19, 21, 24). As casas 11, 13, 16, 18, 20, 22 e 23 nunca eram desenhadas, então o modelo não tinha essas classes (o `13` do ouro v2 não podia sair certo).
+- **Mudança**: a lista virou `CASAS_SORTEAVEIS` (0–24, cada casa nova uma vez; as baixas seguem com mais peso). Teste `tests/test_casas_sinteticas.py` (cobre 0–24, mantém as antigas, casas 0–5 ≥ 35%).
+- **Distribuição de classes (320 linhas, `montar(seed=1)`)**: antes 6.663 glifos, 20 classes; depois 6.948 glifos, 27 classes. As 7 novas ficam entre 1,96% e 2,33% dos tokens. Casas 0–5: 40,4% → 32,3% dos tokens (continuam as mais comuns; 0 segue no topo, 7,8%).
+- **Treino**: GPU (RTX 3060 Ti, via `devices` do compose). Comando oficial, sementes 1, 2, 3 → `artefatos/casas24_{1,2,3}`. Em CPU, 1 época ≈ 0,7 s, mas os pesos de CPU não são comparáveis aos oficiais de GPU, então o treino foi refeito em GPU.
+- **Régua `tab.avaliar` (72 glifos, casas 0–7)**: 70/72, 69/72, 70/72 = média **0,968** (amplitude 0,014). Oficiais no mesmo código: 66, 71, 68 = média 0,949 (amplitude 0,069). Diferença dentro do ruído dos oficiais, e a régua não tem as casas novas: **não é ganho medido**.
+- **Ouro de vídeo v2 (`comparar_paginas.py`, 493 notas, leitor com o modelo passado por argumento)**:
+
+  | modelo | casas certas (de 493) | inventadas | dois-dígitos certos (de 5) |
+  | --- | --- | --- | --- |
+  | `casas24_1` | 473 | 24 | 3 |
+  | `casas24_2` | 473 | 31 | 3 |
+  | `casas24_3` | 480 | 24 | 3 |
+  | média casas24 | **475,3** | **26,3** | 3 |
+  | `oficial_1` | 470 | 20 | 4 |
+  | `oficial_2` | 478 | 26 | 4 |
+  | `oficial_3` | 484 | 19 | 4 |
+  | média oficial | 477,3 | 21,7 | 4 |
+
+- **Leitura**: o ouro de vídeo **não melhora**; piora ligeiramente nas inventadas (26,3 contra 21,7) e perde um dois-dígitos (o `10` da pág. 12 sai `0` nas 3 sementes). O `13` da pág. 8 continua lido como `1`, mesmo com a classe presente: a fusão de dois algarismos (`_casa_das_partes`, limiar 0,80) não alcança a classe nova. Provável causa: a probabilidade do `10` e do `13` se divide com as novas casas 11 e 13. Não medido.
+- **Decisão**: **não troquei o `MODELO_PADRAO`** (continua `artefatos/oficial_3`). Adoção fica para o coordenador, com estes números. Se for adotar, o caminho é corrigir a regressão do `10` antes (medir `p(10)` no token da pág. 12 com e sem as classes novas).
+- **Não repetir**: aumentar a cobertura de casas com peso igual a 1 não basta para melhorar a casa de dois algarismos no vídeo; o efeito aparece como troca de probabilidade entre classes vizinhas.
