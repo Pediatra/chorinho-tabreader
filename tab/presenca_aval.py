@@ -1,19 +1,26 @@
-"""Erro de PRESENÇA do detector que o produto usa, medido no ``portao.json``.
+"""Medição da CAIXA do detector de tablatura, por quadro (Fase 7.1).
 
-Medição (Fase 7.0): **não muda o detector**. Para cada caso rotulado no olho (fora os
-``duvida``), lê o quadro INTEIRO no instante ``instante_frac * duração`` (via
-``tab.leitor``) e roda ``tab.telas.painel_do_quadro`` — o mesmo critério que ``tab.telas``
-usa para dizer "há tablatura neste quadro". Compara com o rótulo e conta a matriz de
-confusão, total e por canal. Como a presença é o que vira nota, o FALSO POSITIVO é o erro
-que importa aqui (nota inventada).
+O gabarito ``data/gold/presenca_quadros.json`` foi lido à mão pelo dono, quadro a quadro
+(2026-10-10). Cada caso é um quadro inteiro: ou o detector desenhou uma caixa, e o dono
+disse se ela cobre tablatura real (``caixa_sobre_tablatura``), ou não desenhou caixa.
 
-O portão aprendido (``tab.portao``) é medido nos mesmos casos só para comparação. Ele
-NÃO é o usado pelo produto. Também foi treinado nestes casos, então o número dele é
-dentro da amostra (otimista).
+Dois números, e eles são diferentes:
+
+- **precisão de caixa**: das caixas desenhadas, quantas cobrem tablatura de verdade.
+  Caixa em cima do braço do violão ou só na pauta é nota inventada no produto.
+- **revocação de caixa**: dos quadros com tablatura (``tablatura_no_quadro``), quantos
+  receberam caixa sobre ela.
+
+A presença por quadro ("há tablatura?") sai junto, só como referência: o erro que o
+produto sofre é a caixa, não a presença. Uma caixa que cobre a tablatura em outra faixa
+do quadro não conta como acerto; a caixa tem de estar sobre a tablatura.
+
+Uma caixa que não bate com a do gabarito (IoU < ``LIMIAR_IOU_CAIXA``) precisa de rótulo
+em ``caixas_revistas``; sem rótulo a medição para com erro, em vez de contar em silêncio.
 
 Uso:
-    python -m tab.presenca_aval --saida data/saida/presenca
-    python -m tab.presenca_aval --tipos data/saida/presenca/tipos_fp.json --sem-portao
+    python -m tab.presenca_aval
+    python -m tab.presenca_aval --gold data/gold/presenca_quadros.json --saida <pasta>
 """
 
 import argparse
@@ -24,16 +31,15 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from . import leitor, portao
-from .caminhos import ARTEFATOS, SAIDA, acervo
-from .painel import escolher
+from . import leitor
+from .caminhos import SAIDA, acervo
 from .telas import painel_do_quadro
 
-#: Limiar de probabilidade do portão aprendido (mesmo de ``tab.portao.avaliar``).
-LIMIAR_PORTAO = 0.5
+#: Gabarito por quadro (dono, 2026-10-10), versionado em ``data/gold``.
+GOLD_QUADROS = SAIDA.parent / "gold" / "presenca_quadros.json"
 
-#: Modelo do portão aprendido comparado (config vencedora da rodada 0002: ``--seed 1``).
-PORTAO_PADRAO = ARTEFATOS / "portao_real_1" / "portao.pt"
+#: Duas caixas são "a mesma" se a interseção sobre a união for pelo menos isto.
+LIMIAR_IOU_CAIXA = 0.9
 
 
 def classe(previsto: bool, rotulo: str) -> str | None:
@@ -85,109 +91,179 @@ def matriz(classes: list[str | None]) -> dict:
     }
 
 
-def resumir(resultados: list[dict], campo: str) -> dict:
-    """Matriz total e por canal para uma das previsões (``presenca`` ou ``portao``).
+def iou(a: list[int], b: list[int]) -> float:
+    """Interseção sobre união de duas caixas ``[x0, y0, x1, y1]``.
 
     Args:
-        resultados: um dict por caso, com ``canal``, ``rotulo`` e o campo de previsão.
-        campo: chave booleana do dict que é a previsão.
+        a: primeira caixa.
+        b: segunda caixa.
 
     Returns:
-        ``{"total": matriz, "por_canal": {canal: matriz}}``.
+        Valor entre 0 e 1 (0 se as caixas não se tocam).
     """
-    por_canal: dict[str, list[str | None]] = {}
-    todas: list[str | None] = []
-    for r in resultados:
-        cl = classe(bool(r[campo]), r["rotulo"])
-        todas.append(cl)
-        por_canal.setdefault(r["canal"], []).append(cl)
-    return {
-        "total": matriz(todas),
-        "por_canal": {canal: matriz(v) for canal, v in sorted(por_canal.items())},
-    }
+    ix = max(0, min(a[2], b[2]) - max(a[0], b[0]))
+    iy = max(0, min(a[3], b[3]) - max(a[1], b[1]))
+    inter = ix * iy
+    area_a = max(0, a[2] - a[0]) * max(0, a[3] - a[1])
+    area_b = max(0, b[2] - b[0]) * max(0, b[3] - b[1])
+    uniao = area_a + area_b - inter
+    return inter / uniao if uniao else 0.0
 
 
-def por_quadro(resultados: list[dict], campo: str) -> dict:
-    """Matriz no nível do QUADRO: um quadro conta uma vez, mesmo com vários recortes.
-
-    O detector responde por quadro inteiro. Um quadro tem verdade ``tablatura`` se algum
-    recorte dele foi rotulado ``tablatura`` (a tablatura está em outra faixa); é
-    ``nao_tablatura`` se só há recortes ``nao_tablatura``. Os recortes ``nao_tablatura``
-    são só as faixas que o dono olhou: o quadro pode ter tablatura numa faixa que
-    ninguém rotulou (ver a nota no ESTADO.md).
+def carregar_gabarito(caminho: str | Path | None = None) -> dict:
+    """Lê o gabarito por quadro.
 
     Args:
-        resultados: um dict por caso, com ``video``, ``t_s``, ``canal``, ``rotulo`` e o campo.
-        campo: chave booleana da previsão (a mesma em todos os recortes do quadro).
+        caminho: JSON do gabarito; por padrão ``data/gold/presenca_quadros.json``.
 
     Returns:
-        ``{"total": matriz, "por_canal": {canal: matriz}, "quadros": n}``.
+        O documento: ``casos`` (um por quadro) e ``caixas_revistas`` (rótulos extras).
     """
-    grupos: dict[tuple[str, float], list[dict]] = {}
-    for r in resultados:
-        grupos.setdefault((r["video"], r["t_s"]), []).append(r)
-    rotulos: list[tuple[str, str | None]] = []
-    por_canal: dict[str, list[str | None]] = {}
-    for (_video, _t), v in grupos.items():
-        verdade = (
-            "tablatura"
-            if any(x["rotulo"] == "tablatura" for x in v)
-            else "nao_tablatura"
-        )
-        cl = classe(bool(v[0][campo]), verdade)
-        rotulos.append((v[0]["canal"], cl))
-        por_canal.setdefault(v[0]["canal"], []).append(cl)
-    return {
-        "total": matriz([cl for _, cl in rotulos]),
-        "por_canal": {c: matriz(v) for c, v in sorted(por_canal.items())},
-        "quadros": len(grupos),
-    }
+    alvo = Path(caminho) if caminho else GOLD_QUADROS
+    return json.loads(alvo.read_text(encoding="utf-8"))
 
 
-def fps_quadros(resultados: list[dict], campo: str) -> list[dict]:
-    """Os quadros FP (um recorte por quadro), pelo critério de ``por_quadro``.
+def caixa_sobre_tablatura(
+    caso: dict, rect: list[int] | tuple[int, ...] | None, revistas: list[dict]
+) -> bool | None:
+    """Rótulo do dono para a caixa que o detector desenhou neste quadro.
 
     Args:
-        resultados: um dict por caso.
-        campo: chave booleana da previsão.
+        caso: um caso do gabarito (``codigo``, ``caixa``, ``caixa_sobre_tablatura``).
+        rect: caixa do detector no quadro, ou ``None`` se não desenhou.
+        revistas: rótulos extras (``caixas_revistas`` do gabarito).
 
     Returns:
-        Um dict por quadro com previsão positiva e nenhum recorte ``tablatura``.
+        ``True``/``False`` se a caixa cobre (ou não) tablatura; ``None`` se não há caixa.
+
+    Raises:
+        ValueError: a caixa não bate com a do gabarito nem com um rótulo revisto.
     """
-    tablatura = {
-        (r["video"], r["t_s"]) for r in resultados if r["rotulo"] == "tablatura"
-    }
-    return [
-        r
-        for r in _unicos(resultados)
-        if r[campo] and (r["video"], r["t_s"]) not in tablatura
+    if rect is None:
+        return None
+    rotulos: list[tuple[list[int], bool]] = []
+    if caso["caixa"] is not None:
+        rotulos.append((caso["caixa"], caso["caixa_sobre_tablatura"]))
+    rotulos += [
+        (r["caixa"], r["caixa_sobre_tablatura"])
+        for r in revistas
+        if r["codigo"] == caso["codigo"]
     ]
+    for caixa, ok in rotulos:
+        if iou(list(rect), caixa) >= LIMIAR_IOU_CAIXA:
+            return ok
+    raise ValueError(
+        f"{caso['codigo']}: caixa {list(rect)} sem rótulo no gabarito "
+        "(incluir em caixas_revistas depois de olhar o quadro)"
+    )
 
 
-def fps(resultados: list[dict], campo: str) -> list[dict]:
-    """Os falsos positivos de uma previsão, na ordem do gabarito.
+def _metricas_caixa(itens: list[dict]) -> dict:
+    """Precisão e revocação de caixa de um conjunto de quadros.
 
     Args:
-        resultados: um dict por caso.
-        campo: chave booleana da previsão.
+        itens: dicts com ``tab`` (há tablatura no quadro) e ``caixa_ok`` (``None`` se
+            não há caixa, senão se ela cobre tablatura).
 
     Returns:
-        Os casos com previsão positiva e rótulo ``nao_tablatura``.
+        ``{"caixas", "corretas", "tablatura", "precisao", "revocacao"}``.
     """
-    return [r for r in resultados if classe(bool(r[campo]), r["rotulo"]) == "FP"]
+    com_caixa = [r for r in itens if r["caixa_ok"] is not None]
+    corretas = sum(1 for r in com_caixa if r["caixa_ok"])
+    tab = sum(1 for r in itens if r["tab"])
+    tab_certas = sum(1 for r in itens if r["tab"] and r["caixa_ok"])
+    return {
+        "caixas": len(com_caixa),
+        "corretas": corretas,
+        "tablatura": tab,
+        "precisao": _razao(corretas, len(com_caixa)),
+        "revocacao": _razao(tab_certas, tab),
+    }
+
+
+def metricas_caixa(resultados: list[dict]) -> dict:
+    """Precisão e revocação de caixa, no total e por canal.
+
+    Args:
+        resultados: um dict por quadro, com ``canal``, ``tab`` e ``caixa_ok``.
+
+    Returns:
+        ``{"total": {...}, "por_canal": {canal: {...}}}``.
+    """
+    por_canal: dict[str, list[dict]] = {}
+    for r in resultados:
+        por_canal.setdefault(r["canal"], []).append(r)
+    return {
+        "total": _metricas_caixa(resultados),
+        "por_canal": {c: _metricas_caixa(v) for c, v in sorted(por_canal.items())},
+    }
+
+
+def metricas_presenca(resultados: list[dict]) -> dict:
+    """Matriz de presença por quadro (referência; a métrica do produto é a caixa).
+
+    Args:
+        resultados: um dict por quadro, com ``tab`` e ``presenca``.
+
+    Returns:
+        ``matriz`` de ``classe`` sobre todos os quadros.
+    """
+    return matriz(
+        [
+            classe(bool(r["presenca"]), "tablatura" if r["tab"] else "nao_tablatura")
+            for r in resultados
+        ]
+    )
+
+
+def medir(gabarito: dict, detector=painel_do_quadro) -> tuple[list[dict], list[dict]]:
+    """Roda o detector em cada quadro do gabarito e confere a caixa com o rótulo.
+
+    Args:
+        gabarito: documento de ``carregar_gabarito``.
+        detector: ``quadro -> caixa | None``; por padrão o critério do produto.
+
+    Returns:
+        ``(resultados, erros)``: um dict por quadro lido e os quadros sem imagem.
+    """
+    resultados: list[dict] = []
+    erros: list[dict] = []
+    raiz = acervo()
+    revistas = gabarito.get("caixas_revistas", [])
+    for c in gabarito["casos"]:
+        quadro = leitor.quadro_em(str(raiz / c["video"]), c["t"])
+        if quadro is None:
+            erros.append(
+                {"codigo": c["codigo"], "video": c["video"], "erro": "sem quadro"}
+            )
+            continue
+        rect = detector(quadro)
+        resultados.append(
+            {
+                "codigo": c["codigo"],
+                "canal": c["canal"],
+                "video": c["video"],
+                "t": c["t"],
+                "tab": c["tablatura_no_quadro"],
+                "presenca": rect is not None,
+                "rect": list(rect) if rect is not None else None,
+                "caixa_ok": caixa_sobre_tablatura(c, rect, revistas),
+            }
+        )
+    return resultados, erros
 
 
 def folha(
     itens: list[tuple[np.ndarray, tuple[int, int, int, int] | None, str]],
     caminho: Path,
-    colunas: int = 4,
-    largura: int = 480,
+    colunas: int = 2,
+    largura: int = 960,
 ) -> Path:
-    """Folha de quadros com a caixa do painel detectado e uma legenda por célula.
+    """Folha de quadros com a caixa do detector e uma legenda por célula.
 
     Args:
-        itens: ``(quadro BGR, retângulo do detector ou None, legenda ASCII)``.
-        caminho: PNG de saída.
+        itens: ``(quadro BGR, caixa do detector ou None, legenda ASCII)``.
+        caminho: JPEG de saída.
         colunas: células por linha.
         largura: largura de cada célula, em px.
 
@@ -200,10 +276,10 @@ def folha(
         img = cv2.resize(quadro, (largura, int(quadro.shape[0] * escala)))
         if rect is not None:
             x0, y0, x1, y1 = (int(v * escala) for v in rect)
-            cv2.rectangle(img, (x0, y0), (x1, y1), (0, 0, 255), 3)
-        cv2.rectangle(img, (0, 0), (largura, 22), (0, 0, 0), -1)
+            cv2.rectangle(img, (x0, y0), (x1, y1), (0, 0, 255), 6)
+        cv2.rectangle(img, (0, 0), (largura, 34), (0, 0, 0), -1)
         cv2.putText(
-            img, legenda, (4, 16), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1
+            img, legenda, (6, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2
         )
         celulas.append(img)
     altura = max(c.shape[0] for c in celulas)
@@ -217,165 +293,63 @@ def folha(
         while len(linha) < colunas:
             linha.append(np.zeros((altura, largura, 3), dtype=np.uint8))
         linhas.append(np.hstack(linha))
-    cv2.imwrite(str(caminho), np.vstack(linhas))
+    cv2.imwrite(str(caminho), np.vstack(linhas), [cv2.IMWRITE_JPEG_QUALITY, 80])
     return caminho
 
 
-def _quadro(video: Path, frac: float) -> tuple[np.ndarray | None, float]:
-    """Quadro inteiro no instante ``frac`` da duração, e esse instante em segundos."""
-    dur = float(leitor.info(str(video)).get("duracao_s") or 0.0)
-    t = frac * dur
-    return leitor.quadro_em(str(video), t), t
-
-
-def medir(
-    casos: list[dict], modelo_portao: tuple | None
-) -> tuple[list[dict], list[dict]]:
-    """Roda o detector de presença (e o portão, se houver) em cada caso.
-
-    Args:
-        casos: casos do gabarito, já sem ``duvida``.
-        modelo_portao: ``(modelo, dispositivo)`` do ``tab.portao`` ou ``None``.
-
-    Returns:
-        ``(resultados, erros)``: um dict por caso lido e os casos sem quadro.
-    """
-    resultados: list[dict] = []
-    erros: list[dict] = []
-    raiz = acervo()
-    for c in casos:
-        quadro, t = _quadro(raiz / c["video"], c["instante_frac"])
-        if quadro is None:
-            erros.append(
-                {"arquivo": c["arquivo"], "video": c["video"], "erro": "sem quadro"}
-            )
-            continue
-        rect = painel_do_quadro(quadro)
-        cand = escolher(quadro)
-        r = {
-            "arquivo": c["arquivo"],
-            "canal": c["canal"],
-            "video": c["video"],
-            "instante_frac": c["instante_frac"],
-            "t_s": round(t, 2),
-            "rotulo": c["rotulo"],
-            "faixa_gold": c["faixa"],
-            "presenca": rect is not None,
-            "rect": list(rect) if rect is not None else None,
-            "faixa_det": cand.nome if cand is not None else None,
-            "passo_det": round(cand.passo, 1) if cand is not None else None,
-        }
-        if modelo_portao is not None:
-            modelo, dev = modelo_portao
-            if cand is None:
-                r["p_portao"] = None
-                r["portao"] = False
-            else:
-                p = float(portao.probabilidade([cand.roi], modelo, dev)[0])
-                r["p_portao"] = round(p, 3)
-                r["portao"] = p >= LIMIAR_PORTAO
-        resultados.append(r)
-    return resultados, erros
-
-
-def _unicos(resultados: list[dict]) -> list[dict]:
-    """Um recorte por quadro (``video``, ``t_s``), na ordem do gabarito."""
-    vistos: set[tuple[str, float]] = set()
-    saida: list[dict] = []
-    for r in resultados:
-        chave = (r["video"], r["t_s"])
-        if chave not in vistos:
-            vistos.add(chave)
-            saida.append(r)
-    return saida
-
-
 def main() -> int:
-    """Mede a presença do ``tab.telas`` contra o ``portao.json`` e grava a folha de FPs."""
+    """Mede a caixa e a presença contra o gabarito por quadro e grava o resumo."""
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument(
-        "--gold", default=None, help="gabarito (padrão data/gold/portao.json)"
+        "--gold", default=None, help="gabarito (padrão data/gold/presenca_quadros.json)"
     )
-    ap.add_argument("--saida", default=str(SAIDA / "presenca"))
-    ap.add_argument("--portao", default=str(PORTAO_PADRAO), help="'' para pular")
-    ap.add_argument("--sem-portao", action="store_true")
-    ap.add_argument("--tipos", default=None, help="JSON {arquivo: tipo} para a legenda")
-    ap.add_argument(
-        "--tps", type=int, default=10, help="verdadeiros positivos na folha"
-    )
+    ap.add_argument("--saida", default=str(SAIDA / "presenca_7_1"))
     args = ap.parse_args()
 
     saida = Path(args.saida)
     saida.mkdir(parents=True, exist_ok=True)
-    gold = portao.carregar_gold(args.gold)
-    casos = [c for c in gold["casos"] if c["rotulo"] != "duvida"]
-    duvidas = len(gold["casos"]) - len(casos)
+    gabarito = carregar_gabarito(args.gold)
+    resultados, erros = medir(gabarito)
 
-    modelo_portao = None
-    if not args.sem_portao and args.portao:
-        modelo_portao = portao.carregar_modelo(args.portao)
+    caixa = metricas_caixa(resultados)
+    presenca = metricas_presenca(resultados)
+    erradas = [r for r in resultados if r["caixa_ok"] is False]
+    if erradas:
+        raiz = acervo()
+        itens = []
+        for r in erradas:
+            quadro = leitor.quadro_em(str(raiz / r["video"]), r["t"])
+            legenda = f"{r['codigo']} {r['canal'][:16]} t={r['t']}"
+            itens.append((quadro, tuple(r["rect"]), legenda))
+        folha(itens, saida / "caixas_erradas.jpg")
 
-    resultados, erros = medir(casos, modelo_portao)
-    campos = ["presenca"] + (["portao"] if modelo_portao is not None else [])
-    resumo = {campo: resumir(resultados, campo) for campo in campos}
-    tipos = (
-        json.loads(Path(args.tipos).read_text(encoding="utf-8")) if args.tipos else {}
-    )
-
-    fp_presenca = fps(resultados, "presenca")
-    tp_presenca = [
-        r for r in resultados if classe(bool(r["presenca"]), r["rotulo"]) == "VP"
-    ]
-    quadros_fp = fps_quadros(resultados, "presenca")
-    quadros_vp = _unicos(tp_presenca)
-    escolhidos: list[dict] = []
-    if quadros_vp and args.tps > 0:
-        idx = np.linspace(0, len(quadros_vp) - 1, min(args.tps, len(quadros_vp)))
-        escolhidos = [quadros_vp[round(float(i))] for i in idx]
-
-    folhas: dict[str, list[str]] = {"fp": [], "vp": []}
-    for sigla, lista in (("fp", quadros_fp), ("vp", escolhidos)):
-        for n, k in enumerate(range(0, len(lista), 12), 1):
-            itens = []
-            for j, r in enumerate(lista[k : k + 12], 1):
-                quadro, _ = _quadro(acervo() / r["video"], r["instante_frac"])
-                legenda = f"{sigla.upper()}{k + j:02d} {r['canal'][:14]} t={r['t_s']}s"
-                itens.append((quadro, tuple(r["rect"]) if r["rect"] else None, legenda))
-            caminho = saida / f"{sigla}_presenca_{n}.png"
-            folhas[sigla].append(str(folha(itens, caminho, colunas=4, largura=480)))
-
-    for r in resultados:
-        r["tipo"] = tipos.get(r["arquivo"])
-    resumo_quadro = {campo: por_quadro(resultados, campo) for campo in campos}
-
-    saida_json = {
-        "gold": args.gold or str(portao.GOLD_PORTAO),
-        "portao": args.portao if modelo_portao is not None else None,
-        "limiar_portao": LIMIAR_PORTAO,
-        "casos_avaliados": len(resultados),
-        "duvidas_excluidas": duvidas,
+    resumo = {
+        "gold": args.gold or str(GOLD_QUADROS),
+        "quadros_avaliados": len(resultados),
         "erros": erros,
-        "resumo": resumo,
-        "resumo_por_quadro": resumo_quadro,
-        "falsos_positivos_presenca_quadros": quadros_fp,
-        "falsos_positivos_presenca_casos": fp_presenca,
-        "folhas": folhas,
+        "caixa": caixa,
+        "presenca": presenca,
         "casos": resultados,
     }
     (saida / "resultado.json").write_text(
-        json.dumps(saida_json, ensure_ascii=False, indent=1) + "\n", encoding="utf-8"
+        json.dumps(resumo, ensure_ascii=False, indent=1) + "\n", encoding="utf-8"
     )
 
-    for campo in campos:
-        t = resumo[campo]["total"]
-        print(
-            f"[{campo}] VP {t['VP']} FP {t['FP']} VN {t['VN']} FN {t['FN']} "
-            f"precisao {t['precisao']} revocacao {t['revocacao']}"
-        )
+    t = caixa["total"]
     print(
-        f"casos avaliados {len(resultados)}, duvidas excluidas {duvidas}, sem quadro {len(erros)}"
+        f"[caixa] caixas {t['caixas']} corretas {t['corretas']} "
+        f"tablatura {t['tablatura']} precisao {t['precisao']} revocacao {t['revocacao']}"
     )
-    print(f"folhas: {folhas}")
+    p = presenca
+    print(
+        f"[presenca] VP {p['VP']} FP {p['FP']} VN {p['VN']} FN {p['FN']} "
+        f"precisao {p['precisao']} revocacao {p['revocacao']}"
+    )
+    for canal, m in caixa["por_canal"].items():
+        print(
+            f"  {canal}: caixas {m['caixas']} corretas {m['corretas']} "
+            f"precisao {m['precisao']} revocacao {m['revocacao']}"
+        )
     return 0
 
 

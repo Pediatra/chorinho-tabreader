@@ -1,0 +1,1932 @@
+{
+ "como_foi_rotulado": "Folhas fp_presenca_1..4 da Fase 7.0 (data/saida/presenca/) e vp_presenca_1, lidas quadro a quadro. O dono (2026-10-10, por escrito) marcou os 9 falsos positivos que NAO sao tablatura: FP02, FP03, FP09, FP10, FP11 (braco do violao escolhido; a TAB real esta em outra regiao do mesmo quadro) e FP30, FP31, FP37, FP38 (partitura de 5 linhas sem TAB). Os demais 32 FP + 77 VP estao confirmados como caixa sobre tablatura. Os 26 quadros em que o detector disse nao (20 VN, 6 FN) usam o rotulo do data/gold/portao.json (por recorte, tirado para o quadro: tablatura se algum recorte do quadro tem rotulo tablatura). Por isso tablatura_no_quadro e caixa_sobre_tablatura sao campos distintos: a caixa mede PRECISAO, tablatura_no_quadro mede REVOCACAO. Revisao visual da Fase 7.1: nos 4 quadros FP30, FP31, FP37 e FP38 a caixa cobre so a pauta de 5 linhas, e a TAB de 6 cordas com algarismos esta embaixo, no mesmo quadro (faixa base); por isso tablatura_no_quadro=true nesses 4, e caixa_sobre_tablatura=false (caixa sobre a pauta).",
+ "criterio": "caixa_sobre_tablatura: a caixa do detector (caixa, no quadro inteiro) cobre tablatura real. null quando o detector nao desenhou caixa. tablatura_no_quadro: ha TAB em alguma regiao do quadro.",
+ "quadros": {
+  "total": 144,
+  "com_caixa": 118,
+  "tablatura_no_quadro": 124
+ },
+ "casos": [
+  {
+   "codigo": "VN01",
+   "canal": "cifra club",
+   "video": "cifra club/os planos de deus - samuel messias (simplificada) ｜ como tocar no violão.mp4",
+   "t": 227.73,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "VN02",
+   "canal": "cifra club",
+   "video": "cifra club/os planos de deus - samuel messias (simplificada) ｜ como tocar no violão.mp4",
+   "t": 297.8,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "VN03",
+   "canal": "cifra club",
+   "video": "cifra club/telefone mudo - trio parada dura (completa) ｜ como tocar no violão.mp4",
+   "t": 863.72,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "VN04",
+   "canal": "cifra club",
+   "video": "cifra club/telefone mudo - trio parada dura (completa) ｜ como tocar no violão.mp4",
+   "t": 1129.47,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "VN05",
+   "canal": "cifra club",
+   "video": "cifra club/papel machê - joão bosco (completa) ｜ como tocar no violão.mp4",
+   "t": 1129.72,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "VN06",
+   "canal": "cifra club",
+   "video": "cifra club/papel machê - joão bosco (completa) ｜ como tocar no violão.mp4",
+   "t": 1477.33,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "VN07",
+   "canal": "cifra club",
+   "video": "cifra club/quem é esse？ - julliany souza (completa) ｜ como tocar no violão.mp4",
+   "t": 1079.96,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "VN08",
+   "canal": "cifra club",
+   "video": "cifra club/quem é esse？ - julliany souza (completa) ｜ como tocar no violão.mp4",
+   "t": 1412.25,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "FP01",
+   "canal": "guitar dell ́arte",
+   "video": "guitar dell ́arte/strawberry field (the beatles), guitar tutorial.mp4",
+   "t": 272.89,
+   "caixa": [
+    0,
+    944,
+    1920,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VN09",
+   "canal": "guitar dell ́arte",
+   "video": "guitar dell ́arte/strawberry field (the beatles), guitar tutorial.mp4",
+   "t": 356.86,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "FP02",
+   "canal": "guitar dell ́arte",
+   "video": "guitar dell ́arte/dream a little dream of me, guitar arrangement, sheet and tab.mp4",
+   "t": 181.92,
+   "caixa": [
+    1339,
+    152,
+    1920,
+    328
+   ],
+   "caixa_sobre_tablatura": false,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VN10",
+   "canal": "guitar dell ́arte",
+   "video": "guitar dell ́arte/dream a little dream of me, guitar arrangement, sheet and tab.mp4",
+   "t": 237.89,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "FP03",
+   "canal": "guitar dell ́arte",
+   "video": "guitar dell ́arte/deborah’ s theme (e. morricone), guitar lesson, sheet and tab.mp4",
+   "t": 242.0,
+   "caixa": [
+    0,
+    0,
+    1920,
+    260
+   ],
+   "caixa_sobre_tablatura": false,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VN11",
+   "canal": "guitar dell ́arte",
+   "video": "guitar dell ́arte/deborah’ s theme (e. morricone), guitar lesson, sheet and tab.mp4",
+   "t": 316.47,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "FP04",
+   "canal": "guitar dell ́arte",
+   "video": "guitar dell ́arte/romance sans paroles no. 3 (g. fauré), guitar lesson, sheet and tab.mp4",
+   "t": 273.66,
+   "caixa": [
+    9,
+    938,
+    1920,
+    1076
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP05",
+   "canal": "guitar dell ́arte",
+   "video": "guitar dell ́arte/romance sans paroles no. 3 (g. fauré), guitar lesson, sheet and tab.mp4",
+   "t": 357.86,
+   "caixa": [
+    9,
+    938,
+    1920,
+    1075
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP01",
+   "canal": "iwaki",
+   "video": "iwaki/scott joplin ｜ the entertainer ｜ tab.mp4",
+   "t": 96.51,
+   "caixa": [
+    125,
+    894,
+    1794,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP02",
+   "canal": "iwaki",
+   "video": "iwaki/scott joplin ｜ the entertainer ｜ tab.mp4",
+   "t": 126.2,
+   "caixa": [
+    125,
+    897,
+    1794,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP03",
+   "canal": "iwaki",
+   "video": "iwaki/あつまれどうぶつの森 テーマ ｜ tab ｜animal crossing new horizons theme.mp4",
+   "t": 42.57,
+   "caixa": [
+    86,
+    886,
+    1833,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP06",
+   "canal": "iwaki",
+   "video": "iwaki/あつまれどうぶつの森 テーマ ｜ tab ｜animal crossing new horizons theme.mp4",
+   "t": 55.67,
+   "caixa": [
+    86,
+    888,
+    1833,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FN01",
+   "canal": "iwaki",
+   "video": "iwaki/yesterday  - the beatles  - fingerstyle lesson + tab.mp4",
+   "t": 152.59,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP04",
+   "canal": "iwaki",
+   "video": "iwaki/yesterday  - the beatles  - fingerstyle lesson + tab.mp4",
+   "t": 199.54,
+   "caixa": [
+    70,
+    395,
+    1852,
+    599
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP07",
+   "canal": "iwaki",
+   "video": "iwaki/el condor pasa (if i could) ｜ tab.mp4",
+   "t": 125.15,
+   "caixa": [
+    125,
+    841,
+    1794,
+    1017
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP05",
+   "canal": "iwaki",
+   "video": "iwaki/el condor pasa (if i could) ｜ tab.mp4",
+   "t": 163.66,
+   "caixa": [
+    0,
+    638,
+    1920,
+    761
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP06",
+   "canal": "kimny's guitar",
+   "video": "kimny's guitar/[ tab ] come away with me - norah jones ｜ fingerstyle guitar cover ｜ free pdf.mp4",
+   "t": 144.56,
+   "caixa": [
+    62,
+    827,
+    1873,
+    993
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP07",
+   "canal": "kimny's guitar",
+   "video": "kimny's guitar/[ tab ] come away with me - norah jones ｜ fingerstyle guitar cover ｜ free pdf.mp4",
+   "t": 189.03,
+   "caixa": [
+    62,
+    824,
+    1873,
+    990
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP08",
+   "canal": "kimny's guitar",
+   "video": "kimny's guitar/[ tab ] いつか王子様が ~someday my prince will come~　(ディズニー映画『白雪姫』より) ｜ fingerstyle guitar cover ｜.mp4",
+   "t": 85.35,
+   "caixa": [
+    62,
+    858,
+    1873,
+    1024
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP08",
+   "canal": "kimny's guitar",
+   "video": "kimny's guitar/[ tab ] いつか王子様が ~someday my prince will come~　(ディズニー映画『白雪姫』より) ｜ fingerstyle guitar cover ｜.mp4",
+   "t": 111.62,
+   "caixa": [
+    63,
+    865,
+    1517,
+    1031
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP09",
+   "canal": "kimny's guitar",
+   "video": "kimny's guitar/[ tab ] no surprises - radiohead ｜ fingerstyle guitar cover.mp4",
+   "t": 151.82,
+   "caixa": [
+    62,
+    846,
+    1873,
+    1012
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP10",
+   "canal": "kimny's guitar",
+   "video": "kimny's guitar/[ tab ] no surprises - radiohead ｜ fingerstyle guitar cover.mp4",
+   "t": 198.54,
+   "caixa": [
+    63,
+    838,
+    1873,
+    1003
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP09",
+   "canal": "kimny's guitar",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "t": 112.9,
+   "caixa": [
+    0,
+    405,
+    1920,
+    555
+   ],
+   "caixa_sobre_tablatura": false,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP10",
+   "canal": "kimny's guitar",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "t": 147.64,
+   "caixa": [
+    0,
+    320,
+    1920,
+    506
+   ],
+   "caixa_sobre_tablatura": false,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP11",
+   "canal": "leonardo ramos",
+   "video": "leonardo ramos/amor campero (estilo) 🎸 m. rodriguez arenas ｜ tutorial de guitarra + tabs.mp4",
+   "t": 79.47,
+   "caixa": [
+    0,
+    809,
+    1920,
+    1066
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP12",
+   "canal": "leonardo ramos",
+   "video": "leonardo ramos/amor campero (estilo) 🎸 m. rodriguez arenas ｜ tutorial de guitarra + tabs.mp4",
+   "t": 103.92,
+   "caixa": [
+    0,
+    810,
+    1786,
+    1066
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP13",
+   "canal": "leonardo ramos",
+   "video": "leonardo ramos/triste nº2 (aire popular argentino) 🎸 antonio sinópoli ｜ tutorial de guitarra + tabs.mp4",
+   "t": 147.87,
+   "caixa": [
+    0,
+    781,
+    1920,
+    1032
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP14",
+   "canal": "leonardo ramos",
+   "video": "leonardo ramos/triste nº2 (aire popular argentino) 🎸 antonio sinópoli ｜ tutorial de guitarra + tabs.mp4",
+   "t": 193.37,
+   "caixa": [
+    0,
+    781,
+    1920,
+    1032
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP15",
+   "canal": "leonardo ramos",
+   "video": "leonardo ramos/aire norteño vi (suite pampas n.º 1) 🎸 héctor ayala ｜ tutorial para guitarra clásica + tabs.mp4",
+   "t": 107.26,
+   "caixa": [
+    0,
+    805,
+    1920,
+    1045
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VN12",
+   "canal": "leonardo ramos",
+   "video": "leonardo ramos/aire norteño vi (suite pampas n.º 1) 🎸 héctor ayala ｜ tutorial para guitarra clásica + tabs.mp4",
+   "t": 140.26,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "VP16",
+   "canal": "leonardo ramos",
+   "video": "leonardo ramos/mimita (triste) 🎸 justo t. morales ｜ tutorial para guitarra clásica + tabs.mp4",
+   "t": 103.57,
+   "caixa": [
+    0,
+    790,
+    1920,
+    1029
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FN02",
+   "canal": "leonardo ramos",
+   "video": "leonardo ramos/mimita (triste) 🎸 justo t. morales ｜ tutorial para guitarra clásica + tabs.mp4",
+   "t": 135.43,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP17",
+   "canal": "mr. tabs",
+   "video": "mr. tabs/metallica - fade to black - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+   "t": 266.38,
+   "caixa": [
+    0,
+    818,
+    1135,
+    1015
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP18",
+   "canal": "mr. tabs",
+   "video": "mr. tabs/metallica - fade to black - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+   "t": 348.34,
+   "caixa": [
+    969,
+    818,
+    1920,
+    1015
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP19",
+   "canal": "mr. tabs",
+   "video": "mr. tabs/the tragically hip - ahead by a century - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+   "t": 147.04,
+   "caixa": [
+    0,
+    831,
+    1920,
+    1028
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP20",
+   "canal": "mr. tabs",
+   "video": "mr. tabs/the tragically hip - ahead by a century - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+   "t": 192.28,
+   "caixa": [
+    0,
+    831,
+    1920,
+    1028
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP21",
+   "canal": "mr. tabs",
+   "video": "mr. tabs/the beatles (george harrison) - here comes the sun - chords ｜ guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+   "t": 122.73,
+   "caixa": [
+    0,
+    819,
+    1920,
+    1015
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP22",
+   "canal": "mr. tabs",
+   "video": "mr. tabs/the beatles (george harrison) - here comes the sun - chords ｜ guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+   "t": 160.49,
+   "caixa": [
+    0,
+    819,
+    1920,
+    1015
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP11",
+   "canal": "mr. tabs",
+   "video": "mr. tabs/extreme - more than words - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
+   "t": 220.92,
+   "caixa": [
+    0,
+    323,
+    1920,
+    515
+   ],
+   "caixa_sobre_tablatura": false,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP23",
+   "canal": "mr. tabs",
+   "video": "mr. tabs/extreme - more than words - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
+   "t": 288.89,
+   "caixa": [
+    0,
+    797,
+    1920,
+    1006
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP12",
+   "canal": "pablo romé",
+   "video": "pablo romé/preludio nº1 🥇 de h. villa-lobos ｜ partitura+tab.mp4",
+   "t": 573.28,
+   "caixa": [
+    85,
+    290,
+    1835,
+    518
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VN13",
+   "canal": "pablo romé",
+   "video": "pablo romé/preludio nº1 🥇 de h. villa-lobos ｜ partitura+tab.mp4",
+   "t": 749.68,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "FP13",
+   "canal": "pablo romé",
+   "video": "pablo romé/adelita de tárrega (clase 2) 👀 tutorial & partitura+tab.mp4",
+   "t": 567.34,
+   "caixa": [
+    134,
+    294,
+    1785,
+    482
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP14",
+   "canal": "pablo romé",
+   "video": "pablo romé/adelita de tárrega (clase 2) 👀 tutorial & partitura+tab.mp4",
+   "t": 741.91,
+   "caixa": [
+    774,
+    294,
+    1785,
+    482
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP15",
+   "canal": "pablo romé",
+   "video": "pablo romé/vals de fortea 🕺 ｜ demo y guía de estudio.mp4",
+   "t": 137.13,
+   "caixa": [
+    78,
+    291,
+    1823,
+    487
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP16",
+   "canal": "pablo romé",
+   "video": "pablo romé/vals de fortea 🕺 ｜ demo y guía de estudio.mp4",
+   "t": 179.33,
+   "caixa": [
+    159,
+    291,
+    1823,
+    487
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP17",
+   "canal": "pablo romé",
+   "video": "pablo romé/mi favorita guitarra ⭐️ 🥰 ｜ guía de estudio - partitura + tab.mp4",
+   "t": 201.85,
+   "caixa": [
+    101,
+    307,
+    1855,
+    503
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VN14",
+   "canal": "paolo d'angelo",
+   "video": "paolo d'angelo/blackbird ｜ the beatles ｜ guitar tab ｜ fingerstyle tutorial.mp4",
+   "t": 97.85,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "FP18",
+   "canal": "paolo d'angelo",
+   "video": "paolo d'angelo/blackbird ｜ the beatles ｜ guitar tab ｜ fingerstyle tutorial.mp4",
+   "t": 127.95,
+   "caixa": [
+    0,
+    917,
+    1920,
+    1077
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VN15",
+   "canal": "paolo d'angelo",
+   "video": "paolo d'angelo/barcarolle i op. 60 ｜ f. kleynjans ｜ guitar tab ｜ classical tutorial.mp4",
+   "t": 97.87,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "VN16",
+   "canal": "paolo d'angelo",
+   "video": "paolo d'angelo/barcarolle i op. 60 ｜ f. kleynjans ｜ guitar tab ｜ classical tutorial.mp4",
+   "t": 127.99,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "FP19",
+   "canal": "paolo d'angelo",
+   "video": "paolo d'angelo/those who wait ｜ tommy emmanuel ｜ guitar tab ｜ fingerstyle tutorial.mp4",
+   "t": 152.17,
+   "caixa": [
+    84,
+    929,
+    1920,
+    1066
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP20",
+   "canal": "paolo d'angelo",
+   "video": "paolo d'angelo/those who wait ｜ tommy emmanuel ｜ guitar tab ｜ fingerstyle tutorial.mp4",
+   "t": 199.0,
+   "caixa": [
+    84,
+    932,
+    1920,
+    1065
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP24",
+   "canal": "sky guitar",
+   "video": "sky guitar/andantino in am (f. carulli) - guitar lesson + tab.mp4",
+   "t": 161.43,
+   "caixa": [
+    69,
+    305,
+    1854,
+    501
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP25",
+   "canal": "sky guitar",
+   "video": "sky guitar/andantino in am (f. carulli) - guitar lesson + tab.mp4",
+   "t": 201.79,
+   "caixa": [
+    69,
+    305,
+    1854,
+    501
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP26",
+   "canal": "sky guitar",
+   "video": "sky guitar/andantino in am (f. carulli) - guitar lesson + tab.mp4",
+   "t": 242.15,
+   "caixa": [
+    69,
+    305,
+    1854,
+    501
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP27",
+   "canal": "sky guitar",
+   "video": "sky guitar/christmas time is here - tab & lesson.mp4",
+   "t": 153.82,
+   "caixa": [
+    65,
+    307,
+    1849,
+    504
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP28",
+   "canal": "sky guitar",
+   "video": "sky guitar/christmas time is here - tab & lesson.mp4",
+   "t": 192.28,
+   "caixa": [
+    65,
+    308,
+    1849,
+    504
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP29",
+   "canal": "sky guitar",
+   "video": "sky guitar/christmas time is here - tab & lesson.mp4",
+   "t": 230.74,
+   "caixa": [
+    65,
+    308,
+    1849,
+    504
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP30",
+   "canal": "sky guitar",
+   "video": "sky guitar/cinema paradiso (first youth) - tab & lesson.mp4",
+   "t": 225.04,
+   "caixa": [
+    68,
+    299,
+    1853,
+    495
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP31",
+   "canal": "sky guitar",
+   "video": "sky guitar/cinema paradiso (first youth) - tab & lesson.mp4",
+   "t": 281.31,
+   "caixa": [
+    68,
+    299,
+    1853,
+    495
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP32",
+   "canal": "sky guitar",
+   "video": "sky guitar/cinema paradiso (first youth) - tab & lesson.mp4",
+   "t": 337.57,
+   "caixa": [
+    68,
+    299,
+    1853,
+    495
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP33",
+   "canal": "sky guitar",
+   "video": "sky guitar/cinema paradiso (main theme) - tab & lesson.mp4",
+   "t": 210.48,
+   "caixa": [
+    75,
+    325,
+    1859,
+    500
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP34",
+   "canal": "sky guitar",
+   "video": "sky guitar/cinema paradiso (main theme) - tab & lesson.mp4",
+   "t": 263.1,
+   "caixa": [
+    75,
+    327,
+    1859,
+    498
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP35",
+   "canal": "sky guitar",
+   "video": "sky guitar/cinema paradiso (main theme) - tab & lesson.mp4",
+   "t": 315.71,
+   "caixa": [
+    75,
+    327,
+    1859,
+    498
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP36",
+   "canal": "sky guitar",
+   "video": "sky guitar/liebesleid (love's sorrow) - guitar lesson + tab.mp4",
+   "t": 290.49,
+   "caixa": [
+    67,
+    304,
+    1852,
+    500
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP37",
+   "canal": "sky guitar",
+   "video": "sky guitar/liebesleid (love's sorrow) - guitar lesson + tab.mp4",
+   "t": 363.12,
+   "caixa": [
+    67,
+    304,
+    1852,
+    500
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP38",
+   "canal": "sky guitar",
+   "video": "sky guitar/liebesleid (love's sorrow) - guitar lesson + tab.mp4",
+   "t": 435.74,
+   "caixa": [
+    67,
+    304,
+    1852,
+    500
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP39",
+   "canal": "sky guitar",
+   "video": "sky guitar/make you feel my love - fingerstyle lesson + tab.mp4",
+   "t": 355.06,
+   "caixa": [
+    65,
+    300,
+    1849,
+    497
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP40",
+   "canal": "sky guitar",
+   "video": "sky guitar/make you feel my love - fingerstyle lesson + tab.mp4",
+   "t": 443.83,
+   "caixa": [
+    65,
+    301,
+    1849,
+    497
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP41",
+   "canal": "sky guitar",
+   "video": "sky guitar/make you feel my love - fingerstyle lesson + tab.mp4",
+   "t": 532.6,
+   "caixa": [
+    65,
+    301,
+    1849,
+    497
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP42",
+   "canal": "sky guitar",
+   "video": "sky guitar/mariage d'amour - guitar lesson + tab.mp4",
+   "t": 378.49,
+   "caixa": [
+    71,
+    898,
+    1855,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP43",
+   "canal": "sky guitar",
+   "video": "sky guitar/mariage d'amour - guitar lesson + tab.mp4",
+   "t": 473.11,
+   "caixa": [
+    71,
+    898,
+    1855,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP44",
+   "canal": "sky guitar",
+   "video": "sky guitar/mariage d'amour - guitar lesson + tab.mp4",
+   "t": 567.73,
+   "caixa": [
+    71,
+    688,
+    1855,
+    822
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP45",
+   "canal": "sky guitar",
+   "video": "sky guitar/nacht und träume (solo) - guitar lesson + tab.mp4",
+   "t": 193.87,
+   "caixa": [
+    69,
+    895,
+    1854,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VN17",
+   "canal": "sky guitar",
+   "video": "sky guitar/nacht und träume (solo) - guitar lesson + tab.mp4",
+   "t": 242.34,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "FP21",
+   "canal": "sky guitar",
+   "video": "sky guitar/nacht und träume (solo) - guitar lesson + tab.mp4",
+   "t": 290.8,
+   "caixa": [
+    69,
+    895,
+    1854,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP46",
+   "canal": "sky guitar",
+   "video": "sky guitar/nella fantasia (gabriel's oboe) - guitar lesson + tab.mp4",
+   "t": 269.22,
+   "caixa": [
+    72,
+    335,
+    1856,
+    548
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP47",
+   "canal": "sky guitar",
+   "video": "sky guitar/nella fantasia (gabriel's oboe) - guitar lesson + tab.mp4",
+   "t": 336.52,
+   "caixa": [
+    72,
+    336,
+    1856,
+    548
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP48",
+   "canal": "sky guitar",
+   "video": "sky guitar/nella fantasia (gabriel's oboe) - guitar lesson + tab.mp4",
+   "t": 403.82,
+   "caixa": [
+    72,
+    335,
+    1856,
+    548
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FN03",
+   "canal": "sky guitar",
+   "video": "sky guitar/pokarekare ana - guitar lesson + tab.mp4",
+   "t": 78.99,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP49",
+   "canal": "sky guitar",
+   "video": "sky guitar/pokarekare ana - guitar lesson + tab.mp4",
+   "t": 98.74,
+   "caixa": [
+    71,
+    887,
+    1855,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP50",
+   "canal": "sky guitar",
+   "video": "sky guitar/pokarekare ana - guitar lesson + tab.mp4",
+   "t": 118.49,
+   "caixa": [
+    71,
+    887,
+    1855,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP51",
+   "canal": "sky guitar",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "t": 407.38,
+   "caixa": [
+    70,
+    329,
+    1854,
+    501
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP52",
+   "canal": "sky guitar",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "t": 509.23,
+   "caixa": [
+    70,
+    329,
+    1854,
+    501
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP53",
+   "canal": "sky guitar",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "t": 611.08,
+   "caixa": [
+    70,
+    286,
+    1854,
+    458
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FN04",
+   "canal": "sky guitar",
+   "video": "sky guitar/scarborough fair - fingerstyle lesson + tab.mp4",
+   "t": 93.72,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FN05",
+   "canal": "sky guitar",
+   "video": "sky guitar/scarborough fair - fingerstyle lesson + tab.mp4",
+   "t": 117.15,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP54",
+   "canal": "sky guitar",
+   "video": "sky guitar/scarborough fair - fingerstyle lesson + tab.mp4",
+   "t": 140.57,
+   "caixa": [
+    62,
+    881,
+    1850,
+    1074
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP55",
+   "canal": "sky guitar",
+   "video": "sky guitar/silvery waves - tab & lesson.mp4",
+   "t": 215.04,
+   "caixa": [
+    66,
+    315,
+    1851,
+    487
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP56",
+   "canal": "sky guitar",
+   "video": "sky guitar/silvery waves - tab & lesson.mp4",
+   "t": 268.8,
+   "caixa": [
+    66,
+    313,
+    1851,
+    488
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP57",
+   "canal": "sky guitar",
+   "video": "sky guitar/silvery waves - tab & lesson.mp4",
+   "t": 322.55,
+   "caixa": [
+    66,
+    313,
+    1851,
+    488
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP58",
+   "canal": "sky guitar",
+   "video": "sky guitar/when october goes - fingerstyle lesson + tab.mp4",
+   "t": 218.43,
+   "caixa": [
+    0,
+    576,
+    1920,
+    740
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP59",
+   "canal": "sky guitar",
+   "video": "sky guitar/when october goes - fingerstyle lesson + tab.mp4",
+   "t": 273.04,
+   "caixa": [
+    69,
+    887,
+    1854,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP60",
+   "canal": "sky guitar",
+   "video": "sky guitar/when october goes - fingerstyle lesson + tab.mp4",
+   "t": 327.65,
+   "caixa": [
+    69,
+    888,
+    1854,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP61",
+   "canal": "sky guitar",
+   "video": "sky guitar/wind song (kotaro oshio) - tab & lesson.mp4",
+   "t": 374.95,
+   "caixa": [
+    70,
+    322,
+    1854,
+    493
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP62",
+   "canal": "sky guitar",
+   "video": "sky guitar/wind song (kotaro oshio) - tab & lesson.mp4",
+   "t": 468.69,
+   "caixa": [
+    70,
+    320,
+    1854,
+    495
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP63",
+   "canal": "sky guitar",
+   "video": "sky guitar/wind song (kotaro oshio) - tab & lesson.mp4",
+   "t": 562.42,
+   "caixa": [
+    70,
+    322,
+    1854,
+    493
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP64",
+   "canal": "sky guitar",
+   "video": "sky guitar/you are not alone - fingerstyle lesson + tab.mp4",
+   "t": 154.63,
+   "caixa": [
+    65,
+    301,
+    1849,
+    497
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP65",
+   "canal": "sky guitar",
+   "video": "sky guitar/you are not alone - fingerstyle lesson + tab.mp4",
+   "t": 193.29,
+   "caixa": [
+    65,
+    301,
+    1849,
+    497
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP66",
+   "canal": "sky guitar",
+   "video": "sky guitar/you are not alone - fingerstyle lesson + tab.mp4",
+   "t": 231.94,
+   "caixa": [
+    65,
+    301,
+    1849,
+    497
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP67",
+   "canal": "iwaki",
+   "video": "iwaki/a town with an ocean view (kiki's delivery service) 魔女の宅急便-海の見える街⧸ tab.mp4",
+   "t": 46.55,
+   "caixa": [
+    282,
+    914,
+    1715,
+    1079
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP68",
+   "canal": "iwaki",
+   "video": "iwaki/a town with an ocean view (kiki's delivery service) 魔女の宅急便-海の見える街⧸ tab.mp4",
+   "t": 102.42,
+   "caixa": [
+    251,
+    924,
+    1679,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP69",
+   "canal": "iwaki",
+   "video": "iwaki/a town with an ocean view (kiki's delivery service) 魔女の宅急便-海の見える街⧸ tab.mp4",
+   "t": 158.28,
+   "caixa": [
+    259,
+    904,
+    1687,
+    1069
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FN06",
+   "canal": "iwaki",
+   "video": "iwaki/chopin - waltz in a minor, b. 150, op. posth. ｜ tab.mp4",
+   "t": 30.91,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VN18",
+   "canal": "iwaki",
+   "video": "iwaki/chopin - waltz in a minor, b. 150, op. posth. ｜ tab.mp4",
+   "t": 68.0,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "VN19",
+   "canal": "iwaki",
+   "video": "iwaki/chopin - waltz in a minor, b. 150, op. posth. ｜ tab.mp4",
+   "t": 105.09,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "FP22",
+   "canal": "iwaki",
+   "video": "iwaki/henze ｜ nocturno - guitar lesson + tab.mp4",
+   "t": 85.63,
+   "caixa": [
+    116,
+    883,
+    1803,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP70",
+   "canal": "iwaki",
+   "video": "iwaki/henze ｜ nocturno - guitar lesson + tab.mp4",
+   "t": 188.39,
+   "caixa": [
+    128,
+    312,
+    1816,
+    510
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP71",
+   "canal": "iwaki",
+   "video": "iwaki/henze ｜ nocturno - guitar lesson + tab.mp4",
+   "t": 291.15,
+   "caixa": [
+    128,
+    310,
+    1816,
+    511
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP23",
+   "canal": "iwaki",
+   "video": "iwaki/holst ｜ jupiter  ｜ i vow to thee my country ｜ tab.mp4",
+   "t": 30.91,
+   "caixa": [
+    125,
+    883,
+    1794,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP24",
+   "canal": "iwaki",
+   "video": "iwaki/holst ｜ jupiter  ｜ i vow to thee my country ｜ tab.mp4",
+   "t": 68.0,
+   "caixa": [
+    125,
+    888,
+    1794,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP25",
+   "canal": "iwaki",
+   "video": "iwaki/holst ｜ jupiter  ｜ i vow to thee my country ｜ tab.mp4",
+   "t": 105.09,
+   "caixa": [
+    125,
+    900,
+    1794,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP72",
+   "canal": "iwaki",
+   "video": "iwaki/mariage d'amour ⧸ wrongly known as chopin - spring waltz ｜ tab.mp4",
+   "t": 76.93,
+   "caixa": [
+    125,
+    891,
+    1794,
+    1071
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP26",
+   "canal": "iwaki",
+   "video": "iwaki/mariage d'amour ⧸ wrongly known as chopin - spring waltz ｜ tab.mp4",
+   "t": 169.24,
+   "caixa": [
+    125,
+    872,
+    1794,
+    1052
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP73",
+   "canal": "iwaki",
+   "video": "iwaki/mariage d'amour ⧸ wrongly known as chopin - spring waltz ｜ tab.mp4",
+   "t": 261.55,
+   "caixa": [
+    125,
+    872,
+    1794,
+    1052
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP27",
+   "canal": "iwaki",
+   "video": "iwaki/merry-go-round of life (from howl’s moving castle) ⧸ tab for beginners.mp4",
+   "t": 15.91,
+   "caixa": [
+    171,
+    867,
+    1671,
+    1076
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP28",
+   "canal": "iwaki",
+   "video": "iwaki/merry-go-round of life (from howl’s moving castle) ⧸ tab for beginners.mp4",
+   "t": 35.01,
+   "caixa": [
+    160,
+    875,
+    1661,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP29",
+   "canal": "iwaki",
+   "video": "iwaki/merry-go-round of life (from howl’s moving castle) ⧸ tab for beginners.mp4",
+   "t": 54.11,
+   "caixa": [
+    171,
+    890,
+    1671,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP30",
+   "canal": "iwaki",
+   "video": "iwaki/mi favorita ｜ tab.mp4",
+   "t": 38.82,
+   "caixa": [
+    0,
+    584,
+    1920,
+    761
+   ],
+   "caixa_sobre_tablatura": false,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP31",
+   "canal": "iwaki",
+   "video": "iwaki/mi favorita ｜ tab.mp4",
+   "t": 85.41,
+   "caixa": [
+    0,
+    601,
+    1920,
+    734
+   ],
+   "caixa_sobre_tablatura": false,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VN20",
+   "canal": "iwaki",
+   "video": "iwaki/mi favorita ｜ tab.mp4",
+   "t": 132.0,
+   "caixa": null,
+   "caixa_sobre_tablatura": null,
+   "tablatura_no_quadro": false
+  },
+  {
+   "codigo": "FP32",
+   "canal": "iwaki",
+   "video": "iwaki/satie - gymnopédie no. 1.mp4",
+   "t": 54.97,
+   "caixa": [
+    125,
+    881,
+    1794,
+    1061
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP33",
+   "canal": "iwaki",
+   "video": "iwaki/satie - gymnopédie no. 1.mp4",
+   "t": 120.93,
+   "caixa": [
+    125,
+    881,
+    1794,
+    1061
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP34",
+   "canal": "iwaki",
+   "video": "iwaki/satie - gymnopédie no. 1.mp4",
+   "t": 186.89,
+   "caixa": [
+    125,
+    881,
+    1794,
+    1061
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP35",
+   "canal": "iwaki",
+   "video": "iwaki/scott joplin ｜ the entertainer ｜ tab.mp4",
+   "t": 37.12,
+   "caixa": [
+    125,
+    875,
+    1794,
+    1076
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP36",
+   "canal": "iwaki",
+   "video": "iwaki/scott joplin ｜ the entertainer ｜ tab.mp4",
+   "t": 81.66,
+   "caixa": [
+    125,
+    888,
+    1794,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP37",
+   "canal": "iwaki",
+   "video": "iwaki/shostakovich - waltz no. 2 ｜ tab.mp4",
+   "t": 53.71,
+   "caixa": [
+    0,
+    623,
+    1920,
+    768
+   ],
+   "caixa_sobre_tablatura": false,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP38",
+   "canal": "iwaki",
+   "video": "iwaki/shostakovich - waltz no. 2 ｜ tab.mp4",
+   "t": 118.16,
+   "caixa": [
+    0,
+    624,
+    1920,
+    763
+   ],
+   "caixa_sobre_tablatura": false,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP74",
+   "canal": "iwaki",
+   "video": "iwaki/shostakovich - waltz no. 2 ｜ tab.mp4",
+   "t": 182.61,
+   "caixa": [
+    125,
+    865,
+    1794,
+    1051
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP75",
+   "canal": "iwaki",
+   "video": "iwaki/the beatles - michelle｜tab for beginners.mp4",
+   "t": 17.45,
+   "caixa": [
+    65,
+    887,
+    1878,
+    1074
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP76",
+   "canal": "iwaki",
+   "video": "iwaki/the beatles - michelle｜tab for beginners.mp4",
+   "t": 38.39,
+   "caixa": [
+    66,
+    878,
+    1878,
+    1065
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "VP77",
+   "canal": "iwaki",
+   "video": "iwaki/the beatles - michelle｜tab for beginners.mp4",
+   "t": 59.32,
+   "caixa": [
+    65,
+    899,
+    1878,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP39",
+   "canal": "iwaki",
+   "video": "iwaki/when my girlfriend asked me to play a christmas song ⧸ santa claus is coming to town.mp4",
+   "t": 9.08,
+   "caixa": [
+    50,
+    910,
+    1845,
+    1069
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP40",
+   "canal": "iwaki",
+   "video": "iwaki/when my girlfriend asked me to play a christmas song ⧸ santa claus is coming to town.mp4",
+   "t": 19.97,
+   "caixa": [
+    90,
+    873,
+    1885,
+    1029
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  },
+  {
+   "codigo": "FP41",
+   "canal": "iwaki",
+   "video": "iwaki/when my girlfriend asked me to play a christmas song ⧸ santa claus is coming to town.mp4",
+   "t": 30.87,
+   "caixa": [
+    94,
+    884,
+    1889,
+    1040
+   ],
+   "caixa_sobre_tablatura": true,
+   "tablatura_no_quadro": true
+  }
+ ],
+ "caixas_revistas": [
+  {
+   "codigo": "FP09",
+   "caixa": [
+    0,
+    279,
+    1920,
+    439
+   ],
+   "caixa_sobre_tablatura": false,
+   "motivo": "caixa que o codigo atual desenha (Fase 7.1, medida nesta rodada); cobre o braco do violao (conferido na imagem). A caixa rotulada pelo dono na 7.0 era [0,405,1920,555], tambem sobre o braco."
+  }
+ ],
+ "suspeitas_rotulo_nao": [
+  {
+   "codigo": "VN15",
+   "motivo": "portao.json rotulou nao_tablatura por recorte; no quadro inteiro ha TAB visivel embaixo (faixa base). Mantido o rotulo do dono; decisao pendente do dono."
+  },
+  {
+   "codigo": "VN17",
+   "motivo": "portao.json rotulou nao_tablatura por recorte; no quadro inteiro ha TAB visivel embaixo (faixa base). Mantido o rotulo do dono; decisao pendente do dono."
+  },
+  {
+   "codigo": "VN18",
+   "motivo": "portao.json rotulou nao_tablatura por recorte; no quadro inteiro ha TAB visivel embaixo (faixa base). Mantido o rotulo do dono; decisao pendente do dono."
+  },
+  {
+   "codigo": "VN19",
+   "motivo": "portao.json rotulou nao_tablatura por recorte; no quadro inteiro ha TAB visivel embaixo (faixa base). Mantido o rotulo do dono; decisao pendente do dono."
+  },
+  {
+   "codigo": "VN20",
+   "motivo": "portao.json rotulou nao_tablatura por recorte; no quadro inteiro ha TAB visivel embaixo (faixa base). Mantido o rotulo do dono; decisao pendente do dono."
+  }
+ ]
+}

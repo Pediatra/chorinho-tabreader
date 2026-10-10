@@ -2074,6 +2074,10 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | `data/gold/gabarito.json` | 96 glifos rotulados à mão, 4 canais |
 | `artefatos/` | pesos treinados (**nunca** em `/tmp`) |
 | `configs/` | mapa por canal e mapa de símbolos (**a criar**) |
+| caixa de presença pela **uniformidade do fundo** na reserva (critério atual) | erra os 9 erros de caixa: 5 braço e 4 pauta, todos com TAB na faixa base; a TAB densa tem mais tinta e perde para o braço liso (Fase 7.1, rodada 0007) |
+| caixa pela **fração de papel branco** na reserva (C1) | precisão de caixa **0,952** sob o rótulo do dono (aceite 0,98): não adotado; 5 VN com TAB visível contam como erro (Fase 7.1, rodada 0007) |
+| separar pauta de TAB pelo **preenchimento médio** dos tokens | sobrepõe: TAB 0,46 a 0,91 contra pauta 0,49 a 0,59 (Fase 7.1) |
+| separar pauta de TAB pelo **`tab.digito`** (P de algarismo por token) | marca as cabeças de nota da pauta como algarismo, p≈1,0 nas 4 pautas (Fase 7.1) |
 
 ## Próximo passo
 
@@ -4392,6 +4396,31 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
   Fase 7 mede o acervo).
 - **Não repetir**: montar folha de FP por *caso* (139 células, 480 px) é ilegível e conta cada quadro duas vezes; a folha
   é por quadro (`fps_quadros`).
+
+## 2026-10-10 — Fase 7.1: gabarito de caixa por quadro (dono) e candidato de reserva NÃO adotado
+
+- **Gabarito versionado**: `data/gold/presenca_quadros.json`, 144 quadros lidos pelo dono (9 de 41 FP
+  marcados como não tablatura). `tablatura_no_quadro` em 124 quadros; caixa em 118 (109 sobre TAB).
+  Os 4 iwaki FP30/31/37/38 têm a TAB de 6 cordas embaixo da pauta, então entraram como "TAB no quadro".
+- **Métrica nova** (`python -m tab.presenca_aval`): **precisão de caixa** (caixas sobre TAB / caixas) e
+  **revocação de caixa** (quadros com TAB que receberam caixa sobre TAB / quadros com TAB). Presença por
+  quadro só como referência. Teste no gate (`tests/test_presenca_aval.py`, 9 testes), com um teste do contrato
+  do gabarito (os 9 códigos do dono).
+- **Medido no código atual**: caixas 117, corretas 108 → **precisão de caixa 0,923**; revocação 108/124 =
+  **0,871**. Presença por quadro: precisão 1,000 (todo quadro com caixa tem TAB em algum lugar), revocação
+  0,944. Regressão a investigar: FP12 perdeu a caixa desde a 7.0 (código posterior, não medido a causa).
+- **Causa dos 9 erros**: todos caem na reserva `escolher_rapido`, que escolhe a faixa de maior uniformidade
+  (a tinta da TAB penaliza a uniformidade). A TAB está na faixa `base` nos 9.
+- **Candidato C1** (reserva ordenada por fração de papel branco, medido em memória, `tab/painel.py`
+  intacto): **precisão de caixa 0,952** (120/126) sob o rótulo do dono; revocação 0,968. Se os VN15..20
+  tiverem TAB, sobe a 0,992. **Aceite (≥0,98) não atingido com o rótulo do dono → não adotado**, sem commit
+  de `painel.py`. Checagens do MVP não rodadas (dependem do aceite).
+- **Decisões pendentes do dono** (ver a rodada 0007): (1) VN15, VN17, VN18, VN19 e VN20
+  mostram TAB visível embaixo; o `portao.json` os rotulou `nao_tablatura` por recorte. Confirmar o rótulo
+  decide se o C1 passa. (2) FP38: a caixa cobre só a pauta (conferido na imagem). (3) regressão do FP12.
+- **Não repetir**: ver as 4 linhas novas na tabela "O que foi tentado e falhou".
+- Rodada: `docs/rodadas/0007-presenca-caixa-por-quadro.md`. Medições e scripts de diagnóstico em
+  `data/saida/presenca_7_1/` (não versionados).
 
 ## 2026-10-10 — Fase 4: `tab/video.py` (todas as telas, JSON v1) e a régua que pareia tela sem instante
 
