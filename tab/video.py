@@ -1,4 +1,4 @@
-"""VÍDEO -> JSON v1: lê cada tela de um vídeo inteiro (Fase 4 do plano do produto).
+"""VÍDEO -> JSON v1: lê cada tela de um vídeo inteiro e mede o tempo por exibição.
 
 Cadeia, por tela (``tab.telas``, Fase 3):
 
@@ -6,11 +6,16 @@ Cadeia, por tela (``tab.telas``, Fase 3):
    quadros da maior exibição, que apaga o marcador;
 2. painel: ``tab.painel.escolher`` nessa imagem; o ``roi`` dele dá o x no espaço do QUADRO;
 3. ``reconhecer_linha`` no ``roi``: tokens com corda, casa e símbolo cru;
-4. colunas (um acorde é uma coluna) e compasso, pelas barlines da tela.
+4. colunas (um acorde é uma coluna) e compasso, pelas barlines da tela;
+5. tempo por exibição (Fase 5): dentro de cada ``[t0, t1]`` da tela, os quadros são lidos
+   a ~6 qps pelo ``tab.leitor``, e dois observadores (posição do marcador e cor do algarismo)
+   dizem a coluna atual. Escolhe-se, por exibição, o de maior coerência; abaixo do mínimo,
+   a exibição sai com ``medido: false`` e o motivo.
 
 Algarismo vai para ``notas``; o resto vai para ``nao_notas`` com a classe e o símbolo cru,
-porque símbolo não se descarta. O tempo ainda não é medido aqui (Fase 5): cada nota sai com
-``t_ini`` nulo e a tela declara o motivo.
+porque símbolo não se descarta. Cada nota sai com ``t_ini`` do observador escolhido na
+exibição (``null`` sem tempo medido). Quando a aula **repete** uma passagem dentro de uma
+exibição, a nota ganha uma entrada por passagem, com ``exibicao`` e ``passagem``.
 
 Uso:
     python -m tab.video VIDEO --json saida.json [--imagem quadro|mediana] [--modelo CAMINHO]
@@ -32,6 +37,14 @@ from . import leitor
 from .caminhos import MODELO_PADRAO, RAIZ, SAIDA, acervo
 from .colunas import agrupar_colunas
 from .digito import carregar
+from .estado import (
+    ESTAVEL_MINIMO,
+    Observacao,
+    estados_cor,
+    estados_posicao,
+    ler_amostras,
+    observar,
+)
 from .painel import PASSO_MAXIMO_PX, PASSO_MINIMO_PX, escolher
 from .reconhecer import ALGARISMOS, carregar_modelo, reconhecer_linha
 from .telas import Tela, telas
@@ -48,8 +61,30 @@ IMAGEM_PADRAO = "quadro"
 #: Quadros da mediana temporal, espalhados pela maior exibição da tela.
 MEDIANA_QUADROS = 7
 
-#: Motivo declarado enquanto o tempo por exibição não existe (Fase 5).
-MOTIVO_TEMPO = "tempo por exibicao ainda nao implementado (Fase 5)"
+#: Quadros por segundo lidos dentro de cada exibição (T5.1).
+QPS_EXIBICAO = 6.0
+
+#: Amostras seguidas para uma coluna ser aceita como atual (T5.2). Medido no ouro.
+ESTAVEL_EXIBICAO = ESTAVEL_MINIMO
+
+#: Trocas de coluna mínimas para uma coerência ter sentido. Abaixo disso o observador
+#: não é avaliado (não há o que medir).
+TRANSICOES_MINIMAS = 3
+
+#: Fração mínima das amostras da exibição que o observador precisa cobrir.
+COBERTURA_MINIMA = 0.3
+
+#: Coerência mínima (fração de trocas que avançam +1 ou +2 colunas) para aceitar o tempo.
+#: Medido no ouro (retrato, 22 exibições): a menor coerência de uma exibição escolhida foi
+#: 0,955, e todas as escolhas estão certas no ouro. Sem ouro (mr. tabs), as exibições
+#: medidas por cor têm 0,50 a 0,87: 0,9 deixa de aceitar essas até haver ouro para elas.
+COERENCIA_MINIMA = 0.9
+
+#: Motivo declarado quando a tela não tem exibição medida e nenhum motivo mais preciso.
+MOTIVO_TEMPO = "tempo por exibicao nao medido"
+
+#: Ordem de preferência dos observadores quando empatam na coerência.
+OBSERVADORES = ("posicao", "cor_acende", "cor")
 
 
 def mediana_temporal(quadros: list[np.ndarray]) -> np.ndarray:
@@ -139,6 +174,184 @@ def compasso_de(x_quadro: int, barlines_x: list[int]) -> int:
     return 1 + sum(1 for bx in barlines_x[1:] if bx < x_quadro)
 
 
+def colunas_e_caixas(
+    tokens: list[dict],
+    colunas: list[int],
+    glifos: list,
+    x0: int,
+    passo: float,
+) -> tuple[list[float], list[list[tuple[int, int, int, int]]]]:
+    """Centro no quadro e caixas de algarismo de cada coluna, para os observadores.
+
+    O centro é a média do ``x_centro_quadro`` dos tokens da coluna (o marcador passa pelo
+    centro). A caixa de um glifo entra na coluna cujo centro está a até meio passo. As caixas
+    saem no espaço do quadro em x, e em y relativo ao recorte da faixa (que começa em ``y0``
+    do painel, então o y do ``roi`` já é o y do recorte).
+
+    Args:
+        tokens: tokens da tela (``tokens_do_quadro``), na ordem de ``colunas``.
+        colunas: número da coluna de cada token (``colunas_do_quadro``).
+        glifos: glifos do painel (``grade.glifos``), com ``x0, y0, x1, y1`` no ``roi``.
+        x0: deslocamento em x do ``roi`` no quadro.
+        passo: passo entre cordas, em px.
+
+    Returns:
+        ``(centros, caixas)``: ``centros[k]`` é o x da coluna ``k + 1``; ``caixas[k]`` lista
+        as caixas ``(x0, y0, x1, y1)`` dos glifos dessa coluna.
+    """
+    numeros = sorted(set(colunas))
+    centros: list[float] = []
+    for numero in numeros:
+        xs = [
+            t["x_centro_quadro"]
+            for t, c in zip(tokens, colunas, strict=True)
+            if c == numero
+        ]
+        centros.append(float(np.mean(xs)))
+    caixas: list[list[tuple[int, int, int, int]]] = [[] for _ in numeros]
+    if not centros:
+        return centros, caixas
+    for g in glifos:
+        xc = x0 + (g.x0 + g.x1) / 2.0
+        k = min(range(len(centros)), key=lambda i: abs(centros[i] - xc))
+        if abs(centros[k] - xc) <= 0.5 * passo:
+            caixas[k].append((x0 + g.x0, g.y0, x0 + g.x1, g.y1))
+    return centros, caixas
+
+
+def escolher_observador(obs: dict[str, Observacao]) -> tuple[str | None, str]:
+    """Escolhe, numa exibição, o observador de maior coerência, ou declara por que não há.
+
+    Um observador só conta se tiver trocas suficientes e cobertura suficiente. Entre os
+    que contam, vence a maior coerência (empate: a ordem de ``OBSERVADORES``).
+
+    Args:
+        obs: observações da exibição, por nome de observador.
+
+    Returns:
+        ``(nome, motivo)``: ``nome`` é o observador escolhido (ou ``None``) e ``motivo`` diz
+        por que a exibição não foi medida (vazio quando foi).
+    """
+    resumo = "; ".join(
+        f"{n}: cobertura {obs[n].cobertura:.2f}, {obs[n].transicoes} trocas, "
+        f"coerencia {obs[n].coerencia:.2f}"
+        for n in OBSERVADORES
+        if n in obs
+    )
+    validos = [
+        obs[n]
+        for n in OBSERVADORES
+        if n in obs
+        and obs[n].transicoes >= TRANSICOES_MINIMAS
+        and obs[n].cobertura >= COBERTURA_MINIMA
+    ]
+    if not validos:
+        return None, f"nenhum observador com trocas e cobertura suficientes ({resumo})"
+    melhor = max(validos, key=lambda o: o.coerencia)
+    if melhor.coerencia < COERENCIA_MINIMA:
+        return None, (f"coerencia abaixo de {COERENCIA_MINIMA} em todos ({resumo})")
+    return melhor.observador, ""
+
+
+def medir_exibicao(
+    video: str,
+    t0: float,
+    t1: float,
+    recorte_y: tuple[int, int],
+    centros: list[float],
+    caixas: list[list[tuple[int, int, int, int]]],
+    passo: float,
+) -> dict:
+    """Mede o tempo de UMA exibição ``[t0, t1]`` (T5.1 a T5.3).
+
+    Args:
+        video: caminho do vídeo.
+        t0: início da exibição, em segundos.
+        t1: fim da exibição, em segundos.
+        recorte_y: ``(y0, y1)`` da faixa da tela, no quadro.
+        centros: centro no quadro de cada coluna.
+        caixas: caixas de algarismo de cada coluna (``colunas_e_caixas``).
+        passo: passo entre cordas, em px.
+
+    Returns:
+        Dicionário com ``t0``, ``t1``, ``tempo`` (``medido``, ``observador``, ``motivo``,
+        ``coerencia``, ``cobertura``), ``observadores`` (o diagnóstico de cada um) e
+        ``passagens``: uma lista por passagem, de ``{"coluna", "t_ini"}`` (coluna 1-based).
+    """
+    amostras = ler_amostras(video, t0, t1, QPS_EXIBICAO, recorte_y, caixas)
+    obs = {
+        "posicao": observar(
+            "posicao",
+            amostras,
+            estados_posicao(amostras, centros, passo),
+            ESTAVEL_EXIBICAO,
+        ),
+        "cor": observar(
+            "cor", amostras, estados_cor(amostras, "destaque"), ESTAVEL_EXIBICAO
+        ),
+        "cor_acende": observar(
+            "cor_acende", amostras, estados_cor(amostras, "acende"), ESTAVEL_EXIBICAO
+        ),
+    }
+    nome, motivo = escolher_observador(obs)
+    escolhido = obs[nome] if nome else None
+    passagens = []
+    if escolhido is not None:
+        for p in escolhido.passagens:
+            passagens.append(
+                [{"coluna": k + 1, "t_ini": round(t, 3)} for k, t in sorted(p.items())]
+            )
+    return {
+        "t0": round(t0, 3),
+        "t1": round(t1, 3),
+        "tempo": {
+            "medido": nome is not None,
+            "observador": nome,
+            "motivo": None if nome else motivo,
+            "coerencia": round(escolhido.coerencia, 3) if escolhido else None,
+            "cobertura": round(escolhido.cobertura, 3) if escolhido else None,
+        },
+        "observadores": {
+            n: {
+                "coerencia": round(o.coerencia, 3),
+                "cobertura": round(o.cobertura, 3),
+                "transicoes": o.transicoes,
+                "passagens": len(o.passagens),
+            }
+            for n, o in obs.items()
+        },
+        "passagens": passagens,
+        "amostras": len(amostras),
+    }
+
+
+def entradas_da_nota(base: dict, exibicoes: list[dict]) -> list[dict]:
+    """Uma entrada de nota por passagem medida, ou uma sem tempo se nenhuma foi medida.
+
+    Args:
+        base: campos comuns da nota (tela, coluna, corda, x, casa, ...).
+        exibicoes: entradas de exibição da tela, com ``tempo`` e ``passagens``.
+
+    Returns:
+        Lista de notas: uma por (exibição, passagem) em que a coluna tem onset; senão uma
+        única com ``t_ini`` nulo, ``exibicao`` nulo e ``passagem`` 1.
+    """
+    saida: list[dict] = []
+    coluna = base["coluna"]
+    for e, ex in enumerate(exibicoes):
+        if not ex["tempo"]["medido"]:
+            continue
+        for p, passagem in enumerate(ex["passagens"], start=1):
+            for item in passagem:
+                if item["coluna"] == coluna:
+                    saida.append(
+                        {**base, "passagem": p, "exibicao": e, "t_ini": item["t_ini"]}
+                    )
+    if not saida:
+        saida.append({**base, "passagem": 1, "exibicao": None, "t_ini": None})
+    return saida
+
+
 def montar_v1(
     *,
     video: dict,
@@ -177,6 +390,56 @@ def montar_v1(
             "nao_notas": len(nao_notas),
         },
     }
+
+
+def validar_tempo(dados: dict) -> list[str]:
+    """Invariantes do tempo por exibição (T5.5). Devolve as violações, vazio se tudo bate.
+
+    Verifica: ``t_ini`` dentro de uma exibição da própria tela; onsets não decrescentes em
+    cada passagem (pela coluna); mesma coluna com o mesmo ``t_ini`` na mesma passagem;
+    exibição sem tempo com ``motivo`` não vazio; nota com tempo apontando exibição real.
+
+    Args:
+        dados: o JSON v1 (dicionário).
+
+    Returns:
+        Lista de textos, um por violação.
+    """
+    erros: list[str] = []
+    telas_por_id = {t["id"]: t for t in dados.get("telas", [])}
+    for t in dados.get("telas", []):
+        for e, ex in enumerate(t["exibicoes"]):
+            tempo = ex.get("tempo")
+            if (
+                tempo is not None
+                and not tempo.get("medido")
+                and not tempo.get("motivo")
+            ):
+                erros.append(f"tela {t['id']} exibicao {e}: medido false sem motivo")
+            for p, passagem in enumerate(ex.get("passagens", []), start=1):
+                ts = [item["t_ini"] for item in passagem]
+                if ts != sorted(ts):
+                    erros.append(
+                        f"tela {t['id']} exibicao {e} passagem {p}: onsets decrescem"
+                    )
+    vistos: dict[tuple, float] = {}
+    for n in dados.get("notas", []):
+        if n["t_ini"] is None:
+            continue
+        tela = telas_por_id.get(n["tela"])
+        if tela is None or n.get("exibicao") is None:
+            erros.append(f"nota {n.get('x_quadro')} com t_ini sem exibicao da tela")
+            continue
+        ex = tela["exibicoes"][n["exibicao"]]
+        if not ex["t0"] <= n["t_ini"] <= ex["t1"]:
+            erros.append(
+                f"tela {n['tela']} nota t_ini {n['t_ini']} fora de [{ex['t0']}, {ex['t1']}]"
+            )
+        chave = (n["tela"], n["exibicao"], n["passagem"], n["coluna"])
+        if chave in vistos and vistos[chave] != n["t_ini"]:
+            erros.append(f"coluna {chave} com t_ini diferentes")
+        vistos[chave] = n["t_ini"]
+    return erros
 
 
 def imagem_da_tela(video: str, tela: Tela, modo: str) -> np.ndarray | None:
@@ -218,8 +481,9 @@ def ler_tela(
     dev,
     discriminador,
     dir_simbolos: str,
+    video: str | None = None,
 ) -> tuple[dict, list[dict], list[dict]]:
-    """Lê uma tela: painel, tokens, colunas e compasso, no espaço do quadro.
+    """Lê uma tela: painel, tokens, colunas, compasso e tempo por exibição.
 
     Args:
         imagem: imagem limpa da tela (``None`` se o vídeo não deu quadro).
@@ -229,24 +493,29 @@ def ler_tela(
         dev: dispositivo do modelo.
         discriminador: função "é algarismo?" (``tab.digito.carregar``).
         dir_simbolos: pasta dos recortes crus de símbolo.
+        video: caminho do vídeo para medir o tempo; ``None`` deixa todas as exibições sem
+            tempo, com o motivo.
 
     Returns:
         ``(entrada da tela, notas, nao_notas)``. Sem painel legível, as listas saem vazias
         e a entrada declara ``leitura`` com o motivo.
     """
     exibicoes = [{"t0": round(t0, 3), "t1": round(t1, 3)} for t0, t1 in tela.exibicoes]
-    tempo = {"medido": False, "motivo": MOTIVO_TEMPO}
     m = escolher(imagem) if imagem is not None else None
     if m is None or not PASSO_MINIMO_PX <= m.passo <= PASSO_MAXIMO_PX:
+        motivo = "sem painel legivel na imagem limpa"
         entrada = {
             "id": tela.id,
             "painel": list(tela.painel),
             "passo": None,
             "modo": tela.modo,
             "barlines_x": [],
-            "exibicoes": exibicoes,
-            "tempo": tempo,
-            "leitura": "sem painel legível na imagem limpa",
+            "exibicoes": [
+                {**e, "tempo": {"medido": False, "motivo": motivo}, "passagens": []}
+                for e in exibicoes
+            ],
+            "tempo": {"medido": False, "motivo": motivo},
+            "leitura": motivo,
         }
         return entrada, [], []
 
@@ -263,13 +532,40 @@ def ler_tela(
     tokens = tokens_do_quadro(r, m.x0)
     colunas = colunas_do_quadro(tokens, m.passo)
     barlines = [m.x0 + int(bx) for bx in r.get("barlines_x") or []]
+    painel = [m.x0, m.y0, m.x0 + largura, m.y0 + altura]
+
+    if video is None:
+        medidas = [
+            {
+                **e,
+                "tempo": {"medido": False, "motivo": "leitura sem video"},
+                "passagens": [],
+            }
+            for e in exibicoes
+        ]
+    else:
+        centros, caixas = colunas_e_caixas(
+            tokens, colunas, m.grade.glifos, m.x0, m.passo
+        )
+        medidas = [
+            medir_exibicao(
+                video, e["t0"], e["t1"], (m.y0, m.y0 + altura), centros, caixas, m.passo
+            )
+            for e in exibicoes
+        ]
+    medidos = [e["tempo"]["motivo"] for e in medidas if not e["tempo"]["medido"]]
+    tempo = (
+        {"medido": True, "motivo": None}
+        if any(e["tempo"]["medido"] for e in medidas)
+        else {"medido": False, "motivo": "; ".join(medidos) or MOTIVO_TEMPO}
+    )
     entrada = {
         "id": tela.id,
-        "painel": [m.x0, m.y0, m.x0 + largura, m.y0 + altura],
+        "painel": painel,
         "passo": round(m.passo, 2),
         "modo": tela.modo,
         "barlines_x": barlines,
-        "exibicoes": exibicoes,
+        "exibicoes": medidas,
         "tempo": tempo,
         "leitura": "ok",
     }
@@ -285,17 +581,14 @@ def ler_tela(
         }
         confianca = round(tk["confianca"], 3)
         if tk["classe"] in ALGARISMOS:
-            notas.append(
-                {
-                    **comum,
-                    "passagem": 1,
-                    "compasso": compasso_de(tk["x_quadro"], barlines),
-                    "casa": int(tk["classe"]),
-                    "tecnica": None,
-                    "confianca": confianca,
-                    "t_ini": None,
-                }
-            )
+            base = {
+                **comum,
+                "compasso": compasso_de(tk["x_quadro"], barlines),
+                "casa": int(tk["classe"]),
+                "tecnica": None,
+                "confianca": confianca,
+            }
+            notas.extend(entradas_da_nota(base, medidas))
             continue
         registro = {**comum, "classe": tk["classe"], "confianca": confianca}
         if tk["simbolo_cru"] is not None:
@@ -312,7 +605,7 @@ def transcrever_video(
     imagem: str = IMAGEM_PADRAO,
     telas_lidas: list[Tela] | None = None,
 ) -> dict:
-    """Lê todas as telas de um vídeo e devolve o JSON v1.
+    """Lê todas as telas de um vídeo e devolve o JSON v1, com o tempo por exibição.
 
     Args:
         caminho: caminho do vídeo (sempre lido por ``tab.leitor``).
@@ -334,7 +627,7 @@ def transcrever_video(
     for tela in lista:
         img = imagem_da_tela(caminho, tela, imagem)
         entrada, nts, nns = ler_tela(
-            img, tela, rede, rotulos, dev, discriminador, dir_simbolos
+            img, tela, rede, rotulos, dev, discriminador, dir_simbolos, video=caminho
         )
         telas_v1.append(entrada)
         notas.extend(nts)
@@ -455,6 +748,11 @@ def main() -> int:
     print(
         f"{r['telas']} telas, {r['notas']} notas, {r['nao_notas']} nao-notas "
         f"-> {destino}"
+    )
+    print(
+        f"tempo: {r['notas_com_tempo']} notas com t_ini, {r['instantes_distintos']} "
+        f"instantes, telas sem tempo {r['telas_sem_tempo']} | invariantes: "
+        f"{'ok' if not validar_tempo(dados) else len(validar_tempo(dados)) + ' violacoes'}"
     )
     return 0
 

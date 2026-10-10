@@ -21,16 +21,92 @@ Uso:
 """
 
 import argparse
+import itertools
 import sys
+from dataclasses import dataclass, field
 
+from . import leitor
 from .caminhos import MODELO_PADRAO
 from .colunas import Coluna, agrupar_colunas
-from .cursor import rastrear
+from .cursor import detectar_cursor, rastrear
 from .destaque import coloracao
 from .inventario import ler_quadro
 from .painel import escolher
 from .pipeline import roi_das_cordas
 from .reconhecer import carregar_modelo, reconhecer_linha
+
+#: Largura mínima, em px, da banda do marcador. Abaixo disso é ruído (no AV1 do
+#: ``mr. tabs`` aparece detecção de 1 px que fica parada por vários quadros).
+LARGURA_MINIMA_MARCADOR = 3
+
+#: Amostras seguidas com o mesmo estado para ele ser aceito (anti-ruído, T5.2).
+ESTAVEL_MINIMO = 2
+
+#: Quanto (em passos) o marcador pode ficar além da primeira ou da última coluna e
+#: ainda contar como o estado da coluna de borda.
+MARGEM_PASSOS = 1.0
+
+#: Coloração mínima para uma coluna contar como acesa (critério de ``estado_por_cor``).
+COR_MINIMA = 5.0
+
+#: Razão mínima entre a coluna acesa e a mediana das colunas (critério de ``estado_por_cor``).
+COR_RAZAO_MINIMA = 3.0
+
+#: Coloração de referência para a razão, para não dividir por quase zero.
+COR_MEDIANA_PISO = 0.5
+
+
+@dataclass
+class Amostra:
+    """Uma leitura de um quadro dentro de uma exibição.
+
+    Attributes:
+        t: instante, em segundos (o mesmo do ``tab.leitor``).
+        x: x do marcador no espaço do QUADRO, ou ``None`` se não há faixa válida.
+        cores: coloração máxima de cada coluna, na ordem das colunas da tela.
+    """
+
+    t: float
+    x: float | None
+    cores: list[float]
+
+
+@dataclass
+class Corrida:
+    """Um trecho contínuo em que o observador afirma a mesma coluna atual.
+
+    Attributes:
+        coluna: índice (0-based, na ordem de x) da coluna atual.
+        t_ini: instante da primeira amostra do trecho.
+        n: amostras do trecho (ao menos ``ESTAVEL_MINIMO`` depois do filtro).
+    """
+
+    coluna: int
+    t_ini: float
+    n: int
+
+
+@dataclass
+class Observacao:
+    """O que um observador disse sobre uma exibição.
+
+    Attributes:
+        observador: nome do observador (``posicao``, ``cor`` ou ``cor_acende``).
+        corridas: trechos aceitos, em ordem de tempo, já fundidos.
+        passagens: uma lista por passagem: ``{índice da coluna: t do onset}``.
+        transicoes: quantas trocas de coluna entre trechos consecutivos.
+        avancos: trocas de +1 ou +2 colunas.
+        coerencia: ``avancos / transicoes`` (0,0 sem transição).
+        cobertura: fração das amostras que caem num trecho aceito.
+    """
+
+    observador: str
+    corridas: list[Corrida] = field(default_factory=list)
+    passagens: list[dict[int, float]] = field(default_factory=list)
+    transicoes: int = 0
+    avancos: int = 0
+    coerencia: float = 0.0
+    cobertura: float = 0.0
 
 
 def nota_do_x(x: float, xs: list[float]) -> int:
@@ -181,6 +257,214 @@ def estado_por_cor(
         "com_destaque": com,
         "motivo": motivo,
     }
+
+
+def ler_amostras(
+    video: str,
+    t0: float,
+    t1: float,
+    qps: float,
+    recorte_y: tuple[int, int],
+    caixas: list[list[tuple[int, int, int, int]]],
+) -> list[Amostra]:
+    """Lê a exibição ``[t0, t1]`` uma vez e mede posição e cor em cada quadro.
+
+    É a ÚNICA leitura dos observadores: posição e cor saem do mesmo quadro, então não há
+    dois caminhos de tempo para comparar. O recorte é só em y (a faixa da tela), então o x
+    do marcador e as caixas já saem no espaço do quadro.
+
+    Args:
+        video: caminho do vídeo (lido por ``tab.leitor``).
+        t0: início da exibição, em segundos.
+        t1: fim da exibição, em segundos.
+        qps: quadros por segundo (T5.1: ~6).
+        recorte_y: ``(y0, y1)`` da faixa da tela, no quadro.
+        caixas: para cada coluna, as caixas ``(x0, y0, x1, y1)`` dos algarismos, com
+            ``x`` no quadro e ``y`` relativo ao recorte.
+
+    Returns:
+        Uma ``Amostra`` por quadro lido, em ordem de tempo.
+    """
+    amostras: list[Amostra] = []
+    for t, quadro in leitor.quadros(video, t0, t1, qps, recorte_y=recorte_y):
+        det = detectar_cursor(quadro)
+        x = None
+        if det is not None and det[1] - det[0] + 1 >= LARGURA_MINIMA_MARCADOR:
+            x = (det[0] + det[1]) / 2.0
+        cores = []
+        for cx in caixas:
+            melhor = 0.0
+            for x0, y0, x1, y1 in cx:
+                rec = quadro[max(0, y0) : max(0, y1), max(0, x0) : max(0, x1)]
+                melhor = max(melhor, coloracao(rec))
+            cores.append(melhor)
+        amostras.append(Amostra(t=t, x=x, cores=cores))
+    return amostras
+
+
+def estados_posicao(
+    amostras: list[Amostra], centros: list[float], passo: float
+) -> list[int | None]:
+    """Estado (coluna) em cada amostra, pelo x do marcador.
+
+    Args:
+        amostras: leituras da exibição.
+        centros: x (no quadro) de cada coluna, em ordem crescente.
+        passo: passo entre cordas, em px; define a margem além das colunas de borda.
+
+    Returns:
+        Índice da coluna atual por amostra, ou ``None`` sem marcador ou fora da faixa.
+    """
+    if not centros:
+        return [None] * len(amostras)
+    lo = centros[0] - MARGEM_PASSOS * passo
+    hi = centros[-1] + MARGEM_PASSOS * passo
+    estados: list[int | None] = []
+    for a in amostras:
+        if a.x is None or not lo <= a.x <= hi:
+            estados.append(None)
+        else:
+            estados.append(nota_do_x(a.x, centros))
+    return estados
+
+
+def estados_cor(amostras: list[Amostra], modo: str) -> list[int | None]:
+    """Estado (coluna acesa) em cada amostra, pela cor do algarismo.
+
+    Dois modos, porque a cor tem duas formas (ver ``ESTADO.md``):
+
+    - ``destaque``: o algarismo que se destaca AGORA (coloração >= ``COR_MINIMA`` e >=
+      ``COR_RAZAO_MINIMA`` vezes a mediana). Serve à cor que só existe enquanto tocada;
+    - ``acende``: a coluna que ACENDEU desde a amostra anterior (maior subida de coloração
+      >= ``COR_MINIMA``). Serve à cor cumulativa (o algarismo fica colorido depois de tocado):
+      o estado segue a última coluna que acendeu.
+
+    Args:
+        amostras: leituras da exibição, em ordem de tempo.
+        modo: ``"destaque"`` ou ``"acende"``.
+
+    Returns:
+        Índice da coluna acesa por amostra, ou ``None``.
+
+    Raises:
+        ValueError: se ``modo`` não for conhecido.
+    """
+    if modo not in ("destaque", "acende"):
+        raise ValueError(f"modo de cor desconhecido: {modo!r}")
+    estados: list[int | None] = []
+    if modo == "destaque":
+        for a in amostras:
+            if not a.cores:
+                estados.append(None)
+                continue
+            maior = max(a.cores)
+            mediana = sorted(a.cores)[len(a.cores) // 2]
+            ok = maior >= COR_MINIMA and maior >= COR_RAZAO_MINIMA * max(
+                mediana, COR_MEDIANA_PISO
+            )
+            estados.append(a.cores.index(maior) if ok else None)
+        return estados
+    atual: int | None = None
+    anterior: list[float] | None = None
+    for a in amostras:
+        if anterior is not None and a.cores:
+            subida = [c - p for c, p in zip(a.cores, anterior, strict=False)]
+            if subida and max(subida) >= COR_MINIMA:
+                atual = subida.index(max(subida))
+        estados.append(atual)
+        anterior = a.cores
+    return estados
+
+
+def corridas_estaveis(
+    estados: list[int | None], ts: list[float], minimo: int = ESTAVEL_MINIMO
+) -> list[Corrida]:
+    """Trechos contínuos com a mesma coluna, filtrados pela estabilidade (T5.2).
+
+    Um trecho é uma sequência de amostras seguidas com a mesma coluna, sem ``None`` no
+    meio. Trechos com menos de ``minimo`` amostras são ruído e saem. Trechos da mesma
+    coluna separados só por ``None`` (ou por ruído descartado) são fundidos.
+
+    Args:
+        estados: coluna atual por amostra (``None`` = indefinido).
+        ts: instante de cada amostra, na mesma ordem.
+        minimo: amostras mínimas para aceitar um trecho.
+
+    Returns:
+        Os trechos aceitos, em ordem de tempo.
+    """
+    brutos: list[Corrida] = []
+    colado = False  # a amostra anterior tinha estado definido
+    for estado, t in zip(estados, ts, strict=True):
+        if estado is None:
+            colado = False
+            continue
+        if colado and brutos[-1].coluna == estado:
+            brutos[-1].n += 1
+        else:
+            brutos.append(Corrida(coluna=estado, t_ini=t, n=1))
+        colado = True
+    aceitos = [c for c in brutos if c.n >= minimo]
+    fundidos: list[Corrida] = []
+    for c in aceitos:
+        if fundidos and fundidos[-1].coluna == c.coluna:
+            fundidos[-1].n += c.n
+        else:
+            fundidos.append(Corrida(c.coluna, c.t_ini, c.n))
+    return fundidos
+
+
+def passagens_de(corridas: list[Corrida]) -> list[list[Corrida]]:
+    """Separa os trechos em passagens: uma passagem termina quando o estado volta para trás.
+
+    Args:
+        corridas: trechos aceitos, em ordem de tempo.
+
+    Returns:
+        Lista de passagens, cada uma com trechos de coluna crescente.
+    """
+    passagens: list[list[Corrida]] = []
+    for c in corridas:
+        if not passagens or c.coluna < passagens[-1][-1].coluna:
+            passagens.append([c])
+        else:
+            passagens[-1].append(c)
+    return passagens
+
+
+def observar(
+    observador: str,
+    amostras: list[Amostra],
+    estados: list[int | None],
+    minimo: int = ESTAVEL_MINIMO,
+) -> Observacao:
+    """Resume um observador numa exibição: trechos, passagens, coerência e cobertura.
+
+    Args:
+        observador: nome do observador.
+        amostras: leituras da exibição (dão os instantes e o total).
+        estados: coluna atual por amostra, já produzida pelo observador.
+        minimo: amostras mínimas por trecho.
+
+    Returns:
+        A ``Observacao``. Sem trechos, a coerência e a cobertura são zero.
+    """
+    ts = [a.t for a in amostras]
+    corridas = corridas_estaveis(estados, ts, minimo)
+    passagens = passagens_de(corridas)
+    pares = list(itertools.pairwise(corridas))
+    avancos = sum(1 for a, b in pares if 1 <= b.coluna - a.coluna <= 2)
+    transicoes = len(pares)
+    coberto = sum(c.n for c in corridas)
+    return Observacao(
+        observador=observador,
+        corridas=corridas,
+        passagens=[{c.coluna: c.t_ini for c in p} for p in passagens],
+        transicoes=transicoes,
+        avancos=avancos,
+        coerencia=avancos / transicoes if transicoes else 0.0,
+        cobertura=coberto / len(amostras) if amostras else 0.0,
+    )
 
 
 def main() -> int:

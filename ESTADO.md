@@ -4514,3 +4514,52 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
 - **Limites**: 17 arcos sintéticos de um só vídeo. A altura é a feature que separa aqui; em canal de fonte
   pequena pode não separar (o comentário do gerador cita algarismo de 0,38 passo), e cifra club/tv cifras
   não foram medidos.
+
+## 2026-10-10 — FASE 5 / T5.1–T5.5: tempo por exibição. Estado 33 de 40, tempo falso 0. CA de estado (≥ 38/40) NÃO cumprida; D2 em impasse
+
+- **Comando**: `python -m tab.video "/acervo/sky guitar/retrato brasileiro - tab & lesson.mp4" --json data/saida/fase5/mvp.json`
+  e `python -m tab.avaliar_video --ouro data/gold/ouro_video/retrato_brasileiro_v2.json --pred data/saida/fase5/mvp.json`
+  (2 execuções, saída idêntica). Imagem `quadro`, modelo `artefatos/oficial_3/glifo_sint.pt`, commit do código `desconhecido` no container.
+- **Implementação** (`tab/estado.py`, parte nova; `tab/video.py`): cada exibição `[t0,t1]` é lida UMA vez por `tab.leitor.quadros`
+  a 6 qps, no recorte da faixa. Três observadores saem da mesma leitura: `posicao` (`detectar_cursor`, largura ≥ 3 px),
+  `cor` (algarismo que se destaca: ≥ 5,0 e ≥ 3× a mediana) e `cor_acende` (coluna que subiu de cor desde a amostra anterior, estado
+  segue a última que acendeu). Estado = coluna atual; trecho aceito só com ≥ 2 amostras seguidas; passagem termina quando o estado
+  volta para trás; onset = 1ª amostra do trecho em cada passagem. Coerência = trocas +1/+2 ÷ trocas. Escolhe o de maior coerência
+  com ≥ 3 trocas e cobertura ≥ 0,3; abaixo de **0,9** → `medido: false` com o motivo (números de cada observador).
+- **Medido no retrato** (13 telas, 22 exibições, 750 entradas de nota = 486 notas distintas, 618 instantes):
+  - **33 de 40 instantes** com o estado certo (acerto 33, tolerância 0, erro 5, json sem tempo 2, **tempo falso 0**); todas as 22 exibições medidas.
+  - Observadores isolados contra os mesmos 40 instantes: `posicao` 31/40, `cor` 35/40, `cor_acende` 34/40, escolhido 33/40.
+  - Coerência escolhida por exibição: mínimo **0,955**, todas as escolhas certas no ouro (o limiar de 0,9 fica abaixo disso).
+- **Leitor × ouro (deslocamento medido, só na régua, em 12 qps)**: δ aplicado aos onsets: −0,4 → 27/40; −0,3 → 33; **−0,2 → 36**; −0,1 → 35;
+  0 → 34; +0,1 → 30; +0,2 → 28; +0,3 → 20; +0,4 → 13. Ou seja, o leitor está ~0,15 s atrasado em relação aos rótulos do ouro.
+  Não corrigi isso no produto (seria ajustar a saída ao gabarito); fica declarado.
+- **Resolução e estabilidade (medido)**: 6 qps / estab. 1 → 32/40; **6 qps / estab. 2 → 33/40 (escolhido, plano)**; 12 qps / estab. 2 → 34/40
+  (33 + 1 de tolerância). Em trechos rápidos o marcador fica **uma amostra** por coluna (~0,17 s), então a estabilidade 2 descarta essas
+  colunas (`json sem tempo`); mesmo assim 2 é melhor que 1.
+- **Causas dos erros (diagnóstico por instante, observador escolhido)**: t=350 (início da exibição: a coluna 246 ainda não tem
+  onset; sem coluna afirmada, `json sem tempo`); t=480 (escolhido `posicao` errado, `cor` certo: a escolha por coerência errou
+  aqui); t=500 (atraso de ~0,2 s do leitor: no quadro de 500,04 s o marcador ainda não aparece); t=672 (o marcador some de 668 a
+  673 s e os três observadores ficam parados; a régua lê o último onset como estado atual, então conta como erro). Em 12 qps o
+  diagnóstico dá 34/40 e acrescenta t=408 (uma coluna de diferença, os três observadores). A folha em
+  `data/saida/fase5/conferencia/` mostra a coluna do JSON sobre a faixa do marcador em t=260, 462, 538 e 628 (olhada); em t=350
+  o JSON não afirma coluna.
+- **Sanidade**:
+  - `iwaki/10cm ⧸ spring snow ⧸ tab.mp4` (sem marcador): **0 de 22 exibições medidas**; todas com `motivo` ("nenhum observador com trocas e cobertura suficientes ...").
+  - `mr. tabs/blind melon … lead only` (AV1): **0 de 46 exibições medidas** com coerência 0,9. `posicao` tem **0 trocas** em todas as telas: o ruído
+    de faixa de 1 px não vira tempo de posição. `cor`/`cor_acende` têm coerência 0,50–0,87 e sem ouro para o mr. tabs não as aceito. Com 0,5 essas
+    passariam (22 instantes com tempo afirmado, sem conferência).
+- **D2 — IMPASSE (números)**: o JSON traz **uma entrada por passagem e exibição** (decisão D2). A régua de notas conta entradas, então:
+  - `video.py` HEAD (sem tempo) sobre a árvore atual: precisão **485/486 = 0,998**, revocação 485/491, inventadas **1**, casa 482/485;
+  - este código: precisão **485/750 = 0,647**, inventadas **265**, revocação 485/491 (o mesmo número de notas, mais entradas);
+  - deduplicar por (tela, corda, x) na régua dá 485/486 (notas idênticas), mas o tempo cai para **22 de 40** se a entrada escolhida for a
+    primeira: o tempo precisa das entradas por passagem. **Decisão necessária**: a régua de notas deve contar notas distintas e a de tempo deve usar
+    todas as entradas (mudança em `tab/avaliar_video.py`, fora do escopo desta tarefa). Não forcei.
+- **CA da Fase 5**: estado ≥ 0,95 → **NÃO** (33/40 = 0,825); tempo falso 0 → **sim**; invariantes (`tab.video.validar_tempo`, testes) → **sim**
+  (saída real: `invariantes: ok`); folha de conferência com 6 instantes, olhada → **sim**; métricas de nota da Fase 4 não caírem → **NÃO**, por D2 (acima).
+- **Linha de base mudou durante a tarefa** (não é regressão de código meu): `45c839b2` (arco de ligadura não vira nota: inventadas 19 → 1) e
+  `75d714a7` (ouro v2, tela 10: 493 → 491 notas). Os números de nota acima são todos sobre a árvore atual.
+- **Testes**: `tests/test_tempo_exibicao.py` (20 testes: corridas e estabilidade, passagens, coerência, observadores de cor, escolha do
+  observador com motivo, centros e caixas, entradas por passagem, invariantes T5.5). Gate: `ruff check .` ok; `pytest -m "not integration"` 268 passed.
+- **Não repetir**: (a) estabilidade 2 com marcador de 1 amostra por coluna não cumpre 0,95; (b) ajuste de δ para o ouro não é ganho de produto;
+  (c) deduplicar notas sem preservar o tempo derruba o tempo para 22/40.
+- **Não feito**: documento de rodada (`docs/rodadas/`), e o observador de símbolo não tem tempo (`nao_notas` sem `t_ini`).
