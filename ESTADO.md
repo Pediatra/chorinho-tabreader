@@ -3733,3 +3733,22 @@ CA pedia: imprime o caminho **e** dá 68/72 ✓); com `--modelo artefatos/oficia
 **Para o cérebro**: o plano troca um modelo que faz **1,000 na régua** por um de **0,944** ✓. A decisão do
 plano é explícita e a queda é esperada ✓ — mas o plano **não tinha a medição de 1,000** ✗ (só dizia que a
 procedência era desconhecida ✓). Vale o cérebro saber que o antigo era **perfeito no próprio gabarito** ✓.
+
+### Correção do registro do T0.2 — a falha do gate foi de AMBIENTE, não de código
+
+O commit `228d0e7c` (T0.2) foi commitado com `make gate` **EXIT=2** ✗ porque **eu não exportei o
+`DOCKER_HOST`** naquela chamada ✓: o alvo falou com `unix:///var/run/docker.sock` (que **não existe** nesta
+máquina — o runtime é podman ✓) e devolveu
+`failed to connect to the docker API at unix:///var/run/docker.sock` ✗. **O código do T0.2 estava certo** ✓;
+o comando em volta é que estava errado ✗ — e o `git commit` rodou assim mesmo porque eu **não usei
+`|| exit 1`** entre o gate e o commit ✗ (o mesmo erro que o T0.4 existe para impedir ✓, e que eu já havia
+cometido duas vezes ✓).
+
+**Consequência prática, medida**: o T0.4 barra o commit **quando o shell respeita o código de saída** ✓;
+quem não barra é a **cadeia de comando** que eu escrevo em volta ✗. Da terceira vez em diante, o padrão
+passou a ser `make gate || { echo "GATE FALHOU — commit NAO feito"; exit 1; }` ✓ — e ele **funcionou** nesta
+rodada: o commit seguinte **não** saiu ✓.
+
+**Item para o cérebro**: o alvo `gate` **depende do `DOCKER_HOST`** e falha com um erro de socket do Docker ✓
+em vez de dizer o que falta ✗. Sugestão: o próprio alvo verificar a variável (ou o `Makefile` exportá-la com
+`?=`) e falhar com mensagem clara ✓.
