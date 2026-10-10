@@ -222,6 +222,48 @@ def casar_telas(
     return {tid: casadas.get(tid) for tid in ids_ouro}
 
 
+def casar_sem_instante(
+    telas_ouro: list[dict],
+    mapa: dict[int, int | None],
+    telas: list[TelaPrevista],
+) -> tuple[dict[int, int | None], dict[int, str | None]]:
+    """Pareia as telas do ouro que ficaram sem par pelos instantes, pelo ``quadro_ref_s``.
+
+    Uma tela do ouro sem nenhum instante não entra em ``casar_telas`` e ficava sem par, o
+    que contava as notas dela como perdidas e as da predição como inventadas. Aqui ela cai
+    na tela prevista (ainda não usada) cuja exibição contém o ``quadro_ref_s`` dela.
+
+    Args:
+        telas_ouro: telas do ouro, cada uma com ``id`` e, se houver, ``quadro_ref_s``.
+        mapa: resultado de ``casar_telas`` (ids do ouro -> prevista ou ``None``).
+        telas: telas da predição.
+
+    Returns:
+        ``(mapa, criterio)``: o mapa completado e, por tela do ouro, o critério usado:
+        ``"instantes"``, ``"quadro_ref_s"`` ou ``None`` (sem par).
+    """
+    novo = dict(mapa)
+    criterio: dict[int, str | None] = {
+        tid: ("instantes" if previsto is not None else None)
+        for tid, previsto in mapa.items()
+    }
+    usadas = {previsto for previsto in mapa.values() if previsto is not None}
+    for tela_ouro in telas_ouro:
+        oid = int(tela_ouro["id"])
+        if novo.get(oid) is not None or tela_ouro.get("quadro_ref_s") is None:
+            continue
+        ref = float(tela_ouro["quadro_ref_s"])
+        for prevista in telas:
+            if prevista.id in usadas:
+                continue
+            if any(t0 <= ref <= t1 for t0, t1 in prevista.exibicoes):
+                novo[oid] = prevista.id
+                criterio[oid] = "quadro_ref_s"
+                usadas.add(prevista.id)
+                break
+    return novo, criterio
+
+
 def casar_notas(
     notas_ouro: list[dict], previstas: list[NotaPrevista], meia_janela: float
 ) -> list[tuple[int, int]]:
@@ -367,9 +409,13 @@ def avaliar(ouro: dict, predicao: Predicao, pre: dict | None = None) -> dict:
     ids_ouro = [int(tela["id"]) for tela in telas_ouro]
     if predicao.formato == "legado":
         mapa, pareamento = escolher_tela_legado(telas_ouro, instantes, predicao, pre)
+        criterio: dict[int, str | None] = dict.fromkeys(mapa, "legado")
     else:
         mapa = casar_telas(ids_ouro, instantes, predicao.telas)
+        mapa, criterio = casar_sem_instante(telas_ouro, mapa, predicao.telas)
         pareamento = "por instantes (v1)"
+        if "quadro_ref_s" in criterio.values():
+            pareamento = "por instantes (v1); sem instante, por quadro_ref_s"
     casadas = sum(1 for previsto in mapa.values() if previsto is not None)
     sem_centro_ouro, total_ouro = _fallback_ouro(telas_ouro)
     sem_centro_pred = sum(1 for t in predicao.telas for n in t.notas if n.de_fallback)
@@ -404,6 +450,7 @@ def avaliar(ouro: dict, predicao: Predicao, pre: dict | None = None) -> dict:
             "sem_par_no_ouro": len(predicao.telas) - casadas,
             "pareamento": pareamento,
             "mapa": {str(k): v for k, v in mapa.items()},
+            "criterio": {str(k): v for k, v in criterio.items()},
         },
         "notas": notas,
         "tempo": tempo,

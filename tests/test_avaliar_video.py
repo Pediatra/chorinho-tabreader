@@ -544,3 +544,66 @@ def test_avaliar_declara_o_criterio_de_pareamento():
     rel = avaliar(ouro, predicao, pre=pre)
     assert rel["telas"]["pareamento"] == "tela do pre.json em quadro_lido_s"
     assert rel["telas"]["mapa"] == {"1": 0, "2": None}
+
+
+def _predicao_duas_exibicoes() -> object:
+    """Predição v1 com a tela 1 em [10, 50] e a tela 2 em [60, 80]."""
+    return ler_predicao(
+        {
+            "esquema": "chorinho/video@1",
+            "telas": [
+                {"id": 1, "passo": 16.0, "exibicoes": [{"t0": 10, "t1": 50}]},
+                {"id": 2, "passo": 16.0, "exibicoes": [{"t0": 60, "t1": 80}]},
+            ],
+            "notas": [],
+        }
+    )
+
+
+def test_tela_do_ouro_sem_instante_pareia_pelo_quadro_ref():
+    # A tela 2 do ouro não tem instante; o quadro_ref_s (70 s) cai na exibição da tela 2.
+    ouro = {
+        "video": "x.mp4",
+        "telas": [
+            {"id": 1, "quadro_ref_s": 20.0, "notas": []},
+            {"id": 2, "quadro_ref_s": 70.0, "notas": []},
+        ],
+        "instantes": [{"t": 12.0, "tela": 1, "coluna_x_quadro": None}],
+    }
+    rel = avaliar(ouro, _predicao_duas_exibicoes())
+    assert rel["telas"]["mapa"] == {"1": 1, "2": 2}
+    assert rel["telas"]["criterio"] == {"1": "instantes", "2": "quadro_ref_s"}
+    assert "quadro_ref_s" in rel["telas"]["pareamento"]
+
+
+def test_tela_do_ouro_sem_instante_fora_das_exibicoes_fica_sem_par():
+    ouro = {
+        "video": "x.mp4",
+        "telas": [{"id": 1, "quadro_ref_s": 100.0, "notas": []}],
+        "instantes": [{"t": 12.0, "tela": 1, "coluna_x_quadro": None}],
+    }
+    rel = avaliar(ouro, _predicao_duas_exibicoes())
+    assert rel["telas"]["mapa"] == {"1": 1}
+    assert rel["telas"]["criterio"] == {"1": "instantes"}
+    ouro_sem_instante = {
+        "video": "x.mp4",
+        "telas": [{"id": 3, "quadro_ref_s": 100.0, "notas": []}],
+        "instantes": [],
+    }
+    rel2 = avaliar(ouro_sem_instante, _predicao_duas_exibicoes())
+    assert rel2["telas"]["mapa"] == {"3": None}
+    assert rel2["telas"]["criterio"] == {"3": None}
+
+
+def test_quadro_ref_nao_reusa_tela_prevista_ja_casada():
+    # As duas telas do ouro caem na exibição da tela prevista 1; só a primeira pareia.
+    ouro = {
+        "video": "x.mp4",
+        "telas": [
+            {"id": 1, "quadro_ref_s": 20.0, "notas": []},
+            {"id": 2, "quadro_ref_s": 25.0, "notas": []},
+        ],
+        "instantes": [{"t": 12.0, "tela": 1, "coluna_x_quadro": None}],
+    }
+    rel = avaliar(ouro, _predicao_duas_exibicoes())
+    assert rel["telas"]["mapa"] == {"1": 1, "2": None}
