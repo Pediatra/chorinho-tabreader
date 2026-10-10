@@ -581,6 +581,12 @@ TOLERANCIA_X_NOTA_PX = 6.0
 #: Passo (px) usado só se a página não traz o dela (para a caixa de nota sem caixa).
 PASSO_PADRAO_PX = 20.0
 
+#: Folga (s) em volta de uma exibição para tratar a tela v1 como "na borda": o tempo do
+#: ``quadro_ref_s`` do v1 (``leitor.quadros``) difere do do ``tab.telas`` (``quadro_em``) em
+#: ~0,25 s (ESTADO.md, Fase 3) e MEDIDO aqui até 0,75 s (tela v1 4: ref 406,0 mostra a página
+#: que começa em 406,75). Quem decide entre as candidatas são as notas, não o tempo.
+FOLGA_BORDA_S = 1.5
+
 ORIGEM_V1 = "ouro_v1 (dono)"
 ORIGEM_MODELO = "modelo — a rotular"
 
@@ -697,6 +703,43 @@ def _estado_do_instante(i: dict) -> str:
     return "nenhuma"
 
 
+def pagina_do_quadro_ref(paginas: list[dict], tela_v1: dict) -> tuple[int | None, dict]:
+    """Página de uma tela do v1, desempatando as de borda pelas notas.
+
+    O ``quadro_ref_s`` do v1 vem de ``leitor.quadros`` e a troca de página do ``tab.telas``
+    de ``leitor.quadro_em``; as duas leituras diferem ~0,25 s (ESTADO.md, Fase 3). Perto da
+    troca (até ``FOLGA_BORDA_S``) mais de uma página é candidata: fica a cuja leitura do
+    modelo mais CONCORDA com as notas do dono (empate: a que contém o instante).
+
+    Args:
+        paginas: páginas com ``exibicoes`` e ``notas`` do modelo.
+        tela_v1: tela do v1 (``quadro_ref_s`` e ``notas``).
+
+    Returns:
+        ``(id da página ou None, {})`` ou, se houve desempate, ``(id, detalhe)`` com os
+        candidatos e as concordâncias.
+    """
+    ref = float(tela_v1["quadro_ref_s"])
+    dentro = pagina_em(paginas, ref)
+    candidatas = [
+        int(p["id"])
+        for p in paginas
+        if any(
+            t0 - FOLGA_BORDA_S <= ref < t1 + FOLGA_BORDA_S for t0, t1 in p["exibicoes"]
+        )
+    ]
+    if len(candidatas) <= 1:
+        return (candidatas[0] if candidatas else dentro), {}
+    por_id = {int(p["id"]): p for p in paginas}
+    pontos = {
+        k: comparar_notas(tela_v1["notas"], por_id[k]["notas"])["iguais"]
+        for k in candidatas
+    }
+    melhor = max(candidatas, key=lambda k: (pontos[k], k == dentro))
+    detalhe = {"contem_o_instante": dentro, "iguais_com_o_modelo": pontos}
+    return melhor, detalhe
+
+
 def fundir_ouro(ouro_v1: dict, paginas: list[dict]) -> tuple[dict, dict]:
     """Funde o ouro v1 com as páginas do ``tab.telas``: o estado da ferramenta do v2.
 
@@ -720,8 +763,11 @@ def fundir_ouro(ouro_v1: dict, paginas: list[dict]) -> tuple[dict, dict]:
     do_v1: dict[int, list[int]] = {}
     v1_sem_pagina = []
     pagina_do_v1 = {}
+    ambiguas = []
     for t in ouro_v1["telas"]:
-        pid = pagina_em(paginas, float(t["quadro_ref_s"]))
+        pid, ambigua = pagina_do_quadro_ref(paginas, t)
+        if ambigua:
+            ambiguas.append({"tela_v1": int(t["id"]), "pagina": pid, **ambigua})
         pagina_do_v1[int(t["id"])] = pid
         if pid is None:
             v1_sem_pagina.append(int(t["id"]))
@@ -834,6 +880,7 @@ def fundir_ouro(ouro_v1: dict, paginas: list[dict]) -> tuple[dict, dict]:
         "notas_herdadas": sum(len(t["notas"]) for t in telas if t["id"] in herdadas),
         "conflitos": conflitos,
         "telas_v1_sem_pagina": v1_sem_pagina,
+        "telas_v1_na_borda": ambiguas,
         "pagina_do_v1": {str(k): v for k, v in pagina_do_v1.items()},
         "instantes_reatribuidos": reatribuidos,
         "instantes_sem_pagina": sem_pagina,

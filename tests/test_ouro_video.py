@@ -427,3 +427,24 @@ def test_pagina_liga_as_abas_e_todo_id_usado_existe() -> None:
     usados = set(re.findall(r'getElementById\("([^"]+)"\)', PAGINA))
     declarados = set(re.findall(r'id="([^"]+)"', PAGINA.split("<script>")[0]))
     assert usados <= declarados, usados - declarados
+
+
+def test_fusao_tela_v1_na_borda_vai_para_a_pagina_cujas_notas_concordam() -> None:
+    """ref 20.2 cai na página 1 [10,20)? Não: é 2 [20,40); mas ref 19.9 com notas da 2."""
+    v1 = _v1()
+    v1["telas"] = [
+        {
+            "id": 1,
+            "quadro_ref_s": 19.9,
+            "notas": [_nota(1, 9, 50.0)],
+        },  # = modelo da pág. 2
+    ]
+    v1["instantes"] = []
+    paginas = [
+        _pagina(1, 15.0, [[10, 20]], [_nota(3, 1, 10.0)]),
+        _pagina(2, 28.0, [[20, 40]], [_nota(1, 9, 50.0)]),
+    ]
+    estado, rel = fundir_ouro(v1, paginas)
+    assert rel["herdadas"] == [2] and rel["a_rotular"] == [1]
+    assert rel["telas_v1_na_borda"][0]["contem_o_instante"] == 1
+    assert estado["telas"][1]["origem"].startswith("ouro_v1")

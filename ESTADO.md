@@ -4263,3 +4263,10 @@ contém o quadro lido, depois instante do ouro mais próximo do quadro lido, por
   prevista 11 de 11; previstas 13, 6 sem tela do ouro.
 - Testes novos: transição curta anexada ao vizinho, oclusão anexada à página limpa, páginas diferentes continuam
   duas, `quadro_ref_s` longe da fronteira.
+- **Regerado com o `tab.telas` consertado (ded676ec)**: 13 páginas; **9 herdadas** (1, 3, 4, 5, 6, 9, 11, 12, 13; 328 notas),
+  **4 a rotular** (2, 7, 8, 10; 166 notas do modelo); 22 de 40 instantes reatribuídos; **0 conflitos**. Achado: o
+  `quadro_ref_s` do v1 vem de `leitor.quadros` e pode estar até **0,75 s** do tempo do `tab.telas` (tela v1 4: ref 406,0
+  mostra a página que começa em 406,75; tela v1 3: ref 328,0 mostra a página seguinte). Mapear só pelo tempo errava o
+  conjunto de notas (os "conflitos" da antiga página 5 eram isto: as telas v1 2/3/4 são 3 páginas diferentes). Agora
+  `pagina_do_quadro_ref` considera as páginas a até 1,5 s e fica com a cujas notas do modelo mais concordam com as do dono
+  (35/0, 39/1, 33/0...); o desempate vai em `fusao.telas_v1_na_borda` do `pre.json`.
