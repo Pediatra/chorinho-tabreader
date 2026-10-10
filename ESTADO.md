@@ -4326,3 +4326,28 @@ Defeito (relato do dono no ouro v2): `10`, `12`, `13`, `14` saem como dois token
   o pareamento legado escolhe a tela 5 para o quadro da página 8 (intervalos de tempo das telas 5 a 8 se sobrepõem e
   `pareamento` pega a primeira). Defeito da régua, não do modelo; não corrigido aqui.
 - Próximo passo (não implementado): decidir a fusão de vizinhos pelo classificador do token fundido, e não só pelo vão.
+
+## 2026-10-10 — Fase 4: casa de dois algarismos pela forma (aceita, 481 -> 484)
+
+Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados em `data/saida/fase4_digitos/`.
+
+- **Causa do `12` virar `tecnica`** (pág. 8): o token fundido tem `partes_digito = 1` (o `2` não tem haste), e `compativel`
+  exige dois componentes com haste para dois dígitos. O classificador dava `12` com 0,888.
+- **Regra nova**: a casa de dois dígitos sai da leitura das partes (`_casa_das_partes`): cada parte é dígito, a concatenação
+  é classe do modelo entre 10 e 24, e o token dá a ela pelo menos 0,80. Pares de dígitos com vão em (0,25; 0,40] passo
+  são fundidos só quando essa regra aceita (`_fundir_pares_de_digitos`). `compativel` não mudou.
+- **Medido nas 13 páginas do ouro v2 (pareamento direto)**: base 481/493, dois-dígitos 1 de 5, inventadas 21.
+  Só classificação: 482, 2 de 5. Classificação mais fusão (escolhida): **484/493, 4 de 5, inventadas 19**; nenhuma página piora.
+  Único dois-dígitos que resta errado: `13` (pág. 8), que o modelo não tem como ler.
+- `tab.avaliar` oficial_1/2/3 = 66/72, 71/72, 68/72, sem "CONTAGEM MUDOU" (tokens por canal iguais).
+- `tab/ouro_video.py::ler_notas` passou a usar a caixa do token exposta pela nota (`caixa`); sem isso o token fundido
+  saía com centro errado e o `10` da pág. 12 sumia no pareamento.
+- Testes: `tests/test_casa_dois_digitos.py` (decisão e fusão no gate; ponta a ponta com o modelo real em `integration`,
+  porque `artefatos/` não é versionado). `pytest tests/` = 231 passed, 3 deselected.
+- `make gate` = 0 ("All checks passed!", `pytest tests/` = 232 passed, 3 deselected).
+- Limites: classes de dois dígitos do modelo são só `10, 12, 14, 15, 17, 19, 21, 24`; fonte 0,55 do passo ainda sai
+  `tecnica` ou `junk` em alguns passos pequenos (16 a 18).
+- **Não repetir**: critério "fundido maior que o maior isolado" (reprova o `12` da pág. 8: 0,888 contra 0,943);
+  aceitar a casa só pelo vão.
+- **Defeito separado, não corrigido**: no `reconhecer_linha` o bloco do discriminador de algarismo roda antes de `classes`
+  ser preenchido; pela ordem do código, `alvos_d` é sempre vazio e o discriminador não atua. Medir o efeito de corrigir é a próxima rodada.

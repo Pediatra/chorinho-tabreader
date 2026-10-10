@@ -30,6 +30,7 @@ from .caminhos import LIMIAR_SIMBOLO, MODELO_PADRAO, RAZAO_MINIMA_SIMBOLO
 from .glyph_bench import GlifoCNN
 from .glyphset import normalizar
 from .tabseg import (
+    _fundir,
     _glifos_por_faixa,
     _sem_faixas,
     _uniao_mascaras,
@@ -56,6 +57,17 @@ ALGARISMOS = frozenset(str(n) for n in range(0, 25))
 #: declarado); nota errada corrompe em silêncio, que é o pior dos dois.
 LIMIAR_DISCRIMINADOR = 0.95
 
+#: Confiança mínima do token fundido para aceitar uma casa de dois dígitos montada das partes.
+#: Medido no ouro v2 (5 casos de dois dígitos): 0,83 a 0,91 nos casos reais de 10, 12 e 14.
+LIMIAR_CASA_DOIS = 0.80
+
+#: Vão mínimo (passos) acima do qual `agrupar_tokens` já separa os componentes.
+VAO_AGRUPAR_PASSOS = 0.25
+
+#: Vão máximo (passos) entre dois algarismos que ainda podem ser fundidos como casa de dois
+#: dígitos. Acima disso, nenhum par do ouro é o mesmo número.
+VAO_CASA_PASSOS = 0.40
+
 
 def compativel(classe: str, tk, passo: float) -> bool:
     """A classe prevista cabe no recorte medido?"""
@@ -72,6 +84,106 @@ def compativel(classe: str, tk, passo: float) -> bool:
         # canal raman korshun). O risco de slide é fino, não é dígito.
         return larg >= 0.85 and tk.partes_digito >= 2
     return True
+
+
+def _casa_das_partes(lidos: list[str], probs_token: np.ndarray, rotulos) -> str | None:
+    """A casa de dois dígitos que as partes lidas formam, se o modelo a conhece com confiança.
+
+    Medido na pág. 8 do ouro v2: o `12` fundido (partes `1` e `2`) tinha 0,888 no token
+    inteiro, e `compativel` o recusava, porque o `2` não tem haste vertical e a regra exige
+    dois componentes com haste. Aqui a forma é a própria leitura das partes: o número só vale
+    se cada parte for um algarismo, a concatenação for uma classe do modelo entre 10 e 24 e o
+    token inteiro der a ela pelo menos `LIMIAR_CASA_DOIS`.
+
+    Args:
+        lidos: classe top-1 de cada componente, na ordem da esquerda para a direita.
+        probs_token: probabilidade por classe do token inteiro.
+        rotulos: classes do modelo, na ordem de `probs_token`.
+
+    Returns:
+        A casa (ex.: ``"12"``), ou None quando o token não é um número de dois dígitos confiável.
+    """
+    if len(lidos) != 2 or not all(len(t) == 1 and t.isdigit() for t in lidos):
+        return None
+    casa = lidos[0] + lidos[1]
+    if casa not in rotulos or not 10 <= int(casa) <= 24:
+        return None
+    if float(probs_token[rotulos.index(casa)]) < LIMIAR_CASA_DOIS:
+        return None
+    return casa
+
+
+def _fundir_pares_de_digitos(
+    tokens: list,
+    gray: np.ndarray,
+    passo: float,
+    modelo,
+    rotulos,
+    dev,
+) -> list:
+    """Funde vizinhos de um dígito cujo vão passa do limiar de `agrupar_tokens`.
+
+    Só entra o par em que os dois são componentes isolados (um dígito cada) e o vão está em
+    ``(VAO_AGRUPAR_PASSOS, VAO_CASA_PASSOS]``. O par vira um token só quando `_casa_das_partes`
+    aceita a concatenação. No ouro v2, `10` e `12` da pág. 12 têm vão 0,275 e ficam separados
+    pelo limiar de 0,25. Já `13` (vão 0,324) não é classe do modelo e continua separado.
+
+    Args:
+        tokens: tokens da grade, ordenados por coluna e corda.
+        gray: tons de cinza do recorte.
+        passo: distância entre cordas, em px.
+        modelo: classificador de glifos.
+        rotulos: classes do modelo.
+        dev: dispositivo do modelo.
+
+    Returns:
+        A lista de tokens com os pares aceitos fundidos (mesma ordem de entrada).
+    """
+    por_corda: dict[int, list[int]] = {}
+    for k, tk in enumerate(tokens):
+        por_corda.setdefault(tk.corda, []).append(k)
+    pares: list[tuple[int, int]] = []
+    for ks in por_corda.values():
+        ks.sort(key=lambda k: tokens[k].x0)
+        for a, b in itertools.pairwise(ks):
+            if tokens[a].partes != 1 or tokens[b].partes != 1:
+                continue
+            vao = (tokens[b].x0 - tokens[a].x1) / passo
+            if VAO_AGRUPAR_PASSOS < vao <= VAO_CASA_PASSOS:
+                pares.append((a, b))
+    if not pares:
+        return tokens
+    recortes = []
+    for a, b in pares:
+        ta, tb = tokens[a], tokens[b]
+        recortes.append(_recortar(gray, ta.x0, ta.y0, ta.x1, ta.y1))
+        recortes.append(_recortar(gray, tb.x0, tb.y0, tb.x1, tb.y1))
+        recortes.append(
+            _recortar(
+                gray,
+                min(ta.x0, tb.x0),
+                min(ta.y0, tb.y0),
+                max(ta.x1, tb.x1),
+                max(ta.y1, tb.y1),
+            )
+        )
+    p = _probs(recortes, modelo, dev).reshape(len(pares), 3, -1)
+    fundidos: dict[int, object] = {}
+    descartar: set[int] = set()
+    usados: set[int] = set()
+    for j, (a, b) in enumerate(pares):
+        if a in usados or b in usados:
+            continue
+        lidos = [rotulos[int(np.argmax(p[j, 0]))], rotulos[int(np.argmax(p[j, 1]))]]
+        if _casa_das_partes(lidos, p[j, 2], rotulos) is None:
+            continue
+        usados.update((a, b))
+        fundidos[a] = _fundir([tokens[a], tokens[b]], passo)
+        descartar.add(b)
+    if not fundidos:
+        return tokens
+    novos = [fundidos.get(k, tk) for k, tk in enumerate(tokens) if k not in descartar]
+    return sorted(novos, key=lambda x: (x.coluna, x.corda))
 
 
 def carregar_modelo(caminho: str):
@@ -236,9 +348,25 @@ def reconhecer_linha(
     tokens = sorted(g.glifos, key=lambda x: (x.coluna, x.corda))
     if not tokens:
         return {"passo": g.passo, "linhas_y": g.linhas_y, "notas": []}
+    tokens = _fundir_pares_de_digitos(tokens, gray, g.passo, modelo, rotulos, dev)
     probs = _probs(
         [_recortar(gray, t.x0, t.y0, t.x1, t.y1) for t in tokens], modelo, dev
     )
+    # Casa de dois dígitos pelas partes (ver `_casa_das_partes`): a leitura de cada componente
+    # de um token com dois componentes, nas caixas de `componentes`.
+    recortes_partes: list[np.ndarray] = []
+    indice_partes: dict[int, list[int]] = {}
+    for i, tk in enumerate(tokens):
+        if len(tk.componentes or ()) == 2:
+            indice_partes[i] = []
+            for caixa in tk.componentes:
+                indice_partes[i].append(len(recortes_partes))
+                recortes_partes.append(_recortar(gray, *caixa))
+    probs_partes = _probs(recortes_partes, modelo, dev) if recortes_partes else None
+    lidos_partes = {
+        i: [rotulos[int(np.argmax(probs_partes[k]))] for k in ks]
+        for i, ks in indice_partes.items()
+    }
     # Assinatura de lixo POR VIDEO: fracao de tokens estreitos (< 0.3 passo). Medido:
     # apenas o canal raman korshun apresenta isso (28%); iwaki/sky/paolo dao 0%.
     # Onde ha assinatura, token estreito e recusado em vez de virar "1" ou "harmonico".
@@ -283,6 +411,11 @@ def reconhecer_linha(
         if recusar and (tk.x1 - tk.x0) < 0.30 * g.passo:
             classes.append(("junk", True))
             continue
+        if i in lidos_partes:
+            casa_partes = _casa_das_partes(lidos_partes[i], probs[i], rotulos)
+            if casa_partes is not None:
+                classes.append((casa_partes, False))
+                continue
         classe, corrigido = None, False
         for k in np.argsort(-probs[i]):
             if compativel(rotulos[k], tk, g.passo):
@@ -330,6 +463,9 @@ def reconhecer_linha(
             "tecnica": "harmonico" if classe == "harmonico" else None,
             "x": int(tk.x0),
             "x_centro": (tk.x0 + tk.x1) / 2,
+            # A caixa do token é exposta para quem converte a nota em quadro (ler_notas):
+            # um token fundido por `_fundir_pares_de_digitos` não existe na grade de segmentar.
+            "caixa": (int(tk.x0), int(tk.y0), int(tk.x1), int(tk.y1)),
             "confianca": round(float(probs[i][int(np.argmax(probs[i]))]), 3),
             "corrigido_pela_forma": corrigido,
         }

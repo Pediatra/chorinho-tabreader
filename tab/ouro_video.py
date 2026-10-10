@@ -997,7 +997,7 @@ def ler_notas(cand: Candidato, modelo, rotulos, dev, discriminador) -> dict:
     linhas = [cand.y0 + y for y in r["linhas_y"]]
     notas, nao_nota = [], []
     for n in r["notas"]:
-        caixa = caixas.get((n["corda"], n["x"]))
+        caixa = n.get("caixa") or caixas.get((n["corda"], n["x"]))
         if caixa is None:
             largura = LARGURA_ALGARISMO_PASSOS * passo
             y = r["linhas_y"][n["corda"] - 1]
