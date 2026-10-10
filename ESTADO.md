@@ -3027,3 +3027,25 @@ cortando muita coisa") aponta para (b), não para (a).
 **Próxima medição**: quantos algarismos decepados pela borda existem no acervo **e quantos deles o
 classificador erra** — porque um dígito cortado é uma **perda de exatidão no número oficial**, e isso
 tem de estar medido antes de qualquer reforma de símbolo.
+
+## 2026-10-09 — os GLIFOS não são cortados (1 em 1.455) — e a queixa do dono é a JANELA do símbolo (15ª correção)
+
+| | n | % |
+| --- | --- | --- |
+| glifos entregues (24 painéis) | 1.455 | 100 % |
+| **glifos que tocam a borda do painel** | **1** | **0,1 %** |
+
+**Os algarismos ENTREGUES não são cortados** — 1 em 1.455 — porque o **delimitador já descarta** o lixo de
+borda antes de virar glifo. Os "8 % cortados na borda" que eu medi eram componentes da **máscara crua**,
+uma camada **que o pipeline já filtra**. **15ª vez que um número meu mede a camada errada** — e a segunda
+vez seguida que a conclusão cai por medição, não por argumento.
+
+**E a queixa do dono continua válida, com o lugar certo identificado**: o corte que ele viu é o **ponto 5
+da revisão** — **a janela que o modelo vê tem 2,4 × 1,6 passos (menos de duas cordas)**, e era **essa**
+janela que a página de auditoria mostrava. **A imagem que eu dei a ele era recortada por construção.**
+A queixa é precisa e é sobre a **janela do símbolo**, não sobre o algarismo.
+
+**Consequência para o goal**: (3) consertar a captura tem alvo único e agora bem medido — **a janela do
+símbolo** (crescer, e para multi-corda não recortar na corda). O que ainda **não** está medido é o custo:
+janela maior carrega **mais contexto** (dígito, linha) e pode **aumentar o falso positivo** do filtro —
+é a medição que precede a mudança, e a referência é precisão 0,197 / recall 0,216.
