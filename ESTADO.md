@@ -2047,6 +2047,7 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | misturar `x` da **ROI recortada** com `x` do **quadro** | coluna errada: no `retrato brasileiro` o recorte começa em **x0 = 70 px** e o marcador de 245,5 s caiu na **coluna 3** em vez da 1 (T0.3) |
 | `cv2.VideoCapture` fora do leitor | **falha calada em 44 %** do acervo (AV1): **abre**, informa `FRAME_COUNT` e **não decodifica** — `rastrear` devolve 0 amostras, indistinguível de "sem marcador" (T0.3) |
 | pareamento da tela do legado por instantes, com exibição = vídeo inteiro | escolheu a tela com mais instantes (5), não a página lida; instante fora da janela contava como erro. Corrigido: pareamento por conteúdo e exibição = `janela_s` |
+| fundir componentes da mesma corda com vão <= 0,39 passo (limiar entre algarismos e notas) | **não separa**: algarismos de dois dígitos vão 0,23 a 0,32 passo, e notas diferentes vizinhas chegam a 0,32 e 0,37 (mesmo vão de 7 px do `13` da pág. 8). Página 5 perde 3 notas, casa certa 39 → 37 (revertida; ver `docs/rodadas/0005-casa-dois-algarismos-vao.md`) |
 
 ## Lições metodológicas (custaram rodadas)
 
@@ -4306,3 +4307,21 @@ contém o quadro lido, depois instante do ouro mais próximo do quadro lido, por
 - **Comandos das predições**: `python -m tab.transcrever "<vídeo>" --simbolos "" --json data/saida/avaliar_video/base_transcrever.json`
   e `python -m tab.transcrever "<vídeo>" --inicio 0.5 --janela 30 --simbolos "" --json data/saida/avaliar_video/base_meio30s.json`.
 - Artefatos não commitados: `data/saida/telas/v2_ca.json`, `data/saida/telas/v2_ca_r2.json`, `data/saida/avaliar_video/*_v2_r{1,2}.json`.
+
+## 2026-10-10 — Fase 4: casa de dois algarismos. Limiar de fusão por vão NÃO separa (revertido)
+
+Defeito (relato do dono no ouro v2): `10`, `12`, `13`, `14` saem como dois tokens. Medido em `data/saida/fase4_digitos/`
+(`medir_vaos.py`, `ler_paginas.py`, `comparar_paginas.py`). Detalhe em `docs/rodadas/0005-casa-dois-algarismos-vao.md`.
+
+- Vão entre os dois algarismos de cada número de dois dígitos do ouro (5 casos): **0,231 a 0,324 passo** (mediana 0,275).
+- Vão entre notas diferentes vizinhas na mesma corda: **0,324 a 0,37** quando inclui os pares sem nota casada no ouro
+  (a primeira medição, de 0,463, tinha excluído esses pares).
+- Não há limiar de vão que separe as duas classes. O `2`→`7` (corda 1, pág. 5) e o `1`→`3` do `13` (pág. 8) têm o mesmo vão de 7 px.
+- Implementado e revertido (gap 0,25 → 0,39): pág. 12 `10` passou a sair certo, mas pág. 5 perdeu 3 notas (casa certa 39 → 37)
+  e pág. 8 leu `13` como `12`. Por página: 481/493 → 479/493 com o mesmo `avaliar` 66/71/68 (sem trava de contagem disparada).
+- Defeito separado, anterior ao limiar: o token fundido de dois dígitos é rotulado `tecnica` pelo classificador (`12` da pág. 8
+  e da pág. 12), então a nota vai para `nao_nota` e some de `notas`. Medido: o `12` da pág. 8 já é fundido no limiar de 0,25.
+- Régua `tab.avaliar_video` com `--inicio 0,5 --janela 30` cobre só a tela 1 (sem `12`). Com quadros das páginas 8 e 12,
+  o pareamento legado escolhe a tela 5 para o quadro da página 8 (intervalos de tempo das telas 5 a 8 se sobrepõem e
+  `pareamento` pega a primeira). Defeito da régua, não do modelo; não corrigido aqui.
+- Próximo passo (não implementado): decidir a fusão de vizinhos pelo classificador do token fundido, e não só pelo vão.
