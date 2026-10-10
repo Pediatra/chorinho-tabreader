@@ -3858,3 +3858,29 @@ commitado com o gate vermelho ✓.
 `marcador._amostrar_cv2`, `varredura.Leitor` para o leitor ✓ + o teste que proíbe `VideoCapture(` fora de
 `tab/leitor.py` ✓ + `tab.avaliar` **idêntico** antes/depois ✓), T1.3 (espaço de coordenadas do quadro com
 `x0` no `Candidato` ✓) e T1.4 (`tab/colunas.py` ✓).
+
+## 2026-10-10 — FASE 1 / T1.2 (começo): `inventario` delega ao leitor — e `tab.avaliar` deu IGUAL
+
+**Linha de base medida ANTES** (§4.2 passo 2 ✓): `tab.avaliar` → `oficial_1` **66/72**, `oficial_2` **71/72**,
+`oficial_3` **68/72** ✓ (e com o `MODELO_PADRAO` novo, `modelo carregado: .../oficial_3/...` + 68/72 ✓).
+
+**A lista exata de quem usa `cv2.VideoCapture`** (medida por `grep`, é o que o teste do T1.2 vai proibir ✓):
+**11 usos em 7 arquivos** — `cursor.py` (1) · `inventario.py` (1) · `marcador.py` (1) · `pipeline.py` (2) ·
+`transcrever.py` (4) · `varredura.py` (1) · e `leitor.py` (1, **permitido** ✓).
+
+**Feito**: `inventario.ler_quadro` e `inventario.duracao` passam a **delegar** ao `tab/leitor.py` ✓ —
+mantendo a **assinatura antiga** (`(quadro, via)` ✓, com `via` ainda em `{"cv2","ffmpeg"}` ✓, que é o que o
+JSON publica em `lido_via` ✓). Alcance: tudo que já passava pelo `ler_quadro` (inclusive o observador de
+**cor** ✓) passa a ler pelo leitor único ✓.
+
+**Trocadas por intervalo de AST, não por número de linha** ✓: o AST achou `duracao` em (31,62) e `ler_quadro`
+em (65,125) ✓ — os números que eu "lembrava" ✗ estavam **errados** (eu ia trocar as funções erradas ✗). É a
+quinta vez nesta sessão que **ler/o que é exato** vence **lembrar** ✓.
+
+**Verificação de regressão (regra 9 — leitura é entrada do modelo)** ✓: `tab.avaliar` **depois** da mudança →
+**66/72, 71/72, 68/72** ✓ — **idêntico** à linha de base ✓. E o AV1 lido por dentro do `inventario`:
+`quadro (1080, 1920, 3) via ffmpeg` ✓ (`ler_quadro` no `mr. tabs` ✓).
+
+**Falta no T1.2**: migrar `cursor.rastrear`, `transcrever.*` (4 usos), `pipeline.*` (2), `marcador._amostrar_cv2`
+e `varredura.Leitor` ✓; e então **acrescentar o teste** que proíbe `VideoCapture(` fora de `tab/leitor.py` ✓
+(a ordem importa: o teste entra quando ele puder passar ✓, senão o gate fica vermelho ✓).

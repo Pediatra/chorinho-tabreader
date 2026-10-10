@@ -15,12 +15,11 @@ import glob
 import json
 import os
 import random
-import subprocess
 import time
 
-import cv2
 import numpy as np
 
+from . import leitor
 from .caminhos import SAIDA
 from .cursor import detectar_cursor
 from .painel import FAIXAS, escolher  # noqa: F401  (re-export)
@@ -29,100 +28,38 @@ from .painel import FAIXAS, escolher  # noqa: F401  (re-export)
 
 
 def duracao(caminho: str) -> float:
-    """Duração do vídeo em segundos, por ffprobe.
-
-    Existe porque o observador de **cor** do marcador devolve onsets em **fração** e o JSON precisa de
-    **segundos**. O `ler_quadro` já faz esta chamada de ffprobe para o fallback de AV1, mas **não devolve**
-    a duração — devolver mudaria uma assinatura usada em todo o projeto, então o helper fica separado.
+    """Duração do vídeo em segundos, pelo leitor único (`tab.leitor`).
 
     Args:
-        caminho: caminho do vídeo.
+        caminho: vídeo.
 
     Returns:
-        Duração em segundos, ou ``0.0`` se o ffprobe não responder.
+        Duração em segundos, ou ``0.0`` se o ``ffprobe`` não responder.
     """
-    try:
-        proc = subprocess.run(
-            [
-                "ffprobe",
-                "-v",
-                "error",
-                "-show_entries",
-                "format=duration",
-                "-of",
-                "csv=p=0",
-                caminho,
-            ],
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        return float(proc.stdout.strip() or 0)
-    except Exception:
-        return 0.0
+    return float(leitor.info(caminho).get("duracao_s") or 0.0)
 
 
 def ler_quadro(caminho: str, frac: float = 0.35) -> tuple[np.ndarray | None, str]:
-    """Lê um quadro. Tenta o OpenCV e, se falhar (AV1 sem decodificação no cv2),
-    cai para o ffmpeg em software. Devolve (quadro, via)."""
-    cap = cv2.VideoCapture(caminho)
-    if cap.isOpened():
-        n = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
-        if n > 10:
-            cap.set(cv2.CAP_PROP_POS_FRAMES, int(n * frac))
-        ok, frame = cap.read()
-        cap.release()
-        if ok and frame is not None and frame.size:
-            return frame, "cv2"
+    """Lê um quadro do vídeo, **delegando ao leitor único** (`tab.leitor`).
+
+    Existe para manter a assinatura antiga (`(quadro, via)`) para todo o projeto, mas quem decide o caminho
+    (cv2 se decodificar, senão ffmpeg) é o `tab/leitor.py` — nenhum módulo lê vídeo por fora (T1.2 do plano).
+
+    Args:
+        caminho: vídeo.
+        frac: fração da duração onde ler o quadro.
+
+    Returns:
+        ``(quadro, via)``, com ``via`` em ``{"cv2", "ffmpeg"}``; ``(None, via)`` se não houver quadro.
+    """
+    led = leitor.Leitor(caminho)
     try:
-        proc = subprocess.run(
-            [
-                "ffprobe",
-                "-v",
-                "error",
-                "-show_entries",
-                "format=duration",
-                "-of",
-                "csv=p=0",
-                caminho,
-            ],
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        dur = float(proc.stdout.strip() or 0)
-    except Exception:
-        dur = 0.0
-    ss = max(0.0, dur * frac)
-    try:
-        proc = subprocess.run(
-            [
-                "ffmpeg",
-                "-v",
-                "error",
-                "-ss",
-                f"{ss:.2f}",
-                "-i",
-                caminho,
-                "-frames:v",
-                "1",
-                "-f",
-                "image2pipe",
-                "-vcodec",
-                "png",
-                "-",
-            ],
-            capture_output=True,
-            timeout=90,
-        )
-        if proc.stdout:
-            arr = np.frombuffer(proc.stdout, np.uint8)
-            frame = cv2.imdecode(arr, cv2.IMREAD_COLOR)
-            if frame is not None and frame.size:
-                return frame, "ffmpeg"
-    except Exception:
-        pass
-    return None, "falhou"
+        d = leitor.info(caminho)
+        t_s = max(0.0, (d.get("duracao_s") or 0.0) * frac)
+        quadro = led.ler(t_s)
+    finally:
+        led.fechar()
+    return quadro, led.via
 
 
 def analisar_quadro(frame: np.ndarray) -> dict:
