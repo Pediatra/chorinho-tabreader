@@ -55,7 +55,7 @@ MIN_GLIFOS = 5
 #: não é tablatura — medido: um grupo com passo 7,6 px era painel falso e um com
 #: 59,2 px era nome de acorde em texto (`violaodecria`).
 PASSO_MINIMO_PX = 14.0
-PASSO_MAXIMO_PX = 45.0
+PASSO_MAXIMO_PX = 55.0
 
 
 @dataclass

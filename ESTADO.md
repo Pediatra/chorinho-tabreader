@@ -4811,3 +4811,22 @@ Detalhe e tabelas em `docs/rodadas/0008-casa-13-par-de-algarismos.md`. Linha de 
 - **Sanidade**: iwaki 0 notas com `t_ini`. **mr. tabs (AV1): 7 notas com `t_ini` na tela 34 (192–194 s), causa não confirmada, sem ouro; conferir na Fase 8.** Antes desta mudança eram 0. A regra só rejeita x, então o efeito vem de o observador `posicao` mudar; a causa exata não foi testada. A figura `data/saida/fase5_moldura/mrtabs_192_194.png` não serve como prova: a detecção rodou no quadro inteiro e não pegou a faixa, e o JSON não guarda x das colunas.
 - **Não repetir**: (a) confiar em `detectar_cursor` sem o miolo da faixa; (b) pensar que a regra só poda — ela muda o observador escolhido; (c) "0 notas com t_ini" no mr. tabs como sinal de sucesso: era por ausência de sinal, e agora há 7.
 - **Não feito**: a regra está medida só em retrato brasileiro e asturias; falta medir outros canais com marcador sólido (ex.: os de cor) antes de generalizar.
+
+## 2026-10-10 — Fase 7.1: piloto do censo e painel escuro (teto de passo 45 → 55 px)
+
+**Piloto** (3 vídeos por canal, semente 20261010, 4 instantes por vídeo, contagem pelo olho sobre a folha `data/saida/censo/piloto/folha_<canal>.jpg`):
+
+| | VP | FP | VN | FN | precisão | revocação |
+| --- | --- | --- | --- | --- | --- | --- |
+| antes (`piloto/`) | 139 | 4 | 53 | 24 | 0,972 | 0,853 |
+| depois (`piloto_depois/`) | 141 | 4 | 57 | 18 | 0,972 | 0,887 |
+
+- Efeito **do conserto** nos vídeos comuns: FN → VP em 2 instantes (cifra club `ó vinde adoremos` t=1341, violaodecria `sei que tu me odeia` t=47), zero piora. O +4 VN / −4 FN de `robert lunn` **não é efeito do conserto**: o acervo cresceu e a amostra desse canal trocou de vídeos (os 4 FN antigos saíram da amostra e não foram remedidos).
+- **Cifra club**: o painel escuro **não** era rejeitado pelo portão de cor (cinza mediano 26, saturação 0). O bloqueio era o **passo**: as cordas da TAB estão a 52 px e `PASSO_MAXIMO_PX` era 45. O `escolher` achava a faixa do vídeo (topo, uniformidade 0,89), e a faixa da TAB (base, uniformidade 0,97) saía pelo teto. Subido para 55 px (abaixo dos 59 px do texto de acorde do violaodecria).
+- A leitura da TAB escura **funciona** (`segmentar` acha 6 cordas e 10 glifos, máscara `contraste_claro`), mas a caixa desse quadro cobre a pauta e a TAB juntas.
+
+**Gabarito de caixa** (`tab.presenca_aval`): com o teto 55, o caso FN05 (sky guitar, t=117,15) ganha caixa **nova** que o gabarito ainda não tem. Medido com rótulo **provisório do agente** (cópia em `piloto/gold_provisorio.json`, NÃO o gabarito do dono): caixa **125/127 = 0,984** (era 124/126), revocação **125/130 = 0,962** (era 124/130). Falta o dono rotular o FN05 em `caixas_revistas`.
+
+**MVP**: `tab.video` retrato → notas 485/485, revocação 485/491, inventadas 0, casa 483/485; tempo 39/40, falso 0; `tab.telas --ouro` 13/13 telas e 40/40 instantes; `tab.avaliar` oficial_1/2/3 = 66/72, 71/72, 68/72.
+
+**Não repetir / limites**: o piloto é de 3 vídeos por canal (amostra pequena); o teto de passo vale para **todos** os canais; `robert lunn black diamond` (4 FN antes, TAB visível) não entrou na amostra refeita e segue sem remedição; TAB em texto ASCII (violaodecria) conta como tablatura no olho.

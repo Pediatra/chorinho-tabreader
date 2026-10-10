@@ -19,6 +19,9 @@ Um arquivo que muda de tamanho ou de data ganha chave nova e é refeito.
 Uso:
     python -m tab.censo --raiz /acervo --saida data/saida/censo/censo.jsonl
     python -m tab.censo --amostra 20 --saida data/saida/censo/custo_amostra.jsonl
+    python -m tab.censo --piloto 3 --saida data/saida/censo/piloto/censo.jsonl \
+        --folhas data/saida/censo/piloto   (3 vídeos por canal, semente fixa, uma folha
+        por canal com 4 instantes por vídeo)
 """
 
 from __future__ import annotations
@@ -27,13 +30,18 @@ import argparse
 import itertools
 import json
 import os
+import random
+import re
 import time
+import unicodedata
+from pathlib import Path
 
 import numpy as np
 
 from . import leitor, telas, varredura
 from .caminhos import SAIDA, acervo
 from .cursor import detectar_cursor
+from .presenca_aval import folha
 
 #: Frações da duração em que a presença é medida (12 instantes, de 0,05 a 0,95).
 FRACOES_PRESENCA: tuple[float, ...] = tuple(
@@ -54,6 +62,12 @@ MIN_QUADROS_FAIXA = 3
 #: NÃO calibrado: a conferência de 30 vídeos (T7.3) é quem valida este número.
 MIN_QUADROS_COR = 3
 FRACAO_COR_MINIMA = 0.01
+
+#: Semente do sorteio do piloto (3 vídeos por canal). Fixa: o piloto refeito pega os mesmos.
+SEMENTE_PILOTO = 20261010
+
+#: Quais dos 12 instantes de presença vão para a folha de conferência (4 por vídeo).
+INSTANTES_FOLHA: tuple[int, ...] = (2, 5, 8, 11)
 
 #: Abortar a execução se, depois deste número de vídeos, a fração de erros passar do limite.
 MIN_VIDEOS_PARA_ABORTAR = 20
@@ -304,6 +318,79 @@ def censar_video(caminho: str, raiz: str, com_janelas: bool = True) -> dict:
     return registro
 
 
+def sortear_piloto(
+    por_canal: dict[str, list[str]], n: int, semente: int = SEMENTE_PILOTO
+) -> dict[str, list[str]]:
+    """``n`` vídeos sorteados por canal, com semente fixa (o mesmo piloto sempre).
+
+    Args:
+        por_canal: vídeos por canal, em ordem estável.
+        n: vídeos por canal.
+        semente: semente do sorteio.
+
+    Returns:
+        Canal -> vídeos sorteados, em ordem de nome.
+    """
+    rng = random.Random(semente)
+    return {
+        canal: sorted(rng.sample(vids, min(n, len(vids))))
+        for canal, vids in por_canal.items()
+    }
+
+
+def slug_do_canal(canal: str, indice: int) -> str:
+    """Nome de arquivo para um canal: ASCII minúsculo, ou ``canal_NN`` se não sobrar nada.
+
+    Args:
+        canal: nome da pasta do canal no acervo.
+        indice: posição do canal (usada no fallback).
+
+    Returns:
+        Texto com letras, dígitos e ``_``.
+    """
+    ascii_ = unicodedata.normalize("NFKD", canal).encode("ascii", "ignore").decode()
+    slug = re.sub(r"[^a-z0-9]+", "_", ascii_.lower()).strip("_")
+    return slug or f"canal_{indice:02d}"
+
+
+def folha_do_canal(
+    canal: str, indice: int, registros: list[dict], raiz: str, pasta: Path
+) -> Path | None:
+    """Folha de conferência de um canal: 4 instantes por vídeo, com a caixa desenhada.
+
+    Args:
+        canal: nome do canal.
+        indice: posição do canal (para o nome do arquivo no fallback).
+        registros: registros do censo dos vídeos sorteados do canal.
+        raiz: raiz do acervo.
+        pasta: pasta de saída; grava ``folha_<canal>.jpg``.
+
+    Returns:
+        O caminho gravado, ou None se não houver quadro para mostrar.
+    """
+    itens: list[tuple[np.ndarray, tuple[int, int, int, int] | None, str]] = []
+    for j, reg in enumerate(registros, start=1):
+        if "instantes" not in reg:
+            continue
+        for idx in INSTANTES_FOLHA:
+            inst = reg["instantes"][idx]
+            quadro = leitor.quadro_em(os.path.join(raiz, reg["arquivo"]), inst["t"])
+            if quadro is None:
+                continue
+            rect = tuple(int(v) for v in inst["rect"]) if inst.get("rect") else None
+            legenda = f"v{j} t={inst['t']:.0f}s tab={inst.get('tab')}"
+            itens.append((quadro, rect, legenda))
+    if not itens:
+        return None
+    pasta.mkdir(parents=True, exist_ok=True)
+    return folha(
+        itens,
+        pasta / f"folha_{slug_do_canal(canal, indice)}.jpg",
+        colunas=4,
+        largura=640,
+    )
+
+
 def amostra_espalhada(videos: list[str], n: int) -> list[str]:
     """``n`` vídeos espalhados uniformemente pela lista (determinístico).
 
@@ -340,6 +427,17 @@ def main() -> int:
         help="estratificação: janelas só em N vídeos espalhados por canal (0 = todos)",
     )
     ap.add_argument(
+        "--piloto",
+        type=int,
+        default=0,
+        help="N vídeos sorteados por canal (semente fixa); grava as folhas em --folhas",
+    )
+    ap.add_argument(
+        "--folhas",
+        default="",
+        help="pasta das folhas de conferência por canal (usada com --piloto)",
+    )
+    ap.add_argument(
         "--sem-janelas",
         action="store_true",
         help="mede só a presença (medição de custo)",
@@ -348,6 +446,8 @@ def main() -> int:
 
     os.makedirs(os.path.dirname(os.path.abspath(args.saida)), exist_ok=True)
     por_canal = varredura.canais_e_videos(args.raiz, args.canais)
+    if args.piloto:
+        por_canal = sortear_piloto(por_canal, args.piloto)
     todos = [v for canal in por_canal.values() for v in canal]
     if args.amostra:
         todos = amostra_espalhada(todos, args.amostra)
@@ -411,7 +511,38 @@ def main() -> int:
         f"{erros} com erro",
         flush=True,
     )
+    if args.piloto and args.folhas:
+        _folhas_do_piloto(args.saida, args.raiz, por_canal, Path(args.folhas))
     return 0
+
+
+def _folhas_do_piloto(
+    saida: str, raiz: str, por_canal: dict[str, list[str]], pasta: Path
+) -> None:
+    """Uma folha por canal, com o último registro de cada vídeo sorteado.
+
+    Args:
+        saida: JSONL do censo (a última linha de cada arquivo vale).
+        raiz: raiz do acervo.
+        por_canal: canal -> vídeos sorteados.
+        pasta: pasta das folhas.
+    """
+    ultimo: dict[str, dict] = {}
+    with open(saida, encoding="utf-8") as fh:
+        for linha in fh:
+            try:
+                reg = json.loads(linha)
+            except json.JSONDecodeError:
+                continue
+            ultimo[reg.get("arquivo", "")] = reg
+    for indice, (canal, vids) in enumerate(por_canal.items(), start=1):
+        registros = [
+            ultimo[os.path.relpath(v, raiz)]
+            for v in vids
+            if os.path.relpath(v, raiz) in ultimo
+        ]
+        caminho = folha_do_canal(canal, indice, registros, raiz, pasta)
+        print(f"folha {canal}: {caminho}", flush=True)
 
 
 if __name__ == "__main__":

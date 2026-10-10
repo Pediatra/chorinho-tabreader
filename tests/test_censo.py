@@ -187,3 +187,23 @@ def test_medir_janela_troca_e_estatica(monkeypatch) -> None:
     monkeypatch.setattr(censo.leitor, "quadros", quadros_trocando)
     trocando = censo.medir_janela("v.mp4", 0.0, 10.0, rect)
     assert trocando["troca_tela"] is True
+
+
+def test_sorteio_do_piloto_e_fixo_e_por_canal():
+    """O piloto sorteia N vídeos por canal com semente fixa: o mesmo sorteio sempre."""
+    por_canal = {
+        "a": [f"a/{k}.mp4" for k in range(10)],
+        "b": [f"b/{k}.mp4" for k in range(2)],
+    }
+    primeiro = censo.sortear_piloto(por_canal, 3)
+    assert primeiro == censo.sortear_piloto(por_canal, 3)
+    assert len(primeiro["a"]) == 3
+    assert len(primeiro["b"]) == 2  # canal com menos vídeos que N leva todos
+    assert set(primeiro["a"]) <= set(por_canal["a"])
+
+
+def test_slug_do_canal_tira_acento_e_tem_fallback():
+    """Nome de arquivo da folha: ASCII minúsculo; sem letras, cai para canal_NN."""
+    assert censo.slug_do_canal("guitar dell ́arte", 1) == "guitar_dell_arte"
+    assert censo.slug_do_canal("pablo romé", 2) == "pablo_rome"
+    assert censo.slug_do_canal("ギタロー", 7) == "canal_07"
