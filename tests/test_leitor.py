@@ -4,6 +4,7 @@ Os testes sintéticos geram o vídeo no `tmp_path` (sem GPU e sem acervo). O tes
 marcado `integration` e é pulado se o acervo não estiver montado.
 """
 
+import subprocess
 from pathlib import Path
 
 import cv2
@@ -163,3 +164,45 @@ def test_quadros_le_av1_real() -> None:
         pytest.skip(f"acervo ausente: {caminho}")
     lidos = list(quadros(str(caminho), 0.0, 2.0, 6.0))
     assert len(lidos) > 0
+
+
+def test_recorte_de_altura_impar_bate_com_seek(tmp_path: Path) -> None:
+    """Recorte com y0 e altura ímpares, em yuv420: cada quadro de ``quadros`` = ``quadro_em``.
+
+    Regressão da Fase 5: o crop em yuv420p saía com uma linha a menos e o ``read`` desalinhava
+    os quadros seguintes (o erro crescia a cada quadro). Com ``format=bgr24`` antes do crop, o
+    quadro lido é o mesmo do seek exato.
+    """
+    caminho = tmp_path / "yuv.mp4"
+    subprocess.run(
+        [
+            "ffmpeg",
+            "-v",
+            "error",
+            "-f",
+            "lavfi",
+            "-i",
+            "testsrc2=size=320x240:rate=10",
+            "-t",
+            "2",
+            "-c:v",
+            "mpeg4",
+            "-pix_fmt",
+            "yuv420p",
+            str(caminho),
+        ],
+        check=True,
+    )
+    y0, altura = 13, 37  # ímpares: o caso que quebrava
+    lidos = list(quadros(str(caminho), 0.0, 2.0, 6.0, recorte_y=(y0, y0 + altura)))
+    assert len(lidos) >= 10
+    for t, quadro in lidos[:10]:
+        assert quadro.shape == (altura, 320, 3)
+        seek = quadro_em(str(caminho), t)
+        assert seek is not None
+        dif = np.abs(
+            seek[y0 : y0 + altura].astype(np.float32) - quadro.astype(np.float32)
+        )
+        assert dif.mean() < 0.5, (
+            f"quadro em t={t:.3f} desalinhado (dif {dif.mean():.2f})"
+        )

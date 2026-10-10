@@ -8,7 +8,12 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
+import cv2
+import numpy as np
+
+from tab.cursor import detectar_cursor
 from tab.estado import (
+    SATURACAO_MARCADOR,
     Amostra,
     Corrida,
     corridas_estaveis,
@@ -16,6 +21,7 @@ from tab.estado import (
     estados_posicao,
     observar,
     passagens_de,
+    refinar_inicios,
 )
 from tab.video import (
     colunas_e_caixas,
@@ -249,3 +255,57 @@ def test_invariantes_pegam_medido_falso_sem_motivo():
 def test_amostras_sem_recorte_real_nao_quebram_estados_de_cor():
     # guarda contra regressão: cores vazias (sem caixas) não viram coluna
     assert estados_cor([Amostra(0.0, None, [])], "destaque") == [None]
+
+
+def test_refinar_inicios_leva_o_onset_ao_quadro_nativo_da_transicao():
+    """O início do trecho sai da amostra de 6 qps para o quadro nativo da transição (T5.2).
+
+    Transição real em 0,25 s; a 1ª amostra de 6 qps que mostra a coluna nova é 0,333 s. O quadro
+    nativo (30 qps) em que a coluna aparece é 0,267 s, que está entre a amostra anterior e a atual.
+    """
+    ts = [k / 6 for k in range(4)]
+    estados = [0 if t < 0.25 else 1 for t in ts]
+    amostras = [Amostra(t=t, x=None, cores=[]) for t in ts]
+    corridas = corridas_estaveis(estados, ts, minimo=1)
+    assert abs(corridas[-1].t_ini - 1 / 3) < 1e-9
+
+    def ler_fino(t_a, t_b):
+        n = round((t_b - t_a) * 30)
+        return [Amostra(t=t_a + i / 30, x=None, cores=[]) for i in range(n + 1)]
+
+    def estados_de(lidas):
+        return [1 if a.t >= 0.25 else 0 for a in lidas]
+
+    refinar_inicios(corridas, amostras, ler_fino, estados_de, fps=30.0)
+    refinado = corridas[-1].t_ini
+    assert abs(refinado - 0.267) < 0.001
+    assert 1 / 6 < refinado <= 1 / 3  # dentro de (amostra anterior, amostra atual]
+
+
+def test_refinar_inicios_mantem_trecho_sem_amostra_anterior():
+    """Trecho que começa na 1ª amostra da exibição não tem janela para refinar: fica como está."""
+    ts = [0.0, 1 / 6, 2 / 6]
+    estados = [1, 1, 1]
+    amostras = [Amostra(t=t, x=None, cores=[]) for t in ts]
+    corridas = corridas_estaveis(estados, ts, minimo=1)
+
+    def ler_fino(t_a, t_b):
+        raise AssertionError("não deve ler quadros para o trecho inicial")
+
+    refinar_inicios(corridas, amostras, ler_fino, lambda lidas: [], fps=30.0)
+    assert corridas[0].t_ini == 0.0
+
+
+def test_faixa_clara_do_marcador_so_aparece_com_corte_de_saturacao_baixo():
+    """Faixa azul-clara (saturação 38, como o marcador do retrato) some com o corte 60 do cursor.
+
+    Medido na Fase 5: o detector padrão (saturação > 60) perdia a faixa em vários quadros, e a
+    régua lia a coluna anterior. Com ``sat_min=SATURACAO_MARCADOR`` (20) a faixa é achada.
+    """
+    quadro = np.full((120, 200, 3), 235, np.uint8)
+    faixa = cv2.cvtColor(np.uint8([[[110, 38, 239]]]), cv2.COLOR_HSV2BGR)[0, 0]
+    quadro[:, 90:98] = faixa
+    assert detectar_cursor(quadro) is None  # padrão: saturação > 60
+    det = detectar_cursor(quadro, sat_min=SATURACAO_MARCADOR)
+    assert det is not None
+    assert abs(det[0] - 90) <= 1 and abs(det[1] - 97) <= 1

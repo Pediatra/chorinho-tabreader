@@ -31,6 +31,7 @@ def detectar_cursor(
     altura_min_frac: float = 0.5,
     largura_max_frac: float = 0.06,
     matizes: tuple[int, int] | None = None,
+    sat_min: int = 60,
 ) -> tuple[int, int, tuple[int, int]] | None:
     """Devolve (x0, x1, (matiz, sat)) da banda do cursor, ou None.
 
@@ -51,6 +52,10 @@ def detectar_cursor(
         altura_min_frac: fração mínima da altura que a banda precisa cobrir.
         largura_max_frac: fração máxima da largura da imagem para a banda.
         matizes: portão de matiz OPCIONAL, para quem já sabe a cor daquele canal.
+        sat_min: saturação mínima (0–255) para um pixel contar como cromático. O padrão 60 é o
+            de sempre; o observador de posição do tempo (``tab.estado``) usa 20, porque a faixa
+            do marcador do ``retrato brasileiro`` tem saturação mediana 38 (62 em um quadro) e o
+            fundo da partitura, 3.
 
     Returns:
         ``(x0, x1, (matiz, sat))`` ou None.
@@ -60,7 +65,7 @@ def detectar_cursor(
     sat = hsv[:, :, 1]
     val = hsv[:, :, 2]
     # cor de verdade (não preto/branco/cinza da partitura)
-    crom = (sat > 60) & (val > 90)
+    crom = (sat > sat_min) & (val > 90)
     if crom.sum() < 50:
         return None
     contagem = crom.sum(axis=0)

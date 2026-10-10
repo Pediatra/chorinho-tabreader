@@ -186,7 +186,11 @@ def quadros(
     tamanho = largura * altura_rec * 3
     filtro = f"fps={qps:.6f}"
     if recorte_y is not None:
-        filtro = f"{filtro},crop={largura}:{altura_rec}:0:{y0}"
+        # ``format=bgr24`` ANTES do ``crop``: em yuv420p o crop de altura ímpar sai com uma
+        # linha a menos (148 em vez de 149), e o ``read(tamanho)`` abaixo passa a ler quadros
+        # desalinhados. Medido na Fase 5: o erro cresce a cada quadro (7,5 no 1º, 19,4 no 12º);
+        # com o conversor antes, o quadro lido é igual ao de ``quadro_em`` (diferença 0,0).
+        filtro = f"{filtro},format=bgr24,crop={largura}:{altura_rec}:0:{y0}"
     proc = subprocess.Popen(
         [
             "ffmpeg",

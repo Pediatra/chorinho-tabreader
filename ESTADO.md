@@ -4587,3 +4587,31 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
 - **Não repetir**: (a) estabilidade 2 com marcador de 1 amostra por coluna não cumpre 0,95; (b) ajuste de δ para o ouro não é ganho de produto;
   (c) deduplicar notas sem preservar o tempo derruba o tempo para 22/40.
 - **Não feito**: documento de rodada (`docs/rodadas/`), e o observador de símbolo não tem tempo (`nao_notas` sem `t_ini`).
+
+## 2026-10-10 — FASE 5 (continuação): a causa do atraso era do QUADRO, não do carimbo. Estado 33 → 37 de 40, tempo falso 0
+
+- **Pergunta**: o leitor estava ~0,15 s atrasado em relação ao ouro (a régua fechava com δ = −0,2 s, 36/40). Era carimbo de tempo?
+- **Carimbo: NÃO era.** Medido com `ffprobe` e `-copyts` no `retrato brasileiro` (H.264, 30000/1001, `start_time 0`): a passada de `fps` do `quadros()` entrega o quadro mais próximo do instante `t0 + k/qps`, com erro < 1/60 s. Em 245,5 s o quadro de origem é o de 245,512 s.
+- **Causa REAL (bug de quadro, `tab/leitor.py::quadros`)**: com recorte de altura ímpar em yuv420p, o `crop` sai com **uma linha a menos** (148, não 149). O `read(tamanho)` assume 149 linhas e desalinha o quadro seguinte; o erro **cresce a cada quadro**. Medido no vídeo sintético do teste (e no retrato): diferença contra `quadro_em` = 4,9 / 2,0 / 6,7 / … / 18,1 nos primeiros quadros; com `format=bgr24` antes do `crop`, **0,0 em todos**. Por isso o `estado` lia faixas deslocadas (e as caixas dos algarismos, no observador de cor).
+- **Segunda causa (observador de posição)**: a faixa do marcador do `retrato` tem **saturação mediana 38** (62 em um quadro); o fundo da partitura, 3. O corte `sat > 60` do `detectar_cursor` perdia a faixa clara em vários quadros, e a régua lia a coluna anterior (t = 394, 480, 512 s: a faixa está no quadro de seek, `data/saida/fase5b/quadro_t4_394.00.png`, `quadro_t8_480.00.png`).
+- **Terceira causa (carimbo do ONSET, a que o "0,15 s" de fato era)**: o trecho começa na 1ª **amostra de 6 qps** que já mostra a coluna nova, então o início fica até 1/6 s depois da transição. Medido nos 37 rótulos: a coluna rotulada aparece no quadro nativo em +0,00 a −0,6 s do rótulo (ex.: 500,035 s, 288,002 s, 350,002 s). **Conserto**: `tab/estado.py::refinar_inicios` relê os quadros nativos entre a amostra anterior e a atual e põe o início no **PTS do primeiro quadro** em que a coluna aparece.
+- **Mudanças** (um commit): (1) `tab/leitor.py`: `format=bgr24` antes do `crop`; (2) `tab/cursor.py`: `detectar_cursor(..., sat_min=60)` (padrão inalterado); (3) `tab/estado.py`: `SATURACAO_MARCADOR = 20` para o observador de posição, `refinar_inicios`; (4) `tab/video.py::medir_exibicao`: usa o refino e monta as passagens dos trechos refinados.
+- **Números (ouro `retrato_brasileiro_v2`, `tab.avaliar_video`)**:
+
+  | variante | estado | tempo falso | notas: precisão | revocação | casa |
+  | --- | --- | --- | --- | --- | --- |
+  | HEAD `89154a8c` | **33/40** (acerto 33, erro 5, sem tempo 2) | 0 | 485/486 | 485/491 | 482/485 |
+  | só `format=bgr24` (leitor) | 32/40 | 0 | 485/486 | 485/491 | 482/485 |
+  | só refino de onset | 34/40 | 0 | 485/486 | 485/491 | 482/485 |
+  | refino + `sat_min=20` (sem bgr) | 37/40 | 0 | 485/486 | 485/491 | 482/485 |
+  | **candidato: bgr + refino + sat 20** | **37/40** (acerto 37, erro 3, sem tempo 0) | **0** | **485/486** | **485/491** | **482/485** |
+
+  O conserto do quadro sozinho **piora** 33 → 32 (os quadros desalinhados acertavam por acaso); só junto com o refino e a saturação ele ganha. Por isso a mudança é um commit só.
+- **Aceite**: estado **37/40 — CA (≥ 38/40) NÃO cumprida**. Demais itens: tempo falso 0 ✓; notas sem queda ✓ (485/486, 485/491, casa 482/485); `tab.telas` retrato **13/13 e 40/40** ✓; `tab.avaliar` **66/72, 71/72, 68/72** ✓ (`oficial_1/2/3`); sanidade `iwaki`: **0 notas com `t_ini`**, 20 telas sem tempo ✓; `mr. tabs` (AV1): **0 notas com `t_ini`**, 46 telas sem tempo ✓; testes novos: 4 (`tests/test_leitor.py::test_recorte_de_altura_impar_bate_com_seek`, que **falha no HEAD** e passa aqui; 3 em `tests/test_tempo_exibicao.py`: refino até o quadro nativo, trecho sem janela anterior, faixa clara com `sat_min`).
+- **Gate**: candidato = HEAD + estes 6 arquivos (cópia exportada em `data/saida/fase5b/mine/`): `ruff check .` ✓, `ruff format --check .` ✓ (69 arquivos), `pytest tests/ -m "not integration"` **276 passed**. A árvore de trabalho do dia tem `tab/painel.py` e `tests/test_painel.py` modificados por outro agente (Fase 7.1, ainda não commitados) que falham no lint (B905, formatação); **não são deste commit**.
+- **Causas restantes (medidas, não corrigidas)**:
+  - **t = 350 e 500 s**: o rótulo é **no máximo 1 quadro antes** do primeiro quadro em que a coluna aparece (350,000 vs 350,002 s; 500,000 vs 500,036 s). Com `json_atual ≤ t` e tolerância 0, só se resolveria arredondando o tempo para trás: isso é ajuste ao gabarito e **não foi feito**. Limite de precisão desta métrica.
+  - **t = 672 s**: o marcador some de 668 a 673 s, e a coluna 1760 (rótulo) **não tem nota no JSON** (perdida na leitura de notas). Não é tempo.
+  - **Marcador ausente**: quando o marcador some entre duas colunas, a régua mantém a coluna anterior como estado atual. Isso **afirma** estado sem marcador. O ouro não tem instante "ausente" neste vídeo, então o tempo falso fica 0, mas a regra é frágil. Conserto honesto exige **fim de exibição por coluna** (schema) — fica como próximo passo.
+- **Não repetir**: (a) corrigir só o `format=bgr24` no leitor derruba o estado para 32; (b) desalinhamento do quadro não aparece na métrica de notas (que usa `quadro_em`), só no tempo; (c) o teste de recorte precisa de janela de ≥ 10 quadros e limite 0,5 (com limite 1,0 passa no HEAD).
+- **Artefatos**: `data/saida/fase5b/` (scripts de medição, `rodada_*.log`, JSONs; `mine/` é a cópia candidata). Não commitados.

@@ -39,11 +39,14 @@ from .colunas import agrupar_colunas
 from .digito import carregar
 from .estado import (
     ESTAVEL_MINIMO,
+    Amostra,
     Observacao,
     estados_cor,
     estados_posicao,
     ler_amostras,
     observar,
+    passagens_de,
+    refinar_inicios,
 )
 from .painel import PASSO_MAXIMO_PX, PASSO_MINIMO_PX, escolher
 from .reconhecer import ALGARISMOS, carregar_modelo, reconhecer_linha
@@ -63,6 +66,9 @@ MEDIANA_QUADROS = 7
 
 #: Quadros por segundo lidos dentro de cada exibição (T5.1).
 QPS_EXIBICAO = 6.0
+
+#: Taxa usada para ler os quadros nativos do refino quando ``ffprobe`` não informa a taxa.
+FPS_PADRAO = 30000 / 1001
 
 #: Amostras seguidas para uma coluna ser aceita como atual (T5.2). Medido no ouro.
 ESTAVEL_EXIBICAO = ESTAVEL_MINIMO
@@ -297,9 +303,25 @@ def medir_exibicao(
     escolhido = obs[nome] if nome else None
     passagens = []
     if escolhido is not None:
-        for p in escolhido.passagens:
+        # o início de cada trecho vai para o quadro nativo da transição (ver refinar_inicios)
+        estado_de = {
+            "posicao": lambda lidas: estados_posicao(lidas, centros, passo),
+            "cor": lambda lidas: estados_cor(lidas, "destaque"),
+            "cor_acende": lambda lidas: estados_cor(lidas, "acende"),
+        }[nome]
+        fps = leitor.info(video)["fps"] or FPS_PADRAO
+
+        def ler_fino(t_a: float, t_b: float) -> list[Amostra]:
+            """Leituras dos quadros nativos de ``t_a`` a ``t_b``, com a mesma faixa e caixas."""
+            return ler_amostras(video, t_a, t_b, fps, recorte_y, caixas)
+
+        refinar_inicios(escolhido.corridas, amostras, ler_fino, estado_de, fps)
+        for p in passagens_de(escolhido.corridas):
             passagens.append(
-                [{"coluna": k + 1, "t_ini": round(t, 3)} for k, t in sorted(p.items())]
+                [
+                    {"coluna": k + 1, "t_ini": round(t, 3)}
+                    for k, t in sorted({c.coluna: c.t_ini for c in p}.items())
+                ]
             )
     return {
         "t0": round(t0, 3),

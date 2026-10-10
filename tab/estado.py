@@ -23,6 +23,7 @@ Uso:
 import argparse
 import itertools
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass, field
 
 from . import leitor
@@ -54,6 +55,12 @@ COR_RAZAO_MINIMA = 3.0
 
 #: Coloração de referência para a razão, para não dividir por quase zero.
 COR_MEDIANA_PISO = 0.5
+
+#: Saturação mínima da faixa do marcador no detector de posição. A faixa do `retrato brasileiro`
+#: tem saturação mediana 38 (62 em um quadro) e o fundo da partitura 3; com o corte 60 do cursor
+#: a faixa clara some de vários quadros e a régua lia uma coluna antiga como estado atual
+#: (medido na Fase 5, t = 394, 480 e 512 s: a faixa estava lá, no quadro de seek).
+SATURACAO_MARCADOR = 20
 
 
 @dataclass
@@ -287,7 +294,7 @@ def ler_amostras(
     """
     amostras: list[Amostra] = []
     for t, quadro in leitor.quadros(video, t0, t1, qps, recorte_y=recorte_y):
-        det = detectar_cursor(quadro)
+        det = detectar_cursor(quadro, sat_min=SATURACAO_MARCADOR)
         x = None
         if det is not None and det[1] - det[0] + 1 >= LARGURA_MINIMA_MARCADOR:
             x = (det[0] + det[1]) / 2.0
@@ -430,6 +437,41 @@ def passagens_de(corridas: list[Corrida]) -> list[list[Corrida]]:
         else:
             passagens[-1].append(c)
     return passagens
+
+
+def refinar_inicios(
+    corridas: list[Corrida],
+    amostras: list[Amostra],
+    ler_fino: Callable[[float, float], list[Amostra]],
+    estados_de: Callable[[list[Amostra]], list[int | None]],
+    fps: float,
+) -> None:
+    """Põe o início de cada trecho no quadro nativo em que a coluna nova aparece pela 1ª vez.
+
+    O trecho começa na 1ª amostra (6 qps) que já mostra a coluna nova, então o início fica até
+    1/6 s depois da transição real: é o instante da AMOSTRA, não do quadro. Aqui a transição é
+    procurada nos quadros nativos entre a amostra anterior e essa amostra, e o início vira o
+    tempo (PTS) do primeiro quadro que mostra a coluna. Trecho sem amostra anterior (início da
+    exibição) fica como está.
+
+    Args:
+        corridas: trechos aceitos (``corridas_estaveis``); os ``t_ini`` são trocados in place.
+        amostras: leituras da exibição, em ordem de tempo.
+        ler_fino: ``ler_fino(t_a, t_b)`` lê os quadros nativos de ``t_a`` a ``t_b``.
+        estados_de: estado (coluna) de cada leitura, com o observador do trecho.
+        fps: taxa nativa do vídeo, em quadros por segundo.
+    """
+    indice = {a.t: i for i, a in enumerate(amostras)}
+    for c in corridas:
+        k = indice.get(c.t_ini)
+        if k is None or k == 0:
+            continue
+        t_ant = amostras[k - 1].t
+        fino = ler_fino(t_ant, c.t_ini + 1.0 / fps)
+        for a, estado in zip(fino, estados_de(fino), strict=True):
+            if estado == c.coluna and t_ant < a.t:
+                c.t_ini = round(a.t, 3)
+                break
 
 
 def observar(
