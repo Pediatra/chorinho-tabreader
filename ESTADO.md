@@ -3527,3 +3527,27 @@ duas séries diferentes ✓.**
    quadro antes de teorizar ✓).
 
 **Registrado com os números, incluindo os que não fecharam** ✓ — é a regra 11 do projeto ✓.
+
+## 2026-10-10 — OS DOIS CASOS SEM EXPLICAÇÃO: a série explica, e NENHUM é a regra
+
+Despejei a série (regra 4 do `AGENTS.md`: olhe antes de teorizar ✓) — e as duas causas apareceram:
+
+**1. `robert lunn` ("varre" ✗) — NÃO É DESLIZAMENTO, é patamar outra vez**
+Série: **101 amostras, 11 posições distintas** de x (173 → 974 ✓), e o padrão é `x=684` por ~6 amostras ✓
+e **salto** para `264` ✓. Ou seja: **o marcador pula**, e o meu **classificador** que chamou o vídeo de
+"varre" usou `saltos < 20` ✗ com 10 saltos no vídeo ✓ — **o erro é do classificador, não da regra** ✗.
+E os 4 onsets de 18 têm causa própria, que é uma limitação **real**:
+
+> **A regra compara o `x` das notas LIDO NUM QUADRO (0,4 ✓) com uma série de marcador de VÁRIOS MINUTOS** ✗.
+> Numa tablatura que **rola**, as notas **mudam de x** ao longo do vídeo ✗ → os dois `x` não se correspondem
+> ✗. Funciona onde a janela é curta e a tablatura é estável ✓ (`sky` 76 % ✓, `serge` 96 % ✓).
+
+**2. `leonardo ramos` ("pisca" ✗) — a janela do MEU INSTRUMENTO caiu num trecho morto**
+Série: **1 amostra, `t = 2,4 s`** ✗ (`cobertura 0,006` ✓). O `tab.estado` escolhe a janela pelo **`t` da
+primeira amostra** ✗ → varreu **2,4–62,4 s** ✓ — e nesse trecho o marcador aparece **uma vez** ✓. **Erro do
+meu instrumento** ✗, não do acervo nem da regra ✓ (o `AGENTS.md` já diz: o cursor é **intermitente** ✓).
+
+**Consequência para a integração**: (a) o observador precisa de **notas por quadro** (não de um quadro só ✓)
+para tablatura que rola ✗; (b) a **escolha da janela** não pode ser "o `t` da primeira amostra" ✗ — tem de
+ser onde o marcador **está ativo** ✓ (o código já tem essa preocupação na outra cadeia ✓, com as
+`janelas_com_cursor` ✓).
