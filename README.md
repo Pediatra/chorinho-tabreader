@@ -33,7 +33,7 @@ leitura**.
 
 | | |
 | --- | --- |
-| número oficial | **0,892** (média de 3 sementes) em 96 glifos / 4 canais / casas 0–7 |
+| número oficial | **0,949** (66/72, 71/72, 68/72) em **72 glifos / 3 canais** / casas 0–7 — `raman korshun` fora (2026-10-09); **não é ganho**, o denominador caiu de 96/4 |
 | tablatura | corda, coluna e compasso robustos |
 | tempo | **dois mecanismos**: faixa vertical (`sky guitar`, desvio 0,16 s) e cor cumulativa (`cifra club`, 41/41 onsets) |
 | técnica/símbolo | gravados, **ainda não aferidos** |
@@ -51,7 +51,7 @@ trabalho: [`AGENTS.md`](AGENTS.md).
 | `tab/` | o motor (ver [`tab/README.md`](tab/README.md)) |
 | `tab/caminhos.py` | acervo, gabarito, artefatos — caminho não se espalha |
 | `tests/` | gate sem GPU e sem acervo |
-| `data/gold/gabarito.json` | 96 glifos rotulados à mão, 4 canais |
+| `data/gold/gabarito.json` | 72 glifos rotulados à mão, 3 canais (`raman korshun` descartado) |
 | `data/saida/` | JSONs gerados (visíveis no host) |
 | `artefatos/` | pesos treinados |
 | `configs/` | mapa por canal e mapa de símbolos (a criar) |

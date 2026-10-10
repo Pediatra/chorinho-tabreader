@@ -18,8 +18,8 @@ de ~74 mil parâmetros, treinado só em dado sintético**. Não é VLM — a alt
 testada e perdeu (GOT-OCR2.0, 580 M, acertou **0 de 15** algarismos numa linha com
 gabarito verificado à mão).
 
-**Número oficial: 0,889** (média de 3 sementes: 0,865 / 0,917 / 0,885) em 96 glifos /
-4 canais / casas 0–7, **reprodutível** — cada semente dá o mesmo total em execuções
+**Número oficial: 0,949** (66/72, 71/72, 68/72) em **72 glifos / 3 canais**
+(`raman korshun` descartado em 2026-10-09: guitarra elétrica), casas 0–7, **reprodutível** — cada semente dá o mesmo total em execuções
 repetidas. Ver [`ESTADO.md`](ESTADO.md), [`docs/HISTORICO.md`](docs/HISTORICO.md) e
 [`docs/decisoes/0001-determinismo-do-treino.md`](docs/decisoes/0001-determinismo-do-treino.md).
 
@@ -40,7 +40,7 @@ docker compose run --rm chorinho python -m tab.avaliar
 - **GPU por CDI**: o daemon deste host **não** tem o runtime `nvidia` registrado, e
   registrar exigiria `sudo`. `gpus: all` no `compose.yaml` funciona assim mesmo —
   verificado: `torch.cuda.is_available() == True` na RTX 3060 Ti;
-- **acervo** montado em `/acervo`, **somente leitura**: **3.908 vídeos / 183 GB / 17
+- **acervo** montado em `/acervo`, **somente leitura**: **3.899 vídeos / 255 GB / 17
   canais** em `/run/media/gabriel/3014CD4714CD1130/chorinho`, e **ainda crescendo** (o
   dono do projeto segue baixando). Nunca escreva lá; para varrer, use `tab.varredura`,
   que lê por instante e é retomável;
@@ -169,12 +169,12 @@ make test     # pytest tests/ -q
 | **casa** | o número na corda (a pestana pisada) |
 | **ligada** | nota presa/ligada, desenhada como `(6)` ou arco |
 | **harmônico** | `<7>` ou losango |
-| **acervo** | os 3.908 vídeos (crescendo), 183 GB, 17 canais, montados em `/acervo` |
+| **acervo** | os 3.899 vídeos (crescendo), 255 GB, 17 canais, montados em `/acervo` |
 | **rollout** | rodar o pipeline em muitos vídeos, com decisão por vídeo |
 
 ## Limites conhecidos (não prometa além disto)
 
-96 glifos, 4 canais, **casas 0–7**; aferição **glifo a glifo**, não da música inteira.
+**72 glifos, 3 canais** (`raman korshun` fora), **casas 0–7**; aferição **glifo a glifo**, não da música inteira.
 A **casa** dos canais fora do gabarito (ex.: `cifra club` — tem corda e tempo, casa não)
 **não está validada**. A métrica **não cobre** técnica nem símbolo. **Tab ASCII**
 (Ultimate Guitar) e **partitura de 5 linhas** exigem leitor próprio e estão **fora**

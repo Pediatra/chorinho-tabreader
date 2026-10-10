@@ -12,7 +12,7 @@ todo peso daqui é **reproduzível** pelo comando registrado.
 | `oficial_3` | idem, `--seed 3 --saida artefatos/oficial_3` | 85/96 = **0,885** |
 | `det_C` | idem, `--seed 2 --saida artefatos/det_C` | experimento de determinismo (ver abaixo) |
 
-**Número oficial: média das 3 sementes = 0,889** (amplitude 0,052). Cada semente dá o
+**Número oficial: média das 3 sementes = **0,949** (66/72, 71/72, 68/72, em **72 glifos / 3 canais** — o `raman korshun` saiu em 2026-10-09, guitarra elétrica, e o denominador caiu de 96 glifos / 4 canais; **não é ganho**)** (amplitude 0,052). Cada semente dá o
 mesmo total em execuções repetidas — medido 2× cada.
 
 `det_C` é a **prova do determinismo**: `det_C` e `det_D` saíram idênticos (mesma perda por
