@@ -4270,3 +4270,39 @@ contém o quadro lido, depois instante do ouro mais próximo do quadro lido, por
   conjunto de notas (os "conflitos" da antiga página 5 eram isto: as telas v1 2/3/4 são 3 páginas diferentes). Agora
   `pagina_do_quadro_ref` considera as páginas a até 1,5 s e fica com a cujas notas do modelo mais concordam com as do dono
   (35/0, 39/1, 33/0...); o desempate vai em `fusao.telas_v1_na_borda` do `pre.json`.
+
+## 2026-10-10 — ouro v2 e medições com ele
+
+- **Ouro v2 fechado pelo dono** (`data/gold/ouro_video/retrato_brasileiro_v2.json`, commit `76d301b7`, só esse arquivo):
+  13 páginas, 493 notas, 40 de 40 instantes com `tela_confirmada: true`. Páginas com `conferida: true` (notas do
+  dono): 1, 3, 4, 5, 6, 9, 11, 12, 13. **Páginas com `conferida: false`: 2, 7, 8, 10**. O dono trabalhou nelas mas não
+  clicou no botão de conferência, então as notas dessas quatro são do modelo e **não estão validadas**. Os 14 instantes
+  que caem nessas páginas estão confirmados (o dono confirmou a página do instante), mas não as notas. O arquivo não foi
+  alterado nesta rodada.
+- **CA da Fase 3 contra o v2** (meta do plano: ≥ 98 %), `python -m tab.telas "/acervo/sky guitar/retrato brasileiro -
+  tab & lesson.mp4" --json data/saida/telas/v2_ca.json --ouro data/gold/ouro_video/retrato_brasileiro_v2.json`
+  (2 execuções, 137 s e 180 s; `ouro` e `telas` idênticos):
+  - instantes na tela certa: **40 de 40 = 1,000**;
+  - revocação de telas (telas do ouro com prevista): **13 de 13 = 1,000**;
+  - previstas a mais (super-segmentação): **0 de 13 = 0 %** (meta ≤ 10 %);
+  - erros: 0; ouro juntado pelo produto: nenhum.
+  - **Ressalva de circularidade**: as páginas do v2 vieram do próprio `tab.telas` (commit `ded676ec`), e a tela de cada
+    instante foi reatribuída pelo tempo a partir dessas exibições. O dono confirmou cada instante na página sugerida. O
+    40/40 mede concordância com o que o dono confirmou, não acerto independente da segmentação: há viés de confirmação.
+    Um número independente exige instantes rotulados sem a página sugerida.
+- **Régua com o v2**: predições regeradas agora (`tab.transcrever`, mesmos comandos de antes), 45 e 44 notas, com
+  corda, casa e `x_quadro` idênticos aos das predições anteriores. Cada régua rodada 2× (`cmp` idêntico nas duas):
+  - `python -m tab.avaliar_video --ouro data/gold/ouro_video/retrato_brasileiro_v2.json --pred data/saida/avaliar_video/<pred>.json
+    --pre data/saida/ouro_video/retrato_brasileiro_v2/pre.json --json data/saida/avaliar_video/<pred>_v2_r1.json`
+
+  | predição | pareamento | precisão | revocação | inventadas | acerto de casa | tempo |
+  | --- | --- | --- | --- | --- | --- | --- |
+  | padrão (`--simbolos ""`, início 0,4) | tela do pre em 271,6 s | 4 de 43 = 0,093 | 4 de 493 = 0,008 | 39 de 43 | 1 de 4 = 0,250 | 1 de 40 (erro 39) |
+  | meio (`--inicio 0.5 --janela 30 --simbolos ""`) | tela do pre em 339,5 s | 35 de 37 = 0,946 | 35 de 493 = 0,071 | 2 de 37 | 35 de 35 = 1,000 | 0 de 40 (erro 39, json sem tempo 1) |
+
+  Telas: 1 de 13 (o legado tem uma tela só). Com o v1 (397 notas) a linha de base era 5 de 43 e 35 de 37; a queda na
+  revocação é o denominador maior (493 contra 397 do v1; a origem das 96 notas a mais não foi auditada). O tempo continua
+  errado em 39 de 40 nas duas predições, como antes (causa ainda não investigada).
+- **Comandos das predições**: `python -m tab.transcrever "<vídeo>" --simbolos "" --json data/saida/avaliar_video/base_transcrever.json`
+  e `python -m tab.transcrever "<vídeo>" --inicio 0.5 --janela 30 --simbolos "" --json data/saida/avaliar_video/base_meio30s.json`.
+- Artefatos não commitados: `data/saida/telas/v2_ca.json`, `data/saida/telas/v2_ca_r2.json`, `data/saida/avaliar_video/*_v2_r{1,2}.json`.
