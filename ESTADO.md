@@ -3354,3 +3354,28 @@ olhar separa. **Antes de declarar "sem tempo" para 8 canais, eu olho.**
 **Rótulo que dói e é útil**: o `kimny's guitar` — o canal de onde vêm **as 200 marcas de símbolo** do dono
 — tem, no vídeo amostrado, **marcador AUSENTE** ✗. Isso não invalida os rótulos de símbolo (símbolo é
 geometria, não tempo ✓), mas significa que **aquele canal pode não entregar tempo** ✗.
+
+## 2026-10-10 — OLHEI os "ausente": o grupo se DIVIDE, e há marcador por COR NO ALGARISMO (com imagem)
+
+Extraí **dois quadros** de três canais classificados como `ausente` e olhei
+(`data/saida/piloto/ausentes.png`):
+
+| canal | o que a imagem mostra | veredito |
+| --- | --- | --- |
+| **`kimny's guitar`** (frac 0,65) | **um algarismo em VERDE** entre os pretos (`3 2 2 0`, o `2` verde) | **TEM marcador** — na forma **"cor no algarismo"** ✓, que o `rastrear` **não vê** ✗ |
+| **`mr. tabs`** (frac 0,35) | **destaque azul** cercando o `(12)` | **TEM marcador** ✓, também invisível ao `rastrear` ✗ |
+| **`shin izumi`** (frac 0,35) | tablatura limpa, sem destaque visível | indefinido ✗ — precisa de olhar mais perto |
+
+**Ou seja: o `ausente` do `rastrear` NÃO É "sem marcador"** — ele é **"sem FAIXA vertical"** ✗. Pelo menos
+**2 dos 8** têm marcador real em outra forma ✓. A minha ressalva registrada na rodada anterior estava
+certa, e agora tem imagem ✓.
+
+**Consequência para o desenho (e é o que o dono previu)**: o estado **não é uma posição x** ✗ — o estado é
+**"qual nota está acesa"** ✓, com **duas fontes** que alimentam a MESMA regra:
+1. **posição x** (a faixa ✓) → a nota cujo intervalo contém o x ✓ — cobre `varre`, `salta`, `pisca` (9 de 17);
+2. **destaque de cor** (o algarismo aceso ✓) → a nota **cuja caixa está destacada** ✓ — cobre `kimny's`,
+   `mr. tabs` e o que mais aparecer ✓.
+A associação (estado → onset ✓) é **a mesma** para as duas ✓.
+
+**Confirmação de brinde**: em `kimny's` e `shin izumi` os quadros de 0,35/0,65 mostram **o braço do
+violão** ✗ — a tablatura **aparece e desaparece** ✓, como a regra 10 do `AGENTS.md` já dizia ✓.
