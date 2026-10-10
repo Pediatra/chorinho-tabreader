@@ -2,6 +2,7 @@
 
 import http.client
 import json
+import re
 import threading
 from pathlib import Path
 
@@ -9,6 +10,7 @@ import numpy as np
 import pytest
 
 from tab.ouro_video import (
+    PAGINA,
     Agrupador,
     agrupar_telas,
     clique_para_quadro,
@@ -415,3 +417,13 @@ def test_comparar_notas_tolera_x() -> None:
         and r["so_a"] == [(2, "0", 50.0)]
         and r["so_b"] == [(2, "1", 50.0)]
     )
+
+
+def test_pagina_liga_as_abas_e_todo_id_usado_existe() -> None:
+    """Trava o defeito "clicar na aba não troca": handlers presentes e ids existentes."""
+    assert 'getElementById("aba-inst").addEventListener("click"' in PAGINA
+    assert 'getElementById("aba-telas").addEventListener("click"' in PAGINA
+    assert 'irParaAba("instantes")' in PAGINA
+    usados = set(re.findall(r'getElementById\("([^"]+)"\)', PAGINA))
+    declarados = set(re.findall(r'id="([^"]+)"', PAGINA.split("<script>")[0]))
+    assert usados <= declarados, usados - declarados

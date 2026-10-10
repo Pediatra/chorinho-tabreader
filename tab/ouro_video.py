@@ -1671,11 +1671,17 @@ document.addEventListener("keydown", ev => {
 function desenhar(focarUltima) {
   document.getElementById("aba-telas").className = ABA === "telas" ? "on" : "";
   document.getElementById("aba-inst").className = ABA === "instantes" ? "on" : "";
-  if (ABA === "telas") { listaTelas(); desenharTela(); if (focarUltima) { const campos = document.querySelectorAll("td input"); const u = campos[campos.length - 1]; if (u && !u.value) u.focus(); } }
-  else { listaInstantes(); desenharInstante(); }
+  try {
+    if (ABA === "telas") { listaTelas(); desenharTela(); if (focarUltima) { const campos = document.querySelectorAll("td input"); const u = campos[campos.length - 1]; if (u && !u.value) u.focus(); } }
+    else { listaInstantes(); desenharInstante(); }
+  } catch (e) {  /* erro de desenho aparece na página, não só no console */
+    document.getElementById("conteudo").replaceChildren(h("div", {class: "ruim-txt"}, "erro ao desenhar a aba " + ABA + ": " + e.message));
+    console.error(e);
+  }
 }
-document.getElementById("aba-telas").onclick = () => { ABA = "telas"; desenhar(); };
-document.getElementById("aba-inst").onclick = () => { ABA = "instantes"; desenhar(); };
+function irParaAba(nome) { ABA = nome; OUTRA = false; desenhar(); }
+document.getElementById("aba-telas").addEventListener("click", () => irParaAba("telas"));
+document.getElementById("aba-inst").addEventListener("click", () => irParaAba("instantes"));
 
 (async function () {
   PRE = await (await fetch("/pre.json")).json();
