@@ -4794,7 +4794,8 @@ Detalhe e tabelas em `docs/rodadas/0008-casa-13-par-de-algarismos.md`. Linha de 
 - **Não repetir**: (a) aplicar a casa fora do modelo ao glifo de dois componentes (um `3` virou `20`, −1 no `oficial_3`);
   (b) limiar de vão para separar `13` de notas distintas (ver a Fase 4 acima; não separa).
 
-## 2026-10-10 — MVP: pacote pronto, aguardando aprovação do dono
+## 2026-10-10 — MVP APROVADO pelo dono em 2026-10-10
 
-- Rodada `docs/rodadas/0004-mvp-video-inteiro.md` (HEAD `6dda9580`): `transcrever` do vídeo inteiro em 611 s; régua 485/485, 0 inventadas, 485/491, casa 483/485, estado 39/40, tempo falso 0; `tab.avaliar` 66/71/68; gate verde (317 testes).
-- Aprovação do dono (CA-10): PENDENTE.
+- Frase do dono no chat: "esse mvp ja ta aprovadissimo, só vou passando uns errinhos que to vendo manualmente".
+- Pacote: commit `0a3fdcda` (rodada 0004, `docs/rodadas/0004-mvp-video-inteiro.md`) e MusicXML corrigido `c15cd72e`. `transcrever` do vídeo inteiro em 611 s; régua 485/485, 0 inventadas, 485/491, casa 483/485, estado 39/40, tempo falso 0; `tab.avaliar` 66/71/68; gate verde (317 testes).
+- Erros apontados pelo dono após a aprovação (em aberto): 6 lido como 5 no compasso 15 (tela 4, corda 5); os dois 0 do acorde 3/0/0/3 da tela 2 perdidos; mordente 2⌒3⌒2 sem interpretação de técnica (cru em `nao_notas`); tempo falso na moldura verde da ilustração de mãos (tela 1, 239,4 s, em conserto).

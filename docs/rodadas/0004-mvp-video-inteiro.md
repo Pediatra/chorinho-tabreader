@@ -34,7 +34,7 @@ Saída: 13 telas, 22 exibições, 763 entradas de nota (485 notas distintas), 47
 | `make gate` (lint + format + testes) | exit 0 | `ruff check .` ok; `ruff format --check .` 77 arquivos; `pytest tests/` 317 passed, 3 deselected | cumprido |
 | folha de conferência (12 instantes, semente 0) | caixa sobre a faixa, casas batendo com o quadro | 12/12 (ver abaixo) | conferido pelo agente; **dono não olhou** |
 | MusicXML abre e parseia | xml válido, notas | xml válido (`score-partwise`), 485 `<note>` = 485 notas distintas | cumprido |
-| aprovação do dono por escrito (CA-10) | sim | **PENDENTE** | não cumprido |
+| aprovação do dono por escrito (CA-10) | sim | aprovado em 2026-10-10 (frase abaixo) | cumprido |
 
 Régua: `tab.avaliar_video` contra `data/gold/ouro_video/retrato_brasileiro_v2.json`, fps 29,97003
 (lido por `ffprobe`, 30000/1001). Relatório: `data/saida/produto/avaliacao_mvp.json`.
@@ -111,4 +111,25 @@ coluna sem nota. **Não resolvi**; fica para o dono confirmar.
 - `data/saida/produto/mvp.musicxml` (MusicXML a partir do `mvp.json`, `tab.musicxml`)
 - `artefatos/oficial_1/`, `artefatos/oficial_2/`, `artefatos/oficial_3/` (modelos da régua oficial)
 
-Aprovação do dono (CA-10): PENDENTE.
+## Aprovação do dono (CA-10): APROVADO
+
+Data: 2026-10-10. Frase do dono no chat:
+
+> "esse mvp ja ta aprovadissimo, só vou passando uns errinhos que to vendo manualmente"
+
+Pacote aprovado: commit `0a3fdcda` (rodada 0004) e MusicXML corrigido `c15cd72e`.
+Números do pacote: precisão 485/485 (0 inventadas), revocação 485/491, casa 483/485,
+estado 39/40, tempo falso 0, `tab.avaliar` 66/71/68.
+
+### Erros apontados pelo dono após a aprovação
+
+Registrados para correção posterior; não invalidam a aprovação do pacote.
+
+- (a) **6 lido como 5** no compasso 15 (tela 4, corda 5, x ≈ 1317). Já conhecido (linha
+  "tela 4 / corda 5 / 6 do ouro / 5 previsto" acima): a alça do 6 sai partida em 2 componentes.
+- (b) **Os dois 0 do acorde 3/0/0/3 da tela 2** (cordas 3 e 4, x ≈ 755,8 e 756,6): notas perdidas.
+  O classificador chama esses dois dígitos de harmônico.
+- (c) **Mordente 2⌒3⌒2 não interpretado como técnica.** Os símbolos ficam guardados em
+  `nao_notas` com o glifo cru; a interpretação fica para o mapa de símbolos por canal
+  (`configs/simbolos.yaml`).
+- (d) **Tempo falso na moldura verde da ilustração de mãos** (tela 1, t = 239,4 s). Em conserto.

@@ -721,9 +721,10 @@ dono olha em 2 minutos.
       **0,95**, 0 tempo falso (CA-3, CA-5, CA-6 no vídeo do MVP) (rodada 0004: 483/485, 485/491, 0, 39/40, 0);
 - [x] `tab.avaliar` ≥ referência nas 3 sementes (CA-8) (rodada 0004: 66, 71, 68);
 - [x] `make gate` verde (rodada 0004: ruff, format e 317 testes);
-- [ ] o dono abriu a folha de conferência e o MusicXML e **aprovou por escrito** (CA-10). Esta
-      é a frase J1 do `PERGUNTAS.md`: "um vídeo inteiro correto já serve (corda + casa +
-      tempo, sem nota inventada)";
+- [x] o dono abriu a folha de conferência e o MusicXML e **aprovou por escrito** (CA-10, em
+      2026-10-10: "esse mvp ja ta aprovadissimo, só vou passando uns errinhos que to vendo
+      manualmente"; ver rodada 0004). Esta é a frase J1 do `PERGUNTAS.md`: "um vídeo inteiro
+      correto já serve (corda + casa + tempo, sem nota inventada)";
 - [x] rodada `docs/rodadas/0004-mvp-video-inteiro.md` escrita.
 
 ---
