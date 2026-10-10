@@ -2920,3 +2920,26 @@ aprovados) — mas isso só é ruim **se os 1.258 forem lixo**. A auditoria do d
 "falsos positivos" eram símbolos verdadeiros**. **Se o modelo estiver certo no pool, o "inundar" não é
 inundar: é o recall que eu queria.** A ordem que o dono aprovou — (c) antes de (b) — está certa, e agora
 eu sei exatamente por quê.
+
+## 2026-10-09 — a tabela da decisão, na régua honesta (`_6`), com a precisão declarada como PISO
+
+As duas opções que o dono vai escolher, medidas contra o **gabarito corrigido `_6`** (162 marcas) — e o
+gabarito de algarismo intacto em todas (0,917 / 0,986 / 0,944):
+
+| opção | aprovados | batem | precisão | recall |
+| --- | --- | --- | --- | --- |
+| **com o filtro de forma (1,5)** — o que está LIGADO | 178 | 35 | **0,197** | 0,216 |
+| filtro frouxo (1,0) | 261 | 43 | 0,165 | 0,265 |
+| **sem o filtro** | 1.397 | 62 | 0,044 | **0,383** |
+
+**A ressalva que muda a leitura**: a coluna da precisão mede *"está em cima de uma marca do dono?"* — e a
+auditoria dele provou que **essa régua perde símbolos** (9 de 10 "falsos positivos" eram símbolos que ele
+não tinha marcado). Portanto:
+
+**A precisão desta tabela é um PISO, não o valor real.** O 0,044 da opção "sem filtro" é o **pior caso**;
+o valor verdadeiro é **maior** — e **quanto maior, mais atraente fica a opção "sem filtro"** (recall
+0,383, quase o alvo 0,41).
+
+**É exatamente essa a pergunta que a auditoria do pool responde** — e ela não é acadêmica: ela decide
+entre **0,197/0,216** (conservador) e um ponto perto de **0,41 de recall** com precisão **desconhecida
+hoje, mas maior que 0,044**.
