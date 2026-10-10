@@ -68,6 +68,25 @@ VAO_AGRUPAR_PASSOS = 0.25
 #: dígitos. Acima disso, nenhum par do ouro é o mesmo número.
 VAO_CASA_PASSOS = 0.40
 
+#: Altura mínima (passos) de um token para ser algarismo. Medido no ouro v2 (sky guitar, 13 telas):
+#: os arcos de ligadura lidos como algarismo têm altura de 0,23 a 0,37 passo; o menor algarismo
+#: certo tem 0,64 (p05 0,87). Abaixo deste limiar o token é símbolo (arco, faixa do marcador), não
+#: casa: vai para `nao_notas` com o glifo cru. O limiar fica no meio da folga entre os dois.
+ALTURA_MINIMA_ALGARISMO = 0.5
+
+
+def _baixo_para_algarismo(tk, passo: float) -> bool:
+    """O token é baixo demais para ser algarismo (arco de ligadura, faixa do marcador).
+
+    Args:
+        tk: token da grade (com `y0` e `y1` em pixels do recorte).
+        passo: distância entre cordas, em px.
+
+    Returns:
+        True quando a altura do token é menor que `ALTURA_MINIMA_ALGARISMO` passos.
+    """
+    return (tk.y1 - tk.y0) < ALTURA_MINIMA_ALGARISMO * passo
+
 
 def compativel(classe: str, tk, passo: float) -> bool:
     """A classe prevista cabe no recorte medido?"""
@@ -391,7 +410,9 @@ def reconhecer_linha(
         alvos_d = [
             i
             for i in range(min(len(tokens), len(classes)))
-            if classes[i][0] not in ALGARISMOS and len(tokens[i].componentes or ()) <= 1
+            if classes[i][0] not in ALGARISMOS
+            and len(tokens[i].componentes or ()) <= 1
+            and not _baixo_para_algarismo(tokens[i], g.passo)
         ]
         if alvos_d:
             recortes_d = [
@@ -424,6 +445,10 @@ def reconhecer_linha(
                 break
         if classe is None:
             classe = rotulos[int(np.argmax(probs[i]))]
+        # ARCO NÃO É ALGARISMO: um token de altura de arco que o classificador leu como dígito vira
+        # símbolo cru (não nota). A classe lida continua em `top3` do registro, e o recorte é guardado.
+        if classe in ALGARISMOS and _baixo_para_algarismo(tk, g.passo):
+            classe = "simbolo"
         classes.append((classe, corrigido))
 
     # 2a passada: dentro de símbolo (ou de token fundido), procurar a casa.
@@ -474,7 +499,13 @@ def reconhecer_linha(
             for pos, (cx0, _, cx1, _) in comp_de[i]:
                 argmax = int(np.argmax(probs_comp[pos]))
                 classe_comp = rotulos[argmax]
-                if classe_comp in ALGARISMOS and (cx1 - cx0) >= 0.22 * g.passo:
+                # Token baixo (arco) não recupera casa de dentro: o "dígito" que o componente
+                # lê é o próprio arco, e a casa recuperada seria uma nota inventada.
+                if (
+                    classe_comp in ALGARISMOS
+                    and (cx1 - cx0) >= 0.22 * g.passo
+                    and not _baixo_para_algarismo(tk, g.passo)
+                ):
                     conf = float(probs_comp[pos][argmax])
                     if conf > conf_rec:
                         casa_rec, conf_rec = classe_comp, conf

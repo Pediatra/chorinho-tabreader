@@ -4472,3 +4472,45 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
 - **Decisão**: **não troquei o `MODELO_PADRAO`** (continua `artefatos/oficial_3`). Adoção fica para o coordenador, com estes números. Se for adotar, o caminho é corrigir a regressão do `10` antes (medir `p(10)` no token da pág. 12 com e sem as classes novas).
 - **Não repetir**: aumentar a cobertura de casas com peso igual a 1 não basta para melhorar a casa de dois algarismos no vídeo; o efeito aparece como troca de probabilidade entre classes vizinhas.
 - Gerador: lista oficial de casas volta a ser o padrao; 0-24 so com --casas todas (reprodutibilidade). Padrao = `CASAS_OFICIAIS` (a lista de antes de f76e73ca); `casas24_*` precisam de `--casas todas`.
+
+## 2026-10-10 — Fase 4: arco de ligadura não vira nota (inventadas 21 -> 1; casa e revocação mantidas)
+
+- **Causa das inventadas (olhado, `data/saida/fase4_arco/folha_inventadas.png`)**: das 19 inventadas da
+  predição com o ouro de 493 notas, **17 são arcos de ligadura** lidos como algarismo (t1 x4, t3 x6, t5 x3,
+  t7 x2, t9 x2); 1 é a faixa cinza do marcador (t7 c2 x1053, altura 0,23 passo); 1 é o `1` do `13` (t8 c3
+  x1241; o `13` não é classe do modelo, ver 0006). Os 2 arcos do t10 c1 (x497, x536) batiam com notas `7` e
+  `2` do ouro que **não existem no quadro** (`data/saida/fase4_arco/ctx_t10_503.png`): o ouro foi corrigido
+  pelo dono no commit `75d714a7` (493 -> 491 notas).
+- **Regra (`tab/reconhecer.py`, `ALTURA_MINIMA_ALGARISMO = 0.5`)**: token que o classificador leu como
+  algarismo e tem altura < 0,5 passo vira classe `simbolo` (vai para `nao_notas` com o glifo cru, em
+  `simbolo_cru`). Sem recuperação de casa de dentro de token baixo. Medido no ouro: arcos 0,23–0,37 passo;
+  menor algarismo certo 0,642; p05 0,872. Zero colateral no ouro.
+- **Discriminador (defeito confirmado)**: roda antes de `classes` ser preenchido. **Medido e NÃO adotado**:
+  movê-lo para depois do loop recupera 4 notas (revocação 0,988 -> 0,996), mas a casa cai de 482/485 para
+  482/489 (0,986): 7 casas erradas. Reprova o critério de casa. Fica como está.
+- **Números (ouro oficial, 491 notas; `tab.avaliar_video`, predição do snapshot do HEAD)**:
+
+  | variante | entregues | precisão | revocação | inventadas | casa nas casadas |
+  | --- | --- | --- | --- | --- | --- |
+  | base (HEAD) | 506 | 485/506 = 0,958 | 485/491 = 0,988 | 21 | 482/485 = 0,994 |
+  | E1 (só discriminador) | 510 | 489/510 = 0,959 | 489/491 = 0,996 | 21 | 482/489 = 0,986 |
+  | **E2 (só altura) — escolhida** | 486 | 485/486 = 0,998 | 485/491 = 0,988 | **1** | 482/485 = 0,994 |
+  | E3 (altura + discriminador) | 490 | 489/490 = 0,998 | 489/491 = 0,996 | 1 | 482/489 = 0,986 |
+
+  Com o ouro de 493 notas (antes do commit `75d714a7`), E2 dá revocação 485/493 = 0,984 (base 0,988): as
+  2 notas do t10 que o dono retirou passam a contar como perdidas.
+- **Oficial (glifo, `tab.avaliar`)**: 66/72, 71/72, 68/72, sem "CONTAGEM MUDOU".
+- **Levantamento de alturas (sem nota fora do quadro)**: sky guitar 0 algarismo verdadeiro abaixo de 0,5;
+  kimny's guitar: 577 tokens "algarismo" abaixo de 0,5, e na amostra de 40 **nenhum** é algarismo (textura
+  de fundo e faixas diagonais: o painel detectado nesse vídeo é lixo); violaodecria: 11 tokens, 4 baixos,
+  formas em U sem cara de algarismo. **cifra club e tv cifras: `telas()` não detecta tela nenhuma**, então a
+  regra não atinge esses vídeos pelo `tab.video`; não medidos. O limiar relativo à mediana **não foi
+  necessário** (nenhum canal com algarismo real abaixo de 0,5 apareceu).
+- **Testes**: `tests/test_arco_ligadura.py` (5, sintéticos, classificador falso que lê tudo como `7`): arco
+  vira `simbolo`, algarismo normal continua nota, discriminador não devolve arco a algarismo. Gate: `ruff
+  check` passa; `pytest tests/` 268 passam; `ruff format --check` falha só em `tab/video.py` (Fase 5, de
+  outro agente, não é deste commit).
+- **Não repetir**: discriminador movido para depois do loop: troca 4 notas por 7 casas erradas (E1/E3).
+- **Limites**: 17 arcos sintéticos de um só vídeo. A altura é a feature que separa aqui; em canal de fonte
+  pequena pode não separar (o comentário do gerador cita algarismo de 0,38 passo), e cifra club/tv cifras
+  não foram medidos.
