@@ -3551,3 +3551,25 @@ meu instrumento** ✗, não do acervo nem da regra ✓ (o `AGENTS.md` já diz: o
 para tablatura que rola ✗; (b) a **escolha da janela** não pode ser "o `t` da primeira amostra" ✗ — tem de
 ser onde o marcador **está ativo** ✓ (o código já tem essa preocupação na outra cadeia ✓, com as
 `janelas_com_cursor` ✓).
+
+## 2026-10-10 — o "pisca" da minha distribuição está ERRADO: é quase-ausência, não forma
+
+Consertei o meu próprio instrumento (a janela que caía em trecho morto ✓, cedendo à série inteira quando
+tem pouca coisa ✓ — declarando em vez de esconder ✓):
+
+| | antes | depois |
+| --- | --- | --- |
+| `leonardo ramos` | 1 de 45 ✗ | **1 de 45** ✗ — o fallback **não** disparou ✓ |
+| `serge kottelat` | 47 de 49 | **47 de 49** ✓ — **não piorou** ✓ |
+
+**E a razão de não disparar é o achado**: o `leonardo ramos` tem **1 amostra com marcador no VÍDEO
+INTEIRO** ✗ (não 5 ✓). Ou seja: **ele não é "piscante"** ✗ — é **praticamente ausência** ✓, e o meu
+classificador (`cobertura < 0,5 e distintas <= 3` ✗) o jogou no balde **"pisca"** ✗.
+
+**Consequência, e ela corrige um número que eu já tinha registrado**: o **"pisca 3"** da distribuição de
+formas ✗ **não é uma forma** ✓ — é **ausência com um pingo de detecção** ✓. Antes de tratar "pisca" como
+forma, é preciso **rever o critério** ✓ (e o `pablo romé` e o `transcriptor`, os outros dois, precisam do
+mesmo olhar ✓).
+
+**O que a integração deve fazer com esse caso, e já está decidido**: `medido: false` **com o motivo escrito**
+✓ ("marcador quase ausente: N amostras em M") ✓ — nunca zero silencioso ✗.

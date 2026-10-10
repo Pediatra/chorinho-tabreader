@@ -173,8 +173,21 @@ def main() -> int:
     xs = [int(n["x"]) for n in notas]
     amostras = rastrear(args.video, (y0, y1), passo=args.passo).get("amostras") or []
     if args.janela:
-        t0 = amostras[0]["t"] if amostras else 0.0
-        amostras = [a for a in amostras if t0 <= a["t"] <= t0 + args.janela]
+        # A JANELA VEM DE ONDE O MARCADOR ESTA ATIVO, nao do `t` da PRIMEIRA amostra. Medido no
+        # `leonardo ramos`: a primeira amostra caiu em t=2,4 s, a janela varreu 2,4-62,4 s — um trecho
+        # MORTO onde o marcador aparece UMA vez — e o resultado foi 1 onset de 45, que eu quase atribui
+        # a regra. O cursor e INTERMITENTE (AGENTS.md): se a janela pedida tem pouca coisa, ela cede
+        # lugar a serie inteira, e isso e DECLARADO.
+        com_x = [a for a in amostras if a.get("x") is not None]
+        t0 = com_x[0]["t"] if com_x else (amostras[0]["t"] if amostras else 0.0)
+        recorte = [a for a in amostras if t0 <= a["t"] <= t0 + args.janela]
+        if len([a for a in recorte if a.get("x") is not None]) < 5 and len(com_x) >= 5:
+            print(
+                f"AVISO: a janela de {args.janela:.0f}s a partir de {t0:.1f}s tem poucas amostras com "
+                f"marcador; usando a SERIE INTEIRA ({len(com_x)} amostras com x)"
+            )
+            recorte = amostras
+        amostras = recorte
     if args.por_cor:
         cor = estado_por_cor(
             args.video,
