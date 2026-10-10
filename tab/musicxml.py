@@ -30,6 +30,7 @@ from collections import Counter
 from xml.etree import ElementTree as ET
 
 from .caminhos import SAIDA
+from .esquema import ESQUEMA
 from .reconhecer import ALGARISMOS
 
 #: Afinação padrão, da corda 1 (aguda) à 6 (grave).
@@ -112,10 +113,57 @@ def _tempo_da_transcricao(notas: list[dict]) -> float | None:
     return mediana
 
 
+def _notas_do_v1(r: dict) -> list[dict]:
+    """Notas distintas do JSON v1, em ordem de tempo.
+
+    O v1 tem uma entrada por passagem e exibição (D2): a mesma nota (tela, coluna, corda)
+    aparece várias vezes. Cada nota conta uma vez, com o menor ``t_ini`` declarado. As
+    com tempo vêm em ordem de ``t_ini``; as sem tempo, depois, em ordem de tela e coluna.
+    O compasso do v1 se repete a cada tela, então é renumerado em sequência. Notas no
+    mesmo ``t_ini`` são acorde (``acorde``).
+
+    Args:
+        r: JSON ``chorinho/video@1``.
+
+    Returns:
+        Lista de notas no formato que ``exportar`` lê (``casa`` como texto).
+    """
+    por_chave: dict[tuple, dict] = {}
+    for n in r.get("notas", []):
+        chave = (n["tela"], n["coluna"], n["corda"])
+        t = n.get("t_ini")
+        atual = por_chave.get(chave)
+        if atual is None or (
+            t is not None and (atual["t_ini"] is None or t < atual["t_ini"])
+        ):
+            por_chave[chave] = {**n, "t_ini": t}
+    distintas = list(por_chave.values())
+    com_tempo = sorted(
+        (n for n in distintas if n["t_ini"] is not None),
+        key=lambda n: (n["t_ini"], n["tela"], n["coluna"], n["corda"]),
+    )
+    sem_tempo = sorted(
+        (n for n in distintas if n["t_ini"] is None),
+        key=lambda n: (n["tela"], n["coluna"], n["corda"]),
+    )
+    ordem = com_tempo + sem_tempo
+    compassos: dict[tuple, int] = {}
+    anterior = None
+    for n in ordem:
+        chave = (n["tela"], n["compasso"])
+        compassos.setdefault(chave, len(compassos) + 1)
+        n["compasso"] = compassos[chave]
+        n["casa"] = str(n["casa"])
+        n["acorde"] = n["t_ini"] is not None and n["t_ini"] == anterior
+        anterior = n["t_ini"]
+    return ordem
+
+
 def _notas_exportaveis(r: dict) -> tuple[list[dict], list[dict]]:
     """Separa o que vira nota do que não vira (e nunca é inventado)."""
     boas, recusadas = [], []
-    for n in r.get("notas", []):
+    origem = _notas_do_v1(r) if r.get("esquema") == ESQUEMA else r.get("notas", [])
+    for n in origem:
         casa = n.get("casa")
         if casa in ALGARISMOS:
             boas.append(n)
@@ -140,6 +188,22 @@ def _duracoes(notas: list[dict], pulso: float | None) -> list[float]:
     return duracoes
 
 
+def _duracoes_v1(notas: list[dict], pulso: float | None) -> list[float]:
+    """Duração de cada nota do v1: o intervalo até o PRÓXIMO ATAQUE distinto.
+
+    Notas do mesmo acorde dividem a duração (o intervalo até o ataque seguinte). Sem
+    próximo ataque, ou sem tempo, vale o pulso (suposição declarada).
+    """
+    ataques = sorted({n["t_ini"] for n in notas if n["t_ini"] is not None})
+    proximo = dict(itertools.pairwise(ataques))
+    return [
+        proximo[n["t_ini"]] - n["t_ini"]
+        if n["t_ini"] is not None and n["t_ini"] in proximo
+        else (pulso or 1.0)
+        for n in notas
+    ]
+
+
 def exportar(
     r: dict,
     titulo: str = "Transcrição",
@@ -159,6 +223,7 @@ def exportar(
         exportado, para nada ser apresentado como medido quando não é.
     """
     notas, recusadas = _notas_exportaveis(r)
+    v1 = r.get("esquema") == ESQUEMA
     pulso = _tempo_da_transcricao(notas)
     onsets = [n["t_ini"] for n in notas if n.get("t_ini") is not None]
     distintos = len(set(onsets))
@@ -179,7 +244,7 @@ def exportar(
     )
     if not tempo_util:
         pulso = None
-    duracoes = _duracoes(notas, pulso)
+    duracoes = _duracoes_v1(notas, pulso) if v1 else _duracoes(notas, pulso)
     bpm = round(60.0 / pulso, 1) if pulso else None
 
     raiz = ET.Element("score-partwise", {"version": "4.0"})
@@ -204,7 +269,18 @@ def exportar(
             max(1, round(duracoes[i] / (pulso or 1.0) * ticks_por_pulso))
             for i in indices
         ]
-        batidas = max(1, round(sum(ticks) / ticks_por_pulso))
+        # acorde não soma tempo: as notas do mesmo ataque dividem o compasso
+        batidas = max(
+            1,
+            round(
+                sum(
+                    t
+                    for t, i in zip(ticks, indices, strict=True)
+                    if not notas[i].get("acorde")
+                )
+                / ticks_por_pulso
+            ),
+        )
         assinatura = (batidas, 4)
         if not iniciado or assinatura != assinatura_anterior:
             atributos = ET.SubElement(compasso, "attributes")
@@ -233,6 +309,8 @@ def exportar(
         for pos, i in enumerate(indices):
             n = notas[i]
             nota = ET.SubElement(compasso, "note")
+            if n.get("acorde"):
+                ET.SubElement(nota, "chord")
             midi = midi_da_corda(int(n["corda"]), int(n["casa"]), afinacao)
             if midi is not None:
                 step, alter, octava = pitch_de_midi(midi)

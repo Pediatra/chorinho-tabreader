@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from xml.etree import ElementTree as ET
 
+from tab.esquema import ESQUEMA
 from tab.musicxml import exportar, midi_da_corda, pitch_de_midi
 
 
@@ -156,3 +157,74 @@ def test_tempo_bom_e_aceito() -> None:
     assert relatorio["tempo_medido"] is True
     assert relatorio["instantes_distintos"] == 10
     assert relatorio["pulso_s"] == 0.5
+
+
+def _nota(
+    coluna: int, corda: int, casa: int, t: float | None, passagem: int = 1
+) -> dict:
+    """Uma entrada do v1 (uma passagem), com os campos que o exportador lê."""
+    return {
+        "tela": 1,
+        "passagem": passagem,
+        "exibicao": None if t is None else 0,
+        "coluna": coluna,
+        "corda": corda,
+        "casa": casa,
+        "compasso": 1,
+        "tecnica": None,
+        "t_ini": t,
+    }
+
+
+def _v1(notas: list[dict]) -> dict:
+    return {
+        "esquema": ESQUEMA,
+        "video": {},
+        "telas": [],
+        "nao_notas": [],
+        "notas": notas,
+    }
+
+
+def test_v1_notas_distintas_em_ordem_de_tempo() -> None:
+    """Uma nota repetida em outra passagem conta uma vez, e a ordem é a do tempo."""
+    notas = [
+        _nota(1, 2, 0, 10.0),
+        _nota(2, 3, 5, 11.0),
+        _nota(3, 4, 2, 12.5),
+        _nota(2, 3, 5, 20.0, passagem=2),
+    ]
+    xml, rel = exportar(_v1(notas))
+    raiz = ET.fromstring(xml)
+    assert [f.text for f in raiz.iter("fret")] == ["0", "5", "2"]
+    assert rel["notas_exportadas"] == 3
+    assert rel["tempo_medido"] is True
+
+
+def test_v1_sem_tempo_declara_duracao_constante() -> None:
+    """Sem onset, a ordem é de tela e coluna, e a duração constante é declarada."""
+    notas = [_nota(2, 3, 5, None), _nota(1, 2, 0, None)]
+    xml, rel = exportar(_v1(notas))
+    raiz = ET.fromstring(xml)
+    assert [f.text for f in raiz.iter("fret")] == ["0", "5"]
+    assert len({d.text for d in raiz.iter("duration")}) == 1
+    assert rel["tempo_medido"] is False
+    assert "NÃO medida" in rel["duracao"]
+
+
+def test_v1_acorde_nao_infla_o_compasso() -> None:
+    """Notas do mesmo ataque viram ``chord`` e não somam tempo ao compasso.
+
+    Quatro notas em três ataques (10, 10, 11, 12 s) com pulso de 1 s dão 3 batidas, não 4.
+    """
+    notas = [
+        _nota(1, 1, 0, 10.0),
+        _nota(1, 2, 1, 10.0),
+        _nota(2, 3, 2, 11.0),
+        _nota(3, 4, 3, 12.0),
+    ]
+    xml, rel = exportar(_v1(notas))
+    raiz = ET.fromstring(xml)
+    assert len(raiz.findall(".//chord")) == 1
+    assert raiz.find(".//time/beats").text == "3"
+    assert rel["instantes_distintos"] == 3
