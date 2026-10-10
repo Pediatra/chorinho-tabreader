@@ -40,7 +40,9 @@ def main() -> int:
 
     modelo, rotulos, dev = carregar_modelo(args.modelo)
     filtro, disc = carregar_simbolo(), carregar_discriminador()
-    indice = {r["arq"]: r for r in json.loads(open(args.indice, encoding="utf-8").read())}
+    indice = {
+        r["arq"]: r for r in json.loads(open(args.indice, encoding="utf-8").read())
+    }
     marcas: dict[str, list[dict]] = {}
     for marca in json.loads(open(args.marca, encoding="utf-8").read())["marcas"]:
         marcas.setdefault(marca["imagem"], []).append(marca)
@@ -85,7 +87,11 @@ def main() -> int:
             if not (isinstance(dados, dict) and "prob_simbolo" in dados):
                 continue
             caixa = dados.get("caixa_token")
-            if nota.get("origem") == "simbolo" and isinstance(caixa, (list, tuple)) and len(caixa) == 4:
+            if (
+                nota.get("origem") == "simbolo"
+                and isinstance(caixa, (list, tuple))
+                and len(caixa) == 4
+            ):
                 x0, y0t, x1, y1t = caixa
             else:
                 continue
@@ -107,8 +113,10 @@ def main() -> int:
     total = len(json.loads(open(args.marca, encoding="utf-8").read())["marcas"])
     print(f"marcas={total} | aprovados={tp + fp} | BATE={tp} nao={fp} nao_pego={fn}")
     if tp + fp:
-        print(f"PRECISAO = {tp}/{tp + fp} = {tp / (tp + fp):.3f}  (PISO: a régua 'está em cima de uma "
-              f"marca' perde símbolos, como a auditoria do dono mostrou)")
+        print(
+            f"PRECISAO = {tp}/{tp + fp} = {tp / (tp + fp):.3f}  (PISO: a régua 'está em cima de uma "
+            f"marca' perde símbolos, como a auditoria do dono mostrou)"
+        )
     if tp + fn:
         print(f"RECALL    = {tp}/{tp + fn} = {tp / (tp + fn):.3f}")
     return 0
