@@ -44,7 +44,7 @@
  },
  "pares": 158,
  "pares_rolando": 0,
- "tempo_execucao_s": 39.1,
+ "tempo_execucao_s": 21.5,
  "telas": [
   {
    "id": 1,
@@ -77,7 +77,7 @@
      21.3125
     ]
    ],
-   "quadro_ref_s": 12.0,
+   "quadro_ref_s": 15.0,
    "modo": "paginado"
   },
   {
@@ -128,7 +128,7 @@
      51.0
     ]
    ],
-   "quadro_ref_s": 49.5,
+   "quadro_ref_s": 45.5,
    "modo": "paginado"
   },
   {
@@ -179,7 +179,7 @@
      79.375
     ]
    ],
-   "quadro_ref_s": 78.5,
+   "quadro_ref_s": 76.5,
    "modo": "paginado"
   }
  ]

@@ -98,8 +98,19 @@ LIMIAR_TROCA = 0.3
 #: a <= 0,02 e 13 não tinham nenhuma a menos de 0,5 (vale vazio de 0,02 a 0,5).
 LIMIAR_MESMA = 0.3
 
-#: Trecho com menos amostras que isto e sem par anterior é quadro de transição (fade).
-MIN_AMOSTRAS_TRECHO = 2
+#: Trecho com menos amostras que isto (1,5 s a 2 qps) é transição (fade/wipe), não página:
+#: é anexado à página vizinha mais parecida.
+MIN_AMOSTRAS_TRECHO = 3
+
+#: Oclusão (as mãos do vídeo por cima do lado da tablatura, ou a página ainda aparecendo):
+#: duas páginas convergem se a tinta de um dos lados é igual (``1 − IoU`` <= este valor) por
+#: ao menos ``FRACAO_OCLUSAO`` da largura. MEDIDO no `retrato brasileiro` 239-245 s: o prefixo
+#: esquerdo (63 % da largura) dá 0,01 contra a página seguinte, e o total dá 0,63.
+LIMIAR_OCLUSAO = 0.1
+FRACAO_OCLUSAO = 0.4
+
+#: Tinta mínima (px da máscara reduzida) na região comparada para valer o teste de oclusão.
+TINTA_MINIMA_OCLUSAO = 150
 
 #: Rolagem: fração mínima dos pares consecutivos com deslocamento e resposta altos.
 RESPOSTA_ROLAGEM = 0.3
@@ -516,6 +527,108 @@ def cortar_em_paginas(
     return [(a, b) for a, b in unidos], distancias, rolando
 
 
+def _largura_igual(
+    a: np.ndarray, b: np.ndarray, valido: np.ndarray, limiar: float
+) -> float:
+    """Fração da largura, a partir da esquerda, em que ``a`` e ``b`` têm a mesma tinta.
+
+    Args:
+        a: máscara de tinta.
+        b: máscara de tinta do mesmo tamanho.
+        valido: onde ambas são conhecidas.
+        limiar: ``1 − IoU`` acumulado máximo.
+
+    Returns:
+        Largura (0 a 1) até a primeira coluna em que o ``1 − IoU`` acumulado passa de
+        ``limiar`` (com ao menos ``TINTA_MINIMA_OCLUSAO`` de tinta já vista); 1 se nunca.
+    """
+    dif = ((a ^ b) & valido).sum(axis=0).cumsum()
+    uniao = ((a | b) & valido).sum(axis=0).cumsum()
+    ruim = np.flatnonzero((uniao >= TINTA_MINIMA_OCLUSAO) & (dif > limiar * uniao))
+    return float(ruim[0] / a.shape[1]) if ruim.size else 1.0
+
+
+def convergem(
+    a: tuple[np.ndarray, np.ndarray],
+    b: tuple[np.ndarray, np.ndarray],
+    limiar: float = LIMIAR_OCLUSAO,
+    fracao: float = FRACAO_OCLUSAO,
+) -> bool:
+    """Uma das páginas é a outra com algo por cima (mãos) ou ainda por aparecer?
+
+    Args:
+        a: ``(tinta, valido)``.
+        b: ``(tinta, valido)``.
+        limiar: ver ``LIMIAR_OCLUSAO``.
+        fracao: ver ``FRACAO_OCLUSAO``.
+
+    Returns:
+        ``True`` se a tinta é igual em ``fracao`` da largura, pela esquerda ou pela direita.
+    """
+    ta, va = a
+    tb, vb = b
+    if ta.shape != tb.shape:
+        tb, vb = _reamostrar(tb, ta.shape), _reamostrar(vb, ta.shape)
+    ok = va & vb
+    esquerda = _largura_igual(ta, tb, ok, limiar)
+    direita = _largura_igual(ta[:, ::-1], tb[:, ::-1], ok[:, ::-1], limiar)
+    return max(esquerda, direita) >= fracao
+
+
+def absorver_transicoes(
+    cortes: list[tuple[int, int]],
+    reps: list[tuple[np.ndarray, np.ndarray]],
+    min_amostras: int = MIN_AMOSTRAS_TRECHO,
+    limiar_mesma: float = LIMIAR_MESMA,
+) -> list[tuple[int, int, tuple[np.ndarray, np.ndarray]]]:
+    """Anexa à vizinha os trechos que não são página: transição curta ou oclusão.
+
+    Um trecho é anexado (ao vizinho mais parecido) se tem menos de ``min_amostras`` amostras
+    ou se ``convergem`` com um vizinho (e nesse caso o MENOR dos dois é o anexado). A página
+    que fica mantém a sua própria tinta (a limpa).
+
+    Args:
+        cortes: ``(i0, i1)`` inclusivos de cada trecho.
+        reps: ``(tinta, valido)`` de cada trecho.
+        min_amostras: trecho mais curto que isto é transição.
+        limiar_mesma: ver ``LIMIAR_MESMA`` (não usado para decidir, só para desempate).
+
+    Returns:
+        ``(i0, i1, rep)`` dos trechos que ficaram.
+    """
+    runs = [(a, b, r) for (a, b), r in zip(cortes, reps, strict=True)]
+    while len(runs) > 1:
+        escolha = None
+        for k, (a, b, rep) in enumerate(runs):
+            viz = [j for j in (k - 1, k + 1) if 0 <= j < len(runs)]
+            tam = b - a + 1
+            dist = {
+                j: distancia_iou(rep[0], runs[j][2][0], rep[1], runs[j][2][1])
+                for j in viz
+            }
+            if tam < min_amostras:
+                alvo = min(viz, key=lambda j: dist[j])
+            else:
+                conv = [
+                    j
+                    for j in viz
+                    if convergem(rep, runs[j][2]) and tam <= runs[j][1] - runs[j][0] + 1
+                ]
+                if not conv:
+                    continue
+                alvo = min(conv, key=lambda j: dist[j])
+            if escolha is None or tam < escolha[2]:
+                escolha = (k, alvo, tam)
+        if escolha is None:
+            break
+        k, alvo, _ = escolha
+        a, b, _rep = runs[k]
+        ia, ib, rep_alvo = runs[alvo]
+        runs[alvo] = (min(a, ia), max(b, ib), rep_alvo)
+        runs.pop(k)
+    return runs
+
+
 def tinta_majoritaria(
     tintas: list[np.ndarray], validos: list[np.ndarray] | None = None
 ) -> tuple[np.ndarray, np.ndarray]:
@@ -562,6 +675,30 @@ def histograma(valores: list[float]) -> dict[str, int]:
 # ---------------------------------------------------------------------------------
 
 
+def quadro_de_referencia(
+    exibicoes: list[tuple[float, float]], grupos: list[list[Amostra]]
+) -> float:
+    """Instante de leitura: dentro da MAIOR exibição, longe das fronteiras (transição).
+
+    Entre as amostras da metade central da maior exibição, o de menos marcador (menor
+    fração colorida); empate, o mais perto do meio.
+
+    Args:
+        exibicoes: ``(t0, t1)`` de cada exibição da tela.
+        grupos: amostras de cada exibição, na mesma ordem.
+
+    Returns:
+        O instante, em segundos.
+    """
+    k = max(range(len(exibicoes)), key=lambda i: exibicoes[i][1] - exibicoes[i][0])
+    t0, t1 = exibicoes[k]
+    meio, quarto = (t0 + t1) / 2, (t1 - t0) / 4
+    centrais = [a for a in grupos[k] if abs(a.t - meio) <= quarto] or grupos[k]
+    if not centrais:
+        return meio
+    return min(centrais, key=lambda a: (round(a.colorido, 4), abs(a.t - meio))).t
+
+
 def montar_telas(
     trechos: list[Trecho],
     amostras: list[list[Amostra]],
@@ -585,7 +722,7 @@ def montar_telas(
     """
     telas: list[Tela] = []
     representantes: list[tuple[np.ndarray, np.ndarray]] = []
-    melhor: list[tuple[float, float]] = []  # (colorido, t) por tela
+    exib_amostras: list[list[list[Amostra]]] = []  # por tela, por exibição
     rects: list[list[Retangulo]] = []
     distancias: list[float] = []
     entre_paginas: list[float] = []
@@ -594,19 +731,25 @@ def montar_telas(
     for trecho, amo in zip(trechos, amostras, strict=True):
         if not amo:
             continue
-        cortes, dist, roll = cortar_em_paginas(
-            [a.tinta for a in amo], limiar_troca, validos=[a.valido for a in amo]
+        cortes0, dist, roll = cortar_em_paginas(
+            [a.tinta for a in amo],
+            limiar_troca,
+            min_amostras=1,
+            validos=[a.valido for a in amo],
         )
         distancias += dist
         pares += len(dist)
         rolando += roll
-        reps = [
+        reps0 = [
             tinta_majoritaria(
                 [a.tinta for a in amo[i0 : i1 + 1]],
                 [a.valido for a in amo[i0 : i1 + 1]],
             )
-            for i0, i1 in cortes
+            for i0, i1 in cortes0
         ]
+        runs = absorver_transicoes(cortes0, reps0, limiar_mesma=limiar_mesma)
+        cortes = [(a, b) for a, b, _ in runs]
+        reps = [r for _, _, r in runs]
         instantes = [trecho.t0] + [amo[i0].t for i0, _ in cortes[1:]] + [trecho.t1]
         if refinar is not None:
             for k in range(1, len(cortes)):
@@ -624,21 +767,20 @@ def montar_telas(
             if alvo < 0 or dists[alvo] > limiar_mesma:
                 telas.append(Tela(len(telas) + 1, trecho.rect))
                 representantes.append(rep)
-                melhor.append((9.0, 0.0))
+                exib_amostras.append([])
                 rects.append([])
                 alvo = len(telas) - 1
             tela = telas[alvo]
+            fatia = amo[i0 : i1 + 1]
             if tela.exibicoes and abs(tela.exibicoes[-1][1] - t0) < 1e-6:
                 tela.exibicoes[-1] = (tela.exibicoes[-1][0], t1)
+                exib_amostras[alvo][-1] += fatia
             else:
                 tela.exibicoes.append((t0, t1))
+                exib_amostras[alvo].append(list(fatia))
             rects[alvo] += [r for t, r in trecho.rects if t0 <= t < t1] or [trecho.rect]
-            miolo = amo[i0 + 1 : i1] if i1 - i0 >= 4 else amo[i0 : i1 + 1]
-            for a in miolo:
-                if a.colorido < melhor[alvo][0]:
-                    melhor[alvo] = (a.colorido, a.t)
-    for tela, (_, t), rs in zip(telas, melhor, rects, strict=True):
-        tela.quadro_ref_s = t
+    for tela, grupos, rs in zip(telas, exib_amostras, rects, strict=True):
+        tela.quadro_ref_s = quadro_de_referencia(tela.exibicoes, grupos)
         tela.painel = uniao_retangulos(rs)
     rolante = pares > 0 and rolando / pares >= FRACAO_ROLAGEM
     modo = "rolante" if rolante else ("paginado" if len(telas) > 1 else "estatico")

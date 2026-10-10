@@ -4240,3 +4240,26 @@ contém o quadro lido, depois instante do ouro mais próximo do quadro lido, por
   as notas das telas 2/3 divergem das da 4 (corda/x), a conferir pelo dono.
 - **Página** (`servir`): aba Telas com filtro "só a rotular" e destaque das herdadas; aba Instantes com a imagem do instante
   ao lado da página atribuída (com a coluna marcada) e botões "é esta página" / "outra página". Compatível com o v1.
+
+## 2026-10-10 — FASE 3 (conserto): transição/oclusão não vira página; `quadro_ref_s` no meio da maior exibição
+
+- **Defeito (visto pelo coordenador)**: a tela 1 (239,4-245,25 s) era a página dos compassos 1-4 com as mãos do vídeo
+  por cima do lado direito (imagem aberta), e virou página própria; e `quadro_ref_s` caía logo depois de uma troca
+  (tela 2: 328,9 em exibição que começa em 328,4; tela 6: 407,4 em 406,75).
+- **Medido antes de fixar**: no trecho 239,4-250 s, contra a página seguinte, o 1 − IoU total é 0,63, mas o
+  **prefixo esquerdo (280 das 446 colunas = 63 %)** dá 0,008-0,011. Páginas diferentes divergem já no primeiro compasso
+  (prefixo comum só a clave). Fixado: `LIMIAR_OCLUSAO = 0,1` acumulado por coluna, `FRACAO_OCLUSAO = 0,4` da largura,
+  pela esquerda ou pela direita, com >= 150 px de tinta (`convergem`).
+- **Regra** (`absorver_transicoes`): o trecho é anexado ao vizinho mais parecido se tem < 3 amostras (1,5 s: fade/wipe)
+  ou se converge com um vizinho maior-ou-igual (o MENOR é o anexado; a página que fica mantém a tinta limpa).
+  `quadro_ref_s` (`quadro_de_referencia`): amostra de menos marcador na metade central da MAIOR exibição.
+- **Antes -> depois no MVP (14 -> 13 telas)**: a antiga tela 1 (239,4-245,25) entrou na antiga tela 2, que agora é a
+  tela 1 com exibições (239,375-265,875) e (328,375-349,375). As outras 12 telas têm **as mesmas exibições**, só com
+  id -1 (antigas 3..14 = novas 2..13). Histogramas de 1 − IoU iguais (846 em [0,0.02); vale vazio de 0,02 a 0,5).
+  `quadro_ref_s` antes -> depois: 328,9 -> 257,9 (tela 1), 275,4 -> 275,4, 288,9 -> 300,4, 391,9 -> 322,4,
+  407,4 -> 419,9, 511,4 -> 521,9, 532,4 -> 458,9, 469,9 -> 479,9, 574,4 -> 578,9, 589,9 -> 599,9, 612,9 -> 620,9,
+  631,9 -> 645,4, 672,9 -> 659,9. Serge: 8 -> 8 telas, exibições iguais.
+- **CA contra o ouro**: 18 de 40 (igual; o limite é o ouro com telas que cobrem várias páginas); telas do ouro com
+  prevista 11 de 11; previstas 13, 6 sem tela do ouro.
+- Testes novos: transição curta anexada ao vizinho, oclusão anexada à página limpa, páginas diferentes continuam
+  duas, `quadro_ref_s` longe da fronteira.

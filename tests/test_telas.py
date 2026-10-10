@@ -10,13 +10,17 @@ import cv2
 import numpy as np
 
 from tab.telas import (
+    Amostra,
     Tela,
+    absorver_transicoes,
     assinatura,
     avaliar_ouro,
+    convergem,
     cortar_em_paginas,
     deslocamento_rolagem,
     distancia_iou,
     histograma,
+    quadro_de_referencia,
     refinar_borda,
     tela_em,
     telas,
@@ -157,7 +161,7 @@ def test_cortar_em_paginas_agrupa_e_absorve_transicao() -> None:
     rng = np.random.default_rng(3)
     a, b, mix = (rng.random((20, 40)) > 0.7 for _ in range(3))
     serie = [a, a, a, b, b, b, a, a, mix, b, b, b]
-    trechos, dist, rolando = cortar_em_paginas(serie, limiar=0.15)
+    trechos, dist, rolando = cortar_em_paginas(serie, limiar=0.15, min_amostras=2)
     assert len(dist) == len(serie) - 1
     assert rolando == 0
     # a mistura (1 amostra) é absorvida pelo trecho anterior (A A)
@@ -228,3 +232,78 @@ def test_avaliar_ouro_mapeia_pelo_quadro_ref() -> None:
     assert r["ouro_juntadas_pelo_produto"] == {"1": [1, 2]}
     assert r["previstas_a_mais"] == 1
     assert [e["t"] for e in r["erros"]] == [15, 50]
+
+
+def _rep(m: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """``(tinta, valido)`` com tudo conhecido.
+
+    Args:
+        m: máscara de tinta.
+
+    Returns:
+        O par que ``absorver_transicoes`` espera.
+    """
+    return m, np.ones(m.shape, bool)
+
+
+def _pagina_mascara(semente: int, largura: int = 200) -> np.ndarray:
+    """Máscara 30 x ``largura`` com tinta aleatória densa (uma "página").
+
+    Args:
+        semente: semente da página.
+        largura: colunas.
+
+    Returns:
+        Máscara booleana.
+    """
+    return np.random.default_rng(semente).random((30, largura)) > 0.6
+
+
+def test_transicao_curta_e_anexada_ao_vizinho_mais_parecido() -> None:
+    """Um trecho de 2 amostras (< 1,5 s) entre A e B vira parte de quem ele mais lembra."""
+    a, b = _pagina_mascara(1), _pagina_mascara(2)
+    mistura = a.copy()
+    mistura[:, 100:] = b[:, 100:]  # fade: metade A, metade B
+    mistura[:, :60] = a[:, :60]
+    runs = absorver_transicoes(
+        [(0, 9), (10, 11), (12, 21)], [_rep(a), _rep(mistura), _rep(b)]
+    )
+    assert [(r[0], r[1]) for r in runs] == [(0, 9), (10, 21)] or [
+        (r[0], r[1]) for r in runs
+    ] == [(0, 11), (12, 21)]
+    assert len(runs) == 2
+
+
+def test_oclusao_nao_vira_pagina_propria() -> None:
+    """A mesma página com as mãos por cima do lado direito é anexada à página limpa."""
+    limpa = _pagina_mascara(1)
+    com_maos = limpa.copy()
+    com_maos[:, 120:] = _pagina_mascara(7)[:, 120:]  # 40 % da largura ocupada
+    assert convergem(_rep(limpa), _rep(com_maos))
+    outra = _pagina_mascara(2)
+    assert not convergem(_rep(limpa), _rep(outra))
+    runs = absorver_transicoes([(0, 11), (12, 53)], [_rep(com_maos), _rep(limpa)])
+    assert len(runs) == 1 and (runs[0][0], runs[0][1]) == (0, 53)
+    assert np.array_equal(runs[0][2][0], limpa)  # a página que fica é a limpa
+
+
+def test_paginas_diferentes_nao_sao_anexadas() -> None:
+    """Duas páginas longas e diferentes continuam duas."""
+    runs = absorver_transicoes(
+        [(0, 9), (10, 19)], [_rep(_pagina_mascara(1)), _rep(_pagina_mascara(2))]
+    )
+    assert len(runs) == 2
+
+
+def test_quadro_de_referencia_longe_da_fronteira() -> None:
+    """Na maior exibição, só amostras da metade central; entre elas, menos marcador."""
+    vazio = np.zeros((2, 2), bool)
+    curta = [Amostra(0.0 + 0.5 * i, vazio, vazio, 0.0) for i in range(4)]
+    longa = [
+        Amostra(10.0 + 0.5 * i, vazio, vazio, 0.0 if i in (0, 1, 40) else 0.05)
+        for i in range(41)
+    ]
+    # amostras 0, 1 (borda) e 40 (borda) têm 0 marcador, mas estão fora da metade central
+    t = quadro_de_referencia([(0.0, 2.0), (10.0, 30.5)], [curta, longa])
+    assert 15.0 <= t <= 25.5
+    assert t == 20.0  # empate de marcador: o mais perto do meio (20,25)
