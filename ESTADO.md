@@ -4072,3 +4072,26 @@ Reprodutibilidade na linha de comando: 2 execuções com o mesmo relatório (`cm
 
 O ouro do vídeo do MVP (T2.4) **não existe ainda**: esta tarefa não rotulou nada e não criou nada em
 `data/gold/`. A linha de base do produto atual depende dele.
+
+## 2026-10-10 — Fase 2 / T2.1+T2.2: ferramenta do ouro de vídeo (`tab/ouro_video.py`)
+
+`preparar` (telas, instantes, `pre.json`) e `servir` (http.server em 127.0.0.1, `POST /salvar` grava o ouro
+de forma atômica a cada alteração, retoma o trabalho salvo, botão "baixar JSON"). Testes: `tests/test_ouro_video.py`
+(10; agrupamento com faixa colorida, conversão de clique, montagem/validação, gravação atômica, POST em thread).
+
+Medido no `retrato brasileiro` (h264, 679 s, quadro a cada 2 s, semente 0): **11 telas, 40 instantes, 177 s**
+(maior parte do tempo é `painel.escolher` nos quadros sem tablatura). A tablatura só existe de 240 s a 672 s.
+
+Limiar da diferença média absoluta (cinza, sem pixels de saturação > 25): histograma das 218 comparações
+`[0,0.25)=14, [0.25,0.5)=61, [0.5,1)=87, [1,1.5)=44, [1.5,4)=0, [4,6)=2, [6,8)=6, [12,32)=2, [64,256)=2`.
+Vão vazio entre 1,5 e 4: **limiar = 2,0** (12 de 218 acima = 11 trocas de tela + 1 volta).
+
+O que falhou antes de chegar nisso (não repetir): (1) saturação mínima 90: o marcador é uma faixa azul PÁLIDA
+(S 40-80), contava como diferença e saíam 163 telas; (2) `painel.escolher` aceita o BRAÇO DO VIOLÃO e tela preta
+como painel (uniformidade 0,85-0,93 contra 0,81-0,82 da tablatura de verdade: a uniformidade não separa). Portões
+atuais: passo 14-45 px, saturação mediana do recorte <= 25, cinza mediano >= 20. Limite: canal com fundo de
+tablatura colorido seria recusado.
+
+Convenção de x: nota pré-lida `x_quadro` = borda esquerda do token (igual ao `tab.transcrever`) + `x_centro_quadro`;
+nota acrescentada por clique: centro = clique, `x_quadro` estimado = clique - 0,25 passo. Imagens ignoradas pelo git
+(`data/saida/ouro_video/*/telas|instantes`); `pre.json` versionado. O ouro (`data/gold/ouro_video/*.json`) é do dono.

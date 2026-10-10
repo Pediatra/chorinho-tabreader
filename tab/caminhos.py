@@ -23,6 +23,9 @@ _ACERVO_HOST = Path("/run/media/gabriel/3014CD4714CD1130/chorinho")
 #: Gabarito rotulado à mão (96 glifos, 4 canais).
 GABARITO = RAIZ / "data" / "gold" / "gabarito.json"
 
+#: Ouro de vídeo (telas + instantes), rotulado pelo dono com `tab.ouro_video servir`.
+OURO_VIDEO = RAIZ / "data" / "gold" / "ouro_video"
+
 #: Saídas geradas (visíveis no host, ao contrário de /tmp do container).
 SAIDA = RAIZ / "data" / "saida"
 

@@ -38,3 +38,8 @@ data/saida/frames/zoom_*.png
 # O resumo e os mosaicos da afinacao sao o INDICE (pequenos); os recortes 4x ficam fora.
 !data/saida/afinacao/resumo.json
 !data/saida/afinacao/_mosaicos/*.png
+
+# Ouro de video: as imagens (telas/instantes) sao regeneraveis por `tab.ouro_video preparar`
+# (semente fixa); versiona-se o pre.json, que e o indice e o pre-preenchimento.
+data/saida/ouro_video/*/telas/
+data/saida/ouro_video/*/instantes/
