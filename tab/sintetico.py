@@ -148,13 +148,18 @@ LISTAS_CASAS = {"oficial": CASAS_OFICIAIS, "todas": CASAS_TODAS}
 
 
 def gerar_linha(
-    rng: random.Random, casas: tuple[int, ...] = CASAS_OFICIAIS
+    rng: random.Random,
+    casas: tuple[int, ...] = CASAS_OFICIAIS,
+    escala_larga: bool = False,
 ) -> tuple[np.ndarray, list[dict]]:
     """Desenha uma linha de tablatura aleatória e devolve (imagem, notas).
 
     Args:
         rng: gerador aleatório; a sequência de sorteios depende só dele e de ``casas``.
         casas: lista de casas sorteáveis (com repetição = peso).
+        escala_larga: se ``True``, metade das linhas desenha algarismo MAIOR que o
+            passo (fonte 1,0 a 1,4 passo). Desligado por padrão: com ``False`` a
+            sequência de sorteios é a de antes, e os pesos ``oficial_*`` reproduzem.
 
     Returns:
         Tupla (imagem BGR, lista de notas desenhadas).
@@ -204,6 +209,12 @@ def gerar_linha(
     # painel do cifra club) e de 0,6 passo (skyguitar). Com fonte fixa em 0,95 o
     # modelo confundia algarismo pequeno com harmonico <n>.
     tam_fonte = max(6, int(passo * rng.uniform(0.55, 1.0)))
+    # Medido (rodada 0009, ouro retrato_brasileiro_v2): o algarismo real tem altura
+    # mediana de 0,93 passo; o gerador, no máximo 1,0 de fonte, dava ~0,54 (p90 0,75).
+    # Só com `escala_larga` a linha ganha algarismo grande; sem a flag, nenhum sorteio
+    # extra acontece e a sequência é a de sempre.
+    if escala_larga and rng.random() < 0.5:
+        tam_fonte = max(6, int(passo * rng.uniform(1.0, 1.4)))
     for col in range(n_col):
         x = borda + int((col + 0.5) * (larg - 2 * borda) / n_col)
         n_cordas = 1 if rng.random() < 0.6 else rng.randint(2, 4)
@@ -293,7 +304,10 @@ def conferir_fontes() -> None:
 
 
 def montar(
-    n_linhas: int, seed: int = 0, casas: tuple[int, ...] = CASAS_OFICIAIS
+    n_linhas: int,
+    seed: int = 0,
+    casas: tuple[int, ...] = CASAS_OFICIAIS,
+    escala_larga: bool = False,
 ) -> tuple[list, list, list]:
     """Gera linhas, passa pelo extrator e casa cada glifo extraído com a nota desenhada.
 
@@ -301,6 +315,8 @@ def montar(
         n_linhas: quantas linhas desenhar (as que não têm 6 cordas são descartadas).
         seed: semente do ``random.Random`` que sorteia as linhas.
         casas: lista de casas do gerador; ver ``LISTAS_CASAS``.
+        escala_larga: algarismo maior que o passo em metade das linhas; ver
+            ``gerar_linha``.
 
     Returns:
         Tupla (glifos normalizados, rótulos, identificadores de canal).
@@ -309,7 +325,7 @@ def montar(
     rng = random.Random(seed)
     X, y, canais = [], [], []
     for i in range(n_linhas):
-        img, notas = gerar_linha(rng, casas)
+        img, notas = gerar_linha(rng, casas, escala_larga=escala_larga)
         g = segmentar(img)
         if len(g.linhas_y) != 6:
             continue
@@ -469,13 +485,25 @@ def _parser() -> argparse.ArgumentParser:
         default="oficial",
         help="oficial = pesos oficial_* (padrão); todas = 0-24 (pesos casas24_*)",
     )
+    ap.add_argument(
+        "--escala",
+        choices=["normal", "larga"],
+        default="normal",
+        help="normal = pesos oficial_* (padrão); larga = metade das linhas com algarismo "
+        "de 1,0 a 1,4 passo (candidato da rodada 0009)",
+    )
     return ap
 
 
 def main() -> int:
     args = _parser().parse_args()
 
-    X, y, _ = montar(args.n_linhas, seed=1, casas=LISTAS_CASAS[args.casas])
+    X, y, _ = montar(
+        args.n_linhas,
+        seed=1,
+        casas=LISTAS_CASAS[args.casas],
+        escala_larga=args.escala == "larga",
+    )
     print(
         f"sintético: {len(X)} glifos extraídos de {args.n_linhas} linhas | "
         f"{len(set(y))} classes"
