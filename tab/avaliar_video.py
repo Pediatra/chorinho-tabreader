@@ -39,8 +39,9 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .caminhos import SAIDA
+from .caminhos import SAIDA, acervo
 from .colunas import agrupar_colunas
+from .leitor import info as info_video
 
 FORMATO_V1 = "chorinho/video@1"
 
@@ -49,12 +50,21 @@ FORMATO_V1 = "chorinho/video@1"
 #: este intervalo do onset da atual: é a resolução da amostragem do observador.
 TOLERANCIA_S = 0.2
 
+#: Quadros nativos de tolerância para o rótulo que cai ANTES do primeiro quadro em que a
+#: coluna aparece (decisão do dono, 2026-10-10). Um instante é um intervalo de 1 quadro do
+#: vídeo; a régua usa o fps real do vídeo (``1 / fps``), nunca uma constante.
+QUADROS_ANTES = 1
+
 #: Fração do passo que define "mesmo x", tanto para nota quanto para coluna. É o critério
 #: do plano (§6, Fase 2): ``|Δx_quadro| <= 0,5 * passo``.
 FRACAO_PASSO = 0.5
 
+#: Classes de tempo que contam como estado certo.
+CERTAS_TEMPO = ("acerto", "acerto_quadro", "acerto_tolerancia")
+
 CLASSES_TEMPO = (
     "acerto",
+    "acerto_quadro",
     "acerto_tolerancia",
     "erro",
     "json_sem_tempo",
@@ -360,27 +370,79 @@ def coluna_atual(
     return ColunaAtual(x=x_atual, onset=onset, anterior_x=anterior_x)
 
 
+def coluna_que_chega(
+    t: float,
+    tela: TelaPrevista,
+    ocorr: list[tuple[float, float, int]],
+    fps: float | None,
+) -> tuple[float, float] | None:
+    """Primeira coluna que a predição mostra até ``QUADROS_ANTES`` quadros depois de ``t``.
+
+    Só conta a exibição que contém ``t``. O início de cada coluna é posto na grade de
+    quadros nativos: o ``t_ini`` do JSON é um instante de amostragem (``t0 + k / qps``),
+    com erro de até meio quadro em relação ao PTS, então o quadro é ``round(t_ini * fps)``
+    e o instante dele é ``quadro / fps``. A coluna que chega é a de menor início ``o``
+    (já na grade) com ``t < o <= t + QUADROS_ANTES / fps``: é o primeiro quadro que a
+    mostra, a até um quadro nativo depois de ``t`` do ouro.
+
+    Args:
+        t: instante do ouro, em segundos.
+        tela: tela prevista que está na tela em ``t``.
+        ocorr: ocorrências de ``ocorrencias(tela)``.
+        fps: taxa nativa do vídeo, ou ``None`` (a regra fica desligada).
+
+    Returns:
+        ``(início na grade, x da coluna)``, ou ``None`` se nenhuma coluna chega nesse prazo.
+    """
+    exibicao = _exibicao_em(t, tela)
+    if not tela.medido or exibicao is None or not fps:
+        return None
+    limite = min(t + QUADROS_ANTES / fps + 1e-9, exibicao[1])
+    chegam = []
+    for inicio, x, _ in ocorr:
+        if inicio < exibicao[0] or inicio > exibicao[1]:
+            continue
+        grade = round(inicio * fps) / fps
+        if t < grade <= limite:
+            chegam.append((grade, x))
+    if not chegam:
+        return None
+    return min(chegam)
+
+
 def classificar_instante(
-    t: float, coluna_ouro: float | None, atual: ColunaAtual | None, passo: float
+    t: float,
+    coluna_ouro: float | None,
+    atual: ColunaAtual | None,
+    passo: float,
+    chega: tuple[float, float] | None = None,
 ) -> str:
     """Classifica um instante do ouro contra a coluna que a predição afirma.
+
+    A ordem das regras importa: primeiro a coluna atual (``acerto``); depois a coluna que
+    chega até um quadro nativo depois de ``t`` (``acerto_quadro``: o rótulo cai antes do
+    primeiro quadro que mostra a coluna, na resolução do vídeo); depois a coluna anterior
+    dentro de ``TOLERANCIA_S`` (``acerto_tolerancia``). Qualquer outra coluna é ``erro``.
 
     Args:
         t: instante, em segundos.
         coluna_ouro: ``coluna_x_quadro`` do ouro, ou ``None`` ("nenhuma acesa").
         atual: coluna que a predição afirma em ``t``, ou ``None``.
         passo: passo da tela prevista, em px.
+        chega: ``(onset, x)`` de ``coluna_que_chega``, ou ``None``.
 
     Returns:
         Uma das ``CLASSES_TEMPO``.
     """
     if coluna_ouro is None:
         return "tempo_falso" if atual is not None else "ausencia_certa"
+    limite = FRACAO_PASSO * passo
+    if atual is not None and abs(atual.x - coluna_ouro) <= limite:
+        return "acerto"
+    if chega is not None and abs(chega[1] - coluna_ouro) <= limite:
+        return "acerto_quadro"
     if atual is None:
         return "json_sem_tempo"
-    limite = FRACAO_PASSO * passo
-    if abs(atual.x - coluna_ouro) <= limite:
-        return "acerto"
     anterior_bate = atual.anterior_x is not None and (
         abs(atual.anterior_x - coluna_ouro) <= limite
     )
@@ -389,7 +451,12 @@ def classificar_instante(
     return "erro"
 
 
-def avaliar(ouro: dict, predicao: Predicao, pre: dict | None = None) -> dict:
+def avaliar(
+    ouro: dict,
+    predicao: Predicao,
+    pre: dict | None = None,
+    fps: float | None = None,
+) -> dict:
     """Calcula as três medidas da régua: telas, notas e tempo.
 
     A função é pura: a mesma entrada dá sempre o mesmo relatório.
@@ -398,6 +465,8 @@ def avaliar(ouro: dict, predicao: Predicao, pre: dict | None = None) -> dict:
         ouro: JSON do ouro de vídeo, já validado por ``validar_ouro``.
         predicao: predição normalizada por ``ler_predicao``.
         pre: ``pre.json`` da tela do ouro, usado no pareamento do legado (ou ``None``).
+        fps: taxa nativa do vídeo, em quadros por segundo. Sem ela (``None``) a regra
+            de 1 quadro antes fica desligada, e o relatório diz isso.
 
     Returns:
         Relatório com ``telas``, ``notas`` e ``tempo``, mais os metadados da predição.
@@ -423,7 +492,7 @@ def avaliar(ouro: dict, predicao: Predicao, pre: dict | None = None) -> dict:
     motivo = _motivo_nao_avaliavel(predicao)
     if motivo is None:
         notas = _avaliar_notas(telas_ouro, mapa, predicao.telas)
-        tempo = _avaliar_tempo(instantes, mapa, predicao.telas)
+        tempo = _avaliar_tempo(instantes, mapa, predicao.telas, fps)
     else:
         notas = {"avaliavel": False, "motivo": motivo}
         tempo = {"avaliavel": False, "motivo": motivo}
@@ -436,6 +505,9 @@ def avaliar(ouro: dict, predicao: Predicao, pre: dict | None = None) -> dict:
         "quadro_lido_s": predicao.quadro_lido_s,
         "exibicao_previsao": predicao.exibicao,
         "tolerancia_s": TOLERANCIA_S,
+        "fps": fps,
+        "quadro_s": None if fps is None else round(1.0 / fps, 6),
+        "quadros_antes": QUADROS_ANTES,
         "fracao_passo": FRACAO_PASSO,
         "x_fallback": {
             "ouro": sem_centro_ouro,
@@ -488,9 +560,16 @@ def linhas_do_relatorio(rel: dict) -> list[str]:
         f" ouro {fb['ouro']} de {fb['ouro_total']} notas,"
         f" predição {fb['previsao']} de {fb['previsao_total']} notas"
     )
+    if rel["quadro_s"] is None:
+        regra_quadro = "fps desconhecido: regra de 1 quadro antes DESLIGADA"
+    else:
+        regra_quadro = (
+            f"rótulo até {rel['quadros_antes']} quadro antes da coluna"
+            f" ({rel['quadro_s']} s, fps {rel['fps']:.4f})"
+        )
     linhas.append(
         f"tolerância: {rel['tolerancia_s']} s (coluna imediatamente anterior);"
-        f" casamento de x: {rel['fracao_passo']} * passo"
+        f" {regra_quadro}; casamento de x: {rel['fracao_passo']} * passo"
     )
     return linhas
 
@@ -979,7 +1058,10 @@ def _somar_notas(
 
 
 def _avaliar_tempo(
-    instantes: list[dict], mapa: dict[int, int | None], telas: list[TelaPrevista]
+    instantes: list[dict],
+    mapa: dict[int, int | None],
+    telas: list[TelaPrevista],
+    fps: float | None = None,
 ) -> dict:
     """Classifica cada instante do ouro contra a coluna que a predição afirma.
 
@@ -987,6 +1069,7 @@ def _avaliar_tempo(
         instantes: instantes do ouro.
         mapa: resultado de ``casar_telas``.
         telas: telas da predição.
+        fps: taxa nativa do vídeo, ou ``None`` (regra de 1 quadro desligada).
 
     Returns:
         Dicionário com a contagem de cada classe e os totais com e sem coluna acesa.
@@ -998,14 +1081,16 @@ def _avaliar_tempo(
         coluna = instante.get("coluna_x_quadro")
         tela = tela_em_t(t, instante.get("tela"), mapa, telas)
         atual = None
+        chega = None
         passo = 0.0
         if tela is not None:
             atual = coluna_atual(t, tela, ocorr[tela.id])
+            chega = coluna_que_chega(t, tela, ocorr[tela.id], fps)
             passo = tela.passo or 0.0
         coluna_f = None if coluna is None else float(coluna)
-        classes[classificar_instante(t, coluna_f, atual, passo)] += 1
+        classes[classificar_instante(t, coluna_f, atual, passo, chega)] += 1
     com_coluna = sum(1 for i in instantes if i.get("coluna_x_quadro") is not None)
-    certos = classes["acerto"] + classes["acerto_tolerancia"]
+    certos = sum(classes[c] for c in CERTAS_TEMPO)
     return {
         "avaliavel": True,
         "motivo": None,
@@ -1083,12 +1168,28 @@ def _linhas_tempo(tempo: dict) -> list[str]:
     sem = tempo["sem_coluna"]
     return [
         f"tempo: {tempo['estado_certo']} de {com} instantes com coluna acesa"
-        f" com o estado certo (acerto {c['acerto']}, tolerância"
-        f" {c['acerto_tolerancia']}, erro {c['erro']}, json sem tempo"
+        f" com o estado certo (acerto {c['acerto']}, 1 quadro antes"
+        f" {c['acerto_quadro']}, tolerância {c['acerto_tolerancia']},"
+        f" erro {c['erro']}, json sem tempo"
         f" {c['json_sem_tempo']})",
         f"  sem coluna acesa: ausência certa {c['ausencia_certa']} de {sem}"
         f" instantes; tempo falso {c['tempo_falso']} de {sem}",
     ]
+
+
+def _fps_do_video(ouro: dict) -> float | None:
+    """Lê o fps nativo do vídeo do ouro, no acervo, por ``ffprobe``.
+
+    Args:
+        ouro: JSON do ouro; ``video`` é o caminho relativo ao acervo.
+
+    Returns:
+        O fps, ou ``None`` se o vídeo não está no acervo ou o ``ffprobe`` não respondeu.
+    """
+    caminho = acervo() / str(ouro.get("video") or "")
+    if not caminho.is_file():
+        return None
+    return info_video(str(caminho))["fps"]
 
 
 def main() -> int:
@@ -1103,6 +1204,11 @@ def main() -> int:
     ap.add_argument("--ouro", required=True, help="data/gold/ouro_video/<slug>.json")
     ap.add_argument("--pred", required=True, help="saída do tab.transcrever (JSON)")
     ap.add_argument("--json", help="grava o relatório completo neste arquivo")
+    ap.add_argument(
+        "--fps",
+        type=float,
+        help="taxa nativa do vídeo (padrão: lida do arquivo no acervo, por ffprobe)",
+    )
     ap.add_argument(
         "--pre",
         help="pre.json da tela do ouro (padrão: data/saida/ouro_video/<slug>/pre.json)",
@@ -1132,7 +1238,13 @@ def main() -> int:
         print(f"entrada inválida: {erro}", file=sys.stderr)
         return 2
 
-    rel = avaliar(ouro, predicao, pre=pre)
+    fps = args.fps if args.fps is not None else _fps_do_video(ouro)
+    if fps is None:
+        print(
+            "fps do vídeo desconhecido: a regra de 1 quadro antes fica desligada",
+            file=sys.stderr,
+        )
+    rel = avaliar(ouro, predicao, pre=pre, fps=fps)
     rel["pre_caminho"] = str(caminho_pre) if pre is not None else None
     rel["ouro_caminho"] = str(caminho_ouro)
     rel["predicao_caminho"] = str(caminho_pred)

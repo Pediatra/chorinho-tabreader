@@ -4615,3 +4615,51 @@ Detalhe e medições em `docs/rodadas/0006-casa-dois-algarismos-forma.md`. Dados
   - **Marcador ausente**: quando o marcador some entre duas colunas, a régua mantém a coluna anterior como estado atual. Isso **afirma** estado sem marcador. O ouro não tem instante "ausente" neste vídeo, então o tempo falso fica 0, mas a regra é frágil. Conserto honesto exige **fim de exibição por coluna** (schema) — fica como próximo passo.
 - **Não repetir**: (a) corrigir só o `format=bgr24` no leitor derruba o estado para 32; (b) desalinhamento do quadro não aparece na métrica de notas (que usa `quadro_em`), só no tempo; (c) o teste de recorte precisa de janela de ≥ 10 quadros e limite 0,5 (com limite 1,0 passa no HEAD).
 - **Artefatos**: `data/saida/fase5b/` (scripts de medição, `rodada_*.log`, JSONs; `mine/` é a cópia candidata). Não commitados.
+
+## 2026-10-10 — FASE 5 (fechamento do estado): régua aceita o rótulo até 1 quadro antes da coluna. Estado 37 → 39 de 40, tempo falso 0
+
+- **Decisão do dono (2026-10-10, por escrito)**: na régua de tempo, um instante do ouro conta como
+  estado certo quando o rótulo cai **até 1 quadro nativo antes** do primeiro quadro que mostra a
+  coluna. Não é tolerância para outros erros: coluna errada continua erro, e nada além disso foi
+  afrouxado. Usar o fps real do vídeo.
+- **Implementação (`tab/avaliar_video.py`)**:
+  - nova classe `acerto_quadro` (entra em `estado_certo`, junto de `acerto` e `acerto_tolerancia`);
+    `CERTAS_TEMPO` lista as três. A `acerto_tolerancia` antiga (0,2 s, coluna imediatamente
+    anterior) **não mudou**;
+  - `coluna_que_chega`: o início de cada coluna vai para a **grade de quadros nativos**,
+    `round(t_ini * fps) / fps`, e a coluna que chega é a de menor início com
+    `t < início <= t + 1/fps`, só na exibição de `t`. Só então a coluna do ouro é comparada;
+  - fps: `avaliar(..., fps=)`; o `main` lê do arquivo no acervo por `ffprobe` (`--fps` substitui).
+    Sem fps, a regra fica **desligada** e o relatório diz isso (`fps desconhecido`).
+- **Por que a grade**: o `t_ini` é um instante de amostragem (`t0 + k/qps`, `refinar_inicios`), não
+  o PTS do quadro. Medido com `ffprobe` no `retrato brasileiro` (30000/1001, `start_time 0`): o PTS é
+  `k × 1001/30000`. O `t_ini` da coluna 19 em 500 s é 500,042; o primeiro PTS que a mostra é
+  500,0334 (quadro 14986), a 0,033 s do rótulo (500,000). Sem alinhar à grade, o erro de 0,042 s
+  (acima de 1 quadro, 0,0334 s) deixaria o instante de fora. **Ponto para o dono confirmar**: o
+  alinhamento arredonda o início ao quadro mais próximo, dentro de meio quadro; é a definição de
+  "primeiro quadro", não uma folga em segundos.
+- **Números (ouro `retrato_brasileiro_v2`, predição `fase5b/bgr_refino_sat20.json`, fps 29,97003)**:
+
+  | medida | dcae69d3 (antes) | agora |
+  | --- | --- | --- |
+  | estado certo | 37 de 40 (acerto 37, erro 3) | **39 de 40** (acerto 37, 1 quadro antes 2, erro 1) |
+  | tempo falso | 0 | **0** |
+  | notas: precisão | 485/486 | 485/486 |
+  | notas: revocação | 485/491 | 485/491 |
+  | casa | 482/485 | 482/485 |
+
+  Os dois que passam: t = 350 (rótulo 350,000; início 350,008, na grade 350,0167) e t = 500
+  (rótulo 500,000; início 500,042, na grade 500,0334). **t = 672 continua erro**: o marcador some de
+  668 a 673 s e a coluna 1760 do ouro não tem nota no JSON (perdida na leitura, não é tempo).
+- **Testes** (`tests/test_avaliar_video.py`, 43 no arquivo): rótulo 1 quadro antes passa; 2 quadros
+  antes não passa; 1 quadro antes com coluna errada não passa; fps desconhecido desliga a regra;
+  início fora da grade cai no quadro nativo.
+- **Gate**: `ruff check .` ✓ (`All checks passed!`), `ruff format --check .` ✓ (74 arquivos), `pytest tests/`
+  **285 passed, 3 deselected**. Reprodução: `tab.avaliar_video` com o mesmo relatório.
+- **CA da Fase 5 (plano, T5 "CA")**: estado certo ≥ 0,95: **cumprida** (39 de 40 = 0,975); tempo
+  falso 0: **cumprida**; invariantes no gate: cumpridas nos testes existentes. **Não cumprida**:
+  imagem de conferência de 6 instantes em `data/saida/conferencia/` (ainda não feita; olhar antes de
+  dar a Fase 5 como fechada).
+- **Não repetir**: (a) 0,2 s de tolerância para a coluna anterior não resolve o rótulo antes do
+  onset (é outro caso); (b) comparar o rótulo com o `t_ini` cru, sem a grade, reprova 500 s por
+  0,0086 s; (c) não aumentar a régua para 2 quadros nem arredondar o rótulo para trás.

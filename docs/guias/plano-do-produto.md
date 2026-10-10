@@ -655,7 +655,7 @@ tempo falso é mentira.
 - `medido: false` ⇒ `motivo` não vazio.
 
 **CA da Fase 5** (no ouro do MVP)
-- [ ] estado certo em ≥ **0,95** dos instantes com coluna acesa (reporte "X de Y");
+- [x] estado certo em ≥ **0,95** dos instantes com coluna acesa (reporte "X de Y"); **39 de 40** no retrato v2 (ESTADO, fechamento da Fase 5);
 - [ ] **0** instantes "nenhuma acesa" com tempo afirmado;
 - [ ] invariantes verdes no gate e na saída real;
 - [ ] imagem de conferência: 6 instantes com a coluna que o JSON diz estar acesa desenhada por

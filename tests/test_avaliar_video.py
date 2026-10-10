@@ -655,3 +655,60 @@ def test_passagem_repetida_nao_muda_o_tempo():
     repetido = _rodar(OURO_BASE, _pred_v1(notas))["tempo"]
     assert repetido["classes"] == base["classes"]
     assert repetido["estado_certo"] == base["estado_certo"] == 3
+
+
+def _rodar_com_fps(ouro: dict, pred: dict, fps: float | None) -> dict:
+    """Valida, lê e avalia com o fps dado (``None`` desliga a regra de 1 quadro)."""
+    validar_ouro(ouro)
+    return avaliar(ouro, ler_predicao(pred), fps=fps)
+
+
+def _ouro_com_instante(t: float, coluna: float) -> dict:
+    """Ouro do cenário base com um único instante, na tela 1."""
+    ouro = copy.deepcopy(OURO_BASE)
+    ouro["instantes"] = [{"t": t, "tela": 1, "coluna_x_quadro": coluna}]
+    return ouro
+
+
+def test_rotulo_ate_um_quadro_antes_da_coluna_passa():
+    # Coluna 240 começa em t=20.0; a 30 fps um quadro é 0,0333 s. Rótulo em 19,98 cai dentro.
+    rel = _rodar_com_fps(_ouro_com_instante(19.98, 240), _pred_v1(), 30.0)
+    assert rel["tempo"]["classes"]["acerto_quadro"] == 1
+    assert rel["tempo"]["estado_certo"] == 1
+    assert rel["tempo"]["classes"]["erro"] == 0
+
+
+def test_rotulo_dois_quadros_antes_da_coluna_nao_passa():
+    # 19,93 está a dois quadros (0,0667 s) de 20,0: fora da regra.
+    rel = _rodar_com_fps(_ouro_com_instante(19.93, 240), _pred_v1(), 30.0)
+    assert rel["tempo"]["classes"]["acerto_quadro"] == 0
+    assert rel["tempo"]["classes"]["erro"] == 1
+
+
+def test_rotulo_um_quadro_antes_com_coluna_errada_nao_passa():
+    # Dentro de 1 quadro antes de 20,0, mas o ouro diz outra coluna (300): continua erro.
+    rel = _rodar_com_fps(_ouro_com_instante(19.99, 300), _pred_v1(), 30.0)
+    assert rel["tempo"]["classes"]["acerto_quadro"] == 0
+    assert rel["tempo"]["classes"]["erro"] == 1
+
+
+def test_regra_de_quadro_com_fps_desconhecido_fica_desligada():
+    rel = _rodar_com_fps(_ouro_com_instante(19.98, 240), _pred_v1(), None)
+    assert rel["tempo"]["classes"]["acerto_quadro"] == 0
+    assert rel["tempo"]["classes"]["erro"] == 1
+    assert rel["quadro_s"] is None
+
+
+def test_inicio_fora_da_grade_e_posto_no_quadro_nativo():
+    # Início 20,02 s é amostra; a 30 fps o quadro nativo é round(600,6)=601, em 20,0333 s.
+    # O rótulo em 20,0 cai exatamente 1 quadro antes dele: passa.
+    pred = _pred_v1(
+        [
+            _nota(2, 0, 224, 12.0),
+            _nota(6, 0, 224, 12.0),
+            _nota(3, 2, 240, 20.02),
+            _nota(1, 3, 300, 30.0),
+        ]
+    )
+    rel = _rodar_com_fps(_ouro_com_instante(20.0, 240), pred, 30.0)
+    assert rel["tempo"]["classes"]["acerto_quadro"] == 1
