@@ -4038,3 +4038,37 @@ Gate: `make gate` com `All checks passed!`, 59 arquivos formatados, 135 passed (
 CA da Fase 1: gate verde; `tab.avaliar` idêntico nas 3 sementes; `cand.x0 == 70` (teste de integração); o
 marcador de 245,5 s na coluna 1 foi medido no T1.3 (acima), e **não foi remedido** nesta tarefa; AV1 com
 amostras (T1.2).
+
+## 2026-10-10 — FASE 2 / T2.3: `tab.avaliar_video` — a régua do produto
+
+Módulo novo `tab/avaliar_video.py` (funções puras + `main`), testes em `tests/test_avaliar_video.py`
+(15, dicionários feitos à mão). Lê os dois formatos: o v1 (`chorinho/video@1`) e o legado do
+`tab.transcrever`, tratado como uma tela com exibição = vídeo inteiro. Sem `x_quadro` no legado, a
+régua **não avalia** notas nem tempo e diz o motivo; telas continuam avaliadas.
+
+Regras da régua (decisões de implementação onde o plano deixava margem):
+- **telas**: casamento um a um e guloso, pela contagem de instantes em que a tela prevista aparece;
+- **notas**: `|Δx_quadro| <= 0,5 * passo`, mesma corda, guloso pela menor distância; entregue = casa
+  numérica; inventada = entregue sem par, **inclusive** em tela prevista sem par no ouro;
+- **tempo**: a coluna atual é a de maior `t_ini` até `t`, só dentro da exibição que contém `t`. A
+  tolerância de 0,2 s aceita a coluna **imediatamente anterior no tempo** (não por x), e isso fica
+  declarado no relatório. As colunas vêm de `tab.colunas.agrupar_colunas` sobre todas as notas da
+  tela (inclusive as não numéricas, porque o marcador passa por elas);
+- classes: `acerto`, `acerto_tolerancia`, `erro`, `json_sem_tempo`, `tempo_falso`, `ausencia_certa`
+  (a última é o acerto de "nenhuma acesa" sem afirmar tempo).
+
+Smoke (legado real + ouro **falso** de 3 instantes montado à mão fora do repositório, só para provar
+a leitura): `python -m tab.avaliar_video --ouro <falso> --pred data/saida/avaliar_video/pred_smoke.json`
+→ telas 1 de 1; notas precisão 3 de 37, revocação 3 de 3, inventadas 34 de 37; tempo 2 de 2 com coluna
+(acerto 2), ausência certa 1 de 1. A predição veio de `tab.transcrever` no `retrato brasileiro` (início
+0,5, janela 30 s), que já grava `x_quadro` (corda 2, casa 0: `x` 154 → `x_quadro` 224, deslocamento 70).
+Os números de notas do smoke **não são medida de qualidade**: o ouro é falso e tem 3 notas.
+
+Gate: `make gate` com `All checks passed!`, `61 files already formatted`, `150 passed, 2 deselected`,
+código de saída 0. Testes da régua: 15 (perfeito, nota inventada, nota perdida, casa errada, acorde,
+nenhuma acesa com tempo afirmado, tolerância dentro e fora de 0,2 s, legado, legado sem `x_quadro`,
+tempo sem `medido`, casamento de telas, exibição, validação do ouro e reprodutibilidade).
+Reprodutibilidade na linha de comando: 2 execuções com o mesmo relatório (`cmp` idêntico).
+
+O ouro do vídeo do MVP (T2.4) **não existe ainda**: esta tarefa não rotulou nada e não criou nada em
+`data/gold/`. A linha de base do produto atual depende dele.
