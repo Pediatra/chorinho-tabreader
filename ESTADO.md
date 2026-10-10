@@ -2893,3 +2893,30 @@ O gabarito de algarismo fica intacto (0,917 / 0,986 / 0,944).
 candidato perto da marca**. A perda tem uma **segunda etapa** que eu ainda não localizei: entre ter tinta
 e ter candidato na posição, algo descarta ou desloca. É a próxima pergunta, e agora ela está **estreitada**
 (a tinta existe; o candidato não aparece).
+
+## 2026-10-09 — o rastreamento do componente: os "buracos" NÃO são buracos, são o MEU FILTRO DE FORMA
+
+Segui o componente nos buracos que o dono confirmou como símbolo:
+
+| | n |
+| --- | --- |
+| nem tinta crua (contraste local ou união) | 37 |
+| **TEM tinta** | **25** |
+| **glifo sobreviveu perto da marca** | **24** |
+| **e o TOKEN cobre a marca** | **21** |
+| mas nenhum token cobre a marca | 3 |
+| nenhum glifo sobreviveu | 1 |
+
+**De 25 buracos com tinta, 21 têm um TOKEN cobrindo a marca.** O candidato **existe**; o delimitador
+**não** o descarta; o token **está na posição**. **O que falta é só o meu FILTRO DE FORMA**, que o
+exclui — a mesma causa já medida (147 de 163) e que o meu script de auditoria rotulou como "sem
+candidato" porque **só contava os candidatos que passavam no filtro**.
+
+**Décima segunda vez que um critério meu é o elo fraco** — e desta vez o erro foi **de vocabulário mais
+que de número**: eu chamei de "buraco do pipeline" o que é "candidato descartado pela minha regra".
+
+**E é por isso que (b) NÃO se decide sem (c)**: tirar o filtro de forma inunda o pipeline (1.407
+aprovados) — mas isso só é ruim **se os 1.258 forem lixo**. A auditoria do dono já mostrou que **9 de 10
+"falsos positivos" eram símbolos verdadeiros**. **Se o modelo estiver certo no pool, o "inundar" não é
+inundar: é o recall que eu queria.** A ordem que o dono aprovou — (c) antes de (b) — está certa, e agora
+eu sei exatamente por quê.
