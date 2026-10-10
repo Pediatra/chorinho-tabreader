@@ -3906,3 +3906,49 @@ como subclasse ✓, então o import não quebra ✓. Verificado rodando:
 — estas **não** são cópia de código ✗: cada uma tem laço próprio de leitura e precisa passar a usar
 `leitor.quadros(...)` (a passada única) ✓, o que muda **como** o quadro é obtido ✓. Por isso o teste que
 proíbe `VideoCapture(` só entra quando as cinco estiverem migradas ✓ (senão o gate fica vermelho ✓).
+
+## 2026-10-10 — FASE 1 / T1.2: o esqueleto do `cursor.rastrear` (para o patch ser cirúrgico, não reescrita)
+
+Lido por AST (`tab/cursor.py:97-183`, 87 linhas ✓). **Por que ele falha calado no AV1**: `cap.grab()`
+(linha 113) devolve `False` **sem exceção** ✓ → o `while` sai **no primeiro quadro** ✓ → `amostras = []` ✓ —
+**indistinguível de "vídeo sem marcador"** ✓ (é exatamente a evidência 4 do T0.3 ✓, e é o item do CA da
+Fase 1: *"no AV1 do `mr. tabs`, `rastrear` passa a devolver amostras (> 0)"* ✓).
+
+Esqueleto, com os números de linha:
+
+```
+103:     cap = cv2.VideoCapture(caminho)
+104-105: if not cap.isOpened():  -> retorno antecipado
+106:     fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
+107:     n = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
+108:     y0, y1 = roi if roi else (0, 0)
+110-111: amostras = []; i = 0
+112:     while True:
+113:         ok = cap.grab()            <- AQUI o AV1 morre, calado
+114-115:     if not ok: quebra o laco
+116:         if i % passo == 0:
+117:             ok, frame = cap.retrieve()
+118-119:         if not ok: quebra
+120-121:         if y1 > y0: frame = frame[y0:y1, :]
+122:         det = detectar_cursor(frame)
+123-136:     if det: x0, x1, (matiz, s) = det; amostras.append({... "t": i / fps ...})
+137-143:     if debug_dir e len(amostras) <= 3: desenha a visao de depuracao
+144:         i += 1
+146:     cap.release()
+147-162: as estatisticas (xs, ts, saltos, retrocessos, intervalos, larguras)
+163-183: o `resumo` (fps, frames_totais, amostras_com_cursor, cobertura, x_min, x_max,
+         largura_nucleo_mediana, largura_nucleo_p90, matiz_mediana, n_saltos, salto_mediano_px,
+         retrocessos, intervalo_mediano_entre_saltos_s) e `return {"resumo", "amostras"}`
+```
+
+**Plano do patch (cirúrgico, para NÃO perder o que eu não vi)**: trocar **só** o trecho de aquisição
+(103-146 ✓) pelo laço do leitor único ✓ — `for t_s, quadro in leitor.quadros(caminho, 0, duracao, qps,
+recorte_y=(y0, y1))` ✓, com `qps = fps / passo` ✓ — mantendo **intactos** o `amostras.append({...})` (126-136 ✓),
+a depuração (137-143 ✓) e **todo** o cálculo do `resumo` (147-183 ✓) ✓. E o `"t"` da amostra passa a ser o `t_s`
+**que o leitor devolve** ✓ (segundos ✓), em vez de `i / fps` ✓ — é a regra do T1.1 ("segundos, nunca índice de
+quadro" ✓) e **remove** a aritmética de índice ✓.
+
+**Por que não reescrevi a função inteira agora** ✗: as linhas 126-127 (as chaves do dict da amostra ✓) e
+174-186 (campos do `resumo` ✓) **não apareceram** na minha leitura filtrada ✗, e uma reescrita por intervalo
+de AST as **apagaria em silêncio** ✗ — o mesmo erro de classe que o `nome` ✗ e o `transcrever` ✗ me custaram
+antes ✓. **Preservar o que não se viu é a regra.**
