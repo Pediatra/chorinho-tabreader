@@ -4793,3 +4793,8 @@ Detalhe e tabelas em `docs/rodadas/0008-casa-13-par-de-algarismos.md`. Linha de 
   a regra de "inseguro" muda também pares com casa conhecida e token < 0,80 (antes eram duas notas), sem efeito no ouro nem no gabarito de glifos.
 - **Não repetir**: (a) aplicar a casa fora do modelo ao glifo de dois componentes (um `3` virou `20`, −1 no `oficial_3`);
   (b) limiar de vão para separar `13` de notas distintas (ver a Fase 4 acima; não separa).
+
+## 2026-10-10 — MVP: pacote pronto, aguardando aprovação do dono
+
+- Rodada `docs/rodadas/0004-mvp-video-inteiro.md` (HEAD `6dda9580`): `transcrever` do vídeo inteiro em 611 s; régua 485/485, 0 inventadas, 485/491, casa 483/485, estado 39/40, tempo falso 0; `tab.avaliar` 66/71/68; gate verde (317 testes).
+- Aprovação do dono (CA-10): PENDENTE.

@@ -715,16 +715,16 @@ escritas embaixo. É a resposta à pergunta G do CONTEXTO: *"é isso que eu quer
 dono olha em 2 minutos.
 
 **MARCO MVP — critérios (todos)**
-- [ ] `python -m tab.transcrever "<vídeo do MVP>" --json data/saida/produto/mvp.json` roda o
-      vídeo **inteiro**, num comando, e o JSON passa no `esquema.validar`;
-- [ ] contra o ouro: casa+corda ≥ **0,99**, revocação ≥ **0,98**, **0 inventadas**, estado ≥
-      **0,95**, 0 tempo falso (CA-3, CA-5, CA-6 no vídeo do MVP);
-- [ ] `tab.avaliar` ≥ referência nas 3 sementes (CA-8);
-- [ ] `make gate` verde;
+- [x] `python -m tab.transcrever "<vídeo do MVP>" --json data/saida/produto/mvp.json` roda o
+      vídeo **inteiro**, num comando, e o JSON passa no `esquema.validar` (rodada 0004: 611 s);
+- [x] contra o ouro: casa+corda ≥ **0,99**, revocação ≥ **0,98**, **0 inventadas**, estado ≥
+      **0,95**, 0 tempo falso (CA-3, CA-5, CA-6 no vídeo do MVP) (rodada 0004: 483/485, 485/491, 0, 39/40, 0);
+- [x] `tab.avaliar` ≥ referência nas 3 sementes (CA-8) (rodada 0004: 66, 71, 68);
+- [x] `make gate` verde (rodada 0004: ruff, format e 317 testes);
 - [ ] o dono abriu a folha de conferência e o MusicXML e **aprovou por escrito** (CA-10). Esta
       é a frase J1 do `PERGUNTAS.md`: "um vídeo inteiro correto já serve (corda + casa +
       tempo, sem nota inventada)";
-- [ ] rodada `docs/rodadas/0004-mvp-video-inteiro.md` escrita.
+- [x] rodada `docs/rodadas/0004-mvp-video-inteiro.md` escrita.
 
 ---
 
