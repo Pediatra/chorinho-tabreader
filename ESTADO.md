@@ -4007,3 +4007,34 @@ x_quadro 230,5 (banda 224-237); a coluna 1 das notas tem x_roi 154 = x_quadro 22
 `tab.avaliar` idêntico: 66/72, 71/72, 68/72. `transcrever` (`--inicio 0.5 --janela 30`): `medido: true`,
 `notas_com_tempo` 42 (era 40); as notas da coluna 1 agora têm `t_ini`. **Os tempos ainda não são confiáveis:** a
 associação usa a série do vídeo inteiro (onsets de outras páginas); conserto é da Fase 5.
+
+## 2026-10-10 — Fase 1 / T1.4: colunas (o acorde é uma coluna). A Fase 1 fecha.
+
+`tab/colunas.py`: `Coluna(x_quadro, indices)` e `agrupar_colunas(xs_quadro, passo, tol=0.35)`. Varredura em x
+ordenado: a nota entra na coluna corrente se a distância à mediana dos x já agrupados for menor que `tol * passo`;
+senão abre coluna nova. `tab/estado.py`: `onsets_por_coluna` (a mesma `nota_do_x`, sobre o `x_quadro` das
+colunas), `expandir_para_notas` (todas as notas da coluna recebem o mesmo onset). `estado_por_cor` passa a
+receber colunas. `onsets()` e `nota_do_x` ficaram como estavam. `transcrever` agrupa com `r["passo"]`: o caminho
+do estado e o da cor usam colunas, e o ramo desliza/salta (`atribuir_tempos`/`tempos_por_patamar`) também calcula
+por coluna e expande (mudança simples, mas esse ramo não foi exercitado na medição abaixo). `tab/pipeline.py`
+**não** foi alterado: o ramo de tempo dele ainda é por nota. `reconhecer_linha` e os recortes do classificador
+não foram tocados. `make format` passa a usar `RUFF_CACHE_DIR=/tmp/ruffcache`, como o `gate`.
+
+Medido (`sky guitar`, `retrato brasileiro`, `--inicio 0.5 --janela 30 --simbolos ""`):
+
+| medida | antes | depois |
+| --- | --- | --- |
+| `tab.avaliar` sementes 1/2/3 | 66/72, 71/72, 68/72 | 66/72, 71/72, 68/72 |
+| notas com `t_ini` | 42 de 44 | 44 de 44 |
+| grupos de mesmo `x_quadro` com mais de uma nota | 3 de 3 | 3 de 3 |
+| desses grupos com `t_ini` idêntico | 0 de 3 | 3 de 3 |
+
+Coluna 1 (cordas 2 e 6, x_quadro 224): antes 264,1 s e 243,74 s; depois as duas em 243,74 s. Os tempos ainda
+**não são confiáveis** (onsets de outras páginas, Fase 5).
+
+Gate: `make gate` com `All checks passed!`, 59 arquivos formatados, 135 passed (2 deselected).
+`make test-integration`: 2 passed, 135 deselected. Testes novos: `tests/test_colunas.py` (6).
+
+CA da Fase 1: gate verde; `tab.avaliar` idêntico nas 3 sementes; `cand.x0 == 70` (teste de integração); o
+marcador de 245,5 s na coluna 1 foi medido no T1.3 (acima), e **não foi remedido** nesta tarefa; AV1 com
+amostras (T1.2).

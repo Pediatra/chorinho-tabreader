@@ -14,6 +14,7 @@ import pytest
 
 from tab import estado
 from tab.caminhos import acervo
+from tab.colunas import Coluna
 from tab.inventario import ler_quadro
 from tab.painel import Candidato, escolher, refinar
 from tab.tabseg import segmentar
@@ -90,9 +91,9 @@ def test_estado_por_cor_usa_o_deslocamento(monkeypatch: pytest.MonkeyPatch) -> N
     ]
     cand = SimpleNamespace(y0=y0, x0=x0, grade=SimpleNamespace(glifos=tokens))
     monkeypatch.setattr(estado, "ler_quadro", lambda video, frac: (quadro, "x"))
-    # x_quadro das notas: o vermelho está em x_quadro = 280 + 20 = 300 -> nota 1
-    xs_quadro = [100, 300, 440]
-    r = estado.estado_por_cor("v.mp4", cand, xs_quadro, 2, 0.5, 0.6)
+    # x_quadro das colunas: o vermelho está em x_quadro = 280 + 20 = 300 -> coluna 1
+    colunas = [Coluna(100.0, [0]), Coluna(300.0, [1]), Coluna(440.0, [2])]
+    r = estado.estado_por_cor("v.mp4", cand, colunas, 2, 0.5, 0.6)
     assert r["com_destaque"] > 0
     assert list(r["onsets"]) == [1]
 

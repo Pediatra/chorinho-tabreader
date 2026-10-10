@@ -18,11 +18,11 @@ import numpy as np
 
 from . import leitor
 from .caminhos import MODELO_PADRAO, SAIDA
+from .colunas import agrupar_colunas
 from .cursor import detectar_cursor
 from .cursor import rastrear as rastrear_estado
 from .digito import carregar
-from .estado import estado_por_cor
-from .estado import onsets as onsets_do_estado
+from .estado import estado_por_cor, expandir_para_notas, onsets_por_coluna
 from .inventario import duracao, ler_quadro
 from .painel import escolher
 from .pipeline import roi_das_cordas
@@ -244,6 +244,11 @@ def main() -> int:
     for n in r["notas"]:
         n["x_quadro"] = m.x0 + n["x"]
     xs_quadro = [n["x_quadro"] for n in r["notas"]]
+    # ACORDE = UMA COLUNA. Notas com o mesmo x dividem a célula do estado; agrupadas, cada coluna
+    # tem UM onset e ele vale para todas as notas dela (medido: `sky guitar`, a coluna 1 tinha
+    # duas notas e só uma recebia tempo). `passo` vem da grade lida no próprio quadro.
+    colunas = agrupar_colunas(xs_quadro, r["passo"])
+    xs_colunas = [c.x_quadro for c in colunas]
     janelas = varrer_cursor(args.video, (y0, y1), t_max=args.varredura)
     # TEMPO POR TRAVESSIA. Medido no `iwaki/henze`: o marcador desliza ~65 px/s, então o
     # onset da nota é quando ele cruza o x dela — invertível. O `tempos_do_cursor`
@@ -257,11 +262,16 @@ def main() -> int:
     serie = serie_cursor(args.video, (y0, y1), t0, args.janela, passo_s=0.25)
     veredito = resumo(serie)
     if veredito["veredito"] in {"desliza", "salta"}:
+        # Calcula por COLUNA (um onset por acorde) e expande para as notas dela.
         if veredito["veredito"] == "desliza":
-            onsets = atribuir_tempos(xs_quadro, serie)
+            onsets_c = atribuir_tempos(xs_colunas, serie)
         else:
             # marcador que SALTA: o onset é o início do patamar, não uma travessia
-            onsets = tempos_por_patamar(xs_quadro, serie)
+            onsets_c = tempos_por_patamar(xs_colunas, serie)
+        por_nota = expandir_para_notas(
+            {k: t for k, t in enumerate(onsets_c) if t is not None}, colunas
+        )
+        onsets = [por_nota.get(i) for i in range(len(r["notas"]))]
         r = completar(r, [(t, None) if t is not None else None for t in onsets])
         r["tempo"] = {
             "medido": True,
@@ -276,9 +286,12 @@ def main() -> int:
         # ("qual nota esta acesa") e lido pela celula de x, e o onset e o primeiro instante em que a nota
         # passa a ser a atual — a MESMA regra para salto, varredura e o que mais aparecer. Amostra a cada
         # 5 quadros porque foi medido que 30 quadros (1 s) PERDE patamares (34 -> 47 onsets no `serge`).
-        achados = onsets_do_estado(
-            rastrear_estado(args.video, (y0, y1), passo=5).get("amostras") or [],
-            xs_quadro,
+        achados = expandir_para_notas(
+            onsets_por_coluna(
+                rastrear_estado(args.video, (y0, y1), passo=5).get("amostras") or [],
+                colunas,
+            ),
+            colunas,
         )
         if achados:
             lista = [achados.get(i) for i in range(len(r["notas"]))]
@@ -302,13 +315,14 @@ def main() -> int:
             cor = estado_por_cor(
                 args.video,
                 m,
-                xs_quadro,
+                colunas,
                 max(4, int(args.janela / 2)),
                 args.inicio,
                 frac_fim,
             )
             if cor["onsets"] and dur > 0:
-                lista = [cor["onsets"].get(i) for i in range(len(r["notas"]))]
+                por_nota = expandir_para_notas(cor["onsets"], colunas)
+                lista = [por_nota.get(i) for i in range(len(r["notas"]))]
                 lista = [t * dur if t is not None else None for t in lista]
                 r = completar(r, [(t, None) if t is not None else None for t in lista])
                 r["tempo"] = {

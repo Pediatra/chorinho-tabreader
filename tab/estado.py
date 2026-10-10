@@ -24,6 +24,7 @@ import argparse
 import sys
 
 from .caminhos import MODELO_PADRAO
+from .colunas import Coluna, agrupar_colunas
 from .cursor import rastrear
 from .destaque import coloracao
 from .inventario import ler_quadro
@@ -32,7 +33,7 @@ from .pipeline import roi_das_cordas
 from .reconhecer import carregar_modelo, reconhecer_linha
 
 
-def nota_do_x(x: float, xs: list[int]) -> int:
+def nota_do_x(x: float, xs: list[float]) -> int:
     """Devolve o índice (na ordem dada) da nota cuja célula contém ``x``.
 
     A célula é o intervalo entre as fronteiras vizinhas, com as fronteiras no **meio** entre notas
@@ -41,7 +42,7 @@ def nota_do_x(x: float, xs: list[int]) -> int:
 
     Args:
         x: x do marcador.
-        xs: x das notas, na ordem em que aparecem.
+        xs: x das notas (ou das colunas), na ordem em que aparecem.
 
     Returns:
         Índice da nota atual, ou ``-1`` se não houver notas.
@@ -56,12 +57,12 @@ def nota_do_x(x: float, xs: list[int]) -> int:
     return ordem[-1]
 
 
-def onsets(amostras: list[dict], xs: list[int]) -> dict[int, float]:
+def onsets(amostras: list[dict], xs: list[float]) -> dict[int, float]:
     """Devolve o instante do primeiro quadro em que cada nota passou a ser a atual.
 
     Args:
         amostras: série do `rastrear` (com ``t`` e ``x``).
-        xs: x das notas.
+        xs: x das notas (ou das colunas).
 
     Returns:
         ``{índice da nota: t do onset}``.
@@ -76,10 +77,43 @@ def onsets(amostras: list[dict], xs: list[int]) -> dict[int, float]:
     return achados
 
 
+def onsets_por_coluna(amostras: list[dict], colunas: list[Coluna]) -> dict[int, float]:
+    """Onset de cada COLUNA: o 1º instante em que ela é a coluna atual do marcador.
+
+    Args:
+        amostras: série do `rastrear` (com ``t`` e ``x`` no espaço do quadro).
+        colunas: colunas de `tab.colunas.agrupar_colunas`.
+
+    Returns:
+        ``{índice da coluna: t do onset}``.
+    """
+    return onsets(amostras, [c.x_quadro for c in colunas])
+
+
+def expandir_para_notas(
+    onsets_colunas: dict[int, float], colunas: list[Coluna]
+) -> dict[int, float]:
+    """Dá a cada NOTA o onset da sua coluna (todas as notas do acorde recebem o mesmo).
+
+    Args:
+        onsets_colunas: ``{índice da coluna: t}``, como devolvido por `onsets_por_coluna`.
+        colunas: as mesmas colunas usadas para gerar ``onsets_colunas``.
+
+    Returns:
+        ``{índice da nota: t}``. Notas de colunas sem onset ficam de fora.
+    """
+    por_nota: dict[int, float] = {}
+    for k, col in enumerate(colunas):
+        if k in onsets_colunas:
+            for i in col.indices:
+                por_nota[i] = onsets_colunas[k]
+    return por_nota
+
+
 def estado_por_cor(
     video: str,
     cand,
-    xs: list[int],
+    colunas: list[Coluna],
     n_amostras: int,
     frac_ini: float = 0.5,
     frac_fim: float = 0.6,
@@ -97,15 +131,17 @@ def estado_por_cor(
     Args:
         video: caminho do vídeo.
         cand: painel escolhido (dá a origem da ROI em ``y0`` e ``x0``).
-        xs: ``x_quadro`` das notas (espaço do QUADRO; a célula de x mapeia o
-            token aceso para a nota).
+        colunas: colunas de `tab.colunas.agrupar_colunas` (``x_quadro`` no espaço
+            do QUADRO; a célula de x mapeia o token aceso para a coluna).
         n_amostras: quantas frações amostrar entre ``frac_ini`` e ``frac_fim``.
         frac_ini: fração inicial.
         frac_fim: fração final.
 
     Returns:
-        ``{"onsets": {índice: fração}, "amostras": n, "com_destaque": n, "motivo": str|None}``.
+        ``{"onsets": {índice da coluna: fração}, "amostras": n, "com_destaque": n,
+        "motivo": str|None}``.
     """
+    xs = [c.x_quadro for c in colunas]
     onsets: dict[int, float] = {}
     amostras = com = 0
     for k in range(max(1, n_amostras)):
@@ -128,7 +164,7 @@ def estado_por_cor(
         mediana = sorted(outras)[len(outras) // 2] if outras else 0.0
         if melhor >= 0 and melhor_c >= 5.0 and melhor_c >= 3.0 * max(mediana, 0.5):
             com += 1
-            # A MESMA REGRA do outro observador: qual NOTA esta acesa — aqui, a nota cuja celula de x
+            # A MESMA REGRA do outro observador: qual COLUNA esta acesa — a cuja celula de x
             # contem o token colorido.
             tk = cand.grade.glifos[melhor]
             atual = nota_do_x(cand.x0 + float((tk.x0 + tk.x1) / 2), xs)
@@ -173,8 +209,8 @@ def main() -> int:
     notas = [
         n for n in r["notas"] if isinstance(n.get("casa"), str) and n["casa"].isdigit()
     ]
-    x_quadro = [cand.x0 + int(n["x"]) for n in notas]
-    xs = x_quadro
+    xs = [cand.x0 + int(n["x"]) for n in notas]
+    colunas = agrupar_colunas(xs, r["passo"])
     amostras = rastrear(args.video, (y0, y1), passo=args.passo).get("amostras") or []
     if args.janela:
         # A JANELA VEM DE ONDE O MARCADOR ESTA ATIVO, nao do `t` da PRIMEIRA amostra. Medido no
@@ -196,19 +232,20 @@ def main() -> int:
         cor = estado_por_cor(
             args.video,
             cand,
-            xs,
+            colunas,
             max(4, int(args.janela / 2)),
             args.inicio,
             min(0.99, args.inicio + args.janela / 600.0),
         )
         print(
             f"[COR] amostras={cor['amostras']} com_destaque={cor['com_destaque']} "
-            f"ONSETS={len(cor['onsets'])} de {len(notas)}"
+            f"ONSETS={len(expandir_para_notas(cor['onsets'], colunas))} de {len(notas)} "
+            f"(colunas={len(colunas)})"
         )
         if cor["motivo"]:
             print(f"MOTIVO: {cor['motivo']}")
         return 0
-    achados = onsets(amostras, xs)
+    achados = expandir_para_notas(onsets_por_coluna(amostras, colunas), colunas)
     com_x = [a for a in amostras if a.get("x") is not None]
     print(
         f"notas (algarismos)={len(notas)} | amostras={len(amostras)} (com x: {len(com_x)}) | "

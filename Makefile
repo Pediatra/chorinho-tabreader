@@ -21,8 +21,8 @@ lint:
 	$(RUN) ruff format --check .
 
 format:
-	$(RUN) ruff check --fix .
-	$(RUN) ruff format .
+	$(COMPOSE) run --rm -e RUFF_CACHE_DIR=/tmp/ruffcache chorinho ruff check --fix .
+	$(COMPOSE) run --rm -e RUFF_CACHE_DIR=/tmp/ruffcache chorinho ruff format .
 
 test:
 	$(RUN) pytest tests/ -q
