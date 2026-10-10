@@ -4124,3 +4124,37 @@ nota acrescentada por clique: centro = clique, `x_quadro` estimado = clique - 0,
 - **Liga com**: `CONTEXTO.md` §13.3 ("arcos precisam de janela larga") e o item 1 da Fase 10 em
   `docs/guias/plano-do-produto.md` (significado de símbolo/técnica, arco de ligadura incluído).
 - **Dívida**: a caixa do arco precisa de janela larga, medida no quadro, antes de qualquer campo `tecnica` depender dela.
+
+## 2026-10-10 — LINHA DE BASE do produto contra o ouro de vídeo
+
+- **Ouro**: `data/gold/ouro_video/retrato_brasileiro.json` (11 telas, 397 notas, 40 instantes com coluna acesa),
+  commit `69c3ec6e` (rotulado pelo dono; não editado).
+- **Modelo**: `artefatos/oficial_3/glifo_sint.pt` (`MODELO_PADRAO` em `tab/caminhos.py`). O JSON legado não grava
+  modelo nem commit, então a régua imprime "não consta"; por isso o registro está aqui.
+- **Commit do código**: `69c3ec6e` (nenhuma mudança de código nesta rodada; `make gate` verde: `All checks passed!`,
+  167 testes passando).
+- **Predição A (padrão)**: `python -m tab.transcrever "/acervo/sky guitar/retrato brasileiro - tab & lesson.mp4" --json data/saida/avaliar_video/base_transcrever.json`
+  com `--simbolos data/saida/avaliar_video/simbolos` (ver desvio abaixo). Parâmetros reais do padrão: `--inicio 0.4 --janela 30`.
+- **Predição B**: mesmo vídeo com `--inicio 0.5 --janela 30 --simbolos ""`, saída `data/saida/avaliar_video/base_meio30s.json`
+  (idêntica, byte a byte, ao `pred_smoke.json` de antes).
+- **Régua** (`python -m tab.avaliar_video --ouro data/gold/ouro_video/retrato_brasileiro.json --pred <predição> --json <relatório>`),
+  2 execuções por predição; os relatórios saíram idênticos (`cmp`):
+  - **A (padrão)**: telas 1 de 11 telas do ouro com par previsto. Notas: precisão 9 de 43 entregues; revocação
+    9 de 397 do ouro; inventadas 34 de 43; perdidas 388 de 397; acerto de casa 3 de 9 casadas. Tempo: 1 de 40 instantes
+    com o estado certo (acerto 1, erro 39, json sem tempo 0, tempo falso 0; ausência certa 0 de 0).
+  - **B (meio, sem símbolos)**: telas 1 de 11. Notas: precisão 5 de 37 entregues; revocação 5 de 397; inventadas
+    32 de 37; perdidas 392 de 397; acerto de casa 1 de 5. Tempo: 0 de 40 (erro 40).
+- **O que o número quer dizer**: o produto atual lê uma janela de 30 s (`--janela 30`), e o JSON legado é uma tela só.
+  A revocação baixa é esperada: a régua só deixa uma tela prevista casar com uma tela do ouro (no padrão, a tela 5,
+  com 33 notas), então o teto de revocação do legado é 33 de 397. Fase 3 (telas no tempo) e Fase 4 (leitura por tela)
+  resolvem isso.
+- **Problema da régua, não corrigido**: o legado vira uma tela com exibição do vídeo inteiro. Por isso os instantes do
+  ouro depois da janela transcrita (A: janela 239,2 a 294,6 s; 36 dos 40 instantes estão depois, em 260 a 672 s) caem em
+  `erro` (a última coluna continua "acesa"), e não em `json_sem_tempo`. Dentro da janela (t <= 294,6 s, medido sem mudar
+  código), A dá tempo 0 de 4 instantes (erro 4) e notas 5 de 397 de revocação. Corrigir isso é decidir a exibição de um
+  JSON legado (a janela transcrita não é gravada no JSON); fica para o dono, junto com a Fase 3.
+- **Desvio de execução**: o `--simbolos` padrão (`data/saida/simbolos`) não é gravável pelo container (pertence a um uid
+  mapeado pelo podman rootless, `nobody` dentro do container), e a execução padrão falhou com `PermissionError`. A
+  predição A saiu com os recortes em `data/saida/avaliar_video/simbolos`. Isso só muda onde ficam os recortes de símbolo,
+  mas não foi comparado com uma execução idêntica usando `--simbolos ""`.
+- **Não feito**: nada além de medir e registrar. O ouro não foi tocado; `data/saida/avaliar_video/` não foi commitado.
