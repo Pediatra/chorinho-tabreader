@@ -11,6 +11,7 @@ import cv2
 import numpy as np
 
 from tab.painel import (
+    aparar_pauta,
     candidatos,
     e_pauta,
     escolher,
@@ -130,3 +131,33 @@ def test_mesmas_linhas_tolera_so_desvio_pequeno() -> None:
         [945, 966, 988, 1009, 1030, 1051], [767, 781, 796, 810, 824, 838]
     )
     assert not mesmas_linhas([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5])
+
+
+def _quadro_com_pauta_e_tab(
+    pauta: list[int], tab: list[int], largura: int = 300, altura: int = 400
+) -> np.ndarray:
+    """Quadro branco com linhas pretas horizontais: pauta em cima, TAB embaixo."""
+    quadro = np.full((altura, largura, 3), 235, dtype=np.uint8)
+    for y in pauta + tab:
+        cv2.line(quadro, (20, y), (largura - 20, y), (30, 30, 30), 2)
+    return quadro
+
+
+def test_aparar_pauta_corta_a_caixa_para_so_a_tab() -> None:
+    quadro = _quadro_com_pauta_e_tab(
+        pauta=[60, 76, 92, 108, 124], tab=[180, 205, 230, 255, 280, 305]
+    )
+    rect = (0, 30, 300, 340)
+    assert aparar_pauta(quadro, rect) == (0, 155, 300, 330)
+
+
+def test_aparar_pauta_sem_pauta_em_cima_nao_mexe_na_caixa() -> None:
+    quadro = _quadro_com_pauta_e_tab(pauta=[], tab=[180, 205, 230, 255, 280, 305])
+    rect = (0, 150, 300, 340)
+    assert aparar_pauta(quadro, rect) == rect
+
+
+def test_aparar_pauta_so_pauta_nao_vira_tab() -> None:
+    quadro = _quadro_com_pauta_e_tab(pauta=[60, 76, 92, 108, 124], tab=[])
+    rect = (0, 30, 300, 200)
+    assert aparar_pauta(quadro, rect) == rect

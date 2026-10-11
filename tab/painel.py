@@ -447,6 +447,90 @@ def e_pauta(roi: np.ndarray, linhas_y: list[int]) -> bool:
     return fortes == 5
 
 
+#: Fração da linha mais forte do recorte a partir da qual uma linha de tinta conta como
+#: linha de pauta ou corda. Medido no FN05 (sky guitar, t=117,15): pauta e TAB ficam
+#: em 0,93 a 0,99 da mais forte, e o ruído de notas e hastes em 0,30 a 0,39.
+FRACAO_LINHA_PAUTA = 0.6
+
+
+def linhas_fortes(roi: np.ndarray, fracao: float = FRACAO_LINHA_PAUTA) -> list[float]:
+    """Centros das linhas horizontais fortes do recorte, de cima para baixo.
+
+    Usa a mesma máscara de união de ``forcas_das_linhas``: uma linha forte é um trecho
+    contínuo de linhas do perfil com tinta de pelo menos ``fracao`` da mais forte.
+
+    Args:
+        roi: recorte da faixa (BGR ou cinza).
+        fracao: fração da linha mais forte que uma linha precisa atingir.
+
+    Returns:
+        Y (relativo ao recorte) do centro de cada linha forte.
+    """
+    if roi.size == 0:
+        return []
+    perfil = _uniao_mascaras(roi).mean(axis=1)
+    if perfil.max() <= 0:
+        return []
+    forte = perfil >= fracao * perfil.max()
+    centros: list[float] = []
+    y = 0
+    while y < len(forte):
+        if forte[y]:
+            j = y
+            while j + 1 < len(forte) and forte[j + 1]:
+                j += 1
+            centros.append((y + j) / 2)
+            y = j + 1
+        else:
+            y += 1
+    return centros
+
+
+def aparar_pauta(
+    quadro: np.ndarray, rect: tuple[int, int, int, int]
+) -> tuple[int, int, int, int]:
+    """Corta a caixa do painel para só a TAB quando ela traz uma pauta de 5 linhas em cima.
+
+    Medido no FN05 (sky guitar, t=117,15, 2026-10-10, dono: "cobre a tablatura e tambem a
+    partitura, o quadrado deveria ser menor"): a caixa ia de y=710 a 1080 e cobria a pauta
+    (5 linhas fortes, y 720 a 786, passo 16,5) e a TAB (6 cordas, y 916 a 1039, passo 24,6).
+
+    A regra só ESTREITA a caixa, e só quando acha, dentro dela, um grupo de 6 linhas
+    fortes regularmente espaçadas (passo na faixa do acervo) com pelo menos 5 linhas fortes
+    acima. Nesse caso a caixa passa a ir de uma corda acima da TAB a uma corda abaixo dela.
+    Caixa sem pauta em cima fica como estava.
+
+    Args:
+        quadro: quadro BGR inteiro.
+        rect: caixa do painel no quadro, ``(x0, y0, x1, y1)``.
+
+    Returns:
+        A caixa aparada (a mesma ``rect`` se não houver pauta em cima da TAB).
+    """
+    x0, y0, x1, y1 = rect
+    roi = quadro[y0:y1, x0:x1]
+    ys = [round(v) for v in linhas_fortes(roi)]
+    escolhido: tuple[list[int], float] | None = None
+    for i in range(len(ys) - 5):
+        grupo = ys[i : i + 6]
+        passo = float(np.median([b - a for a, b in itertools.pairwise(grupo)]))
+        if not (PASSO_MINIMO_PX <= passo <= PASSO_MAXIMO_PX):
+            continue
+        if not espacamento_regular(grupo):
+            continue
+        acima = [v for v in ys[:i] if grupo[0] - v > passo]
+        if len(acima) < 5:
+            continue
+        escolhido = (grupo, passo)  # o último (mais embaixo) é a TAB
+    if escolhido is None:
+        return rect
+    grupo, passo = escolhido
+    margem = round(passo)
+    topo = max(0, grupo[0] - margem)
+    base = min(roi.shape[0], grupo[-1] + margem)
+    return (x0, y0 + topo, x1, y0 + base)
+
+
 def criar(
     nome: str,
     y0: int,

@@ -41,7 +41,7 @@ import cv2
 import numpy as np
 
 from . import leitor
-from .painel import PASSO_MAXIMO_PX, PASSO_MINIMO_PX, escolher
+from .painel import PASSO_MAXIMO_PX, PASSO_MINIMO_PX, aparar_pauta, escolher
 
 #: Retângulo ``(x0, y0, x1, y1)`` no espaço do QUADRO.
 Retangulo = tuple[int, int, int, int]
@@ -289,7 +289,7 @@ def painel_do_quadro(quadro: np.ndarray) -> Retangulo | None:
     y1 = min(quadro.shape[0], cand.y0 + max(linhas) + folga)
     x0 = cand.x0
     x1 = min(quadro.shape[1], x0 + cand.roi.shape[1])
-    rect = (int(x0), int(y0), int(x1), int(y1))
+    rect = aparar_pauta(quadro, (int(x0), int(y0), int(x1), int(y1)))
     miolo = recortar(quadro, rect)
     if miolo.size == 0:
         return None

@@ -4830,3 +4830,12 @@ Detalhe e tabelas em `docs/rodadas/0008-casa-13-par-de-algarismos.md`. Linha de 
 **MVP**: `tab.video` retrato → notas 485/485, revocação 485/491, inventadas 0, casa 483/485; tempo 39/40, falso 0; `tab.telas --ouro` 13/13 telas e 40/40 instantes; `tab.avaliar` oficial_1/2/3 = 66/72, 71/72, 68/72.
 
 **Não repetir / limites**: o piloto é de 3 vídeos por canal (amostra pequena); o teto de passo vale para **todos** os canais; `robert lunn black diamond` (4 FN antes, TAB visível) não entrou na amostra refeita e segue sem remedição; TAB em texto ASCII (violaodecria) conta como tablatura no olho.
+
+## 2026-10-11 — Fase 7.1: FN05 rotulado pelo dono e caixa aparada à TAB (aceite de caixa 0,984)
+
+- **Gabarito**: FN05 (sky guitar, t=117,15) tinha a caixa antiga `[62,710,1850,1080]`, que cobria a TAB e a pauta, e foi registrada como `grande_demais=true` (dono, 2026-10-10). Em 2026-10-11 o dono olhou a caixa nova `[62,891,1850,1064]` (`data/saida/fn05/folha_novas.jpg`) e marcou `caixa_sobre_tablatura=true`.
+- **Conserto** (`tab/painel.py`, `aparar_pauta`, chamado por `tab/telas.painel_do_quadro`): se a caixa tem 6 linhas fortes regulares (passo 14 a 55) com 5 linhas fortes acima, ela é aparada para ir de 1 passo acima da TAB a 1 passo abaixo. Só estreita; caixa sem pauta em cima fica como estava. Entre os 144 quadros do gabarito, só o FN05 muda de forma.
+- **Medição oficial** (`python -m tab.presenca_aval`): caixa **125/127 = 0,984** (era 124/127 = 0,976); revocação de caixa **125/130 = 0,962** (era 124/130 = 0,954); presença VP 127 FP 0 VN 14 FN 3. Erros de caixa restantes: FP02 e FP11 (ver o gabarito).
+- **MVP** (medido na cópia com o mesmo código): `tab.telas` retrato 13/13 telas e 40/40 instantes; `tab.avaliar` 66/72, 71/72, 68/72 (iguais ao HEAD); `tab.video` + `tab.avaliar_video`: precisão 485/485, revocação 485/491, inventadas 0, casa 483/485, tempo 39/40, tempo falso 0.
+- **Gate**: ruff check e ruff format --check ok; pytest 348 passed (sem integration).
+- **Não resolvido**: no FN05 o candidato vem da reserva `escolher_rapido` (faixa `base`) com a grade misturada (linha 786 da pauta mais cordas da TAB, passo 50,6 contra ~24,6 reais). O conserto só corrige a caixa, não a leitura desse quadro.
