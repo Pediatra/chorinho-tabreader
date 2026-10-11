@@ -4861,3 +4861,7 @@ Detalhe e tabelas em `docs/rodadas/0008-casa-13-par-de-algarismos.md`. Linha de 
 - **Decisão do coordenador**: passada densa **NÃO adotada no censo agora** (custo acima de 1,5x). Pendência registrada: passada densa só nos vídeos com `tablatura=false` de canais que têm TAB, depois do censo.
 - **Gate** (`make lint` e `make test` equivalentes, no container via podman): `ruff check .` All checks passed; `ruff format --check .` 83 files already formatted; `pytest tests/ -m 'not integration'` 363 passed, 3 deselected.
 - **Não repetir / limites**: a sonda densa mediu 4 vídeos, não o acervo. O cache não substitui a medição de equivalência em canais novos; qualquer mudança de recorte ou de decodificação invalida o cache (regra 9).
+
+## 2026-10-11 — violaodecria e tv cifras FORA da Fase 8 (decisão do dono)
+
+- Decisão do dono (2026-10-11, no chat): `violaodecria` (TAB em texto ASCII, contagem inflada) e `tv cifras` (51/537 com TAB no censo parcial) saem do gabarito da Fase 8 e da primeira transcrição em massa. Ver `docs/decisoes/0009-canais-fora-da-fase-8.md`; `configs/canais.yaml` marca `rollout: fora`. O ouro final sai do censo completo; sobram 7 canais, no mínimo do T8.1.

@@ -9,7 +9,7 @@
 # (`simbolo_cru` no JSON + PNG deduplicado por hash em `data/saida/simbolos/`).
 
 versao: 1
-atualizado: 2026-10-09
+atualizado: 2026-10-11
 
 canais:
 
@@ -77,6 +77,8 @@ canais:
 
   violaodecria:
     fonte: dono do projeto
+    rollout: fora               # decisão do dono (2026-10-11), docs/decisoes/0009
+    motivo: "tablatura em TEXTO (ASCII), vídeos curtos verticais, contagem inflada por partitura de ritmo"
     posicao:
       esperado: sem ponto fixo — formato TikTok, a tablatura aparece em pontos diferentes
       muda_de_lugar: true
@@ -92,6 +94,11 @@ canais:
       - "aparece mensagem de pergunta do TikTok na tela do vídeo"
     simbolos:
       acao: separar_e_guardar
+
+  "tv cifras":
+    fonte: decisão do dono (2026-10-11)
+    rollout: fora               # decisão do dono (2026-10-11), docs/decisoes/0009
+    motivo: "51/537 vídeos com tablatura no censo parcial; quase só violão filmado e diagrama de acorde"
 
   iwaki:
     fonte: dono do projeto

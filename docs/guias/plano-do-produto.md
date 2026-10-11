@@ -768,8 +768,8 @@ e pelas **formas** do censo. Proposta:
 
 | canal | vídeos no acervo | por que entra |
 | --- | --- | --- |
-| violaodecria | 1.037 | maior canal; quase não medido. **Primeiro confirme no censo se tem tablatura** (o detector já escolheu piano lá) |
-| tv cifras | 522 | 2º maior; forma "salta" |
+| violaodecria | 1.037 | **FORA** (decisão do dono, 2026-10-11; `docs/decisoes/0009`): censo mostra tablatura em **texto** (ASCII), vídeos curtos verticais, contagem inflada por partitura de ritmo |
+| tv cifras | 522 | **FORA** (decisão do dono, 2026-10-11; `docs/decisoes/0009`): 51 de 537 vídeos com tablatura no censo parcial |
 | sky guitar | 417 | MVP (já no ouro) |
 | guitar dell'arte | 361 | faixa azul; partitura + tab; "notas fantasmas" na virada de tela (`configs/canais.yaml`) |
 | cifra club | 341 | cor **cumulativa**, painel **escuro**, algarismo pequeno (0,38 passo) |
@@ -777,6 +777,10 @@ e pelas **formas** do censo. Proposta:
 | robert lunn | 229 | patamar/rolagem? |
 | mr. tabs | 22 | cor (destaque azul), **AV1** |
 | iwaki | 164 | **sem marcador** (testa o CA-6) |
+
+Com os dois canais acima fora, sobram **7 canais**: o mínimo de "≥ 7 canais" está no limite.
+A escolha final do ouro sai do **censo completo** (`data/saida/censo/`), não desta tabela; a
+tabela é só a proposta de partida.
 
 Rotular cada um como na Fase 2 (~30 min por vídeo).
 
