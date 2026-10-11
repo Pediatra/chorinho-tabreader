@@ -34,7 +34,9 @@ import numpy as np
 
 from .tabseg import (
     Grade,
+    _segmentar_de_mascara,
     _uniao_mascaras,
+    delimitar_tokens,
     extensao_das_linhas,
     mascaras_candidatas,
     picos_de_linha,
@@ -638,3 +640,159 @@ def escolher(frame: np.ndarray, min_glifos: int = MIN_GLIFOS) -> Candidato | Non
             else melhor(candidatos(frame, min_glifos))
         )
     return refinar(esc) if esc is not None else None
+
+
+# ---------------------------------------------------------------------------------
+# TAB ESCURA (cifra club): caminho ADITIVO, só para quadro sem candidato do HEAD
+# ---------------------------------------------------------------------------------
+
+NOME_MASCARA_CLARA = "contraste_claro_k21_d12"
+
+
+def _grupos_regulares(
+    picos: list[int],
+    altura: int,
+    passo_min: float,
+    passo_max: float,
+    tolerancia: float,
+    nome: str,
+) -> list[tuple[str, float, int, int, list[int]]]:
+    """Janelas de 6 picos consecutivos, regulares e com passo na faixa do acervo.
+
+    Args:
+        picos: y dos picos de UMA máscara, em ordem.
+        altura: altura do quadro (para limitar a faixa).
+        passo_min: passo mínimo aceitável, em px.
+        passo_max: passo máximo aceitável, em px.
+        tolerancia: razão máxima entre a maior e a menor lacuna do grupo.
+        nome: nome da máscara que achou os picos.
+
+    Returns:
+        ``(nome, passo, y0, y1, cordas)`` de cada grupo aceito: ``cordas`` são as 6 linhas
+        relativas a ``y0``; a faixa ``[y0, y1)`` leva a margem de uma corda.
+    """
+    achados: list[tuple[str, float, int, int, list[int]]] = []
+    for i in range(len(picos) - 5):
+        grupo = picos[i : i + 6]
+        passo = float(np.median([b - a for a, b in itertools.pairwise(grupo)]))
+        if not (passo_min <= passo <= passo_max):
+            continue
+        if not espacamento_regular(grupo, tolerancia=tolerancia):
+            continue
+        margem = round(passo)  # round() de float já devolve int (regra 8)
+        y0 = max(0, grupo[0] - margem)
+        y1 = min(altura, grupo[-1] + margem)
+        if y1 - y0 < 60:
+            continue
+        achados.append((nome, passo, y0, y1, [v - y0 for v in grupo]))
+    return achados
+
+
+def _grade_do_grupo(
+    roi: np.ndarray, nome: str, cordas: list[int], passo: float
+) -> Grade:
+    """Grade de uma faixa cujas 6 cordas JÁ foram achadas pela máscara ``nome``.
+
+    Por que não `segmentar(roi)`: a busca de cordas dele usa fração de tinta 0,30, e a
+    TAB escura (máscara `contraste_claro`, cordas com tinta 0,29-0,31) não chega lá: a
+    faixa dava `linhas=0`. Aqui as cordas vêm do grupo regular já achado, e o resto segue
+    o `segmentar`: a grade pela máscara e depois o delimitador de tokens.
+
+    Args:
+        roi: recorte da faixa (BGR).
+        nome: nome da máscara que achou as cordas (``mascaras_candidatas``).
+        cordas: as 6 linhas, relativas ao recorte.
+        passo: passo entre cordas, em px.
+
+    Returns:
+        A grade, com os glifos já delimitados.
+    """
+    tinta = dict(mascaras_candidatas(roi))[nome]
+    g = _segmentar_de_mascara(tinta, 6, list(cordas), passo)
+    g.glifos, recusados = delimitar_tokens(
+        g.glifos,
+        g.passo,
+        g.linhas_y,
+        extensao=extensao_das_linhas(roi, g.linhas_y),
+        tinta=tinta,
+        cinza=cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY),
+    )
+    g.recusados = recusados
+    return g
+
+
+#: Fundo de TAB escura: cinza mediano da faixa até este valor (medido: TAB escura 26; painel
+#: claro 84 a 97; video escuro não passou no `criar`, ver _diag/feat.py).
+FUNDO_ESCURO_MAXIMO = 50.0
+#: Contraste mediano das cordas: cinza na linha menos cinza 4 a 7 px acima (medido: TAB
+#: escura 13,7 a 21,5 nos 15 rotulados; o mínimo dos grupos de painel claro foi 50 e o do
+#: VP16 com fundo 97 passava só por isso).
+CONTRASTE_LINHA_MINIMO = 12.0
+
+
+def candidatos_claros_escuros(frame: np.ndarray) -> list[tuple[float, Candidato]]:
+    """Grupos de 6 cordas claras sobre fundo ESCURO, achados SÓ na máscara `contraste_claro`.
+
+    Só entra grupo cuja faixa tem fundo escuro (cinza mediano <= FUNDO_ESCURO_MAXIMO) e
+    cujas cordas são mais claras que o fundo acima delas (contraste mediano >=
+    CONTRASTE_LINHA_MINIMO). Painel claro não passa por aqui: quem atende painel claro é o
+    `escolher` do HEAD.
+
+    Args:
+        frame: quadro inteiro (BGR).
+
+    Returns:
+        ``(uniformidade, candidato)`` de cada grupo escuro que `criar` aceita.
+    """
+    cinza = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.float32)
+    mascara = dict(mascaras_candidatas(frame))[NOME_MASCARA_CLARA]
+    picos: list[int] = []
+    for fracao in (0.30, 0.15):
+        for _v, y in picos_de_linha(mascara, fracao_min=fracao):
+            y = int(y)
+            if not picos or all(abs(y - p) > 2 for p in picos):
+                picos.append(y)
+    picos.sort()
+    achados: list[tuple[float, Candidato]] = []
+    for nome, passo, y0, y1, cordas in _grupos_regulares(
+        picos,
+        frame.shape[0],
+        PASSO_MINIMO_PX,
+        PASSO_MAXIMO_PX,
+        TOLERANCIA_ESPACAMENTO,
+        NOME_MASCARA_CLARA,
+    ):
+        roi = frame[y0:y1, :]
+        if float(np.median(cinza[y0:y1, :])) > FUNDO_ESCURO_MAXIMO:
+            continue
+        if _contraste_das_cordas(cinza, cordas, y0) < CONTRASTE_LINHA_MINIMO:
+            continue
+        try:
+            g = _grade_do_grupo(roi, nome, cordas, passo)
+        except Exception:  # nunca derrubar a varredura por uma faixa ruim
+            continue
+        c = criar(f"y{y0}", y0, y1, roi, g)
+        if c is not None:
+            achados.append((c.uniformidade, c))
+    return achados
+
+
+def _contraste_das_cordas(cinza: np.ndarray, cordas: list[int], y0: int) -> float:
+    """Mediana, sobre as 6 cordas, de (cinza na linha) menos (cinza 4 a 7 px acima).
+
+    Args:
+        cinza: quadro em cinza (float32).
+        cordas: y das 6 cordas, relativos a ``y0``.
+        y0: topo da faixa no quadro.
+
+    Returns:
+        O contraste mediano (positivo quando a corda é mais clara que o fundo acima).
+    """
+    largura = cinza.shape[1]
+    difs = []
+    for c in cordas:
+        y = y0 + c
+        linha = cinza[max(0, y - 1) : y + 2, 200 : largura - 200].mean()
+        acima = cinza[max(0, y - 7) : max(0, y - 3), 200 : largura - 200].mean()
+        difs.append(float(linha - acima))
+    return float(np.median(difs))

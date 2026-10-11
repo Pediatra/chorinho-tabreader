@@ -41,7 +41,14 @@ import cv2
 import numpy as np
 
 from . import leitor
-from .painel import PASSO_MAXIMO_PX, PASSO_MINIMO_PX, aparar_pauta, escolher
+from .painel import (
+    PASSO_MAXIMO_PX,
+    PASSO_MINIMO_PX,
+    aparar_pauta,
+    candidatos_claros_escuros,
+    escolher,
+    refinar,
+)
 
 #: Retângulo ``(x0, y0, x1, y1)`` no espaço do QUADRO.
 Retangulo = tuple[int, int, int, int]
@@ -269,6 +276,78 @@ def recortar(quadro: np.ndarray, rect: Retangulo) -> np.ndarray:
 
 
 def painel_do_quadro(quadro: np.ndarray) -> Retangulo | None:
+    """Retângulo do painel de tablatura no QUADRO, ou ``None`` se não há tablatura.
+
+    Primeiro o caminho do HEAD (painel claro, inalterado). Só se ele não achar nada, a TAB
+    ESCURA (`_painel_escuro`): grupo de cordas claras sobre fundo escuro, na máscara de
+    contraste claro. Painel claro nunca chega ao caminho escuro se o do HEAD o achou.
+
+    Args:
+        quadro: quadro BGR inteiro.
+
+    Returns:
+        ``(x0, y0, x1, y1)`` no espaço do quadro, ou ``None``.
+    """
+    rect = _painel_do_quadro_claro(quadro)
+    if rect is not None:
+        return rect
+    return _painel_escuro(quadro)
+
+
+def _caixa_do_candidato(quadro: np.ndarray, cand) -> Retangulo | None:
+    """Caixa aparada de um candidato, ou None se o portão de cor (fundo) reprova.
+
+    Mesmas contas do `_painel_do_quadro_claro`, a partir do candidato já refinado.
+
+    Args:
+        quadro: quadro BGR inteiro.
+        cand: candidato de ``tab.painel``.
+
+    Returns:
+        ``(x0, y0, x1, y1)`` aparado, ou None.
+    """
+    linhas = list(cand.grade.linhas_y)
+    folga = round(1.5 * cand.passo)
+    y0 = max(0, cand.y0 + min(linhas) - folga)
+    y1 = min(quadro.shape[0], cand.y0 + max(linhas) + folga)
+    x0 = cand.x0
+    x1 = min(quadro.shape[1], x0 + cand.roi.shape[1])
+    rect = aparar_pauta(quadro, (int(x0), int(y0), int(x1), int(y1)))
+    miolo = recortar(quadro, rect)
+    if miolo.size == 0:
+        return None
+    saturacao = cv2.cvtColor(miolo, cv2.COLOR_BGR2HSV)[:, :, 1]
+    cinza = cv2.cvtColor(miolo, cv2.COLOR_BGR2GRAY)
+    if (
+        np.median(saturacao) > SATURACAO_MEDIANA_MAXIMA
+        or np.median(cinza) < CINZA_MEDIANO_MINIMO
+    ):
+        return None
+    return rect
+
+
+def _painel_escuro(quadro: np.ndarray) -> Retangulo | None:
+    """Caixa da TAB escura: o primeiro grupo escuro (por uniformidade) que passa no portão.
+
+    Args:
+        quadro: quadro BGR inteiro.
+
+    Returns:
+        A caixa aparada, ou None se nenhum grupo escuro passar.
+    """
+    for _uniform, cand in sorted(
+        candidatos_claros_escuros(quadro), key=lambda t: t[0], reverse=True
+    ):
+        cand = refinar(cand)
+        if not PASSO_MINIMO_PX <= cand.passo <= PASSO_MAXIMO_PX:
+            continue
+        rect = _caixa_do_candidato(quadro, cand)
+        if rect is not None:
+            return rect
+    return None
+
+
+def _painel_do_quadro_claro(quadro: np.ndarray) -> Retangulo | None:
     """Retângulo do painel de tablatura no QUADRO, ou ``None`` se não há tablatura.
 
     Usa o ``painel.escolher`` e os portões medidos contra o braço do violão e a tela preta:
