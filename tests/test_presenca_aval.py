@@ -103,7 +103,7 @@ def test_gabarito_por_quadro_tem_o_contrato_do_dono():
     com_caixa = [c for c in casos if c["caixa"] is not None]
     assert len(com_caixa) == 118
     assert sum(1 for c in com_caixa if c["caixa_sobre_tablatura"]) == 109
-    assert sum(1 for c in casos if c["tablatura_no_quadro"]) == 130
+    assert sum(1 for c in casos if c["tablatura_no_quadro"]) == 134
     nao_tab = {c["codigo"] for c in com_caixa if c["caixa_sobre_tablatura"] is False}
     assert nao_tab == {
         "FP02",
@@ -132,7 +132,13 @@ def test_caixas_revistas_do_dono_2026_10_10():
     assert revistas[("FP11", (966, 797, 1920, 1006))]["caixa_sobre_tablatura"] is False
     assert revistas[("FP11", (966, 797, 1920, 1006))]["parcial"] is True
     assert revistas[("FN01", (75, 395, 1857, 599))]["caixa_sobre_tablatura"] is True
-    assert len(revistas) == 23
+    assert len(revistas) == 25
+    # decisão do dono (2026-10-11): TAB visível em VN05, VN06 (caixa sobre a TAB), VN12, VN16
+    assert revistas[("VN05", (0, 688, 2220, 1080))]["caixa_sobre_tablatura"] is True
+    assert revistas[("VN06", (0, 688, 2220, 1080))]["caixa_sobre_tablatura"] is True
+    for cod in ("VN05", "VN06", "VN12", "VN16"):
+        caso = next(c for c in g["casos"] if c["codigo"] == cod)
+        assert caso["tablatura_no_quadro"] is True
     assert revistas[("FN05", (62, 891, 1850, 1064))]["caixa_sobre_tablatura"] is True
     fn05 = revistas[("FN05", (62, 710, 1850, 1080))]
     assert fn05["caixa_sobre_tablatura"] is False
@@ -142,6 +148,6 @@ def test_caixas_revistas_do_dono_2026_10_10():
     assert casos["VN14"]["caixa"] is None
     com_caixa = {c["codigo"] for c in g["casos"] if c["caixa"] is not None}
     com_caixa |= {r["codigo"] for r in g["caixas_revistas"]}
-    assert len(com_caixa) == 128
-    assert g["quadros"]["com_caixa"] == 128
-    assert g["quadros"]["tablatura_no_quadro"] == 130
+    assert len(com_caixa) == 130
+    assert g["quadros"]["com_caixa"] == 130
+    assert g["quadros"]["tablatura_no_quadro"] == 134

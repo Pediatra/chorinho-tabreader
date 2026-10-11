@@ -1,10 +1,10 @@
 {
- "como_foi_rotulado": "Folhas fp_presenca_1..4 da Fase 7.0 (data/saida/presenca/) e vp_presenca_1, lidas quadro a quadro. O dono (2026-10-10, por escrito) marcou os 9 falsos positivos que NAO sao tablatura: FP02, FP03, FP09, FP10, FP11 (braco do violao escolhido; a TAB real esta em outra regiao do mesmo quadro) e FP30, FP31, FP37, FP38 (partitura de 5 linhas sem TAB). Os demais 32 FP + 77 VP estao confirmados como caixa sobre tablatura. Os 26 quadros em que o detector disse nao (20 VN, 6 FN) usam o rotulo do data/gold/portao.json (por recorte, tirado para o quadro: tablatura se algum recorte do quadro tem rotulo tablatura). Por isso tablatura_no_quadro e caixa_sobre_tablatura sao campos distintos: a caixa mede PRECISAO, tablatura_no_quadro mede REVOCACAO. Revisao visual da Fase 7.1: nos 4 quadros FP30, FP31, FP37 e FP38 a caixa cobre so a pauta de 5 linhas, e a TAB de 6 cordas com algarismos esta embaixo, no mesmo quadro (faixa base); por isso tablatura_no_quadro=true nesses 4, e caixa_sobre_tablatura=false (caixa sobre a pauta). DECISAO DO DONO (2026-10-10, por escrito, olhando os quadros): VN15, VN17, VN18, VN19 e VN20 TEM tablatura no quadro (faixa base); portao.json os rotulou nao_tablatura por recorte. tablatura_no_quadro=true nesses 5. FP38 confirmado: caixa [0,624,1920,763] fica acima da tablatura, sobre a pauta; caixa_sobre_tablatura=false. DECISAO DO DONO (2026-10-10, por escrito, olhando data/saida/c1b/folha_novas.jpg), sobre as 4 caixas novas do commit 1d4fbfc0 (gravadas em caixas_revistas): FP02 caixa [0,0,1920,106] NAO e tablatura (caixa_sobre_tablatura=false); VN14 caixa [0,917,1920,1077] E tablatura (caixa_sobre_tablatura=true e tablatura_no_quadro=true, 129 -> 130); VN18 caixa [0,913,1920,1080] E tablatura (true); FP38 caixa [0,903,1920,1080] E tablatura (true). quadros.com_caixa 118 -> 120 (casos + caixas_revistas). DECISAO DO DONO (2026-10-10, olhando o quadro com a caixa): FP03 caixa [0,915,1920,1076] COBRE a tablatura (caixa_sobre_tablatura=true), gravada em caixas_revistas junto das 4 acima. DECISAO DO DONO (2026-10-10, por escrito, olhando folha_15a/folha_15b): das 15 caixas de caixas_revistas pendentes, 14 cobrem a tablatura (caixa_sobre_tablatura=true): FN01, VP05, FP09, FP10, VN15, VN17, FN03, FN04, VP58, FN06, VN19, FP30, FP31, FP37. FP11 [966,797,1920,1006] e PARCIAL: cobre so metade da tablatura (caixa_sobre_tablatura=false, parcial=true). Conta como defeito de precisao. Caixa revista do FN05 (sky guitar, t=117,15, dono, 2026-10-10): caixa [62,710,1850,1080] cobre a TAB e tambem a pauta de 5 linhas acima; o dono pediu quadrado menor. Rotulada caixa_sobre_tablatura=false e grande_demais=true (caixa de tamanho errado conta como erro de caixa ate o conserto). FN05, caixa nova do conserto aparar_pauta [62,891,1850,1064] (dono, 2026-10-11, folha_novas.jpg): cobre so a tablatura, caixa_sobre_tablatura=true; a caixa antiga [62,710,1850,1080] continua registrada como grande_demais=true.",
+ "como_foi_rotulado": "Folhas fp_presenca_1..4 da Fase 7.0 (data/saida/presenca/) e vp_presenca_1, lidas quadro a quadro. O dono (2026-10-10, por escrito) marcou os 9 falsos positivos que NAO sao tablatura: FP02, FP03, FP09, FP10, FP11 (braco do violao escolhido; a TAB real esta em outra regiao do mesmo quadro) e FP30, FP31, FP37, FP38 (partitura de 5 linhas sem TAB). Os demais 32 FP + 77 VP estao confirmados como caixa sobre tablatura. Os 26 quadros em que o detector disse nao (20 VN, 6 FN) usam o rotulo do data/gold/portao.json (por recorte, tirado para o quadro: tablatura se algum recorte do quadro tem rotulo tablatura). Por isso tablatura_no_quadro e caixa_sobre_tablatura sao campos distintos: a caixa mede PRECISAO, tablatura_no_quadro mede REVOCACAO. Revisao visual da Fase 7.1: nos 4 quadros FP30, FP31, FP37 e FP38 a caixa cobre so a pauta de 5 linhas, e a TAB de 6 cordas com algarismos esta embaixo, no mesmo quadro (faixa base); por isso tablatura_no_quadro=true nesses 4, e caixa_sobre_tablatura=false (caixa sobre a pauta). DECISAO DO DONO (2026-10-10, por escrito, olhando os quadros): VN15, VN17, VN18, VN19 e VN20 TEM tablatura no quadro (faixa base); portao.json os rotulou nao_tablatura por recorte. tablatura_no_quadro=true nesses 5. FP38 confirmado: caixa [0,624,1920,763] fica acima da tablatura, sobre a pauta; caixa_sobre_tablatura=false. DECISAO DO DONO (2026-10-10, por escrito, olhando data/saida/c1b/folha_novas.jpg), sobre as 4 caixas novas do commit 1d4fbfc0 (gravadas em caixas_revistas): FP02 caixa [0,0,1920,106] NAO e tablatura (caixa_sobre_tablatura=false); VN14 caixa [0,917,1920,1077] E tablatura (caixa_sobre_tablatura=true e tablatura_no_quadro=true, 129 -> 130); VN18 caixa [0,913,1920,1080] E tablatura (true); FP38 caixa [0,903,1920,1080] E tablatura (true). quadros.com_caixa 118 -> 120 (casos + caixas_revistas). DECISAO DO DONO (2026-10-10, olhando o quadro com a caixa): FP03 caixa [0,915,1920,1076] COBRE a tablatura (caixa_sobre_tablatura=true), gravada em caixas_revistas junto das 4 acima. DECISAO DO DONO (2026-10-10, por escrito, olhando folha_15a/folha_15b): das 15 caixas de caixas_revistas pendentes, 14 cobrem a tablatura (caixa_sobre_tablatura=true): FN01, VP05, FP09, FP10, VN15, VN17, FN03, FN04, VP58, FN06, VN19, FP30, FP31, FP37. FP11 [966,797,1920,1006] e PARCIAL: cobre so metade da tablatura (caixa_sobre_tablatura=false, parcial=true). Conta como defeito de precisao. Caixa revista do FN05 (sky guitar, t=117,15, dono, 2026-10-10): caixa [62,710,1850,1080] cobre a TAB e tambem a pauta de 5 linhas acima; o dono pediu quadrado menor. Rotulada caixa_sobre_tablatura=false e grande_demais=true (caixa de tamanho errado conta como erro de caixa ate o conserto). FN05, caixa nova do conserto aparar_pauta [62,891,1850,1064] (dono, 2026-10-11, folha_novas.jpg): cobre so a tablatura, caixa_sobre_tablatura=true; a caixa antiga [62,710,1850,1080] continua registrada como grande_demais=true. DECISAO DO DONO (2026-10-11, por escrito, olhando data/saida/cifra/vn_suspeitos.jpg): VN05, VN06, VN12 e VN16 TEM tablatura no quadro (tablatura_no_quadro=true; antes false). As caixas novas de VN05 e VN06 [0,688,2220,1080] (TAB escura, canal cifra club) foram gravadas em caixas_revistas com caixa_sobre_tablatura=true, porque cobrem a TAB visivel.",
  "criterio": "caixa_sobre_tablatura: a caixa do detector (caixa, no quadro inteiro) cobre tablatura real. null quando o detector nao desenhou caixa. tablatura_no_quadro: ha TAB em alguma regiao do quadro.",
  "quadros": {
   "total": 144,
-  "com_caixa": 128,
-  "tablatura_no_quadro": 130
+  "com_caixa": 130,
+  "tablatura_no_quadro": 134
  },
  "casos": [
   {
@@ -50,7 +50,7 @@
    "t": 1129.72,
    "caixa": null,
    "caixa_sobre_tablatura": null,
-   "tablatura_no_quadro": false
+   "tablatura_no_quadro": true
   },
   {
    "codigo": "VN06",
@@ -59,7 +59,7 @@
    "t": 1477.33,
    "caixa": null,
    "caixa_sobre_tablatura": null,
-   "tablatura_no_quadro": false
+   "tablatura_no_quadro": true
   },
   {
    "codigo": "VN07",
@@ -472,7 +472,7 @@
    "t": 140.26,
    "caixa": null,
    "caixa_sobre_tablatura": null,
-   "tablatura_no_quadro": false
+   "tablatura_no_quadro": true
   },
   {
    "codigo": "VP16",
@@ -741,7 +741,7 @@
    "t": 127.99,
    "caixa": null,
    "caixa_sobre_tablatura": null,
-   "tablatura_no_quadro": false
+   "tablatura_no_quadro": true
   },
   {
    "codigo": "FP19",
@@ -2149,6 +2149,28 @@
    ],
    "caixa_sobre_tablatura": true,
    "motivo": "caixa nova do conserto aparar_pauta (corta a pauta de 5 linhas e fica na TAB). Dono (2026-10-11, olhando data/saida/fn05/folha_novas.jpg): cobre so a tablatura."
+  },
+  {
+   "codigo": "VN05",
+   "caixa": [
+    0,
+    688,
+    2220,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "DECISAO DO DONO (2026-10-11, olhando data/saida/cifra/vn_suspeitos.jpg): TAB visivel no quadro; caixa do detector da TAB escura (caminho aditivo de tab/painel.py) cobre a TAB."
+  },
+  {
+   "codigo": "VN06",
+   "caixa": [
+    0,
+    688,
+    2220,
+    1080
+   ],
+   "caixa_sobre_tablatura": true,
+   "motivo": "DECISAO DO DONO (2026-10-11, olhando data/saida/cifra/vn_suspeitos.jpg): TAB visivel no quadro; caixa do detector da TAB escura (caminho aditivo de tab/painel.py) cobre a TAB."
   }
  ],
  "suspeitas_rotulo_nao": []
