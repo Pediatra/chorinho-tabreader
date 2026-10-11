@@ -138,3 +138,33 @@ canais:
       onde: comeco_do_video
     simbolos:
       acao: separar_e_guardar
+
+# Canais ativos sem perfil ainda (T7.3): só nome e rollout; sem perfil inventado.
+  "kenneth acoustic":
+    rollout: ativo
+  "kimny's guitar":
+    rollout: ativo
+  "leonardo ramos":
+    rollout: ativo
+  "lonelypicker":
+    rollout: ativo
+  "mr. tabs":
+    rollout: ativo
+  "pablo romé":
+    rollout: ativo
+  "paolo d'angelo":
+    rollout: ativo
+  "robert lunn":
+    rollout: ativo
+  "serge kottelat":
+    rollout: ativo
+  "transcriptor":
+    rollout: ativo
+  "tv on guitar":
+    rollout: ativo
+  "vvxofingerstyletab":
+    rollout: ativo
+  "yunus guitarist":
+    rollout: ativo
+  "ギタロー ⧸ guitarous":
+    rollout: ativo

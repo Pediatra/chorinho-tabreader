@@ -267,6 +267,8 @@ não houver resposta, siga o ⭐ e registre que foi suposição.
 | **D6** | Tempo do dono para rotular: o plano pede **~2 h** até o MVP e **~8 h** até o fim (estimativa na Fase 2) | — (só informar) |
 | **D7** | Tablatura **rolante** (contínua): entra no escopo agora? | só se o censo (Fase 7) mostrar ≥ 10 % do acervo |
 
+> **D7 respondida pelo censo (2026-10-11)**: 65 de 405 vídeos com janela medida são rolantes (16 %), em 8 canais; estimativa ~450 de 2.798 do acervo ativo (16 %). Acima de 10 %, então T8.4 entra no escopo. Ressalva: a classificação rolante não foi conferida na folha de 30 (ver ESTADO, 2026-10-11).
+
 ---
 
 ## 6. As fases
@@ -757,7 +759,7 @@ que o censo deu, e **olhe**. Concordância ≥ 90 %, senão conserte o classific
 - [ ] tabela por canal no ESTADO: % com tablatura, % paginado/rolante, % com faixa/cor/sem
       marcador, % AV1;
 - [ ] conferência de 30 vídeos ≥ 90 %;
-- [ ] decisão D7 (rolagem) respondida **com o número** do censo.
+- [x] decisão D7 (rolagem) respondida **com o número** do censo (65/405 com janela, 16 %; ver linha D7 da tabela de decisões).
 
 ---
 

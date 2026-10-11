@@ -4890,3 +4890,44 @@ Detalhe e tabelas em `docs/rodadas/0008-casa-13-par-de-algarismos.md`. Linha de 
 ## 2026-10-11 — violaodecria e tv cifras FORA da Fase 8 (decisão do dono)
 
 - Decisão do dono (2026-10-11, no chat): `violaodecria` (TAB em texto ASCII, contagem inflada) e `tv cifras` (51/537 com TAB no censo parcial) saem do gabarito da Fase 8 e da primeira transcrição em massa. Ver `docs/decisoes/0009-canais-fora-da-fase-8.md`; `configs/canais.yaml` marca `rollout: fora`. O ouro final sai do censo completo; sobram 7 canais, no mínimo do T8.1.
+
+## 2026-10-11 — Fase 7 (T7.1–T7.3): censo completo, tabela por canal, D7 e conferência de 30
+
+**Censo** (`data/saida/censo/censo_cache.jsonl`, 3.813 linhas, 0 erros, sem chave repetida). Fora da tabela: `violaodecria` (478) e `tv cifras` (537), cortados por decisão 0009; ficam só nesta nota. Ativos: **2.798 vídeos, 19 canais**, 269,2 h de vídeo. Por canal, "forma" e "marcador" usam só os vídeos com janela medida (amostra de 30 por canal; n entre parênteses). "TAB estimada" = duração × fração média de instantes com TAB.
+
+| canal | vídeos | com TAB (vídeo) | fração média com TAB | forma (n com janela) | marcador (n com janela) | AV1 | TAB estimada (h) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| sky guitar | 417 | 416 (100 %) | 0,62 | 30: pag 93 % / rol 0 % / fixo 7 % | 30: faixa 100 % / cor 0 % / sem 0 % | 38 % | 25,0 |
+| robert lunn | 369 | 344 (93 %) | 0,76 | 27: pag 96 % / rol 0 % / fixo 4 % | 27: faixa 96 % / cor 4 % / sem 0 % | 36 % | 14,7 |
+| guitar dell'arte | 361 | 353 (98 %) | 0,48 | 29: pag 55 % / rol 38 % / fixo 7 % | 29: faixa 83 % / cor 17 % / sem 0 % | 41 % | 16,4 |
+| cifra club | 341 | 197 (58 %) | 0,28 | 18: pag 89 % / rol 0 % / fixo 11 % | 18: faixa 100 % / cor 0 % / sem 0 % | 96 % | 29,2 |
+| leonardo ramos | 298 | 289 (97 %) | 0,86 | 29: pag 48 % / rol 48 % / fixo 3 % | 29: faixa 97 % / cor 0 % / sem 3 % | 23 % | 12,2 |
+| kenneth acoustic | 294 | 286 (97 %) | 0,47 | 28: pag 50 % / rol 50 % / fixo 0 % | 28: faixa 100 % / cor 0 % / sem 0 % | 65 % | 8,8 |
+| iwaki | 164 | 162 (99 %) | 0,94 | 30: pag 93 % / rol 3 % / fixo 3 % | 30: faixa 7 % / cor 10 % / sem 83 % | 49 % | 7,8 |
+| shin izumi | 149 | 148 (99 %) | 0,98 | 30: pag 100 % / rol 0 % / fixo 0 % | 30: faixa 0 % / cor 3 % / sem 97 % | 56 % | 6,0 |
+| pablo romé | 123 | 102 (83 %) | 0,37 | 25: pag 92 % / rol 0 % / fixo 8 % | 25: faixa 60 % / cor 36 % / sem 4 % | 14 % | 8,8 |
+| kimny's guitar | 108 | 108 (100 %) | 0,93 | 30: pag 97 % / rol 0 % / fixo 3 % | 30: faixa 0 % / cor 3 % / sem 97 % | 26 % | 5,8 |
+| ギタロー ⧸ guitarous | 55 | 46 (84 %) | 0,67 | 26: pag 81 % / rol 15 % / fixo 4 % | 26: faixa 85 % / cor 8 % / sem 8 % | 2 % | 1,3 |
+| serge kottelat | 38 | 35 (92 %) | 0,84 | 28: pag 100 % / rol 0 % / fixo 0 % | 28: faixa 100 % / cor 0 % / sem 0 % | 79 % | 1,7 |
+| transcriptor | 35 | 34 (97 %) | 0,77 | 30: pag 97 % / rol 0 % / fixo 3 % | 30: faixa 17 % / cor 13 % / sem 70 % | 3 % | 2,7 |
+| mr. tabs | 22 | 22 (100 %) | 0,91 | 22: pag 18 % / rol 82 % / fixo 0 % | 22: faixa 59 % / cor 41 % / sem 0 % | 91 % | 1,4 |
+| paolo d'angelo | 14 | 13 (93 %) | 0,79 | 13: pag 92 % / rol 8 % / fixo 0 % | 13: faixa 85 % / cor 8 % / sem 8 % | 43 % | 0,6 |
+| tv on guitar | 5 | 5 (100 %) | 0,97 | 5: pag 60 % / rol 40 % / fixo 0 % | 5: faixa 100 % / cor 0 % / sem 0 % | 100 % | 0,2 |
+| lonelypicker | 3 | 3 (100 %) | 0,92 | 3: pag 100 % | 3: faixa 67 % / cor 33 % | 0 % | 0,1 |
+| vvxofingerstyletab | 1 | 1 (100 %) | 0,83 | 1: pag 100 % | 1: faixa 100 % | 0 % | 0,03 |
+| yunus guitarist | 1 | 1 (100 %) | 1,00 | 1: pag 100 % | 1: faixa 100 % | 0 % | 0,06 |
+| **TOTAL** | **2.798** | **2.565 (92 %)** | **0,64** | **405: pag 80 % / rol 16 % / fixo 3 %** | **405: faixa 64 % / cor 9 % / sem 27 %** | **47 %** | **142,8** |
+
+Leitura: a tabela é de **presença por 12 instantes** (fração média) e de **janela** (forma e marcador); o TOTAL de forma/marcador vale só para os 405 vídeos com janela, não para o acervo. `cifra club` aparece com 58 % de TAB: é o número do censo, não revisado aqui. Canais com n < 10 (`lonelypicker`, `vvxofingerstyletab`, `yunus guitarist`, `tv on guitar`) não servem para proporção.
+
+**D7 (rolagem), respondida com o número do censo**: 65 dos 405 vídeos com janela medida têm forma **rolante** (16 %), em 8 canais (`leonardo ramos` 14, `kenneth acoustic` 14, `mr. tabs` 18, `guitar dell'arte` 11, `ギタロー` 4, `iwaki` 1, `paolo d'angelo` 1, `tv on guitar` 2). Estimativa para o acervo ativo, taxa medida por canal × TAB do canal: ~450 de 2.798 vídeos (16 %). Como o limiar do plano é ≥ 10 %, **D7 = sim**: T8.4 entra no escopo. Ressalva: a classificação "rolante" não foi conferida (ver abaixo; a folha de 30 não sorteou nenhum vídeo rolante).
+
+**T7.3 conferência de 30** (semente 20261011; estratificado: 1 por canal com ≥ 10 vídeos, o resto proporcional; 15 canais, 21 com TAB e 9 sem). Folhas: `data/saida/censo/conferencia_30_1.jpg`, `_2.jpg`, `_3.jpg` (10 vídeos cada); manifesto `data/saida/censo/conferencia_30.json`. Contagem do agente, olhando as folhas: **concorda em 26, discorda em 3, dúvida em 1**; concordância ~87 %, abaixo dos 90 % do CA.
+- Discorda: **14** (`leonardo ramos`, "pajas blancas"): censo SEM; a TAB com números aparece nos dois quadros.
+- Discorda: **21** (`robert lunn`, "cavatina"): censo SEM; há pauta com números de TAB sobreposta no quadro.
+- Discorda: **27** (`sky guitar`, "el condor pasa"): censo SEM; o 2º quadro (121 s) tem TAB.
+- Dúvida: **10** (`kenneth acoustic`, "ain't no sunshine"): folha vertical com números pequenos; não consegui afirmar.
+- Os demais 26 concordam com a presença. Marcador e forma só foram olhados onde a folha mostra (faixa/cor visíveis em alguns); a rolagem não foi testada.
+- Pelo plano (T7.3), concordância < 90 % exige conserto do classificador de presença antes de seguir. **Não feito nesta rodada**: a conferência oficial é do dono.
+
+**Não repetir / limites**: a tabela usa só a presença do censo (12 instantes, janela em até 3). O censo ainda não lê TAB em vídeo vertical (caso 10) e pode perder TAB que aparece só nas bordas de 12 instantes (regra 10). Rolagem e marcador não estão validados.
