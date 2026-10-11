@@ -29,6 +29,27 @@ OURO_VIDEO = RAIZ / "data" / "gold" / "ouro_video"
 #: Saídas geradas (visíveis no host, ao contrário de /tmp do container).
 SAIDA = RAIZ / "data" / "saida"
 
+_CACHE_CONTAINER = Path("/cache")
+
+
+def cache_quadros() -> Path:
+    """Raiz do cache de quadros do censo (leitura e escrita), fora do acervo.
+
+    Resolve, nesta ordem: a variável de ambiente ``CHORINHO_CACHE``, o ponto de montagem do
+    container (``/cache``, o HD externo ``chorinho_cache``, separado do acervo) e, por último,
+    ``data/cache/quadros`` no projeto. O cache é regenerável: nunca vai para o git.
+
+    Returns:
+        Caminho da raiz do cache (o diretório pode ainda não existir).
+    """
+    do_ambiente = os.environ.get("CHORINHO_CACHE")
+    if do_ambiente:
+        return Path(do_ambiente)
+    if _CACHE_CONTAINER.is_dir():
+        return _CACHE_CONTAINER
+    return RAIZ / "data" / "cache" / "quadros"
+
+
 #: Pesos treinados. NUNCA em /tmp.
 ARTEFATOS = RAIZ / "artefatos"
 

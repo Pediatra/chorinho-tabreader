@@ -176,16 +176,18 @@ def test_medir_janela_troca_e_estatica(monkeypatch) -> None:
             yield t0 + k / qps, alternado[k % 2]
 
     rect = (0, 0, 1200, 300)
-    monkeypatch.setattr(censo.leitor, "quadros", quadros_estaticos)
-    parado = censo.medir_janela("v.mp4", 0.0, 10.0, rect)
+
+    def recortes(fonte) -> list:
+        return [censo.telas.recortar(q, rect) for _t, q in fonte(None, 0, 10, 3.0)]
+
+    parado = censo.medir_janela(0.0, 10.0, recortes(quadros_estaticos))
     assert parado["quadros"] == 6
     assert parado["troca_tela"] is False
     assert parado["rolagem"] is False
     assert parado["faixa"] is False
     assert parado["cor"] is False
 
-    monkeypatch.setattr(censo.leitor, "quadros", quadros_trocando)
-    trocando = censo.medir_janela("v.mp4", 0.0, 10.0, rect)
+    trocando = censo.medir_janela(0.0, 10.0, recortes(quadros_trocando))
     assert trocando["troca_tela"] is True
 
 

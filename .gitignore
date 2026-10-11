@@ -43,3 +43,6 @@ data/saida/frames/zoom_*.png
 # (semente fixa); versiona-se o pre.json, que e o indice e o pre-preenchimento.
 data/saida/ouro_video/*/telas/
 data/saida/ouro_video/*/instantes/
+
+# Cache de quadros do censo (T-cache): regeneravel por `tab.censo --cache`; grande, nao versionar.
+data/cache/

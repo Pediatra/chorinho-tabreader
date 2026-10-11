@@ -22,5 +22,7 @@ services:
       - .:/app
       # acervo: SOMENTE LEITURA. Nunca escreva lá.
       - ${ACERVO:-/run/media/gabriel/3014CD4714CD1130/chorinho}:/acervo:ro
+      # cache de quadros do censo (T-cache): LEITURA-ESCRITA, pasta SEPARADA do acervo
+      - ${CACHE_QUADROS:-/run/media/gabriel/3014CD4714CD1130/chorinho_cache}:/cache
     # mantém o container vivo para `docker compose exec`
     command: sleep infinity

@@ -4851,3 +4851,13 @@ Detalhe e tabelas em `docs/rodadas/0008-casa-13-par-de-algarismos.md`. Linha de 
 - **`tab.avaliar` oficial 1/2/3**: 66/72, 71/72, 68/72 (iguais ao HEAD).
 - **Gate**: ruff check e ruff format --check ok; pytest 363 passed (inclui `tests/test_painel_escuro.py`, 4 testes).
 - **Não repetir / limites**: o conserto acerta a TAB escura, não a regra de cordas de outro canal. O limiar de fundo (50) e o de contraste (12) foram medidos nos 15 rotulados e nas 144 caixas do gabarito, não num conjunto separado. A TAB escura com cordas sobre vídeo escuro não entrou no `criar` nos quadros medidos, mas não há teste de regressão sobre um acervo grande além do piloto. Rotulagem visual do agente (30 instantes) não é do dono.
+
+## 2026-10-11 — Cache de quadros do censo (T-cache): medido, e a passada densa fica como pendência
+
+- **O que é**: `tab/cache.py` grava em PNG (sem perda) os quadros de presença que o `tab.censo --cache` lê, em `/run/media/gabriel/3014CD4714CD1130/chorinho_cache` (montado em `/cache` no container, leitura-escrita; `/acervo` segue somente leitura). Fora do git (`data/cache/` no `.gitignore`).
+- **Equivalência (regra 9)**: piloto 3/canal (59 vídeos) lendo direto do vídeo (`direto`), gravando no cache (`png_frio`) e lendo SÓ do cache (`png_quente`): **59/59 registros idênticos** em todos os campos de decisão (`data/saida/cache_medida/piloto/*.jsonl`).
+- **Formato** (`data/saida/cache_medida/formatos.json`, 20 quadros de presença): PNG ~1,34 MB por quadro, identico em todos; WebP sem perda ~0,54 MB mas codifica ~19x mais devagar (0,64 s contra 0,034 s); JPEG q95 ~0,35 MB e **não** é idêntico (reprovado). Adotado: PNG.
+- **Passada densa (sonda, 4 vídeos, `data/saida/cache_medida/densa_probe.log`)**: ler por quadros-chave custa 2–5x os 12 seeks (84 contra 21,5 s; 64 contra 21; 78 contra 14; 16,5 contra 8,6 s). Achou 5 trechos com TAB que os 12 instantes perderam num vídeo do `guitar dell'arte`.
+- **Decisão do coordenador**: passada densa **NÃO adotada no censo agora** (custo acima de 1,5x). Pendência registrada: passada densa só nos vídeos com `tablatura=false` de canais que têm TAB, depois do censo.
+- **Gate** (`make lint` e `make test` equivalentes, no container via podman): `ruff check .` All checks passed; `ruff format --check .` 83 files already formatted; `pytest tests/ -m 'not integration'` 363 passed, 3 deselected.
+- **Não repetir / limites**: a sonda densa mediu 4 vídeos, não o acervo. O cache não substitui a medição de equivalência em canais novos; qualquer mudança de recorte ou de decodificação invalida o cache (regra 9).

@@ -1,0 +1,368 @@
+{
+ "presenca_quadro_inteiro": {
+  "png": {
+   "bytes_medio": 1336092.55,
+   "bytes_mediana": 1414482.0,
+   "bytes_max": 1924093,
+   "enc_s_medio": 0.03386322259902954,
+   "dec_s_medio": 0.019263875484466553,
+   "identico_em_todos": true,
+   "n": 20
+  },
+  "webp_sem_perda": {
+   "bytes_medio": 536931.3,
+   "bytes_mediana": 545185.0,
+   "bytes_max": 896274,
+   "enc_s_medio": 0.6363662481307983,
+   "dec_s_medio": 0.014477968215942383,
+   "identico_em_todos": true,
+   "n": 20
+  },
+  "jpeg_q95": {
+   "bytes_medio": 346658.0,
+   "bytes_mediana": 346717.0,
+   "bytes_max": 498831,
+   "enc_s_medio": 0.0046137809753417965,
+   "dec_s_medio": 0.005649495124816895,
+   "identico_em_todos": false,
+   "n": 20
+  }
+ },
+ "janela_recorte": {
+  "png": {
+   "bytes_medio": 98941.16666666667,
+   "bytes_mediana": 97876.5,
+   "bytes_max": 165875,
+   "enc_s_medio": 0.0044423063596089685,
+   "dec_s_medio": 0.002698183059692383,
+   "identico_em_todos": true,
+   "n": 60
+  },
+  "webp_sem_perda": {
+   "bytes_medio": 28071.366666666665,
+   "bytes_mediana": 27244.0,
+   "bytes_max": 51838,
+   "enc_s_medio": 0.062054272492726645,
+   "dec_s_medio": 0.0013304591178894044,
+   "identico_em_todos": true,
+   "n": 60
+  },
+  "jpeg_q95": {
+   "bytes_medio": 62879.73333333333,
+   "bytes_mediana": 62977.5,
+   "bytes_max": 71213,
+   "enc_s_medio": 0.0008191943168640136,
+   "dec_s_medio": 0.0008850057919820149,
+   "identico_em_todos": false,
+   "n": 60
+  }
+ },
+ "n_presenca": 20,
+ "n_janela": 60,
+ "raw_presenca_bytes": 5921532,
+ "raw_janela_bytes_medio": 1095592,
+ "videos": [
+  {
+   "canal": "cifra club",
+   "codec": "av1",
+   "wh": [
+    2220,
+    1080
+   ],
+   "dur": 1016.654,
+   "n_videos_canal": 341,
+   "rect": null
+  },
+  {
+   "canal": "guitar dell ́arte",
+   "codec": "vp9",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 181.734,
+   "n_videos_canal": 361,
+   "rect": [
+    0,
+    922,
+    1920,
+    1080
+   ],
+   "janela_n": 30
+  },
+  {
+   "canal": "iwaki",
+   "codec": "h264",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 22.614,
+   "n_videos_canal": 164,
+   "rect": [
+    104,
+    834,
+    1847,
+    1079
+   ],
+   "janela_n": 60
+  },
+  {
+   "canal": "kenneth acoustic",
+   "codec": "av1",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 295.594,
+   "n_videos_canal": 294,
+   "rect": null
+  },
+  {
+   "canal": "kimny's guitar",
+   "codec": "av1",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 280.814,
+   "n_videos_canal": 108,
+   "rect": [
+    62,
+    838,
+    1873,
+    1003
+   ]
+  },
+  {
+   "canal": "leonardo ramos",
+   "codec": "av1",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 98.114,
+   "n_videos_canal": 298,
+   "rect": [
+    0,
+    808,
+    1920,
+    1048
+   ]
+  },
+  {
+   "canal": "lonelypicker",
+   "codec": "h264",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 121.514,
+   "n_videos_canal": 3,
+   "rect": [
+    0,
+    823,
+    1920,
+    1020
+   ]
+  },
+  {
+   "canal": "mr. tabs",
+   "codec": "av1",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 200.454,
+   "n_videos_canal": 22,
+   "rect": [
+    0,
+    803,
+    1920,
+    1012
+   ]
+  },
+  {
+   "canal": "pablo romé",
+   "codec": "h264",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 223.634,
+   "n_videos_canal": 123,
+   "rect": [
+    117,
+    329,
+    1830,
+    530
+   ]
+  },
+  {
+   "canal": "paolo d'angelo",
+   "codec": "av1",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 108.354,
+   "n_videos_canal": 14,
+   "rect": [
+    0,
+    908,
+    1920,
+    1079
+   ]
+  },
+  {
+   "canal": "robert lunn",
+   "codec": "h264",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 378.134,
+   "n_videos_canal": 369,
+   "rect": [
+    7,
+    866,
+    1920,
+    1080
+   ]
+  },
+  {
+   "canal": "serge kottelat",
+   "codec": "av1",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 285.914,
+   "n_videos_canal": 38,
+   "rect": [
+    52,
+    909,
+    1867,
+    1042
+   ]
+  },
+  {
+   "canal": "shin izumi",
+   "codec": "h264",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 183.654,
+   "n_videos_canal": 149,
+   "rect": [
+    0,
+    813,
+    1920,
+    988
+   ]
+  },
+  {
+   "canal": "sky guitar",
+   "codec": "av1",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 285.154,
+   "n_videos_canal": 417,
+   "rect": [
+    0,
+    876,
+    1920,
+    1072
+   ]
+  },
+  {
+   "canal": "transcriptor",
+   "codec": "h264",
+   "wh": [
+    1906,
+    1080
+   ],
+   "dur": 992.174,
+   "n_videos_canal": 35,
+   "rect": [
+    0,
+    527,
+    1906,
+    783
+   ]
+  },
+  {
+   "canal": "tv cifras",
+   "codec": "h264",
+   "wh": [
+    1280,
+    720
+   ],
+   "dur": 640.545669,
+   "n_videos_canal": 530,
+   "rect": null
+  },
+  {
+   "canal": "tv on guitar",
+   "codec": "av1",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 240.865625,
+   "n_videos_canal": 5,
+   "rect": [
+    0,
+    343,
+    1920,
+    520
+   ]
+  },
+  {
+   "canal": "violaodecria",
+   "codec": "hevc",
+   "wh": [
+    1080,
+    1920
+   ],
+   "dur": 66.407007,
+   "n_videos_canal": 1680,
+   "rect": null
+  },
+  {
+   "canal": "vvxofingerstyletab",
+   "codec": "h264",
+   "wh": [
+    1280,
+    720
+   ],
+   "dur": 109.655172,
+   "n_videos_canal": 1,
+   "rect": [
+    64,
+    460,
+    1280,
+    720
+   ]
+  },
+  {
+   "canal": "yunus guitarist",
+   "codec": "h264",
+   "wh": [
+    1920,
+    1080
+   ],
+   "dur": 213.834,
+   "n_videos_canal": 1,
+   "rect": [
+    0,
+    852,
+    1920,
+    1027
+   ]
+  }
+ ]
+}
