@@ -29,6 +29,9 @@ OURO_VIDEO = RAIZ / "data" / "gold" / "ouro_video"
 #: Saídas geradas (visíveis no host, ao contrário de /tmp do container).
 SAIDA = RAIZ / "data" / "saida"
 
+#: Perfil dos canais (o que foi medido, e quais canais estão fora do rollout).
+CANAIS = RAIZ / "configs" / "canais.yaml"
+
 _CACHE_CONTAINER = Path("/cache")
 
 

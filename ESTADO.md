@@ -4,6 +4,31 @@ Documento de entrada do projeto. **Todo número aqui é média de ≥3 sementes*
 execução única — sem isso o mesmo código já deu 0,729 e 0,854. O histórico completo
 das 65 rodadas está em [`docs/HISTORICO.md`](docs/HISTORICO.md).
 
+## Atualizar o censo do acervo (comando único)
+
+O acervo cresce. Para censar só o que é novo, rode:
+
+```bash
+docker compose -f compose.yaml -f compose.podman.yaml run --rm chorinho \
+    python -m tab.censo --cache --janelas-por-canal 30 \
+    --saida data/saida/censo/censo_cache.jsonl
+```
+
+- Vídeo já censado (chave `caminho|tamanho|mtime`) não é refeito. Vídeo novo em canal
+  existente, ou canal novo, é censado.
+- Canais com `rollout: fora` em `configs/canais.yaml` (hoje `violaodecria` e `tv cifras`,
+  decisão 0009) são **pulados**. `--incluir-fora` os censa. Com `--canal`/`--canais`, o
+  pedido explícito vale e nada é pulado.
+- Canal sem entrada no yaml entra e aparece no log como `canal novo`. **Hoje o yaml cadastra
+  7 dos 21 canais do acervo**, então 14 aparecem como novos em toda execução até o perfil de
+  cada um ser escrito.
+- Estratificação (`--janelas-por-canal 30`): vídeo novo ganha janela se cair na amostra
+  espalhada do canal atual. Canal com até 30 vídeos dá janela a todos; acima disso o vídeo
+  novo ganha janela só se cair na amostra recalculada (os extremos sempre caem). Vídeo já
+  censado não é refeito, então mantém o que ganhou na época.
+- Ao fim, o resumo diz quantos vídeos novos foram censados, por canal, e quantos canais são
+  novos. Medido sem processar nada: 2.799 vídeos ativos, 1 pendente no instante da checagem.
+
 ## Número oficial
 
 **0,889 de acerto no gabarito real** — média de 3 sementes (**0,865 / 0,917 / 0,885**),

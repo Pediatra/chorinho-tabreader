@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 
 import numpy as np
 
@@ -209,3 +210,135 @@ def test_slug_do_canal_tira_acento_e_tem_fallback():
     assert censo.slug_do_canal("guitar dell ́arte", 1) == "guitar_dell_arte"
     assert censo.slug_do_canal("pablo romé", 2) == "pablo_rome"
     assert censo.slug_do_canal("ギタロー", 7) == "canal_07"
+
+
+YAML_EXEMPLO = """\
+versao: 1
+canais:
+
+  "tv cifras":
+    fonte: decisão do dono
+    rollout: fora               # decisão do dono
+    motivo: "51/537 vídeos"
+
+  iwaki:
+    medido: >
+      texto solto
+      rollout: nao_e_campo
+    partitura: true
+
+  "sky guitar":
+    rollout: dentro
+"""
+
+
+def _gravar_video(raiz, rel: str, mtime: int = 1_700_000_000) -> str:
+    """Cria um arquivo de vídeo falso em ``raiz/rel`` e devolve o caminho."""
+    arquivo = raiz / rel
+    arquivo.parent.mkdir(parents=True, exist_ok=True)
+    arquivo.write_bytes(b"0123456789")
+    os.utime(arquivo, (mtime, mtime))
+    return str(arquivo)
+
+
+def test_ler_rollout_sem_pyyaml(tmp_path) -> None:
+    """Lê ``rollout`` dos canais; ignora blocos de texto e canal sem o campo."""
+    arquivo = tmp_path / "canais.yaml"
+    arquivo.write_text(YAML_EXEMPLO, encoding="utf-8")
+    assert censo.ler_rollout(arquivo) == {
+        "tv cifras": "fora",
+        "iwaki": "",
+        "sky guitar": "dentro",
+    }
+    assert censo.ler_rollout(tmp_path / "nao_existe.yaml") == {}
+
+
+def test_yaml_do_projeto_marca_os_dois_canais_fora() -> None:
+    """A decisão 0009 está no arquivo real: os dois canais saem do censo padrão."""
+    fora = censo.canais_fora(censo.ler_rollout(censo.CANAIS))
+    assert {"violaodecria", "tv cifras"} <= fora
+    assert "sky guitar" not in fora
+
+
+def test_video_novo_em_canal_existente_e_o_unico_pendente(tmp_path) -> None:
+    """Retomada: os censados não voltam; o novo entra; mudança de mtime ou erro refaz."""
+    raiz = tmp_path / "acervo"
+    a = _gravar_video(raiz, "canal/a.mp4")
+    b = _gravar_video(raiz, "canal/b.mp4")
+    c = _gravar_video(raiz, "canal/c.mp4")  # o vídeo novo
+    saida = tmp_path / "censo.jsonl"
+    with open(saida, "w", encoding="utf-8") as fh:
+        for v in (a, b):
+            chave = censo.chave_do_arquivo(v, str(raiz))
+            fh.write(json.dumps({"chave": chave, "arquivo": v}) + "\n")
+    feitas = censo.ja_feitas(str(saida))
+    assert censo.pendentes_de([a, b, c], str(raiz), feitas) == [c]
+    # arquivo que mudou de data ganha chave nova e volta a pendente
+    os.utime(a, (1_700_000_500, 1_700_000_500))
+    assert censo.pendentes_de([a, b, c], str(raiz), feitas) == [a, c]
+    # linha com erro não conta como feita
+    with open(saida, "a", encoding="utf-8") as fh:
+        chave_b = censo.chave_do_arquivo(b, str(raiz))
+        fh.write(json.dumps({"chave": chave_b, "erro": "X: y"}) + "\n")
+    assert censo.pendentes_de([b], str(raiz), censo.ja_feitas(str(saida))) == [b]
+
+
+def test_estratificacao_com_video_novo(tmp_path) -> None:
+    """Com ``--janelas-por-canal``: canal até N vídeos todos ganham janela; acima de N o
+    novo ganha só se cair na amostra recalculada (extremos sempre caem, interior pode não)."""
+    pequeno = [f"c/{k:02d}.mp4" for k in range(10)]
+    assert "c/zz.mp4" in censo.amostra_espalhada([*pequeno, "c/zz.mp4"], 30)
+    grande = [f"c/{k:03d}.mp4" for k in range(100)]
+    assert len(censo.amostra_espalhada(grande, 30)) == 30
+    fim = censo.amostra_espalhada([*grande, "c/zz.mp4"], 30)
+    assert len(fim) == 30 and "c/zz.mp4" in fim
+    meio = [*grande[:51], "c/050a.mp4", *grande[51:]]
+    amostra_meio = censo.amostra_espalhada(meio, 30)
+    assert len(amostra_meio) == 30 and "c/050a.mp4" not in amostra_meio
+
+
+def test_resumo_do_lote_marca_canal_novo(tmp_path) -> None:
+    """Resumo final: total, por canal (canal novo marcado) e contagem de canais novos."""
+    linhas = censo.resumo_do_lote({"novo": 2, "antigo": 1}, ["novo", "outro"], 1)
+    assert linhas[0] == "resumo: 3 vídeos novos censados em 2 canais (1 com erro)"
+    assert linhas[1] == "  antigo: 1"
+    assert linhas[2] == "  novo: 2 (canal novo)"
+    assert linhas[3].startswith("canais novos no acervo: 2")
+    assert "outro" in linhas[3]
+
+
+def test_censo_padrao_pula_fora_e_censa_so_o_novo(
+    tmp_path, monkeypatch, capsys
+) -> None:
+    """Execução sem --canal: pula ``rollout: fora``, não refaz o que já está no JSONL e
+    censa só o vídeo novo (de canal existente e de canal sem entrada no yaml)."""
+    raiz = tmp_path / "acervo"
+    antigo_a = _gravar_video(raiz, "antigo/a.mp4")
+    antigo_b = _gravar_video(raiz, "antigo/b.mp4")
+    _gravar_video(raiz, "antigo/novo_video.mp4")
+    _gravar_video(raiz, "fora/x.mp4")
+    _gravar_video(raiz, "sem_yaml/n.mp4")
+    yaml = tmp_path / "canais.yaml"
+    yaml.write_text(
+        'versao: 1\ncanais:\n\n  "fora":\n    rollout: fora\n\n  antigo:\n'
+        "    fonte: teste\n",
+        encoding="utf-8",
+    )
+    saida = tmp_path / "censo.jsonl"
+    with open(saida, "w", encoding="utf-8") as fh:
+        for v in (antigo_a, antigo_b):
+            chave = censo.chave_do_arquivo(v, str(raiz))
+            fh.write(json.dumps({"chave": chave, "arquivo": v}) + "\n")
+    monkeypatch.setattr(censo, "CANAIS", yaml)
+    monkeypatch.setattr(
+        sys, "argv", ["censo", "--raiz", str(raiz), "--saida", str(saida)]
+    )
+    assert censo.main() == 0
+    with open(saida, encoding="utf-8") as fh:
+        novas = [json.loads(linha)["arquivo"] for linha in fh][2:]
+    assert sorted(novas) == ["antigo/novo_video.mp4", "sem_yaml/n.mp4"]
+    out = capsys.readouterr().out
+    assert "pulados (rollout: fora, decisão 0009): fora" in out
+    assert "canal novo (sem entrada em configs/canais.yaml): sem_yaml" in out
+    assert "resumo: 2 vídeos novos censados em 2 canais" in out
+    assert "  sem_yaml: 1 (canal novo)" in out

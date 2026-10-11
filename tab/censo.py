@@ -16,6 +16,30 @@ Por vídeo, grava **mais do que precisa**, para a análise não reabrir vídeo:
 Retomável: a chave é ``caminho_relativo|tamanho|mtime``, porque o acervo ainda cresce.
 Um arquivo que muda de tamanho ou de data ganha chave nova e é refeito.
 
+Atualizar o censo (comando único, só processa o que é novo): o acervo cresce, então
+rodar isto de novo censa os vídeos novos e nada mais::
+
+    docker compose -f compose.yaml -f compose.podman.yaml run --rm chorinho \\
+        python -m tab.censo --cache --janelas-por-canal 30 \\
+        --saida data/saida/censo/censo_cache.jsonl
+
+Regras dessa execução (sem ``--canal``/``--canais``):
+
+- canais com ``rollout: fora`` em ``configs/canais.yaml`` são PULADOS (decisão 0009);
+  ``--incluir-fora`` os censa. Com ``--canal``/``--canais`` o pedido explícito vale e
+  nada é pulado;
+- canal sem entrada no yaml (pasta nova) entra normalmente e aparece no log como
+  "canal novo";
+- ao fim, o resumo diz quantos vídeos novos foram censados, por canal, e quantos canais
+  eram novos.
+
+Estratificação (``--janelas-por-canal N``): a amostra é ``amostra_espalhada`` sobre a
+lista ATUAL do canal. Vídeo já censado não é refeito (a chave segue valendo), então ele
+mantém o que ganhou na época. Um vídeo novo ganha janela se cair nessa amostra: se o canal
+tem até N vídeos, todos ganham; se tem mais, a amostra é recalculada e o novo vídeo ganha
+janela só se cair nela (os extremos da lista sempre caem). Medido em
+``tests/test_censo.py``.
+
 Uso:
     python -m tab.censo --raiz /acervo --saida data/saida/censo/censo.jsonl
     python -m tab.censo --amostra 20 --saida data/saida/censo/custo_amostra.jsonl
@@ -47,7 +71,7 @@ import numpy as np
 
 from . import cache, leitor, telas, varredura
 from .cache import FORMATO_PADRAO, FORMATOS, FaltaNoCache, ModoCache
-from .caminhos import SAIDA, acervo
+from .caminhos import CANAIS, SAIDA, acervo
 from .cursor import detectar_cursor
 from .presenca_aval import folha
 
@@ -570,6 +594,108 @@ def folha_do_canal(
     )
 
 
+def ler_rollout(caminho: Path) -> dict[str, str]:
+    """Campo ``rollout`` de cada canal de ``configs/canais.yaml``, sem PyYAML.
+
+    O container não tem PyYAML, e o arquivo tem uma forma fixa: ``canais:`` no topo, cada
+    canal com dois espaços de recuo e os campos com quatro. Só essas duas coisas são lidas;
+    o resto do arquivo (blocos ``>``, comentários) é ignorado. Comentário ``# ...`` sai.
+
+    Args:
+        caminho: o ``canais.yaml``.
+
+    Returns:
+        Canal -> valor de ``rollout`` (``""`` quando o canal está no yaml sem o campo). Um
+        arquivo ausente devolve ``{}``: todo canal é então "novo".
+    """
+    if not caminho.exists():
+        return {}
+    achados: dict[str, str] = {}
+    dentro_canais = False
+    canal: str | None = None
+    for bruta in caminho.read_text(encoding="utf-8").splitlines():
+        linha = bruta.split(" #")[0].rstrip()
+        if not linha.strip() or linha.lstrip().startswith("#"):
+            continue
+        if not linha.startswith(" "):
+            dentro_canais = linha.strip() == "canais:"
+            canal = None
+            continue
+        if not dentro_canais:
+            continue
+        if linha.startswith("  ") and not linha.startswith("   "):
+            if linha.strip().endswith(":"):
+                canal = linha.strip()[:-1].strip().strip('"')
+                achados[canal] = ""
+            else:
+                canal = None
+        elif canal is not None and linha.startswith("    rollout:"):
+            valor = linha.split(":", 1)[1].strip().strip('"')
+            achados[canal] = valor
+    return achados
+
+
+def canais_fora(cadastro: dict[str, str]) -> set[str]:
+    """Canais marcados ``rollout: fora`` (decisão 0009): não entram no censo padrão.
+
+    Args:
+        cadastro: saída de ``ler_rollout``.
+
+    Returns:
+        Os nomes de canal com ``rollout`` igual a ``fora``.
+    """
+    return {canal for canal, valor in cadastro.items() if valor == "fora"}
+
+
+def pendentes_de(videos: list[str], raiz: str, feitas: set[str]) -> list[str]:
+    """Vídeos ainda não censados (o que o censo vai processar), na mesma ordem.
+
+    Args:
+        videos: vídeos candidatos, em ordem estável.
+        raiz: raiz do acervo.
+        feitas: chaves já censadas sem erro (``ja_feitas``).
+
+    Returns:
+        Os vídeos cuja chave (caminho, tamanho, mtime) não está em ``feitas``.
+    """
+    return [v for v in videos if chave_do_arquivo(v, raiz) not in feitas]
+
+
+def resumo_do_lote(
+    censados: dict[str, int], canais_novos: list[str], erros: int
+) -> list[str]:
+    """Linhas do resumo final: quantos vídeos novos, por canal, e quantos canais são novos.
+
+    Args:
+        censados: canal -> vídeos censados nesta execução (com ou sem erro).
+        canais_novos: canais que não estão no ``configs/canais.yaml``.
+        erros: quantos desses vídeos terminaram com erro.
+
+    Returns:
+        Uma linha de total, uma por canal com vídeo novo (com ``(canal novo)`` quando for
+        o caso) e, se houver, a linha de canais novos.
+    """
+    total = sum(censados.values())
+    linhas = [
+        f"resumo: {total} vídeos novos censados em {len(censados)} canais "
+        f"({erros} com erro)"
+    ]
+    for canal in sorted(censados):
+        marca = " (canal novo)" if canal in canais_novos else ""
+        linhas.append(f"  {canal}: {censados[canal]}{marca}")
+    sem_video = [c for c in canais_novos if c not in censados]
+    if canais_novos:
+        linhas.append(
+            f"canais novos no acervo: {len(canais_novos)}"
+            + (
+                f" (sem vídeo novo nesta execução: {', '.join(sem_video)})"
+                if sem_video
+                else ""
+            )
+        )
+    return linhas
+
+
 def amostra_espalhada(videos: list[str], n: int) -> list[str]:
     """``n`` vídeos espalhados uniformemente pela lista (determinístico).
 
@@ -600,6 +726,11 @@ def main() -> int:
         "--canal",
         default=None,
         help="só este canal (nome exato da pasta); saída separada por padrão",
+    )
+    ap.add_argument(
+        "--incluir-fora",
+        action="store_true",
+        help="censa também os canais com rollout: fora (padrão: pulados)",
     )
     ap.add_argument(
         "--cache",
@@ -665,6 +796,19 @@ def main() -> int:
     if args.canal and args.canal not in por_canal:
         print(f"canal não achado no acervo: {args.canal!r}", flush=True)
         return 2
+    cadastro = ler_rollout(CANAIS)
+    pulados: list[str] = []
+    if not canais and not args.incluir_fora:
+        fora = canais_fora(cadastro)
+        pulados = sorted(c for c in por_canal if c in fora)
+        por_canal = {c: v for c, v in por_canal.items() if c not in fora}
+    canais_novos = sorted(c for c in por_canal if c not in cadastro)
+    if pulados:
+        print(
+            f"pulados (rollout: fora, decisão 0009): {', '.join(pulados)}", flush=True
+        )
+    for canal in canais_novos:
+        print(f"canal novo (sem entrada em configs/canais.yaml): {canal}", flush=True)
     if args.piloto:
         por_canal = sortear_piloto(por_canal, args.piloto)
     todos = [v for canal in por_canal.values() for v in canal]
@@ -678,10 +822,7 @@ def main() -> int:
         for vids in por_canal.values():
             com_janela.update(amostra_espalhada(vids, args.janelas_por_canal))
     feitas = ja_feitas(saida)
-    pendentes = []
-    for v in todos:
-        if chave_do_arquivo(v, args.raiz) not in feitas:
-            pendentes.append(v)
+    pendentes = pendentes_de(todos, args.raiz, feitas)
     print(
         f"vídeos: {len(todos)} | já feitos: {len(todos) - len(pendentes)} | "
         f"pendentes: {len(pendentes)} -> {saida} | modo: {_descreve(modo)}",
@@ -691,10 +832,12 @@ def main() -> int:
     t_inicio = time.time()
     processados = 0
     erros = 0
+    censados: dict[str, int] = {}
     with open(saida, "a", encoding="utf-8") as fh:
         for v in pendentes:
             if args.limite and processados >= args.limite:
                 break
+            canal_do_video = os.path.relpath(v, args.raiz).split(os.sep)[0]
             try:
                 registro = censar_video(v, args.raiz, v in com_janela, modo)
             except FaltaNoCache as exc:
@@ -705,6 +848,7 @@ def main() -> int:
                     "arquivo": os.path.relpath(v, args.raiz),
                     "erro": f"{type(exc).__name__}: {exc}",
                 }
+            censados[canal_do_video] = censados.get(canal_do_video, 0) + 1
             if "erro" in registro:
                 erros += 1
                 if (
@@ -733,6 +877,8 @@ def main() -> int:
         f"{erros} com erro",
         flush=True,
     )
+    for linha in resumo_do_lote(censados, canais_novos, erros):
+        print(linha, flush=True)
     if args.piloto and args.folhas:
         _folhas_do_piloto(saida, args.raiz, por_canal, Path(args.folhas), modo)
     return 0
