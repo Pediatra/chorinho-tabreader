@@ -4981,3 +4981,42 @@ Tabela por canal, copiada de `data/saida/maos/censo_maos.log`. Legenda das colun
 - regra "mão com centro dentro da caixa da TAB é desenho": apaga mão real quando a caixa da TAB está errada. Auditoria pendente.
 
 **Pendências**: auditoria da regra da TAB (419 mãos); confirmação do dono nos quadros 03, 06, 12 e 17; para a trilha tablatura (via dono), o braço do violão marcado como TAB em closes do `guitar dell'arte` e do `leonardo ramos`.
+
+## Mãos — 2026-10-12 — M1: detector de mãos (Wholebody GPU + MediaPipe)
+
+Rodada: [`docs/rodadas/1002-escolha-do-detector.md`](docs/rodadas/1002-escolha-do-detector.md). Decisão: [1002](docs/decisoes/1002-detector-de-maos.md). Imagem: `chorinho-maos:dev` ([decisão 1001](docs/decisoes/1001-imagem-derivada-maos.md)).
+
+**Decisão do dono (2026-10-12)**: detector = RTMPose Wholebody (RTMW-DW-X-L, **na GPU**) como base, com MediaPipe como complemento. Mão do Wholebody com média dos 21 scores acima de 0,4; complemento só com mão do MediaPipe fora da TAB e com sobreposição menor que 0,3 com toda mão aceita.
+
+**Medido** (validação fora do ajuste, 90 quadros; rótulo **provisório (agente)**; o limiar 0,4 foi escolhido nesses mesmos 90):
+
+| detector | quadro certo | mão esquerda | mão direita | falsas |
+| --- | --- | --- | --- | --- |
+| MediaPipe (censo M0) | 72/90 | 70/86 | 75/79 | 1 |
+| Wholebody 0,5 | 81/90 | 79/86 | 77/79 | 3 |
+| Wholebody 0,4 | 84/90 | 84/86 | 78/79 | 3 |
+| Wholebody 0,4 + MediaPipe (**adotado**) | 86/90 | 86/86 | 78/79 | 3 |
+
+- Só nos 60 novos: MediaPipe 47/60; Wholebody 0,4, 58/60; combinação, 59/60.
+- Erros que sobram (4): C03 (mão direita borrada, não achada); C04, C17, N09 (close de uma mão só, com falsa mão direita).
+- Piloto (36 quadros, ajustado no MediaPipe): Wholebody 0,5 deu 36/36 em CPU, 0,53 s por quadro. O censo do piloto, com a imagem nova, segue 36/36.
+- GPU: 0,20 a 0,22 s por quadro, com o MediaPipe incluído; duas execuções byte a byte iguais. A validação de 90 rodou na GPU (a trava CUDA impede CPU). Não misturar com números de CPU.
+- Reavaliação offline da combinação atual (`data/saida/maos/m1/reavaliar_sem_honestidade.py`): 86/90, reproduzido.
+
+**Regra de honestidade REPROVADA**: "esquerda e direita da mesma pessoa, com sobreposição ≥ 0,5, viram `incerto`". A regra não ganhou nenhum quadro (C04 e N09 trocaram a mão direita falsa por perder também a esquerda verdadeira, que virou `incerto`) e perdeu 2 (C08, N25): **84/90 contra 86/90**. Removida. Não ajustar nos mesmos 90 quadros.
+
+**Não repetir**:
+- Chamar o `Wholebody` com detector vazio: a pose roda no quadro inteiro e inventa pessoa e mão;
+- `onnxruntime-gpu` sem o `LD_LIBRARY_PATH` do torch cai em CPU calado (a trava `_travar_cuda` aborta);
+- `rtmlib` com dependências puxa `opencv-contrib-python` sobre o cv2 da base: instalar com `--no-deps`;
+- regra de honestidade por sobreposição (reprovada, acima);
+- Wholebody sozinho com limiar 0,5 nos 90 quadros: 81/90 (0,4 deu 84/90).
+
+**Pendências**:
+1. Gabarito de pontas e de dedo para o M2 (dono);
+2. falsa mão direita em close de uma mão só (3 de 90): sem regra;
+3. rótulo da validação é do agente (provisório); confirmação do dono ou conjunto novo com rótulo do dono **a medir**;
+4. limiar 0,4 fora do ajuste: escolhido nos mesmos 90 quadros; número fora do ajuste **a medir**;
+5. tempo em vídeo inteiro e no acervo (2.798 vídeos) **a medir**.
+
+**Artefatos**: `docs/rodadas/1002-escolha-do-detector.md`; `docs/decisoes/1002-detector-de-maos.md`; código `tab/maos_detector.py`, `tab/maos_combinar.py`, `Dockerfile.maos`; validação `data/saida/maos/m1/detector_validacao.jsonl` e `rotulo_agente_validacao.json`.

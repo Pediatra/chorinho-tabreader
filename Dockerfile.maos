@@ -1,23 +1,53 @@
-# Imagem DERIVADA da trilha das mãos: chorinho:dev + detector de mãos e de rosto.
+# Imagem DERIVADA da trilha das mãos: chorinho:dev + detectores de mãos.
 #
-# Por que derivada: o detector de mão (MediaPipe) e o de rosto (YuNet, via OpenCV) precisam
-# de pacotes que a imagem compartilhada chorinho:dev não tem. Eles não entram no
-# requirements.txt, porque a trilha tablatura depende de chorinho:dev e mudar essa imagem
-# muda o que ela já faz. Decisão: docs/decisoes/1001-imagem-derivada-maos.md.
+# Dois detectores, em duas famílias de pacote:
+# - base (M1): RTMPose Wholebody via rtmlib, na GPU (onnxruntime-gpu). Detecta a pessoa
+#   (YOLOX-m) e a pose de 133 pontos (RTMW-DW-X-L, modo balanced, to_openpose=False).
+# - complemento (M0): MediaPipe HandLandmarker e YuNet (rosto, via OpenCV), que acham a
+#   mão do braço em close, sem corpo ligado.
+#
+# Por que derivada: o MediaPipe, o YuNet e o rtmlib precisam de pacotes que a imagem
+# compartilhada chorinho:dev não tem. Eles não entram no requirements.txt, porque a trilha
+# tablatura depende de chorinho:dev e mudar essa imagem muda o que ela já faz.
+# Decisão: docs/decisoes/1001-imagem-derivada-maos.md.
 #
 # Build, a partir da raiz do repositório (exige chorinho:dev já construída):
 #   podman build -t chorinho-maos:dev -f Dockerfile.maos .
+# Isto sobrescreve a tag chorinho-maos:dev do censo M0 (a imagem antiga fica sem tag).
 #
 # Ressalva: `pip install mediapipe` traz `opencv-contrib-python` (cv2 5.0.0), que convive
 # com o `opencv-python-headless` da imagem base. Por isso esta imagem NÃO serve para a
 # trilha tablatura.
 #
 # Modelos baixados no build e fixados por sha256 (a saída do `sha256sum` no log do build):
-# hand_landmarker.task e face_detection_yunet_2023mar.onnx.
-# Ver docs/decisoes/1001-imagem-derivada-maos.md.
+# hand_landmarker.task e face_detection_yunet_2023mar.onnx (M0); e os ONNX do YOLOX-m e do
+# RTMW-DW-X-L (M1), em TORCH_HOME/hub/checkpoints. O container de execução é --rm, então
+# nada é baixado na execução.
+#
+# GPU: o onnxruntime só usa CUDA com LD_LIBRARY_PATH apontando para as bibliotecas CUDA do
+# torch da imagem base (ENV abaixo). Sem isso cai em CPU calado; o detector confere
+# (tab/maos_detector.py, _travar_cuda).
 
 FROM docker.io/library/chorinho:dev
 RUN apt-get update && apt-get install -y --no-install-recommends libegl1 libgles2 libgl1 && rm -rf /var/lib/apt/lists/*
 RUN pip install --no-cache-dir mediapipe==1.1.0
 RUN mkdir -p /opt/modelos && python -c "import urllib.request as u; u.urlretrieve('https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/latest/hand_landmarker.task', '/opt/modelos/hand_landmarker.task'); u.urlretrieve('https://github.com/opencv/opencv_zoo/raw/main/models/face_detection_yunet/face_detection_yunet_2023mar.onnx', '/opt/modelos/face_detection_yunet_2023mar.onnx')" && sha256sum /opt/modelos/*
 RUN python -c "import mediapipe, cv2, numpy; cv2.FaceDetectorYN.create('/opt/modelos/face_detection_yunet_2023mar.onnx', '', (320, 320)); print('mediapipe', mediapipe.__version__, 'cv2', cv2.__version__, 'numpy', numpy.__version__)"
+
+# M1 (GPU): rtmlib com --no-deps, porque as dependências dela puxariam opencv-python e
+# opencv-contrib-python, que sobrescrevem o cv2 da base. Só o tqdm é usado (rtmlib/tools/file.py).
+# onnxruntime-gpu, e NÃO o onnxruntime da CPU: os dois não podem coexistir.
+RUN pip install --no-cache-dir --no-deps rtmlib==0.0.16 \
+    && pip install --no-cache-dir onnxruntime-gpu==1.31.0 tqdm
+
+# Modelos do Wholebody (balanced: YOLOX-m humanart + RTMW-DW-X-L) para o cache do rtmlib.
+# TORCH_HOME é o caminho em que a rtmlib procura: <TORCH_HOME>/hub/checkpoints.
+ENV TORCH_HOME=/opt/modelos/torch
+RUN python -c "from rtmlib import Wholebody; Wholebody(backend='onnxruntime', device='cpu', to_openpose=False); print('modelos do wholebody prontos')" \
+    && find /opt/modelos/torch -name '*.onnx' -exec sha256sum {} + \
+    && find /opt/modelos/torch -name '*.onnx' | sort
+
+# Bibliotecas CUDA do torch da imagem base. Sem elas, o onnxruntime-gpu cai em CPU sem erro.
+ENV LD_LIBRARY_PATH=/opt/venv/lib/python3.14/site-packages/nvidia/cu13/lib:/opt/venv/lib/python3.14/site-packages/nvidia/cudnn/lib
+
+RUN python -c "import rtmlib, onnxruntime, cv2, numpy, mediapipe; print('rtmlib ok, onnxruntime', onnxruntime.__version__, 'providers no build', onnxruntime.get_available_providers())"
