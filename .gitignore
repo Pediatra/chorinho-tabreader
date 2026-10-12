@@ -46,3 +46,6 @@ data/saida/ouro_video/*/instantes/
 
 # Cache de quadros do censo (T-cache): regeneravel por `tab.censo --cache`; grande, nao versionar.
 data/cache/
+
+# artefatos gerados (visíveis no host, não versionados; o que já é rastreado continua rastreado)
+data/saida/
