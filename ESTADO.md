@@ -5106,3 +5106,7 @@ Gabarito do braço do dono: 20 quadros, 8 canais (`data/gold/maos/braco.json`, r
 - Largura da caixa não separa erro de acerto: kenneth tem 377 instantes novos com caixa < 0,5 da largura e acertou 20/20.
 
 **Pendências**: falso positivo no braço do violão pelo caminho da máscara (cifra club sobretudo; os 6 vídeos de cifra club que viraram TAB são suspeitos, exceto "you know i'm no good"); folhas para virar gabarito, se o dono confirmar: `data/saida/censo/v2/cifra_todos.jpg`, `dellarte_amostra_*.jpg`, `kenneth_amostra.jpg`, `mudaram_sem_para_tab_*.jpg`.
+
+## 2026-10-12 — Mãos — M3c: braço calibrado pela música
+
+Rodada [1006](docs/rodadas/1006-braco-calibrado-pela-musica.md). Homografia do braço ajustada por RANSAC só com (corda, casa, instante) do produto e as pontas da mão esquerda, sem linha da imagem. MVP: inliers 465/526; contra a calibração feita à mão, 0,119 casa de erro mediano (p90 0,241; corda 1 sistemática); dedo **40/53 (27/40)** com a calibração excluindo os instantes do gabarito (42/53 com todos; à mão: 42/53). H instável entre sementes (mediana 4–6 px). Próximo: estabilizar e medir fora do MVP contra o gabarito do braço.
