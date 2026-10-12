@@ -29,6 +29,20 @@ OURO_VIDEO = RAIZ / "data" / "gold" / "ouro_video"
 #: Saídas geradas (visíveis no host, ao contrário de /tmp do container).
 SAIDA = RAIZ / "data" / "saida"
 
+#: Notas do produto (uma lista ``notas`` com ``t_ini``, ``corda``, ``casa``...).
+MVP = SAIDA / "produto" / "mvp.json"
+
+#: Censo de presença das mãos: uma linha por vídeo, com a caixa da tablatura por quadro.
+CENSO_MAOS = SAIDA / "maos" / "censo_maos.jsonl"
+
+#: Gabarito dos dedos (M2 da trilha das mãos), rotulado pelo dono com
+#: ``tab.maos_gabarito servir``.
+GABARITO_DEDOS = RAIZ / "data" / "gold" / "maos" / "dedos_retrato_brasileiro.json"
+
+#: Material por nota da ferramenta dos dedos (quadros e recortes), gerado por
+#: ``tab.maos_gabarito_preparar``.
+MAOS_DEDOS = SAIDA / "maos" / "m2" / "dedos"
+
 #: Perfil dos canais (o que foi medido, e quais canais estão fora do rollout).
 CANAIS = RAIZ / "configs" / "canais.yaml"
 
