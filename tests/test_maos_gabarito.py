@@ -16,7 +16,9 @@ from tab.maos_gabarito import (
     acorde_da_coluna,
     amostrar_notas,
     ampliar_caixa,
+    ataque_completo,
     ataque_de,
+    atualizar_pestana,
     atualizar_resposta,
     caixa_da_nota,
     caixa_final,
@@ -26,15 +28,35 @@ from tab.maos_gabarito import (
     gabarito_novo,
     linhas_confiaveis,
     mesclar_gabarito,
+    migrar_arquivo,
     migrar_gabarito,
+    migrar_pestanas,
     notas_do_ataque,
     progresso_ataques,
     recortar_caixa,
     redimensionar_altura,
+    servir,
     texto_acorde,
+    validar_pestana,
     validar_resposta,
     y_da_corda,
 )
+
+
+def _pestana_vazia() -> dict:
+    """Registro de pestana sem resposta (como o gabarito grava).
+
+    Returns:
+        Todos os campos de pestana em ``None``.
+    """
+    return {
+        "pestana": None,
+        "pestana_dedo": None,
+        "pestana_casa": None,
+        "pestana_de": None,
+        "pestana_ate": None,
+        "respondido_em": None,
+    }
 
 
 def _notas_sinteticas(n: int, com_casa_zero: int = 0) -> list[dict]:
@@ -439,15 +461,16 @@ def test_ataque_recusa_duas_notas_na_mesma_corda() -> None:
         notas_do_ataque({"id": "n02", "indice_mvp": 1}, notas)
 
 
-def test_gabarito_novo_tem_formato_2_e_uma_entrada_por_nota_do_ataque() -> None:
-    """Formato 2 no topo; a amostra de 1 ataque com acorde de 3 gera 3 entradas."""
+def test_gabarito_novo_tem_formato_3_e_uma_entrada_por_nota_do_ataque() -> None:
+    """Formato 3 no topo; a amostra de 1 ataque com acorde de 3 gera 3 entradas e 1 pestana."""
     notas = _mvp_com_acordes()
     amostra = [{"id": "n02", "indice_mvp": 1}]
     gab = gabarito_novo("v.mp4", amostra, 9, notas)
-    assert gab["formato"] == 2
+    assert gab["formato"] == 3
     assert next(iter(gab)) == "formato"
     assert [n["id"] for n in gab["notas"]] == ["n02_c1", "n02", "n02_c5"]
     assert all(n["esquerda"] is None and n["direita"] is None for n in gab["notas"])
+    assert gab["ataques"] == {"a02": _pestana_vazia()}
 
 
 def _gabarito_v1(notas: list[dict]) -> dict:
@@ -498,8 +521,9 @@ def test_migrar_preserva_respostas_e_acrescenta_as_do_acorde() -> None:
     copia_antes = copy.deepcopy(antigo)
     novo = migrar_gabarito(antigo, notas)
     assert antigo == copia_antes
-    assert novo["formato"] == 2
+    assert novo["formato"] == 3
     assert novo["video"] == "v.mp4"
+    assert novo["ataques"] == {"a01": _pestana_vazia(), "a02": _pestana_vazia()}
     por_id = {n["id"]: n for n in novo["notas"]}
     assert set(por_id) == {"n01", "n01_c1", "n01_c5", "n02"}
     for velha in antigo["notas"]:
@@ -530,18 +554,21 @@ def test_migrar_recusa_nota_que_nao_bate_com_o_mvp() -> None:
         migrar_gabarito(antigo, notas)
 
 
-def test_progresso_so_conta_ataque_com_todas_as_notas_respondidas() -> None:
-    """Um ataque de 3 notas só conta como completo com as 3 com esquerda e direita."""
+def test_progresso_so_conta_ataque_com_notas_e_pestana() -> None:
+    """Um ataque só conta como completo com as notas (esquerda e direita) E a pestana."""
     notas = _mvp_com_acordes()
     gab = gabarito_novo("v.mp4", [{"id": "n02", "indice_mvp": 1}], 9, notas)
     gab["notas"].append(
         {**gab["notas"][0], "id": "n09", "ataque": "a09", "sorteada": True}
     )
+    gab["ataques"]["a09"] = _pestana_vazia()
     assert progresso_ataques(gab) == (0, 2)
     for n in gab["notas"][:2]:
         atualizar_resposta(gab, n["id"], {"esquerda": "1", "direita": "p"}, "t")
     assert progresso_ataques(gab) == (0, 2)
     atualizar_resposta(gab, "n02_c5", {"esquerda": "?", "direita": "?"}, "t")
+    assert progresso_ataques(gab) == (0, 2)  # notas prontas, pestana ainda null
+    atualizar_pestana(gab, "a02", {"pestana": "nao"}, "t")
     assert progresso_ataques(gab) == (1, 2)
     assert completas(gab) == 3
 
@@ -593,3 +620,300 @@ def test_caixa_da_nota_tem_14_por_11_passos_centrada() -> None:
     x0, y0, x1, y1 = caixa_da_nota(1000.0, 400.0, 20.0)
     assert (x1 - x0, y1 - y0) == (28, 22)
     assert ((x0 + x1) / 2, (y0 + y1) / 2) == (1000.0, 400.0)
+
+
+def _gabarito_formato_2(notas: list[dict]) -> dict:
+    """Gabarito no formato 2 (sem ``ataques``), com a nota ``n02`` respondida.
+
+    Args:
+        notas: notas do mvp de ``_mvp_com_acordes``.
+
+    Returns:
+        O registro no formato 2, com ataques a02 (3 notas) e a03 (1 nota).
+    """
+    gab = gabarito_novo(
+        "v.mp4",
+        [{"id": "n02", "indice_mvp": 1}, {"id": "n03", "indice_mvp": 3}],
+        9,
+        notas,
+    )
+    gab.pop("ataques")
+    gab["formato"] = 2
+    atualizar_resposta(gab, "n02", {"esquerda": "2", "direita": "p", "obs": "x"}, "t1")
+    return gab
+
+
+def test_migrar_pestanas_2_para_3_nao_muda_nenhuma_nota() -> None:
+    """Formato 2 vira 3 só com a pestana em branco de cada ataque; as notas ficam iguais."""
+    gab = _gabarito_formato_2(_mvp_com_acordes())
+    antes = copy.deepcopy(gab)
+    novo = migrar_pestanas(gab)
+    assert gab == antes
+    assert novo["formato"] == 3
+    assert novo["notas"] == antes["notas"]
+    assert novo["ataques"] == {"a02": _pestana_vazia(), "a03": _pestana_vazia()}
+    assert novo["video"] == "v.mp4"
+
+
+def test_migrar_pestanas_e_idempotente_e_mantem_pestana_respondida() -> None:
+    """Rodar de novo não muda nada; uma pestana já respondida é mantida."""
+    gab = _gabarito_formato_2(_mvp_com_acordes())
+    gab["ataques"] = {
+        "a03": {**_pestana_vazia(), "pestana": "nao", "respondido_em": "t"}
+    }
+    uma = migrar_pestanas(gab)
+    assert uma["ataques"]["a03"]["pestana"] == "nao"
+    assert uma["ataques"]["a02"] == _pestana_vazia()
+    assert migrar_pestanas(uma) == uma
+
+
+def test_migrar_pestanas_recusa_formato_1() -> None:
+    """Sem as notas do mvp, só o formato 2 e o 3 passam por aqui."""
+    with pytest.raises(ValueError):
+        migrar_pestanas({"formato": 1, "notas": []})
+    with pytest.raises(ValueError):
+        migrar_pestanas({"notas": []})
+
+
+def test_migrar_arquivo_grava_formato_3_e_e_idempotente(tmp_path: Path) -> None:
+    """O arquivo em disco passa a ter ``ataques``; notas iguais; a segunda vez não regrava."""
+    ouro = tmp_path / "gabarito.json"
+    gab = _gabarito_formato_2(_mvp_com_acordes())
+    ouro.write_text(json.dumps(gab, ensure_ascii=False), encoding="utf-8")
+    assert migrar_arquivo(ouro) == 2
+    gravado = json.loads(ouro.read_text(encoding="utf-8"))
+    assert gravado["formato"] == 3
+    assert gravado["notas"] == gab["notas"]
+    bytes_depois = ouro.read_bytes()
+    assert migrar_arquivo(ouro) == 2
+    assert ouro.read_bytes() == bytes_depois
+
+
+@pytest.mark.parametrize(
+    ("campos", "esperado"),
+    [
+        ({"pestana": "nao"}, "nao"),
+        ({"pestana": "?"}, "?"),
+    ],
+)
+def test_validar_pestana_nao_e_interrogacao_limpam_os_campos(
+    campos: dict, esperado: str
+) -> None:
+    """``nao`` e ``?`` gravam só a resposta; os campos de dedo, casa e cordas ficam vazios."""
+    assert validar_pestana(campos) == {**_pestana_vazia(), "pestana": esperado}
+
+
+def test_validar_pestana_aceita_sim_com_casa_e_cordas() -> None:
+    """Pestana ``sim`` válida passa com os campos como vieram."""
+    registro = validar_pestana(
+        {
+            "pestana": "sim",
+            "pestana_dedo": "2",
+            "pestana_casa": 3,
+            "pestana_de": 1,
+            "pestana_ate": 6,
+        }
+    )
+    assert registro == {
+        **_pestana_vazia(),
+        "pestana": "sim",
+        "pestana_dedo": "2",
+        "pestana_casa": 3,
+        "pestana_de": 1,
+        "pestana_ate": 6,
+    }
+
+
+def test_validar_pestana_sim_sem_dedo_usa_o_1() -> None:
+    """Sem ``pestana_dedo``, o dedo da pestana é o indicador (``1``)."""
+    registro = validar_pestana(
+        {"pestana": "sim", "pestana_casa": 2, "pestana_de": 2, "pestana_ate": 3}
+    )
+    assert registro["pestana_dedo"] == "1"
+
+
+@pytest.mark.parametrize(
+    "campos",
+    [
+        {"pestana": "talvez"},
+        {"pestana": None},
+        {"pestana": "sim", "pestana_casa": 0, "pestana_de": 1, "pestana_ate": 3},
+        {"pestana": "sim", "pestana_de": 1, "pestana_ate": 3},
+        {"pestana": "sim", "pestana_casa": True, "pestana_de": 1, "pestana_ate": 3},
+        {"pestana": "sim", "pestana_casa": 2.0, "pestana_de": 1, "pestana_ate": 3},
+        {"pestana": "sim", "pestana_casa": 2, "pestana_de": 0, "pestana_ate": 3},
+        {"pestana": "sim", "pestana_casa": 2, "pestana_de": 1, "pestana_ate": 7},
+        {"pestana": "sim", "pestana_casa": 2, "pestana_de": 3, "pestana_ate": 3},
+        {"pestana": "sim", "pestana_casa": 2, "pestana_de": 4, "pestana_ate": 2},
+        {
+            "pestana": "sim",
+            "pestana_dedo": "5",
+            "pestana_casa": 2,
+            "pestana_de": 1,
+            "pestana_ate": 3,
+        },
+        {
+            "pestana": "sim",
+            "pestana_dedo": 1,
+            "pestana_casa": 2,
+            "pestana_de": 1,
+            "pestana_ate": 3,
+        },
+        {
+            "pestana": "sim",
+            "pestana_casa": 2,
+            "pestana_de": 1,
+            "pestana_ate": 3,
+            "pe": "x",
+        },
+    ],
+)
+def test_validar_pestana_recusa_valor_invalido(campos: dict) -> None:
+    """Casa < 1, cordas fora de 1 a 6, de >= ate, dedo inexistente e campo estranho: recusa."""
+    with pytest.raises(ValueError):
+        validar_pestana(campos)
+
+
+def test_atualizar_pestana_grava_e_recusa_sem_mudar_nada() -> None:
+    """Pestana válida entra com ``respondido_em``; ataque inexistente e valor inválido não mudam o gabarito."""
+    gab = _gabarito_formato_2(_mvp_com_acordes())
+    migrado = migrar_pestanas(gab)
+    atualizar_pestana(
+        migrado,
+        "a02",
+        {"pestana": "sim", "pestana_casa": 2, "pestana_de": 1, "pestana_ate": 3},
+        "t9",
+    )
+    registro = migrado["ataques"]["a02"]
+    assert (registro["pestana"], registro["respondido_em"]) == ("sim", "t9")
+    antes = copy.deepcopy(migrado)
+    with pytest.raises(ValueError):
+        atualizar_pestana(migrado, "a99", {"pestana": "nao"}, "t")
+    with pytest.raises(ValueError):
+        atualizar_pestana(
+            migrado,
+            "a02",
+            {"pestana": "sim", "pestana_casa": 0, "pestana_de": 1, "pestana_ate": 3},
+            "t",
+        )
+    assert migrado == antes
+
+
+def test_ataque_completo_exige_notas_e_pestana() -> None:
+    """Notas todas prontas com pestana null: incompleto. Com pestana respondida: completo."""
+    gab = gabarito_novo(
+        "v.mp4", [{"id": "n02", "indice_mvp": 1}], 9, _mvp_com_acordes()
+    )
+    for n in gab["notas"]:
+        atualizar_resposta(gab, n["id"], {"esquerda": "1", "direita": "p"}, "t")
+    assert ataque_completo(gab, "a02") is False
+    atualizar_pestana(gab, "a02", {"pestana": "?"}, "t")
+    assert ataque_completo(gab, "a02") is True
+    assert ataque_completo(gab, "a77") is False
+
+
+def test_mesclar_preserva_pestana_respondida_e_recusa_orfa() -> None:
+    """A pestana respondida vai para o gabarito novo; uma de ataque que sumiu é recusada."""
+    existente = _gabarito()
+    atualizar_pestana(existente, "a01", {"pestana": "nao"}, "t")
+    novo = mesclar_gabarito(_gabarito(), existente)
+    assert novo["ataques"]["a01"]["pestana"] == "nao"
+    existente["ataques"]["a99"] = {**_pestana_vazia(), "pestana": "nao"}
+    with pytest.raises(ValueError):
+        mesclar_gabarito(_gabarito(), existente)
+
+
+def test_servidor_grava_pestana_recusa_invalida_e_preserva_notas(
+    tmp_path: Path,
+) -> None:
+    """POST /pestana grava na cópia; valor inválido vira 400 sem mexer no arquivo."""
+    gab = _gabarito()
+    atualizar_resposta(gab, "n01", {"esquerda": "3", "direita": "m"}, "t")
+    ouro = tmp_path / "gabarito.json"
+    ouro.write_text(json.dumps(gab, ensure_ascii=False), encoding="utf-8")
+    (tmp_path / "indice.json").write_text("{}", encoding="utf-8")
+    servidor = criar_servidor(tmp_path, ouro, porta=0)
+    thread = threading.Thread(target=servidor.serve_forever, daemon=True)
+    thread.start()
+    try:
+        base = f"http://127.0.0.1:{servidor.server_address[1]}"
+
+        def post(caminho: str, corpo: dict) -> tuple[int, dict]:
+            req = urllib.request.Request(
+                base + caminho,
+                data=json.dumps(corpo).encode(),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            try:
+                with urllib.request.urlopen(req) as r:
+                    return r.status, json.loads(r.read())
+            except urllib.error.HTTPError as erro:
+                return erro.code, json.loads(erro.read())
+
+        status, dados = post(
+            "/pestana",
+            {
+                "ataque": "a01",
+                "pestana": "sim",
+                "pestana_casa": 2,
+                "pestana_de": 1,
+                "pestana_ate": 4,
+            },
+        )
+        assert status == 200
+        assert dados["pestana"]["pestana_ate"] == 4
+        antes_invalidos = ouro.read_bytes()
+        notas_gravadas = json.loads(antes_invalidos)["notas"]
+        assert (
+            post(
+                "/pestana",
+                {
+                    "ataque": "a01",
+                    "pestana": "sim",
+                    "pestana_casa": 0,
+                    "pestana_de": 1,
+                    "pestana_ate": 4,
+                },
+            )[0]
+            == 400
+        )
+        assert (
+            post(
+                "/pestana",
+                {
+                    "ataque": "a01",
+                    "pestana": "sim",
+                    "pestana_casa": 2,
+                    "pestana_de": 4,
+                    "pestana_ate": 4,
+                },
+            )[0]
+            == 400
+        )
+        assert post("/pestana", {"ataque": "a99", "pestana": "nao"})[0] == 400
+        assert post("/pestana", {"pestana": "nao"})[0] == 400
+        assert post("/pestana", {"ataque": "a01", "pestana": "nao", "x": 1})[0] == 400
+        assert ouro.read_bytes() == antes_invalidos
+
+        status, dados = post("/responder", {"id": "n01", "esquerda": "1"})
+        assert status == 200
+        gravado = json.loads(ouro.read_text(encoding="utf-8"))
+        assert gravado["ataques"]["a01"]["pestana"] == "sim"
+        assert gravado["notas"][0]["esquerda"] == "1"
+        assert gravado["notas"][1:] == notas_gravadas[1:]
+        assert dados["total_ataques"] == 4
+    finally:
+        servidor.shutdown()
+        servidor.server_close()
+
+
+def test_servir_recusa_gabarito_que_nao_esta_no_formato_3(tmp_path: Path) -> None:
+    """Um gabarito no formato 2 não sobe o servidor: manda migrar antes."""
+    ouro = tmp_path / "gabarito.json"
+    ouro.write_text(
+        json.dumps(_gabarito_formato_2(_mvp_com_acordes()), ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (tmp_path / "indice.json").write_text("{}", encoding="utf-8")
+    assert servir(tmp_path, ouro, 0, "127.0.0.1") == 2

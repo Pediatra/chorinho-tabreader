@@ -48,8 +48,9 @@ Retangulo = tuple[int, int, int, int]
 SEMENTE_PADRAO = 20261012
 
 #: Formato do gabarito: 1 = uma nota por item; 2 = um ataque por item (nota sorteada mais
-#: as do acorde). Só o formato 2 é aceito pelo servidor.
-FORMATO_GABARITO = 2
+#: as do acorde); 3 = formato 2 mais a pestana de cada ataque (``ataques``). Só o formato
+#: 3 é aceito pelo servidor.
+FORMATO_GABARITO = 3
 
 #: Tamanho do rótulo ``cN`` desenhado ao lado de cada retângulo do quadro.
 FONTE_ROTULO = 0.45
@@ -89,6 +90,19 @@ RESPOSTAS = {
 
 #: Tamanho máximo da observação livre.
 TAMANHO_OBS_MAXIMO = 500
+
+#: Respostas válidas da pestana de um ataque (``None`` = não respondido).
+RESPOSTAS_PESTANA = ("sim", "nao", "?")
+
+#: Dedos que podem fazer a pestana (a mão esquerda, como as notas).
+DEDOS_PESTANA = ("1", "2", "3", "4")
+
+#: Cordas da tablatura (1 = mais aguda, 6 = mais grave).
+CORDA_MINIMA = 1
+CORDA_MAXIMA = 6
+
+#: Campos de pestana de um ataque (além de ``respondido_em``).
+CAMPOS_PESTANA = ("pestana_dedo", "pestana_casa", "pestana_de", "pestana_ate")
 
 #: Origens possíveis de uma caixa de mão.
 ORIGENS = ("mediapipe", "wholebody", "fallback")
@@ -525,7 +539,7 @@ def _nota_em_branco(entrada: dict) -> dict:
 def gabarito_novo(
     video: str, amostra: list[dict], semente: int, notas: list[dict]
 ) -> dict:
-    """Registro do gabarito (formato 2) com todas as respostas em branco.
+    """Registro do gabarito (formato 3) com todas as respostas em branco.
 
     Args:
         video: chave do vídeo no acervo (ex.: ``sky guitar/retrato....mp4``).
@@ -534,10 +548,12 @@ def gabarito_novo(
         notas: notas do ``mvp.json``, para montar o acorde de cada ataque.
 
     Returns:
-        O dicionário do gabarito, com ``formato`` 2 e uma entrada por nota de cada ataque.
+        O dicionário do gabarito, com uma entrada por nota de cada ataque e uma pestana
+        em branco por ataque.
     """
-    return {
+    gabarito = {
         "formato": FORMATO_GABARITO,
+        "ataques": {},
         "video": video,
         "como_foi_rotulado": "dono, ferramenta tab.maos_gabarito, um ataque por vez",
         "semente": semente,
@@ -546,28 +562,96 @@ def gabarito_novo(
             _nota_em_branco(e) for item in amostra for e in notas_do_ataque(item, notas)
         ],
     }
+    return migrar_pestanas(gabarito)
+
+
+def _pestana_em_branco() -> dict:
+    """Registro de pestana de um ataque, sem resposta.
+
+    Returns:
+        ``pestana`` e os campos de pestana com ``None``, e ``respondido_em`` vazio.
+    """
+    return {
+        "pestana": None,
+        "pestana_dedo": None,
+        "pestana_casa": None,
+        "pestana_de": None,
+        "pestana_ate": None,
+        "respondido_em": None,
+    }
+
+
+def migrar_pestanas(gabarito: dict) -> dict:
+    """Converte o gabarito do formato 2 para o 3: acrescenta a pestana em branco de cada ataque.
+
+    Pura e idempotente: não usa o ``mvp.json`` e não toca em nenhuma nota. Cada ataque
+    presente nas notas ganha uma entrada em ``ataques``; uma entrada que já existe (com ou
+    sem resposta) é mantida como está. Um gabarito já no formato 3 volta igual.
+
+    Args:
+        gabarito: gabarito nos formatos 2 ou 3 (não é alterado).
+
+    Returns:
+        Um gabarito novo, no formato 3, com as notas idênticas às de entrada.
+
+    Raises:
+        ValueError: se o formato não é 2 nem 3.
+    """
+    formato = gabarito.get("formato")
+    if formato not in (2, FORMATO_GABARITO):
+        raise ValueError(f"migrar_pestanas espera o formato 2 ou 3, veio {formato!r}")
+    existentes = gabarito.get("ataques", {})
+    ids = list(dict.fromkeys(n["ataque"] for n in gabarito["notas"]))
+    ids += [a for a in existentes if a not in ids]
+    ataques = {a: copy.deepcopy(existentes.get(a, _pestana_em_branco())) for a in ids}
+    resto = {k: v for k, v in gabarito.items() if k not in ("formato", "ataques")}
+    return {
+        "formato": FORMATO_GABARITO,
+        "ataques": ataques,
+        **copy.deepcopy(resto),
+    }
+
+
+def migrar_arquivo(ouro: Path) -> int:
+    """Migra o gabarito em disco do formato 2 para o 3 (grava de forma atômica).
+
+    Args:
+        ouro: arquivo do gabarito.
+
+    Returns:
+        Quantos ataques o gabarito tem no formato 3.
+
+    Raises:
+        ValueError: se o formato não é 2 nem 3.
+    """
+    antigo = json.loads(ouro.read_text(encoding="utf-8"))
+    novo = migrar_pestanas(antigo)
+    if novo != antigo:
+        gravar_atomico(ouro, novo)
+    return len(novo["ataques"])
 
 
 def migrar_gabarito(antigo: dict, notas: list[dict]) -> dict:
-    """Converte o gabarito do formato 1 (uma nota por item) para o 2 (um ataque por item).
+    """Converte o gabarito do formato 1 (uma nota por item) para o 3 (um ataque por item, com pestana).
 
     Cada nota antiga ``nNN`` vira o ataque ``aNN`` e MANTÉM o id e as respostas (``esquerda``,
     ``direita``, ``obs``, ``respondido_em``) exatamente como estavam. As outras notas do
-    acorde entram como novas, em branco, com id ``nNN_c<corda>``. Um gabarito já no formato
-    2 volta igual (rodar de novo não duplica nada). O gabarito de entrada não é alterado.
+    acorde entram como novas, em branco, com id ``nNN_c<corda>``. Um gabarito já nos formatos
+    2 ou 3 é só completado com ``migrar_pestanas`` (rodar de novo não duplica nada). O
+    gabarito de entrada não é alterado.
 
     Args:
-        antigo: gabarito como está em disco (formato 1, ou 2).
+        antigo: gabarito como está em disco (formato 1, ou 2 e 3).
         notas: notas do ``mvp.json``.
 
     Returns:
-        Um gabarito novo, no formato 2.
+        Um gabarito novo, no formato 3.
 
     Raises:
         ValueError: se corda, casa ou ``t_ini`` de uma nota antiga não batem com o mvp.
     """
-    if antigo.get("formato") == FORMATO_GABARITO:
-        return copy.deepcopy(antigo)
+    if antigo.get("formato", 1) != 1:
+        return migrar_pestanas(antigo)
     novas = []
     for velha in antigo["notas"]:
         mvp = notas[velha["indice_mvp"]]
@@ -585,7 +669,7 @@ def migrar_gabarito(antigo: dict, notas: list[dict]) -> dict:
                     nova[campo] = velha.get(campo, nova[campo])
             novas.append(nova)
     resto = {k: v for k, v in antigo.items() if k not in ("formato", "notas")}
-    return {"formato": FORMATO_GABARITO, **resto, "notas": novas}
+    return migrar_pestanas({"formato": 2, **resto, "notas": novas})
 
 
 def _tem_resposta(nota: dict) -> bool:
@@ -637,9 +721,112 @@ def mesclar_gabarito(novo: dict, existente: dict | None) -> dict:
             continue
         for campo in ("esquerda", "direita", "obs", "respondido_em"):
             nova[campo] = antiga.get(campo, nova[campo])
+    for id_ataque, antiga_pestana in existente.get("ataques", {}).items():
+        if not pestana_respondida(antiga_pestana):
+            continue
+        if id_ataque not in novo["ataques"]:
+            orfas.append(id_ataque)
+            continue
+        novo["ataques"][id_ataque] = copy.deepcopy(antiga_pestana)
     if orfas:
         raise ValueError(f"respostas sem nota na amostra nova: {orfas}")
     return novo
+
+
+def _inteiro(valor: object) -> bool:
+    """É um inteiro de verdade (``bool`` não conta)?
+
+    Args:
+        valor: o valor recebido.
+
+    Returns:
+        ``True`` se ``valor`` é ``int`` e não é ``bool``.
+    """
+    return isinstance(valor, int) and not isinstance(valor, bool)
+
+
+def pestana_respondida(ataque: dict) -> bool:
+    """A pestana do ataque já tem resposta (``sim``, ``nao`` ou ``?``)?
+
+    Args:
+        ataque: registro de pestana do ataque (``ataques[aNN]``).
+
+    Returns:
+        ``True`` se ``pestana`` não é ``None``.
+    """
+    return ataque.get("pestana") is not None
+
+
+def validar_pestana(campos: dict) -> dict:
+    """Confere a pestana de um ataque e devolve o registro a gravar (sem ``respondido_em``).
+
+    ``nao`` e ``?`` limpam os campos de pestana. ``sim`` exige a casa (inteiro >= 1), as
+    cordas ``pestana_de`` e ``pestana_ate`` (inteiros de 1 a 6, com ``de`` < ``ate``, ou
+    seja, pelo menos duas cordas) e o dedo (``1`` a ``4``; sem o campo, ``1``).
+
+    Args:
+        campos: ``pestana`` e, se ``sim``, ``pestana_dedo``, ``pestana_casa``,
+            ``pestana_de`` e ``pestana_ate``.
+
+    Returns:
+        O registro de pestana, com ``respondido_em`` ``None``.
+
+    Raises:
+        ValueError: se um campo não existe, o valor é inválido ou as cordas se contradizem.
+    """
+    desconhecidos = set(campos) - {"pestana", *CAMPOS_PESTANA}
+    if desconhecidos:
+        raise ValueError(f"campos de pestana desconhecidos: {sorted(desconhecidos)}")
+    pestana = campos.get("pestana")
+    if pestana not in RESPOSTAS_PESTANA:
+        raise ValueError(f"pestana: valor {pestana!r} não existe")
+    if pestana != "sim":
+        return {**_pestana_em_branco(), "pestana": pestana}
+    dedo = campos.get("pestana_dedo") or "1"
+    if dedo not in DEDOS_PESTANA:
+        raise ValueError(f"pestana_dedo: valor {dedo!r} não existe")
+    casa = campos.get("pestana_casa")
+    if not _inteiro(casa) or casa < 1:
+        raise ValueError(f"pestana_casa: inteiro >= 1, veio {casa!r}")
+    de, ate = campos.get("pestana_de"), campos.get("pestana_ate")
+    for nome, corda in (("pestana_de", de), ("pestana_ate", ate)):
+        if not _inteiro(corda) or not CORDA_MINIMA <= corda <= CORDA_MAXIMA:
+            raise ValueError(
+                f"{nome}: corda de {CORDA_MINIMA} a {CORDA_MAXIMA}, veio {corda!r}"
+            )
+    if de >= ate:
+        raise ValueError(f"pestana_de ({de}) deve ser menor que pestana_ate ({ate})")
+    return {
+        **_pestana_em_branco(),
+        "pestana": "sim",
+        "pestana_dedo": dedo,
+        "pestana_casa": casa,
+        "pestana_de": de,
+        "pestana_ate": ate,
+    }
+
+
+def atualizar_pestana(gabarito: dict, id_ataque: str, campos: dict, agora: str) -> dict:
+    """Aplica a pestana de um ataque (in place) e devolve o registro gravado.
+
+    Args:
+        gabarito: o registro em memória (formato 3).
+        id_ataque: id do ataque (``aNN``).
+        campos: o que ``validar_pestana`` aceita.
+        agora: carimbo ISO-8601 da resposta.
+
+    Returns:
+        O registro de pestana do ataque, já com ``respondido_em``.
+
+    Raises:
+        ValueError: se o ataque não existe ou algum campo é inválido.
+    """
+    if id_ataque not in gabarito["ataques"]:
+        raise ValueError(f"ataque {id_ataque!r} não existe")
+    registro = validar_pestana(campos)
+    registro["respondido_em"] = agora
+    gabarito["ataques"][id_ataque] = registro
+    return registro
 
 
 def validar_resposta(campo: str, valor: object) -> None:
@@ -717,20 +904,36 @@ def completas(gabarito: dict) -> int:
     return sum(1 for n in gabarito["notas"] if completa_nota(n))
 
 
-def progresso_ataques(gabarito: dict) -> tuple[int, int]:
-    """Quantos ataques estão completos (todas as suas notas com as duas respostas).
+def ataque_completo(gabarito: dict, id_ataque: str) -> bool:
+    """O ataque está completo: todas as notas com as duas respostas E a pestana respondida.
 
     Args:
-        gabarito: o registro no formato 2.
+        gabarito: o registro no formato 3.
+        id_ataque: id do ataque (``aNN``).
+
+    Returns:
+        ``True`` se o ataque tem notas, todas completas, e a pestana não é ``None``.
+    """
+    notas = [n for n in gabarito["notas"] if n["ataque"] == id_ataque]
+    return (
+        bool(notas)
+        and all(completa_nota(n) for n in notas)
+        and pestana_respondida(gabarito["ataques"].get(id_ataque, {}))
+    )
+
+
+def progresso_ataques(gabarito: dict) -> tuple[int, int]:
+    """Quantos ataques estão completos (ver ``ataque_completo``).
+
+    Args:
+        gabarito: o registro no formato 3.
 
     Returns:
         ``(ataques completos, total de ataques)``.
     """
-    por_ataque: dict[str, list[bool]] = {}
-    for n in gabarito["notas"]:
-        por_ataque.setdefault(n["ataque"], []).append(completa_nota(n))
-    feitos = sum(1 for linhas in por_ataque.values() if all(linhas))
-    return feitos, len(por_ataque)
+    ids = list(dict.fromkeys(n["ataque"] for n in gabarito["notas"]))
+    feitos = sum(1 for a in ids if ataque_completo(gabarito, a))
+    return feitos, len(ids)
 
 
 def gravar_atomico(destino: Path, conteudo: dict) -> None:
@@ -827,11 +1030,11 @@ def criar_servidor(
             self._json(404, {"ok": False, "erro": "não encontrado"})
 
         def do_POST(self) -> None:
-            """``/responder``: aplica uma resposta de uma nota e grava o gabarito."""
+            """``/responder`` (uma nota) e ``/pestana`` (um ataque): grava o gabarito."""
             if not self._host_ok():
                 self._json(403, {"ok": False, "erro": "host recusado"})
                 return
-            if self.path != "/responder":
+            if self.path not in {"/responder", "/pestana"}:
                 self._json(404, {"ok": False, "erro": "não encontrado"})
                 return
             try:
@@ -839,11 +1042,32 @@ def criar_servidor(
                 if not 0 < tamanho <= 16_000:
                     raise ValueError("corpo ausente ou grande demais")
                 dados = json.loads(self.rfile.read(tamanho))
-                id_nota = dados.pop("id")
+                if not isinstance(dados, dict):
+                    raise ValueError("o corpo deve ser um objeto JSON")
                 agora = datetime.datetime.now().isoformat(timespec="seconds")
                 with trava:
-                    nota = atualizar_resposta(estado, id_nota, dados, agora)
-                    gravar_atomico(ouro, estado)
+                    anterior = copy.deepcopy(estado)
+                    try:
+                        if self.path == "/pestana":
+                            id_ataque = dados.pop("ataque")
+                            resposta = {
+                                "ataque": id_ataque,
+                                "pestana": atualizar_pestana(
+                                    estado, id_ataque, dados, agora
+                                ),
+                            }
+                        else:
+                            id_nota = dados.pop("id")
+                            resposta = {
+                                "nota": atualizar_resposta(
+                                    estado, id_nota, dados, agora
+                                )
+                            }
+                        gravar_atomico(ouro, estado)
+                    except OSError:
+                        estado.clear()
+                        estado.update(anterior)
+                        raise
                     feitas = completas(estado)
                     total = len(estado["notas"])
                     ataques_feitos, ataques_total = progresso_ataques(estado)
@@ -857,7 +1081,7 @@ def criar_servidor(
                 200,
                 {
                     "ok": True,
-                    "nota": nota,
+                    **resposta,
                     "completas": feitas,
                     "total": total,
                     "ataques_completos": ataques_feitos,
@@ -877,9 +1101,10 @@ PAGINA = r"""<!doctype html>
 :root{--fundo:#fff;--texto:#1b1b1b;--suave:#666;--borda:#c9c9c9;--acento:#0b6bcb;--ok:#1a7f37;--ruim:#c62828;--painel:#f4f4f4;--aviso:#9a5b00}
 @media (prefers-color-scheme:dark){:root{--fundo:#161616;--texto:#e8e8e8;--suave:#999;--borda:#444;--acento:#5aa9ff;--ok:#4cc26a;--ruim:#ff6b6b;--painel:#222;--aviso:#f0b050}}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;padding:0 16px 32px;background:var(--fundo);color:var(--texto);font:15px/1.4 system-ui,sans-serif}
 header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--borda);position:sticky;top:0;background:var(--fundo);z-index:5}
-button,input{font:inherit;color:inherit;background:var(--painel);border:1px solid var(--borda);border-radius:6px;padding:6px 10px}
+button,input,select{font:inherit;color:inherit;background:var(--painel);border:1px solid var(--borda);border-radius:6px;padding:6px 10px}
 button{cursor:pointer}
 button.on{background:var(--acento);color:#fff;border-color:var(--acento)}
 button.ok{border-left:5px solid var(--ok)}
@@ -908,6 +1133,12 @@ img{max-width:100%;height:auto;display:block;border:1px solid var(--borda)}
 .grupo{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
 .grupo button{padding:3px 7px;font-size:14px}
 .legenda{font-size:13px;color:var(--suave);margin:4px 0}
+.bloco-pestana{border:1px dashed var(--borda);border-radius:6px;padding:6px 8px;margin:6px 0;cursor:pointer}
+.bloco-pestana.ativa{border:2px solid var(--acento);background:var(--painel)}
+.bloco-pestana.ok{border-left:5px solid var(--ok)}
+.bloco-pestana b{font-weight:600}
+.linha-pest{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:center;margin:4px 0}
+.linha-pest input[type=number]{width:72px}
 input[type=text]{width:100%;max-width:420px}
 label{display:block;margin-top:10px}
 </style></head><body>
@@ -921,7 +1152,7 @@ label{display:block;margin-top:10px}
   <button id="ant">← ataque anterior</button>
   <span id="posicao"></span>
   <button id="prox">próximo ataque →</button>
-  <span class="suave">← → mudam de ataque · ↑ ↓ mudam de linha · teclas abaixo respondem a linha ativa</span>
+  <span class="suave">← → mudam de ataque · ↑ ↓ mudam de linha (e chegam à pestana) · teclas de nota respondem a linha ativa · b alterna pestana não/sim · n = pestana não</span>
 </div>
 <div id="lista"></div>
 <div id="titulo"></div>
@@ -937,11 +1168,25 @@ label{display:block;margin-top:10px}
     <img id="img-esq" alt="mão esquerda">
   </div>
   <div class="resp">
-    <h3>Notas do ataque (a linha destacada é a ativa)</h3>
+    <h3>Pestana e notas do ataque (a linha destacada é a ativa)</h3>
+    <div id="pestana" class="bloco-pestana">
+      <div class="linha-pest">
+        <b>Pestana</b>
+        <span id="pest-resp" class="grupo"></span>
+        <span id="pest-resumo" class="suave"></span>
+      </div>
+      <div id="pest-campos" class="linha-pest" hidden>
+        <span class="grupo"><span class="suave">dedo</span><span id="pest-dedo" class="grupo"></span></span>
+        <span class="grupo"><span class="suave">casa</span><input id="pest-casa" type="number" min="1" step="1" aria-label="casa da pestana"></span>
+        <span class="grupo"><span class="suave">da corda</span><select id="pest-de" aria-label="pestana: da corda"></select></span>
+        <span class="grupo"><span class="suave">até a corda</span><select id="pest-ate" aria-label="pestana: até a corda"></select></span>
+      </div>
+      <div class="legenda">não = sem pestana · sim = pestana (dedo, casa e cordas) · ? = não dá para ver</div>
+    </div>
     <div id="linhas"></div>
     <div class="legenda">esquerda: 1 indicador · 2 médio · 3 anelar · 4 mínimo · 0 corda solta · x ou ? não dá para ver</div>
     <div class="legenda">direita: p polegar · i indicador · m médio · a anelar · c mínimo (raro) · z ou ? não dá para ver</div>
-    <label>Observação da linha ativa (opcional)
+    <label>Observação da nota ativa (opcional)
       <input id="obs" type="text" maxlength="500">
     </label>
   </div>
@@ -960,14 +1205,19 @@ const ESQUERDA = [["1","indicador"],["2","médio"],["3","anelar"],["4","mínimo"
 const DIREITA = [["p","polegar"],["i","indicador"],["m","médio"],["a","anelar"],["c","mínimo (raro)"],["?","não dá para ver"]];
 const TECLAS_ESQ = {"1":"1","2":"2","3":"3","4":"4","0":"0","x":"?"};
 const TECLAS_DIR = {"p":"p","i":"i","m":"m","a":"a","c":"c","z":"?"};
+const PESTANA_OPCOES = [["nao","não"],["sim","sim"],["?","?"]];
+const SEM_PESTANA = {pestana_dedo: null, pestana_casa: null, pestana_de: null, pestana_ate: null};
 let INDICE = null, G = null;
 let ATAQUES = [];   // [{id: "a02", ks: [indices em G.notas, por corda]}]
 let A = 0, L = 0;   // ataque ativo e linha ativa dentro dele
+let PEST_ATIVA = false; // o bloco da pestana é a linha ativa (teclas de nota não respondem)
 
 const $ = id => document.getElementById(id);
 function completa(n) { return n.esquerda != null && n.direita != null; }
 function setStatus(t, c) { const s = $("status"); s.textContent = t; s.className = c || ""; }
-function ataqueCompleto(a) { return a.ks.every(k => completa(G.notas[k])); }
+function pestanaDe(a) { return G.ataques[a.id] || {pestana: null}; }
+function pestanaOk(a) { return pestanaDe(a).pestana != null; }
+function ataqueCompleto(a) { return a.ks.every(k => completa(G.notas[k])) && pestanaOk(a); }
 
 function montarAtaques() {
   ATAQUES = [];
@@ -989,6 +1239,14 @@ function primeiraIncompleta(a, de) {
   return -1;
 }
 
+// Onde o foco cai ao abrir um ataque: a primeira nota incompleta; se todas as notas
+// estão prontas e falta a pestana, o foco vai para o bloco da pestana.
+function posInicial(a) {
+  const at = ATAQUES[a], l = primeiraIncompleta(at, 0);
+  if (l >= 0) return {L: l, P: false};
+  return {L: 0, P: !pestanaOk(at)};
+}
+
 function progresso() {
   const notasFeitas = G.notas.filter(completa).length;
   const ataquesFeitos = ATAQUES.filter(ataqueCompleto).length;
@@ -1002,7 +1260,7 @@ function listaAtaques() {
   ATAQUES.forEach((a, j) => {
     const b = document.createElement("button");
     const feito = ataqueCompleto(a);
-    const parcial = a.ks.some(k => completa(G.notas[k]) || G.notas[k].esquerda != null || G.notas[k].direita != null);
+    const parcial = pestanaOk(a) || a.ks.some(k => G.notas[k].esquerda != null || G.notas[k].direita != null);
     b.textContent = a.id.slice(1) + (feito ? " ✓" : parcial ? " ·" : "");
     b.className = (j === A ? "on " : "") + (feito ? "ok" : "");
     b.onclick = () => irAtaque(j);
@@ -1031,14 +1289,66 @@ function renderLinhas() {
   a.ks.forEach((k, j) => {
     const n = G.notas[k];
     const div = document.createElement("div");
-    div.className = "nota" + (j === L ? " ativa" : "") + (completa(n) ? " ok" : "");
-    div.onclick = () => { L = j; mostrar(); };
+    div.className = "nota" + (j === L && !PEST_ATIVA ? " ativa" : "") + (completa(n) ? " ok" : "");
+    div.onclick = () => { L = j; PEST_ATIVA = false; mostrar(); };
     const rot = document.createElement("span");
     rot.className = "rotulo";
     rot.textContent = "c" + n.corda + " casa " + n.casa;
     div.append(rot, texto("— esquerda "), botoesDaLinha(j, "esquerda", ESQUERDA, n), texto("direita "), botoesDaLinha(j, "direita", DIREITA, n));
     l.append(div);
   });
+}
+
+// Casa da pestana padrão: a menor casa > 0 entre as notas do ataque (1 se não há).
+function casaPadrao(a) {
+  const casas = a.ks.map(k => Number(G.notas[k].casa)).filter(c => c > 0);
+  return casas.length ? Math.min(...casas) : 1;
+}
+
+// Pestana "sim" inicial: casa padrão; cordas de menor a maior nota dessa casa (se houver
+// ao menos duas cordas); senão, da corda 1 até a 6.
+function pestanaPadrao(a) {
+  const casa = casaPadrao(a);
+  const cordas = a.ks.map(k => G.notas[k]).filter(n => Number(n.casa) === casa).map(n => Number(n.corda));
+  let de = 1, ate = 6;
+  if (cordas.length && Math.min(...cordas) < Math.max(...cordas)) { de = Math.min(...cordas); ate = Math.max(...cordas); }
+  return {pestana: "sim", pestana_dedo: "1", pestana_casa: casa, pestana_de: de, pestana_ate: ate};
+}
+
+function resumoPestana(p) {
+  if (p.pestana === "nao") return "sem pestana";
+  if (p.pestana === "?") return "não dá para ver";
+  if (p.pestana !== "sim") return "pestana ainda não respondida";
+  const n = p.pestana_ate - p.pestana_de + 1;
+  return "pestana de " + n + " cordas" + (n === 6 ? " (inteira)" : "");
+}
+
+function renderPestana() {
+  const at = ATAQUES[A], p = pestanaDe(at), bloco = $("pestana");
+  bloco.className = "bloco-pestana" + (PEST_ATIVA ? " ativa" : "") + (pestanaOk(at) ? " ok" : "");
+  const g = $("pest-resp"); g.replaceChildren();
+  for (const [valor, rotulo] of PESTANA_OPCOES) {
+    const b = document.createElement("button");
+    b.textContent = rotulo;
+    b.className = p.pestana === valor ? "on" : "";
+    b.onclick = ev => { ev.stopPropagation(); escolherPestana(valor); };
+    g.append(b);
+  }
+  $("pest-resumo").textContent = resumoPestana(p);
+  const sim = p.pestana === "sim";
+  $("pest-campos").hidden = !sim;
+  if (!sim) return;
+  const d = $("pest-dedo"); d.replaceChildren();
+  for (const dedo of ["1", "2", "3", "4"]) {
+    const b = document.createElement("button");
+    b.textContent = dedo;
+    b.className = (p.pestana_dedo || "1") === dedo ? "on" : "";
+    b.onclick = ev => { ev.stopPropagation(); mudarPestana({pestana_dedo: dedo}); };
+    d.append(b);
+  }
+  $("pest-casa").value = p.pestana_casa;
+  $("pest-de").value = p.pestana_de;
+  $("pest-ate").value = p.pestana_ate;
 }
 
 function mostrar() {
@@ -1048,7 +1358,7 @@ function mostrar() {
   const ativa = G.notas[a.ks[L]];
   $("posicao").textContent = "ataque " + (A + 1) + " / " + ATAQUES.length;
   $("titulo").textContent = a.id + " · t=" + Number(i.t_ini).toFixed(2) + " s · " + i.texto_acorde;
-  $("info").textContent = a.ks.length + (a.ks.length === 1 ? " nota" : " notas") + " no ataque · linha ativa: c" + ativa.corda + " casa " + ativa.casa;
+  $("info").textContent = a.ks.length + (a.ks.length === 1 ? " nota" : " notas") + " no ataque · " + (PEST_ATIVA ? "pestana ativa" : "linha ativa: c" + ativa.corda + " casa " + ativa.casa);
   $("avisos").replaceChildren(...i.avisos.map(t => { const d = document.createElement("div"); d.className = "aviso"; d.textContent = t; return d; }));
   $("img-quadro").src = base + "quadro.jpg";
   $("img-esq").src = base + "esq.jpg";
@@ -1056,6 +1366,7 @@ function mostrar() {
   $("dir-0").src = base + "dir_0.jpg";
   $("dir-p").src = base + "dir_p.jpg";
   renderLinhas();
+  renderPestana();
   $("obs").value = ativa.obs || "";
   listaAtaques(); progresso();
 }
@@ -1064,7 +1375,7 @@ function mostrar() {
 async function gravar(k, campo, valor, avancar, a, l) {
   const n = G.notas[k], antes = completa(n), anterior = n[campo];
   n[campo] = valor;
-  A = a; L = l;
+  A = a; L = l; PEST_ATIVA = false;
   mostrar();
   setStatus("gravando…", "");
   try {
@@ -1082,17 +1393,22 @@ async function gravar(k, campo, valor, avancar, a, l) {
   mostrar();
 }
 
+// Ataque completo (notas e pestana) vai para o próximo, na primeira nota sem resposta.
+function avancarAtaque(a) {
+  if (a >= ATAQUES.length - 1) return;
+  A = a + 1;
+  const pos = posInicial(A);
+  L = pos.L; PEST_ATIVA = pos.P;
+}
+
+// Depois de uma nota ficar completa: próxima nota incompleta; se todas estão prontas e
+// falta a pestana, a linha ativa vira o bloco da pestana.
 function avancarAposCompletar(a, l) {
   const at = ATAQUES[a];
-  if (ataqueCompleto(at)) {
-    if (a < ATAQUES.length - 1) {
-      A = a + 1;
-      L = Math.max(0, primeiraIncompleta(ATAQUES[A], 0));
-    }
-    return;
-  }
+  if (ataqueCompleto(at)) { avancarAtaque(a); return; }
   const prox = primeiraIncompleta(at, (l + 1) % at.ks.length);
   if (prox >= 0) L = prox;
+  else PEST_ATIVA = !pestanaOk(at);
 }
 
 // Resposta a uma linha do ataque atual (tecla ou clique). Clicar de novo na mesma tecla limpa.
@@ -1103,10 +1419,84 @@ function responder(l, campo, valor) {
   gravar(k, campo, n[campo] === valor ? null : valor, true, a, l);
 }
 
+// Grava a pestana do ataque atual. Ataque completo só avança para o próximo quando a
+// resposta é não ou ?; com sim, fica no ataque para ajustar dedo, casa e cordas.
+async function gravarPestana(a, campos, avancar) {
+  const at = ATAQUES[a], id = at.id;
+  const anterior = G.ataques[id], antes = ataqueCompleto(at);
+  G.ataques[id] = {...anterior, ...SEM_PESTANA, ...campos, respondido_em: null};
+  A = a; PEST_ATIVA = false;
+  mostrar();
+  setStatus("gravando…", "");
+  try {
+    const r = await fetch("/pestana", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ataque: id, ...campos})});
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.erro);
+    G.ataques[id] = j.pestana;
+    setStatus("salvo em disco " + j.salvo_em.slice(11) + " (" + j.ataques_completos + "/" + j.total_ataques + " ataques, " + j.completas + "/" + j.total + " notas)", "ok");
+  } catch (e) {
+    G.ataques[id] = anterior;
+    mostrar();
+    setStatus("NÃO SALVO (" + e.message + "): tente de novo", "ruim");
+    return;
+  }
+  if (avancar && !antes && ataqueCompleto(at) && A === a) avancarAtaque(a);
+  mostrar();
+}
+
+// Botões não / sim / ? e teclas n e b. Clicar no valor que já está não faz nada.
+function escolherPestana(valor) {
+  const at = ATAQUES[A];
+  if (pestanaDe(at).pestana === valor) return;
+  if (valor === "sim") gravarPestana(A, pestanaPadrao(at), false);
+  else gravarPestana(A, {pestana: valor}, true);
+}
+
+function alternarPestana() {
+  escolherPestana(pestanaDe(ATAQUES[A]).pestana === "sim" ? "nao" : "sim");
+}
+
+// Muda um campo de uma pestana já "sim" (dedo, casa, corda de ou até), com o resto igual.
+function mudarPestana(mudanca) {
+  const at = ATAQUES[A], p = pestanaDe(at);
+  const campos = {
+    pestana: "sim",
+    pestana_dedo: p.pestana_dedo || "1",
+    pestana_casa: p.pestana_casa,
+    pestana_de: p.pestana_de,
+    pestana_ate: p.pestana_ate,
+    ...mudanca,
+  };
+  gravarPestana(A, campos, false);
+}
+
+function mudarCorda(campo, valor) {
+  const p = pestanaDe(ATAQUES[A]);
+  const de = campo === "pestana_de" ? valor : p.pestana_de;
+  const ate = campo === "pestana_ate" ? valor : p.pestana_ate;
+  if (de >= ate) {
+    setStatus("a corda de cima (" + de + ") tem que ser menor que a de baixo (" + ate + ")", "ruim");
+    mostrar();
+    return;
+  }
+  mudarPestana({[campo]: valor});
+}
+
+function mudarCasa(texto) {
+  const v = Number(texto);
+  if (!Number.isInteger(v) || v < 1) {
+    setStatus("casa da pestana: número inteiro maior que 0", "ruim");
+    mostrar();
+    return;
+  }
+  mudarPestana({pestana_casa: v});
+}
+
 function irAtaque(a) {
   if (a < 0 || a >= ATAQUES.length) return;
   A = a;
-  L = Math.max(0, primeiraIncompleta(ATAQUES[a], 0));
+  const pos = posInicial(a);
+  L = pos.L; PEST_ATIVA = pos.P;
   mostrar();
 }
 
@@ -1115,9 +1505,25 @@ function gravarObs(valor) {
   gravar(k, "obs", valor, false, a, l);
 }
 
+function preencherCordas() {
+  for (const id of ["pest-de", "pest-ate"]) {
+    const s = $(id);
+    for (let c = 1; c <= 6; c++) {
+      const o = document.createElement("option");
+      o.value = c; o.textContent = c;
+      s.append(o);
+    }
+  }
+}
+
 $("ant").onclick = () => irAtaque(A - 1);
 $("prox").onclick = () => irAtaque(A + 1);
 $("obs").addEventListener("change", ev => gravarObs(ev.target.value));
+$("pestana").addEventListener("click", () => { if (G && !PEST_ATIVA) { PEST_ATIVA = true; mostrar(); } });
+$("pest-casa").addEventListener("change", ev => mudarCasa(ev.target.value));
+$("pest-de").addEventListener("change", ev => mudarCorda("pestana_de", Number(ev.target.value)));
+$("pest-ate").addEventListener("change", ev => mudarCorda("pestana_ate", Number(ev.target.value)));
+preencherCordas();
 
 document.addEventListener("keydown", ev => {
   if (ev.ctrlKey || ev.metaKey || ev.altKey || !G) return;
@@ -1127,8 +1533,22 @@ document.addEventListener("keydown", ev => {
   const m = ATAQUES[A].ks.length;
   if (ev.key === "ArrowRight") irAtaque(A + 1);
   else if (ev.key === "ArrowLeft") irAtaque(A - 1);
-  else if (ev.key === "ArrowDown") { ev.preventDefault(); if (L < m - 1) { L++; mostrar(); } }
-  else if (ev.key === "ArrowUp") { ev.preventDefault(); if (L > 0) { L--; mostrar(); } }
+  else if (ev.key === "ArrowDown") {
+    ev.preventDefault();
+    if (PEST_ATIVA) return;
+    if (L < m - 1) L++; else PEST_ATIVA = true;
+    mostrar();
+  }
+  else if (ev.key === "ArrowUp") {
+    ev.preventDefault();
+    if (PEST_ATIVA) { PEST_ATIVA = false; L = m - 1; }
+    else if (L > 0) L--;
+    else return;
+    mostrar();
+  }
+  else if (k === "b") alternarPestana();
+  else if (k === "n") escolherPestana("nao");
+  else if (PEST_ATIVA) return;
   else if (Object.hasOwn(TECLAS_ESQ, k)) responder(L, "esquerda", TECLAS_ESQ[k]);
   else if (Object.hasOwn(TECLAS_DIR, k)) responder(L, "direita", TECLAS_DIR[k]);
 });
@@ -1143,15 +1563,16 @@ document.addEventListener("keydown", ev => {
     setStatus("erro ao carregar: " + e.message, "ruim");
     return;
   }
-  if (G.formato !== 2) {
-    setStatus("gabarito não está no formato 2: rode o preparar", "ruim");
+  if (G.formato !== 3) {
+    setStatus("gabarito não está no formato 3: rode a migração (tab.maos_gabarito migrar)", "ruim");
     return;
   }
   $("video").textContent = G.video;
   montarAtaques();
   A = Math.max(0, ATAQUES.findIndex(a => !ataqueCompleto(a)));
-  L = Math.max(0, primeiraIncompleta(ATAQUES[A], 0));
-  const algumaResposta = G.notas.some(n => n.esquerda != null || n.direita != null);
+  const pos = posInicial(A);
+  L = pos.L; PEST_ATIVA = pos.P;
+  const algumaResposta = G.notas.some(n => n.esquerda != null || n.direita != null) || Object.values(G.ataques).some(p => p.pestana != null);
   setStatus("carregado: " + (algumaResposta ? "retomando" : "gabarito novo"), "ok");
   mostrar();
 })();
@@ -1179,7 +1600,8 @@ def servir(pasta: Path, ouro: Path, porta: int, host: str) -> int:
         return 2
     if json.loads(ouro.read_text(encoding="utf-8")).get("formato") != FORMATO_GABARITO:
         print(
-            f"{ouro} não está no formato {FORMATO_GABARITO}; rode o preparar",
+            f"{ouro} não está no formato {FORMATO_GABARITO}; rode "
+            "`python -m tab.maos_gabarito migrar --ouro ...` (ou o preparar)",
             file=sys.stderr,
         )
         return 2
@@ -1196,7 +1618,7 @@ def servir(pasta: Path, ouro: Path, porta: int, host: str) -> int:
 
 
 def main() -> int:
-    """Ponto de entrada: ``servir`` (o ``preparar`` está em ``tab.maos_gabarito_preparar``).
+    """Ponto de entrada: ``servir`` e ``migrar`` (o ``preparar`` está em ``tab.maos_gabarito_preparar``).
 
     Returns:
         Código de saída do processo.
@@ -1210,7 +1632,19 @@ def main() -> int:
     s.add_argument("--ouro", type=Path, default=GABARITO_DEDOS)
     s.add_argument("--porta", type=int, default=8098)
     s.add_argument("--host", default="127.0.0.1")
+    m = sub.add_parser(
+        "migrar", help="converte o gabarito do formato 2 para o 3 (pestana), no disco"
+    )
+    m.add_argument("--ouro", type=Path, default=GABARITO_DEDOS)
     args = ap.parse_args()
+    if args.comando == "migrar":
+        try:
+            total = migrar_arquivo(args.ouro)
+        except ValueError as erro:
+            print(f"não migrou {args.ouro}: {erro}", file=sys.stderr)
+            return 2
+        print(f"{args.ouro}: formato {FORMATO_GABARITO}, {total} ataques")
+        return 0
     return servir(args.pasta, args.ouro, args.porta, args.host)
 
 
