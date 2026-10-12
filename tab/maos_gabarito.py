@@ -57,6 +57,13 @@ ALTURA_DIREITA_PX = 450
 #: Largura do quadro mostrado na página (px).
 LARGURA_QUADRO_PX = 960
 
+#: Retângulo da nota na tablatura, em múltiplos do passo (largura e altura).
+CAIXA_NOTA_LARGURA = 1.4
+CAIXA_NOTA_ALTURA = 1.1
+
+#: Desvio máximo, como fração do espaçamento, para as 6 linhas detectadas valerem.
+TOLERANCIA_PASSO = 0.25
+
 #: Instantes da mão direita, em relação a t_ini (s): antes, no ataque e depois.
 DESLOCAMENTOS_DIREITA_S = (-0.15, 0.0, 0.15)
 
@@ -302,6 +309,143 @@ def redimensionar_altura(bgr: np.ndarray, altura: int) -> np.ndarray:
     fator = altura / bgr.shape[0]
     largura = max(1, round(bgr.shape[1] * fator))
     return cv2.resize(bgr, (largura, altura), interpolation=cv2.INTER_CUBIC)
+
+
+# ---------------------------------------------------------------------------------
+# Linhas das cordas, acorde e caixa da nota
+# ---------------------------------------------------------------------------------
+
+
+def acorde_da_coluna(notas: list[dict], indice: int) -> list[dict]:
+    """Notas que soam JUNTO com a nota ``indice``: mesma tela, coluna e ``t_ini``.
+
+    A coluna sozinha não basta: no ``mvp.json`` a mesma ``coluna`` se repete em outros
+    instantes (outra passagem), e isso juntaria notas que não tocam juntas.
+
+    Args:
+        notas: notas do ``mvp.json``.
+        indice: índice da nota em ``notas``.
+
+    Returns:
+        Uma entrada por nota do acorde (``indice_mvp``, ``corda``, ``casa``), em ordem
+        crescente de corda, incluindo a própria nota.
+    """
+    alvo = notas[indice]
+    acorde = [
+        {"indice_mvp": i, "corda": n["corda"], "casa": n["casa"]}
+        for i, n in enumerate(notas)
+        if n.get("t_ini") is not None
+        and n.get("tela") == alvo.get("tela")
+        and n.get("coluna") == alvo.get("coluna")
+        and n["t_ini"] == alvo["t_ini"]
+    ]
+    return sorted(acorde, key=lambda a: (a["corda"], a["indice_mvp"]))
+
+
+def texto_acorde(acorde: list[dict], indice: int) -> str:
+    """Linha do acorde para o cabeçalho e a página, com a nota pedida marcada.
+
+    Args:
+        acorde: saída de ``acorde_da_coluna``.
+        indice: ``indice_mvp`` da nota pedida.
+
+    Returns:
+        Texto no formato ``acorde: c1 casa 0 | c3 casa 2 <- ESTA | c5 casa 3``.
+    """
+    partes = []
+    for a in acorde:
+        marca = " <- ESTA" if a["indice_mvp"] == indice else ""
+        partes.append(f"c{a['corda']} casa {a['casa']}{marca}")
+    return "acorde: " + " | ".join(partes)
+
+
+def perguntas(corda: int, casa: int | str) -> tuple[str, str]:
+    """Pergunta de cada mão, citando a corda e a casa da nota.
+
+    Args:
+        corda: corda da nota (1 = aguda, 6 = grave).
+        casa: casa da nota (0 = corda solta).
+
+    Returns:
+        ``(pergunta da mão esquerda, pergunta da mão direita)``.
+    """
+    esquerda = f"Mão esquerda: que dedo pisa a corda {corda} (casa {casa})?"
+    direita = f"Mão direita: que dedo toca a corda {corda}?"
+    return esquerda, direita
+
+
+def linhas_confiaveis(linhas_y: list[float] | None, passo: float) -> bool:
+    """As linhas detectadas são as 6 cordas da tablatura?
+
+    Args:
+        linhas_y: y das linhas detectadas no quadro, ou ``None``.
+        passo: passo do painel no ``mvp.json``, em px.
+
+    Returns:
+        ``True`` se há exatamente 6 linhas, com espaçamento regular (desvio até
+        ``TOLERANCIA_PASSO``) e média igual ao ``passo`` (mesma tolerância).
+    """
+    if not linhas_y or len(linhas_y) != 6 or passo <= 0:
+        return False
+    ys = sorted(float(v) for v in linhas_y)
+    difs = [ys[k + 1] - ys[k] for k in range(5)]
+    media = sum(difs) / len(difs)
+    if media <= 0:
+        return False
+    if any(abs(d - media) > TOLERANCIA_PASSO * media for d in difs):
+        return False
+    return abs(media - passo) <= TOLERANCIA_PASSO * passo
+
+
+def y_da_corda(
+    corda: int, linhas_y: list[float] | None, painel: list[float], passo: float
+) -> tuple[float, str]:
+    """Altura, no quadro, da linha da ``corda``, e de onde ela veio.
+
+    Usa as linhas detectadas (origem ``segmentacao``) se ``linhas_confiaveis``; senão,
+    a reserva ``y0 do painel + (corda - 1) * passo`` (origem ``reserva``). A reserva
+    ignora a margem do painel, por isso é contada à parte.
+
+    Args:
+        corda: 1 (linha de cima, a mais aguda) a 6 (a de baixo).
+        linhas_y: y das linhas detectadas no quadro, ou ``None``.
+        painel: ``[x0, y0, x1, y1]`` do painel no quadro 1920x1080.
+        passo: passo do painel, em px.
+
+    Returns:
+        ``(y, origem)``, com origem ``segmentacao`` ou ``reserva``.
+
+    Raises:
+        ValueError: se ``corda`` não está entre 1 e 6.
+    """
+    if not 1 <= corda <= 6:
+        raise ValueError(f"corda fora de 1..6: {corda}")
+    if linhas_confiaveis(linhas_y, passo):
+        ys = sorted(float(v) for v in linhas_y or [])
+        return ys[corda - 1], "segmentacao"
+    return float(painel[1]) + (corda - 1) * passo, "reserva"
+
+
+def caixa_da_nota(x_centro: float, y_corda: float, passo: float) -> Retangulo:
+    """Retângulo pequeno em volta do algarismo da nota, no quadro 1920x1080.
+
+    Args:
+        x_centro: ``x_centro_quadro`` da nota.
+        y_corda: altura da linha da corda (``y_da_corda``).
+        passo: passo do painel, em px.
+
+    Returns:
+        ``(x0, y0, x1, y1)`` em inteiros, centrado na nota, com
+        ``CAIXA_NOTA_LARGURA * passo`` de largura e ``CAIXA_NOTA_ALTURA * passo`` de altura.
+    """
+    meia_x = CAIXA_NOTA_LARGURA * passo / 2
+    meia_y = CAIXA_NOTA_ALTURA * passo / 2
+    return (
+        round(x_centro - meia_x),
+        round(y_corda - meia_y),
+        round(x_centro + meia_x),
+        round(y_corda + meia_y),
+    )
 
 
 # ---------------------------------------------------------------------------------
@@ -619,6 +763,7 @@ progress{width:180px;height:14px}
 #lista button{padding:2px 6px;font-size:13px}
 #lista button.ok{border-left-width:3px}
 .aviso{color:var(--aviso);font-weight:600;margin:4px 0}
+#acorde{font-weight:600;margin:4px 0}
 h3{font-size:15px;margin:14px 0 6px}
 img{max-width:100%;height:auto;display:block;border:1px solid var(--borda)}
 .quadro{max-width:960px}
@@ -646,9 +791,10 @@ label{display:block;margin-top:10px}
 </div>
 <div id="lista"></div>
 <div id="info" class="linha"><b></b></div>
+<div id="acorde"></div>
 <div id="avisos"></div>
 
-<h3>Quadro (a nota está destacada na tablatura)</h3>
+<h3>Quadro (a nota está no retângulo vermelho; as outras da coluna são as do acorde)</h3>
 <img id="img-quadro" class="quadro" alt="quadro do vídeo">
 
 <div class="par">
@@ -657,10 +803,10 @@ label{display:block;margin-top:10px}
     <img id="img-esq" alt="mão esquerda">
   </div>
   <div class="resp">
-    <h3>Mão esquerda: que dedo pisa esta nota?</h3>
+    <h3 id="pergunta-esq">Mão esquerda: que dedo pisa esta nota?</h3>
     <div id="btn-esq" class="botoes"></div>
     <div class="suave">teclas 1 2 3 4 0 · x = não dá para ver</div>
-    <h3>Mão direita: que dedo toca?</h3>
+    <h3 id="pergunta-dir">Mão direita: que dedo toca esta nota?</h3>
     <div id="btn-dir" class="botoes"></div>
     <div class="suave">teclas p i m a c · z = não dá para ver</div>
     <label>Observação (opcional)
@@ -722,6 +868,9 @@ function mostrar() {
   const n = G.notas[atual], i = infoDe(n), base = "/" + i.pasta + "/";
   $("posicao").textContent = (atual + 1) + " / " + G.notas.length;
   $("info").firstChild.textContent = n.id + " · t=" + n.t_ini + " s · corda " + n.corda + " · casa " + n.casa + " · tela " + i.tela;
+  $("acorde").textContent = i.texto_acorde ?? "";
+  if (i.pergunta_esquerda) $("pergunta-esq").textContent = i.pergunta_esquerda;
+  if (i.pergunta_direita) $("pergunta-dir").textContent = i.pergunta_direita;
   $("avisos").replaceChildren(...i.avisos.map(a => { const d = document.createElement("div"); d.className = "aviso"; d.textContent = a; return d; }));
   $("img-quadro").src = base + "quadro.jpg";
   $("img-esq").src = base + "esq.jpg";

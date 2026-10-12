@@ -12,18 +12,24 @@ import numpy as np
 import pytest
 
 from tab.maos_gabarito import (
+    acorde_da_coluna,
     amostrar_notas,
     ampliar_caixa,
     atualizar_resposta,
+    caixa_da_nota,
     caixa_final,
     completas,
     criar_servidor,
     escolher_caixa,
     gabarito_novo,
+    linhas_confiaveis,
     mesclar_gabarito,
+    perguntas,
     recortar_caixa,
     redimensionar_altura,
+    texto_acorde,
     validar_resposta,
+    y_da_corda,
 )
 
 
@@ -314,3 +320,93 @@ def test_servidor_grava_resposta_e_recusa_invalida(tmp_path: Path) -> None:
     finally:
         servidor.shutdown()
         servidor.server_close()
+
+
+PAINEL = [70, 297, 1854, 446]
+PASSO = 21.6
+
+
+def _seis_linhas(y0: float, passo: float) -> list[float]:
+    """Seis linhas de corda, com espaçamento ``passo``, a partir de ``y0``.
+
+    Args:
+        y0: altura da primeira linha (corda 1).
+        passo: espaçamento entre cordas, em px.
+
+    Returns:
+        As seis alturas, de cima para baixo.
+    """
+    return [y0 + k * passo for k in range(6)]
+
+
+def test_acorde_so_com_mesma_tela_coluna_e_instante() -> None:
+    """Nota de outro instante, na mesma coluna, e nota de outra tela não entram."""
+    notas = [
+        {"tela": 1, "coluna": 5, "t_ini": 10.0, "corda": 1, "casa": 0},
+        {"tela": 1, "coluna": 5, "t_ini": 10.0, "corda": 3, "casa": 2},
+        {"tela": 1, "coluna": 5, "t_ini": 10.0, "corda": 5, "casa": 3},
+        {"tela": 1, "coluna": 5, "t_ini": 20.0, "corda": 2, "casa": 7},
+        {"tela": 2, "coluna": 5, "t_ini": 10.0, "corda": 6, "casa": 1},
+    ]
+    acorde = acorde_da_coluna(notas, 1)
+    assert [(a["corda"], a["casa"]) for a in acorde] == [(1, 0), (3, 2), (5, 3)]
+    assert acorde_da_coluna(notas, 3) == [{"indice_mvp": 3, "corda": 2, "casa": 7}]
+
+
+def test_texto_acorde_marca_a_nota_pedida() -> None:
+    """O texto lista o acorde inteiro e marca só a nota pedida com <- ESTA."""
+    acorde = [
+        {"indice_mvp": 4, "corda": 1, "casa": 0},
+        {"indice_mvp": 7, "corda": 3, "casa": 2},
+        {"indice_mvp": 9, "corda": 5, "casa": 3},
+    ]
+    assert texto_acorde(acorde, 7) == (
+        "acorde: c1 casa 0 | c3 casa 2 <- ESTA | c5 casa 3"
+    )
+
+
+def test_perguntas_citam_corda_e_casa() -> None:
+    """Cada mão pergunta pela corda da nota; a esquerda também cita a casa."""
+    esquerda, direita = perguntas(3, 2)
+    assert esquerda == "Mão esquerda: que dedo pisa a corda 3 (casa 2)?"
+    assert direita == "Mão direita: que dedo toca a corda 3?"
+
+
+def test_linhas_confiaveis_exige_seis_regulares_no_passo() -> None:
+    """Seis linhas regulares no passo do painel valem; as outras não."""
+    assert linhas_confiaveis(_seis_linhas(300, PASSO), PASSO)
+    assert not linhas_confiaveis(_seis_linhas(300, PASSO)[:5], PASSO)
+    assert not linhas_confiaveis(_seis_linhas(300, PASSO), 40.0)
+    assert not linhas_confiaveis([300, 321, 343, 380, 401, 423], PASSO)
+    assert not linhas_confiaveis(None, PASSO)
+
+
+def test_y_da_corda_segmentacao_ordena_de_cima_para_baixo() -> None:
+    """Com linhas válidas, a corda 1 é a de menor y (a mais aguda), mesmo fora de ordem."""
+    linhas = list(reversed(_seis_linhas(300, PASSO)))
+    y1, origem = y_da_corda(1, linhas, PAINEL, PASSO)
+    assert (y1, origem) == (300.0, "segmentacao")
+    y6, _ = y_da_corda(6, linhas, PAINEL, PASSO)
+    assert y6 == pytest.approx(300 + 5 * PASSO)
+
+
+def test_y_da_corda_reserva_sem_seis_linhas() -> None:
+    """Sem linhas válidas, a reserva é y0 do painel + (corda - 1) * passo."""
+    y, origem = y_da_corda(3, None, PAINEL, PASSO)
+    assert origem == "reserva"
+    assert y == pytest.approx(297 + 2 * PASSO)
+
+
+def test_y_da_corda_recusa_corda_fora_do_intervalo() -> None:
+    """Corda 0 ou 7 não existe: recusa."""
+    with pytest.raises(ValueError):
+        y_da_corda(7, None, PAINEL, PASSO)
+    with pytest.raises(ValueError):
+        y_da_corda(0, None, PAINEL, PASSO)
+
+
+def test_caixa_da_nota_tem_14_por_11_passos_centrada() -> None:
+    """Caixa de 1,4 x passo de largura e 1,1 x passo de altura, centrada na nota."""
+    x0, y0, x1, y1 = caixa_da_nota(1000.0, 400.0, 20.0)
+    assert (x1 - x0, y1 - y0) == (28, 22)
+    assert ((x0 + x1) / 2, (y0 + y1) / 2) == (1000.0, 400.0)
