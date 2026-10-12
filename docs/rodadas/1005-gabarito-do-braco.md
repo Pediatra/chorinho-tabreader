@@ -66,3 +66,19 @@ de referência).
 
 **Consequência para o detector**: basta achar as cordas 1 e 6, o nut e 2 trastes espalhados
 (ex. 5 e 12); o resto sai pela regra.
+
+## Detector do braço por segmentos de reta (LSD) — REPROVADO
+
+Divisão por canal sorteada antes de medir (semente 20261012): teste = `cifra club`,
+`shin izumi`, `sky guitar` (8 quadros); desenvolvimento = os outros 5 canais (12 quadros).
+Segmentos LSD agrupados por direção em "cordas" e "trastes", numeração por RANSAC do modelo
+projetivo das 12 notas. Quatro versões medidas só no desenvolvimento; a melhor achou o braço
+em 10/12 mas com erro de reta mediano de ~480 px (faixa no lugar errado); a final (filtro de
+faixa escura) achou 2/12. **Teste, uma vez: braço em 1/8 (e deslocado para fora do braço
+real), trastes com número certo 1/147.**
+
+Por que falhou: a TABLATURA (6 linhas paralelas com passo parecido com o das cordas) e a
+pauta viram braço; o filtro que tira a tablatura tira também o braço verdadeiro; as cadeias
+de 4-6 retas paralelas são frágeis (mão e trastes quebram as cordas em pedaços). O prior da
+mão esquerda não foi usado. Código não adotado, guardado em
+`data/saida/maos/m3b/detector/codigo_reprovado/`.

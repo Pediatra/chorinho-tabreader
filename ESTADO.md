@@ -5081,3 +5081,9 @@ A calibração do braço usa **coordenadas fixas do retrato brasileiro** (não a
 Região do braço derivada das pontas da mão esquerda, sem coordenada fixa: MVP igual (53/53 decisões idênticas), abrangência **0/30** (antes 2/30). A região cai em partitura, corpo ou mão. Código revertido; diff em `data/saida/maos/m3/abrangencia_v2/regiao_pelas_pontas.patch`. Detalhes na rodada [1004](docs/rodadas/1004-dedo-por-visao.md). Próximo: gabarito do braço (M3b, decisão [1003](docs/decisoes/1003-fases-das-maos.md)).
 
 **Não repetir**: achar o braço só pela posição da mão (a mão pode estar sobre partitura ou corpo no quadro).
+
+## 2026-10-12 — Mãos — M3b: gabarito do braço e geometria (dono)
+
+Gabarito do braço do dono: 20 quadros, 8 canais (`data/gold/maos/braco.json`, rodada [1005](docs/rodadas/1005-gabarito-do-braco.md)). **Regra das 12 notas + ângulo da câmera (ideia do dono), medida nas marcações**: com nut + trastes 5 e 12 e modelo projetivo 1D, 96,0 % de 327 trastes previstos a < 1/4 de casa (afim: 65,4 %). **Detector por segmentos de reta (LSD) reprovado**: teste por canal (3 canais, 8 quadros) achou o braço em 1/8, trastes com número certo 1/147; a tablatura vira braço.
+
+**Não repetir**: procurar o braço como "família de retas paralelas" no quadro inteiro (a tablatura e a pauta têm a mesma assinatura).
