@@ -39,3 +39,12 @@ Ordem nova, depois do M3 no vídeo do MVP:
 - O número do M3 (44/53) fica declarado como de um vídeo só até o M3b medir a calibração
   em outros layouts.
 - A direita nota a nota não ganha mais rótulo do dono por ora; o esforço vai para o M5.
+
+## Backlog (anotado pelo dono durante o M3b, 2026-10-12)
+
+- **Detecção de capotraste.** Visto no quadro q04 do gabarito do braço (`kenneth acoustic`;
+  o vídeo escreve "Capo: Fret 2" na tela; q14 do mesmo canal diz "Capo: Fret 1"). Importa
+  para a ligação nota → dedo: com capotraste na casa N, a "casa 0" da tablatura é a casa N
+  física, e a casa k da tablatura fica na casa N + k do braço. Fontes possíveis: o texto na
+  tela, o próprio capotraste visto no braço, ou o canal (configs/canais.yaml). No gabarito
+  do braço, os trastes são numerados a partir do nut real, não do capotraste.
