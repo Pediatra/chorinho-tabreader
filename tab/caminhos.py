@@ -47,6 +47,14 @@ MAOS_DEDOS = SAIDA / "maos" / "m2" / "dedos"
 #: ``pred_<metodo>.json`` e ``tab.maos_avaliar_dedos`` grava ``avaliacao_<metodo>.json``.
 MAOS_M3 = SAIDA / "maos" / "m3"
 
+#: Gabarito da geometria do braço (M3b da trilha das mãos: cordas 1 e 6, nut, trastes),
+#: rotulado pelo dono com ``tab.maos_braco_gabarito servir``.
+GABARITO_BRACO = RAIZ / "data" / "gold" / "maos" / "braco.json"
+
+#: Material da ferramenta do braço (quadros da amostra e ``indice.json``), gerado por
+#: ``tab.maos_braco_gabarito preparar``.
+MAOS_M3B = SAIDA / "maos" / "m3b"
+
 #: Perfil dos canais (o que foi medido, e quais canais estão fora do rollout).
 CANAIS = RAIZ / "configs" / "canais.yaml"
 
