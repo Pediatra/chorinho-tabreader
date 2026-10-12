@@ -187,3 +187,15 @@ com semente 20261012: **2/20 no `sky guitar`, 0/10 em `cifra club`, `robert lunn
 virou falso sucesso. Controle (MVP) reproduz a rodada: resíduo 0,583, 13 trastes, razão
 0,9494. Os números da tabela final valem para este vídeo; não dizem nada do acervo.
 Artefatos: `data/saida/maos/m3/abrangencia/`.
+
+## Tentativa: região do braço a partir das pontas da mão esquerda — REPROVADA
+
+Troca das coordenadas fixas por uma região derivada das pontas dos dedos da mão esquerda
+(margens proporcionais à mão), inclinação das cordas estimada e quadro girado. No MVP, as 53
+decisões ficaram idênticas (42/53, 43/53, 44/53). Na abrangência (mesmos 30 vídeos, mesmos
+critérios): **0/30** (antes 2/30), 13 com exceção, 0 falso sucesso. Nas imagens, a região
+cai em partitura, tablatura em tela cheia, corpo do violão ou na própria mão; as frações das
+faixas de corda/traste, traduzidas do MVP, também não caem no braço em outros layouts.
+Código revertido; o diff está em `data/saida/maos/m3/abrangencia_v2/regiao_pelas_pontas.patch`.
+Conclusão: achar o braço precisa de gabarito próprio (decisão
+[1003](../decisoes/1003-fases-das-maos.md), fase M3b) para ser desenvolvido e medido.

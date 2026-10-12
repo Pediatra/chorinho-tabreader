@@ -5075,3 +5075,9 @@ Calibração do braço (`data/saida/maos/m3/braco.json`): 6 cordas, rms 0,37 a 0
 A calibração do braço usa **coordenadas fixas do retrato brasileiro** (não acha a câmera do braço). Medido sem rótulo em 30 vídeos sorteados: calibra em 2/20 do `sky guitar` e 0/10 de outros canais (conferido na imagem; 0 falso sucesso). Os 44/53 da rodada [1004](docs/rodadas/1004-dedo-por-visao.md) valem só para este vídeo. Próximo: achar a região do braço a partir da mão esquerda detectada.
 
 **Não repetir**: revisar método de visão sem procurar coordenada fixa no código.
+
+## 2026-10-12 — Mãos — M3: região do braço pelas pontas da mão (reprovada)
+
+Região do braço derivada das pontas da mão esquerda, sem coordenada fixa: MVP igual (53/53 decisões idênticas), abrangência **0/30** (antes 2/30). A região cai em partitura, corpo ou mão. Código revertido; diff em `data/saida/maos/m3/abrangencia_v2/regiao_pelas_pontas.patch`. Detalhes na rodada [1004](docs/rodadas/1004-dedo-por-visao.md). Próximo: gabarito do braço (M3b, decisão [1003](docs/decisoes/1003-fases-das-maos.md)).
+
+**Não repetir**: achar o braço só pela posição da mão (a mão pode estar sobre partitura ou corpo no quadro).
