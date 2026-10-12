@@ -5087,3 +5087,22 @@ Região do braço derivada das pontas da mão esquerda, sem coordenada fixa: MVP
 Gabarito do braço do dono: 20 quadros, 8 canais (`data/gold/maos/braco.json`, rodada [1005](docs/rodadas/1005-gabarito-do-braco.md)). **Regra das 12 notas + ângulo da câmera (ideia do dono), medida nas marcações**: com nut + trastes 5 e 12 e modelo projetivo 1D, 96,0 % de 327 trastes previstos a < 1/4 de casa (afim: 65,4 %). **Detector por segmentos de reta (LSD) reprovado**: teste por canal (3 canais, 8 quadros) achou o braço em 1/8, trastes com número certo 1/147; a tablatura vira braço.
 
 **Não repetir**: procurar o braço como "família de retas paralelas" no quadro inteiro (a tablatura e a pauta têm a mesma assinatura).
+
+## Tablatura — 2026-10-12 — censo v2 (com painel por máscara), refeito do cache
+
+`python -m tab.censo --cache --janelas-por-canal 30`, em 6 processos paralelos por grupo de canais (`data/saida/censo/v2/paralelo.sh`; ~20 s/vídeo em série, só 1 núcleo usado). Sobreviveu a um reinício do PC retomando pela chave. Saída única: `data/saida/censo/v2/censo_v2_completo.jsonl` (2.998 vídeos ativos, 0 com erro; 1.162 linhas de erro `Errno 107` do acervo desmontado no reinício foram refeitas e descartadas).
+
+**Medido** (canais ativos):
+
+| | censo antigo | censo v2 |
+| --- | --- | --- |
+| vídeos | 2.798 | 2.998 (+199 kenneth, +1 leonardo, novos no acervo) |
+| com TAB | 2.565 (91,7%) | 2.814 (93,9%) |
+| "sem TAB" | 233 | 184 |
+| horas-equivalentes de TAB | 142,8 | 171,3 |
+
+- Em 2.798 vídeos comuns: **TAB→SEM 0** (vídeo e instante); SEM→TAB 51 vídeos, 3.287 instantes (kenneth 1.588, dell'arte 686, robert lunn 398, leonardo 212, …).
+- Precisão dos instantes novos (leitura visual, rótulo provisório, não do dono): amostra espalhada 36/40; **cifra club 4/16** (8 no braço, 3 em legenda, 1 no painel de batida); guitar dell'arte 38/40 (2 no braço); kenneth 20/20.
+- Largura da caixa não separa erro de acerto: kenneth tem 377 instantes novos com caixa < 0,5 da largura e acertou 20/20.
+
+**Pendências**: falso positivo no braço do violão pelo caminho da máscara (cifra club sobretudo; os 6 vídeos de cifra club que viraram TAB são suspeitos, exceto "you know i'm no good"); folhas para virar gabarito, se o dono confirmar: `data/saida/censo/v2/cifra_todos.jpg`, `dellarte_amostra_*.jpg`, `kenneth_amostra.jpg`, `mudaram_sem_para_tab_*.jpg`.
