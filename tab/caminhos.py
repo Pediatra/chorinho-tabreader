@@ -43,6 +43,10 @@ GABARITO_DEDOS = RAIZ / "data" / "gold" / "maos" / "dedos_retrato_brasileiro.jso
 #: ``tab.maos_gabarito_preparar``.
 MAOS_DEDOS = SAIDA / "maos" / "m2" / "dedos"
 
+#: Predições e avaliações dos métodos dos dedos (M3): ``tab.maos_regra_dedos`` grava
+#: ``pred_<metodo>.json`` e ``tab.maos_avaliar_dedos`` grava ``avaliacao_<metodo>.json``.
+MAOS_M3 = SAIDA / "maos" / "m3"
+
 #: Perfil dos canais (o que foi medido, e quais canais estão fora do rollout).
 CANAIS = RAIZ / "configs" / "canais.yaml"
 
