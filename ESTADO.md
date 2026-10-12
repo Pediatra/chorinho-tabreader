@@ -5069,3 +5069,9 @@ Calibração do braço (`data/saida/maos/m3/braco.json`): 6 cordas, rms 0,37 a 0
 - (a) brilho para ordenar cordas de NÁILON: os bordões revestidos são os mais claros, não as primas;
 - (b) "um dedo por casa" como modelo único da esquerda: teto baixo (9 de 17 erros são formas de acorde);
 - (c) entregar ferramenta de rótulo sem testar com acorde e pestana.
+
+## 2026-10-12 — Mãos — M3: abrangência da visão (um vídeo só)
+
+A calibração do braço usa **coordenadas fixas do retrato brasileiro** (não acha a câmera do braço). Medido sem rótulo em 30 vídeos sorteados: calibra em 2/20 do `sky guitar` e 0/10 de outros canais (conferido na imagem; 0 falso sucesso). Os 44/53 da rodada [1004](docs/rodadas/1004-dedo-por-visao.md) valem só para este vídeo. Próximo: achar a região do braço a partir da mão esquerda detectada.
+
+**Não repetir**: revisar método de visão sem procurar coordenada fixa no código.

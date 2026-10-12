@@ -172,3 +172,18 @@ como no M1.
   `tab/maos_calibrar_braco.py`, `tab/maos_visao_dedos.py`.
 - Commits: `4183fe1e` (avaliador e linha de base), `18ff0890` (visão). Gate no commit `18ff0890`:
   562 testes passando.
+
+## Abrangência (medida depois, mesmo dia): o método é de UM vídeo
+
+A calibração do braço **não acha a região da câmera do braço**: as coordenadas são constantes
+medidas no quadro do retrato brasileiro (`X_CORDAS`, `Y_CORDAS`, `Y_TRASTES`, `X_TRASTES`,
+`X_NUT` em `tab/maos_calibrar_braco.py`; `CAMERA_BRACO` em `tab/maos_visao_dedos.py`;
+`x_min`/`y_min` em `escolher_mao_esquerda`). Passou na revisão sem ser notado.
+
+Medido sem rótulo (critérios internos: 6 cordas com resíduo < 1 px, ≥ 8 trastes, razão
+mediana entre casas em 0,93-0,96, ordem física e brilho concordando), 30 vídeos sorteados
+com semente 20261012: **2/20 no `sky guitar`, 0/10 em `cifra club`, `robert lunn` e
+`guitar dell'arte`**. Os 2 sucessos foram conferidos na imagem (verdadeiros); nenhuma falha
+virou falso sucesso. Controle (MVP) reproduz a rodada: resíduo 0,583, 13 trastes, razão
+0,9494. Os números da tabela final valem para este vídeo; não dizem nada do acervo.
+Artefatos: `data/saida/maos/m3/abrangencia/`.
