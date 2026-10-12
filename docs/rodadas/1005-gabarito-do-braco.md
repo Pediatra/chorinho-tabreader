@@ -82,3 +82,20 @@ pauta viram braço; o filtro que tira a tablatura tira também o braço verdadei
 de 4-6 retas paralelas são frágeis (mão e trastes quebram as cordas em pedaços). O prior da
 mão esquerda não foi usado. Código não adotado, guardado em
 `data/saida/maos/m3b/detector/codigo_reprovado/`.
+
+## Detector do braço ancorado na mão esquerda — REPROVADO
+
+Mesma divisão por canal. A mão esquerda (DetectorMaos) como ponto de partida: disco nas pontas
+dos dedos, direção das cordas pelo tensor de estrutura no disco, cordas seguidas para os dois
+lados, trastes numerados pela regra das 12 notas. **Dev: braço achado 2/12, falso braço 4/12;
+teste: 0/8, 3 falsos braços; trastes com número certo 0/147.**
+
+O que se aprendeu (vale para a próxima tentativa):
+- **A âncora funciona**: o disco das pontas cai sobre o braço do gabarito em 20/20 quadros.
+  O que falha é a DIREÇÃO: no disco, as bordas dos dedos, da manga e do corpo dominam as
+  cordas; e a própria mão esconde as cordas onde o rastreio começa.
+- **A numeração não sai só dos trastes**: com o modelo projetivo, deslocar a numeração é só
+  uma troca de parâmetros (s_{n+k} = 1 − 2^(−k/12)·(1 − s_n) é afim em s_n), então a mesma
+  sequência de trastes se ajusta igualmente bem a vários números. O número exige âncora
+  externa: o nut visível, a boca do violão ou um traste de referência.
+Código guardado em `data/saida/maos/m3b/detector2/codigo_reprovado/`.
