@@ -5110,3 +5110,9 @@ Gabarito do braço do dono: 20 quadros, 8 canais (`data/gold/maos/braco.json`, r
 ## 2026-10-12 — Mãos — M3c: braço calibrado pela música
 
 Rodada [1006](docs/rodadas/1006-braco-calibrado-pela-musica.md). Homografia do braço ajustada por RANSAC só com (corda, casa, instante) do produto e as pontas da mão esquerda, sem linha da imagem. MVP: inliers 465/526; contra a calibração feita à mão, 0,119 casa de erro mediano (p90 0,241; corda 1 sistemática); dedo **40/53 (27/40)** com a calibração excluindo os instantes do gabarito (42/53 com todos; à mão: 42/53). H instável entre sementes (mediana 4–6 px). Próximo: estabilizar e medir fora do MVP contra o gabarito do braço.
+
+## 2026-10-12 — Mãos — M3c: braço pela música estabilizado (adotado)
+
+Rodada [1007](docs/rodadas/1007-braco-pela-musica-estabilizado.md). Consenso de 10 sementes + refino por reprojeção: grade estável (mediana 0,027 px entre execuções; 1,07 px sem os instantes do gabarito). **Dedo 42/53 (29/40) sem os instantes do gabarito**, igual à calibração feita à mão. Contra o gabarito do dono (q02): trastes 14/14 a < 1/4 de casa (0,032 casa), nut 0,036 casa; cordas ainda erram (0,11 do vão na corda 1). Correção das cordas pela imagem (janela por corda): não adotada, frágil.
+
+**Não repetir**: procurar cada corda numa janela própria (as primas têm contraste fraco e a janela corta o pico); atribuir as 6 juntas por espaçamento.
