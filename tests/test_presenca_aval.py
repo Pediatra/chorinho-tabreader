@@ -103,7 +103,7 @@ def test_gabarito_por_quadro_tem_o_contrato_do_dono():
     com_caixa = [c for c in casos if c["caixa"] is not None]
     assert len(com_caixa) == 118
     assert sum(1 for c in com_caixa if c["caixa_sobre_tablatura"]) == 109
-    assert sum(1 for c in casos if c["tablatura_no_quadro"]) == 134
+    assert sum(1 for c in casos if c["tablatura_no_quadro"]) == 137
     nao_tab = {c["codigo"] for c in com_caixa if c["caixa_sobre_tablatura"] is False}
     assert nao_tab == {
         "FP02",
@@ -132,7 +132,7 @@ def test_caixas_revistas_do_dono_2026_10_10():
     assert revistas[("FP11", (966, 797, 1920, 1006))]["caixa_sobre_tablatura"] is False
     assert revistas[("FP11", (966, 797, 1920, 1006))]["parcial"] is True
     assert revistas[("FN01", (75, 395, 1857, 599))]["caixa_sobre_tablatura"] is True
-    assert len(revistas) == 25
+    assert len(revistas) == 32
     # decisão do dono (2026-10-11): TAB visível em VN05, VN06 (caixa sobre a TAB), VN12, VN16
     assert revistas[("VN05", (0, 688, 2220, 1080))]["caixa_sobre_tablatura"] is True
     assert revistas[("VN06", (0, 688, 2220, 1080))]["caixa_sobre_tablatura"] is True
@@ -148,6 +148,30 @@ def test_caixas_revistas_do_dono_2026_10_10():
     assert casos["VN14"]["caixa"] is None
     com_caixa = {c["codigo"] for c in g["casos"] if c["caixa"] is not None}
     com_caixa |= {r["codigo"] for r in g["caixas_revistas"]}
-    assert len(com_caixa) == 130
-    assert g["quadros"]["com_caixa"] == 130
-    assert g["quadros"]["tablatura_no_quadro"] == 134
+    assert len(com_caixa) == 136
+    assert g["quadros"]["com_caixa"] == 136
+    assert g["quadros"]["tablatura_no_quadro"] == 137
+
+
+def test_caixas_revistas_do_dono_2026_10_12():
+    # decisão do dono (2026-10-12): as 7 caixas novas do código atual estão sobre a TAB
+    g = carregar_gabarito()
+    revistas = {(r["codigo"], tuple(r["caixa"])): r for r in g["caixas_revistas"]}
+    novas = {
+        "VN09": (0, 944, 1920, 1080),
+        "VN10": (0, 941, 1920, 1080),
+        "VN11": (0, 912, 1920, 1078),
+        "VN12": (0, 805, 1920, 1045),
+        "VN16": (0, 960, 1920, 1080),
+        "VP44": (71, 898, 1867, 1080),
+        "VN20": (125, 867, 1806, 1059),
+    }
+    for cod, caixa in novas.items():
+        r = revistas[(cod, caixa)]
+        assert r["caixa_sobre_tablatura"] is True
+        assert "2026-10-12" in r["motivo"]
+    casos = {c["codigo"]: c for c in g["casos"]}
+    for cod in ("VN09", "VN10", "VN11"):
+        assert casos[cod]["tablatura_no_quadro"] is True
+        assert casos[cod]["caixa"] is None
+    assert "2026-10-12" in g["como_foi_rotulado"]

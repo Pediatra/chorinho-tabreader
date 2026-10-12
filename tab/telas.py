@@ -42,10 +42,14 @@ import numpy as np
 
 from . import leitor
 from .painel import (
+    CONTRASTE_LINHA_MINIMO,
+    FUNDO_ESCURO_MAXIMO,
     PASSO_MAXIMO_PX,
     PASSO_MINIMO_PX,
+    _contraste_das_cordas,
     aparar_pauta,
     candidatos_claros_escuros,
+    candidatos_por_mascara,
     escolher,
     refinar,
 )
@@ -278,9 +282,11 @@ def recortar(quadro: np.ndarray, rect: Retangulo) -> np.ndarray:
 def painel_do_quadro(quadro: np.ndarray) -> Retangulo | None:
     """Retângulo do painel de tablatura no QUADRO, ou ``None`` se não há tablatura.
 
-    Primeiro o caminho do HEAD (painel claro, inalterado). Só se ele não achar nada, a TAB
+    Primeiro o caminho do HEAD (painel claro, inalterado). Se ele não achar nada, a TAB
     ESCURA (`_painel_escuro`): grupo de cordas claras sobre fundo escuro, na máscara de
-    contraste claro. Painel claro nunca chega ao caminho escuro se o do HEAD o achou.
+    contraste claro. Se também não achar, o grupo forte por máscara (`_painel_por_mascara`),
+    que cobre a TAB transparente sobre vídeo. Cada caminho só roda se os anteriores não
+    acharam nada: quadro que o HEAD já lê fica como estava.
 
     Args:
         quadro: quadro BGR inteiro.
@@ -291,7 +297,10 @@ def painel_do_quadro(quadro: np.ndarray) -> Retangulo | None:
     rect = _painel_do_quadro_claro(quadro)
     if rect is not None:
         return rect
-    return _painel_escuro(quadro)
+    rect = _painel_escuro(quadro)
+    if rect is not None:
+        return rect
+    return _painel_por_mascara(quadro)
 
 
 def _caixa_do_candidato(quadro: np.ndarray, cand) -> Retangulo | None:
@@ -342,6 +351,64 @@ def _painel_escuro(quadro: np.ndarray) -> Retangulo | None:
         if not PASSO_MINIMO_PX <= cand.passo <= PASSO_MAXIMO_PX:
             continue
         rect = _caixa_do_candidato(quadro, cand)
+        if rect is not None:
+            return rect
+    return None
+
+
+def _caixa_escura_do_candidato(quadro: np.ndarray, cand) -> Retangulo | None:
+    """Caixa aparada de um grupo sobre fundo ESCURO (o portão de `_painel_escuro`).
+
+    Args:
+        quadro: quadro BGR inteiro.
+        cand: candidato de ``tab.painel`` já refinado.
+
+    Returns:
+        ``(x0, y0, x1, y1)`` aparado, ou None se o fundo não é escuro ou as cordas não
+        são mais claras que o fundo acima delas.
+    """
+    cinza = cv2.cvtColor(quadro, cv2.COLOR_BGR2GRAY).astype(np.float32)
+    faixa = cinza[cand.y0 : cand.y1, :]
+    if float(np.median(faixa)) > FUNDO_ESCURO_MAXIMO:
+        return None
+    if _contraste_das_cordas(cinza, list(cand.grade.linhas_y), cand.y0) < (
+        CONTRASTE_LINHA_MINIMO
+    ):
+        return None
+    folga = round(1.5 * cand.passo)
+    linhas = list(cand.grade.linhas_y)
+    x0 = cand.x0
+    x1 = min(quadro.shape[1], x0 + cand.roi.shape[1])
+    y0 = max(0, cand.y0 + min(linhas) - folga)
+    y1 = min(quadro.shape[0], cand.y0 + max(linhas) + folga)
+    return aparar_pauta(quadro, (int(x0), int(y0), int(x1), int(y1)))
+
+
+def _painel_por_mascara(quadro: np.ndarray) -> Retangulo | None:
+    """Caixa do grupo forte por máscara, com o portão de papel OU o de fundo escuro.
+
+    Só roda quando o HEAD, a TAB escura e o pool de `escolher` não acharam nada. Mede-se
+    no caso TRANSPARENTE: os números são brancos sobre vídeo, e o fundo tem cor (o portão
+    de papel do HEAD, saturação até 25, reprova); o portão escuro (fundo mediano <= 50 e
+    cordas mais claras que o fundo) aceita.
+
+    Args:
+        quadro: quadro BGR inteiro.
+
+    Returns:
+        A caixa aparada da melhor faixa que passa no portão, ou None.
+    """
+    for _u, cand in sorted(
+        candidatos_por_mascara(quadro), key=lambda t: t[0], reverse=True
+    ):
+        # refinar estreita em x à extensão das cordas: sem isto o destaque amarelo de um
+        # acorde ao lado da TAB reprova o portão de papel (medido: caso 10, t=35)
+        cand = refinar(cand)
+        if not PASSO_MINIMO_PX <= cand.passo <= PASSO_MAXIMO_PX:
+            continue
+        rect = _caixa_do_candidato(quadro, cand)
+        if rect is None:
+            rect = _caixa_escura_do_candidato(quadro, cand)
         if rect is not None:
             return rect
     return None

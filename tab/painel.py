@@ -796,3 +796,177 @@ def _contraste_das_cordas(cinza: np.ndarray, cordas: list[int], y0: int) -> floa
         acima = cinza[max(0, y - 7) : max(0, y - 3), 200 : largura - 200].mean()
         difs.append(float(linha - acima))
     return float(np.median(difs))
+
+
+# ---------------------------------------------------------------------------------
+# TAB POR MÁSCARA (aditivo): grupos de 6 cordas fortes, uma máscara de cada vez
+# ---------------------------------------------------------------------------------
+
+#: Pico FORTE do perfil de tinta (fração 0,30), usado por máscara. Medido nos quadros dos
+#: casos do dono (2026-10-11): as cordas da TAB ficam em 0,6 a 0,99 da máscara, e o ruído,
+#: em 0,15 a 0,25. O `candidatos_quadro` do HEAD junta os picos de TODAS as máscaras a 0,15
+#: e isso quebra a janela de 6 cordas (caso `guitar dell'arte` 273 s: a TAB em 949 a 1043 e
+#: os picos fracos 961, 980 e 992 intercalados). Esta via só roda onde o HEAD não acha nada.
+PICO_FORTE_MASCARA = 0.30
+
+#: Deriva vertical máxima das cordas, em fração do passo. Corda de TAB é horizontal; a
+#: corda do BRAÇO do violão, vista de lado, é diagonal (caso `guitar dell'arte` 273 s).
+DERIVA_MAXIMA_PASSOS = 0.5
+
+
+def deriva_das_cordas(tinta: np.ndarray, cordas: list[int], passo: float) -> float:
+    """Quanto a corda mais inclinada sobe ou desce ao longo da faixa, em px.
+
+    Para cada corda, o centro de massa vertical da tinta é medido em 12 fatias de largura
+    iguais, dentro de uma janela de ``passo / 4`` em torno da linha; uma reta é ajustada por
+    mínimos quadrados e a deriva é o desvio de y entre as bordas da faixa.
+
+    Args:
+        tinta: máscara booleana ou uint8 da faixa (mesma máscara que achou as cordas).
+        cordas: y das 6 cordas, relativas à faixa.
+        passo: passo entre cordas, em px.
+
+    Returns:
+        A maior deriva entre as cordas medidas (0 se nenhuma tiver tinta em fatias suficientes).
+    """
+    largura = tinta.shape[1]
+    raio = max(2, round(passo / 4))
+    fatias = np.array_split(np.arange(largura), 12)
+    maior = 0.0
+    for c in cordas:
+        xs: list[float] = []
+        ys: list[float] = []
+        atual = float(c)  # a janela acompanha a corda fatia a fatia
+        for fatia in fatias:
+            x0, x1 = int(fatia[0]), int(fatia[-1]) + 1
+            topo = max(0, round(atual) - raio)
+            base = round(atual) + raio + 1
+            soma = tinta[topo:base, x0:x1].sum(axis=1).astype(np.float64)
+            if soma.sum() <= 0:
+                continue
+            yy = np.arange(topo, topo + len(soma))
+            xs.append((x0 + x1 - 1) / 2)
+            atual = float((soma * yy).sum() / soma.sum())
+            ys.append(atual)
+        if len(xs) < 4:
+            continue
+        inclinacao = float(np.polyfit(xs, ys, 1)[0])
+        maior = max(maior, abs(inclinacao) * (xs[-1] - xs[0]))
+    return maior
+
+
+#: Mínimo de glifos para um grupo da via por máscara. Medido: o diagrama de acorde (grade de
+#: 6 cordas e 4 trastes) do `kenneth acoustic` (t=66 s) tem 9 glifos e uniformidade maior que a
+#: TAB verdadeira do mesmo quadro (22 a 25 glifos); o piso de 12 separa os dois nos quadros
+#: medidos. O piso geral (MIN_GLIFOS) fica para o caminho do HEAD.
+MIN_GLIFOS_MASCARA = 12
+
+
+def candidatos_por_mascara(
+    frame: np.ndarray, min_glifos: int = MIN_GLIFOS_MASCARA
+) -> list[tuple[float, Candidato]]:
+    """Grupos de 6 cordas fortes e horizontais, achados em cada máscara SEPARADAMENTE.
+
+    Para cada máscara da cascata do `segmentar`, os picos são os de ``PICO_FORTE_MASCARA``;
+    grupos de 6 regulares com passo do acervo viram faixas, e a faixa passa por `criar`
+    (glifos, espaçamento e não-pauta) e pelo teste de deriva.
+
+    Args:
+        frame: quadro inteiro (BGR).
+        min_glifos: mínimo de glifos para aceitar a faixa.
+
+    Returns:
+        ``(uniformidade, candidato)`` de cada faixa aceita; pode haver a mesma faixa em
+        mais de uma máscara (quem chama escolhe pela ordem).
+    """
+    altura = frame.shape[0]
+    achados: list[tuple[float, Candidato]] = []
+    vistos: set[tuple[str, int, int]] = set()
+    for nome, mascara in mascaras_candidatas(frame):
+        for picos in _picos_em_janelas(mascara):
+            for _n, passo, y0, y1, cordas in _grupos_regulares(
+                picos,
+                altura,
+                PASSO_MINIMO_PX,
+                PASSO_MAXIMO_PX,
+                TOLERANCIA_ESPACAMENTO,
+                nome,
+            ):
+                if (nome, y0, y1) in vistos:
+                    continue
+                vistos.add((nome, y0, y1))
+                c = _candidato_do_grupo(frame, nome, y0, y1, cordas, passo, min_glifos)
+                if c is not None:
+                    achados.append((c.uniformidade, c))
+    return achados
+
+
+#: Largura da janela em que se acham os picos fortes, por máscara, em px. O perfil de
+#: tinta é média sobre a LARGURA do quadro: uma TAB estreita (vídeo vertical, letterbox)
+#: cai abaixo do pico forte. Medido: a TAB do `kenneth acoustic` (vertical, ~600 px de
+#: 1920) tem picos de 0,6 na janela e 0,2 na média do quadro.
+JANELA_PICOS_PX = 480
+
+
+def _picos_em_janelas(mascara: np.ndarray) -> list[list[int]]:
+    """Picos fortes (fração 0,30) de cada janela horizontal da máscara.
+
+    Args:
+        mascara: máscara de tinta do quadro inteiro.
+
+    Returns:
+        Uma lista de y (ordenados) por janela; janelas se sobrepõem em metade.
+    """
+    largura = mascara.shape[1]
+    passo = JANELA_PICOS_PX // 2
+    saida: list[list[int]] = []
+    for x0 in range(0, max(1, largura - JANELA_PICOS_PX) + 1, passo):
+        sub = mascara[:, x0 : x0 + JANELA_PICOS_PX]
+        saida.append(
+            sorted(
+                int(y) for _v, y in picos_de_linha(sub, fracao_min=PICO_FORTE_MASCARA)
+            )
+        )
+    return saida
+
+
+def _candidato_do_grupo(
+    frame: np.ndarray,
+    nome: str,
+    y0: int,
+    y1: int,
+    cordas: list[int],
+    passo: float,
+    min_glifos: int,
+) -> Candidato | None:
+    """Candidato de um grupo de 6 cordas achado numa máscara, ou None se não passa.
+
+    Args:
+        frame: quadro inteiro (BGR).
+        nome: máscara que achou as cordas.
+        y0: topo da faixa no quadro.
+        y1: base da faixa no quadro.
+        cordas: y das 6 cordas, relativos a ``y0``.
+        passo: passo entre cordas, em px.
+        min_glifos: mínimo de glifos.
+
+    Returns:
+        O candidato, ou None (deriva alta, glifos insuficientes, pauta, espaçamento).
+    """
+    # estreita em x à extensão das cordas: a faixa de largura cheia mistura as barras
+    # pretas do vídeo vertical e o fundo mediano sai 0 (medido no caso 10)
+    cheio = frame[y0:y1, :]
+    ex0, ex1 = extensao_das_linhas(cheio, list(cordas))
+    ex0 = max(0, ex0 - round(passo))
+    ex1 = min(cheio.shape[1], ex1 + round(passo))
+    roi = cheio[:, ex0:ex1]
+    if roi.shape[1] < 3 * passo:
+        return None
+    tinta = dict(mascaras_candidatas(roi))[nome]
+    if deriva_das_cordas(tinta, cordas, passo) > DERIVA_MAXIMA_PASSOS * passo:
+        return None
+    try:
+        g = _grade_do_grupo(roi, nome, cordas, passo)
+    except Exception:  # nunca derrubar a varredura por uma faixa ruim
+        return None
+    return criar(f"y{y0}", y0, y1, roi, g, min_glifos=min_glifos, x0=ex0)

@@ -5020,3 +5020,16 @@ Rodada: [`docs/rodadas/1002-escolha-do-detector.md`](docs/rodadas/1002-escolha-d
 5. tempo em vídeo inteiro e no acervo (2.798 vídeos) **a medir**.
 
 **Artefatos**: `docs/rodadas/1002-escolha-do-detector.md`; `docs/decisoes/1002-detector-de-maos.md`; código `tab/maos_detector.py`, `tab/maos_combinar.py`, `Dockerfile.maos`; validação `data/saida/maos/m1/detector_validacao.jsonl` e `rotulo_agente_validacao.json`.
+
+## Tablatura — 2026-10-12 — censo: painel por máscara (TAB de fundo rosa, transparente, escuro)
+
+Caminho **aditivo** em `tab/painel.py` (`candidatos_por_mascara`) e `tab/telas.py` (`_painel_por_mascara`): só roda quando os caminhos claro e escuro do HEAD não acham nada; `escolher` intacto. Gabarito de presença: VN09/10/11 passam a `tablatura_no_quadro=true` e entram 7 `caixas_revistas` (decisão do dono, 2026-10-12, registrada em `como_foi_rotulado`).
+
+**Medido**:
+- presença (gabarito do dono): precisão de caixa **134/136 = 0,985** (erros FP02, FP11, já conhecidos), revocação **134/137 = 0,978** (antes 0,948); presença por quadro VP 136, FP 0, VN 7, FN 1 (FN02);
+- MVP sem mudança: 485/485, 485/491, casa 483/485, tempo 39/40, tempo falso 0; oficial 66/71/68 (0,949);
+- piloto (`--piloto 3`, 38 vídeos em comum com o piloto antigo): **11 SEM→TAB, 0 TAB→SEM**; olhado à mão, presença certa nos 11, caixa certa em 9 (#05 kimny's guitar: caixa no braço do violão; #10 transcriptor: caixa na partitura, TAB logo abaixo).
+
+**Pendências**: caixa no braço do violão (caso 4 da conferência e #05 acima); caixa na partitura em vez da TAB (#10); FP08; casos 10/14/21/27 a reconferir no censo refeito por `--so-cache`.
+
+**Artefatos**: `data/saida/conserto_v2/` (MVP, oficiais, piloto, `piloto_mudaram.jpg`).
