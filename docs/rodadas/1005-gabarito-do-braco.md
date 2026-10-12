@@ -39,3 +39,30 @@ com mais vídeos, vídeos distintos, semente 20261012, MVP como controle (q02).
 
 Detector do braço medido contra este gabarito (erro em px das cordas 1/6, do nut e dos
 trastes; numeração certa), começando pelas ideias 1 e 3.
+
+## Medição da ideia 1: trastes previstos pela regra das 12 notas (sem detector)
+
+`python -m tab.maos_braco_geometria` (`tab/maos_braco_geometria.py`). Cliques projetados no
+eixo do braço (linha média entre as cordas 1 e 6); s_n = 1 − 2^(−n/12); erro de previsão nos
+trastes fora do ajuste, como fração da largura local da casa. 20/20 quadros (q09 pelo traste
+de referência).
+
+| variante | âncoras | trastes previstos | fração mediana | fração p90 | < 1/4 de casa |
+|---|---|---|---|---|---|
+| afim | nut + 5 | 347 | 0,189 | 3,168 | 55,9 % |
+| afim | nut + 12 | 347 | 0,124 | 0,954 | 65,4 % |
+| projetivo 1D | nut + 3 + 7 | 327 | 0,097 | 0,890 | 68,2 % |
+| **projetivo 1D** | **nut + 5 + 12** | 327 | **0,039** | **0,150** | **96,0 %** |
+| piso projetivo (todos) | — | — | 0,023 | 0,078 | 100 % |
+| piso afim (todos) | — | — | 0,070 | 0,536 | 77,8 % |
+
+- **O ângulo da câmera importa**: o modelo afim não descreve os trastes nem com todos os
+  pontos (piso 77,8 %); o projetivo descreve 100 %.
+- **As âncoras precisam estar espalhadas**: 3 e 7 (perto do nut) extrapolam mal; 5 e 12 dão
+  96 % dentro de 1/4 de casa. Os piores são os trastes acima de 17, onde a casa tem ~20 px.
+- q06: o clique do traste 1 está ~24 px fora do fio (sobre o dedo); numeração em sequência,
+  não é traste pulado. Gabarito não alterado.
+- Limites: 20 quadros; só a distorção ao longo do braço (sem homografia completa).
+
+**Consequência para o detector**: basta achar as cordas 1 e 6, o nut e 2 trastes espalhados
+(ex. 5 e 12); o resto sai pela regra.
