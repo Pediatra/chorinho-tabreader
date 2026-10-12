@@ -4931,3 +4931,53 @@ Leitura: a tabela é de **presença por 12 instantes** (fração média) e de **
 - Pelo plano (T7.3), concordância < 90 % exige conserto do classificador de presença antes de seguir. **Não feito nesta rodada**: a conferência oficial é do dono.
 
 **Não repetir / limites**: a tabela usa só a presença do censo (12 instantes, janela em até 3). O censo ainda não lê TAB em vídeo vertical (caso 10) e pode perder TAB que aparece só nas bordas de 12 instantes (regra 10). Rolagem e marcador não estão validados.
+
+## Mãos — 2026-10-12 — M0: censo de mãos (2.798 vídeos, 12 quadros cada)
+
+Rodada completa: [`docs/rodadas/1001-censo-de-maos.md`](docs/rodadas/1001-censo-de-maos.md). Imagem: [decisão 1001](docs/decisoes/1001-imagem-derivada-maos.md).
+
+**Medido**: MediaPipe (mãos) e YuNet (rosto) em 33.576 quadros (12 por vídeo, 0 faltando) de 2.798 vídeos de 19 canais, em 2.907 s com 6 processos, só CPU. 57.484 mãos detectadas; 419 (0,7 %) descartadas pela regra da TAB. Configuração adotada no piloto (36 vídeos, 2 por canal): confiança 0,3 e blocos 2×2, com 32 de 36 quadros certos (provisório, agente). Determinismo: 36 de 36 vídeos.
+
+Tabela por canal, copiada de `data/saida/maos/censo_maos.log`. Legenda das colunas na rodada.
+
+| canal | vídeos | quadros | alguma mão | 2+ mãos | 2+ mãos nos quadros com TAB | vídeos que servem | L | R | L e R | > 2 mãos | rosto / sem rosto / sem mão | palma / altura |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| sky guitar | 417 | 5004 | 97 % | 94 % | 95 % (2936/3086) | 416 (100 %) | 94 % | 96 % | 93 % | 2 % | 0 % / 97 % / 3 % | 0.142 |
+| robert lunn | 369 | 4428 | 85 % | 42 % | 41 % (1374/3370) | 161 (44 %) | 52 % | 67 % | 34 % | 1 % | 7 % / 78 % / 15 % | 0.131 |
+| guitar dell ́arte | 361 | 4332 | 91 % | 66 % | 70 % (1447/2066) | 316 (88 %) | 78 % | 77 % | 64 % | 1 % | 3 % / 88 % / 9 % | 0.172 |
+| cifra club | 341 | 4092 | 97 % | 72 % | 81 % (917/1126) | 308 (90 %) | 78 % | 81 % | 63 % | 3 % | 16 % / 81 % / 3 % | 0.114 |
+| leonardo ramos | 298 | 3576 | 94 % | 84 % | 88 % (2722/3079) | 296 (99 %) | 86 % | 91 % | 82 % | 1 % | 1 % / 94 % / 6 % | 0.134 |
+| kenneth acoustic | 294 | 3528 | 99 % | 88 % | 89 % (1486/1672) | 290 (99 %) | 96 % | 90 % | 87 % | 0 % | 0 % / 99 % / 1 % | 0.118 |
+| iwaki | 164 | 1968 | 100 % | 97 % | 97 % (1803/1853) | 164 (100 %) | 96 % | 97 % | 93 % | 1 % | 1 % / 99 % / 0 % | 0.109 |
+| shin izumi | 149 | 1788 | 100 % | 97 % | 98 % (1725/1761) | 147 (99 %) | 89 % | 96 % | 85 % | 3 % | 1 % / 98 % / 0 % | 0.080 |
+| pablo romé | 123 | 1476 | 94 % | 82 % | 93 % (508/547) | 115 (93 %) | 87 % | 86 % | 79 % | 4 % | 54 % / 44 % / 3 % | 0.093 |
+| kimny's guitar | 108 | 1296 | 68 % | 17 % | 18 % (210/1200) | 13 (12 %) | 27 % | 56 % | 15 % | 0 % | 0 % / 68 % / 32 % | 0.159 |
+| ギタロー ⧸ guitarous | 55 | 660 | 96 % | 91 % | 94 % (417/445) | 50 (91 %) | 90 % | 92 % | 86 % | 12 % | 0 % / 95 % / 4 % | 0.138 |
+| serge kottelat | 38 | 456 | 76 % | 57 % | 61 % (235/384) | 24 (63 %) | 59 % | 67 % | 51 % | 3 % | 60 % / 21 % / 19 % | 0.056 |
+| transcriptor | 35 | 420 | 74 % | 64 % | 66 % (214/323) | 23 (66 %) | 68 % | 69 % | 63 % | 2 % | 14 % / 61 % / 25 % | 0.106 |
+| mr. tabs | 22 | 264 | 95 % | 76 % | 77 % (186/241) | 20 (91 %) | 77 % | 93 % | 74 % | 3 % | 1 % / 94 % / 5 % | 0.123 |
+| paolo d'angelo | 14 | 168 | 98 % | 82 % | 82 % (108/132) | 14 (100 %) | 80 % | 97 % | 79 % | 2 % | 1 % / 97 % / 2 % | 0.165 |
+| tv on guitar | 5 | 60 | 97 % | 85 % | 88 % (51/58) | 5 (100 %) | 85 % | 97 % | 85 % | 2 % | 0 % / 97 % / 3 % | 0.104 |
+| lonelypicker | 3 | 36 | 64 % | 56 % | 55 % (18/33) | 2 (67 %) | 47 % | 61 % | 44 % | 0 % | 0 % / 64 % / 36 % | 0.090 |
+| vvxofingerstyletab | 1 | 12 | 83 % | 75 % | 90 % (9/10) | 1 (100 %) | 83 % | 75 % | 75 % | 0 % | 0 % / 83 % / 17 % | 0.160 |
+| yunus guitarist | 1 | 12 | 100 % | 100 % | 100 % (12/12) | 1 (100 %) | 100 % | 100 % | 100 % | 0 % | 0 % / 100 % / 0 % | 0.125 |
+| **TOTAL** | 2798 | 33576 | 93 % | 75 % | 77 % (16378/21398) | 2366 (85 %) | 80 % | 84 % | 70 % | 2 % | 7 % / 86 % / 7 % | 0.128 |
+
+**Leitura** (do coordenador; não é medida nova):
+- mãos em 93 % dos quadros e rosto em 7 %: enquadramento típico de tronco cortado ou close do braço. Pesa a favor de detector específico de mão;
+- palma mediana 0,128 da altura do quadro; o menor é `serge kottelat`, 0,056;
+- número baixo não é canal sem mão: `kimny's guitar` (17 % com 2+ mãos) é preto e branco escuro; `robert lunn` (42 %) mistura close, corpo inteiro e partitura;
+- a tabela é um piso: os erros observados são de perder mão.
+
+**Conferência de 30** (semente 20261013, excluindo o piloto):
+- provisório (agente): cerca de 25 de 30 (83 %) com esquerda e direita certas. Critério de 90 %: **não fechado**;
+- dono (2026-10-12): confirmou o erro do 04 (mão esquerda em close, não achada). Pendentes: 03, 06, 12 e 17;
+- dono (2026-10-12): seguir para o M1 com o censo neste estado.
+
+**Não repetir**:
+- pose do MediaPipe para dizer "tem rosto": inventa rosto em close de mãos (5 de 12 no `sky guitar`);
+- blocos 3×3 na fusão por score: pioram (25/36 contra 28/36; 24/36 contra 32/36);
+- rótulo L/R do MediaPipe para a mão do braço visto de costas: troca o lado;
+- regra "mão com centro dentro da caixa da TAB é desenho": apaga mão real quando a caixa da TAB está errada. Auditoria pendente.
+
+**Pendências**: auditoria da regra da TAB (419 mãos); confirmação do dono nos quadros 03, 06, 12 e 17; para a trilha tablatura (via dono), o braço do violão marcado como TAB em closes do `guitar dell'arte` e do `leonardo ramos`.

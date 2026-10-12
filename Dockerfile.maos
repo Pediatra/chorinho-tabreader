@@ -1,0 +1,23 @@
+# Imagem DERIVADA da trilha das mãos: chorinho:dev + detector de mãos e de rosto.
+#
+# Por que derivada: o detector de mão (MediaPipe) e o de rosto (YuNet, via OpenCV) precisam
+# de pacotes que a imagem compartilhada chorinho:dev não tem. Eles não entram no
+# requirements.txt, porque a trilha tablatura depende de chorinho:dev e mudar essa imagem
+# muda o que ela já faz. Decisão: docs/decisoes/1001-imagem-derivada-maos.md.
+#
+# Build, a partir da raiz do repositório (exige chorinho:dev já construída):
+#   podman build -t chorinho-maos:dev -f Dockerfile.maos .
+#
+# Ressalva: `pip install mediapipe` traz `opencv-contrib-python` (cv2 5.0.0), que convive
+# com o `opencv-python-headless` da imagem base. Por isso esta imagem NÃO serve para a
+# trilha tablatura.
+#
+# Modelos baixados no build e fixados por sha256 (a saída do `sha256sum` no log do build):
+# hand_landmarker.task e face_detection_yunet_2023mar.onnx.
+# Ver docs/decisoes/1001-imagem-derivada-maos.md.
+
+FROM docker.io/library/chorinho:dev
+RUN apt-get update && apt-get install -y --no-install-recommends libegl1 libgles2 libgl1 && rm -rf /var/lib/apt/lists/*
+RUN pip install --no-cache-dir mediapipe==1.1.0
+RUN mkdir -p /opt/modelos && python -c "import urllib.request as u; u.urlretrieve('https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/latest/hand_landmarker.task', '/opt/modelos/hand_landmarker.task'); u.urlretrieve('https://github.com/opencv/opencv_zoo/raw/main/models/face_detection_yunet/face_detection_yunet_2023mar.onnx', '/opt/modelos/face_detection_yunet_2023mar.onnx')" && sha256sum /opt/modelos/*
+RUN python -c "import mediapipe, cv2, numpy; cv2.FaceDetectorYN.create('/opt/modelos/face_detection_yunet_2023mar.onnx', '', (320, 320)); print('mediapipe', mediapipe.__version__, 'cv2', cv2.__version__, 'numpy', numpy.__version__)"
