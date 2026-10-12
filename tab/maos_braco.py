@@ -570,7 +570,8 @@ def escolher_mao_esquerda(
     )
 
 
-#: Índices dos 21 pontos da mão (ordem do MediaPipe) das pontas de dedo 1 a 4.
+#: Índices das pontas dos dedos 1 a 4 nos 21 pontos da mão (mesmo esquema no MediaPipe
+#: e no COCO-WholeBody).
 PONTA_DOS_DEDOS: dict[int, int] = {1: 8, 2: 12, 3: 16, 4: 20}
 
 

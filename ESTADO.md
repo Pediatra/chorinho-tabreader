@@ -5033,3 +5033,39 @@ Caminho **aditivo** em `tab/painel.py` (`candidatos_por_mascara`) e `tab/telas.p
 **Pendências**: caixa no braço do violão (caso 4 da conferência e #05 acima); caixa na partitura em vez da TAB (#10); FP08; casos 10/14/21/27 a reconferir no censo refeito por `--so-cache`.
 
 **Artefatos**: `data/saida/conserto_v2/` (MVP, oficiais, piloto, `piloto_mudaram.jpg`).
+
+## 2026-10-12 — Mãos — M2: gabarito de dedos do dono
+
+Rodada completa: [`docs/rodadas/1003-gabarito-de-dedos.md`](docs/rodadas/1003-gabarito-de-dedos.md). Gabarito: `data/gold/maos/dedos_retrato_brasileiro.json` (formato 3). Vídeo: `sky guitar/retrato brasileiro - tab & lesson.mp4` (MVP).
+
+**Medido (rotulado pelo dono, 2026-10-12)**: 40 ataques e 56 notas (amostra de 40 sorteios, semente 20261012, estratificada no tempo). Esquerda: 1 = 14, 0 = 13, 2 = 10, 3 = 8, 4 = 8, ? = 3. Direita: p = 17, a = 16, m = 10, i = 10, ? = 3. Pestana: sim 6, não 33, ? 1.
+
+**Confiabilidade**: esquerda alta; **direita PARCIAL** (parte inferida pelo dono; só indicativo). `n19` excluída (o dono disse que a casa 3 da corda 3 não está sendo apertada); `a22` duplica `a21`.
+
+**Lição**: três defeitos da ferramenta foram achados pelo dono no uso (marcava a coluna inteira; perguntava uma nota só do acorde; pestana não preenchia o dedo nem avançava). Testar a ferramenta com acorde e pestana antes de entregar.
+
+**Commits**: `9ba059ce` (ferramenta), `423b9011`, `b4461d45`, `7be3a880`, `561028ca` (correções), `9fa22548` (gabarito rotulado).
+
+## 2026-10-12 — Mãos — M3: nota → dedo (esquerda)
+
+Rodada completa: [`docs/rodadas/1004-dedo-por-visao.md`](docs/rodadas/1004-dedo-por-visao.md). Gabarito: [rodada 1003](docs/rodadas/1003-gabarito-de-dedos.md).
+
+**Medido**: 53 notas na conta, 40 pisadas, mesmo gabarito para todos os métodos (sem conjunto separado). Acerto total (pisadas entre parênteses):
+
+- `regra_posicao_janela_1` (só tablatura, base): 36/53 (23/40)
+- `visao_ponta`: 42/53 (29/40)
+- `visao_ponta_voto`: 43/53 (30/40)
+- `visao_ou_regra`: 44/53 (31/40)
+
+Calibração do braço (`data/saida/maos/m3/braco.json`): 6 cordas, rms 0,37 a 0,58 px; trastes 0 a 14 (13 de 14 achados); razão 0,949 contra 0,944 teórica; câmera fixa, deriva máxima 4,0 px.
+
+**Ordem das cordas**: a primeira versão (brilho ao contrário) acertou 32/53. O erro apareceu num diagnóstico contra o gabarito. A correção vem da geometria (câmera frontal, mão por baixo do braço) e é conferida pelo brilho (90 a 176 da corda 1 à 6). Ela foi feita depois de ver o gabarito.
+
+**Ressalvas**: um vídeo só; tudo escolhido no mesmo gabarito; câmera de braço frontal e fixa é caso favorável; direita fora de escopo.
+
+**Commits**: `4183fe1e` (avaliador e linha de base), `18ff0890` (visão; gate 562 testes passando).
+
+**Não repetir**:
+- (a) brilho para ordenar cordas de NÁILON: os bordões revestidos são os mais claros, não as primas;
+- (b) "um dedo por casa" como modelo único da esquerda: teto baixo (9 de 17 erros são formas de acorde);
+- (c) entregar ferramenta de rótulo sem testar com acorde e pestana.
