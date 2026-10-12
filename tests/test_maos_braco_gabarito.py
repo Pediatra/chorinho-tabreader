@@ -310,14 +310,25 @@ def test_dois_cliques_na_corda_fazem_o_par_e_terceiro_comeca_outro() -> None:
     assert g["quadros"]["q01"]["corda1"] == [[50.0, 50.0]]
 
 
-def test_clique_no_traste_perto_de_um_marcado_o_remove() -> None:
-    """Traste: um clique adiciona; outro clique a 2 px dele remove."""
+def test_clique_comum_sempre_adiciona_mesmo_perto_de_outro_traste() -> None:
+    """Trastes juntos (perto do corpo): clique a 2 px de outro adiciona, não remove."""
+    g = _gabarito_com(["q01"])
+    clique = {"acao": "clique", "modo": "trastes", "escala": 1.0}
+    aplicar_acao(g, "q01", clique | {"ponto_img": [400, 300]}, DIMENSOES, "t")
+    aplicar_acao(g, "q01", clique | {"ponto_img": [402, 301]}, DIMENSOES, "t")
+    assert len(g["quadros"]["q01"]["trastes"]) == 2
+
+
+def test_remover_tira_o_traste_mais_perto() -> None:
+    """Com ``remover``, sai o traste marcado mais perto; longe de todos, nada muda."""
     g = _gabarito_com(["q01"])
     clique = {"acao": "clique", "modo": "trastes", "escala": 1.0}
     aplicar_acao(g, "q01", clique | {"ponto_img": [400, 300]}, DIMENSOES, "t")
     aplicar_acao(g, "q01", clique | {"ponto_img": [600, 300]}, DIMENSOES, "t")
-    assert len(g["quadros"]["q01"]["trastes"]) == 2
-    aplicar_acao(g, "q01", clique | {"ponto_img": [402, 301]}, DIMENSOES, "t")
+    tirar = clique | {"remover": True}
+    aplicar_acao(g, "q01", tirar | {"ponto_img": [402, 301]}, DIMENSOES, "t")
+    assert g["quadros"]["q01"]["trastes"] == [[600.0, 300.0]]
+    aplicar_acao(g, "q01", tirar | {"ponto_img": [100, 100]}, DIMENSOES, "t")
     assert g["quadros"]["q01"]["trastes"] == [[600.0, 300.0]]
 
 
@@ -401,7 +412,13 @@ def test_remover_traste_de_referencia_limpa_a_referencia() -> None:
     aplicar_acao(
         g,
         "q01",
-        {"acao": "clique", "modo": "trastes", "ponto_img": [300, 300], "escala": 1.0},
+        {
+            "acao": "clique",
+            "modo": "trastes",
+            "remover": True,
+            "ponto_img": [300, 300],
+            "escala": 1.0,
+        },
         DIMENSOES,
         "t",
     )

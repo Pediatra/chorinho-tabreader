@@ -92,7 +92,7 @@ CAMPOS_DESFAZER = ("braco", "corda1", "corda6", "nut", "trastes", "traste_refere
 #: Campos de geometria: some quando o braço é "nao" ou "?".
 CAMPOS_GEOMETRIA = ("corda1", "corda6", "nut", "trastes", "traste_referencia")
 
-#: Raio para remover um traste clicado de novo, como fração da largura do quadro.
+#: Raio do clique de REMOVER traste (botão direito), como fração da largura do quadro.
 FRACAO_RAIO_TRASTE = 0.012
 
 #: Numeração de traste aceita na referência (cordas e trastes de violão: 1 a 30).
@@ -321,25 +321,31 @@ def aplicar_par(par: list[Ponto] | None, ponto: Ponto) -> list[Ponto]:
 
 
 def aplicar_traste(
-    trastes: list[Ponto] | None, ponto: Ponto, raio: float
+    trastes: list[Ponto] | None, ponto: Ponto, raio: float, remover: bool = False
 ) -> list[Ponto]:
-    """Adiciona um traste, ou remove o mais próximo se o clique cair perto de um.
+    """Adiciona um traste ou, com ``remover``, tira o marcado mais perto do clique.
+
+    O clique comum SEMPRE adiciona: perto do corpo os trastes ficam tão juntos que
+    "clicar perto remove" apagava o vizinho (apontado pelo dono). Remover é um gesto
+    à parte (botão direito na página).
 
     Args:
         trastes: trastes já marcados ou ``None``.
         ponto: o clique novo.
-        raio: distância (no quadro) em que o clique remove um traste marcado.
+        raio: distância (no quadro) até onde o clique de remover alcança um traste.
+        remover: ``True`` para remover em vez de adicionar.
 
     Returns:
-        A nova lista de trastes.
+        A nova lista de trastes (igual à anterior se for remover e nada estiver perto).
     """
     atuais = [list(t) for t in (trastes or [])]
+    if not remover:
+        return [*atuais, ponto]
     perto = [i for i, t in enumerate(atuais) if math.dist(t, ponto) <= raio]
     if perto:
         mais_perto = min(perto, key=lambda i: math.dist(atuais[i], ponto))
         del atuais[mais_perto]
-        return atuais
-    return [*atuais, ponto]
+    return atuais
 
 
 def _direcao_principal(pontos: list[Ponto]) -> tuple[float, float]:
@@ -704,7 +710,10 @@ def _clicar(
         registro["nut"] = ponto
     else:
         raio = FRACAO_RAIO_TRASTE * dimensoes[0]
-        registro["trastes"] = aplicar_traste(registro["trastes"], ponto, raio)
+        remover = dados.get("remover", False) is True
+        registro["trastes"] = aplicar_traste(
+            registro["trastes"], ponto, raio, remover=remover
+        )
         _limpar_referencia_orfa(registro)
     registro["respondido_em"] = agora
 
@@ -1023,8 +1032,8 @@ input[type=number] { width: 72px; }
   <div class="instr">
     Modo: <b>1</b> corda 1 (2 cliques, um em cada extremo, o mais afastado possível);
     <b>6</b> corda 6 (idem); <b>n</b> nut (1 clique no centro da pestana);
-    <b>t</b> trastes (um clique no meio de cada traste visível; clicar perto de um marcado
-    o remove); <b>f</b> nut fora da imagem. Braço: sim, parcial, não, ?.
+    <b>t</b> trastes (um clique no meio de cada traste visível; botão DIREITO em cima
+    de um marcado o remove); <b>f</b> nut fora da imagem. Braço: sim, parcial, não, ?.
     Setas &larr; &rarr; trocam de quadro. Nada avança sozinho.
   </div>
   <div class="barra">
@@ -1287,6 +1296,20 @@ $("img").addEventListener("click", (ev) => {
   if (!modo) { msg("escolha um modo (1, 6, n ou t) antes de clicar", true); return; }
   const escala = bb.width / img.naturalWidth;
   enviar({ quadro: atual().id, acao: "clique", modo: modo, ponto_img: [x, y], escala: escala });
+});
+
+// Botão direito no modo trastes remove o traste marcado mais perto do clique.
+$("img").addEventListener("contextmenu", (ev) => {
+  ev.preventDefault();
+  if (!estado || modo !== "trastes") return;
+  const img = $("img");
+  if (!img.complete || img.style.visibility === "hidden") return;
+  const bb = img.getBoundingClientRect();
+  const escala = bb.width / img.naturalWidth;
+  enviar({
+    quadro: atual().id, acao: "clique", modo: "trastes", remover: true,
+    ponto_img: [ev.clientX - bb.left, ev.clientY - bb.top], escala: escala,
+  });
 });
 
 document.querySelectorAll("[data-modo]").forEach((b) => {
