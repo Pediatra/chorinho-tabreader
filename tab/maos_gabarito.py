@@ -1419,8 +1419,7 @@ function responder(l, campo, valor) {
   gravar(k, campo, n[campo] === valor ? null : valor, true, a, l);
 }
 
-// Grava a pestana do ataque atual. Ataque completo só avança para o próximo quando a
-// resposta é não ou ?; com sim, fica no ataque para ajustar dedo, casa e cordas.
+// Grava a pestana do ataque atual e avança se o ataque ficou completo com ela.
 async function gravarPestana(a, campos, avancar) {
   const at = ATAQUES[a], id = at.id;
   const anterior = G.ataques[id], antes = ataqueCompleto(at);
@@ -1440,15 +1439,45 @@ async function gravarPestana(a, campos, avancar) {
     setStatus("NÃO SALVO (" + e.message + "): tente de novo", "ruim");
     return;
   }
+  if (G.ataques[id].pestana === "sim") await preencherPestana(a);
   if (avancar && !antes && ataqueCompleto(at) && A === a) avancarAtaque(a);
   mostrar();
 }
 
-// Botões não / sim / ? e teclas n e b. Clicar no valor que já está não faz nada.
-function escolherPestana(valor) {
+// Nota sob a pestana (casa da pestana, corda entre de e até) sem dedo da esquerda
+// recebe o dedo da pestana. Nunca sobrescreve um dedo já respondido.
+async function preencherPestana(a) {
+  const at = ATAQUES[a], p = G.ataques[at.id];
+  for (const k of at.ks) {
+    const n = G.notas[k];
+    if (n.esquerda != null || n.casa !== p.pestana_casa) continue;
+    if (n.corda < p.pestana_de || n.corda > p.pestana_ate) continue;
+    try {
+      const r = await fetch("/responder", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({id: n.id, esquerda: p.pestana_dedo})});
+      const j = await r.json();
+      if (!j.ok) throw new Error(j.erro);
+      n.esquerda = p.pestana_dedo;
+    } catch (e) {
+      setStatus("NÃO SALVO o dedo da pestana em c" + n.corda + " (" + e.message + ")", "ruim");
+      return;
+    }
+  }
+}
+
+// Botões não / sim / ? e teclas n e b. Com sim, as notas sob a pestana recebem o dedo
+// dela e o ataque completo avança; para corrigir dedo, casa ou cordas, volte com ←.
+// Clicar em sim de novo reaplica o preenchimento e avança se o ataque ficou completo.
+async function escolherPestana(valor) {
   const at = ATAQUES[A];
-  if (pestanaDe(at).pestana === valor) return;
-  if (valor === "sim") gravarPestana(A, pestanaPadrao(at), false);
+  if (pestanaDe(at).pestana === valor) {
+    if (valor !== "sim") return;
+    const a = A;
+    await preencherPestana(a);
+    if (ataqueCompleto(at) && A === a) avancarAtaque(a);
+    mostrar();
+    return;
+  }
+  if (valor === "sim") gravarPestana(A, pestanaPadrao(at), true);
   else gravarPestana(A, {pestana: valor}, true);
 }
 
