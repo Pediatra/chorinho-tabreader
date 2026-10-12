@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import json
 import threading
 import urllib.error
@@ -15,6 +16,7 @@ from tab.maos_gabarito import (
     acorde_da_coluna,
     amostrar_notas,
     ampliar_caixa,
+    ataque_de,
     atualizar_resposta,
     caixa_da_nota,
     caixa_final,
@@ -24,7 +26,9 @@ from tab.maos_gabarito import (
     gabarito_novo,
     linhas_confiaveis,
     mesclar_gabarito,
-    perguntas,
+    migrar_gabarito,
+    notas_do_ataque,
+    progresso_ataques,
     recortar_caixa,
     redimensionar_altura,
     texto_acorde,
@@ -188,19 +192,56 @@ def test_recortar_e_redimensionar() -> None:
 
 
 def _gabarito(video: str = "sky/v.mp4", n: int = 4) -> dict:
-    """Gabarito novo com ``n`` notas da amostra sintética.
+    """Gabarito novo (formato 2) com ``n`` ataques sintéticos, sem acorde.
 
     Args:
         video: chave do vídeo.
-        n: quantas notas.
+        n: quantos ataques.
 
     Returns:
         O registro com respostas em branco.
     """
-    amostra = amostrar_notas(
-        _notas_sinteticas(200), semente=1, n_com_casa=n, n_corda_solta=0
-    )
-    return gabarito_novo(video, amostra, 1)
+    notas = _notas_sinteticas(200)
+    amostra = amostrar_notas(notas, semente=1, n_com_casa=n, n_corda_solta=0)
+    return gabarito_novo(video, amostra, 1, notas)
+
+
+def _nota(tela: int, coluna: int, t: float, corda: int, casa: int) -> dict:
+    """Nota no formato do ``mvp.json`` (só os campos usados pelo acorde).
+
+    Args:
+        tela: id da tela.
+        coluna: coluna da nota.
+        t: ``t_ini`` da nota.
+        corda: corda (1 a 6).
+        casa: casa (0 = solta).
+
+    Returns:
+        A nota.
+    """
+    return {
+        "tela": tela,
+        "coluna": coluna,
+        "t_ini": t,
+        "corda": corda,
+        "casa": casa,
+        "x_centro_quadro": 500.0 + coluna,
+    }
+
+
+def _mvp_com_acordes() -> list[dict]:
+    """Mvp mínimo: um acorde de 3 notas (a sorteada é a do meio), uma solta e uma repetida.
+
+    Returns:
+        Notas: 0 a 2 formam o acorde em t=10; 3 é solta em t=20; 4 é outra tela no mesmo t.
+    """
+    return [
+        _nota(1, 5, 10.0, 1, 0),
+        _nota(1, 5, 10.0, 3, 2),
+        _nota(1, 5, 10.0, 5, 3),
+        _nota(1, 6, 20.0, 2, 7),
+        _nota(2, 5, 10.0, 6, 1),
+    ]
 
 
 def test_gabarito_novo_comeca_sem_respostas() -> None:
@@ -353,23 +394,165 @@ def test_acorde_so_com_mesma_tela_coluna_e_instante() -> None:
     assert acorde_da_coluna(notas, 3) == [{"indice_mvp": 3, "corda": 2, "casa": 7}]
 
 
-def test_texto_acorde_marca_a_nota_pedida() -> None:
-    """O texto lista o acorde inteiro e marca só a nota pedida com <- ESTA."""
+def test_texto_acorde_lista_as_notas_sem_marcar_nenhuma() -> None:
+    """O cabeçalho lista o acorde em ordem de corda, sem marca de nota pedida."""
     acorde = [
-        {"indice_mvp": 4, "corda": 1, "casa": 0},
-        {"indice_mvp": 7, "corda": 3, "casa": 2},
-        {"indice_mvp": 9, "corda": 5, "casa": 3},
+        {"corda": 1, "casa": 0},
+        {"corda": 3, "casa": 2},
+        {"corda": 5, "casa": 3},
     ]
-    assert texto_acorde(acorde, 7) == (
-        "acorde: c1 casa 0 | c3 casa 2 <- ESTA | c5 casa 3"
+    assert texto_acorde(acorde) == "acorde: c1 casa 0 | c3 casa 2 | c5 casa 3"
+
+
+def test_ataque_de_troca_o_n_por_a() -> None:
+    """O ataque tem o mesmo número da nota da amostra."""
+    assert ataque_de("n02") == "a02"
+    assert ataque_de("n40") == "a40"
+
+
+def test_nota_sem_acorde_vira_ataque_de_uma_nota() -> None:
+    """Nota sozinha na coluna: o ataque tem só ela, com o id da amostra."""
+    notas = _mvp_com_acordes()
+    ataque = notas_do_ataque({"id": "n07", "indice_mvp": 3}, notas)
+    assert [(e["id"], e["ataque"], e["sorteada"]) for e in ataque] == [
+        ("n07", "a07", True)
+    ]
+
+
+def test_ataque_expande_o_acorde_com_ids_e_ordem_de_corda() -> None:
+    """Sorteada da nota do meio: as outras do acorde entram como nNN_cN, por corda."""
+    notas = _mvp_com_acordes()
+    ataque = notas_do_ataque({"id": "n02", "indice_mvp": 1}, notas)
+    assert [(e["id"], e["corda"], e["casa"], e["sorteada"]) for e in ataque] == [
+        ("n02_c1", 1, 0, False),
+        ("n02", 3, 2, True),
+        ("n02_c5", 5, 3, False),
+    ]
+    assert all(e["ataque"] == "a02" for e in ataque)
+    assert all(e["t_ini"] == 10.0 for e in ataque)
+
+
+def test_ataque_recusa_duas_notas_na_mesma_corda() -> None:
+    """Dois registros da mesma corda no mesmo acorde não viram ids distintos: recusa."""
+    notas = [*_mvp_com_acordes(), _nota(1, 5, 10.0, 3, 4)]
+    with pytest.raises(ValueError):
+        notas_do_ataque({"id": "n02", "indice_mvp": 1}, notas)
+
+
+def test_gabarito_novo_tem_formato_2_e_uma_entrada_por_nota_do_ataque() -> None:
+    """Formato 2 no topo; a amostra de 1 ataque com acorde de 3 gera 3 entradas."""
+    notas = _mvp_com_acordes()
+    amostra = [{"id": "n02", "indice_mvp": 1}]
+    gab = gabarito_novo("v.mp4", amostra, 9, notas)
+    assert gab["formato"] == 2
+    assert next(iter(gab)) == "formato"
+    assert [n["id"] for n in gab["notas"]] == ["n02_c1", "n02", "n02_c5"]
+    assert all(n["esquerda"] is None and n["direita"] is None for n in gab["notas"])
+
+
+def _gabarito_v1(notas: list[dict]) -> dict:
+    """Gabarito do formato 1 (antes da mudança), com respostas no n01 e n02.
+
+    Args:
+        notas: notas do mvp usadas pelas notas antigas.
+
+    Returns:
+        O registro no formato antigo (sem ``formato``, uma nota por item).
+    """
+    return {
+        "video": "v.mp4",
+        "como_foi_rotulado": "antigo",
+        "semente": 1,
+        "ferramenta": "tab.maos_gabarito",
+        "notas": [
+            {
+                "id": "n01",
+                "indice_mvp": 1,
+                "corda": 3,
+                "casa": 2,
+                "t_ini": 10.0,
+                "esquerda": "3",
+                "direita": "m",
+                "obs": "",
+                "respondido_em": "2026-10-12T14:05:44",
+            },
+            {
+                "id": "n02",
+                "indice_mvp": 3,
+                "corda": 2,
+                "casa": 7,
+                "t_ini": 20.0,
+                "esquerda": "1",
+                "direita": None,
+                "obs": "dedo oculto",
+                "respondido_em": "2026-10-12T14:05:54",
+            },
+        ],
+    }
+
+
+def test_migrar_preserva_respostas_e_acrescenta_as_do_acorde() -> None:
+    """Respostas antigas ficam idênticas no mesmo id; as do acorde entram em branco."""
+    notas = _mvp_com_acordes()
+    antigo = _gabarito_v1(notas)
+    copia_antes = copy.deepcopy(antigo)
+    novo = migrar_gabarito(antigo, notas)
+    assert antigo == copia_antes
+    assert novo["formato"] == 2
+    assert novo["video"] == "v.mp4"
+    por_id = {n["id"]: n for n in novo["notas"]}
+    assert set(por_id) == {"n01", "n01_c1", "n01_c5", "n02"}
+    for velha in antigo["notas"]:
+        nova = por_id[velha["id"]]
+        for campo in ("indice_mvp", "corda", "casa", "t_ini", "esquerda", "direita"):
+            assert nova[campo] == velha[campo]
+        assert nova["obs"] == velha["obs"]
+        assert nova["respondido_em"] == velha["respondido_em"]
+    assert por_id["n01_c1"]["esquerda"] is None
+    assert por_id["n01_c1"]["sorteada"] is False
+
+
+def test_migrar_e_idempotente() -> None:
+    """Rodar a migração de novo (sobre o resultado) não duplica nada nem muda nada."""
+    notas = _mvp_com_acordes()
+    uma = migrar_gabarito(_gabarito_v1(notas), notas)
+    duas = migrar_gabarito(uma, notas)
+    assert duas == uma
+    assert len(duas["notas"]) == len({n["id"] for n in duas["notas"]})
+
+
+def test_migrar_recusa_nota_que_nao_bate_com_o_mvp() -> None:
+    """Se a corda do gabarito antigo não é a do mvp, recusa em vez de alterar."""
+    notas = _mvp_com_acordes()
+    antigo = _gabarito_v1(notas)
+    antigo["notas"][0]["corda"] = 6
+    with pytest.raises(ValueError):
+        migrar_gabarito(antigo, notas)
+
+
+def test_progresso_so_conta_ataque_com_todas_as_notas_respondidas() -> None:
+    """Um ataque de 3 notas só conta como completo com as 3 com esquerda e direita."""
+    notas = _mvp_com_acordes()
+    gab = gabarito_novo("v.mp4", [{"id": "n02", "indice_mvp": 1}], 9, notas)
+    gab["notas"].append(
+        {**gab["notas"][0], "id": "n09", "ataque": "a09", "sorteada": True}
     )
+    assert progresso_ataques(gab) == (0, 2)
+    for n in gab["notas"][:2]:
+        atualizar_resposta(gab, n["id"], {"esquerda": "1", "direita": "p"}, "t")
+    assert progresso_ataques(gab) == (0, 2)
+    atualizar_resposta(gab, "n02_c5", {"esquerda": "?", "direita": "?"}, "t")
+    assert progresso_ataques(gab) == (1, 2)
+    assert completas(gab) == 3
 
 
-def test_perguntas_citam_corda_e_casa() -> None:
-    """Cada mão pergunta pela corda da nota; a esquerda também cita a casa."""
-    esquerda, direita = perguntas(3, 2)
-    assert esquerda == "Mão esquerda: que dedo pisa a corda 3 (casa 2)?"
-    assert direita == "Mão direita: que dedo toca a corda 3?"
+def test_atualizar_resposta_aceita_id_de_nota_do_acorde() -> None:
+    """O id ``nNN_cN`` de uma nota acrescentada é respondido como qualquer outro."""
+    notas = _mvp_com_acordes()
+    gab = gabarito_novo("v.mp4", [{"id": "n02", "indice_mvp": 1}], 9, notas)
+    nota = atualizar_resposta(gab, "n02_c1", {"direita": "a"}, "t")
+    assert nota["direita"] == "a"
+    assert nota["sorteada"] is False
 
 
 def test_linhas_confiaveis_exige_seis_regulares_no_passo() -> None:

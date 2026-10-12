@@ -1,11 +1,14 @@
 """Gabarito dos dedos (M2): amostra, registro e a ferramenta que grava a cada resposta.
 
 Fase M2 da trilha das mãos. Para cada nota de tablatura tocada (``tab.mvp``), o dono diz
-qual dedo da mão esquerda pisa e qual dedo da mão direita toca. Este módulo tem:
+qual dedo da mão esquerda pisa e qual dedo da mão direita toca. A unidade de pergunta é o
+ATAQUE: a nota sorteada mais as outras notas do mesmo acorde (mesma tela, coluna e
+``t_ini``). Este módulo tem:
 
 1. funções puras (amostra estratificada, caixa ampliada, escolha da caixa de cada mão,
-   registro do gabarito, validação de resposta), testadas no gate;
-2. o subcomando ``servir``: servidor ``http.server`` que mostra uma nota por vez e grava
+   ataque e acorde, registro do gabarito, migração do formato 1 para o 2, validação de
+   resposta), testadas no gate;
+2. o subcomando ``servir``: servidor ``http.server`` que mostra um ataque por vez e grava
    cada resposta em disco (escrita atômica), no mesmo padrão de ``tab.ouro_video``.
 
 O material (quadros e recortes) é gerado por ``tab.maos_gabarito_preparar``, que usa a GPU.
@@ -21,6 +24,7 @@ Uso::
 from __future__ import annotations
 
 import argparse
+import copy
 import datetime
 import http.server
 import json
@@ -42,6 +46,13 @@ Retangulo = tuple[int, int, int, int]
 
 #: Semente da amostra (a mesma do resto da trilha).
 SEMENTE_PADRAO = 20261012
+
+#: Formato do gabarito: 1 = uma nota por item; 2 = um ataque por item (nota sorteada mais
+#: as do acorde). Só o formato 2 é aceito pelo servidor.
+FORMATO_GABARITO = 2
+
+#: Tamanho do rótulo ``cN`` desenhado ao lado de cada retângulo do quadro.
+FONTE_ROTULO = 0.45
 
 #: Notas com casa > 0 e notas de corda solta (casa 0) na amostra.
 N_COM_CASA = 32
@@ -342,36 +353,70 @@ def acorde_da_coluna(notas: list[dict], indice: int) -> list[dict]:
     return sorted(acorde, key=lambda a: (a["corda"], a["indice_mvp"]))
 
 
-def texto_acorde(acorde: list[dict], indice: int) -> str:
-    """Linha do acorde para o cabeçalho e a página, com a nota pedida marcada.
+def texto_acorde(acorde: list[dict]) -> str:
+    """Texto do acorde para o cabeçalho do quadro, sem marcar nenhuma nota.
 
     Args:
-        acorde: saída de ``acorde_da_coluna``.
-        indice: ``indice_mvp`` da nota pedida.
+        acorde: notas do ataque (``corda`` e ``casa``), em ordem de corda.
 
     Returns:
-        Texto no formato ``acorde: c1 casa 0 | c3 casa 2 <- ESTA | c5 casa 3``.
+        Texto no formato ``acorde: c1 casa 4 | c2 casa 5``.
     """
-    partes = []
-    for a in acorde:
-        marca = " <- ESTA" if a["indice_mvp"] == indice else ""
-        partes.append(f"c{a['corda']} casa {a['casa']}{marca}")
-    return "acorde: " + " | ".join(partes)
+    return "acorde: " + " | ".join(f"c{a['corda']} casa {a['casa']}" for a in acorde)
 
 
-def perguntas(corda: int, casa: int | str) -> tuple[str, str]:
-    """Pergunta de cada mão, citando a corda e a casa da nota.
+def ataque_de(id_item: str) -> str:
+    """Id do ataque de uma nota da amostra: ``n02`` vira ``a02``.
 
     Args:
-        corda: corda da nota (1 = aguda, 6 = grave).
-        casa: casa da nota (0 = corda solta).
+        id_item: id da nota sorteada (``nNN``).
 
     Returns:
-        ``(pergunta da mão esquerda, pergunta da mão direita)``.
+        O id do ataque (``aNN``), com o mesmo número.
     """
-    esquerda = f"Mão esquerda: que dedo pisa a corda {corda} (casa {casa})?"
-    direita = f"Mão direita: que dedo toca a corda {corda}?"
-    return esquerda, direita
+    return "a" + id_item[1:]
+
+
+def notas_do_ataque(item: dict, notas: list[dict]) -> list[dict]:
+    """Notas do ataque de ``item``: a sorteada e as outras do mesmo acorde.
+
+    A sorteada mantém o id da amostra (``n02``); as acrescentadas ganham ``n02_c<corda>``.
+    A ordem é a de corda (1 = aguda, 6 = grave).
+
+    Args:
+        item: nota da amostra (``id`` e ``indice_mvp``).
+        notas: notas do ``mvp.json``.
+
+    Returns:
+        Uma entrada por nota do ataque, com ``id``, ``ataque``, ``sorteada``,
+        ``indice_mvp``, ``corda``, ``casa``, ``t_ini``, ``tela`` e ``x_centro_quadro``.
+
+    Raises:
+        ValueError: se duas notas do acorde caem na mesma corda.
+    """
+    ataque = ataque_de(item["id"])
+    entradas = []
+    for a in acorde_da_coluna(notas, item["indice_mvp"]):
+        nota = notas[a["indice_mvp"]]
+        sorteada = a["indice_mvp"] == item["indice_mvp"]
+        id_nota = item["id"] if sorteada else f"{item['id']}_c{a['corda']}"
+        entradas.append(
+            {
+                "id": id_nota,
+                "ataque": ataque,
+                "sorteada": sorteada,
+                "indice_mvp": a["indice_mvp"],
+                "corda": a["corda"],
+                "casa": a["casa"],
+                "t_ini": nota["t_ini"],
+                "tela": nota.get("tela"),
+                "x_centro_quadro": nota.get("x_centro_quadro"),
+            }
+        )
+    cordas = [e["corda"] for e in entradas]
+    if len(set(cordas)) != len(cordas):
+        raise ValueError(f"{item['id']}: duas notas do acorde na mesma corda: {cordas}")
+    return entradas
 
 
 def linhas_confiaveis(linhas_y: list[float] | None, passo: float) -> bool:
@@ -453,38 +498,94 @@ def caixa_da_nota(x_centro: float, y_corda: float, passo: float) -> Retangulo:
 # ---------------------------------------------------------------------------------
 
 
-def gabarito_novo(video: str, amostra: list[dict], semente: int) -> dict:
-    """Registro do gabarito com todas as respostas em branco (``None``).
+def _nota_em_branco(entrada: dict) -> dict:
+    """Registro de uma nota do gabarito (formato 2), sem resposta.
+
+    Args:
+        entrada: saída de ``notas_do_ataque``.
+
+    Returns:
+        O registro com ``esquerda``, ``direita``, ``obs`` e ``respondido_em`` vazios.
+    """
+    return {
+        "id": entrada["id"],
+        "ataque": entrada["ataque"],
+        "sorteada": entrada["sorteada"],
+        "indice_mvp": entrada["indice_mvp"],
+        "corda": entrada["corda"],
+        "casa": entrada["casa"],
+        "t_ini": entrada["t_ini"],
+        "esquerda": None,
+        "direita": None,
+        "obs": "",
+        "respondido_em": None,
+    }
+
+
+def gabarito_novo(
+    video: str, amostra: list[dict], semente: int, notas: list[dict]
+) -> dict:
+    """Registro do gabarito (formato 2) com todas as respostas em branco.
 
     Args:
         video: chave do vídeo no acervo (ex.: ``sky guitar/retrato....mp4``).
         amostra: saída de ``amostrar_notas``.
         semente: semente usada na amostra.
+        notas: notas do ``mvp.json``, para montar o acorde de cada ataque.
 
     Returns:
-        O dicionário do gabarito no formato do plano.
+        O dicionário do gabarito, com ``formato`` 2 e uma entrada por nota de cada ataque.
     """
-    notas = [
-        {
-            "id": n["id"],
-            "indice_mvp": n["indice_mvp"],
-            "corda": n["corda"],
-            "casa": n["casa"],
-            "t_ini": n["t_ini"],
-            "esquerda": None,
-            "direita": None,
-            "obs": "",
-            "respondido_em": None,
-        }
-        for n in amostra
-    ]
     return {
+        "formato": FORMATO_GABARITO,
         "video": video,
-        "como_foi_rotulado": "dono, ferramenta tab.maos_gabarito, uma nota por vez",
+        "como_foi_rotulado": "dono, ferramenta tab.maos_gabarito, um ataque por vez",
         "semente": semente,
         "ferramenta": "tab.maos_gabarito",
-        "notas": notas,
+        "notas": [
+            _nota_em_branco(e) for item in amostra for e in notas_do_ataque(item, notas)
+        ],
     }
+
+
+def migrar_gabarito(antigo: dict, notas: list[dict]) -> dict:
+    """Converte o gabarito do formato 1 (uma nota por item) para o 2 (um ataque por item).
+
+    Cada nota antiga ``nNN`` vira o ataque ``aNN`` e MANTÉM o id e as respostas (``esquerda``,
+    ``direita``, ``obs``, ``respondido_em``) exatamente como estavam. As outras notas do
+    acorde entram como novas, em branco, com id ``nNN_c<corda>``. Um gabarito já no formato
+    2 volta igual (rodar de novo não duplica nada). O gabarito de entrada não é alterado.
+
+    Args:
+        antigo: gabarito como está em disco (formato 1, ou 2).
+        notas: notas do ``mvp.json``.
+
+    Returns:
+        Um gabarito novo, no formato 2.
+
+    Raises:
+        ValueError: se corda, casa ou ``t_ini`` de uma nota antiga não batem com o mvp.
+    """
+    if antigo.get("formato") == FORMATO_GABARITO:
+        return copy.deepcopy(antigo)
+    novas = []
+    for velha in antigo["notas"]:
+        mvp = notas[velha["indice_mvp"]]
+        if (
+            str(mvp["corda"]) != str(velha["corda"])
+            or str(mvp["casa"]) != str(velha["casa"])
+            or mvp["t_ini"] != velha["t_ini"]
+        ):
+            raise ValueError(f"{velha['id']}: corda/casa/t_ini não batem com o mvp")
+        item = {"id": velha["id"], "indice_mvp": velha["indice_mvp"]}
+        for entrada in notas_do_ataque(item, notas):
+            nova = _nota_em_branco(entrada)
+            if entrada["sorteada"]:
+                for campo in ("esquerda", "direita", "obs", "respondido_em"):
+                    nova[campo] = velha.get(campo, nova[campo])
+            novas.append(nova)
+    resto = {k: v for k, v in antigo.items() if k not in ("formato", "notas")}
+    return {"formato": FORMATO_GABARITO, **resto, "notas": novas}
 
 
 def _tem_resposta(nota: dict) -> bool:
@@ -592,6 +693,18 @@ def atualizar_resposta(gabarito: dict, id_nota: str, campos: dict, agora: str) -
     return nota
 
 
+def completa_nota(nota: dict) -> bool:
+    """A nota tem as DUAS respostas (esquerda e direita)?
+
+    Args:
+        nota: nota do gabarito.
+
+    Returns:
+        ``True`` se ``esquerda`` e ``direita`` estão respondidas.
+    """
+    return nota["esquerda"] is not None and nota["direita"] is not None
+
+
 def completas(gabarito: dict) -> int:
     """Quantas notas têm as DUAS respostas (esquerda e direita).
 
@@ -601,11 +714,23 @@ def completas(gabarito: dict) -> int:
     Returns:
         Contagem de notas completas.
     """
-    return sum(
-        1
-        for n in gabarito["notas"]
-        if n["esquerda"] is not None and n["direita"] is not None
-    )
+    return sum(1 for n in gabarito["notas"] if completa_nota(n))
+
+
+def progresso_ataques(gabarito: dict) -> tuple[int, int]:
+    """Quantos ataques estão completos (todas as suas notas com as duas respostas).
+
+    Args:
+        gabarito: o registro no formato 2.
+
+    Returns:
+        ``(ataques completos, total de ataques)``.
+    """
+    por_ataque: dict[str, list[bool]] = {}
+    for n in gabarito["notas"]:
+        por_ataque.setdefault(n["ataque"], []).append(completa_nota(n))
+    feitos = sum(1 for linhas in por_ataque.values() if all(linhas))
+    return feitos, len(por_ataque)
 
 
 def gravar_atomico(destino: Path, conteudo: dict) -> None:
@@ -721,6 +846,7 @@ def criar_servidor(
                     gravar_atomico(ouro, estado)
                     feitas = completas(estado)
                     total = len(estado["notas"])
+                    ataques_feitos, ataques_total = progresso_ataques(estado)
             except (ValueError, KeyError, TypeError) as erro:
                 self._json(400, {"ok": False, "erro": f"{type(erro).__name__}: {erro}"})
                 return
@@ -734,6 +860,8 @@ def criar_servidor(
                     "nota": nota,
                     "completas": feitas,
                     "total": total,
+                    "ataques_completos": ataques_feitos,
+                    "total_ataques": ataques_total,
                     "salvo_em": agora,
                 },
             )
@@ -763,38 +891,44 @@ progress{width:180px;height:14px}
 #lista button{padding:2px 6px;font-size:13px}
 #lista button.ok{border-left-width:3px}
 .aviso{color:var(--aviso);font-weight:600;margin:4px 0}
-#acorde{font-weight:600;margin:4px 0}
+#titulo{font-weight:600;margin:4px 0}
 h3{font-size:15px;margin:14px 0 6px}
 img{max-width:100%;height:auto;display:block;border:1px solid var(--borda)}
 .quadro{max-width:960px}
 .par{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
 .esq{flex:1 1 300px;min-width:0}
-.resp{flex:1 1 300px;min-width:0}
-.botoes{display:flex;gap:6px;flex-wrap:wrap}
+.resp{flex:1 1 380px;min-width:0}
 .tres{display:flex;gap:8px;flex-wrap:wrap}
 .tres figure{margin:0;flex:1 1 180px;min-width:0}
 .tres figcaption{font-size:13px;color:var(--suave);margin-top:2px}
+.nota{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:center;border:1px solid var(--borda);border-radius:6px;padding:6px 8px;margin:6px 0;cursor:pointer}
+.nota.ativa{border:2px solid var(--acento);background:var(--painel)}
+.nota .rotulo{font-weight:600;min-width:130px}
+.nota.ok .rotulo::after{content:" ✓";color:var(--ok)}
+.grupo{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.grupo button{padding:3px 7px;font-size:14px}
+.legenda{font-size:13px;color:var(--suave);margin:4px 0}
 input[type=text]{width:100%;max-width:420px}
 label{display:block;margin-top:10px}
 </style></head><body>
 <header>
   <b>Dedos do gabarito</b><span id="video" class="suave"></span>
-  <progress id="barra" max="40" value="0"></progress>
+  <progress id="barra" max="1" value="0"></progress>
   <span id="progresso" class="suave"></span>
   <span id="status">carregando…</span>
 </header>
 <div class="linha">
-  <button id="ant">← anterior</button>
+  <button id="ant">← ataque anterior</button>
   <span id="posicao"></span>
-  <button id="prox">próxima →</button>
-  <span class="suave">setas ← → mudam de nota</span>
+  <button id="prox">próximo ataque →</button>
+  <span class="suave">← → mudam de ataque · ↑ ↓ mudam de linha · teclas abaixo respondem a linha ativa</span>
 </div>
 <div id="lista"></div>
-<div id="info" class="linha"><b></b></div>
-<div id="acorde"></div>
+<div id="titulo"></div>
+<div id="info" class="suave"></div>
 <div id="avisos"></div>
 
-<h3>Quadro (a nota está no retângulo vermelho; as outras da coluna são as do acorde)</h3>
+<h3>Quadro (um retângulo vermelho por nota do acorde, com a corda ao lado)</h3>
 <img id="img-quadro" class="quadro" alt="quadro do vídeo">
 
 <div class="par">
@@ -803,13 +937,11 @@ label{display:block;margin-top:10px}
     <img id="img-esq" alt="mão esquerda">
   </div>
   <div class="resp">
-    <h3 id="pergunta-esq">Mão esquerda: que dedo pisa esta nota?</h3>
-    <div id="btn-esq" class="botoes"></div>
-    <div class="suave">teclas 1 2 3 4 0 · x = não dá para ver</div>
-    <h3 id="pergunta-dir">Mão direita: que dedo toca esta nota?</h3>
-    <div id="btn-dir" class="botoes"></div>
-    <div class="suave">teclas p i m a c · z = não dá para ver</div>
-    <label>Observação (opcional)
+    <h3>Notas do ataque (a linha destacada é a ativa)</h3>
+    <div id="linhas"></div>
+    <div class="legenda">esquerda: 1 indicador · 2 médio · 3 anelar · 4 mínimo · 0 corda solta · x ou ? não dá para ver</div>
+    <div class="legenda">direita: p polegar · i indicador · m médio · a anelar · c mínimo (raro) · z ou ? não dá para ver</div>
+    <label>Observação da linha ativa (opcional)
       <input id="obs" type="text" maxlength="500">
     </label>
   </div>
@@ -828,101 +960,177 @@ const ESQUERDA = [["1","indicador"],["2","médio"],["3","anelar"],["4","mínimo"
 const DIREITA = [["p","polegar"],["i","indicador"],["m","médio"],["a","anelar"],["c","mínimo (raro)"],["?","não dá para ver"]];
 const TECLAS_ESQ = {"1":"1","2":"2","3":"3","4":"4","0":"0","x":"?"};
 const TECLAS_DIR = {"p":"p","i":"i","m":"m","a":"a","c":"c","z":"?"};
-let INDICE = null, G = null, atual = 0;
+let INDICE = null, G = null;
+let ATAQUES = [];   // [{id: "a02", ks: [indices em G.notas, por corda]}]
+let A = 0, L = 0;   // ataque ativo e linha ativa dentro dele
 
 const $ = id => document.getElementById(id);
 function completa(n) { return n.esquerda != null && n.direita != null; }
-function infoDe(n) { return INDICE.notas.find(x => x.id === n.id); }
 function setStatus(t, c) { const s = $("status"); s.textContent = t; s.className = c || ""; }
+function ataqueCompleto(a) { return a.ks.every(k => completa(G.notas[k])); }
+
+function montarAtaques() {
+  ATAQUES = [];
+  const pos = new Map();
+  G.notas.forEach((n, k) => {
+    if (!pos.has(n.ataque)) { pos.set(n.ataque, ATAQUES.length); ATAQUES.push({id: n.ataque, ks: []}); }
+    ATAQUES[pos.get(n.ataque)].ks.push(k);
+  });
+  ATAQUES.forEach(a => a.ks.sort((x, y) => G.notas[x].corda - G.notas[y].corda));
+}
+
+// Próxima linha sem as duas respostas, a partir de 'de' (inclusive) e dando a volta.
+function primeiraIncompleta(a, de) {
+  const m = a.ks.length;
+  for (let j = 0; j < m; j++) {
+    const l = (de + j) % m;
+    if (!completa(G.notas[a.ks[l]])) return l;
+  }
+  return -1;
+}
 
 function progresso() {
-  const f = G.notas.filter(completa).length;
-  $("progresso").textContent = f + "/" + G.notas.length + " completas";
-  $("barra").value = f;
+  const notasFeitas = G.notas.filter(completa).length;
+  const ataquesFeitos = ATAQUES.filter(ataqueCompleto).length;
+  $("progresso").textContent = ataquesFeitos + "/" + ATAQUES.length + " ataques completos (" + notasFeitas + "/" + G.notas.length + " notas)";
+  $("barra").max = ATAQUES.length;
+  $("barra").value = ataquesFeitos;
 }
 
-function botoes(id, opcoes, campo, n) {
-  const c = $(id); c.replaceChildren();
-  for (const [tecla, nome] of opcoes) {
-    const b = document.createElement("button");
-    b.textContent = tecla + " · " + nome;
-    b.className = n[campo] === tecla ? "on" : "";
-    b.onclick = () => escolher(campo, tecla);
-    c.append(b);
-  }
-}
-
-function lista() {
+function listaAtaques() {
   const l = $("lista"); l.replaceChildren();
-  G.notas.forEach((n, k) => {
+  ATAQUES.forEach((a, j) => {
     const b = document.createElement("button");
-    const parcial = n.esquerda != null || n.direita != null;
-    b.textContent = String(k + 1).padStart(2, "0") + (completa(n) ? " ✓" : parcial ? " ·" : "");
-    b.className = (k === atual ? "on " : "") + (completa(n) ? "ok" : "");
-    b.onclick = () => { atual = k; mostrar(); };
+    const feito = ataqueCompleto(a);
+    const parcial = a.ks.some(k => completa(G.notas[k]) || G.notas[k].esquerda != null || G.notas[k].direita != null);
+    b.textContent = a.id.slice(1) + (feito ? " ✓" : parcial ? " ·" : "");
+    b.className = (j === A ? "on " : "") + (feito ? "ok" : "");
+    b.onclick = () => irAtaque(j);
     l.append(b);
   });
 }
 
+function botoesDaLinha(l, campo, opcoes, n) {
+  const g = document.createElement("span");
+  g.className = "grupo";
+  for (const [tecla, nome] of opcoes) {
+    const b = document.createElement("button");
+    b.textContent = tecla;
+    b.title = nome;
+    b.className = n[campo] === tecla ? "on" : "";
+    b.onclick = ev => { ev.stopPropagation(); responder(l, campo, tecla); };
+    g.append(b);
+  }
+  return g;
+}
+
+function texto(t) { return document.createTextNode(t); }
+
+function renderLinhas() {
+  const a = ATAQUES[A], l = $("linhas"); l.replaceChildren();
+  a.ks.forEach((k, j) => {
+    const n = G.notas[k];
+    const div = document.createElement("div");
+    div.className = "nota" + (j === L ? " ativa" : "") + (completa(n) ? " ok" : "");
+    div.onclick = () => { L = j; mostrar(); };
+    const rot = document.createElement("span");
+    rot.className = "rotulo";
+    rot.textContent = "c" + n.corda + " casa " + n.casa;
+    div.append(rot, texto("— esquerda "), botoesDaLinha(j, "esquerda", ESQUERDA, n), texto("direita "), botoesDaLinha(j, "direita", DIREITA, n));
+    l.append(div);
+  });
+}
+
 function mostrar() {
-  const n = G.notas[atual], i = infoDe(n), base = "/" + i.pasta + "/";
-  $("posicao").textContent = (atual + 1) + " / " + G.notas.length;
-  $("info").firstChild.textContent = n.id + " · t=" + n.t_ini + " s · corda " + n.corda + " · casa " + n.casa + " · tela " + i.tela;
-  $("acorde").textContent = i.texto_acorde ?? "";
-  if (i.pergunta_esquerda) $("pergunta-esq").textContent = i.pergunta_esquerda;
-  if (i.pergunta_direita) $("pergunta-dir").textContent = i.pergunta_direita;
-  $("avisos").replaceChildren(...i.avisos.map(a => { const d = document.createElement("div"); d.className = "aviso"; d.textContent = a; return d; }));
+  const a = ATAQUES[A];
+  const i = INDICE.notas.find(x => x.ataque === a.id);
+  const base = "/" + i.pasta + "/";
+  const ativa = G.notas[a.ks[L]];
+  $("posicao").textContent = "ataque " + (A + 1) + " / " + ATAQUES.length;
+  $("titulo").textContent = a.id + " · t=" + Number(i.t_ini).toFixed(2) + " s · " + i.texto_acorde;
+  $("info").textContent = a.ks.length + (a.ks.length === 1 ? " nota" : " notas") + " no ataque · linha ativa: c" + ativa.corda + " casa " + ativa.casa;
+  $("avisos").replaceChildren(...i.avisos.map(t => { const d = document.createElement("div"); d.className = "aviso"; d.textContent = t; return d; }));
   $("img-quadro").src = base + "quadro.jpg";
   $("img-esq").src = base + "esq.jpg";
   $("dir-m").src = base + "dir_m.jpg";
   $("dir-0").src = base + "dir_0.jpg";
   $("dir-p").src = base + "dir_p.jpg";
-  botoes("btn-esq", ESQUERDA, "esquerda", n);
-  botoes("btn-dir", DIREITA, "direita", n);
-  $("obs").value = n.obs || "";
-  lista(); progresso();
+  renderLinhas();
+  $("obs").value = ativa.obs || "";
+  listaAtaques(); progresso();
 }
 
-async function gravar(campo, valor, avancar) {
-  const k = atual, n = G.notas[k], antes = completa(n), anterior = n[campo];
+// Grava um campo de uma nota e, se a linha ficou com as duas respostas, avança.
+async function gravar(k, campo, valor, avancar, a, l) {
+  const n = G.notas[k], antes = completa(n), anterior = n[campo];
   n[campo] = valor;
+  A = a; L = l;
   mostrar();
   setStatus("gravando…", "");
   try {
     const r = await fetch("/responder", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({id: n.id, [campo]: valor})});
     const j = await r.json();
     if (!j.ok) throw new Error(j.erro);
-    setStatus("salvo em disco " + j.salvo_em.slice(11) + " (" + j.completas + "/" + j.total + " completas)", "ok");
+    setStatus("salvo em disco " + j.salvo_em.slice(11) + " (" + j.ataques_completos + "/" + j.total_ataques + " ataques, " + j.completas + "/" + j.total + " notas)", "ok");
   } catch (e) {
     n[campo] = anterior;
     mostrar();
     setStatus("NÃO SALVO (" + e.message + "): tente de novo", "ruim");
     return;
   }
-  if (avancar && !antes && completa(n) && atual === k && k < G.notas.length - 1) atual = k + 1;
+  if (avancar && !antes && completa(n) && A === a && L === l) avancarAposCompletar(a, l);
   mostrar();
 }
 
-function escolher(campo, valor) {
-  const n = G.notas[atual];
-  gravar(campo, n[campo] === valor ? null : valor, true);
+function avancarAposCompletar(a, l) {
+  const at = ATAQUES[a];
+  if (ataqueCompleto(at)) {
+    if (a < ATAQUES.length - 1) {
+      A = a + 1;
+      L = Math.max(0, primeiraIncompleta(ATAQUES[A], 0));
+    }
+    return;
+  }
+  const prox = primeiraIncompleta(at, (l + 1) % at.ks.length);
+  if (prox >= 0) L = prox;
 }
 
-function anterior() { if (atual > 0) { atual--; mostrar(); } }
-function proxima() { if (atual < G.notas.length - 1) { atual++; mostrar(); } }
-$("ant").onclick = anterior;
-$("prox").onclick = proxima;
-$("obs").addEventListener("change", ev => gravar("obs", ev.target.value, false));
+// Resposta a uma linha do ataque atual (tecla ou clique). Clicar de novo na mesma tecla limpa.
+function responder(l, campo, valor) {
+  const a = A;
+  const k = ATAQUES[a].ks[l];
+  const n = G.notas[k];
+  gravar(k, campo, n[campo] === valor ? null : valor, true, a, l);
+}
+
+function irAtaque(a) {
+  if (a < 0 || a >= ATAQUES.length) return;
+  A = a;
+  L = Math.max(0, primeiraIncompleta(ATAQUES[a], 0));
+  mostrar();
+}
+
+function gravarObs(valor) {
+  const a = A, l = L, k = ATAQUES[a].ks[l];
+  gravar(k, "obs", valor, false, a, l);
+}
+
+$("ant").onclick = () => irAtaque(A - 1);
+$("prox").onclick = () => irAtaque(A + 1);
+$("obs").addEventListener("change", ev => gravarObs(ev.target.value));
 
 document.addEventListener("keydown", ev => {
   if (ev.ctrlKey || ev.metaKey || ev.altKey || !G) return;
   const t = ev.target.tagName;
   if (t === "INPUT" || t === "TEXTAREA" || t === "SELECT") return;
   const k = ev.key.toLowerCase();
-  if (ev.key === "ArrowRight") proxima();
-  else if (ev.key === "ArrowLeft") anterior();
-  else if (Object.hasOwn(TECLAS_ESQ, k)) escolher("esquerda", TECLAS_ESQ[k]);
-  else if (Object.hasOwn(TECLAS_DIR, k)) escolher("direita", TECLAS_DIR[k]);
+  const m = ATAQUES[A].ks.length;
+  if (ev.key === "ArrowRight") irAtaque(A + 1);
+  else if (ev.key === "ArrowLeft") irAtaque(A - 1);
+  else if (ev.key === "ArrowDown") { ev.preventDefault(); if (L < m - 1) { L++; mostrar(); } }
+  else if (ev.key === "ArrowUp") { ev.preventDefault(); if (L > 0) { L--; mostrar(); } }
+  else if (Object.hasOwn(TECLAS_ESQ, k)) responder(L, "esquerda", TECLAS_ESQ[k]);
+  else if (Object.hasOwn(TECLAS_DIR, k)) responder(L, "direita", TECLAS_DIR[k]);
 });
 
 (async function () {
@@ -935,9 +1143,16 @@ document.addEventListener("keydown", ev => {
     setStatus("erro ao carregar: " + e.message, "ruim");
     return;
   }
+  if (G.formato !== 2) {
+    setStatus("gabarito não está no formato 2: rode o preparar", "ruim");
+    return;
+  }
   $("video").textContent = G.video;
-  atual = Math.max(0, G.notas.findIndex(n => !completa(n)));
-  setStatus("carregado: " + (G.notas.some(n => n.esquerda != null || n.direita != null) ? "retomando" : "gabarito novo"), "ok");
+  montarAtaques();
+  A = Math.max(0, ATAQUES.findIndex(a => !ataqueCompleto(a)));
+  L = Math.max(0, primeiraIncompleta(ATAQUES[A], 0));
+  const algumaResposta = G.notas.some(n => n.esquerda != null || n.direita != null);
+  setStatus("carregado: " + (algumaResposta ? "retomando" : "gabarito novo"), "ok");
   mostrar();
 })();
 </script></body></html>
@@ -961,6 +1176,12 @@ def servir(pasta: Path, ouro: Path, porta: int, host: str) -> int:
         return 2
     if not ouro.exists():
         print(f"sem gabarito em {ouro}; rode o preparar antes", file=sys.stderr)
+        return 2
+    if json.loads(ouro.read_text(encoding="utf-8")).get("formato") != FORMATO_GABARITO:
+        print(
+            f"{ouro} não está no formato {FORMATO_GABARITO}; rode o preparar",
+            file=sys.stderr,
+        )
         return 2
     servidor = criar_servidor(pasta, ouro, porta, host)
     print(f"ferramenta dos dedos: http://127.0.0.1:{servidor.server_address[1]}/")

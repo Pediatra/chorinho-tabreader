@@ -1,11 +1,12 @@
 """Passo ``preparar`` da ferramenta dos dedos (M2): material por nota, na GPU.
 
-Para cada nota da amostra (``tab.maos_gabarito.amostrar_notas``), extrai do vídeo o
-quadro em ``t_ini``, acha as mãos com o ``DetectorMaos`` (Wholebody + MediaPipe) e grava
-em ``<saida>/<id>/``:
+Para cada ataque da amostra (``tab.maos_gabarito.amostrar_notas``: a nota sorteada mais
+as outras do mesmo acorde), extrai do vídeo o quadro em ``t_ini``, acha as mãos com o
+``DetectorMaos`` (Wholebody + MediaPipe) e grava em ``<saida>/<id>/``:
 
-- ``quadro.jpg``: o quadro reduzido a 960 px, com um retângulo vermelho SÓ em volta do
-  algarismo da nota (na linha da sua corda), e o acorde da coluna no cabeçalho;
+- ``quadro.jpg``: o quadro reduzido a 960 px, com um retângulo vermelho em volta do
+  algarismo de CADA nota do acorde, com o rótulo ``cN`` (a corda) ao lado, e o acorde no
+  cabeçalho;
 - ``esq.jpg``: a mão esquerda em t_ini, ampliada 40% para cada lado;
 - ``dir_m.jpg``, ``dir_0.jpg``, ``dir_p.jpg``: a mão direita em t_ini - 0,15 s, t_ini e
   t_ini + 0,15 s, com a MESMA caixa (a de t_ini), para comparar o movimento;
@@ -13,7 +14,8 @@ em ``<saida>/<id>/``:
   linha da corda (``y_corda``) e de onde ela veio (``segmentacao`` ou ``reserva``).
 
 Grava também ``<saida>/indice.json`` (a lista que a página lê) e cria ou ATUALIZA o
-gabarito (``--gabarito``) sem apagar as respostas que já existem.
+gabarito (``--gabarito``) sem apagar as respostas que já existem. Um gabarito do formato
+antigo (uma nota por item) é migrado antes, com ``migrar_gabarito``.
 
 Só roda com GPU (``DetectorMaos("cuda")``). Importa ``tab.maos_detector``, que exige
 rtmlib; por isso NÃO está no gate. Uso::
@@ -25,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import itertools
 import json
 import subprocess
 import sys
@@ -40,17 +43,19 @@ from .maos_gabarito import (
     ALTURA_DIREITA_PX,
     ALTURA_ESQUERDA_PX,
     DESLOCAMENTOS_DIREITA_S,
+    FONTE_ROTULO,
     LARGURA_QUADRO_PX,
     SEMENTE_PADRAO,
-    acorde_da_coluna,
     amostrar_notas,
+    ataque_de,
     caixa_da_nota,
     caixa_final,
     escolher_caixa,
     gabarito_novo,
     gravar_atomico,
     mesclar_gabarito,
-    perguntas,
+    migrar_gabarito,
+    notas_do_ataque,
     recortar_caixa,
     redimensionar_altura,
     texto_acorde,
@@ -182,36 +187,69 @@ def linhas_da_tela(quadro: np.ndarray, painel: list[int]) -> list[float] | None:
 
 def desenhar_quadro(
     quadro: np.ndarray,
-    item: dict,
+    cabecalho: str,
     rect_tab: list[int] | None,
-    caixa: tuple[int, int, int, int],
-    linha_acorde: str,
+    caixas: list[tuple[int, tuple[int, int, int, int]]],
 ) -> np.ndarray:
-    """Quadro reduzido: a caixa da nota (vermelha), a tablatura (amarela) e o cabeçalho.
+    """Quadro reduzido: um retângulo vermelho por nota do acorde, com a corda ao lado.
 
     Args:
         quadro: quadro inteiro, em BGR (1920x1080).
-        item: nota da amostra (``id``, ``corda``, ``casa``, ``t_ini``).
-        rect_tab: caixa da tablatura no quadro, ou ``None``.
-        caixa: retângulo da nota no quadro (``caixa_da_nota``).
-        linha_acorde: texto do acorde (``texto_acorde``), para o cabeçalho.
+        cabecalho: texto da faixa do topo (``aNN t=T  acorde: ...``).
+        rect_tab: caixa da tablatura no quadro (amarela), ou ``None``.
+        caixas: ``(corda, caixa)`` de cada nota do acorde; ``caixa`` é ``caixa_da_nota``.
 
     Returns:
         Imagem BGR de ``LARGURA_QUADRO_PX`` de largura.
     """
     escala = LARGURA_QUADRO_PX / quadro.shape[1]
     img = cv2.resize(quadro, None, fx=escala, fy=escala, interpolation=cv2.INTER_AREA)
+    largura = img.shape[1]
     if rect_tab:
         x0, y0, x1, y1 = (round(v * escala) for v in rect_tab)
         cv2.rectangle(img, (x0, y0), (x1, y1), (0, 255, 255), 1)
-    bx0, by0, bx1, by1 = (round(v * escala) for v in caixa)
-    cv2.rectangle(img, (bx0, by0), (bx1, by1), (0, 0, 255), 2)
-    cv2.rectangle(img, (0, 0), (img.shape[1], 40), (0, 0, 0), -1)
-    texto = (
-        f"{item['id']}  corda {item['corda']} casa {item['casa']} t={item['t_ini']:.2f}"
-    )
-    cv2.putText(img, texto, (6, 16), FONTE, 0.55, (255, 255, 255), 1, cv2.LINE_AA)
-    cv2.putText(img, linha_acorde, (6, 33), FONTE, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+    rotulos = []
+    for corda, caixa in caixas:
+        bx0, by0, bx1, by1 = (round(v * escala) for v in caixa)
+        cv2.rectangle(img, (bx0, by0), (bx1, by1), (0, 0, 255), 2)
+        (lw, lh), base = cv2.getTextSize(f"c{corda}", FONTE, FONTE_ROTULO, 1)
+        x = bx1 + 4
+        if x + lw + 3 > largura:
+            x = bx0 - 4 - lw
+        rotulos.append(
+            {
+                "centro": (by0 + by1) / 2,
+                "x": x,
+                "texto": f"c{corda}",
+                "lw": lw,
+                "lh": lh,
+                "base": base,
+            }
+        )
+    # Cordas vizinhas ficam a poucos px no quadro reduzido: empilha os rótulos que se
+    # encostariam, para continuarem legíveis (cada um segue ao lado do seu retângulo).
+    rotulos.sort(key=lambda r: r["centro"])
+    for antes, depois in itertools.pairwise(rotulos):
+        minimo = antes["centro"] + antes["lh"] + 3
+        depois["centro"] = max(depois["centro"], minimo)
+    for r in rotulos:
+        x, lh, base = r["x"], r["lh"], r["base"]
+        y = round(r["centro"] + lh / 2)
+        cv2.rectangle(
+            img, (x - 2, y - lh - 2), (x + r["lw"] + 2, y + base + 1), (0, 0, 0), -1
+        )
+        cv2.putText(
+            img,
+            r["texto"],
+            (x, y),
+            FONTE,
+            FONTE_ROTULO,
+            (255, 255, 255),
+            1,
+            cv2.LINE_AA,
+        )
+    cv2.rectangle(img, (0, 0), (largura, 26), (0, 0, 0), -1)
+    cv2.putText(img, cabecalho, (6, 18), FONTE, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
     return img
 
 
@@ -232,7 +270,7 @@ def _avisos(escolhas: dict[str, dict]) -> list[str]:
     ]
 
 
-def preparar_nota(
+def preparar_ataque(
     det: DetectorMaos,
     video: Path,
     item: dict,
@@ -241,24 +279,25 @@ def preparar_nota(
     notas_mvp: list[dict],
     telas: dict[int, dict],
 ) -> dict:
-    """Material de uma nota: os 5 JPGs em ``pasta`` e o ``material.json``.
+    """Material de um ataque: os 5 JPGs em ``pasta`` e o ``material.json``.
 
     Args:
         det: detector das mãos (GPU).
         video: caminho do vídeo.
-        item: nota da amostra (``id``, ``t_ini``, ``corda``, ``casa``...).
+        item: nota sorteada da amostra (``id``, ``t_ini``, ``indice_mvp``, ``tela``...).
         quadros_censo: quadros do censo deste vídeo.
-        pasta: pasta da nota (criada se faltar).
+        pasta: pasta do ataque (criada se faltar).
         notas_mvp: todas as notas do ``mvp.json`` (para o acorde).
         telas: ``{id da tela: tela}`` do ``mvp.json`` (painel e passo).
 
     Returns:
-        A entrada desta nota no ``indice.json`` (ids, caixas, origens e textos).
+        A entrada deste ataque no ``indice.json`` (ids, caixas, origens e textos).
 
     Raises:
         ValueError: se o quadro não tem a forma 1920x1080 em que o mvp mede.
     """
     t = float(item["t_ini"])
+    ataque = ataque_de(item["id"])
     pasta.mkdir(parents=True, exist_ok=True)
     quadro = extrair_quadro(video, t)
     if quadro.shape[:2] != FORMA_QUADRO:
@@ -269,13 +308,22 @@ def preparar_nota(
     tela = telas[int(item["tela"])]
     painel, passo = [int(v) for v in tela["painel"]], float(tela["passo"])
     linhas = linhas_da_tela(quadro, painel)
-    y_corda, origem_y = y_da_corda(int(item["corda"]), linhas, painel, passo)
-    caixa_nota = caixa_da_nota(float(item["x_centro_quadro"]), y_corda, passo)
 
-    indice_mvp = item["indice_mvp"]
-    acorde = acorde_da_coluna(notas_mvp, indice_mvp)
-    linha_acorde = texto_acorde(acorde, indice_mvp)
-    pergunta_esq, pergunta_dir = perguntas(item["corda"], item["casa"])
+    entradas = notas_do_ataque(item, notas_mvp)
+    acorde = []
+    for e in entradas:
+        y, origem = y_da_corda(int(e["corda"]), linhas, painel, passo)
+        caixa = caixa_da_nota(float(e["x_centro_quadro"]), y, passo)
+        acorde.append(
+            {
+                **e,
+                "y_corda": round(y, 2),
+                "y_corda_origem": origem,
+                "caixa_nota": list(caixa),
+            }
+        )
+    sorteada = next(a for a in acorde if a["sorteada"])
+    cabecalho = f"{ataque} t={t:.2f}  " + texto_acorde(entradas)
 
     achado = det.detectar(quadro, rect_tab)
     escolhas = {
@@ -286,7 +334,12 @@ def preparar_nota(
 
     cv2.imwrite(
         str(pasta / "quadro.jpg"),
-        desenhar_quadro(quadro, item, rect_tab, caixa_nota, linha_acorde),
+        desenhar_quadro(
+            quadro,
+            cabecalho,
+            rect_tab,
+            [(a["corda"], tuple(a["caixa_nota"])) for a in acorde],
+        ),
         [cv2.IMWRITE_JPEG_QUALITY, QUALIDADE_JPG],
     )
     cv2.imwrite(
@@ -307,29 +360,25 @@ def preparar_nota(
         )
 
     avisos = _avisos(escolhas)
-    if origem_y == "reserva":
+    if sorteada["y_corda_origem"] == "reserva":
         avisos.append(
-            f"corda {item['corda']}: linhas não detectadas; altura estimada pelo painel"
+            "acorde: linhas não detectadas; altura das cordas estimada pelo painel"
         )
     material = {
         "id": item["id"],
-        "indice_mvp": indice_mvp,
+        "ataque": ataque,
+        "indice_mvp": item["indice_mvp"],
         "corda": item["corda"],
         "casa": item["casa"],
         "t_ini": t,
         "tela": item.get("tela"),
         "coluna": item.get("coluna"),
-        "x_centro_quadro": item.get("x_centro_quadro"),
         "painel": painel,
         "passo_mvp": passo,
         "linhas_y_segmentadas": linhas,
-        "y_corda": round(y_corda, 2),
-        "y_corda_origem": origem_y,
-        "caixa_nota": list(caixa_nota),
+        "y_corda_origem": sorteada["y_corda_origem"],
         "acorde": acorde,
-        "texto_acorde": linha_acorde,
-        "pergunta_esquerda": pergunta_esq,
-        "pergunta_direita": pergunta_dir,
+        "cabecalho": cabecalho,
         "instantes_direita": [round(v, 3) for v in instantes],
         "rect_tab": rect_tab,
         "t_quadro_censo_tab": t_censo,
@@ -358,6 +407,7 @@ def preparar_nota(
     )
     return {
         "id": item["id"],
+        "ataque": ataque,
         "pasta": item["id"],
         "corda": item["corda"],
         "casa": item["casa"],
@@ -365,10 +415,17 @@ def preparar_nota(
         "tela": item.get("tela"),
         "rect_tab": rect_tab,
         "origem": {lado: escolhas[lado]["origem"] for lado in escolhas},
-        "y_corda_origem": origem_y,
-        "texto_acorde": linha_acorde,
-        "pergunta_esquerda": pergunta_esq,
-        "pergunta_direita": pergunta_dir,
+        "y_corda_origem": sorteada["y_corda_origem"],
+        "texto_acorde": texto_acorde(entradas),
+        "notas": [
+            {
+                "id": a["id"],
+                "corda": a["corda"],
+                "casa": a["casa"],
+                "sorteada": a["sorteada"],
+            }
+            for a in acorde
+        ],
         "avisos": avisos,
     }
 
@@ -417,12 +474,12 @@ def preparar(
     indice = []
     for k, item in enumerate(amostra, start=1):
         indice.append(
-            preparar_nota(det, video, item, quadros, saida / item["id"], notas, telas)
+            preparar_ataque(det, video, item, quadros, saida / item["id"], notas, telas)
         )
         _log(
-            f"{k:02d}/{len(amostra)} {item['id']} t={item['t_ini']:.2f} "
-            f"{indice[-1]['origem']} y={indice[-1]['y_corda_origem']} "
-            f"({time.time() - inicio:.0f}s)"
+            f"{k:02d}/{len(amostra)} {indice[-1]['ataque']} t={item['t_ini']:.2f} "
+            f"notas={len(indice[-1]['notas'])} {indice[-1]['origem']} "
+            f"y={indice[-1]['y_corda_origem']} ({time.time() - inicio:.0f}s)"
         )
 
     documento = {
@@ -436,7 +493,9 @@ def preparar(
     existente = (
         json.loads(gabarito.read_text(encoding="utf-8")) if gabarito.exists() else None
     )
-    novo = gabarito_novo(chave, amostra, semente)
+    if existente is not None:
+        existente = migrar_gabarito(existente, notas)
+    novo = gabarito_novo(chave, amostra, semente, notas)
     gravar_atomico(gabarito, mesclar_gabarito(novo, existente))
 
     resumo = {"notas": len(indice), "origens": {}, "com_aviso": []}
