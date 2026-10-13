@@ -5208,3 +5208,28 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - **Pauta sem tab praticamente não existe** (5 vídeos na amostra, e era tab não marcada pelo censo). A partitura vem junto da tablatura.
 - Conferência: positivos 66/68 certos; nos negativos, 15/110 quadros têm pauta visível, mas só 1 vídeo muda de classe.
 - **Não repetir**: (1) limite de espessura medido na sequência inteira de linhas de pixel: a 6ª linha borrada da tab e a chave ao lado da pauta engrossam a sequência (a 1ª rodada deu 2.188 vídeos, inflada por tab lida como pauta); medir no núcleo (≥ 50 % do pico). (2) máscara de polaridade clara sem teste de crista: acha o fundo branco entre as linhas da tab como "linhas".
+
+## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
+
+Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do
+**braço** (6 "linhas" das cordas diagonais cortadas na horizontal) e o `tab.video` relia cada
+página com essa caixa: **0 de 269** notas. Propriedade medida: `cordas_continuas` (grupos de
+linhas de pixels com corrida contínua de tinta ≥ 50 % da largura, buracos até 1 passo
+fechados). TAB do gabarito de presença: mínimo **6** (128 de 134 dão exatamente 6); braço
+escolhido no South American: máximo **3** (17 de 24 dão 0). Limiar 4. O portão entra só
+depois do `escolher` (se a faixa escolhida falha, procura TAB nos outros candidatos e por
+máscara; sem alternativa, `None`); `tab.video.ler_tela` usa `escolher_ou_mascara`.
+
+| medida | antes | depois |
+| --- | --- | --- |
+| South American (`tab.avaliar_video`) | 0/269 | precisão 254/255, revocação 254/269, casa 245/254, tempo 37/40 (falso 0) |
+| MVP | 485/485, 485/491, 483/485, 39/40 | idêntico |
+| Greensleeves | 88/90, 88/106, 88/88, 20/40 | idêntico |
+| `tab.avaliar` (3 sementes) | 66, 71, 68 /72 | idêntico |
+| gabarito de presença (`painel_do_quadro`, 144 quadros) | 134/136, 134/137 | idêntico; 1 caixa mudou (FP02 dell'arte: do braço para a TAB, sem rótulo) |
+
+**Não resolve**: braço **horizontal** com cordas contínuas (cifra club, n ≥ 5) e as 12 + 2
+caixas erradas do censo, que vêm das vias escura e por máscara do `telas.py`. O portão nessas
+vias derrubava 3 TAB translúcidas de linha fina (pablo romé #20/#21, robert lunn #26: n = 1) e
+foi revertido. Saídas: `data/saida/painel_braco/`, `data/saida/fase8/medida/*_v2/`,
+`data/saida/mvp_v2/`.

@@ -533,6 +533,50 @@ def aparar_pauta(
     return (x0, y0 + topo, x1, y0 + base)
 
 
+#: Fração da largura que uma corda de TAB cobre, sem interrupção a não ser pelos algarismos.
+FRACAO_CORRIDA_CORDA = 0.5
+
+#: Mínimo de linhas horizontais contínuas para a caixa ser tablatura (6 cordas; uma pode
+#: falhar por contraste). O braço do violão visto na diagonal dá 0 ou 1.
+MIN_CORDAS_CONTINUAS = 4
+
+
+def cordas_continuas(roi: np.ndarray, passo: float) -> int:
+    """Quantas linhas horizontais atravessam o recorte (a corda de TAB é uma delas).
+
+    A tablatura tem 6 linhas perfeitamente horizontais que ocupam a largura do painel,
+    interrompidas só por algarismos. As cordas do braço do violão são diagonais (ou, na
+    vista de lado, cobertas por madeira e mão): uma linha de pixels as cruza só em trechos
+    curtos. Mede-se, por linha de pixels, a maior corrida contínua de tinta (buracos de
+    até ``passo`` px são fechados, para o algarismo no meio da corda) e conta-se quantos
+    grupos de linhas vizinhas passam de ``FRACAO_CORRIDA_CORDA`` da largura.
+
+    Args:
+        roi: recorte BGR do painel (a caixa).
+        passo: passo entre cordas, em px (largura do buraco tolerado).
+
+    Returns:
+        Número de linhas horizontais contínuas (0 se o recorte é vazio).
+    """
+    if roi.size == 0:
+        return 0
+    tinta = _uniao_mascaras(roi).astype(np.uint8)
+    largura = tinta.shape[1]
+    fechada = cv2.morphologyEx(
+        tinta, cv2.MORPH_CLOSE, np.ones((1, max(3, round(passo))), np.uint8)
+    )
+    continuas = np.zeros(fechada.shape[0], dtype=bool)
+    for y, linha in enumerate(fechada):
+        bordas = np.diff(np.concatenate(([0], linha, [0])))
+        comprimentos = np.flatnonzero(bordas == -1) - np.flatnonzero(bordas == 1)
+        continuas[y] = (
+            len(comprimentos) > 0
+            and comprimentos.max() >= FRACAO_CORRIDA_CORDA * largura
+        )
+    subidas = np.diff(np.concatenate(([0], continuas.astype(np.int8))))
+    return int(np.count_nonzero(subidas == 1))
+
+
 def criar(
     nome: str,
     y0: int,
@@ -617,11 +661,101 @@ def escolher_rapido(frame: np.ndarray) -> Candidato | None:
     return None
 
 
+def e_tablatura(c: Candidato) -> bool:
+    """O candidato tem as cordas de uma TAB (linhas horizontais contínuas)?
+
+    Mede ``cordas_continuas`` na faixa das 6 cordas (com 1,5 passo de folga, como a caixa
+    do produto). Com ``MIN_CORDAS_CONTINUAS`` em 0 o portão fica aberto (comparação).
+
+    Args:
+        c: candidato já refinado.
+
+    Returns:
+        False para o braço do violão (cordas diagonais ou cobertas); True para TAB.
+    """
+    if MIN_CORDAS_CONTINUAS <= 0:
+        return True
+    linhas = list(c.grade.linhas_y)
+    folga = round(1.5 * c.passo)
+    faixa = c.roi[max(0, min(linhas) - folga) : max(linhas) + folga + 1]
+    return cordas_continuas(faixa, c.passo) >= MIN_CORDAS_CONTINUAS
+
+
+def _primeira_tablatura(grupos: list[list[Candidato]]) -> Candidato | None:
+    """Primeiro candidato (refinado) que é TAB e tem passo na faixa do acervo.
+
+    Args:
+        grupos: listas de candidatos, em ordem de preferência.
+
+    Returns:
+        O candidato refinado, ou None se nenhum passar.
+    """
+    for grupo in grupos:
+        for cand in grupo:
+            cand = refinar(cand)
+            if PASSO_MINIMO_PX <= cand.passo <= PASSO_MAXIMO_PX and e_tablatura(cand):
+                return cand
+    return None
+
+
+def _por_mascara(frame: np.ndarray) -> list[Candidato]:
+    """Candidatos por máscara (grupos fortes de 6 cordas), do mais liso ao menos liso."""
+    return [c for _u, c in sorted(candidatos_por_mascara(frame), key=lambda t: -t[0])]
+
+
+def _tablatura_no_lugar_do_braco(
+    frame: np.ndarray, min_glifos: int
+) -> Candidato | None:
+    """Procura, no quadro, um candidato que seja TAB quando o escolhido era o braço.
+
+    Ordem: os demais candidatos do quadro inteiro (por uniformidade), depois os grupos
+    fortes por máscara (a via que acha a TAB estreita ou colada no vídeo). Só entra quem
+    passa em ``e_tablatura``.
+
+    Args:
+        frame: quadro inteiro.
+        min_glifos: mínimo de glifos do caminho principal.
+
+    Returns:
+        O candidato (já refinado) ou None se nenhum for TAB.
+    """
+    do_quadro = sorted(
+        candidatos_quadro(frame, min_glifos=min_glifos), key=lambda c: c.score
+    )[::-1]
+    return _primeira_tablatura([do_quadro, _por_mascara(frame)])
+
+
+def escolher_ou_mascara(frame: np.ndarray) -> Candidato | None:
+    """``escolher`` e, se ele não achar nada, a TAB por máscara (leitura do produto).
+
+    O `kenneth acoustic` (t=88 s do `end of beginning`) tem o braço na horizontal e a TAB
+    embaixo: nenhuma faixa fixa serve e `escolher` devolve None, mas a via por máscara
+    acha a TAB. Fica fora de `escolher` para não mudar os demais chamadores.
+
+    Args:
+        frame: quadro inteiro.
+
+    Returns:
+        O candidato, ou None.
+    """
+    esc = escolher(frame)
+    if esc is not None:
+        return esc
+    return _primeira_tablatura([_por_mascara(frame)])
+
+
 def escolher(frame: np.ndarray, min_glifos: int = MIN_GLIFOS) -> Candidato | None:
     """Escolhe a faixa que é painel de tablatura (ou None se não houver).
 
     O critério é a uniformidade do fundo primeiro e os glifos centrados depois —
     invertido em relação ao critério antigo, que preferia o braço do violão.
+
+    Depois da escolha vem o portão das cordas contínuas (``e_tablatura``) e do passo: se a
+    faixa escolhida é o braço do violão ou tem passo fora de 14-55 px (medido no `south
+    american music` e no `kenneth acoustic`: a faixa da TAB perdia para a do braço ou para
+    uma faixa de passo 6), procura-se uma TAB de verdade no quadro. Sem alternativa, o
+    braço vira None e a TAB de passo fora da faixa fica como estava. Quem já era TAB com
+    passo válido não muda.
 
     Args:
         frame: quadro inteiro.
@@ -639,7 +773,19 @@ def escolher(frame: np.ndarray, min_glifos: int = MIN_GLIFOS) -> Candidato | Non
             if min_glifos == MIN_GLIFOS
             else melhor(candidatos(frame, min_glifos))
         )
-    return refinar(esc) if esc is not None else None
+    if esc is None:
+        return None
+    esc = refinar(esc)
+    passo_ok = PASSO_MINIMO_PX <= esc.passo <= PASSO_MAXIMO_PX
+    eh_tab = e_tablatura(esc)
+    if eh_tab and passo_ok:
+        return esc
+    alternativa = _tablatura_no_lugar_do_braco(frame, min_glifos)
+    if alternativa is not None:
+        return alternativa
+    # sem alternativa: o braço vira "sem painel"; a TAB de passo fora da faixa fica como
+    # estava (quem chama já a recusa)
+    return esc if eh_tab else None
 
 
 # ---------------------------------------------------------------------------------

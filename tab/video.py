@@ -4,7 +4,7 @@ Cadeia, por tela (``tab.telas``, Fase 3):
 
 1. imagem limpa: o quadro de referência (``quadro_ref_s``) ou a mediana temporal de alguns
    quadros da maior exibição, que apaga o marcador;
-2. painel: ``tab.painel.escolher`` nessa imagem; o ``roi`` dele dá o x no espaço do QUADRO;
+2. painel: ``tab.painel.escolher_ou_mascara`` nessa imagem; o ``roi`` dele dá o x no espaço do QUADRO;
 3. ``reconhecer_linha`` no ``roi``: tokens com corda, casa e símbolo cru;
 4. colunas (um acorde é uma coluna) e compasso, pelas barlines da tela;
 5. tempo por exibição (Fase 5): dentro de cada ``[t0, t1]`` da tela, os quadros são lidos
@@ -48,7 +48,7 @@ from .estado import (
     passagens_de,
     refinar_inicios,
 )
-from .painel import PASSO_MAXIMO_PX, PASSO_MINIMO_PX, escolher
+from .painel import PASSO_MAXIMO_PX, PASSO_MINIMO_PX, escolher_ou_mascara
 from .reconhecer import ALGARISMOS, carregar_modelo, reconhecer_linha
 from .telas import Tela, telas
 
@@ -523,7 +523,7 @@ def ler_tela(
         e a entrada declara ``leitura`` com o motivo.
     """
     exibicoes = [{"t0": round(t0, 3), "t1": round(t1, 3)} for t0, t1 in tela.exibicoes]
-    m = escolher(imagem) if imagem is not None else None
+    m = escolher_ou_mascara(imagem) if imagem is not None else None
     if m is None or not PASSO_MINIMO_PX <= m.passo <= PASSO_MAXIMO_PX:
         motivo = "sem painel legivel na imagem limpa"
         entrada = {

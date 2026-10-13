@@ -71,7 +71,12 @@ def test_painel_ganha_do_braco_na_escolha() -> None:
     assert "meio" in nomes, f"o painel não foi nem candidato: {nomes}"
     escolhido = escolher(quadro)
     assert escolhido is not None
-    assert escolhido.nome == "meio", f"escolheu {escolhido.nome}"
+    # a TAB sintética ocupa y 300-600 e o braço y 620-920: as 6 cordas escolhidas têm de
+    # estar na TAB. (O teste antigo conferia só o NOME "meio", que a faixa fixa recebe mesmo
+    # quando as 6 linhas dela caem no braço; o portão das cordas contínuas troca essa
+    # faixa pela TAB de verdade, que sai com o nome `y<topo>`.)
+    ys = [escolhido.y0 + y for y in escolhido.grade.linhas_y]
+    assert min(ys) >= 300 and max(ys) <= 600, f"cordas em {ys} ({escolhido.nome})"
 
 
 def test_quadro_vazio_nao_tem_painel() -> None:
