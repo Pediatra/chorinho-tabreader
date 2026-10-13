@@ -5166,3 +5166,9 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - O Δ é quase constante dentro de cada página, mas o nível **vagueia** de 60 a 324 ms ao longo do vídeo (13 mudanças > 50 ms, 7 para cima e 6 para baixo), e nota a nota a diferença de intervalos tem **desvio padrão 90 ms**: o marcador anda na grade do software; o violonista toca com rubato.
 - Escuta do dono: o clique no ataque detectado cai junto com as notas.
 - **Não repetir**: régua de tempo do som como `t_marcador + atraso` (A3 do contexto). O marcador dá a coluna e a janela (±0,3 s); o tempo fino vem do áudio, e a verdade de som tem de ser conferida pelo dono.
+
+## 2026-10-13 — Mãos — M3c: braço pela música fora do MVP (rodada 1008)
+
+- Só q02 e q16 do gabarito do braço são medíveis: q06 e q11 têm 0 notas com tempo no produto; o q07 é de outra câmera (abertura).
+- **q16**: estável (0,17 px) e errado: trastes **10/15** dentro de 1/4 de casa, nut **0,49** de casa, corda 1 a **0,35** do vão 1–6. Grade comprimida no sentido das cordas: a ponta do dedo fica ~1 passo para a corda 6 em relação ao contato (q02: ~0,3).
+- **Não repetir**: recuo constante da ponta sobre o DIP. Escolhido no q02 = 0 (qualquer recuo piora o nut); o q16 melhoraria em 0,4–0,6. Os quadros discordam.

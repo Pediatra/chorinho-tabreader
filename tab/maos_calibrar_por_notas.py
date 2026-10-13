@@ -45,6 +45,7 @@ from .maos_avaliar_dedos import carregar_json, montar_predicao
 from .maos_braco import (
     FRACAO_PISADA,
     N_TRASTES,
+    PONTA_DOS_DEDOS,
     alvo_da_nota,
     dedo_mais_perto,
     escolher_mao_esquerda,
@@ -260,12 +261,48 @@ class Conjunto:
         return self.mascara.any(axis=1)
 
 
-def pontas_esquerdas(maos: list[dict[str, Any]]) -> np.ndarray:
+def pontas_com_recuo(
+    mao: dict[str, Any], recuo: float
+) -> dict[int, tuple[float, float]]:
+    """Pontos de contato dos dedos 1 a 4 de uma mão, com recuo sobre a ponta.
+
+    Com ``recuo > 0`` cada ponta ``k`` vira ``ponta + recuo * (DIP - ponta)``, onde o
+    DIP é o keypoint ``k - 1``, logo antes da ponta. A ponta do keypoint passa da
+    corda (os dedos vêm de baixo); o contato real é na polpa, um pouco antes dela.
+    Se o DIP falta (``None``, curto ou com NaN), usa a ponta pura.
+
+    Args:
+        mao: mão com ``pts`` (21 pontos, na ordem do MediaPipe).
+        recuo: fração do caminho da ponta até o DIP. ``0`` é a ponta pura.
+
+    Returns:
+        ``dedo -> (x, y)`` para os dedos 1 a 4, como :func:`pontas_da_mao`.
+    """
+    base = pontas_da_mao(mao)
+    if recuo == 0:
+        return base
+    pontos = mao["pts"]
+    saida: dict[int, tuple[float, float]] = {}
+    for dedo, k in PONTA_DOS_DEDOS.items():
+        ponta = base[dedo]
+        dip = pontos[k - 1]
+        if dip is None or len(dip) < 2 or not np.all(np.isfinite(dip[:2])):
+            saida[dedo] = ponta
+            continue
+        x = ponta[0] + recuo * (float(dip[0]) - ponta[0])
+        y = ponta[1] + recuo * (float(dip[1]) - ponta[1])
+        saida[dedo] = (x, y)
+    return saida
+
+
+def pontas_esquerdas(maos: list[dict[str, Any]], recuo: float = 0.0) -> np.ndarray:
     """Pontas dos dedos 1 a 4 de todas as mãos esquerdas de um quadro.
 
     Args:
         maos: mãos do quadro (registros de ``tab.maos_pontas_notas``), com ``lado`` e
             ``pts``.
+        recuo: fração do recuo sobre a ponta, em direção ao DIP (ver
+            :func:`pontas_com_recuo`). ``0`` mantém a ponta pura.
 
     Returns:
         ``(P, 2)`` de pontas; ``(0, 2)`` se não há mão esquerda.
@@ -274,7 +311,7 @@ def pontas_esquerdas(maos: list[dict[str, Any]]) -> np.ndarray:
         ponto
         for mao in maos
         if mao["lado"] == "esquerda"
-        for ponto in pontas_da_mao(mao).values()
+        for ponto in pontas_com_recuo(mao, recuo).values()
     ]
     return np.asarray(pontos, dtype=float).reshape(-1, 2)
 
@@ -283,6 +320,7 @@ def montar_conjunto(
     mvp: list[dict[str, Any]],
     maos_por_t: dict[float, list[dict[str, Any]]],
     excluir: frozenset[float] = frozenset(),
+    recuo: float = 0.0,
 ) -> Conjunto:
     """Notas pisadas do MVP com as pontas do seu instante, para o RANSAC.
 
@@ -294,6 +332,7 @@ def montar_conjunto(
         mvp: lista ``notas`` do MVP.
         maos_por_t: ``t_ini`` (3 casas) -> mãos do quadro daquele instante.
         excluir: instantes que não entram na calibração.
+        recuo: recuo das pontas sobre o DIP (ver :func:`pontas_com_recuo`).
 
     Returns:
         O :class:`Conjunto`. Notas sem mão esquerda ficam, com máscara vazia.
@@ -309,7 +348,7 @@ def montar_conjunto(
         chave = round(float(t), 3)
         if chave in excluir or chave not in maos_por_t:
             continue
-        pontas = pontas_esquerdas(maos_por_t[chave])
+        pontas = pontas_esquerdas(maos_por_t[chave], recuo)
         linhas.append((indice, nota["corda"], nota["casa"], chave, pontas))
     if not linhas:
         raise ValueError("nenhuma nota pisada com pontas para calibrar")

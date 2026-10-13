@@ -11,6 +11,8 @@ from tab.maos_calibrar_por_notas import (
     avaliar,
     coordenadas_do_braco,
     dlt_homografia,
+    pontas_com_recuo,
+    pontas_esquerdas,
     ransac,
     s_traste,
     u_casa,
@@ -174,3 +176,40 @@ def test_ransac_e_deterministico_pela_semente() -> None:
     b = ransac(c, semente=99, iteracoes=800)
     assert np.array_equal(a["H"], b["H"])
     assert a["inliers"] == b["inliers"]
+
+
+def _mao_esquerda(dip_em_none: bool = False) -> dict[str, object]:
+    """Mão esquerda sintética: pontas em (100, 200) e DIPs 60 px acima delas.
+
+    Args:
+        dip_em_none: se ``True``, o DIP do indicador (keypoint 7) é ``None``.
+
+    Returns:
+        Registro de mão com ``lado`` e ``pts`` de 21 pontos.
+    """
+    pts: list[object] = [[0.0, 0.0] for _ in range(21)]
+    for k in (8, 12, 16, 20):
+        pts[k] = [100.0, 200.0]
+        pts[k - 1] = [100.0, 140.0]
+    if dip_em_none:
+        pts[7] = None
+    return {"lado": "esquerda", "pts": pts}
+
+
+def test_recuo_zero_e_igual_a_ponta_pura() -> None:
+    mao = _mao_esquerda()
+    pura = pontas_esquerdas([mao])
+    assert np.array_equal(pontas_esquerdas([mao], 0.0), pura)
+    assert np.array_equal(pontas_com_recuo(mao, 0.0)[1], np.array([100.0, 200.0]))
+
+
+def test_recuo_meio_vai_ao_ponto_medio_entre_ponta_e_dip() -> None:
+    saida = pontas_com_recuo(_mao_esquerda(), 0.5)
+    for dedo in (1, 2, 3, 4):
+        assert saida[dedo] == pytest.approx((100.0, 170.0))
+
+
+def test_dip_faltando_usa_a_ponta_pura() -> None:
+    saida = pontas_com_recuo(_mao_esquerda(dip_em_none=True), 0.5)
+    assert saida[1] == pytest.approx((100.0, 200.0))
+    assert saida[2] == pytest.approx((100.0, 170.0))

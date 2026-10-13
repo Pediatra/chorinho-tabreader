@@ -143,6 +143,12 @@ def main() -> None:
         default=None,
         help="pasta de saída (padrão: data/saida/maos/m3d/<quadro>)",
     )
+    parser.add_argument(
+        "--recuo",
+        type=float,
+        default=0.0,
+        help="recuo da ponta sobre o DIP, fração do dedo (0 = ponta pura)",
+    )
     args = parser.parse_args()
     saida = args.saida or MAOS_M3.parent / "m3d" / args.quadro
 
@@ -150,7 +156,7 @@ def main() -> None:
     pontas = carregar_json(args.pontas)["instantes"]
     contagem = contar_notas(produto, pontas)
     print(f"contagem: {contagem}", flush=True)
-    conj = montar_conjunto(produto, mapa_de_maos(pontas))
+    conj = montar_conjunto(produto, mapa_de_maos(pontas), recuo=args.recuo)
 
     consensos = []
     for k, sementes in enumerate(CONJUNTOS_DE_SEMENTES):
@@ -177,6 +183,7 @@ def main() -> None:
     cv2.imwrite(str(saida / "conferencia.png"), conferencia)
     resultado = {
         "quadro": args.quadro,
+        "recuo": args.recuo,
         "t_quadro": entrada["t"],
         "produto": str(args.produto),
         "pontas": str(args.pontas),
