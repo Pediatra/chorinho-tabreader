@@ -55,6 +55,19 @@ GABARITO_BRACO = RAIZ / "data" / "gold" / "maos" / "braco.json"
 #: ``tab.maos_braco_gabarito preparar``.
 MAOS_M3B = SAIDA / "maos" / "m3b"
 
+#: Fontes do M5 (padrões da mão direita): produtos completos e pontas das mãos, gerados
+#: antes pelas trilhas M3c (retrato brasileiro) e M3d (noturno, lacrimosa, glimpse).
+MAOS_M3C = SAIDA / "maos" / "m3c"
+MAOS_M3D = SAIDA / "maos" / "m3d"
+
+#: Material do M5 (clipes, tab.png e ``indice.json`` por compasso), gerado por
+#: ``tab.maos_padroes_preparar``.
+MAOS_M5 = SAIDA / "maos" / "m5" / "padroes"
+
+#: Gabarito dos padrões da mão direita (M5), rotulado pelo dono com
+#: ``tab.maos_padroes servir``.
+GABARITO_PADROES = RAIZ / "data" / "gold" / "maos" / "padroes_direita.json"
+
 #: Perfil dos canais (o que foi medido, e quais canais estão fora do rollout).
 CANAIS = RAIZ / "configs" / "canais.yaml"
 
