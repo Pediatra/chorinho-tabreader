@@ -82,3 +82,23 @@ A rodada 1 dava **2.188** vídeos com pauta: o número inflado pela tablatura. N
   subcontagem, mas o canal é pequeno (22 vídeos).
 - O detector perde pauta densa ou colada (paolo d'angelo), e a conta por vídeo absorve isso.
   Para a P1, o recorte de pauta não pode depender só deste detector sem conferência.
+
+## Adendo (mesmo dia): detector refinado na P1, censo refeito (rodada 6)
+
+Ao montar os recortes da P1, a Gymnopédie (robert lunn) dava 4 de 5 quadros sem pauta. As
+linhas dela têm 4 a 5 px (entrelinha 20,5), e o limite de espessura era 4 px. Subir o limite
+para 6 px fez barras de colcheia (5 a 6 px) virarem "linhas". Isso derrubava pautas reais
+(como falsa 6ª linha, ou quebrando o grupo de 5) e deixava passar tab cuja linha de cima é
+coberta de algarismos (kimny). Mudanças finais em `tab/partitura_pauta.py`:
+
+- espessura máxima 6 px; teste de crista com distância proporcional à espessura;
+- linha "parecida" = espessura ≤ mediana das 5 linhas + 2 px, exigida dentro do grupo e na
+  6ª linha (barra de colcheia não é corda);
+- 6ª linha forte: sobreposição ≥ 50 % do próprio comprimento; 6ª linha fraca: ≥ 50 % da
+  extensão da pauta.
+
+Censo refeito, mesma amostra e semente (`data/saida/partitura/p0_rodada6.log`), comparado com a
+rodada 3 conferida acima: **21 quadros ganhos, 0 perdidos**; os 21 ganhos foram conferidos um a
+um (`data/saida/partitura/diag/ganhos_r3_r6.jpg`) e são todos pauta. A única troca por vídeo é
+o paolo d'angelo *f. kleynjans*, antes perdido e somado à mão, agora achado. Os 2 falsos
+(kimny, mr. tabs) continuam. **O número não muda: 220/436, ≈ 1.455 vídeos.**

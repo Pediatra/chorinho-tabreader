@@ -5207,7 +5207,8 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - **≈ 1.455 dos 2.998 vídeos ativos têm pauta (49 %)**; 220/436 na amostra, já descontados 2 vídeos falsos e somado 1 perdido. Canais: sky guitar, robert lunn, guitar dell'arte, iwaki, pablo romé, serge kottelat, transcriptor, paolo d'angelo, tv on guitar (quase todos os vídeos); guitarous 4/30; os demais 0.
 - **Pauta sem tab praticamente não existe** (5 vídeos na amostra, e era tab não marcada pelo censo). A partitura vem junto da tablatura.
 - Conferência: positivos 66/68 certos; nos negativos, 15/110 quadros têm pauta visível, mas só 1 vídeo muda de classe.
-- **Não repetir**: (1) limite de espessura medido na sequência inteira de linhas de pixel: a 6ª linha borrada da tab e a chave ao lado da pauta engrossam a sequência (a 1ª rodada deu 2.188 vídeos, inflada por tab lida como pauta); medir no núcleo (≥ 50 % do pico). (2) máscara de polaridade clara sem teste de crista: acha o fundo branco entre as linhas da tab como "linhas".
+- Adendo (rodada 6, detector refinado para a Gymnopédie e barras de colcheia): 21 quadros ganhos, 0 perdidos, mesmo número de vídeos.
+- **Não repetir**: (1) limite de espessura medido na sequência inteira de linhas de pixel: a 6ª linha borrada da tab e a chave ao lado da pauta engrossam a sequência (a 1ª rodada deu 2.188 vídeos, inflada por tab lida como pauta); medir no núcleo (≥ 50 % do pico). (2) máscara de polaridade clara sem teste de crista: acha o fundo branco entre as linhas da tab como "linhas". (3) subir o limite de espessura sem exigir espessura parecida: barra de colcheia (5 a 6 px) vira 6ª linha falsa.
 
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 

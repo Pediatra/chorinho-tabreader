@@ -221,3 +221,38 @@ def test_tab_com_bloco_lateral_continua_tablatura() -> None:
     _desenhar_linhas(img, 400, 16, n=6)
     _bloco_lateral(img, 370, 500)
     assert achar_pautas(img) == []
+
+
+def test_pauta_de_linhas_grossas() -> None:
+    """Pauta grande (entrelinha 20, linhas de 5 px, como a Gymnopédie) é achada."""
+    img = _quadro_branco()
+    for k in range(5):  # faixas exatas de 5 px (cv2.line de espessura 5 desenha 7)
+        img[298 + 20 * k : 303 + 20 * k, 200:1700] = 0
+    pautas = achar_pautas(img)
+    assert len(pautas) == 1
+    assert abs(pautas[0].entrelinha - 20) <= 1
+
+
+def test_tab_de_linhas_grossas_nao_e_pauta() -> None:
+    """Tablatura de 6 linhas de 5 px continua rejeitada."""
+    img = _quadro_branco()
+    for k in range(6):
+        img[298 + 30 * k : 303 + 30 * k, 200:1700] = 0
+    assert achar_pautas(img) == []
+
+
+def test_pedaco_curto_a_uma_entrelinha_nao_derruba_pauta() -> None:
+    """Objeto curto (chave, 200 px) a uma entrelinha acima da pauta não é 6ª linha."""
+    img = _quadro_branco()
+    _desenhar_linhas(img, 300, 18)
+    img[279:285, 120:320] = 0
+    assert len(achar_pautas(img)) == 1
+
+
+def test_barra_de_colcheias_acima_nao_derruba_pauta() -> None:
+    """Barra grossa (6 px, 400 px) a uma entrelinha acima da pauta não é 6ª linha."""
+    img = _quadro_branco()
+    for k in range(5):  # linhas de 2 px exatos, como no acervo (cv2.line desenha 3-4)
+        img[300 + 18 * k : 302 + 18 * k, 200:1700] = 0
+    img[279:285, 900:1300] = 0
+    assert len(achar_pautas(img)) == 1

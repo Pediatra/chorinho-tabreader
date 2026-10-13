@@ -13,8 +13,8 @@ Passos (ver ``achar_pautas``):
 3. perfil de linhas de pixel: linhas fortes (muita tinta) e fracas (tinta média);
 4. grupos de 5 linhas fortes consecutivas com espaçamento regular;
 5. teste de crista no cinza: cada linha tem de ser mais escura (ou mais clara, na
-   polaridade clara) que as linhas vizinhas a ``CRISTA_DISTANCIA`` px. Fundo branco entre
-   duas linhas escuras não é crista;
+   polaridade clara) que as linhas vizinhas a ``ceil(espessura / 2) + CRISTA_FOLGA``
+   px. Fundo branco entre duas linhas escuras não é crista;
 6. rejeição de grupo com 6ª linha a uma entrelinha, sobreposta: pela lista de linhas
    (se a linha for fina o bastante) ou pela janela da máscara aberta (se a linha for grossa
    ou borrada, e por isso descartada no passo 3). Só na polaridade do próprio grupo.
@@ -46,8 +46,15 @@ FRAC_FORTE = 0.15
 #: Linha de pixel é "fraca" com contagem de tinta >= esta fração da largura.
 FRAC_FRACA = 0.05
 
-#: Espessura máxima (px) de uma linha; faixa mais grossa não é linha de pauta.
-ESPESSURA_MAX = 4
+#: Espessura máxima (px) de uma linha; faixa mais grossa não é linha de pauta. Era 4: a
+#: Gymnopédie (robert lunn), com entrelinha de 20 px, tem linhas de 4 a 5 px e era perdida.
+ESPESSURA_MAX = 6
+
+#: Folga (px) da comparação de espessura (``_espessura_limite``): uma linha é "parecida"
+#: com a pauta de espessura mediana ``t`` até ``t + ESPESSURA_FOLGA``. Medido no acervo:
+#: barra de colcheias de 5 a 6 px junto de linhas de 2 a 3 px (iwaki, sky guitar) fica de
+#: fora; a 6ª linha borrada da tab (5 px, linhas de 3 px) e a Gymnopédie (4 a 5 px) ficam.
+ESPESSURA_FOLGA = 2
 
 #: Intervalo mínimo e máximo (px) entre duas linhas consecutivas de uma pauta.
 ENTRE_MIN = 5
@@ -67,8 +74,9 @@ EXT_MIN_FRAC = 0.20
 #: janela) para a 6ª linha contar como tablatura.
 SOBREP_TAB = 0.50
 
-#: Distância vertical (px) das linhas vizinhas usadas no teste de crista.
-CRISTA_DISTANCIA = 3
+#: Folga (px) além da meia espessura da linha até as vizinhas do teste de crista: a
+#: vizinha fica a ``ceil(espessura / 2) + CRISTA_FOLGA`` px (3 px para linha de 2 px).
+CRISTA_FOLGA = 2
 
 #: Diferença mínima de cinza (níveis, 0-255) entre a linha e cada vizinha, para ser crista.
 #: Linha de tablatura cinza (120) em fundo branco passa com folga; fundo branco entre duas
@@ -121,6 +129,7 @@ class _Linha:
         x1: última coluna com tinta.
         forte: se a contagem de tinta chega a ``FRAC_FORTE`` da largura.
         escura: se a linha veio da máscara de tinta escura (False: clara).
+        espessura: linhas de pixel do núcleo da linha.
     """
 
     y: float
@@ -128,6 +137,7 @@ class _Linha:
     x1: int
     forte: bool
     escura: bool
+    espessura: int = 1
 
 
 def achar_pautas(quadro: np.ndarray) -> list[Pauta]:
@@ -281,6 +291,7 @@ def _linhas_da_abertura(aberta: np.ndarray, largura: int, escura: bool) -> list[
                     x1=int(colunas[-1]),
                     forte=bool(contagem[inicio : fim + 1].max() >= limiar_forte),
                     escura=escura,
+                    espessura=fim - inicio + 1,
                 )
             )
     return linhas
@@ -331,10 +342,14 @@ def _grupos_de_cinco(
     i = 0
     while i + N_LINHAS <= len(fortes):
         pauta = _pauta_do_grupo(fortes[i : i + N_LINHAS], largura)
+        grupo = fortes[i : i + N_LINHAS]
+        espessuras = [linha.espessura for linha in grupo]
+        mediana = round(float(np.median(espessuras)))
         if (
             pauta is not None
-            and _linhas_sao_crista(fortes[i : i + N_LINHAS], pauta, cinza)
-            and not _ha_sexta_linha(pauta, linhas, largura)
+            and max(espessuras) <= _espessura_limite(mediana)
+            and _linhas_sao_crista(grupo, pauta, cinza)
+            and not _ha_sexta_linha(pauta, linhas, largura, mediana)
             and not _ha_sexta_na_janela(pauta, aberta)
         ):
             pautas.append(pauta)
@@ -342,6 +357,21 @@ def _grupos_de_cinco(
         else:
             i += 1
     return pautas
+
+
+def _espessura_limite(espessura: int) -> int:
+    """Espessura máxima de uma linha para ainda ser "parecida" com as da pauta.
+
+    Linhas da pauta e da tablatura têm espessura parecida entre si (1 a 5 px, conforme a
+    escala); barra de colcheias tem 5 a 6 px junto de linhas de 2 a 3 px.
+
+    Args:
+        espessura: espessura mediana das linhas de referência, em px.
+
+    Returns:
+        ``espessura + ESPESSURA_FOLGA`` px.
+    """
+    return espessura + ESPESSURA_FOLGA
 
 
 def _pauta_do_grupo(grupo: list[_Linha], largura: int) -> Pauta | None:
@@ -378,8 +408,8 @@ def _linhas_sao_crista(grupo: list[_Linha], pauta: Pauta, cinza: np.ndarray) -> 
     """Diz se cada uma das 5 linhas é uma crista de tinta no cinza.
 
     Para a linha escura, cada coluna da pauta tem de ser ``CRISTA_DELTA`` mais escura que
-    as linhas a ``CRISTA_DISTANCIA`` px acima e abaixo; para a clara, mais clara. A linha
-    passa se a fração de colunas que cumprem isso for pelo menos ``CRISTA_FRAC``.
+    as linhas a ``ceil(espessura / 2) + CRISTA_FOLGA`` px acima e abaixo; para a clara,
+    mais clara. A linha passa se a fração de colunas que cumprem isso for pelo menos ``CRISTA_FRAC``.
 
     Args:
         grupo: as 5 linhas da pauta, de cima para baixo.
@@ -405,12 +435,13 @@ def _linha_e_crista(linha: _Linha, pauta: Pauta, cinza: np.ndarray) -> bool:
     """
     y = round(linha.y)
     altura = cinza.shape[0]
-    if y - CRISTA_DISTANCIA < 0 or y + CRISTA_DISTANCIA >= altura:
+    distancia = math.ceil(linha.espessura / 2) + CRISTA_FOLGA
+    if y - distancia < 0 or y + distancia >= altura:
         return False
     colunas = slice(pauta.x0, pauta.x1 + 1)
     centro = cinza[y, colunas].astype(np.int32)
-    acima = cinza[y - CRISTA_DISTANCIA, colunas].astype(np.int32)
-    abaixo = cinza[y + CRISTA_DISTANCIA, colunas].astype(np.int32)
+    acima = cinza[y - distancia, colunas].astype(np.int32)
+    abaixo = cinza[y + distancia, colunas].astype(np.int32)
     if linha.escura:
         passa = (centro <= acima - CRISTA_DELTA) & (centro <= abaixo - CRISTA_DELTA)
     else:
@@ -418,7 +449,9 @@ def _linha_e_crista(linha: _Linha, pauta: Pauta, cinza: np.ndarray) -> bool:
     return float(np.mean(passa)) >= CRISTA_FRAC
 
 
-def _ha_sexta_linha(pauta: Pauta, linhas: list[_Linha], largura: int) -> bool:
+def _ha_sexta_linha(
+    pauta: Pauta, linhas: list[_Linha], largura: int, espessura_pauta: int
+) -> bool:
     """Diz se há uma 6ª linha (pela lista de linhas) a uma entrelinha: é tablatura.
 
     A 6ª linha tem de ter a mesma extensão mínima de uma linha de pauta (``EXT_MIN_FRAC``
@@ -428,10 +461,12 @@ def _ha_sexta_linha(pauta: Pauta, linhas: list[_Linha], largura: int) -> bool:
         pauta: a pauta candidata.
         linhas: linhas (fortes e fracas) da polaridade da pauta.
         largura: largura do quadro, em px.
+        espessura_pauta: espessura mediana das 5 linhas da pauta.
 
     Returns:
         True se alguma linha está acima da primeira ou abaixo da última, a uma
-        entrelinha de distância, e cobre pelo menos ``SOBREP_TAB`` do seu comprimento.
+        entrelinha de distância, com espessura parecida com a da pauta, e cobre pelo menos
+        ``SOBREP_TAB`` do seu comprimento (linha forte) ou da extensão da pauta (fraca).
     """
     tolerancia = max(TOL_ABS, TOL_REL * pauta.entrelinha)
     for linha in linhas:
@@ -446,8 +481,15 @@ def _ha_sexta_linha(pauta: Pauta, linhas: list[_Linha], largura: int) -> bool:
         comprimento = linha.x1 - linha.x0
         if comprimento < EXT_MIN_FRAC * largura:
             continue
+        # Barra de colcheias (6 px) a uma entrelinha não é corda: a 6ª linha tem de ter
+        # espessura parecida com a das linhas da pauta.
+        if linha.espessura > _espessura_limite(espessura_pauta):
+            continue
         sobreposicao = min(linha.x1, pauta.x1) - max(linha.x0, pauta.x0)
-        if sobreposicao >= SOBREP_TAB * comprimento:
+        # Linha forte (corda de tab, mesmo coberta de algarismos) basta cobrir a si mesma;
+        # linha fraca (barras de colcheia em sequência) tem de cobrir metade da pauta.
+        referencia = comprimento if linha.forte else pauta.x1 - pauta.x0
+        if sobreposicao >= SOBREP_TAB * referencia:
             return True
     return False
 
