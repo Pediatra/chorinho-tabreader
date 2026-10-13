@@ -66,6 +66,7 @@ def _alinhado() -> dict:
             "confianca": 0.7 if afirmada else None,
             "cos": 0.8 if afirmada else None,
             "motivo": motivo,
+            "tipo": "nota",
         }
 
     return {
@@ -83,6 +84,8 @@ def _alinhado() -> dict:
                 "motivo_exibicao": None,
                 "cos_medio": 0.8,
                 "n_casadas": 2,
+                "n_abafadas_casadas": 0,
+                "rasgueado": False,
             },
             {
                 "tela": 1,
@@ -93,6 +96,8 @@ def _alinhado() -> dict:
                 "motivo_exibicao": "poucas colunas casadas: 0 < 4",
                 "cos_medio": None,
                 "n_casadas": 0,
+                "n_abafadas_casadas": 0,
+                "rasgueado": False,
             },
         ],
         "colunas": [
@@ -262,6 +267,21 @@ def _mut_alarme_incoerente(d: dict) -> None:
     d["exibicoes"][0]["alarme_leitura"] = True
 
 
+def _mut_sem_tipo(d: dict) -> None:
+    """Tira ``tipo`` de uma linha de coluna."""
+    del d["colunas"][0]["tipo"]
+
+
+def _mut_sem_rasgueado(d: dict) -> None:
+    """Tira ``rasgueado`` de uma exibição."""
+    del d["exibicoes"][0]["rasgueado"]
+
+
+def _mut_sem_n_abafadas(d: dict) -> None:
+    """Tira ``n_abafadas_casadas`` de uma exibição."""
+    del d["exibicoes"][0]["n_abafadas_casadas"]
+
+
 def _mut_nota_sem_entrada(d: dict) -> None:
     """Some a coluna 3 da exibição 0, que tem nota no produto."""
     d["colunas"] = [
@@ -286,6 +306,9 @@ def _mut_nota_sem_entrada(d: dict) -> None:
         (_mut_exibicao_inexistente, "não existe no produto"),
         (_mut_nota_sem_entrada, "nota sem entrada em colunas"),
         (_mut_alarme_incoerente, "alarme_leitura incoerente"),
+        (_mut_sem_tipo, "chave ausente: tipo"),
+        (_mut_sem_rasgueado, "chave ausente: rasgueado"),
+        (_mut_sem_n_abafadas, "chave ausente: n_abafadas_casadas"),
     ],
 )
 def test_validar_acusa_cada_regra_quebrada(
@@ -410,4 +433,27 @@ def test_montar_marca_alarme_na_exibicao_recusada_com_cos_alto(tmp_path: Path) -
     caminho_produto, caminho_alinhado = _arquivos(tmp_path, _produto(), alinhado)
     d = montar(str(caminho_produto), str(caminho_alinhado), commit="abc", gabarito=[])
     assert [e["alarme_leitura"] for e in d["exibicoes"]] == [False, True]
+    assert validar(d, _produto()) == []
+
+
+def test_alarme_leitura_nao_dispara_em_rasgueado() -> None:
+    """Exibição recusada com cosseno alto não dá alarme se for rasgueado (colunas abafadas)."""
+    assert alarme_leitura(True, 0.85, rasgueado=True) is False
+    assert alarme_leitura(True, 0.85, rasgueado=False) is True
+
+
+def test_montar_rasgueado_sai_sem_alarme_e_com_contagem(tmp_path: Path) -> None:
+    """Rasgueado recusado com cos alto: flag e contagem saem; alarme não."""
+    alinhado = _alinhado()
+    alinhado["exibicoes"][1]["cos_medio"] = 0.85
+    alinhado["exibicoes"][1]["n_casadas"] = 2
+    alinhado["exibicoes"][1]["rasgueado"] = True
+    alinhado["exibicoes"][1]["n_abafadas_casadas"] = 3
+    alinhado["colunas"][3]["tipo"] = "abafada"
+    caminho_produto, caminho_alinhado = _arquivos(tmp_path, _produto(), alinhado)
+    d = montar(str(caminho_produto), str(caminho_alinhado), commit="abc", gabarito=[])
+    assert [e["alarme_leitura"] for e in d["exibicoes"]] == [False, False]
+    assert d["exibicoes"][1]["rasgueado"] is True
+    assert d["exibicoes"][1]["n_abafadas_casadas"] == 3
+    assert d["colunas"][3]["tipo"] == "abafada"
     assert validar(d, _produto()) == []

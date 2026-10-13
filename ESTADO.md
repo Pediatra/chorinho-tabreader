@@ -5294,3 +5294,9 @@ tokenizadas (revocação). Presets `fina`, `fina2`, `fina4` (com desfoque) medid
 
 - `chorinho/audio@1` ganha, por exibição, `cos_medio`, `n_casadas` e `alarme_leitura`: recusada com cos ≥ 0,7. Nos 14 vídeos: 0–2 alarmes nos 9 bons; 7–21 nos 4 fracos.
 - Das telas com alarme olhadas na imagem, **5 de 6 têm leitura com falhas**: colunas faltando, cordas deslocadas, números de dois algarismos e acordes em elipse. A sexta é rasgueado com leitura certa.
+
+## Áudio — 2026-10-13 — rasgueado: colunas abafadas no alinhador v2.1 (rodada 2012)
+
+- Coluna abafada = ≥ 4 `nao_notas` `tecnica` em cordas distintas, sem nota e com ≥ 4 de top-1 "15". Campanitas: 122. Nos 9 vídeos bons: 0. Recortes confirmam pilhas de X.
+- v2.1: as abafadas entram como ataque sem altura. Nos 9 bons a saída é **idêntica à v2 (4131 de 4131 colunas)**. Campanitas: notas com tempo 201 → **268 de 935**, alarmes 21 → 17, 12 exibições marcadas `rasgueado` (alarme desligado). Não conferido de ouvido.
+- **Não repetir**: regra de 3 cordas `tecnica` para X (pega acordes de números e ornamentos em 3 vídeos bons).

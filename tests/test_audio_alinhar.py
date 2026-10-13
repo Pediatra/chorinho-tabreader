@@ -12,14 +12,19 @@ import json
 import numpy as np
 
 from tab.audio_alinhar import (
+    COS_ABAFADA,
     CUSTO_SEM_ATAQUE_V1,
     MIDI_MIN,
     N_POSICOES,
+    _cos_abafada,
+    _decidir_onsets_v2,
     alinhar,
     alinhar_dtw,
     alinhar_sequencia,
     alinhar_trecho,
     alinhar_trecho_iterativo,
+    colunas_abafadas,
+    e_rasgueado,
     esconder_marcador,
     molde_coluna,
     perfis_em_instantes,
@@ -138,7 +143,7 @@ def test_esconder_marcador_remove_todo_o_marcador():
     assert "1.9876" not in texto
     assert set(oculto) == {"telas"}
     tela = oculto["telas"][0]
-    assert set(tela) == {"id", "exibicoes", "colunas"}
+    assert set(tela) == {"id", "exibicoes", "colunas", "abafadas"}
     assert tela["id"] == 7
     assert tela["exibicoes"] == [{"t0": 1.0, "t1": 5.0}]
     assert tela["colunas"] == {1: [[1, 3], [2, 0]], 2: [[3, 2]]}
@@ -328,3 +333,163 @@ def test_t_iterativo_converge_partindo_do_dobro():
     assert res["convergiu"]
     assert abs(res["T_recalculado"] - 0.7) / 0.7 < 0.02
     assert abs(res["T_usado"] - 0.7) / 0.7 < 0.02
+
+
+def _nao_nota_x(tela: int, coluna: int, corda: int, top1: str) -> dict:
+    """Um glifo de técnica (``nao_notas``) com o top-1 dado, como o classificador grava.
+
+    Args:
+        tela: id da tela.
+        coluna: coluna da tela.
+        corda: corda do glifo.
+        top1: rótulo de maior confiança do classificador.
+
+    Returns:
+        Registro de ``nao_notas`` com ``classe`` ``tecnica`` e ``simbolo_cru.top3``.
+    """
+    return {
+        "tela": tela,
+        "coluna": coluna,
+        "corda": corda,
+        "classe": "tecnica",
+        "simbolo_cru": {"top3": [[top1, 0.9], ["tecnica", 0.05]]},
+    }
+
+
+def test_colunas_abafadas_pega_pilha_de_quatro_x_sem_nota():
+    """Quatro técnicas com top-1 ``15`` em cordas distintas, sem nota: coluna abafada."""
+    produto = {
+        "notas": [{"tela": 7, "coluna": 1, "corda": 1, "casa": 0}],
+        "nao_notas": [_nao_nota_x(7, 5, c, "15") for c in (1, 2, 3, 4)],
+    }
+    assert colunas_abafadas(produto) == {(7, 5)}
+
+
+def test_colunas_abafadas_ignora_duas_cordas_nota_vizinha_e_digito():
+    """Duas técnicas não bastam; técnica numa coluna com nota não conta; top-1 de dígito não."""
+    produto = {
+        "notas": [{"tela": 7, "coluna": 7, "corda": 1, "casa": 3}],
+        "nao_notas": [
+            _nao_nota_x(7, 6, 1, "15"),
+            _nao_nota_x(7, 6, 2, "15"),
+            *[_nao_nota_x(7, 7, c, "15") for c in (1, 2, 3, 4)],
+            *[_nao_nota_x(7, 8, c, "7") for c in (1, 2, 3, 4)],
+            *[_nao_nota_x(7, 5, c, "15") for c in (1, 2, 3, 4)],
+        ],
+    }
+    assert colunas_abafadas(produto) == {(7, 5)}
+
+
+def test_cos_abafada_so_vale_no_pico_de_fluxo_forte():
+    """Pico com fluxo abaixo da mediana vira ``-inf`` (sem ataque); os demais, ``COS_ABAFADA``."""
+    fluxo = np.array([1.0, 2.0, 3.0, 4.0])
+    linha = _cos_abafada(fluxo)
+    assert np.isneginf(linha[0]) and np.isneginf(linha[1])
+    assert linha[2] == COS_ABAFADA and linha[3] == COS_ABAFADA
+
+
+def test_dp_abafada_casa_pico_forte_e_colunas_com_altura_mantem_o_seu():
+    """Abafada entre duas notas casa o pico do meio; cada nota mantém o seu pico e o cosseno
+    médio só conta as colunas com altura (o 0,5 da abafada não entra)."""
+    sequencia = [(1, [60]), (2, []), (3, [62]), (4, [64]), (5, [65])]
+    t_pk = np.array([0.5, 1.0, 1.5, 2.0, 2.5])
+    cos_pk = np.full((5, 5), 0.05)
+    cos_pk[0, 0] = cos_pk[2, 2] = cos_pk[3, 3] = cos_pk[4, 4] = 0.9
+    cos_pk[1] = _cos_abafada(np.array([5.0, 9.0, 5.0, 5.0, 5.0]))
+    resumo, registros = _decidir_onsets_v2(1, 0, sequencia, {}, cos_pk, t_pk, 3.0, {2})
+    por_coluna = {r["coluna"]: r for r in registros}
+    assert not resumo["recusada_exibicao"]
+    assert resumo["n_casadas"] == 4
+    assert resumo["n_abafadas_casadas"] == 1
+    assert resumo["cos_medio"] == 0.9
+    assert por_coluna[1]["t_audio"] == 0.5
+    assert por_coluna[2]["t_audio"] == 1.0 and por_coluna[2]["motivo"] is None
+    assert por_coluna[3]["t_audio"] == 1.5
+    assert por_coluna[4]["t_audio"] == 2.0
+    assert por_coluna[5]["t_audio"] == 2.5
+
+
+def test_rasgueado_no_limite_de_vinte_por_cento():
+    """Uma em cinco (20 %) já é rasgueado; uma em seis (16 %) não; sem colunas, não."""
+    assert e_rasgueado(1, 5) is True
+    assert e_rasgueado(1, 6) is False
+    assert e_rasgueado(0, 0) is False
+
+
+def _oculto_sintetico(colunas: dict, abafadas: list[int] | None = None) -> dict:
+    """Um oculto de uma tela e uma exibição, com as colunas dadas.
+
+    Args:
+        colunas: ``{coluna: [[corda, casa]]}`` das colunas com altura.
+        abafadas: colunas abafadas da tela, ou ``None`` para não declarar.
+
+    Returns:
+        Dicionário no formato de ``esconder_marcador``.
+    """
+    tela = {"id": 1, "exibicoes": [{"t0": 0.5, "t1": 7.0}], "colunas": colunas}
+    if abafadas is not None:
+        tela["abafadas"] = abafadas
+    return {"telas": [tela]}
+
+
+def test_sem_abafada_saida_com_tipo_nota_e_flags_zero():
+    """Sem coluna abafada, a saída é a de antes: todas ``nota``, sem rasgueado."""
+    ataques = [1.0 + 0.7 * k for k in range(8)]
+    notas = [(t, m, 0.4) for t, m in zip(ataques, _MIDIS_SINTETICOS, strict=True)]
+    amostras = _sintetizar(7.5, notas)
+    saida_sem = alinhar(
+        _oculto_sintetico(dict(_COLUNAS_SINTETICAS)), amostras, TAXA, 0.0
+    )
+    saida_vazia = alinhar(
+        _oculto_sintetico(dict(_COLUNAS_SINTETICAS), abafadas=[]),
+        amostras,
+        TAXA,
+        0.0,
+    )
+    assert saida_sem == saida_vazia
+    assert all(c["tipo"] == "nota" for c in saida_sem["colunas"])
+    ex = saida_sem["exibicoes"][0]
+    assert ex["n_abafadas_casadas"] == 0 and ex["rasgueado"] is False
+
+
+def test_abafada_ponta_a_ponta_casa_o_ataque_de_ruido():
+    """Nove slots de grade de 0,7 s; o slot 5 é um X (ruído de 30 ms, sem altura).
+
+    A coluna abafada casa o ataque de ruído, tem ``tipo`` ``abafada`` e não entra no cosseno
+    médio; as notas seguem nos seus slots. Uma abafada em nove colunas fica abaixo de 20 %.
+    """
+    slots = [1.0 + 0.7 * k for k in range(9)]
+    pares = {
+        1: [[6, 0]],
+        2: [[5, 2]],
+        3: [[4, 2]],
+        4: [[3, 0]],
+        6: [[2, 3]],
+        7: [[1, 0]],
+        8: [[2, 8]],
+        9: [[1, 7]],
+    }
+    midis = {1: 40, 2: 47, 3: 52, 4: 55, 6: 62, 7: 64, 8: 67, 9: 71}
+    coluna_slot = {1: 0, 2: 1, 3: 2, 4: 3, 6: 5, 7: 6, 8: 7, 9: 8}
+    notas = [(slots[coluna_slot[c]], midis[c], 0.4) for c in pares]
+    amostras = _sintetizar(8.0, notas).astype(np.float64)
+    rng = np.random.default_rng(777)
+    i0 = round(slots[4] * TAXA)
+    amostras[i0 : i0 + round(0.03 * TAXA)] += (
+        rng.standard_normal(round(0.03 * TAXA)) * 3000.0
+    )
+    amostras = np.clip(np.round(amostras), -32768, 32767).astype(np.int16)
+    oculto = _oculto_sintetico(pares, abafadas=[5])
+    saida = alinhar(oculto, amostras, TAXA, 0.0, metodo="onsets")
+    por_coluna = {r["coluna"]: r for r in saida["colunas"]}
+    abafada = por_coluna[5]
+    assert abafada["tipo"] == "abafada"
+    assert abafada["t_audio"] is not None, abafada["motivo"]
+    assert abs(abafada["t_audio"] - slots[4]) <= 0.06
+    assert abafada["motivo"] is None
+    for c in pares:
+        assert por_coluna[c]["tipo"] == "nota"
+        assert por_coluna[c]["t_audio"] is not None, por_coluna[c]["motivo"]
+    ex = saida["exibicoes"][0]
+    assert ex["n_abafadas_casadas"] == 1
+    assert ex["rasgueado"] is False

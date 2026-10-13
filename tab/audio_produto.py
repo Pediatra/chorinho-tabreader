@@ -82,9 +82,20 @@ CHAVES_EXIBICAO = (
     "motivo",
     "cos_medio",
     "n_casadas",
+    "n_abafadas_casadas",
+    "rasgueado",
     "alarme_leitura",
 )
-CHAVES_COLUNA = ("tela", "exibicao", "coluna", "t_audio", "confianca", "cos", "motivo")
+CHAVES_COLUNA = (
+    "tela",
+    "exibicao",
+    "coluna",
+    "t_audio",
+    "confianca",
+    "cos",
+    "motivo",
+    "tipo",
+)
 CHAVES_AFERICAO = ("gabarito", "nivel", "resolucao_escuta_ms")
 
 
@@ -159,18 +170,22 @@ def _chave_coluna(registro: dict) -> tuple[int, int, int]:
 def _linhas_exibicoes(alinhado: dict) -> list[dict]:
     """Uma linha de ``exibicoes[]`` por exibição do alinhamento, em ordem estável.
 
+    Alinhamentos anteriores à v2.1 não trazem ``rasgueado`` nem ``n_abafadas_casadas``: nesses
+    casos vale ``False`` e ``0``, que é o que a v2 fazia.
+
     Args:
         alinhado: saída do ``tab.audio_alinhar``.
 
     Returns:
         Lista com ``tela``, ``exibicao``, ``trecho_colunas``, ``T_s``, ``recusada``,
-        ``motivo``, ``cos_medio``, ``n_casadas`` e ``alarme_leitura``, ordenada por
-        (tela, exibicao).
+        ``motivo``, ``cos_medio``, ``n_casadas``, ``n_abafadas_casadas``, ``rasgueado`` e
+        ``alarme_leitura``, ordenada por (tela, exibicao).
     """
     linhas = []
     for e in alinhado["exibicoes"]:
         recusada = bool(e["recusada_exibicao"])
         cos_medio = e.get("cos_medio")
+        rasgueado = bool(e.get("rasgueado", False))
         linhas.append(
             {
                 "tela": int(e["tela"]),
@@ -181,40 +196,52 @@ def _linhas_exibicoes(alinhado: dict) -> list[dict]:
                 "motivo": e.get("motivo_exibicao"),
                 "cos_medio": cos_medio,
                 "n_casadas": e.get("n_casadas"),
-                "alarme_leitura": alarme_leitura(recusada, cos_medio),
+                "n_abafadas_casadas": int(e.get("n_abafadas_casadas", 0)),
+                "rasgueado": rasgueado,
+                "alarme_leitura": alarme_leitura(recusada, cos_medio, rasgueado),
             }
         )
     return sorted(linhas, key=lambda e: (e["tela"], e["exibicao"]))
 
 
-def alarme_leitura(recusada: bool, cos_medio: float | None) -> bool:
+def alarme_leitura(
+    recusada: bool, cos_medio: float | None, rasgueado: bool = False
+) -> bool:
     """Exibição recusada em que as colunas casadas casam bem: sinal de leitura com falhas.
 
     Medido na rodada 2009 (shin izumi, corda 1 perdida) e na 2010 (guitarous, cordas
-    deslocadas): a recusa vem de poucas colunas casadas, com cosseno alto. Também dispara
-    em música fora do método (rasgueado), então é alarme para olhar a tela, não veredito.
+    deslocadas): a recusa vem de poucas colunas casadas, com cosseno alto. Um rasgueado
+    (``rasgueado``) não dispara: a recusa vem das colunas abafadas, que não têm altura e
+    que o alinhador não casa como nota, e a leitura está certa.
 
     Args:
         recusada: a exibição foi recusada pelo alinhador.
         cos_medio: cosseno médio das colunas casadas (``None`` se nenhuma casou).
+        rasgueado: a exibição é um rasgueado (fração de colunas abafadas no limite).
 
     Returns:
-        ``True`` se recusada e ``cos_medio >= LIMIAR_ALARME_COS``.
+        ``True`` se recusada, não rasgueado e ``cos_medio >= LIMIAR_ALARME_COS``.
     """
-    return bool(recusada and cos_medio is not None and cos_medio >= LIMIAR_ALARME_COS)
+    return bool(
+        recusada
+        and not rasgueado
+        and cos_medio is not None
+        and cos_medio >= LIMIAR_ALARME_COS
+    )
 
 
 def _linhas_colunas(alinhado: dict) -> list[dict]:
     """Uma linha de ``colunas[]`` por (tela, exibição, coluna) do alinhamento.
 
-    Inclui as recusadas, com ``t_audio`` nulo e ``motivo``.
+    Inclui as recusadas, com ``t_audio`` nulo e ``motivo``. ``tipo`` é ``abafada`` (ataque sem
+    altura, rasgueado) ou ``nota``; alinhamento anterior à v2.1 traz ``nota`` por padrão.
 
     Args:
         alinhado: saída do ``tab.audio_alinhar``.
 
     Returns:
-        Lista com ``tela``, ``exibicao``, ``coluna``, ``t_audio``, ``confianca``, ``cos`` e
-        ``motivo``, ordenada por (tela, exibicao, coluna).
+        Lista com ``tela``, ``exibicao``, ``coluna``, ``t_audio``, ``confianca``, ``cos``,
+        ``motivo`` e ``tipo``, ordenada por (tela, exibicao, coluna).
     """
     linhas = [
         {
@@ -225,6 +252,7 @@ def _linhas_colunas(alinhado: dict) -> list[dict]:
             "confianca": c["confianca"],
             "cos": c.get("cos"),
             "motivo": c["motivo"],
+            "tipo": c.get("tipo", "nota"),
         }
         for c in alinhado["colunas"]
     ]
@@ -521,8 +549,11 @@ def validar(d: dict, produto: dict | None = None) -> list[str]:
         erros.extend(_faltando(e, CHAVES_EXIBICAO, f"exibicoes[{i}]"))
         coerente = (
             not isinstance(e, dict)
-            or not all(k in e for k in ("recusada", "cos_medio", "alarme_leitura"))
-            or e["alarme_leitura"] == alarme_leitura(e["recusada"], e["cos_medio"])
+            or not all(
+                k in e for k in ("recusada", "cos_medio", "rasgueado", "alarme_leitura")
+            )
+            or e["alarme_leitura"]
+            == alarme_leitura(e["recusada"], e["cos_medio"], e["rasgueado"])
         )
         if not coerente:
             erros.append(f"exibicoes[{i}]: alarme_leitura incoerente com recusa e cos")
@@ -572,6 +603,10 @@ def resumo(d: dict) -> list[str]:
     ]
     for e in recusadas:
         linhas.append(f"  tela {e['tela']}, exibição {e['exibicao']}: {e['motivo']}")
+    rasgueados = sum(1 for e in exibicoes if e["rasgueado"])
+    linhas.append(
+        f"rasgueados (colunas abafadas): {rasgueados} de {len(exibicoes)} exibições"
+    )
     alarmes = sorted({e["tela"] for e in exibicoes if e["alarme_leitura"]})
     linhas.append(
         f"alarmes de leitura: {sum(e['alarme_leitura'] for e in exibicoes)} de "
