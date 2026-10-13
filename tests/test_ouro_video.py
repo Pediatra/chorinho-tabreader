@@ -12,6 +12,7 @@ import pytest
 from tab.ouro_video import (
     PAGINA,
     TECNICAS,
+    TECNICAS_REGIAO,
     Agrupador,
     agrupar_telas,
     clique_para_quadro,
@@ -535,3 +536,67 @@ def test_pagina_recebe_o_vocabulario_de_tecnicas() -> None:
     """O JS usa o mesmo dicionário do Python (sem marcador por substituir)."""
     assert "__TECNICAS__" not in PAGINA
     assert json.dumps(TECNICAS, ensure_ascii=False) in PAGINA
+
+
+def test_regiao_de_tecnica_entra_no_ouro_e_vazia_nao() -> None:
+    """Região com técnica vai para a tela (cordas e x ordenados); região vazia não."""
+    est = estado()
+    est["telas"][0]["regioes"] = [
+        {
+            "id": "r1",
+            "x0": 300,
+            "x1": 220,
+            "y0": 0,
+            "y1": 9,
+            "corda_ini": 5,
+            "corda_fim": 1,
+            "tecnica": ["let ring", "arpejo"],
+            "obs": "",
+        },
+        {
+            "id": "r2",
+            "x0": 1,
+            "x1": 2,
+            "y0": 0,
+            "y1": 1,
+            "corda_ini": 1,
+            "corda_fim": 1,
+            "tecnica": [],
+            "obs": " ",
+        },
+    ]
+    ouro = montar_ouro(PRE, est, agora="2026-10-10T12:00:00")
+    assert validar_ouro(ouro) == []
+    assert ouro["telas"][0]["regioes"] == [
+        {
+            "cordas": [1, 5],
+            "x_quadro": [220.0, 300.0],
+            "tecnica": ["arpejo", "let ring"],
+        }
+    ]
+    assert "regioes" not in ouro["telas"][1]
+
+
+def test_regiao_com_corda_ou_tecnica_invalida_e_acusada() -> None:
+    """Corda fora de 1-6 e código desconhecido não passam."""
+    ouro = montar_ouro(PRE, estado(), agora="2026-10-10T12:00:00")
+    ouro["telas"][0]["regioes"] = [
+        {"cordas": [0, 7], "x_quadro": [1.0, 2.0], "tecnica": ["voar"]}
+    ]
+    erros = validar_ouro(ouro)
+    assert any("cordas" in e for e in erros) and any("região" in e for e in erros)
+
+
+def test_vocabulario_de_regiao_contem_o_de_nota_e_vai_para_a_pagina() -> None:
+    """Toda técnica de nota vale em região; o JS recebe o dicionário de região."""
+    assert TECNICAS.keys() <= TECNICAS_REGIAO.keys()
+    assert "__TECNICAS_REGIAO__" not in PAGINA
+    assert json.dumps(TECNICAS_REGIAO, ensure_ascii=False) in PAGINA
+
+
+def test_textos_da_pagina_nao_tem_aspas_duplas_soltas() -> None:
+    """Trava o defeito: aspas duplas num texto de ajuda quebraram todo o JS da página."""
+    js = PAGINA.split("<script>")[1]
+    for linha in js.splitlines():
+        for texto in re.findall(r'h\("div", \{class: "suave"\}, "(.*)"\),$', linha):
+            assert '"' not in texto, texto[:80]

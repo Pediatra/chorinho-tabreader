@@ -121,6 +121,19 @@ TECNICAS = {
     "x": "abafada",
 }
 
+#: Técnicas de REGIÃO: marcas que cobrem várias cordas e/ou colunas (arrastar um
+#: retângulo na página). Todas as de nota valem, mais as que só existem em região.
+TECNICAS_REGIAO = {
+    **TECNICAS,
+    "arpejo": "arpejo (linha ondulada vertical)",
+    "pestana": "pestana/barra (B, C, BIII...)",
+    "rasg": "rasgueado/palhetada (setas)",
+    "let ring": "deixar soar (let ring)",
+    "pm": "palm mute (P.M.)",
+    "trem": "trêmolo",
+    "outra": "outra (descreva na observação)",
+}
+
 #: Páginas servidas: só estes tipos saem da pasta (nada de listar diretório).
 _TIPOS = {".png": "image/png", ".json": "application/json; charset=utf-8"}
 
@@ -438,6 +451,24 @@ def validar_ouro(ouro: dict) -> list[str]:
             tecnica = nota.get("tecnica", [])
             if not isinstance(tecnica, list) or not set(tecnica) <= TECNICAS.keys():
                 erros.append(f"tela {tela['id']}: técnica inválida {tecnica!r}")
+        for regiao in tela.get("regioes") or []:
+            cordas = regiao.get("cordas")
+            if not (
+                isinstance(cordas, list)
+                and len(cordas) == 2
+                and all(isinstance(c, int) and 1 <= c <= 6 for c in cordas)
+            ):
+                erros.append(
+                    f"tela {tela['id']}: região com cordas inválidas {cordas!r}"
+                )
+            tecnica = regiao.get("tecnica", [])
+            if (
+                not isinstance(tecnica, list)
+                or not set(tecnica) <= TECNICAS_REGIAO.keys()
+            ):
+                erros.append(
+                    f"tela {tela['id']}: técnica de região inválida {tecnica!r}"
+                )
     for inst in ouro.get("instantes") or []:
         if not _numero(inst.get("t")):
             erros.append("instante com t inválido")
@@ -524,12 +555,31 @@ def montar_ouro(pre: dict, estado: dict, agora: str | None = None) -> dict:
                 nota["tecnica"] = [k for k in TECNICAS if k in marcadas]
             notas.append(nota)
         notas.sort(key=lambda n: (n["x_quadro"], n["corda"]))
+        regioes = []
+        for r in t.get("regioes", []):
+            marcadas = set(r.get("tecnica") or [])
+            obs = str(r.get("obs") or "").strip()
+            if not marcadas and not obs:
+                continue
+            regiao = {
+                "cordas": sorted([int(r["corda_ini"]), int(r["corda_fim"])]),
+                "x_quadro": sorted(
+                    [round(float(r["x0"]), 1), round(float(r["x1"]), 1)]
+                ),
+                "tecnica": [k for k in TECNICAS_REGIAO if k in marcadas],
+            }
+            if obs:
+                regiao["obs"] = obs
+            regioes.append(regiao)
+        regioes.sort(key=lambda r: (r["x_quadro"][0], r["cordas"][0]))
         tela = {
             "id": int(t["id"]),
             "quadro_ref_s": ref_s[t["id"]],
             "conferida": bool(t.get("conferida")),
             "notas": notas,
         }
+        if regioes:
+            tela["regioes"] = regioes
         if t.get("origem"):
             tela["origem"] = t["origem"]
             tela["v1_telas"] = t.get("v1_telas") or []
@@ -1731,6 +1781,11 @@ main{display:flex;gap:16px;padding:12px 16px}
 .copia span{position:absolute;transform:translate(-50%,-50%);color:#1565c0;font-weight:700;font-size:clamp(11px,1.15vw,18px);line-height:1;white-space:nowrap;background:#fff;padding:0 2px;border-radius:3px}
 .editor{flex-wrap:wrap;max-width:min(560px,90vw)}.editor button.tec{padding:2px 6px;font-family:monospace}.editor button.tec.ligado{background:#7b1fa2;color:#fff;border-color:#7b1fa2}
 .copia span sup.tec{color:#7b1fa2;font-size:.7em}
+.regiao{position:absolute;outline:2px dashed #7b1fa2;background:rgba(123,31,162,.08);cursor:pointer;z-index:2}.regiao.editando{outline-width:3px;outline-style:solid}
+.regiao b{position:absolute;left:0;top:0;transform:translateY(-100%);background:#7b1fa2;color:#fff;font-size:11px;line-height:1.3;padding:0 3px;border-radius:3px 3px 0 0;white-space:nowrap}
+.regiao.nova{pointer-events:none;outline-style:solid}.copia .regiao{pointer-events:none}
+.moldura.modo-regiao{cursor:cell}.moldura.modo-regiao .caixa{pointer-events:none}
+button.regiao-ligado{background:#7b1fa2;color:#fff;border-color:#7b1fa2}
 .copia span.mudou{color:#e65100}.copia span.dono{color:#1a7f37}.copia span.removida{text-decoration:line-through;opacity:.45}
 .coluna{position:absolute;top:0;bottom:0;width:0;border-left:3px solid var(--caixa);pointer-events:none}
 table{border-collapse:collapse;margin-top:10px}td,th{padding:3px 8px;border-bottom:1px solid var(--borda);text-align:left}
@@ -1752,6 +1807,8 @@ td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.rem
 <script>
 "use strict";
 const TECNICAS = __TECNICAS__;
+const TECNICAS_REGIAO = __TECNICAS_REGIAO__;
+let MODO_REGIAO = false;  /* arrastar na página desenha uma região de técnica */
 let PRE = null, E = null, SO_ROTULAR = false, EMPILHAR = false, OUTRA = false, ABA = "telas", sujo = false, versao = 0, ultimoOuro = null, temporizador = null;
 
 function h(tag, attrs, ...filhos) {
@@ -1874,7 +1931,7 @@ function fecharEditor(redesenhar = true) {
 document.addEventListener("mousedown", ev => {
   IGNORAR_CLIQUE = false;
   if (EDITAR === null || ev.target.closest(".editor")) return;
-  if (ev.target.closest(".caixa")) return;  /* outra caixa: ela mesma troca o editor */
+  if (ev.target.closest(".caixa, .regiao")) return;  /* outra caixa: ela mesma troca o editor */
   IGNORAR_CLIQUE = !!ev.target.closest(".moldura");  /* fechar não acrescenta nota */
   fecharEditor(false);
 }, true);
@@ -1902,6 +1959,33 @@ function abrirEditor(mold, tp, te, n, r) {
   campo.focus(); campo.select();
 }
 
+function fracParaQuadro(tp, fx, fy) {  /* fração da moldura -> px do QUADRO */
+  const xImg = fx * (tp.painel[2] - tp.painel[0]) * tp.escala, yImg = fy * (tp.painel[3] - tp.painel[1]) * tp.escala;
+  return [cliqueParaQuadro(xImg, tp.escala, tp.painel[0]), cliqueParaQuadro(yImg, tp.escala, tp.painel[1])];
+}
+function pctRegiao(tp, r) {  /* região (px do quadro) em % da imagem */
+  const [rx0, ry0, rx1, ry1] = tp.painel, w = rx1 - rx0, hh = ry1 - ry0;
+  const x0 = Math.min(r.x0, r.x1), x1 = Math.max(r.x0, r.x1), y0 = Math.min(r.y0, r.y1), y1 = Math.max(r.y0, r.y1);
+  return {left: (x0 - rx0) / w * 100, top: (y0 - ry0) / hh * 100, width: (x1 - x0) / w * 100, height: (y1 - y0) / hh * 100};
+}
+function rotuloRegiao(r) { return (r.tecnica && r.tecnica.length ? r.tecnica.join(" ") : "?") + (r.obs ? " · " + r.obs : ""); }
+function abrirEditorRegiao(mold, tp, te, r) {
+  const div = mold.querySelector(`[data-regiao="${r.id}"]`); if (div) div.classList.add("editando");
+  const p = pctRegiao(tp, r);
+  const atualizar = () => { mudou(); document.querySelectorAll(`[data-rotulo-regiao="${r.id}"]`).forEach(e => { e.textContent = rotuloRegiao(r); }); };
+  const tecs = Object.entries(TECNICAS_REGIAO).map(([k, d]) => h("button", {class: "tec" + ((r.tecnica || []).includes(k) ? " ligado" : ""), title: d,
+    onclick: ev => {
+      const l = new Set(r.tecnica || []); if (l.has(k)) l.delete(k); else l.add(k);
+      r.tecnica = Object.keys(TECNICAS_REGIAO).filter(c => l.has(c));
+      ev.currentTarget.classList.toggle("ligado", l.has(k)); atualizar();
+    }}, k));
+  const obs = h("input", {value: r.obs || "", placeholder: "observação", style: "width:10em", oninput: ev => { r.obs = ev.target.value; atualizar(); },
+    onkeydown: ev => { if (ev.key === "Enter" || ev.key === "Escape") fecharEditor(); }});
+  const apagar = h("button", {onclick: () => { te.regioes.splice(te.regioes.indexOf(r), 1); mudou(); fecharEditor(); }}, "apagar região");
+  mold.append(h("div", {class: "editor", style: `left:${p.left}%;top:calc(${p.top + p.height}% + 8px)`},
+    h("span", {class: "suave"}, `cordas ${Math.min(r.corda_ini, r.corda_fim)}–${Math.max(r.corda_ini, r.corda_fim)}`), tecs, obs, apagar));
+}
+
 function desenharTela() {
   const c = document.getElementById("conteudo"); c.replaceChildren();
   if (E.tela_atual === null) { c.append("Sem telas."); return; }
@@ -1910,6 +1994,36 @@ function desenharTela() {
   tp.nao_nota.forEach(n => { const r = caixaDe(tp, n); mold.append(h("div", {class: "caixa nao", style: estiloCaixa(r), title: "não é nota: " + n.casa})); });
   /* cópia logo abaixo, alinhada: a mesma faixa apagada com a leitura em cima de cada nota */
   const copia = h("div", {class: "moldura copia"}, h("img", {src: "/" + tp.arquivo, draggable: "false"}));
+  if (!te.regioes) te.regioes = [];
+  if (MODO_REGIAO) mold.classList.add("modo-regiao");
+  te.regioes.forEach(rg => {
+    const p = pctRegiao(tp, rg);
+    mold.append(h("div", {class: "regiao", "data-regiao": rg.id, style: estiloCaixa(p), title: "região de técnica — clique para editar",
+      onmousedown: ev => ev.stopPropagation(),
+      onclick: ev => { ev.stopPropagation(); EDITAR = rg.id; desenhar(); }}, h("b", {"data-rotulo-regiao": rg.id}, rotuloRegiao(rg))));
+    copia.append(h("div", {class: "regiao", style: estiloCaixa(p)}, h("b", {"data-rotulo-regiao": rg.id}, rotuloRegiao(rg))));
+  });
+  mold.addEventListener("mousedown", ev => {  /* modo região: arrastar desenha o retângulo */
+    if (!MODO_REGIAO || ev.button !== 0 || ev.target.closest(".editor, .regiao")) return;
+    ev.preventDefault();
+    const rc = mold.getBoundingClientRect();
+    if (rc.width < 50) return;
+    const fr = e => [Math.min(1, Math.max(0, (e.clientX - rc.left) / rc.width)), Math.min(1, Math.max(0, (e.clientY - rc.top) / rc.height))];
+    const [ax, ay] = fr(ev);
+    const fantasma = h("div", {class: "regiao nova"}); mold.append(fantasma);
+    const mover = e => { const [bx, by] = fr(e);
+      fantasma.style.cssText = `left:${Math.min(ax, bx) * 100}%;top:${Math.min(ay, by) * 100}%;width:${Math.abs(bx - ax) * 100}%;height:${Math.abs(by - ay) * 100}%`; };
+    const soltar = e => {
+      document.removeEventListener("mousemove", mover); document.removeEventListener("mouseup", soltar); fantasma.remove();
+      const [bx, by] = fr(e);
+      if (Math.abs(bx - ax) * rc.width < 6 && Math.abs(by - ay) * rc.height < 6) return;  /* clique, não arrasto */
+      const [x0, y0] = fracParaQuadro(tp, ax, ay), [x1, y1] = fracParaQuadro(tp, bx, by);
+      const rg = {id: "r" + (E.proximo++), x0: Math.round(x0 * 10) / 10, x1: Math.round(x1 * 10) / 10, y0: Math.round(y0 * 10) / 10, y1: Math.round(y1 * 10) / 10,
+        corda_ini: cordaMaisProxima(Math.min(y0, y1), tp.linhas_y), corda_fim: cordaMaisProxima(Math.max(y0, y1), tp.linhas_y), tecnica: [], obs: ""};
+      te.regioes.push(rg); EDITAR = rg.id; mudou(); desenhar();
+    };
+    document.addEventListener("mousemove", mover); document.addEventListener("mouseup", soltar);
+  });
   te.notas.forEach((n, i) => {
     const r = caixaDe(tp, n);
     mold.append(h("div", {class: "caixa" + (n.removida ? " removida" : "") + (n.origem === "dono" ? " dono" : ""), style: estiloCaixa(r),
@@ -1921,6 +2035,7 @@ function desenharTela() {
   });
   mold.addEventListener("click", ev => {
     if (IGNORAR_CLIQUE) { IGNORAR_CLIQUE = false; return; }
+    if (MODO_REGIAO) return;
     if (ev.target.closest(".editor")) return;
     const rc = mold.getBoundingClientRect();
     if (rc.width < 50) return;  /* imagem ainda não carregou */
@@ -1955,11 +2070,15 @@ function desenharTela() {
     h("div", {class: "linha"},
       h("button", {class: te.conferida ? "ok" : "", onclick: () => { te.conferida = !te.conferida; mudou(); desenhar(); }}, te.conferida ? "✓ conferida" : "tela conferida"),
       sel,
-      h("button", {onclick: () => { const p = E.telas.find(t => !t.conferida && !t.junta_em && t.id !== te.id); if (p) { E.tela_atual = p.id; desenhar(); } }}, "próxima não conferida")),
-    h("div", {class: "suave"}, "Clique numa caixa vermelha para corrigir a casa (Enter ou clique fora fecha). Técnica (opcional, em roxo): h, p, slide e ligada vão na nota de CHEGADA, a que não é atacada de novo; marque o que está desenhado. Clique fora das caixas para acrescentar uma nota que faltou (a corda sai da linha mais próxima)."),
+      h("button", {onclick: () => { const p = E.telas.find(t => !t.conferida && !t.junta_em && t.id !== te.id); if (p) { E.tela_atual = p.id; desenhar(); } }}, "próxima não conferida"),
+      h("button", {class: MODO_REGIAO ? "regiao-ligado" : "", title: "arraste um retângulo sobre as cordas/colunas que a técnica cobre",
+        onclick: () => { MODO_REGIAO = !MODO_REGIAO; desenhar(); }}, MODO_REGIAO ? "▭ modo região LIGADO (clique para sair)" : "▭ marcar região de técnica")),
+    h("div", {class: "suave"}, "Clique numa caixa vermelha para corrigir a casa (Enter ou clique fora fecha). Técnica (opcional, em roxo): h, p, slide e ligada vão na nota de CHEGADA, a que não é atacada de novo; marque o que está desenhado. Técnica que cobre várias cordas ou colunas (arpejo, pestana, rasgueado, let ring...): ligue ▭ marcar região de técnica e arraste um retângulo. Clique fora das caixas para acrescentar uma nota que faltou (a corda sai da linha mais próxima)."),
     mold, copia, sem ? h("div", {class: "linha", style: "color:var(--ruim)"}, sem + " nota(s) sem casa não serão gravadas") : "", tabela);
-  const editando = te.notas.find(n => n.id === EDITAR);
-  if (editando) abrirEditor(mold, tp, te, editando, caixaDe(tp, editando)); else EDITAR = null;
+  const editando = te.notas.find(n => n.id === EDITAR), regiao = te.regioes.find(r => r.id === EDITAR);
+  if (editando) abrirEditor(mold, tp, te, editando, caixaDe(tp, editando));
+  else if (regiao) abrirEditorRegiao(mold, tp, te, regiao);
+  else EDITAR = null;
 }
 
 /* ---- aba INSTANTES ---- */
@@ -2056,7 +2175,9 @@ document.getElementById("aba-inst").addEventListener("click", () => irParaAba("i
 })();
 </script></body></html>
 """
-PAGINA = PAGINA.replace("__TECNICAS__", json.dumps(TECNICAS, ensure_ascii=False))
+PAGINA = PAGINA.replace(
+    "__TECNICAS__", json.dumps(TECNICAS, ensure_ascii=False)
+).replace("__TECNICAS_REGIAO__", json.dumps(TECNICAS_REGIAO, ensure_ascii=False))
 
 
 def servir(pasta: Path, ouro: Path, porta: int, host: str = "127.0.0.1") -> int:
