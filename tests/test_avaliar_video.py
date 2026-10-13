@@ -17,6 +17,7 @@ from tab.avaliar_video import (
     casar_legado,
     casar_telas,
     coluna_atual,
+    coluna_do_ouro,
     escolher_tela_legado,
     ler_predicao,
     linhas_do_relatorio,
@@ -712,3 +713,16 @@ def test_inicio_fora_da_grade_e_posto_no_quadro_nativo():
     )
     rel = _rodar_com_fps(_ouro_com_instante(20.0, 240), pred, 30.0)
     assert rel["tempo"]["classes"]["acerto_quadro"] == 1
+
+
+def test_coluna_do_ouro_leva_o_clique_do_cursor_para_a_coluna():
+    """Cursor fino antes da coluna (pablo romé): clique 17 px à esquerda, passo 24."""
+    xs = [1204.5, 1291.2, 1382.0]
+    assert coluna_do_ouro(1274.5, xs, 24.4) == 1291.2
+
+
+def test_coluna_do_ouro_longe_de_toda_coluna_fica_como_esta():
+    """A mais de um passo de toda nota do ouro, o clique vale como está."""
+    assert coluna_do_ouro(1240.0, [1204.5, 1291.2], 24.4) == 1240.0
+    assert coluna_do_ouro(1240.0, [], 24.4) == 1240.0
+    assert coluna_do_ouro(1240.0, [1241.0], 0.0) == 1240.0

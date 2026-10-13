@@ -5149,3 +5149,13 @@ Gate: ruff ok, 620 testes (fora 2 arquivos não rastreados da trilha mãos, um d
 - **Degrau, não deriva**: mediana por exibição 79–125 ms até ~448 s (10 exibições) e 164–277 ms depois (12 exibições), inclusive na 2ª exibição de telas já vistas. Causa não medida.
 - Viés do detector no sintético: −28 ms (pico antes do ataque); o fluxo nas alturas não separa 1 semitom com N_FFT 2048 (razão 0,98). Os dois testes ficam `xfail` estrito com o número.
 - **Não repetir**: usar `t_marcador + atraso fixo` como verdade de tempo do som neste vídeo (degrau de ~110 ms e dispersão de 60–100 ms).
+
+## Tablatura — 2026-10-13 — Fase 8: primeiro vídeo fora do sky guitar (pablo romé, Greensleeves) e régua de tempo
+
+Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`data/saida/fase8/medida/`; 2 execuções do `transcrever` idênticas):
+- notas: precisão **88/90**, revocação **88/106**, casa **88/88**, telas 4/4. As 18 perdidas são glifos lidos como símbolo (`nao_notas`): 14 são o algarismo **1** saindo como `harmonico` com casa recuperada 4; 2 inventadas na borda direita (casa 8, fora de 0–7);
+- tempo: **1/40 com a régua antiga, 20/40 com a nova**; tempo falso 0. MVP sem mudança (39/40, 0 colunas ajustadas).
+
+**Régua** (`tab/avaliar_video.py::coluna_do_ouro`): neste canal o marcador é um cursor fino **antes** da coluna, e o dono clica no cursor (~17 px à esquerda do centro dos algarismos, passo 24; tolerância era 0,5 passo). O clique agora vai para a coluna de notas do ouro mais próxima, se a até 1 passo; relatório traz `colunas_ajustadas` (Greensleeves: ver JSON). Não muda nenhum rótulo.
+
+**Pendências (T8.3)**: o `1` deste canal lido como harmônico; 17 erros de tempo + 3 sem tempo (primeiras colunas de cada sistema; coluna cujo único token numérico não tem `t_ini`).

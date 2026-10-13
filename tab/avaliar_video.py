@@ -492,7 +492,7 @@ def avaliar(
     motivo = _motivo_nao_avaliavel(predicao)
     if motivo is None:
         notas = _avaliar_notas(telas_ouro, mapa, predicao.telas)
-        tempo = _avaliar_tempo(instantes, mapa, predicao.telas, fps)
+        tempo = _avaliar_tempo(instantes, mapa, predicao.telas, fps, telas_ouro)
     else:
         notas = {"avaliavel": False, "motivo": motivo}
         tempo = {"avaliavel": False, "motivo": motivo}
@@ -1057,11 +1057,35 @@ def _somar_notas(
     }
 
 
+def coluna_do_ouro(clique: float, xs_ouro: list[float], passo: float) -> float:
+    """Leva o clique do dono para a coluna de notas do ouro mais próxima.
+
+    O dono clica onde o marcador está. Em canais cujo marcador é um cursor fino ANTES da
+    coluna (pablo romé: ~17 px à esquerda do centro dos algarismos, passo ~24 px), o
+    clique fica fora de ``FRACAO_PASSO * passo`` da própria coluna. A coluna acesa é a
+    coluna de notas do ouro mais próxima do clique, desde que a até ``passo`` dele;
+    senão o clique vale como está.
+
+    Args:
+        clique: ``coluna_x_quadro`` do ouro.
+        xs_ouro: x das notas da tela do ouro (``_x_ouro``).
+        passo: passo da tela prevista, em px (``0`` desliga o ajuste).
+
+    Returns:
+        O x da coluna do ouro, ou o próprio clique.
+    """
+    if not xs_ouro or passo <= 0:
+        return clique
+    perto = min(xs_ouro, key=lambda x: abs(x - clique))
+    return perto if abs(perto - clique) <= passo else clique
+
+
 def _avaliar_tempo(
     instantes: list[dict],
     mapa: dict[int, int | None],
     telas: list[TelaPrevista],
     fps: float | None = None,
+    telas_ouro: list[dict] | None = None,
 ) -> dict:
     """Classifica cada instante do ouro contra a coluna que a predição afirma.
 
@@ -1070,12 +1094,18 @@ def _avaliar_tempo(
         mapa: resultado de ``casar_telas``.
         telas: telas da predição.
         fps: taxa nativa do vídeo, ou ``None`` (regra de 1 quadro desligada).
+        telas_ouro: telas do ouro; com elas o clique vai para a coluna de notas do ouro
+            mais próxima (``coluna_do_ouro``). ``None`` desliga o ajuste.
 
     Returns:
         Dicionário com a contagem de cada classe e os totais com e sem coluna acesa.
     """
     ocorr = {tela.id: ocorrencias(tela) for tela in telas}
+    xs_por_tela = {
+        int(t["id"]): [_x_ouro(n) for n in t.get("notas", [])] for t in telas_ouro or []
+    }
     classes = dict.fromkeys(CLASSES_TEMPO, 0)
+    ajustados = 0
     for instante in instantes:
         t = float(instante["t"])
         coluna = instante.get("coluna_x_quadro")
@@ -1088,6 +1118,12 @@ def _avaliar_tempo(
             chega = coluna_que_chega(t, tela, ocorr[tela.id], fps)
             passo = tela.passo or 0.0
         coluna_f = None if coluna is None else float(coluna)
+        if coluna_f is not None and instante.get("tela") is not None:
+            ajustada = coluna_do_ouro(
+                coluna_f, xs_por_tela.get(int(instante["tela"]), []), passo
+            )
+            ajustados += ajustada != coluna_f
+            coluna_f = ajustada
         classes[classificar_instante(t, coluna_f, atual, passo, chega)] += 1
     com_coluna = sum(1 for i in instantes if i.get("coluna_x_quadro") is not None)
     certos = sum(classes[c] for c in CERTAS_TEMPO)
@@ -1100,6 +1136,7 @@ def _avaliar_tempo(
         "classes": classes,
         "estado_certo": certos,
         "ausencia_certa": classes["ausencia_certa"],
+        "colunas_ajustadas": ajustados,
     }
 
 
