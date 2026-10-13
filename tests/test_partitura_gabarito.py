@@ -2,23 +2,25 @@
 
 from __future__ import annotations
 
-import copy
 import http.client
 import json
+import struct
 import threading
 from pathlib import Path
 
 import pytest
 
 from tab.partitura_gabarito import (
+    _tamanho_png,
     aplicar_resposta,
+    carregar_gabarito,
     criar_servidor,
     eventos_da_leitura,
     gabarito_vazio,
     ler_partitura,
     marcar_concordancia,
     progresso,
-    proximo_pendente,
+    proximo_pendente_recorte,
     validar_faltando,
     validar_obs,
 )
@@ -100,8 +102,11 @@ def _sim(midi: int | None, t: float, idx: int = 0, **extra: object) -> dict:
     return base
 
 
-def _item(numeros: tuple[str, ...] = ("1",)) -> dict:
-    """Item de conferência com dois símbolos por compasso (idx 0 e 1)."""
+def _item(id_: str = "R01", numeros: tuple[str, ...] = ("1",)) -> dict:
+    """Item de conferência: dois símbolos por compasso (idx 10·n e 10·n+1).
+
+    A imagem de teste tem 200x100 pixels.
+    """
     compassos = []
     for numero in numeros:
         simbolos = []
@@ -111,18 +116,20 @@ def _item(numeros: tuple[str, ...] = ("1",)) -> dict:
             simbolos.append(simbolo)
         compassos.append({"numero": numero, "duracao": 2.0, "simbolos": simbolos})
     return {
-        "id": "R01",
+        "id": id_,
         "origem": "ouro",
         "canal": "canal de teste",
         "video": "v.mp4",
         "tela": 1,
         "fonte": "audiveris/x2",
-        "png": "data/saida/partitura/p1/recortes/R01.png",
+        "png": f"data/saida/partitura/p1/recortes/{id_}.png",
         "musicxml": "",
         "clave": None,
         "armadura": None,
         "compasso_formula": None,
         "compassos": compassos,
+        "largura_png": 200,
+        "altura_png": 100,
         "n_compassos": len(compassos),
         "n_notas": 2 * len(compassos),
         "n_pausas": 0,
@@ -130,15 +137,19 @@ def _item(numeros: tuple[str, ...] = ("1",)) -> dict:
     }
 
 
-def _dados(numero: str, donos: list[tuple[int, str]], **extra: object) -> dict:
-    """Corpo de POST para o compasso ``numero`` do item de ``_item``."""
+def _corpo(id_: str, donos: list[tuple[int, str]], **extra: object) -> dict:
+    """Corpo de POST para o recorte ``id_``: todos os ``(idx, dono)`` dele."""
     corpo: dict = {
-        "recorte": "R01",
-        "compasso": numero,
+        "recorte": id_,
         "simbolos": [{"idx": idx, "dono": dono} for idx, dono in donos],
     }
     corpo.update(extra)
     return corpo
+
+
+def _todos(id_: str, numeros: tuple[str, ...] = ("1",), dono: str = "certo") -> list:
+    """Lista ``(idx, dono)`` cobrindo todos os símbolos de ``_item(id_, numeros)``."""
+    return [(k + 10 * int(n), dono) for n in numeros for k in range(2)]
 
 
 # ---------------------------------------------------------------------------------
@@ -216,6 +227,17 @@ def test_ler_partitura_recusa_raiz_errada(tmp_path: Path) -> None:
         ler_partitura(arquivo)
 
 
+def test_tamanho_png_le_o_cabecalho(tmp_path: Path) -> None:
+    cabecalho = b"\x89PNG\r\n\x1a\n" + b"\x00\x00\x00\x0dIHDR"
+    caminho = tmp_path / "r.png"
+    caminho.write_bytes(cabecalho + struct.pack(">II", 1920, 168) + b"\x00" * 10)
+    assert _tamanho_png(caminho) == (1920, 168)
+    ruim = tmp_path / "ruim.png"
+    ruim.write_bytes(b"GIF89a" + b"\x00" * 30)
+    with pytest.raises(ValueError, match="não é PNG"):
+        _tamanho_png(ruim)
+
+
 # ---------------------------------------------------------------------------------
 # Concordância
 # ---------------------------------------------------------------------------------
@@ -254,23 +276,31 @@ def test_pausa_e_graca_nao_entram_na_concordancia() -> None:
 
 
 # ---------------------------------------------------------------------------------
-# Validação e gabarito
+# Validação e gabarito (formato 2: uma entrada por recorte)
 # ---------------------------------------------------------------------------------
 
 
 def test_estado_invalido_e_erro() -> None:
     gab = gabarito_vazio()
     itens = {"R01": _item()}
-    corpo = _dados("1", [(10, "certo"), (11, "errado")])
+    corpo = _corpo("R01", [(10, "certo"), (11, "errado")])
     with pytest.raises(ValueError, match="estado inválido"):
         aplicar_resposta(gab, itens, corpo, "t")
+    assert gab["recortes"] == {}
+
+
+def test_idx_faltando_e_erro() -> None:
+    gab = gabarito_vazio()
+    itens = {"R01": _item()}
+    with pytest.raises(ValueError, match="idx não batem"):
+        aplicar_resposta(gab, itens, _corpo("R01", [(10, "certo")]), "t")
     assert gab["recortes"] == {}
 
 
 def test_idx_errado_e_erro() -> None:
     gab = gabarito_vazio()
     itens = {"R01": _item()}
-    corpo = _dados("1", [(10, "certo"), (99, "certo")])
+    corpo = _corpo("R01", [(10, "certo"), (99, "certo")])
     with pytest.raises(ValueError, match="idx"):
         aplicar_resposta(gab, itens, corpo, "t")
     assert gab["recortes"] == {}
@@ -280,17 +310,33 @@ def test_idx_repetido_e_erro() -> None:
     gab = gabarito_vazio()
     itens = {"R01": _item()}
     with pytest.raises(ValueError, match="repetido"):
-        aplicar_resposta(gab, itens, _dados("1", [(10, "certo"), (10, "certo")]), "t")
+        aplicar_resposta(gab, itens, _corpo("R01", [(10, "certo"), (10, "certo")]), "t")
 
 
-def test_faltando_51_e_erro() -> None:
+def test_faltando_fora_da_imagem_e_erro() -> None:
+    with pytest.raises(ValueError, match="fora da imagem"):
+        validar_faltando([{"x": 201, "y": 5}], 200, 100)
+    with pytest.raises(ValueError, match="fora da imagem"):
+        validar_faltando([{"x": 5, "y": -1}], 200, 100)
+    with pytest.raises(ValueError, match="números"):
+        validar_faltando([{"x": "5", "y": 5}], 200, 100)
+    # Bordas incluídas: [0, largura] × [0, altura].
+    assert validar_faltando([{"x": 0, "y": 0}, {"x": 200, "y": 100}], 200, 100) == [
+        {"x": 0.0, "y": 0.0},
+        {"x": 200.0, "y": 100.0},
+    ]
+
+
+def test_faltando_201_pontos_e_erro() -> None:
+    pontos = [{"x": 1, "y": 1}] * 201
+    with pytest.raises(ValueError, match="200 pontos"):
+        validar_faltando(pontos, 200, 100)
     gab = gabarito_vazio()
     itens = {"R01": _item()}
-    corpo = _dados("1", [(10, "certo"), (11, "certo")], faltando=51)
-    with pytest.raises(ValueError, match="faltando"):
+    corpo = _corpo("R01", _todos("R01"), faltando=pontos)
+    with pytest.raises(ValueError, match="200 pontos"):
         aplicar_resposta(gab, itens, corpo, "t")
-    with pytest.raises(ValueError):
-        validar_faltando(True)
+    assert gab["recortes"] == {}
 
 
 def test_obs_longa_e_erro() -> None:
@@ -299,72 +345,73 @@ def test_obs_longa_e_erro() -> None:
         validar_obs("x" * 501)
 
 
-def test_resposta_gravada_com_palpite_e_sem_campos_da_conferencia() -> None:
+def test_resposta_gravada_formato_2_com_palpite_sem_campos_da_conferencia() -> None:
     gab = gabarito_vazio()
+    assert gab["formato"] == 2
     itens = {"R01": _item()}
-    corpo = _dados(
-        "1",
+    corpo = _corpo(
+        "R01",
         [(10, "figura_errada"), (11, "certo")],
-        faltando=1,
+        faltando=[{"x": 12.5, "y": 61}],
         obs="pausa trocada",
         clave_certa=False,
     )
     registro = aplicar_resposta(gab, itens, corpo, "2026-10-13T10:00:00")
     assert registro["confirmado"] is True
-    assert registro["faltando"] == 1
+    assert registro["faltando"] == [{"x": 12.5, "y": 61.0}]
     assert registro["obs"] == "pausa trocada"
+    assert registro["largura_png"] == 200
+    assert registro["altura_png"] == 100
+    assert registro["clave_certa"] is False
+    assert registro["armadura_certa"] is True
     primeiro = registro["simbolos"][0]
+    assert primeiro["idx"] == 10
+    assert primeiro["compasso"] == "1"
     assert primeiro["dono"] == "figura_errada"
     assert "idx" not in primeiro["palpite"]
     assert primeiro["palpite"]["midi"] == 60
-    recorte = gab["recortes"]["R01"]
-    assert recorte["clave_certa"] is False
-    assert recorte["armadura_certa"] is True
+    assert gab["recortes"]["R01"] is registro
 
 
-def test_mesclagem_preserva_compasso_ja_confirmado() -> None:
+def test_reconfirmar_sobrescreve_so_o_proprio_recorte() -> None:
     gab = gabarito_vazio()
-    itens = {"R01": _item(("3", "4"))}
+    itens = {"R01": _item("R01"), "R02": _item("R02", ("5",))}
+    aplicar_resposta(gab, itens, _corpo("R01", _todos("R01")), "t1")
+    aplicar_resposta(gab, itens, _corpo("R02", _todos("R02", ("5",))), "t2")
     aplicar_resposta(
-        gab, itens, _dados("3", [(30, "altura_errada"), (31, "certo")]), "t1"
+        gab,
+        itens,
+        _corpo("R01", [(10, "nao_existe"), (11, "certo")], obs="de novo"),
+        "t3",
     )
-    confirmado_3 = copy.deepcopy(gab["recortes"]["R01"]["compassos"]["3"])
-    aplicar_resposta(gab, itens, _dados("4", [(40, "certo"), (41, "nao_existe")]), "t2")
-    assert gab["recortes"]["R01"]["compassos"]["3"] == confirmado_3
-    assert gab["recortes"]["R01"]["compassos"]["4"]["confirmado"] is True
+    recortes = gab["recortes"]
+    assert recortes["R01"]["simbolos"][0]["dono"] == "nao_existe"
+    assert recortes["R01"]["respondido_em"] == "t3"
+    assert recortes["R01"]["obs"] == "de novo"
+    assert recortes["R02"]["respondido_em"] == "t2"
+    assert recortes["R02"]["simbolos"][0]["dono"] == "certo"
 
 
-def test_reconfirmar_sobrescreve_so_o_proprio_compasso() -> None:
+def test_progresso_e_proximo_pendente_recorte() -> None:
     gab = gabarito_vazio()
-    itens = {"R01": _item(("3", "4"))}
-    aplicar_resposta(gab, itens, _dados("3", [(30, "certo"), (31, "certo")]), "t1")
-    aplicar_resposta(gab, itens, _dados("4", [(40, "certo"), (41, "certo")]), "t2")
-    aplicar_resposta(gab, itens, _dados("3", [(30, "nao_existe"), (31, "certo")]), "t3")
-    compassos = gab["recortes"]["R01"]["compassos"]
-    assert compassos["3"]["simbolos"][0]["dono"] == "nao_existe"
-    assert compassos["3"]["respondido_em"] == "t3"
-    assert compassos["4"]["respondido_em"] == "t2"
-
-
-def test_progresso_e_proximo_pendente() -> None:
-    gab = gabarito_vazio()
-    itens = [_item(("3", "4"))]
-    aplicar_resposta(
-        gab, {"R01": itens[0]}, _dados("3", [(30, "certo"), (31, "certo")]), "t"
-    )
+    itens = [_item("R01"), _item("R02", ("5",))]
+    aplicar_resposta(gab, {"R01": itens[0]}, _corpo("R01", _todos("R01")), "t")
     assert progresso(itens, gab) == {
         "confirmados": 1,
         "total": 2,
-        "por_recorte": {"R01": [1, 2]},
+        "por_recorte": {"R01": True, "R02": False},
     }
-    assert proximo_pendente(itens, gab, ("R01", "3")) == {
-        "recorte": "R01",
-        "compasso": "4",
-    }
-    aplicar_resposta(
-        gab, {"R01": itens[0]}, _dados("4", [(40, "certo"), (41, "certo")]), "t"
-    )
-    assert proximo_pendente(itens, gab, ("R01", "4")) is None
+    assert proximo_pendente_recorte(itens, gab, "R01") == "R02"
+    aplicar_resposta(gab, {"R02": itens[1]}, _corpo("R02", _todos("R02", ("5",))), "t")
+    assert proximo_pendente_recorte(itens, gab, "R02") is None
+
+
+def test_carregar_gabarito_formato_1_e_erro(tmp_path: Path) -> None:
+    antigo = tmp_path / "antigo.json"
+    antigo.write_text(json.dumps({"formato": 1, "recortes": {}}), encoding="utf-8")
+    with pytest.raises(ValueError, match="formato 1"):
+        carregar_gabarito(antigo)
+    assert carregar_gabarito(tmp_path / "nao_existe.json") == gabarito_vazio()
 
 
 # ---------------------------------------------------------------------------------
@@ -372,16 +419,25 @@ def test_progresso_e_proximo_pendente() -> None:
 # ---------------------------------------------------------------------------------
 
 
-@pytest.fixture
-def servidor(tmp_path: Path):
+def _subir(tmp_path: Path, ouro: Path):
+    """Sobe o servidor com R01 e R02 em ``tmp_path`` e devolve (servidor, thread)."""
     itens_path = tmp_path / "itens.json"
     itens_path.write_text(
-        json.dumps({"formato": 1, "itens": [_item(("1", "2"))]}), encoding="utf-8"
+        json.dumps(
+            {"formato": 1, "itens": [_item("R01", ("1", "2")), _item("R02", ("5",))]}
+        ),
+        encoding="utf-8",
     )
-    ouro = tmp_path / "gabarito.json"
     srv = criar_servidor(itens_path, ouro, porta=0, host="127.0.0.1")
     fio = threading.Thread(target=srv.serve_forever, daemon=True)
     fio.start()
+    return srv
+
+
+@pytest.fixture
+def servidor(tmp_path: Path):
+    ouro = tmp_path / "gabarito.json"
+    srv = _subir(tmp_path, ouro)
     try:
         yield srv.server_address[1], ouro
     finally:
@@ -420,36 +476,50 @@ def test_servidor_pagina_itens_salvar_e_host_recusado(servidor) -> None:
     corpo = json.loads(dados)
     assert corpo["itens"][0]["id"] == "R01"
     assert corpo["progresso"]["total"] == 2
+    assert corpo["progresso"]["confirmados"] == 0
+
+    status, _ = _pedido(
+        porta, "POST", "/salvar", _corpo("R01", _todos("R01", ("1", "2")))
+    )
+    assert status == 200
+    gravado = json.loads(ouro.read_text(encoding="utf-8"))
+    assert gravado["formato"] == 2
+    assert gravado["recortes"]["R01"]["confirmado"] is True
+    assert len(gravado["recortes"]["R01"]["simbolos"]) == 4
 
     status, dados = _pedido(
         porta,
         "POST",
         "/salvar",
-        _dados("1", [(10, "altura_errada"), (11, "certo")], faltando=2, obs="ok"),
+        _corpo(
+            "R01",
+            [(10, "altura_errada"), (11, "certo"), (20, "certo"), (21, "certo")],
+            faltando=[{"x": 10, "y": 5}],
+            obs="ok",
+        ),
     )
     assert status == 200
-    assert json.loads(dados)["proximo"] == {"recorte": "R01", "compasso": "2"}
+    resposta = json.loads(dados)
+    assert resposta["proximo"] == {"recorte": "R02"}
+    assert resposta["progresso"]["confirmados"] == 1
     gravado = json.loads(ouro.read_text(encoding="utf-8"))
-    compasso = gravado["recortes"]["R01"]["compassos"]["1"]
-    assert compasso["confirmado"] is True
-    assert compasso["faltando"] == 2
-    assert compasso["simbolos"][0]["dono"] == "altura_errada"
+    recorte = gravado["recortes"]["R01"]
+    assert recorte["faltando"] == [{"x": 10.0, "y": 5.0}]
+    assert recorte["simbolos"][0]["dono"] == "altura_errada"
 
-    status, _ = _pedido(
-        porta, "POST", "/salvar", _dados("1", [(10, "errado"), (11, "certo")])
-    )
-    assert status == 400
-    status, _ = _pedido(
-        porta,
-        "POST",
-        "/salvar",
-        _dados("2", [(20, "certo"), (21, "certo")], faltando=51),
-    )
-    assert status == 400
-    status, _ = _pedido(
-        porta, "POST", "/salvar", _dados("2", [(20, "certo"), (99, "certo")])
-    )
-    assert status == 400
+    # Erros: nada é gravado e o arquivo continua como estava.
+    antes = ouro.read_text(encoding="utf-8")
+    casos = [
+        _corpo("R01", [(10, "errado"), (11, "certo"), (20, "certo"), (21, "certo")]),
+        _corpo("R02", [(50, "certo")]),
+        _corpo("R02", [(50, "certo"), (51, "certo")], faltando=[{"x": 300, "y": 5}]),
+        _corpo("R02", [(50, "certo"), (51, "certo")], obs="x" * 501),
+        _corpo("R02", [(50, "certo"), (99, "certo")]),
+    ]
+    for corpo in casos:
+        status, _ = _pedido(porta, "POST", "/salvar", corpo)
+        assert status == 400
+    assert ouro.read_text(encoding="utf-8") == antes
 
     status, _ = _pedido(porta, "GET", "/", host="evil.example")
     assert status == 403
@@ -457,34 +527,40 @@ def test_servidor_pagina_itens_salvar_e_host_recusado(servidor) -> None:
         porta,
         "POST",
         "/salvar",
-        _dados("2", [(20, "certo"), (21, "certo")]),
+        _corpo("R02", _todos("R02", ("5",))),
         host="evil.example",
     )
     assert status == 403
 
 
 def test_servidor_carrega_gabarito_existente_e_preserva(tmp_path: Path) -> None:
-    itens_path = tmp_path / "itens.json"
-    itens_path.write_text(
-        json.dumps({"formato": 1, "itens": [_item(("1", "2"))]}), encoding="utf-8"
-    )
     ouro = tmp_path / "gabarito.json"
     anterior = gabarito_vazio()
     aplicar_resposta(
         anterior,
-        {"R01": _item(("1", "2"))},
-        _dados("1", [(10, "nao_existe"), (11, "certo")]),
+        {"R01": _item("R01", ("1", "2"))},
+        _corpo("R01", _todos("R01", ("1", "2"), dono="nao_existe")),
         "antes",
     )
     ouro.write_text(json.dumps(anterior), encoding="utf-8")
-    srv = criar_servidor(itens_path, ouro, porta=0, host="127.0.0.1")
-    fio = threading.Thread(target=srv.serve_forever, daemon=True)
-    fio.start()
+    srv = _subir(tmp_path, ouro)
     try:
         status, dados = _pedido(srv.server_address[1], "GET", "/itens")
         assert status == 200
-        estado = json.loads(dados)["gabarito"]
-        assert estado["recortes"]["R01"]["compassos"]["1"]["respondido_em"] == "antes"
+        corpo = json.loads(dados)
+        assert corpo["gabarito"]["recortes"]["R01"]["respondido_em"] == "antes"
+        assert corpo["progresso"]["confirmados"] == 1
     finally:
         srv.shutdown()
         srv.server_close()
+
+
+def test_servidor_recusa_gabarito_formato_1(tmp_path: Path) -> None:
+    ouro = tmp_path / "gabarito.json"
+    ouro.write_text(json.dumps({"formato": 1, "recortes": {}}), encoding="utf-8")
+    itens_path = tmp_path / "itens.json"
+    itens_path.write_text(
+        json.dumps({"formato": 1, "itens": [_item("R01")]}), encoding="utf-8"
+    )
+    with pytest.raises(ValueError, match="formato 1"):
+        criar_servidor(itens_path, ouro, porta=0, host="127.0.0.1")

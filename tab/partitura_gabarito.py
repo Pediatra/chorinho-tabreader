@@ -5,9 +5,10 @@ Dois subcomandos:
 - ``preparar``: lê os MusicXML das leituras (Audiveris x2; homr nativo quando o Audiveris
   não tem saída) símbolo a símbolo e grava ``itens.json``. Cada símbolo traz altura,
   figura, pausa, ligadura e se o homr e a tablatura concordam com ele.
-- ``servir``: página local em que o dono vê o recorte original, a leitura desenhada e
-  tocável, e marca só o que está errado. Cada compasso confirmado vai para o gabarito
-  (formato 1), em escrita atômica. Re-confirmar um compasso sobrescreve só ele.
+- ``servir``: página local com o recorte original (zoom, com marcação de notas que
+  faltaram) e a leitura desenhada e tocável, em que o dono clica em cada nota ou pausa
+  e diz o que está errado. Cada recorte confirmado vai para o gabarito (formato 2), em
+  escrita atômica. Re-confirmar um recorte sobrescreve só ele.
 
 Não usa GPU nem roda as bibliotecas de OMR. O gabarito real (``data/gold``) só é gravado
 quando o dono confirma pela página; o servidor exige ``--ouro`` explícito. Os testes
@@ -28,6 +29,7 @@ import http.server
 import json
 import os
 import re
+import struct
 import sys
 import threading
 from pathlib import Path
@@ -54,17 +56,17 @@ INDICE_RECORTES = PASTA_RECORTES / "indice.json"
 #: Itens da conferência, gerados por ``preparar``.
 ITENS = PASTA_CONFERENCIA / "itens.json"
 
-#: Formato do arquivo de gabarito (``--ouro``).
-FORMATO_GABARITO = 1
+#: Formato do arquivo de gabarito (``--ouro``): uma entrada por recorte.
+FORMATO_GABARITO = 2
 
-#: Estados que o dono pode dar a um símbolo, na ordem em que o clique cicla.
+#: Estados que o dono pode dar a um símbolo (a página mostra "inventada" no último).
 ESTADOS = ("certo", "altura_errada", "figura_errada", "nao_existe")
 
-#: Tamanho máximo da observação de um compasso.
+#: Tamanho máximo da observação de um recorte.
 TAMANHO_OBS_MAXIMO = 500
 
-#: Maior número de notas faltando que o dono pode informar num compasso.
-FALTANDO_MAXIMO = 50
+#: Maior número de pontos de notas faltando que o dono pode marcar num recorte.
+FALTANDO_PONTOS_MAXIMO = 200
 
 #: Campos que ficam só na conferência (não entram no ``palpite``).
 CAMPOS_DA_CONFERENCIA = ("idx", "homr_concorda", "tab_concorda")
@@ -74,6 +76,9 @@ SEMITONS = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
 
 #: Tipos de arquivo que o servidor entrega (só PNG dos recortes e a página).
 _TIPO_PNG = "image/png"
+
+#: Assinatura de todo arquivo PNG.
+_ASSINATURA_PNG = b"\x89PNG\r\n\x1a\n"
 
 _HOSTS_LOCAIS = {"127.0.0.1", "localhost"}
 
@@ -497,6 +502,25 @@ def _carregar_execucao() -> dict[str, bool]:
     return {r["id"]: bool(r["ok"]) for r in registros}
 
 
+def _tamanho_png(caminho: Path) -> tuple[int, int]:
+    """Largura e altura de um PNG, lidas do cabeçalho IHDR.
+
+    Args:
+        caminho: arquivo PNG.
+
+    Returns:
+        ``(largura, altura)`` em pixels.
+
+    Raises:
+        ValueError: se o arquivo não começa com a assinatura de PNG.
+    """
+    cabecalho = caminho.read_bytes()[:24]
+    if cabecalho[:8] != _ASSINATURA_PNG or cabecalho[12:16] != b"IHDR":
+        raise ValueError(f"{caminho} não é PNG")
+    largura, altura = struct.unpack(">II", cabecalho[16:24])
+    return largura, altura
+
+
 def _item(entrada: dict, execucao: dict[str, bool], ouro: dict) -> dict:
     """Monta o item de conferência de um recorte.
 
@@ -510,10 +534,15 @@ def _item(entrada: dict, execucao: dict[str, bool], ouro: dict) -> dict:
         os contadores.
 
     Raises:
-        ValueError: se o recorte tem dois compassos com o mesmo número.
+        ValueError: se o recorte tem dois compassos com o mesmo número, ou se o PNG
+            não bate com ``largura``/``altura`` do índice.
     """
     id_ = entrada["id"]
     fonte, caminho = _fonte_da_leitura(id_, execucao)
+    png = PASTA_RECORTES / f"{id_}.png"
+    largura, altura = _tamanho_png(png)
+    if (largura, altura) != (entrada["largura"], entrada["altura"]):
+        raise ValueError(f"{id_}: PNG {largura}x{altura} != índice")
     leitura = ler_partitura(caminho)
     numeros = [c["numero"] for c in leitura["compassos"]]
     if len(set(numeros)) != len(numeros):
@@ -544,7 +573,9 @@ def _item(entrada: dict, execucao: dict[str, bool], ouro: dict) -> dict:
         "video": entrada["video"],
         "tela": entrada.get("tela"),
         "fonte": fonte,
-        "png": str((PASTA_RECORTES / f"{id_}.png").relative_to(RAIZ)),
+        "png": str(png.relative_to(RAIZ)),
+        "largura_png": largura,
+        "altura_png": altura,
         "musicxml": caminho.read_bytes().decode("utf-8"),
         "clave": leitura["clave"],
         "armadura": leitura["armadura"],
@@ -627,7 +658,7 @@ def _tabela(itens: list[dict]) -> str:
 
 
 def gabarito_vazio() -> dict:
-    """Gabarito sem nenhuma resposta (formato 1).
+    """Gabarito sem nenhuma resposta (formato 2).
 
     Returns:
         Dicionário com ``formato``, ``fonte_itens`` e ``recortes`` vazio.
@@ -646,10 +677,11 @@ def carregar_gabarito(caminho: Path) -> dict:
         caminho: arquivo de gabarito (``--ouro``).
 
     Returns:
-        Gabarito formato 1.
+        Gabarito formato 2.
 
     Raises:
-        ValueError: se o arquivo existe e não está no formato 1.
+        ValueError: se o arquivo existe e não está no formato 2 (por exemplo, um
+            gabarito do formato 1, por compasso, que este código não converte).
     """
     if not caminho.exists():
         return gabarito_vazio()
@@ -664,7 +696,7 @@ def carregar_gabarito(caminho: Path) -> dict:
 
 
 def validar_obs(valor: object) -> str:
-    """Confere a observação de um compasso.
+    """Confere a observação de um recorte.
 
     Args:
         valor: texto enviado pela página, ou ``None``.
@@ -684,40 +716,69 @@ def validar_obs(valor: object) -> str:
     return valor.strip()
 
 
-def validar_faltando(valor: object) -> int:
-    """Confere o número de notas que faltaram no compasso.
+def _numero(valor: object) -> float:
+    """Lê um número (inteiro ou real, sem booleano).
 
     Args:
-        valor: inteiro enviado pela página (ausente vale 0).
+        valor: valor enviado pela página.
 
     Returns:
-        O inteiro entre 0 e ``FALTANDO_MAXIMO``.
+        O valor como ``float``.
 
     Raises:
-        ValueError: se não for inteiro, ou estiver fora da faixa.
+        ValueError: se não for número.
+    """
+    if isinstance(valor, bool) or not isinstance(valor, int | float):
+        raise ValueError("x e y devem ser números")
+    return float(valor)
+
+
+def validar_faltando(valor: object, largura: int, altura: int) -> list[dict]:
+    """Confere os pontos de notas que faltaram, marcados na imagem original.
+
+    Args:
+        valor: lista de ``{"x", "y"}`` enviada pela página (ausente vale lista vazia).
+        largura: largura do PNG original do recorte, em pixels.
+        altura: altura do PNG original do recorte, em pixels.
+
+    Returns:
+        Lista de ``{"x": float, "y": float}``, na ordem recebida.
+
+    Raises:
+        ValueError: se não for lista, se passar de ``FALTANDO_PONTOS_MAXIMO``, se um
+            ponto não tiver ``x`` e ``y`` numéricos, ou se estiver fora da imagem.
     """
     if valor is None:
-        return 0
-    if isinstance(valor, bool) or not isinstance(valor, int):
-        raise ValueError("faltando deve ser inteiro")
-    if not 0 <= valor <= FALTANDO_MAXIMO:
-        raise ValueError(f"faltando fora de 0..{FALTANDO_MAXIMO}: {valor}")
-    return valor
+        return []
+    if not isinstance(valor, list):
+        raise ValueError("faltando deve ser uma lista de pontos")
+    if len(valor) > FALTANDO_PONTOS_MAXIMO:
+        raise ValueError(f"faltando com mais de {FALTANDO_PONTOS_MAXIMO} pontos")
+    pontos = []
+    for ponto in valor:
+        if not isinstance(ponto, dict):
+            raise ValueError("cada ponto de faltando deve ser um objeto")
+        x = _numero(ponto.get("x"))
+        y = _numero(ponto.get("y"))
+        if not (0 <= x <= largura and 0 <= y <= altura):
+            raise ValueError(f"ponto ({x}, {y}) fora da imagem {largura}x{altura}")
+        pontos.append({"x": x, "y": y})
+    return pontos
 
 
 def validar_simbolos(lista: object, simbolos: list[dict]) -> dict[int, str]:
-    """Confere os estados dados pelo dono a cada símbolo de um compasso.
+    """Confere o estado dado pelo dono a cada símbolo do recorte.
 
     Args:
         lista: lista de ``{"idx", "dono"}`` enviada pela página.
-        simbolos: símbolos do compasso em ``itens.json``.
+        simbolos: todos os símbolos do recorte em ``itens.json``.
 
     Returns:
         Mapa ``idx`` -> estado.
 
     Raises:
         ValueError: se a lista não for lista, se um estado não for um dos quatro, se um
-            ``idx`` se repetir ou se os ``idx`` não forem exatamente os do compasso.
+            ``idx`` se repetir ou se os ``idx`` não forem exatamente os do recorte.
     """
     if not isinstance(lista, list):
         raise ValueError("simbolos deve ser uma lista")
@@ -737,7 +798,7 @@ def validar_simbolos(lista: object, simbolos: list[dict]) -> dict[int, str]:
     esperados = {s["idx"] for s in simbolos}
     if set(donos) != esperados:
         raise ValueError(
-            f"idx não batem com os do compasso: {sorted(donos)} != {sorted(esperados)}"
+            f"idx não batem com os do recorte: {sorted(donos)} != {sorted(esperados)}"
         )
     return donos
 
@@ -780,25 +841,24 @@ def aplicar_resposta(
     dados: object,
     agora: str,
 ) -> dict:
-    """Grava a resposta do dono num compasso, sem tocar nos outros.
+    """Grava a conferência de um recorte inteiro, sem tocar nos outros.
 
     Toda a validação acontece antes de qualquer mudança: se der erro, o gabarito fica
-    como estava. Os compassos já confirmados de outros recortes e de outros compassos
-    são preservados.
+    como estava. Um recorte já confirmado é sobrescrito; os outros são preservados.
 
     Args:
-        gabarito: gabarito formato 1, alterado em lugar.
+        gabarito: gabarito formato 2, alterado em lugar.
         itens_por_id: itens de ``preparar`` indexados por id de recorte.
-        dados: corpo do POST: ``recorte``, ``compasso``, ``simbolos``, e opcionalmente
-            ``faltando``, ``obs``, ``clave_certa`` e ``armadura_certa``.
+        dados: corpo do POST: ``recorte``, ``simbolos`` (todos os símbolos do recorte),
+            e opcionalmente ``faltando``, ``obs``, ``clave_certa`` e ``armadura_certa``.
         agora: carimbo da resposta (ISO).
 
     Returns:
-        O registro do compasso gravado.
+        O registro do recorte gravado.
 
     Raises:
-        ValueError: se qualquer campo estiver errado (recorte ou compasso desconhecidos,
-            estado inválido, idx errado, faltando fora da faixa, obs longa).
+        ValueError: se qualquer campo estiver errado (recorte desconhecido, estado
+            inválido, idx errado, ponto fora da imagem, obs longa).
     """
     if not isinstance(dados, dict):
         raise ValueError("o corpo deve ser um objeto JSON")
@@ -806,15 +866,11 @@ def aplicar_resposta(
     if not isinstance(recorte_id, str) or recorte_id not in itens_por_id:
         raise ValueError(f"recorte desconhecido: {recorte_id!r}")
     item = itens_por_id[recorte_id]
-    numero = dados.get("compasso")
-    if isinstance(numero, bool) or not isinstance(numero, str | int):
-        raise ValueError("compasso deve ser texto ou inteiro")
-    numero = str(numero)
-    compasso = next((c for c in item["compassos"] if c["numero"] == numero), None)
-    if compasso is None:
-        raise ValueError(f"compasso {numero!r} não existe no recorte {recorte_id}")
-    donos = validar_simbolos(dados.get("simbolos"), compasso["simbolos"])
-    faltando = validar_faltando(dados.get("faltando"))
+    simbolos = [s for c in item["compassos"] for s in c["simbolos"]]
+    donos = validar_simbolos(dados.get("simbolos"), simbolos)
+    pontos = validar_faltando(
+        dados.get("faltando"), item["largura_png"], item["altura_png"]
+    )
     obs = validar_obs(dados.get("obs"))
     recortes = gabarito.setdefault("recortes", {})
     atual = recortes.get(recorte_id, {})
@@ -823,91 +879,79 @@ def aplicar_resposta(
         dados.get("armadura_certa"), atual.get("armadura_certa", True)
     )
     registro = {
+        "fonte": item["fonte"],
+        "clave_certa": clave_certa,
+        "armadura_certa": armadura_certa,
         "simbolos": [
             {
                 "idx": s["idx"],
+                "compasso": s["compasso"],
                 "palpite": _palpite(s),
                 "dono": donos[s["idx"]],
             }
-            for s in compasso["simbolos"]
+            for s in simbolos
         ],
-        "faltando": faltando,
+        "faltando": pontos,
+        "largura_png": item["largura_png"],
+        "altura_png": item["altura_png"],
         "obs": obs,
         "confirmado": True,
         "respondido_em": agora,
     }
-    gravado = recortes.setdefault(
-        recorte_id,
-        {"fonte": item["fonte"], "compassos": {}},
-    )
-    gravado["clave_certa"] = clave_certa
-    gravado["armadura_certa"] = armadura_certa
-    gravado.setdefault("compassos", {})[numero] = registro
+    recortes[recorte_id] = registro
     return registro
 
 
-def esta_confirmado(gabarito: dict, recorte_id: str, numero: str) -> bool:
-    """Se o compasso já foi confirmado no gabarito.
+def confirmado_recorte(gabarito: dict, recorte_id: str) -> bool:
+    """Se o recorte já foi confirmado no gabarito.
 
     Args:
-        gabarito: gabarito formato 1.
+        gabarito: gabarito formato 2.
         recorte_id: id do recorte.
-        numero: número do compasso.
 
     Returns:
-        True se ``confirmado`` é verdadeiro para o compasso.
+        True se ``confirmado`` é verdadeiro para o recorte.
     """
-    recorte = gabarito.get("recortes", {}).get(recorte_id, {})
-    registro = recorte.get("compassos", {}).get(numero, {})
+    registro = gabarito.get("recortes", {}).get(recorte_id, {})
     return registro.get("confirmado") is True
 
 
 def progresso(itens: list[dict], gabarito: dict) -> dict:
-    """Quantos compassos estão confirmados, no total e por recorte.
+    """Quantos recortes estão confirmados, e quais.
 
     Args:
         itens: itens de ``preparar``.
-        gabarito: gabarito formato 1.
+        gabarito: gabarito formato 2.
 
     Returns:
-        ``{"confirmados", "total", "por_recorte": {id: [confirmados, total]}}``.
+        ``{"confirmados", "total", "por_recorte": {id: bool}}``.
     """
-    por_recorte: dict[str, list[int]] = {}
-    confirmados = 0
-    total = 0
-    for item in itens:
-        n = sum(
-            1
-            for c in item["compassos"]
-            if esta_confirmado(gabarito, item["id"], c["numero"])
-        )
-        m = len(item["compassos"])
-        por_recorte[item["id"]] = [n, m]
-        confirmados += n
-        total += m
-    return {"confirmados": confirmados, "total": total, "por_recorte": por_recorte}
+    por_recorte = {it["id"]: confirmado_recorte(gabarito, it["id"]) for it in itens}
+    return {
+        "confirmados": sum(por_recorte.values()),
+        "total": len(itens),
+        "por_recorte": por_recorte,
+    }
 
 
-def proximo_pendente(
-    itens: list[dict], gabarito: dict, atual: tuple[str, str] | None
-) -> dict | None:
-    """Próximo compasso não confirmado depois de ``atual``, dando a volta se preciso.
+def proximo_pendente_recorte(
+    itens: list[dict], gabarito: dict, atual: str | None
+) -> str | None:
+    """Próximo recorte não confirmado depois de ``atual``, dando a volta se preciso.
 
     Args:
         itens: itens na ordem da página.
-        gabarito: gabarito formato 1.
-        atual: ``(recorte, compasso)`` de partida, ou ``None``.
+        gabarito: gabarito formato 2.
+        atual: id do recorte de partida, ou ``None``.
 
     Returns:
-        ``{"recorte", "compasso"}`` do próximo pendente, ou ``None`` se não há nenhum.
+        O id do próximo pendente, ou ``None`` se não há nenhum.
     """
-    pares = [(it["id"], c["numero"]) for it in itens for c in it["compassos"]]
-    inicio = pares.index(atual) + 1 if atual in pares else 0
-    for recorte_id, numero in pares[inicio:] + pares[:inicio]:
-        if (recorte_id, numero) == atual:
-            continue
-        if not esta_confirmado(gabarito, recorte_id, numero):
-            return {"recorte": recorte_id, "compasso": numero}
+    ids = [it["id"] for it in itens]
+    inicio = ids.index(atual) + 1 if atual in ids else 0
+    for recorte_id in ids[inicio:] + ids[:inicio]:
+        if recorte_id != atual and not confirmado_recorte(gabarito, recorte_id):
+            return recorte_id
     return None
 
 
@@ -943,7 +987,7 @@ def criar_servidor(
     """Cria o servidor (não o inicia). Por padrão escuta SOMENTE em 127.0.0.1.
 
     Os recortes são ordenados por discordâncias (decrescente, depois pelo id). O
-    gabarito é lido agora e regravado a cada confirmação.
+    gabarito é lido agora e regravado a cada confirmação de recorte.
 
     Args:
         itens_caminho: ``itens.json`` gerado por ``preparar``.
@@ -955,7 +999,7 @@ def criar_servidor(
         O servidor; ``servidor.server_address[1]`` é a porta real.
 
     Raises:
-        ValueError: se o gabarito existe e não está no formato 1.
+        ValueError: se o gabarito existe e não está no formato 2.
     """
     itens_todos = json.loads(itens_caminho.read_text(encoding="utf-8"))["itens"]
     ordem = sorted(itens_todos, key=lambda it: (-it["discordancias"], it["id"]))
@@ -1035,11 +1079,7 @@ def criar_servidor(
                     prog = progresso(ordem, gabarito)
                 self._json(
                     200,
-                    {
-                        "itens": ordem,
-                        "gabarito": estado,
-                        "progresso": prog,
-                    },
+                    {"itens": ordem, "gabarito": estado, "progresso": prog},
                 )
                 return
             casa = re.fullmatch(r"/recorte/(R\d+)\.png", caminho)
@@ -1049,7 +1089,7 @@ def criar_servidor(
             self._json(404, {"ok": False, "erro": "não encontrado"})
 
         def do_POST(self) -> None:
-            """``/salvar``: grava a resposta de um compasso, em escrita atômica."""
+            """``/salvar``: grava a conferência de um recorte, em escrita atômica."""
             if self._recusada():
                 return
             if self.path != "/salvar":
@@ -1071,10 +1111,8 @@ def criar_servidor(
                         gabarito.update(anterior)
                         raise
                     prog = progresso(ordem, gabarito)
-                    proximo = proximo_pendente(
-                        ordem,
-                        gabarito,
-                        (dados["recorte"], str(dados["compasso"])),
+                    proximo = proximo_pendente_recorte(
+                        ordem, gabarito, dados["recorte"]
                     )
             except (ValueError, KeyError, TypeError) as erro:
                 self._json(400, {"ok": False, "erro": f"{type(erro).__name__}: {erro}"})
@@ -1088,7 +1126,7 @@ def criar_servidor(
                     "ok": True,
                     "registro": registro,
                     "progresso": prog,
-                    "proximo": proximo,
+                    "proximo": {"recorte": proximo} if proximo else None,
                     "salvo_em": agora,
                 },
             )
@@ -1122,7 +1160,7 @@ PAGINA = r"""<!doctype html>
 }
 body { margin: 0; background: var(--fundo); color: var(--texto);
   font: 15px/1.4 system-ui, sans-serif; display: grid;
-  grid-template-columns: 320px 1fr; min-height: 100vh; }
+  grid-template-columns: 300px 1fr; min-height: 100vh; }
 aside { border-right: 1px solid var(--borda); padding: 12px; overflow-y: auto;
   max-height: 100vh; position: sticky; top: 0; }
 main { padding: 16px; min-width: 0; }
@@ -1134,20 +1172,32 @@ h1 { font-size: 17px; margin: 0 0 6px; }
 #recortes li.ativo { border-color: var(--destaque); box-shadow: 0 0 0 1px var(--destaque); }
 #recortes .linha2 { font-size: 12px; opacity: .75; }
 #titulo { font-weight: 600; margin-bottom: 8px; }
-#png { width: 100%; height: auto; background: #fff; border: 1px solid var(--borda);
-  border-radius: 4px; display: block; }
+#png-rolagem { overflow-x: auto; border: 1px solid var(--borda); border-radius: 4px;
+  background: #fff; }
+#png-caixa { position: relative; width: 150%; }
+#png { display: block; width: 100%; height: auto; user-select: none; cursor: crosshair; }
+.falta { position: absolute; width: 14px; height: 14px; border-radius: 50%;
+  transform: translate(-50%, -50%); background: rgba(214, 40, 40, .55);
+  border: 1px solid #b01c1c; cursor: pointer; }
 #osmd { background: #fff; border: 1px solid var(--borda); border-radius: 4px;
   margin: 10px 0; overflow-x: auto; min-height: 60px; }
+#osmd svg { cursor: default; }
 .aviso { color: #a33; font-size: 13px; min-height: 1em; }
+.dica { font-size: 13px; opacity: .8; margin: 4px 0; }
 .barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
 button { font: inherit; padding: 6px 10px; border-radius: 6px;
   border: 1px solid var(--borda); background: var(--cartao); color: var(--texto);
   cursor: pointer; }
 button.principal { background: var(--destaque); color: #fff; border-color: var(--destaque); }
 .caixas label { margin-right: 14px; }
+.campos { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
+.campos input[type="text"] { width: 360px; max-width: 100%; }
+.msg { font-size: 13px; min-height: 1em; margin-top: 4px; }
+.status { font-size: 13px; min-height: 1em; margin: 4px 0; }
+details { margin-top: 12px; }
+details summary { cursor: pointer; font-weight: 600; }
 .compasso { border: 1px solid var(--borda); border-radius: 8px; padding: 10px;
   margin: 10px 0; background: var(--cartao); }
-.compasso.conferido { opacity: .8; }
 .compasso .cab { display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
   margin-bottom: 6px; }
 .grade { display: flex; flex-wrap: wrap; gap: 6px; align-items: flex-start; }
@@ -1159,12 +1209,18 @@ button.principal { background: var(--destaque); color: #fff; border-color: var(-
 .chip.estado-altura_errada { background: var(--altura); }
 .chip.estado-figura_errada { background: var(--figura); }
 .chip.estado-nao_existe { background: var(--nao); text-decoration: line-through; }
-.chip.discorda { border-color: var(--discorda); border-style: solid; }
-.campos { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
-.campos input[type="number"] { width: 70px; }
-.campos input[type="text"] { width: 320px; max-width: 100%; }
-.msg { font-size: 13px; min-height: 1em; margin-top: 4px; }
-.status { font-size: 13px; min-height: 1em; margin: 4px 0; }
+.chip.discorda { border-color: var(--discorda); }
+.menu { position: fixed; z-index: 10; background: var(--cartao); color: var(--texto);
+  border: 1px solid var(--borda); border-radius: 8px; padding: 6px; min-width: 190px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .25); display: flex; flex-direction: column;
+  gap: 4px; }
+.menu[hidden] { display: none; }
+.menu .titulo-menu { font-size: 12px; opacity: .8; padding: 2px 4px; }
+.menu button { text-align: left; display: flex; justify-content: space-between; }
+.menu kbd { opacity: .6; font: inherit; font-size: 12px; }
+.legenda span { display: inline-block; margin-right: 12px; }
+.legenda i { display: inline-block; width: 12px; height: 12px; vertical-align: middle;
+  margin-right: 4px; border: 1px solid var(--borda); }
 @media (max-width: 800px) {
   body { grid-template-columns: 1fr; }
   aside { position: static; max-height: none; border-right: none;
@@ -1180,40 +1236,87 @@ button.principal { background: var(--destaque); color: #fff; border-color: var(-
 </aside>
 <main>
   <div id="titulo"></div>
-  <img id="png" alt="recorte original da pauta">
+  <div class="barra">
+    <label>zoom da imagem
+      <input type="range" id="zoom" min="100" max="300" step="10" value="150"></label>
+    <span id="zoom-valor">150%</span>
+    <span id="contagem-faltando">faltando: 0</span>
+  </div>
+  <div class="dica">Imagem original: clique onde faltou nota (aparece uma bolinha
+    vermelha). Clique numa bolinha para remover.</div>
+  <div id="png-rolagem"><div id="png-caixa">
+    <img id="png" alt="recorte original da pauta" draggable="false">
+  </div></div>
+
   <div class="barra">
     <button type="button" id="tocar-leitura" class="principal">tocar leitura</button>
     <button type="button" id="botao-parar">parar</button>
   </div>
+  <div class="dica">Clique numa nota ou pausa desenhada para marcar.</div>
+  <div class="legenda dica">
+    <span><i style="background:#fff"></i>certo</span>
+    <span><i style="background:#e67e22"></i>altura errada</span>
+    <span><i style="background:#2b6cb0"></i>figura errada</span>
+    <span><i style="background:#d62828"></i>inventada</span>
+    <span><i style="background:#f2c200"></i>discordância entre leituras</span>
+  </div>
   <div id="aviso" class="aviso"></div>
   <div id="osmd"></div>
-  <div id="caixas" class="caixas barra"></div>
+
+  <div class="caixas barra" id="caixas"></div>
+  <div class="campos">
+    <label>obs <input type="text" id="obs" maxlength="500"
+      placeholder="observação do trecho (opcional)"></label>
+    <button type="button" id="confirmar" class="principal">confirmar trecho</button>
+  </div>
+  <div id="msg" class="msg"></div>
   <div id="status" class="status"></div>
-  <div id="compassos"></div>
+
+  <details id="lista-simbolos">
+    <summary>lista de símbolos</summary>
+    <div id="simbolos"></div>
+  </details>
 </main>
+
+<div id="menu" class="menu" role="menu" hidden>
+  <div class="titulo-menu" id="menu-titulo"></div>
+  <button type="button" data-estado="certo">certo <kbd>1</kbd></button>
+  <button type="button" data-estado="altura_errada">altura errada <kbd>2</kbd></button>
+  <button type="button" data-estado="figura_errada">figura errada <kbd>3</kbd></button>
+  <button type="button" data-estado="nao_existe">inventada <kbd>4</kbd></button>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@1.8.6/build/opensheetmusicdisplay.min.js"></script>
 <script>
 "use strict";
+const SVG_NS = "http://www.w3.org/2000/svg";
 const ESTADOS = ["certo", "altura_errada", "figura_errada", "nao_existe"];
 const ROTULO_ESTADO = {
   certo: "certo", altura_errada: "altura errada",
-  figura_errada: "figura errada", nao_existe: "não existe"
+  figura_errada: "figura errada", nao_existe: "inventada"
 };
+const COR_ESTADO = {altura_errada: "#e67e22", figura_errada: "#2b6cb0", nao_existe: "#d62828"};
+const TECLA_ESTADO = {"1": "certo", "2": "altura_errada", "3": "figura_errada", "4": "nao_existe"};
 const FIGURAS = {
   breve: "breve", whole: "semibreve", half: "mínima", quarter: "semínima",
   eighth: "colcheia", "16th": "semicolcheia", "32nd": "fusa",
   "64th": "semifusa", "128th": "sem-fusa"
 };
 const SEG_SEMINIMA = 60 / 72;
+const PONTOS_MAXIMO = 200;
+const ELEMENTOS_DE_TINTA = "path, ellipse, rect, polygon, polyline, line, circle";
 
 let itens = [];
 let porId = {};
 let gabarito = {recortes: {}};
 let rascunho = {};
 let atual = null;
+let mapaAtual = null;
+let tokenDesenho = 0;
+let notaMenu = null;
 let contextoAudio = null;
 let mestre = null;
-let tokenDesenho = 0;
+window.mapeamento = {};
 
 const dom = (id) => document.getElementById(id);
 
@@ -1256,77 +1359,49 @@ function textoArmadura(a) {
   return "sem alterações";
 }
 
+function todosSimbolos(it) {
+  return it.compassos.flatMap((c) => c.simbolos);
+}
+
 function gravadoDoRecorte(id) {
   return (gabarito.recortes || {})[id] || {};
 }
 
-function gravadoDoCompasso(id, numero) {
-  return (gravadoDoRecorte(id).compassos || {})[numero] || null;
-}
-
-function confirmado(id, numero) {
-  const g = gravadoDoCompasso(id, numero);
-  return !!(g && g.confirmado === true);
+function confirmado(id) {
+  return gravadoDoRecorte(id).confirmado === true;
 }
 
 function inicializarRascunho() {
   rascunho = {};
   for (const it of itens) {
     const gr = gravadoDoRecorte(it.id);
-    const r = {clave: gr.clave_certa !== false, armadura: gr.armadura_certa !== false,
-               compassos: {}};
-    for (const c of it.compassos) {
-      const salvo = gravadoDoCompasso(it.id, c.numero);
-      const donos = {};
-      for (const s of c.simbolos) donos[s.idx] = "certo";
-      let faltando = "0";
-      let obs = "";
-      if (salvo) {
-        for (const x of salvo.simbolos) donos[x.idx] = x.dono;
-        faltando = String(salvo.faltando || 0);
-        obs = salvo.obs || "";
-      }
-      r.compassos[c.numero] = {donos: donos, faltando: faltando, obs: obs};
-    }
-    rascunho[it.id] = r;
+    const donos = {};
+    for (const s of todosSimbolos(it)) donos[s.idx] = "certo";
+    for (const x of gr.simbolos || []) donos[x.idx] = x.dono;
+    rascunho[it.id] = {
+      clave: gr.clave_certa !== false,
+      armadura: gr.armadura_certa !== false,
+      donos: donos,
+      faltando: (gr.faltando || []).map((p) => ({x: p.x, y: p.y})),
+      obs: gr.obs || "",
+    };
   }
-}
-
-function progressoGlobal() {
-  let n = 0, m = 0;
-  for (const it of itens) for (const c of it.compassos) {
-    m++;
-    if (confirmado(it.id, c.numero)) n++;
-  }
-  return {n: n, m: m};
-}
-
-function progressoRecorte(it) {
-  let n = 0;
-  for (const c of it.compassos) if (confirmado(it.id, c.numero)) n++;
-  return {n: n, m: it.compassos.length};
-}
-
-function pares() {
-  const saida = [];
-  for (const it of itens) for (const c of it.compassos) saida.push({id: it.id, num: c.numero});
-  return saida;
 }
 
 function desenharLista() {
   const ul = dom("recortes");
   ul.textContent = "";
   for (const it of itens) {
-    const p = progressoRecorte(it);
+    const feito = confirmado(it.id);
     ul.append(el("li", {classe: it.id === atual ? "ativo" : "",
-                        onclick: () => abrir(it.id, null)}, [
-      el("div", {texto: it.id + " · discordâncias " + it.discordancias}),
-      el("div", {classe: "linha2", texto: it.canal + " · " + p.n + " de " + p.m +
-                 " compassos conferidos"}),
+                        onclick: () => abrir(it.id)}, [
+      el("div", {texto: (feito ? "✓ " : "") + it.id + " · discordâncias " + it.discordancias}),
+      el("div", {classe: "linha2", texto: it.canal + " · " +
+                 (feito ? "conferido" : "pendente")}),
     ]));
   }
-  const g = progressoGlobal();
-  dom("progresso").textContent = g.n + " de " + g.m + " compassos conferidos";
+  const n = itens.filter((it) => confirmado(it.id)).length;
+  dom("progresso").textContent = n + " de " + itens.length + " trechos conferidos";
 }
 
 function desenharCaixas(it) {
@@ -1344,131 +1419,341 @@ function desenharCaixas(it) {
                     (v) => { r.armadura = v; }));
 }
 
-function chip(it, c, s, r) {
+function desenharFaltando() {
+  const it = porId[atual];
+  const r = rascunho[atual];
+  const caixa = dom("png-caixa");
+  caixa.querySelectorAll(".falta").forEach((b) => b.remove());
+  r.faltando.forEach((p, i) => {
+    const bolinha = el("div", {classe: "falta", title: "clique para remover"});
+    bolinha.style.left = (p.x / it.largura_png * 100) + "%";
+    bolinha.style.top = (p.y / it.altura_png * 100) + "%";
+    bolinha.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      r.faltando.splice(i, 1);
+      desenharFaltando();
+    });
+    caixa.append(bolinha);
+  });
+  dom("contagem-faltando").textContent = "faltando: " + r.faltando.length;
+}
+
+function aplicarZoom() {
+  const pct = dom("zoom").value;
+  dom("png-caixa").style.width = pct + "%";
+  dom("zoom-valor").textContent = pct + "%";
+}
+
+function marcarNaImagem(ev) {
+  const img = dom("png");
+  if (atual === null || !img.naturalWidth) return;
+  const it = porId[atual];
+  const r = rascunho[atual];
+  if (r.faltando.length >= PONTOS_MAXIMO) {
+    dom("msg").textContent = "limite de " + PONTOS_MAXIMO + " pontos por trecho";
+    return;
+  }
+  const caixa = img.getBoundingClientRect();
+  const x = (ev.clientX - caixa.left) / caixa.width * it.largura_png;
+  const y = (ev.clientY - caixa.top) / caixa.height * it.altura_png;
+  r.faltando.push({
+    x: Math.round(Math.min(Math.max(x, 0), it.largura_png) * 10) / 10,
+    y: Math.round(Math.min(Math.max(y, 0), it.altura_png) * 10) / 10,
+  });
+  desenharFaltando();
+}
+
+function tipoDoSimbolo(s) {
+  if (s.pausa) return "pausa";
+  if (s.graca) return "graca";
+  return "nota";
+}
+
+function chip(it, s, r) {
   const estado = r.donos[s.idx] || "certo";
   const motivos = [];
   if (s.homr_concorda === false) motivos.push("homr discorda");
   if (s.tab_concorda === false) motivos.push("tab discorda");
-  const discorda = motivos.length > 0;
-  const botao = el("button", {
+  return el("button", {
     type: "button",
-    classe: "chip estado-" + estado + (discorda ? " discorda" : ""),
+    classe: "chip estado-" + estado + (motivos.length ? " discorda" : ""),
     title: motivos.join("; "),
     onclick: () => {
       const i = ESTADOS.indexOf(r.donos[s.idx] || "certo");
       r.donos[s.idx] = ESTADOS[(i + 1) % ESTADOS.length];
-      trocarBloco(it, c);
+      atualizarMarcacoes();
     },
   }, [
     el("span", {texto: rotuloSimbolo(s)}),
-    el("small", {texto: ROTULO_ESTADO[estado] + (discorda ? " · " + motivos.join(", ") : "")}),
+    el("small", {texto: ROTULO_ESTADO[estado] +
+                 (motivos.length ? " · " + motivos.join(", ") : "")}),
   ]);
-  return botao;
 }
 
-function blocoCompasso(it, c) {
-  const r = rascunho[it.id].compassos[c.numero];
-  const feito = confirmado(it.id, c.numero);
-  const bloco = el("section", {
-    classe: "compasso" + (feito ? " conferido" : ""),
-    id: "c-" + it.id + "-" + c.numero,
-  });
-  const cab = el("div", {classe: "cab"}, [
-    el("strong", {texto: "compasso " + c.numero}),
-    el("span", {texto: feito ? "conferido" : "pendente"}),
-    el("button", {type: "button", texto: "tocar compasso",
-                  onclick: () => tocarTrecho([c])}),
-  ]);
-  const grade = el("div", {classe: "grade"});
-  let coluna = null;
-  let tempoAtual = null;
-  for (const s of c.simbolos) {
-    if (coluna === null || s.t !== tempoAtual) {
-      coluna = el("div", {classe: "coluna"});
-      grade.append(coluna);
-      tempoAtual = s.t;
-    }
-    coluna.append(chip(it, c, s, r));
-  }
-  if (c.simbolos.length === 0) grade.append(el("em", {texto: "sem símbolos neste compasso"}));
-  const campoFaltando = el("input", {type: "number", min: "0", max: "50", step: "1"});
-  campoFaltando.value = r.faltando;
-  campoFaltando.addEventListener("input", () => { r.faltando = campoFaltando.value; });
-  const campoObs = el("input", {type: "text", maxlength: "500", placeholder: "observação (opcional)"});
-  campoObs.value = r.obs;
-  campoObs.addEventListener("input", () => { r.obs = campoObs.value; });
-  const msg = el("div", {classe: "msg"});
-  bloco.append(cab, grade, el("div", {classe: "campos"}, [
-    el("label", {}, ["notas faltando ", campoFaltando]),
-    el("label", {}, ["obs ", campoObs]),
-    el("button", {type: "button", classe: "principal", texto: "confirmar compasso",
-                  onclick: () => confirmar(it, c, msg)}),
-  ]), msg);
-  return bloco;
-}
-
-function trocarBloco(it, c) {
-  const antigo = dom("c-" + it.id + "-" + c.numero);
-  if (antigo) antigo.replaceWith(blocoCompasso(it, c));
-}
-
-function desenharCompassos(it) {
-  const area = dom("compassos");
+function desenharSimbolos(it) {
+  const area = dom("simbolos");
+  const r = rascunho[it.id];
   area.textContent = "";
-  for (const c of it.compassos) area.append(blocoCompasso(it, c));
+  for (const c of it.compassos) {
+    const grade = el("div", {classe: "grade"});
+    let coluna = null;
+    let tempoAtual = null;
+    for (const s of c.simbolos) {
+      if (coluna === null || s.t !== tempoAtual) {
+        coluna = el("div", {classe: "coluna"});
+        grade.append(coluna);
+        tempoAtual = s.t;
+      }
+      coluna.append(chip(it, s, r));
+    }
+    if (c.simbolos.length === 0) grade.append(el("em", {texto: "sem símbolos neste compasso"}));
+    area.append(el("section", {classe: "compasso"}, [
+      el("div", {classe: "cab"}, [
+        el("strong", {texto: "compasso " + c.numero}),
+        el("button", {type: "button", texto: "tocar compasso",
+                      onclick: () => tocarTrecho([c])}),
+      ]),
+      grade,
+    ]));
+  }
+}
+
+function notasDaMedida(pautas) {
+  const saida = [];
+  for (const medida of pautas || []) {
+    for (const se of medida.staffEntries || []) {
+      for (const gve of se.graphicalVoiceEntries || []) {
+        for (const gn of gve.notes || []) {
+          const sn = gn.sourceNote;
+          const repouso = sn.isRest();
+          // O timestamp do OSMD é em semibreves, relativo ao compasso; ×4 dá semínimas.
+          saida.push({
+            gn: gn,
+            t: sn.voiceEntry.Timestamp.RealValue * 4,
+            repouso: repouso,
+            graca: sn.IsGraceNote === true,
+            altura: repouso ? null : sn.halfTone,
+          });
+        }
+      }
+    }
+  }
+  return saida;
+}
+
+function agrupar(lista, tipo) {
+  const grupos = new Map();
+  for (const x of lista) {
+    const chave = tipo(x) + "@" + Math.round(x.t * 1000);
+    if (!grupos.has(chave)) grupos.set(chave, []);
+    grupos.get(chave).push(x);
+  }
+  return grupos;
+}
+
+function mapear(o, it) {
+  const medidas = (o.GraphicSheet && o.GraphicSheet.MeasureList) || [];
+  const porIdx = new Map();
+  for (let k = 0; k < it.compassos.length; k++) {
+    const simbolos = it.compassos[k].simbolos.map((s) => ({
+      ref: s, t: s.t, altura: s.midi, ordem: s.idx,
+    }));
+    const desenhadas = notasDaMedida(medidas[k]).map((d) => ({
+      ref: d, t: d.t, altura: d.altura, ordem: 0,
+    }));
+    const gs = agrupar(simbolos, (x) => tipoDoSimbolo(x.ref));
+    const gd = agrupar(desenhadas, (x) => x.ref.repouso ? "pausa" : x.ref.graca ? "graca" : "nota");
+    for (const [chave, lista] of gs) {
+      const outra = gd.get(chave) || [];
+      const ordS = [...lista].sort((p, q) => (p.altura ?? 0) - (q.altura ?? 0) || p.ordem - q.ordem);
+      const ordD = [...outra].sort((p, q) => (p.altura ?? 0) - (q.altura ?? 0));
+      const n = Math.min(ordS.length, ordD.length);
+      for (let i = 0; i < n; i++) porIdx.set(ordS[i].ref.idx, ordD[i].ref.gn);
+    }
+  }
+  return {porIdx: porIdx, total: todosSimbolos(it).length};
+}
+
+function criarHalo(g) {
+  const caixa = g.getBBox();
+  const r = document.createElementNS(SVG_NS, "rect");
+  r.setAttribute("x", caixa.x - 3);
+  r.setAttribute("y", caixa.y - 3);
+  r.setAttribute("width", caixa.width + 6);
+  r.setAttribute("height", caixa.height + 6);
+  r.setAttribute("rx", 4);
+  r.setAttribute("fill", "#f2c200");
+  r.setAttribute("fill-opacity", "0.4");
+  r.setAttribute("pointer-events", "none");
+  const transformacao = g.getAttribute("transform");
+  if (transformacao) r.setAttribute("transform", transformacao);
+  g.parentNode.insertBefore(r, g);
+}
+
+function elementosDasNotas(porNota) {
+  // idx -> cabeça da nota no SVG. O VexFlow desenha um acorde num único grupo
+  // (vf-stavenote); nele, cada nota é uma cabeça (vf-notehead). As cabeças são
+  // casadas com as notas pela altura: a mais baixa na tela é a de menor halfTone.
+  // Pausa (sem cabeça) usa o grupo inteiro.
+  const porGrupo = new Map();
+  for (const [idx, gn] of porNota) {
+    const g = gn.getSVGGElement ? gn.getSVGGElement() : null;
+    if (!g) continue;
+    if (!porGrupo.has(g)) porGrupo.set(g, []);
+    porGrupo.get(g).push([idx, gn]);
+  }
+  const elementos = new Map();
+  for (const [g, notas] of porGrupo) {
+    const cabecas = [...g.querySelectorAll(".vf-notehead")];
+    // A cabeça, e não o grupo: o grupo inclui haste e fermata, e a caixa dele
+    // cobriria as notas vizinhas.
+    if (cabecas.length !== notas.length) {
+      for (const [idx] of notas) elementos.set(idx, g);
+      continue;
+    }
+    notas.sort((a, b) => a[1].sourceNote.halfTone - b[1].sourceNote.halfTone);
+    cabecas.sort((a, b) => b.getBBox().y - a.getBBox().y);
+    notas.forEach(([idx], k) => elementos.set(idx, cabecas[k]));
+  }
+  return elementos;
+}
+
+function criarAlvo(g, idx) {
+  // A cabeça da nota tem ~12x10 px; um retângulo transparente por cima amplia o clique.
+  const caixa = g.getBBox();
+  const r = document.createElementNS(SVG_NS, "rect");
+  r.setAttribute("x", caixa.x - 6);
+  r.setAttribute("y", caixa.y - 3);
+  r.setAttribute("width", caixa.width + 12);
+  r.setAttribute("height", caixa.height + 6);
+  r.setAttribute("fill", "transparent");
+  r.setAttribute("pointer-events", "all");
+  r.style.cursor = "pointer";
+  const transformacao = g.getAttribute("transform");
+  if (transformacao) r.setAttribute("transform", transformacao);
+  r.addEventListener("click", (ev) => abrirMenu(ev, idx));
+  g.parentNode.appendChild(r);
+}
+
+function pintarNota(g, cor) {
+  for (const e of g.querySelectorAll(ELEMENTOS_DE_TINTA)) {
+    if (!e.__original) {
+      e.__original = {fill: e.getAttribute("fill"), stroke: e.getAttribute("stroke")};
+    }
+    const original = e.__original;
+    for (const [atributo, valor] of [["fill", original.fill], ["stroke", original.stroke]]) {
+      if (valor === null) e.removeAttribute(atributo);
+      else if (cor && valor !== "none") e.setAttribute(atributo, cor);
+      else e.setAttribute(atributo, valor);
+    }
+  }
+}
+
+function pintarPartitura() {
+  if (!mapaAtual || mapaAtual.id !== atual) return;
+  const r = rascunho[atual];
+  for (const [idx, g] of mapaAtual.porIdx) {
+    pintarNota(g, COR_ESTADO[r.donos[idx]] || null);
+  }
+}
+
+function atualizarMarcacoes() {
+  pintarPartitura();
+  desenharSimbolos(porId[atual]);
+}
+
+function fecharMenu() {
+  notaMenu = null;
+  dom("menu").hidden = true;
+}
+
+function abrirMenu(ev, idx) {
+  ev.stopPropagation();
+  const it = porId[atual];
+  const simbolo = todosSimbolos(it).find((s) => s.idx === idx);
+  notaMenu = idx;
+  dom("menu-titulo").textContent = simbolo ? rotuloSimbolo(simbolo) : "";
+  const menu = dom("menu");
+  menu.hidden = false;
+  const x = Math.min(ev.clientX + 8, window.innerWidth - menu.offsetWidth - 8);
+  const y = Math.min(ev.clientY + 8, window.innerHeight - menu.offsetHeight - 8);
+  menu.style.left = Math.max(8, x) + "px";
+  menu.style.top = Math.max(8, y) + "px";
+}
+
+function escolherEstado(estado) {
+  if (notaMenu === null || atual === null) return;
+  rascunho[atual].donos[notaMenu] = estado;
+  fecharMenu();
+  atualizarMarcacoes();
 }
 
 async function desenharPartitura(it) {
   const alvo = dom("osmd");
   const meu = ++tokenDesenho;
   alvo.textContent = "";
+  mapaAtual = null;
   if (typeof opensheetmusicdisplay === "undefined" || !opensheetmusicdisplay.OpenSheetMusicDisplay) {
-    aviso("Leitura desenhada indisponível (a biblioteca de desenho não carregou). Use a imagem e os chips.");
+    aviso("Leitura desenhada indisponível (a biblioteca de desenho não carregou). Use a lista de símbolos.");
     return;
   }
   try {
     const o = new opensheetmusicdisplay.OpenSheetMusicDisplay(alvo, {
-      autoResize: true, drawTitle: false,
+      autoResize: false, drawTitle: false,
     });
     await o.load(it.musicxml);
     if (meu !== tokenDesenho) return;
     o.render();
-    aviso("");
+    const mapa = mapear(o, it);
+    if (meu !== tokenDesenho) return;
+    const simbolos = todosSimbolos(it);
+    const porIdx = elementosDasNotas(mapa.porIdx);
+    for (const [idx, g] of porIdx) {
+      const s = simbolos.find((x) => x.idx === idx);
+      if (s && (s.homr_concorda === false || s.tab_concorda === false)) criarHalo(g);
+    }
+    // Alvos depois de todos os halos, para ficarem por cima de tudo.
+    for (const [idx, g] of porIdx) criarAlvo(g, idx);
+    mapaAtual = {id: it.id, porIdx: porIdx};
+    const mapeados = porIdx.size;
+    window.mapeamento[it.id] = [mapeados, mapa.total];
+    const falta = mapa.total - mapeados;
+    aviso(falta ? falta + " símbolos sem posição na partitura (estão na lista de símbolos)" : "");
+    pintarPartitura();
   } catch (erro) {
     if (meu === tokenDesenho) aviso("Leitura desenhada falhou: " + erro);
   }
 }
 
-function abrir(id, numero) {
+async function abrir(id) {
   atual = id;
+  fecharMenu();
   const it = porId[id];
+  const r = rascunho[id];
   dom("titulo").textContent = id + " · " + it.canal + " · leitura " + it.fonte +
     " · discordâncias " + it.discordancias;
   dom("png").src = "/recorte/" + id + ".png";
-  desenharLista();
+  dom("obs").value = r.obs;
+  const gr = gravadoDoRecorte(id);
+  dom("msg").textContent = confirmado(id) ?
+    "trecho já conferido em " + gr.respondido_em + "; confirmar de novo sobrescreve" : "";
+  desenharFaltando();
   desenharCaixas(it);
-  desenharCompassos(it);
-  desenharPartitura(it);
-  if (numero !== null && numero !== undefined) {
-    const alvo = dom("c-" + id + "-" + numero);
-    if (alvo) alvo.scrollIntoView({behavior: "smooth", block: "start"});
-  }
+  desenharLista();
+  desenharSimbolos(it);
+  await desenharPartitura(it);
 }
 
-async function confirmar(it, c, msg) {
-  const r = rascunho[it.id];
-  const rc = r.compassos[c.numero];
-  const faltando = Number(rc.faltando || 0);
-  if (!Number.isInteger(faltando) || faltando < 0 || faltando > 50) {
-    msg.textContent = "notas faltando: inteiro de 0 a 50";
-    return;
-  }
+async function confirmarTrecho() {
+  if (atual === null) return;
+  const it = porId[atual];
+  const r = rascunho[atual];
+  const msg = dom("msg");
   const corpo = {
     recorte: it.id,
-    compasso: c.numero,
-    simbolos: c.simbolos.map((s) => ({idx: s.idx, dono: rc.donos[s.idx] || "certo"})),
-    faltando: faltando,
-    obs: rc.obs,
+    simbolos: todosSimbolos(it).map((s) => ({idx: s.idx, dono: r.donos[s.idx] || "certo"})),
+    faltando: r.faltando,
+    obs: r.obs,
     clave_certa: r.clave,
     armadura_certa: r.armadura,
   };
@@ -1489,24 +1774,18 @@ async function confirmar(it, c, msg) {
     msg.textContent = "não gravou: " + (dados.erro || resposta.status);
     return;
   }
-  const gr = gabarito.recortes[it.id] || (gabarito.recortes[it.id] = {compassos: {}});
-  gr.clave_certa = r.clave;
-  gr.armadura_certa = r.armadura;
-  gr.compassos[c.numero] = dados.registro;
-  desenharLista();
+  gabarito.recortes[it.id] = dados.registro;
   const p = dados.proximo;
-  mostrarStatus("gravado às " + dados.salvo_em + " · " + dados.progresso.confirmados +
-         " de " + dados.progresso.total + " compassos conferidos" +
-         (p ? "" : " · todos os compassos conferidos"));
-  if (p && p.recorte !== it.id) {
-    abrir(p.recorte, p.compasso);
+  const texto = "gravado às " + dados.salvo_em + " · " + dados.progresso.confirmados +
+    " de " + dados.progresso.total + " trechos conferidos";
+  if (p) {
+    await abrir(p.recorte);
+    mostrarStatus(texto);
   } else {
-    desenharCompassos(it);
-    if (p) {
-      const alvo = dom("c-" + it.id + "-" + p.compasso);
-      if (alvo) alvo.scrollIntoView({behavior: "smooth", block: "start"});
-    }
+    await abrir(it.id);
+    mostrarStatus(texto + " · todos os trechos conferidos");
   }
+  desenharLista();
 }
 
 function audio() {
@@ -1574,17 +1853,46 @@ async function iniciar() {
   gabarito = d.gabarito;
   porId = Object.fromEntries(itens.map((it) => [it.id, it]));
   inicializarRascunho();
-  const pendente = pares().find((p) => !confirmado(p.id, p.num));
-  abrir(pendente ? pendente.id : itens[0].id, pendente ? pendente.num : null);
-  const progresso = progressoGlobal();
-  mostrarStatus(progresso.n + " de " + progresso.m + " compassos conferidos");
+  const n = itens.filter((it) => confirmado(it.id)).length;
+  mostrarStatus(n + " de " + itens.length + " trechos conferidos");
+  const pendente = itens.find((it) => !confirmado(it.id));
+  await abrir(pendente ? pendente.id : itens[0].id);
 }
 
+dom("zoom").addEventListener("input", aplicarZoom);
+dom("png").addEventListener("click", marcarNaImagem);
+dom("obs").addEventListener("input", (ev) => {
+  if (atual !== null) rascunho[atual].obs = ev.target.value;
+});
+dom("confirmar").addEventListener("click", confirmarTrecho);
 dom("tocar-leitura").addEventListener("click", () => {
   const it = porId[atual];
   if (it) tocarTrecho(it.compassos);
 });
 dom("botao-parar").addEventListener("click", pararTudo);
+dom("menu").querySelectorAll("button[data-estado]").forEach((b) => {
+  b.addEventListener("click", () => escolherEstado(b.dataset.estado));
+});
+document.addEventListener("keydown", (ev) => {
+  if (notaMenu === null) return;
+  if (ev.key === "Escape") {
+    fecharMenu();
+  } else if (TECLA_ESTADO[ev.key]) {
+    ev.preventDefault();
+    escolherEstado(TECLA_ESTADO[ev.key]);
+  }
+});
+document.addEventListener("click", (ev) => {
+  if (notaMenu !== null && !dom("menu").contains(ev.target)) fecharMenu();
+});
+let temporizador = null;
+window.addEventListener("resize", () => {
+  clearTimeout(temporizador);
+  temporizador = setTimeout(() => {
+    if (atual !== null) desenharPartitura(porId[atual]);
+  }, 250);
+});
+aplicarZoom();
 iniciar();
 </script>
 </body>
