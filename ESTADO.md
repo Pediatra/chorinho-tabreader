@@ -5200,3 +5200,11 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - A5 proposto: `docs/decisoes/2003-tempo-do-audio-no-produto.md`. Arquivo irmão `chorinho/audio@1` por (tela, exibição, coluna), com recusas e motivo e `afericao.nivel = "coluna"`; sem mexer no `chorinho/video@1`.
 - **Não repetir**: tratar "certo" de folha de clique único como precisão de tempo. Próximo formato: comparação A/B com deslocamentos de 50/100/200 ms.
 - **Adendo (q21–q23, sky guitar, marcados pelo dono)**: q21 14/14 trastes, nut 0,30, cordas 0,14/0,06; q23 9/14, nut 0,05, cordas 0,06/0,15; q22 instável (85 px entre conjuntos) porque as notas ficam quase todas nas casas 2 e 4. Robustez: nota com casa > 14 é pulada e contada; semente com H inválida é descartada. **Não repetir**: confiar na calibração pela música sem conferir a cobertura de casas e a estabilidade entre conjuntos.
+
+## Partitura — 2026-10-13 — P0: quantos vídeos têm pauta (rodada 3001)
+
+- Amostra de 436 vídeos (até 30 por canal, semente 0) × 12 quadros do cache, com o detector geométrico `tab/partitura_pauta.py`, conferida nas folhas de miniaturas `data/saida/partitura/p0/folhas/`.
+- **≈ 1.455 dos 2.998 vídeos ativos têm pauta (49 %)**; 220/436 na amostra, já descontados 2 vídeos falsos e somado 1 perdido. Canais: sky guitar, robert lunn, guitar dell'arte, iwaki, pablo romé, serge kottelat, transcriptor, paolo d'angelo, tv on guitar (quase todos os vídeos); guitarous 4/30; os demais 0.
+- **Pauta sem tab praticamente não existe** (5 vídeos na amostra, e era tab não marcada pelo censo). A partitura vem junto da tablatura.
+- Conferência: positivos 66/68 certos; nos negativos, 15/110 quadros têm pauta visível, mas só 1 vídeo muda de classe.
+- **Não repetir**: (1) limite de espessura medido na sequência inteira de linhas de pixel: a 6ª linha borrada da tab e a chave ao lado da pauta engrossam a sequência (a 1ª rodada deu 2.188 vídeos, inflada por tab lida como pauta); medir no núcleo (≥ 50 % do pico). (2) máscara de polaridade clara sem teste de crista: acha o fundo branco entre as linhas da tab como "linhas".
