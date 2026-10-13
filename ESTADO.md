@@ -5159,3 +5159,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 **Régua** (`tab/avaliar_video.py::coluna_do_ouro`): neste canal o marcador é um cursor fino **antes** da coluna, e o dono clica no cursor (~17 px à esquerda do centro dos algarismos, passo 24; tolerância era 0,5 passo). O clique agora vai para a coluna de notas do ouro mais próxima, se a até 1 passo; relatório traz `colunas_ajustadas` (Greensleeves 27 de 40). Não muda nenhum rótulo.
 
 **Pendências (T8.3)**: o `1` deste canal lido como harmônico; 17 erros de tempo + 3 sem tempo (primeiras colunas de cada sistema; coluna cujo único token numérico não tem `t_ini`).
+
+## Áudio — 2026-10-13 — A1b: o "degrau" de 448 s não é degrau (rodada 2003)
+
+- **Corrige a seção A1 acima**: não há degrau único. Descartados por medição: troca de observador, andamento diferente (razão som/marcador **1,0017** em 614 intervalos), pausa só na troca 6→7 (a mediana das 21 trocas é −36 ms) e corte de edição (o único pico de imagem em 444–453 s é a troca de página; o áudio não tem descontinuidade).
+- O Δ é quase constante dentro de cada página, mas o nível **vagueia** de 60 a 324 ms ao longo do vídeo (13 mudanças > 50 ms, 7 para cima e 6 para baixo), e nota a nota a diferença de intervalos tem **desvio padrão 90 ms**: o marcador anda na grade do software; o violonista toca com rubato.
+- Escuta do dono: o clique no ataque detectado cai junto com as notas.
+- **Não repetir**: régua de tempo do som como `t_marcador + atraso` (A3 do contexto). O marcador dá a coluna e a janela (±0,3 s); o tempo fino vem do áudio, e a verdade de som tem de ser conferida pelo dono.

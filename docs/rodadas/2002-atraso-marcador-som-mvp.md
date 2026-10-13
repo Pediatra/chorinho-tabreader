@@ -66,7 +66,8 @@ de ~60 ms para ~100 ms).
   Cauda direita cortada pelo teto de 0,30 s da janela.
 - `delta_no_tempo.png`: o degrau em ~448 s; a reta (23 ms/min) não descreve bem.
 - Clipes com clique no marcador e no ataque: `data/saida/audio/a1/clipes/` (cliques
-  conferidos por número, lag 0, erro ≤ 0,25 ms; **escuta pelo dono pendente**).
+  conferidos por número, lag 0, erro ≤ 0,25 ms). **Escuta do dono (2026-10-13): o clique do
+  ataque detectado cai junto com as notas.**
 
 ## Respostas (provisórias, um vídeo)
 
