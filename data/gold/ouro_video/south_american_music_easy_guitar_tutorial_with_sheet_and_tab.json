@@ -1,12 +1,12 @@
 {
  "video": "guitar dell ́arte/south american music (easy), guitar tutorial with sheet and tab.mp4",
  "como_foi_rotulado": "v2 sem v1: páginas do tab.telas (1 - IoU da tinta, limiar 0,3), todas com as notas do modelo, a rotular (origem 'modelo — a rotular', conferida=false). 40 instantes sorteados dentro da presença de tablatura (semente 0, grade de 2.0 s); a página de cada um foi SUGERIDA pelo tempo (pagina_sugerida=true, tela_confirmada=false até o dono confirmar): há viés de confirmação. A coluna acesa é do dono. Faixa da tablatura dada por quem preparou, por leitura visual: y 880-1080 (o detector escolhia o braço do violão).",
- "rotulado_em": "2026-10-13T00:50:28",
+ "rotulado_em": "2026-10-13T01:20:30",
  "telas": [
   {
    "id": 1,
    "quadro_ref_s": 100.5,
-   "conferida": false,
+   "conferida": true,
    "notas": [
     {
      "corda": 1,
@@ -133,6 +133,12 @@
      "casa": 0,
      "x_quadro": 533.0,
      "x_centro_quadro": 539.0
+    },
+    {
+     "corda": 6,
+     "casa": 3,
+     "x_quadro": 536.2,
+     "x_centro_quadro": 540.6
     },
     {
      "corda": 2,
@@ -274,13 +280,13 @@
     },
     {
      "corda": 3,
-     "casa": 1,
+     "casa": 0,
      "x_quadro": 1060.0,
      "x_centro_quadro": 1066.0
     },
     {
      "corda": 4,
-     "casa": 1,
+     "casa": 2,
      "x_quadro": 1060.0,
      "x_centro_quadro": 1066.0
     },
@@ -339,6 +345,12 @@
      "x_centro_quadro": 1299.0
     },
     {
+     "corda": 3,
+     "casa": 2,
+     "x_quadro": 1299.3,
+     "x_centro_quadro": 1303.7
+    },
+    {
      "corda": 2,
      "casa": 3,
      "x_quadro": 1321.0,
@@ -373,6 +385,12 @@
      "casa": 0,
      "x_quadro": 1434.0,
      "x_centro_quadro": 1440.5
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "x_quadro": 1440.5,
+     "x_centro_quadro": 1444.9
     },
     {
      "corda": 2,
@@ -493,6 +511,12 @@
      "casa": 0,
      "x_quadro": 1904.0,
      "x_centro_quadro": 1910.5
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "x_quadro": 1904.2,
+     "x_centro_quadro": 1908.7
     }
    ],
    "origem": "modelo — a rotular",
@@ -501,7 +525,7 @@
   {
    "id": 2,
    "quadro_ref_s": 139.0,
-   "conferida": false,
+   "conferida": true,
    "notas": [
     {
      "corda": 2,
@@ -511,7 +535,7 @@
     },
     {
      "corda": 6,
-     "casa": 9,
+     "casa": 3,
      "x_quadro": 27.0,
      "x_centro_quadro": 32.5
     },
@@ -586,6 +610,12 @@
      "casa": 0,
      "x_quadro": 273.0,
      "x_centro_quadro": 279.5
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "x_quadro": 277.9,
+     "x_centro_quadro": 282.4
     },
     {
      "corda": 2,
@@ -691,6 +721,12 @@
     },
     {
      "corda": 4,
+     "casa": 2,
+     "x_quadro": 704.2,
+     "x_centro_quadro": 708.6
+    },
+    {
+     "corda": 4,
      "casa": 1,
      "x_quadro": 743.0,
      "x_centro_quadro": 746.5
@@ -769,13 +805,13 @@
     },
     {
      "corda": 4,
-     "casa": 1,
+     "casa": 0,
      "x_quadro": 1000.0,
      "x_centro_quadro": 1006.0
     },
     {
      "corda": 2,
-     "casa": 2,
+     "casa": 3,
      "x_quadro": 1027.0,
      "x_centro_quadro": 1033.0
     },
@@ -889,7 +925,7 @@
     },
     {
      "corda": 5,
-     "casa": 9,
+     "casa": 3,
      "x_quadro": 1456.0,
      "x_centro_quadro": 1461.5
     },
@@ -1018,12 +1054,6 @@
      "casa": 3,
      "x_quadro": 1889.0,
      "x_centro_quadro": 1894.5
-    },
-    {
-     "corda": 1,
-     "casa": 6,
-     "x_quadro": 1916.0,
-     "x_centro_quadro": 1918.0
     }
    ],
    "origem": "modelo — a rotular",
@@ -1032,13 +1062,31 @@
   {
    "id": 3,
    "quadro_ref_s": 169.5,
-   "conferida": false,
+   "conferida": true,
    "notas": [
     {
      "corda": 2,
      "casa": 0,
      "x_quadro": 38.0,
      "x_centro_quadro": 44.0
+    },
+    {
+     "corda": 6,
+     "casa": 3,
+     "x_quadro": 38.4,
+     "x_centro_quadro": 42.9
+    },
+    {
+     "corda": 2,
+     "casa": 0,
+     "x_quadro": 64.4,
+     "x_centro_quadro": 68.8
+    },
+    {
+     "corda": 2,
+     "casa": 0,
+     "x_quadro": 86.7,
+     "x_centro_quadro": 91.1
     },
     {
      "corda": 3,
@@ -1107,6 +1155,12 @@
      "x_centro_quadro": 327.0
     },
     {
+     "corda": 4,
+     "casa": 2,
+     "x_quadro": 323.5,
+     "x_centro_quadro": 327.9
+    },
+    {
      "corda": 6,
      "casa": 0,
      "x_quadro": 354.0,
@@ -1135,6 +1189,12 @@
      "casa": 0,
      "x_quadro": 494.0,
      "x_centro_quadro": 500.0
+    },
+    {
+     "corda": 5,
+     "casa": 3,
+     "x_quadro": 494.2,
+     "x_centro_quadro": 498.6
     },
     {
      "corda": 1,
@@ -1354,7 +1414,7 @@
     },
     {
      "corda": 6,
-     "casa": 9,
+     "casa": 3,
      "x_quadro": 1218.0,
      "x_centro_quadro": 1223.0
     },
@@ -1372,13 +1432,25 @@
     },
     {
      "corda": 2,
-     "casa": 1,
+     "casa": 0,
+     "x_quadro": 1305.5,
+     "x_centro_quadro": 1310.0
+    },
+    {
+     "corda": 2,
+     "casa": 0,
+     "x_quadro": 1323.4,
+     "x_centro_quadro": 1327.9
+    },
+    {
+     "corda": 2,
+     "casa": 0,
      "x_quadro": 1343.0,
      "x_centro_quadro": 1349.0
     },
     {
      "corda": 5,
-     "casa": 1,
+     "casa": 2,
      "x_quadro": 1343.0,
      "x_centro_quadro": 1349.0
     },
@@ -1531,22 +1603,379 @@
      "casa": 0,
      "x_quadro": 1825.0,
      "x_centro_quadro": 1831.0
+    },
+    {
+     "corda": 3,
+     "casa": 0,
+     "x_quadro": 1877.4,
+     "x_centro_quadro": 1881.9
+    },
+    {
+     "corda": 4,
+     "casa": 2,
+     "x_quadro": 1877.4,
+     "x_centro_quadro": 1881.9
+    },
+    {
+     "corda": 2,
+     "casa": 0,
+     "x_quadro": 1878.3,
+     "x_centro_quadro": 1882.8
+    },
+    {
+     "corda": 5,
+     "casa": 2,
+     "x_quadro": 1879.2,
+     "x_centro_quadro": 1883.7
+    },
+    {
+     "corda": 6,
+     "casa": 0,
+     "x_quadro": 1880.1,
+     "x_centro_quadro": 1884.6
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "x_quadro": 1881.0,
+     "x_centro_quadro": 1885.4
     }
    ],
    "origem": "modelo — a rotular",
    "v1_telas": []
   }
  ],
- "instantes": [],
+ "instantes": [
+  {
+   "t": 80,
+   "tela": 1,
+   "coluna_x_quadro": 299.5,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 82,
+   "tela": 1,
+   "coluna_x_quadro": 346.0,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 88,
+   "tela": 1,
+   "coluna_x_quadro": 567.6,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 92,
+   "tela": 1,
+   "coluna_x_quadro": 693.4,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 94,
+   "tela": 1,
+   "coluna_x_quadro": 774.3,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 96,
+   "tela": 1,
+   "coluna_x_quadro": 837.2,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 98,
+   "tela": 1,
+   "coluna_x_quadro": 936.0,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 102,
+   "tela": 1,
+   "coluna_x_quadro": 1127.7,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 104,
+   "tela": 1,
+   "coluna_x_quadro": 1228.1,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 106,
+   "tela": 1,
+   "coluna_x_quadro": 1303.0,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 108,
+   "tela": 1,
+   "coluna_x_quadro": 1373.4,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 110,
+   "tela": 1,
+   "coluna_x_quadro": 1443.7,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 112,
+   "tela": 1,
+   "coluna_x_quadro": 1539.6,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 114,
+   "tela": 1,
+   "coluna_x_quadro": 1607.0,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 116,
+   "tela": 1,
+   "coluna_x_quadro": 1713.3,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 118,
+   "tela": 2,
+   "coluna_x_quadro": 1779.2,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 120,
+   "tela": 2,
+   "coluna_x_quadro": 116.8,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 122,
+   "tela": 2,
+   "coluna_x_quadro": 217.2,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 124,
+   "tela": 2,
+   "coluna_x_quadro": 280.1,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 126,
+   "tela": 2,
+   "coluna_x_quadro": 395.4,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 128,
+   "tela": 2,
+   "coluna_x_quadro": 470.3,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 130,
+   "tela": 2,
+   "coluna_x_quadro": 585.6,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 132,
+   "tela": 2,
+   "coluna_x_quadro": 638.0,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 136,
+   "tela": 2,
+   "coluna_x_quadro": 934.5,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 138,
+   "tela": 2,
+   "coluna_x_quadro": 1007.9,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 140,
+   "tela": 2,
+   "coluna_x_quadro": 1081.3,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 144,
+   "tela": 2,
+   "coluna_x_quadro": 1261.0,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 148,
+   "tela": 2,
+   "coluna_x_quadro": 1463.2,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 150,
+   "tela": 2,
+   "coluna_x_quadro": 1524.6,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 154,
+   "tela": 2,
+   "coluna_x_quadro": 1674.4,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 158,
+   "tela": 3,
+   "coluna_x_quadro": 918.1,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 164,
+   "tela": 3,
+   "coluna_x_quadro": 1139.7,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 166,
+   "tela": 3,
+   "coluna_x_quadro": 1217.6,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 168,
+   "tela": 3,
+   "coluna_x_quadro": 1273.0,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 170,
+   "tela": 3,
+   "coluna_x_quadro": 1350.9,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 172,
+   "tela": 3,
+   "coluna_x_quadro": 1476.7,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 174,
+   "tela": 3,
+   "coluna_x_quadro": 1563.6,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 176,
+   "tela": 3,
+   "coluna_x_quadro": 1690.9,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 180,
+   "tela": 3,
+   "coluna_x_quadro": 1828.6,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  },
+  {
+   "t": 182,
+   "tela": 3,
+   "coluna_x_quadro": 1893.0,
+   "obs": "",
+   "tela_confirmada": true,
+   "pagina_sugerida": true
+  }
+ ],
  "juntadas": {},
  "ferramenta": {
-  "proximo": 1,
+  "proximo": 24,
   "tela_atual": 1,
-  "inst_atual": 0,
+  "inst_atual": 39,
   "telas": [
    {
     "id": 1,
-    "conferida": false,
+    "conferida": true,
     "junta_em": null,
     "origem": "modelo — a rotular",
     "v1_telas": [],
@@ -1571,7 +2000,7 @@
       "corda": 5,
       "casa": "3",
       "x_quadro": 134,
-      "x_centro_quadro": 140.0,
+      "x_centro_quadro": 140,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -1601,7 +2030,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 182,
-      "x_centro_quadro": 188.0,
+      "x_centro_quadro": 188,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -1661,7 +2090,7 @@
       "corda": 2,
       "casa": "3",
       "x_quadro": 273,
-      "x_centro_quadro": 278.0,
+      "x_centro_quadro": 278,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -1676,7 +2105,7 @@
       "corda": 3,
       "casa": "0",
       "x_quadro": 272,
-      "x_centro_quadro": 278.0,
+      "x_centro_quadro": 278,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -1721,7 +2150,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 338,
-      "x_centro_quadro": 344.0,
+      "x_centro_quadro": 344,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -1751,7 +2180,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 391,
-      "x_centro_quadro": 397.0,
+      "x_centro_quadro": 397,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -1856,7 +2285,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 533,
-      "x_centro_quadro": 539.0,
+      "x_centro_quadro": 539,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -1901,7 +2330,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 613,
-      "x_centro_quadro": 619.0,
+      "x_centro_quadro": 619,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -1946,7 +2375,7 @@
       "corda": 1,
       "casa": "2",
       "x_quadro": 661,
-      "x_centro_quadro": 667.0,
+      "x_centro_quadro": 667,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2021,7 +2450,7 @@
       "corda": 3,
       "casa": "0",
       "x_quadro": 751,
-      "x_centro_quadro": 757.0,
+      "x_centro_quadro": 757,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2081,7 +2510,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 835,
-      "x_centro_quadro": 841.0,
+      "x_centro_quadro": 841,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2126,7 +2555,7 @@
       "corda": 3,
       "casa": "0",
       "x_quadro": 889,
-      "x_centro_quadro": 895.0,
+      "x_centro_quadro": 895,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2141,7 +2570,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 922,
-      "x_centro_quadro": 928.0,
+      "x_centro_quadro": 928,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2156,7 +2585,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 942,
-      "x_centro_quadro": 948.0,
+      "x_centro_quadro": 948,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2201,7 +2630,7 @@
       "corda": 4,
       "casa": "1",
       "x_quadro": 1016,
-      "x_centro_quadro": 1019.0,
+      "x_centro_quadro": 1019,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2214,9 +2643,9 @@
      {
       "id": "m44",
       "corda": 3,
-      "casa": "1",
+      "casa": "0",
       "x_quadro": 1060,
-      "x_centro_quadro": 1066.0,
+      "x_centro_quadro": 1066,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2229,9 +2658,9 @@
      {
       "id": "m45",
       "corda": 4,
-      "casa": "1",
+      "casa": "2",
       "x_quadro": 1060,
-      "x_centro_quadro": 1066.0,
+      "x_centro_quadro": 1066,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2246,7 +2675,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1090,
-      "x_centro_quadro": 1096.0,
+      "x_centro_quadro": 1096,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2306,7 +2735,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1225,
-      "x_centro_quadro": 1231.0,
+      "x_centro_quadro": 1231,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2336,7 +2765,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1252,
-      "x_centro_quadro": 1258.0,
+      "x_centro_quadro": 1258,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2351,7 +2780,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1273,
-      "x_centro_quadro": 1279.0,
+      "x_centro_quadro": 1279,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2366,7 +2795,7 @@
       "corda": 4,
       "casa": "0",
       "x_quadro": 1293,
-      "x_centro_quadro": 1299.0,
+      "x_centro_quadro": 1299,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2381,7 +2810,7 @@
       "corda": 2,
       "casa": "3",
       "x_quadro": 1321,
-      "x_centro_quadro": 1327.0,
+      "x_centro_quadro": 1327,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2426,7 +2855,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1394,
-      "x_centro_quadro": 1400.0,
+      "x_centro_quadro": 1400,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2441,7 +2870,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1414,
-      "x_centro_quadro": 1420.0,
+      "x_centro_quadro": 1420,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2486,7 +2915,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1508,
-      "x_centro_quadro": 1514.0,
+      "x_centro_quadro": 1514,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2576,7 +3005,7 @@
       "corda": 3,
       "casa": "0",
       "x_quadro": 1604,
-      "x_centro_quadro": 1610.0,
+      "x_centro_quadro": 1610,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2591,7 +3020,7 @@
       "corda": 4,
       "casa": "2",
       "x_quadro": 1650,
-      "x_centro_quadro": 1656.0,
+      "x_centro_quadro": 1656,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2606,7 +3035,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1648,
-      "x_centro_quadro": 1655.0,
+      "x_centro_quadro": 1655,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2621,7 +3050,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1684,
-      "x_centro_quadro": 1690.0,
+      "x_centro_quadro": 1690,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2636,7 +3065,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1711,
-      "x_centro_quadro": 1717.0,
+      "x_centro_quadro": 1717,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2651,7 +3080,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1738,
-      "x_centro_quadro": 1744.0,
+      "x_centro_quadro": 1744,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2711,7 +3140,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1840,
-      "x_centro_quadro": 1847.0,
+      "x_centro_quadro": 1847,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2726,7 +3155,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1859,
-      "x_centro_quadro": 1868.0,
+      "x_centro_quadro": 1868,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2741,7 +3170,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1885,
-      "x_centro_quadro": 1891.0,
+      "x_centro_quadro": 1891,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2765,12 +3194,48 @@
        1917,
        1025
       ]
+     },
+     {
+      "id": "d1",
+      "corda": 6,
+      "casa": "3",
+      "x_centro_quadro": 540.6,
+      "x_quadro": 536.2,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d3",
+      "corda": 3,
+      "casa": "2",
+      "x_centro_quadro": 1303.7,
+      "x_quadro": 1299.3,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d4",
+      "corda": 3,
+      "casa": "2",
+      "x_centro_quadro": 1444.9,
+      "x_quadro": 1440.5,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d5",
+      "corda": 3,
+      "casa": "2",
+      "x_centro_quadro": 1908.7,
+      "x_quadro": 1904.2,
+      "origem": "dono",
+      "removida": false
      }
     ]
    },
    {
     "id": 2,
-    "conferida": false,
+    "conferida": true,
     "junta_em": null,
     "origem": "modelo — a rotular",
     "v1_telas": [],
@@ -2780,7 +3245,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 26,
-      "x_centro_quadro": 32.0,
+      "x_centro_quadro": 32,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2793,7 +3258,7 @@
      {
       "id": "m1",
       "corda": 6,
-      "casa": "9",
+      "casa": "3",
       "x_quadro": 27,
       "x_centro_quadro": 32.5,
       "origem": "modelo",
@@ -2810,7 +3275,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 47,
-      "x_centro_quadro": 53.0,
+      "x_centro_quadro": 53,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2825,7 +3290,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 69,
-      "x_centro_quadro": 75.0,
+      "x_centro_quadro": 75,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2855,7 +3320,7 @@
       "corda": 3,
       "casa": "2",
       "x_quadro": 110,
-      "x_centro_quadro": 116.0,
+      "x_centro_quadro": 116,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2900,7 +3365,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 192,
-      "x_centro_quadro": 198.0,
+      "x_centro_quadro": 198,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2930,7 +3395,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 212,
-      "x_centro_quadro": 218.0,
+      "x_centro_quadro": 218,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2945,7 +3410,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 233,
-      "x_centro_quadro": 239.0,
+      "x_centro_quadro": 239,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -2960,7 +3425,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 253,
-      "x_centro_quadro": 259.0,
+      "x_centro_quadro": 259,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3035,7 +3500,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 386,
-      "x_centro_quadro": 392.0,
+      "x_centro_quadro": 392,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3065,7 +3530,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 429,
-      "x_centro_quadro": 435.0,
+      "x_centro_quadro": 435,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3080,7 +3545,7 @@
       "corda": 5,
       "casa": "2",
       "x_quadro": 429,
-      "x_centro_quadro": 435.0,
+      "x_centro_quadro": 435,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3110,7 +3575,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 514,
-      "x_centro_quadro": 520.0,
+      "x_centro_quadro": 520,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3125,7 +3590,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 514,
-      "x_centro_quadro": 520.0,
+      "x_centro_quadro": 520,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3140,7 +3605,7 @@
       "corda": 3,
       "casa": "0",
       "x_quadro": 514,
-      "x_centro_quadro": 520.0,
+      "x_centro_quadro": 520,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3155,7 +3620,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 512,
-      "x_centro_quadro": 519.0,
+      "x_centro_quadro": 519,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3260,7 +3725,7 @@
       "corda": 4,
       "casa": "2",
       "x_quadro": 765,
-      "x_centro_quadro": 771.0,
+      "x_centro_quadro": 771,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3350,7 +3815,7 @@
       "corda": 3,
       "casa": "2",
       "x_quadro": 886,
-      "x_centro_quadro": 892.0,
+      "x_centro_quadro": 892,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3365,7 +3830,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 932,
-      "x_centro_quadro": 938.0,
+      "x_centro_quadro": 938,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3395,7 +3860,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 959,
-      "x_centro_quadro": 965.0,
+      "x_centro_quadro": 965,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3425,7 +3890,7 @@
       "corda": 3,
       "casa": "2",
       "x_quadro": 1000,
-      "x_centro_quadro": 1006.0,
+      "x_centro_quadro": 1006,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3438,9 +3903,9 @@
      {
       "id": "m44",
       "corda": 4,
-      "casa": "1",
+      "casa": "0",
       "x_quadro": 1000,
-      "x_centro_quadro": 1006.0,
+      "x_centro_quadro": 1006,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3453,9 +3918,9 @@
      {
       "id": "m45",
       "corda": 2,
-      "casa": "2",
+      "casa": "3",
       "x_quadro": 1027,
-      "x_centro_quadro": 1033.0,
+      "x_centro_quadro": 1033,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3470,7 +3935,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1073,
-      "x_centro_quadro": 1079.0,
+      "x_centro_quadro": 1079,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3560,7 +4025,7 @@
       "corda": 3,
       "casa": "0",
       "x_quadro": 1169,
-      "x_centro_quadro": 1175.0,
+      "x_centro_quadro": 1175,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3575,7 +4040,7 @@
       "corda": 4,
       "casa": "2",
       "x_quadro": 1215,
-      "x_centro_quadro": 1221.0,
+      "x_centro_quadro": 1221,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3605,7 +4070,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1249,
-      "x_centro_quadro": 1255.0,
+      "x_centro_quadro": 1255,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3620,7 +4085,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1276,
-      "x_centro_quadro": 1282.0,
+      "x_centro_quadro": 1282,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3635,7 +4100,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1302,
-      "x_centro_quadro": 1309.0,
+      "x_centro_quadro": 1309,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3665,7 +4130,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 1387,
-      "x_centro_quadro": 1393.0,
+      "x_centro_quadro": 1393,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3710,7 +4175,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 1435,
-      "x_centro_quadro": 1441.0,
+      "x_centro_quadro": 1441,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3738,7 +4203,7 @@
      {
       "id": "m64",
       "corda": 5,
-      "casa": "9",
+      "casa": "3",
       "x_quadro": 1456,
       "x_centro_quadro": 1461.5,
       "origem": "modelo",
@@ -3785,7 +4250,7 @@
       "corda": 3,
       "casa": "0",
       "x_quadro": 1525,
-      "x_centro_quadro": 1531.0,
+      "x_centro_quadro": 1531,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3800,7 +4265,7 @@
       "corda": 2,
       "casa": "3",
       "x_quadro": 1546,
-      "x_centro_quadro": 1552.0,
+      "x_centro_quadro": 1552,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3815,7 +4280,7 @@
       "corda": 2,
       "casa": "3",
       "x_quadro": 1568,
-      "x_centro_quadro": 1574.0,
+      "x_centro_quadro": 1574,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3860,7 +4325,7 @@
       "corda": 6,
       "casa": "3",
       "x_quadro": 1610,
-      "x_centro_quadro": 1615.0,
+      "x_centro_quadro": 1615,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3890,7 +4355,7 @@
       "corda": 6,
       "casa": "3",
       "x_quadro": 1668,
-      "x_centro_quadro": 1673.0,
+      "x_centro_quadro": 1673,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3905,7 +4370,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1694,
-      "x_centro_quadro": 1700.0,
+      "x_centro_quadro": 1700,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3920,7 +4385,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1714,
-      "x_centro_quadro": 1720.0,
+      "x_centro_quadro": 1720,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3935,7 +4400,7 @@
       "corda": 3,
       "casa": "2",
       "x_quadro": 1735,
-      "x_centro_quadro": 1741.0,
+      "x_centro_quadro": 1741,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -3980,7 +4445,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1808,
-      "x_centro_quadro": 1814.0,
+      "x_centro_quadro": 1814,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4070,21 +4535,39 @@
       "corda": 1,
       "casa": "6",
       "x_quadro": 1916,
-      "x_centro_quadro": 1918.0,
+      "x_centro_quadro": 1918,
       "origem": "modelo",
-      "removida": false,
+      "removida": true,
       "caixa": [
        1916,
        957,
        1920,
        971
       ]
+     },
+     {
+      "id": "d6",
+      "corda": 3,
+      "casa": "2",
+      "x_centro_quadro": 282.4,
+      "x_quadro": 277.9,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d8",
+      "corda": 4,
+      "casa": "2",
+      "x_centro_quadro": 708.6,
+      "x_quadro": 704.2,
+      "origem": "dono",
+      "removida": false
      }
     ]
    },
    {
     "id": 3,
-    "conferida": false,
+    "conferida": true,
     "junta_em": null,
     "origem": "modelo — a rotular",
     "v1_telas": [],
@@ -4094,7 +4577,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 38,
-      "x_centro_quadro": 44.0,
+      "x_centro_quadro": 44,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4124,7 +4607,7 @@
       "corda": 4,
       "casa": "0",
       "x_quadro": 107,
-      "x_centro_quadro": 113.0,
+      "x_centro_quadro": 113,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4184,7 +4667,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 205,
-      "x_centro_quadro": 211.0,
+      "x_centro_quadro": 211,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4214,7 +4697,7 @@
       "corda": 3,
       "casa": "2",
       "x_quadro": 248,
-      "x_centro_quadro": 254.0,
+      "x_centro_quadro": 254,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4229,7 +4712,7 @@
       "corda": 5,
       "casa": "2",
       "x_quadro": 248,
-      "x_centro_quadro": 254.0,
+      "x_centro_quadro": 254,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4259,7 +4742,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 321,
-      "x_centro_quadro": 327.0,
+      "x_centro_quadro": 327,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4274,7 +4757,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 354,
-      "x_centro_quadro": 360.0,
+      "x_centro_quadro": 360,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4304,7 +4787,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 408,
-      "x_centro_quadro": 414.0,
+      "x_centro_quadro": 414,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4334,7 +4817,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 494,
-      "x_centro_quadro": 500.0,
+      "x_centro_quadro": 500,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4364,7 +4847,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 540,
-      "x_centro_quadro": 546.0,
+      "x_centro_quadro": 546,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4409,7 +4892,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 587,
-      "x_centro_quadro": 593.0,
+      "x_centro_quadro": 593,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4424,7 +4907,7 @@
       "corda": 2,
       "casa": "3",
       "x_quadro": 632,
-      "x_centro_quadro": 638.0,
+      "x_centro_quadro": 638,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4514,7 +4997,7 @@
       "corda": 6,
       "casa": "3",
       "x_quadro": 715,
-      "x_centro_quadro": 720.0,
+      "x_centro_quadro": 720,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4529,7 +5012,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 773,
-      "x_centro_quadro": 779.0,
+      "x_centro_quadro": 779,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4559,7 +5042,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 797,
-      "x_centro_quadro": 804.0,
+      "x_centro_quadro": 804,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4634,7 +5117,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 915,
-      "x_centro_quadro": 921.0,
+      "x_centro_quadro": 921,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4649,7 +5132,7 @@
       "corda": 6,
       "casa": "3",
       "x_quadro": 916,
-      "x_centro_quadro": 921.0,
+      "x_centro_quadro": 921,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4664,7 +5147,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 945,
-      "x_centro_quadro": 951.0,
+      "x_centro_quadro": 951,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4694,7 +5177,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 995,
-      "x_centro_quadro": 1001.0,
+      "x_centro_quadro": 1001,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4724,7 +5207,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 1020,
-      "x_centro_quadro": 1026.0,
+      "x_centro_quadro": 1026,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4739,7 +5222,7 @@
       "corda": 1,
       "casa": "2",
       "x_quadro": 1041,
-      "x_centro_quadro": 1047.0,
+      "x_centro_quadro": 1047,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4814,7 +5297,7 @@
       "corda": 3,
       "casa": "0",
       "x_quadro": 1133,
-      "x_centro_quadro": 1139.0,
+      "x_centro_quadro": 1139,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4874,7 +5357,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1217,
-      "x_centro_quadro": 1223.0,
+      "x_centro_quadro": 1223,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4887,9 +5370,9 @@
      {
       "id": "m53",
       "corda": 6,
-      "casa": "9",
+      "casa": "3",
       "x_quadro": 1218,
-      "x_centro_quadro": 1223.0,
+      "x_centro_quadro": 1223,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4904,7 +5387,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1271,
-      "x_centro_quadro": 1277.0,
+      "x_centro_quadro": 1277,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4919,7 +5402,7 @@
       "corda": 3,
       "casa": "0",
       "x_quadro": 1271,
-      "x_centro_quadro": 1277.0,
+      "x_centro_quadro": 1277,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4932,9 +5415,9 @@
      {
       "id": "m56",
       "corda": 2,
-      "casa": "1",
+      "casa": "0",
       "x_quadro": 1343,
-      "x_centro_quadro": 1349.0,
+      "x_centro_quadro": 1349,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4947,9 +5430,9 @@
      {
       "id": "m57",
       "corda": 5,
-      "casa": "1",
+      "casa": "2",
       "x_quadro": 1343,
-      "x_centro_quadro": 1349.0,
+      "x_centro_quadro": 1349,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4979,7 +5462,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 1430,
-      "x_centro_quadro": 1436.0,
+      "x_centro_quadro": 1436,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -4994,7 +5477,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1430,
-      "x_centro_quadro": 1436.0,
+      "x_centro_quadro": 1436,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5009,7 +5492,7 @@
       "corda": 3,
       "casa": "0",
       "x_quadro": 1430,
-      "x_centro_quadro": 1436.0,
+      "x_centro_quadro": 1436,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5024,7 +5507,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1430,
-      "x_centro_quadro": 1436.0,
+      "x_centro_quadro": 1436,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5054,7 +5537,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1496,
-      "x_centro_quadro": 1502.0,
+      "x_centro_quadro": 1502,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5099,7 +5582,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 1619,
-      "x_centro_quadro": 1625.0,
+      "x_centro_quadro": 1625,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5114,7 +5597,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1619,
-      "x_centro_quadro": 1625.0,
+      "x_centro_quadro": 1625,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5129,7 +5612,7 @@
       "corda": 3,
       "casa": "0",
       "x_quadro": 1619,
-      "x_centro_quadro": 1625.0,
+      "x_centro_quadro": 1625,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5144,7 +5627,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1619,
-      "x_centro_quadro": 1625.0,
+      "x_centro_quadro": 1625,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5159,7 +5642,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1648,
-      "x_centro_quadro": 1655.0,
+      "x_centro_quadro": 1655,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5174,7 +5657,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1679,
-      "x_centro_quadro": 1685.0,
+      "x_centro_quadro": 1685,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5189,7 +5672,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1706,
-      "x_centro_quadro": 1712.0,
+      "x_centro_quadro": 1712,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5219,7 +5702,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 1795,
-      "x_centro_quadro": 1801.0,
+      "x_centro_quadro": 1801,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5264,7 +5747,7 @@
       "corda": 6,
       "casa": "0",
       "x_quadro": 1793,
-      "x_centro_quadro": 1800.0,
+      "x_centro_quadro": 1800,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5279,7 +5762,7 @@
       "corda": 1,
       "casa": "0",
       "x_quadro": 1825,
-      "x_centro_quadro": 1831.0,
+      "x_centro_quadro": 1831,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5294,7 +5777,7 @@
       "corda": 2,
       "casa": "0",
       "x_quadro": 1825,
-      "x_centro_quadro": 1831.0,
+      "x_centro_quadro": 1831,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5309,7 +5792,7 @@
       "corda": 3,
       "casa": "0",
       "x_quadro": 1825,
-      "x_centro_quadro": 1831.0,
+      "x_centro_quadro": 1831,
       "origem": "modelo",
       "removida": false,
       "caixa": [
@@ -5333,409 +5816,526 @@
        1837,
        1061
       ]
+     },
+     {
+      "id": "d10",
+      "corda": 2,
+      "casa": "0",
+      "x_centro_quadro": 68.8,
+      "x_quadro": 64.4,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d11",
+      "corda": 2,
+      "casa": "0",
+      "x_centro_quadro": 91.1,
+      "x_quadro": 86.7,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d12",
+      "corda": 6,
+      "casa": "3",
+      "x_centro_quadro": 42.9,
+      "x_quadro": 38.4,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d13",
+      "corda": 4,
+      "casa": "2",
+      "x_centro_quadro": 327.9,
+      "x_quadro": 323.5,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d15",
+      "corda": 5,
+      "casa": "3",
+      "x_centro_quadro": 498.6,
+      "x_quadro": 494.2,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d16",
+      "corda": 2,
+      "casa": "0",
+      "x_centro_quadro": 1310,
+      "x_quadro": 1305.5,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d17",
+      "corda": 2,
+      "casa": "0",
+      "x_centro_quadro": 1327.9,
+      "x_quadro": 1323.4,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d18",
+      "corda": 1,
+      "casa": "0",
+      "x_centro_quadro": 1885.4,
+      "x_quadro": 1881,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d19",
+      "corda": 2,
+      "casa": "0",
+      "x_centro_quadro": 1882.8,
+      "x_quadro": 1878.3,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d20",
+      "corda": 3,
+      "casa": "0",
+      "x_centro_quadro": 1881.9,
+      "x_quadro": 1877.4,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d21",
+      "corda": 4,
+      "casa": "2",
+      "x_centro_quadro": 1881.9,
+      "x_quadro": 1877.4,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d22",
+      "corda": 5,
+      "casa": "2",
+      "x_centro_quadro": 1883.7,
+      "x_quadro": 1879.2,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d23",
+      "corda": 6,
+      "casa": "0",
+      "x_centro_quadro": 1884.6,
+      "x_quadro": 1880.1,
+      "origem": "dono",
+      "removida": false
      }
     ]
    }
   ],
   "instantes": [
    {
-    "t": 116.0,
-    "estado": null,
+    "t": 116,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1713.3,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 176.0,
-    "estado": null,
+    "t": 176,
+    "estado": "coluna",
     "tela": 3,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1690.9,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 182.0,
-    "estado": null,
+    "t": 182,
+    "estado": "coluna",
     "tela": 3,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1893,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 112.0,
-    "estado": null,
+    "t": 112,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1539.6,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 150.0,
-    "estado": null,
+    "t": 150,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1524.6,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 98.0,
-    "estado": null,
+    "t": 98,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 936,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 180.0,
-    "estado": null,
+    "t": 180,
+    "estado": "coluna",
     "tela": 3,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1828.6,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 136.0,
-    "estado": null,
+    "t": 136,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 934.5,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 102.0,
-    "estado": null,
+    "t": 102,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1127.7,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 166.0,
-    "estado": null,
+    "t": 166,
+    "estado": "coluna",
     "tela": 3,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1217.6,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 104.0,
-    "estado": null,
+    "t": 104,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1228.1,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 144.0,
-    "estado": null,
+    "t": 144,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1261,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 114.0,
-    "estado": null,
+    "t": 114,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1607,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 168.0,
-    "estado": null,
+    "t": 168,
+    "estado": "coluna",
     "tela": 3,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1273,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 172.0,
-    "estado": null,
+    "t": 172,
+    "estado": "coluna",
     "tela": 3,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1476.7,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 110.0,
-    "estado": null,
+    "t": 110,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1443.7,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 92.0,
-    "estado": null,
+    "t": 92,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 693.4,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 88.0,
-    "estado": null,
+    "t": 88,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 567.6,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 108.0,
-    "estado": null,
+    "t": 108,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1373.4,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 94.0,
-    "estado": null,
+    "t": 94,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 774.3,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 106.0,
-    "estado": null,
+    "t": 106,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1303,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 174.0,
-    "estado": null,
+    "t": 174,
+    "estado": "coluna",
     "tela": 3,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1563.6,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 138.0,
-    "estado": null,
+    "t": 138,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1007.9,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 128.0,
-    "estado": null,
+    "t": 128,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 470.3,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 148.0,
-    "estado": null,
+    "t": 148,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1463.2,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 96.0,
-    "estado": null,
+    "t": 96,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 837.2,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 122.0,
-    "estado": null,
+    "t": 122,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 217.2,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 126.0,
-    "estado": null,
+    "t": 126,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 395.4,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 120.0,
-    "estado": null,
+    "t": 120,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 116.8,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 118.0,
-    "estado": null,
+    "t": 118,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1779.2,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 130.0,
-    "estado": null,
+    "t": 130,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 585.6,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 82.0,
-    "estado": null,
+    "t": 82,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 346,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 164.0,
-    "estado": null,
+    "t": 164,
+    "estado": "coluna",
     "tela": 3,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1139.7,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 132.0,
-    "estado": null,
+    "t": 132,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 638,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 140.0,
-    "estado": null,
+    "t": 140,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1081.3,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 124.0,
-    "estado": null,
+    "t": 124,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 280.1,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 170.0,
-    "estado": null,
+    "t": 170,
+    "estado": "coluna",
     "tela": 3,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1350.9,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 80.0,
-    "estado": null,
+    "t": 80,
+    "estado": "coluna",
     "tela": 1,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 299.5,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 154.0,
-    "estado": null,
+    "t": 154,
+    "estado": "coluna",
     "tela": 2,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 1674.4,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    },
    {
-    "t": 158.0,
-    "estado": null,
+    "t": 158,
+    "estado": "coluna",
     "tela": 3,
     "tela_v1": null,
-    "coluna_x_quadro": null,
+    "coluna_x_quadro": 918.1,
     "obs": "",
-    "tela_confirmada": false,
+    "tela_confirmada": true,
     "pagina_sugerida": true
    }
   ]
