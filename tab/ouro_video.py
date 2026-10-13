@@ -1653,9 +1653,11 @@ main{display:flex;gap:16px;padding:12px 16px}
 #conteudo{flex:1;min-width:0}
 .moldura{position:relative;display:inline-block;max-width:100%;border:1px solid var(--borda);cursor:crosshair;line-height:0}
 .moldura img{max-width:100%;height:auto;display:block}
-.caixa{position:absolute;border:2px solid var(--caixa);pointer-events:none}
-.caixa.nao{border:1px dashed var(--suave)}.caixa.removida{opacity:.25}.caixa.dono{border-style:dotted}
-.caixa b{position:absolute;left:-2px;top:-17px;background:var(--caixa);color:#fff;font-size:11px;line-height:14px;padding:0 3px;border-radius:3px}
+.caixa{position:absolute;outline:2px solid var(--caixa);outline-offset:4px;pointer-events:none}
+.caixa.nao{outline:1px dashed var(--suave)}.caixa.removida{opacity:.25}.caixa.dono{outline-style:dotted}
+.caixa b{position:absolute;left:-6px;top:-22px;background:var(--caixa);color:#fff;font-size:11px;line-height:14px;padding:0 3px;border-radius:3px}
+.caixa i{position:absolute;left:calc(100% + 7px);top:50%;transform:translateY(-50%);background:#1565c0;color:#fff;font-style:normal;font-weight:700;font-size:15px;line-height:18px;padding:0 4px;border-radius:3px;white-space:nowrap}
+.caixa i.mudou{background:#e65100}
 .coluna{position:absolute;top:0;bottom:0;width:0;border-left:3px solid var(--caixa);pointer-events:none}
 table{border-collapse:collapse;margin-top:10px}td,th{padding:3px 8px;border-bottom:1px solid var(--borda);text-align:left}
 td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.removida td:last-child{text-decoration:none;opacity:1}
@@ -1768,6 +1770,12 @@ function caixaDe(tp, n) {  /* retângulo da nota em % da imagem */
   if (!c) { const p = tp.passo, y = tp.linhas_y[n.corda - 1]; c = [n.x_centro_quadro - 0.3 * p, y - 0.4 * p, n.x_centro_quadro + 0.3 * p, y + 0.4 * p]; }
   return {left: (c[0] - rx0) / w * 100, top: (c[1] - ry0) / hh * 100, width: (c[2] - c[0]) / w * 100, height: (c[3] - c[1]) / hh * 100};
 }
+function pintarRotulo(el, tp, n) {  /* leitura do modelo; "modelo→dono" se o dono mudou */
+  const lido = String((tp.notas[Number(n.id.slice(1))] || {}).casa ?? "");
+  const atual = String(n.casa).trim(), trocou = atual !== lido;
+  el.textContent = trocou ? lido + "→" + (atual || "?") : lido;
+  el.className = trocou ? "mudou" : "";
+}
 function estiloCaixa(r) { return `left:${r.left}%;top:${r.top}%;width:${r.width}%;height:${r.height}%`; }
 
 function desenharTela() {
@@ -1778,7 +1786,10 @@ function desenharTela() {
   tp.nao_nota.forEach(n => { const r = caixaDe(tp, n); mold.append(h("div", {class: "caixa nao", style: estiloCaixa(r), title: "não é nota: " + n.casa})); });
   te.notas.forEach((n, i) => {
     const r = caixaDe(tp, n);
-    mold.append(h("div", {class: "caixa" + (n.removida ? " removida" : "") + (n.origem === "dono" ? " dono" : ""), style: estiloCaixa(r)}, h("b", {}, i + 1)));
+    /* leitura do modelo ao lado da caixa (azul); se o dono mudou: "modelo→dono" (laranja) */
+    const rotulo = n.origem === "modelo" ? h("i", {"data-rotulo": n.id}) : "";
+    if (rotulo) pintarRotulo(rotulo, tp, n);
+    mold.append(h("div", {class: "caixa" + (n.removida ? " removida" : "") + (n.origem === "dono" ? " dono" : ""), style: estiloCaixa(r)}, h("b", {}, i + 1), rotulo));
   });
   mold.addEventListener("click", ev => {
     const rc = mold.getBoundingClientRect();
@@ -1795,7 +1806,10 @@ function desenharTela() {
     h("option", {value: ""}, "— única —"), outras.map(t => h("option", {value: t.id, selected: te.junta_em === t.id}, "igual à tela " + t.id)));
   const tabela = h("table", {}, h("tr", {}, h("th", {}, "#"), h("th", {}, "corda"), h("th", {}, "casa"), h("th", {}, ""), h("th", {}, "")));
   te.notas.forEach((n, i) => {
-    const campo = h("input", {value: n.casa, "data-nota": n.id, inputmode: "numeric", oninput: ev => { n.casa = ev.target.value; mudou(); }});
+    const campo = h("input", {value: n.casa, "data-nota": n.id, inputmode: "numeric", oninput: ev => {
+      n.casa = ev.target.value; mudou();
+      const el = document.querySelector(`[data-rotulo="${n.id}"]`); if (el) pintarRotulo(el, tp, n);
+    }});
     const acao = h("button", {onclick: () => {
       if (n.origem === "dono") te.notas.splice(i, 1); else n.removida = !n.removida;
       mudou(); desenhar(true); }}, n.origem === "dono" ? "apagar" : n.removida ? "restaurar" : "não é nota");
