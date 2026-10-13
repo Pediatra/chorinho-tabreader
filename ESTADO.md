@@ -5240,3 +5240,9 @@ foi revertido. Saídas: `data/saida/painel_braco/`, `data/saida/fase8/medida/*_v
 - `chorinho/audio@1` (`tab/audio_produto.py`, commit `b6da3b38`): arquivo irmão por (tela, exibição, coluna), validado nos 4 produtos (MVP 645/699 colunas com tempo; iwaki 245/273; kimny 158/222; shin izumi 114/552). Aferição agora `nivel = "ms"`, `resolucao_escuta_ms = 100`.
 - **Não repetir**: deslocamento (controle ou par A/B) que cai a menos de |d| + 50 ms de uma coluna vizinha, afirmada ou não. No shin izumi, p21 e p24 caíram em outra nota.
 - Abaixo de ~50 ms, o ouvido não separa: a medição tem de ser com áudio sintético.
+
+## Áudio — 2026-10-13 — A4: o shin izumi falha porque o produto perde a corda 1 (rodada 2009)
+
+- 23 de 42 exibições recusadas, todas por "poucas colunas casadas", mas com cosseno **alto** (0,83). Descartados por medição: casas > 7 (as recusadas têm menos), afinação (transposição 0 é a melhor: 114 afirmadas, contra 0–8 nas outras) e densidade de notas (10 candidatos/s nos dois grupos).
+- Causa apoiada: o produto do shin izumi tem só **4 % das notas na corda 1** (42 de 998), contra 17–27 % nos outros vídeos. Nos recortes, as telas 12 e 25 perdem as notas da corda 1, e na 25 pausas viram notas. Pedido à trilha tablatura (via dono).
+- Exibição recusada com cosseno alto é **alarme de leitura** (colunas faltando).
