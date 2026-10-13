@@ -4,6 +4,7 @@ import json
 import random
 import shutil
 import subprocess
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -494,3 +495,186 @@ def test_par_tem_mesma_janela_e_clique_separado_por_d(tmp_path: Path) -> None:
     t_b = clique(b, saida["clique_b_s"])
     assert abs((t_b - t_a) - 0.200) <= 0.002, (t_a, t_b)
     assert abs(t_a - saida["clique_a_s"]) <= 0.002
+
+
+def _col(
+    tela: int, coluna: int, t: float | None, tipo: str = "nota", exib: int = 0
+) -> dict:
+    """Registro de coluna no formato do alinhador v2.1 (campos usados pela folha 4)."""
+    return {
+        "tela": tela,
+        "exibicao": exib,
+        "coluna": coluna,
+        "t_audio": t,
+        "tipo": tipo,
+    }
+
+
+def test_candidatos_rasgueado_separa_nova_igual_e_abafada() -> None:
+    """Nota só com tempo na v2.1 é 'nova'; com |Δt| <= 10 ms nas duas é 'igual'; abafada afirmada."""
+    v2 = {
+        "colunas": [
+            _col(1, 1, None),
+            _col(1, 2, 5.000),
+            _col(1, 3, 6.0, exib=0),
+            _col(1, 4, 7.0),
+        ]
+    }
+    v21 = {
+        "colunas": [
+            _col(1, 1, 1.0),  # nova
+            _col(1, 2, 5.008),  # igual (Δt 8 ms)
+            _col(1, 3, 6.5),  # Δt grande: nem igual nem nova (fica fora)
+            _col(1, 4, None),  # recusada: fora
+            _col(1, 5, 2.0, tipo="abafada"),  # abafada, sem v2
+            _col(1, 6, None, tipo="abafada"),  # abafada recusada: fora
+        ]
+    }
+    pools = af.candidatos_rasgueado(v2, v21)
+    assert [(i["coluna"], i["t_v2"]) for i in pools["nota_nova"]] == [(1, None)]
+    assert [i["coluna"] for i in pools["nota_igual"]] == [2]
+    assert [(i["coluna"], i["tipo"]) for i in pools["abafada"]] == [(5, "abafada")]
+
+
+def test_pares_consecutivos_so_entre_afirmadas() -> None:
+    """Par só quando as duas vizinhas na ordem da exibição têm tempo."""
+    colunas = [
+        _col(1, 1, 1.0),
+        _col(1, 2, 2.0),
+        _col(1, 3, None),
+        _col(1, 4, 4.0),
+        _col(1, 5, 5.0),
+    ]
+    pares = af.pares_consecutivos_afirmados(colunas)
+    assert [(a["coluna"], b["coluna"]) for a, b in pares] == [(1, 2), (4, 5)]
+
+
+def test_controle_rasgueado_rejeita_coluna_perto_e_pico() -> None:
+    """Clique a menos de 150 ms de outra coluna afirmada, ou sobre um pico, não serve."""
+    audio = _audio_com_rajadas([2.0, 5.3])
+    par = (_col(1, 1, 5.0), _col(1, 2, 5.6))  # clique 5,3: rajada de fluxo
+    par_ok = (_col(1, 1, 2.0), _col(1, 2, 4.0))  # clique 3,0: limpo
+    so_par = {1: [5.0, 5.6]}
+    ctrl, _ = af.escolher_controles_rasgueado(
+        [par], so_par, audio, random.Random(0), 1, set()
+    )
+    assert ctrl == []
+    so_ok = {1: [2.0, 4.0]}
+    ctrl, _ = af.escolher_controles_rasgueado(
+        [par_ok], so_ok, audio, random.Random(0), 1, set()
+    )
+    assert len(ctrl) == 1 and abs(ctrl[0]["clique"] - 3.0) < 1e-9
+    assert ctrl[0]["dist_coluna_s"] >= af.DISTANCIA_COLUNA_CONTROLE_S
+    # uma terceira coluna afirmada a 100 ms do clique bloqueia o controle
+    perto = {1: [2.0, 4.0, 3.1]}
+    ctrl, _ = af.escolher_controles_rasgueado(
+        [par_ok], perto, audio, random.Random(0), 1, set()
+    )
+    assert ctrl == []
+
+
+def test_pedido_abafada_usa_nao_notas_e_recusa_sem_eles() -> None:
+    """A caixa da abafada é a média dos x dos nao_notas da coluna; sem eles, erro."""
+    produto = {
+        "video": {"arquivo": "x/y.mp4"},
+        "telas": [{"id": 1, "painel": [0, 620, 1900, 1080], "passo": 27.0}],
+        "notas": [],
+        "nao_notas": [
+            {"tela": 1, "coluna": 5, "x_centro_quadro": 100.0},
+            {"tela": 1, "coluna": 5, "x_centro_quadro": 110.0},
+        ],
+    }
+    item = {
+        "video": "/acervo/x/y.mp4",
+        "tela": 1,
+        "exibicao": 0,
+        "coluna": 5,
+        "t_audio": 3.0,
+        "tipo": "abafada",
+    }
+    pedido = af.pedido_abafada(item, produto, 7)
+    assert pedido["x_centro_quadro"] == 105.0
+    assert pedido["notas"] == [] and pedido["id"] == "p007"
+    assert pedido["painel"] == [0, 620, 1900, 1080]
+    try:
+        af.pedido_abafada({**item, "coluna": 9}, produto, 1)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("abafada sem nao_notas deveria falhar")
+
+
+def test_pagina_com_aviso_mostra_o_aviso(tmp_path: Path) -> None:
+    """O aviso da folha 4 aparece na página; sem aviso não sobra marcador."""
+    pasta = tmp_path / "folha4"
+    pasta.mkdir()
+    manifesto = [
+        {
+            "id": "h01",
+            "arquivo": "h01.mp4",
+            "rotulo": "x",
+            "tela": 1,
+            "coluna": 2,
+            "notas": [],
+        }
+    ]
+    (tmp_path / "m.json").write_text(json.dumps(manifesto), encoding="utf-8")
+    texto = af.gerar_pagina(pasta, tmp_path / "m.json", af.AVISO_RASGUEADO).read_text(
+        encoding="utf-8"
+    )
+    assert "batida abafada (X)" in texto
+    assert "__AVISO__" not in texto
+    sem = af.gerar_pagina(pasta, tmp_path / "m.json").read_text(encoding="utf-8")
+    assert "__AVISO__" not in sem and "batida abafada" not in sem
+
+
+def test_planejar_rasgueado_quantidades_e_ids() -> None:
+    """16 clipes: 8 novas, 3 iguais, 3 abafadas e 2 controles, com ids h01..h16."""
+    telas = range(1, 7)
+    v21_cols, v2_cols, produto_notas, nao_notas = [], [], [], []
+    for tela in telas:
+        for coluna in range(1, 7):
+            t = (
+                1.0 + coluna * 1.0 + tela * 0.03
+            )  # uma coluna a cada 1 s, telas desalinhadas
+            tipo = "abafada" if coluna == 6 else "nota"
+            v21_cols.append(_col(tela, coluna, t, tipo))
+            if tipo == "nota":
+                v2_t = None if coluna in (1, 2) else t
+                produto_notas.append(
+                    {
+                        "tela": tela,
+                        "coluna": coluna,
+                        "corda": 1,
+                        "casa": 0,
+                        "x_centro_quadro": 100.0 * coluna,
+                        "exibicao": None,
+                    }
+                )
+            else:
+                nao_notas.append(
+                    {"tela": tela, "coluna": coluna, "x_centro_quadro": 50.0}
+                )
+                v2_t = None
+            v2_cols.append(_col(tela, coluna, v2_t, "nota"))
+    produto = {
+        "video": {"arquivo": "x/y.mp4"},
+        "telas": [
+            {"id": t, "painel": [0, 620, 1900, 1080], "passo": 27.0} for t in telas
+        ],
+        "notas": produto_notas,
+        "nao_notas": nao_notas,
+    }
+    v2 = {"colunas": v2_cols}
+    v21 = {"video": {"arquivo": "/acervo/x/y.mp4"}, "colunas": v21_cols}
+    # áudio silencioso: nenhum pico de fluxo, então só a regra de coluna vale nos controles
+    audio = (np.zeros(22050 * 40, dtype=np.int16), 22050, 0.0)
+    entradas = af.planejar_rasgueado(v2, v21, produto, audio, 2004)
+    assert len(entradas) == 16
+    cont = Counter(e["categoria"] for e in entradas)
+    assert cont["controle"] == 2
+    assert cont["nota_nova"] == 8 and cont["nota_igual"] == 3 and cont["abafada"] == 3
+    assert [e["id"] for e in entradas] == [f"h{n:02d}" for n in range(1, 17)]
+    for e in entradas:
+        if e["categoria"] == "controle":
+            assert e["item"]["_ctrl"]["dist_coluna_s"] >= af.DISTANCIA_COLUNA_CONTROLE_S

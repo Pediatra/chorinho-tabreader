@@ -33,6 +33,7 @@ import subprocess
 import sys
 import tempfile
 import wave
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -145,6 +146,7 @@ input[type="text"] { width: 100%; box-sizing: border-box; font: inherit; padding
     <h1>__TITULO__</h1>
     <p class="ajuda">Atalhos: 1 certo, 2 errado, 3 não sei (responde o clipe atual e
       passa ao próximo). Espaço toca ou pausa o clipe atual.</p>
+    __AVISO__
     <p id="contador"></p>
   </main>
 </header>
@@ -939,12 +941,15 @@ def _cartoes(clipes: list[dict]) -> str:
     return "\n".join(blocos)
 
 
-def gerar_pagina(pasta: Path, manifesto_arq: Path | None = None) -> Path:
+def gerar_pagina(
+    pasta: Path, manifesto_arq: Path | None = None, aviso: str = ""
+) -> Path:
     """Gera o ``index.html`` estático da folha a partir do manifesto.
 
     Args:
         pasta: pasta onde o ``index.html`` é gravado e onde estão os MP4.
         manifesto_arq: manifesto; ``None`` usa ``pasta/manifesto.json``.
+        aviso: texto extra mostrado abaixo das instruções (vazio não mostra nada).
 
     Returns:
         O caminho do ``index.html`` gerado.
@@ -963,6 +968,10 @@ def gerar_pagina(pasta: Path, manifesto_arq: Path | None = None) -> Path:
     pagina = (
         _MODELO_HTML.replace("__TITULO__", html.escape(f"Folha: {nome}"))
         .replace("__CARTOES__", _cartoes(clipes))
+        .replace(
+            "__AVISO__",
+            f'<p class="ajuda">{html.escape(aviso)}</p>' if aviso else "",
+        )
         .replace("__NOME_JS__", json.dumps(nome, ensure_ascii=False))
         .replace("__DADOS__", dados)
     )
@@ -1875,6 +1884,396 @@ def cmd_comparar(
     return 0
 
 
+#: Folha 4 (rasgueado): tolerância entre v2 e v2.1 para uma nota "igual", em s.
+TOLERANCIA_IGUAL_S = 0.010
+
+#: Folha 4: distância mínima, em s, do clique de controle a QUALQUER coluna afirmada da tela.
+DISTANCIA_COLUNA_CONTROLE_S = 0.150
+
+#: Folha 4: quantidade de clipes de cada categoria.
+QUANTIDADES_RASGUEADO = {"nota_nova": 8, "nota_igual": 3, "abafada": 3, "controle": 2}
+
+#: Folha 4: texto extra da página (a caixa de abafada).
+AVISO_RASGUEADO = (
+    "Em alguns clipes a caixa marca uma batida abafada (X): a pergunta é se o clique "
+    "cai junto com a batida."
+)
+
+
+def _chave_coluna(c: dict) -> tuple[int, int, int]:
+    """Chave ``(tela, exibicao, coluna)`` de um registro de alinhamento."""
+    return (int(c["tela"]), int(c["exibicao"]), int(c["coluna"]))
+
+
+def candidatos_rasgueado(v2: dict, v21: dict) -> dict[str, list[dict]]:
+    """Candidatos da folha 4, pelas duas versões do alinhamento.
+
+    Notas com tempo só na v2.1 (``nota_nova``), notas com tempo nas duas versões com
+    ``|Δt| <= TOLERANCIA_IGUAL_S`` (``nota_igual``) e abafadas afirmadas na v2.1 (``abafada``).
+    Só a v2.1 tem ``tipo``; a v2 não tem abafadas, então ``t_v2`` é ``None`` nelas.
+
+    Args:
+        v2: alinhamento antigo (``tab.audio_alinhar`` sem o método rasgueado).
+        v21: alinhamento novo, com ``tipo`` ``"nota"`` ou ``"abafada"`` em cada coluna.
+
+    Returns:
+        ``{"nota_nova": [...], "nota_igual": [...], "abafada": [...]}``; cada item tem
+        ``tela``, ``exibicao``, ``coluna``, ``tipo``, ``t_audio`` (v2.1) e ``t_v2``.
+    """
+    antigo = {_chave_coluna(c): c for c in v2["colunas"]}
+    pools: dict[str, list[dict]] = {"nota_nova": [], "nota_igual": [], "abafada": []}
+    for c in v21["colunas"]:
+        t21 = c["t_audio"]
+        if t21 is None:
+            continue
+        a = antigo.get(_chave_coluna(c))
+        t2 = a["t_audio"] if a is not None else None
+        item = {
+            "tela": int(c["tela"]),
+            "exibicao": int(c["exibicao"]),
+            "coluna": int(c["coluna"]),
+            "tipo": c["tipo"],
+            "t_audio": float(t21),
+            "t_v2": None if t2 is None else float(t2),
+        }
+        if c["tipo"] == "abafada":
+            pools["abafada"].append(item)
+        elif t2 is None:
+            pools["nota_nova"].append(item)
+        elif abs(float(t2) - float(t21)) <= TOLERANCIA_IGUAL_S:
+            pools["nota_igual"].append(item)
+    return pools
+
+
+def pares_consecutivos_afirmados(colunas: list[dict]) -> list[tuple[dict, dict]]:
+    """Pares de colunas vizinhas na ordem da exibição, ambas afirmadas.
+
+    Como ``colunas`` vem em ordem de coluna, duas vizinhas na lista não têm coluna no meio.
+    Uma coluna recusada entre duas afirmadas quebra o par.
+
+    Args:
+        colunas: registros de UMA exibição (já com ``t_audio``), em ordem de coluna.
+
+    Returns:
+        Pares ``(a, b)`` com ``t_audio`` não nulo nos dois.
+    """
+    return [
+        (a, b)
+        for a, b in itertools.pairwise(colunas)
+        if a["t_audio"] is not None and b["t_audio"] is not None
+    ]
+
+
+def escolher_controles_rasgueado(
+    pares: list[tuple[dict, dict]],
+    instantes_tela: dict[int, list[float]],
+    audio: tuple[np.ndarray, int, float],
+    rng: random.Random,
+    n: int,
+    proibidas: set[tuple[int, int]],
+) -> tuple[list[dict], int]:
+    """Até ``n`` controles: clique no meio de um par, longe de colunas e de picos de fluxo.
+
+    Um par serve se, para o clique no ponto médio ``m``: (1) nenhuma coluna afirmada da tela
+    (qualquer tipo) está a menos de ``DISTANCIA_COLUNA_CONTROLE_S`` de ``m`` (incluindo a e b);
+    (2) nenhum pico do fluxo espectral está a menos de ``DISTANCIA_MIN_PICO_S`` de ``m``.
+    Colunas sem tempo (recusadas) não têm instante, então só as afirmadas entram na regra (1).
+
+    Args:
+        pares: pares de ``pares_consecutivos_afirmados`` de todas as exibições.
+        instantes_tela: ``{tela: [t de cada coluna afirmada da tela]}``.
+        audio: ``carregar_audio`` do vídeo.
+        rng: gerador da folha (ordem de tentativa).
+        n: quantos controles se quer.
+        proibidas: pares ``(tela, coluna)`` já usados (não podem ser o controle).
+
+    Returns:
+        ``(controles, candidatos_aceitos)``: cada controle tem ``a``, ``b``, ``clique``,
+        ``dist_coluna_s`` (até a coluna afirmada mais próxima) e ``dist_pico_s``.
+        ``len(controles) < n`` significa que não havia par assim.
+    """
+    amostras, taxa, t0_amostra = audio
+    ordem = list(range(len(pares)))
+    rng.shuffle(ordem)
+    controles: list[dict] = []
+    aceitos = 0
+    usados: set[tuple[int, int]] = set(proibidas)
+    for i in ordem:
+        if len(controles) == n:
+            break
+        a, b = pares[i]
+        chaves = {(a["tela"], a["coluna"]), (b["tela"], b["coluna"])}
+        if chaves & usados:
+            continue
+        clique = (a["t_audio"] + b["t_audio"]) / 2.0
+        vizinhas = np.asarray(instantes_tela.get(a["tela"], []), dtype=np.float64)
+        dist_col = distancia_ao_pico(clique, vizinhas)
+        if dist_col < DISTANCIA_COLUNA_CONTROLE_S:
+            continue
+        janela = picos_de_fluxo(
+            amostras,
+            taxa,
+            t0_amostra,
+            a["t_audio"] - MARGEM_PICOS_S,
+            b["t_audio"] + MARGEM_PICOS_S,
+        )
+        dist_pico = distancia_ao_pico(clique, janela)
+        aceitos += 1
+        if dist_pico < DISTANCIA_MIN_PICO_S:
+            continue
+        controles.append(
+            {
+                "a": a,
+                "b": b,
+                "clique": clique,
+                "dist_coluna_s": dist_col,
+                "dist_pico_s": dist_pico,
+            }
+        )
+        usados |= chaves
+    return controles, aceitos
+
+
+def pedido_abafada(item: dict, produto: dict, numero: int) -> dict:
+    """Pedido de clipe de uma abafada: a caixa vem dos ``nao_notas`` da coluna.
+
+    A coluna abafada não tem nota em ``notas``; o ``x_centro_quadro`` é a média dos
+    ``x_centro_quadro`` dos ``nao_notas`` da mesma ``(tela, coluna)``.
+
+    Args:
+        item: item de ``candidatos_rasgueado`` (abafada).
+        produto: produto do vídeo (``telas``, ``nao_notas``).
+        numero: número do pedido, para o ``id``.
+
+    Returns:
+        O pedido com ``id``, ``video``, ``t_audio``, ``tela``, ``coluna``, ``exibicao``,
+        ``x_centro_quadro``, ``painel``, ``passo``, ``rotulo`` e ``notas`` vazias.
+
+    Raises:
+        ValueError: se a tela ou os ``nao_notas`` da coluna não existirem no produto.
+    """
+    tela = next(t for t in produto["telas"] if t["id"] == item["tela"])
+    xs = [
+        float(n["x_centro_quadro"])
+        for n in produto.get("nao_notas", [])
+        if n["tela"] == item["tela"] and n["coluna"] == item["coluna"]
+    ]
+    if not xs:
+        raise ValueError(
+            f"sem nao_notas na tela {item['tela']} coluna {item['coluna']}"
+        )
+    rotulo = os.path.splitext(os.path.basename(produto["video"]["arquivo"]))[0]
+    return {
+        "id": f"p{numero:03d}",
+        "video": item["video"],
+        "t_audio": float(item["t_audio"]),
+        "tela": item["tela"],
+        "coluna": item["coluna"],
+        "exibicao": item["exibicao"],
+        "x_centro_quadro": round(sum(xs) / len(xs), 2),
+        "painel": tela["painel"],
+        "passo": tela["passo"],
+        "rotulo": rotulo,
+        "notas": [],
+    }
+
+
+def planejar_rasgueado(
+    v2: dict,
+    v21: dict,
+    produto: dict,
+    audio: tuple[np.ndarray, int, float],
+    semente: int,
+) -> list[dict]:
+    """Sorteia os 16 clipes da folha 4 (controles primeiro, depois as categorias).
+
+    Ordem do sorteio com ``Random(semente)``: 2 controles entre os pares consecutivos
+    afirmados; depois 8 notas novas, 3 notas iguais e 3 abafadas, espalhadas no tempo com
+    ``sortear_espalhado``, excluindo as colunas dos controles. Por fim, embaralha e dá os ids.
+
+    Args:
+        v2: alinhamento antigo.
+        v21: alinhamento novo.
+        produto: produto ``tab.video`` sem marcador (``telas``, ``notas``, ``nao_notas``).
+        audio: ``carregar_audio`` do vídeo.
+        semente: semente da folha (2004).
+
+    Returns:
+        Lista de 16 entradas com ``id``, ``categoria``, ``tipo``, ``t_v2``, ``t_v21``,
+        ``dist_vizinho_s`` (distância até a coluna afirmada mais próxima da mesma tela),
+        ``controle`` e o pedido (``video``, ``t_audio``, ``tela``, ``coluna``...).
+        Controles faltando são reportados em ``len``, não inventados.
+    """
+    rng = random.Random(semente)
+    pools = candidatos_rasgueado(v2, v21)
+    if v21["video"]["arquivo"] != PREFIXO_ACERVO + produto["video"]["arquivo"]:
+        raise ValueError("produto não é o do alinhamento")
+
+    instantes: dict[int, list[float]] = {}
+    for c in v21["colunas"]:
+        if c["t_audio"] is not None:
+            instantes.setdefault(int(c["tela"]), []).append(float(c["t_audio"]))
+
+    por_exib: dict[tuple[int, int], list[dict]] = {}
+    for c in v21["colunas"]:
+        por_exib.setdefault((int(c["tela"]), int(c["exibicao"])), []).append(c)
+    pares: list[tuple[dict, dict]] = []
+    for chave in sorted(por_exib):
+        ordenadas = sorted(por_exib[chave], key=lambda c: int(c["coluna"]))
+        pares += pares_consecutivos_afirmados(ordenadas)
+
+    controles, _ = escolher_controles_rasgueado(
+        pares, instantes, audio, rng, QUANTIDADES_RASGUEADO["controle"], set()
+    )
+    proibidas: set[tuple[int, int]] = set()
+    for ctrl in controles:
+        proibidas |= {
+            (ctrl["a"]["tela"], ctrl["a"]["coluna"]),
+            (ctrl["b"]["tela"], ctrl["b"]["coluna"]),
+        }
+
+    escolhidos: list[tuple[str, dict]] = []
+    for ctrl in controles:
+        escolhidos.append(
+            (
+                "controle",
+                {
+                    **ctrl["a"],
+                    "tipo": ctrl["a"]["tipo"],
+                    "t_audio": ctrl["clique"],
+                    "t_v2": None,
+                    "_ctrl": ctrl,
+                },
+            )
+        )
+    for cat, chave_pool, qtd in (
+        ("nota_nova", "nota_nova", QUANTIDADES_RASGUEADO["nota_nova"]),
+        ("nota_igual", "nota_igual", QUANTIDADES_RASGUEADO["nota_igual"]),
+        ("abafada", "abafada", QUANTIDADES_RASGUEADO["abafada"]),
+    ):
+        pool = [
+            it
+            for it in pools[chave_pool]
+            if (it["tela"], it["coluna"]) not in proibidas
+        ]
+        for it in sortear_espalhado(pool, qtd, rng):
+            escolhidos.append((cat, it))
+            proibidas.add((it["tela"], it["coluna"]))
+
+    entradas = []
+    for cat, it in escolhidos:
+        dist = None
+        if cat != "controle":
+            outros = [t for t in instantes.get(it["tela"], []) if t != it["t_audio"]]
+            dist = round(distancia_ao_pico(it["t_audio"], np.asarray(outros)), 4)
+        entradas.append({"categoria": cat, "item": it, "dist_vizinho_s": dist})
+    rng.shuffle(entradas)
+    for n, e in enumerate(entradas, start=1):
+        e["id"] = f"h{n:02d}"
+    return entradas
+
+
+def cmd_rasgueado(
+    v2_arq: Path,
+    v21_arq: Path,
+    produto_arq: Path,
+    semente: int,
+    pasta: Path,
+    chave: Path,
+    pedidos_saida: Path,
+    manifesto: Path,
+) -> int:
+    """Monta a folha 4: sorteia, gera os clipes e grava chave, pedidos e manifesto.
+
+    Args:
+        v2_arq: alinhamento antigo.
+        v21_arq: alinhamento novo (com ``tipo``).
+        produto_arq: produto ``tab.video`` do vídeo.
+        semente: semente (2004).
+        pasta: pasta servida (``folha4/``).
+        chave: JSON com o gabarito (fora da pasta).
+        pedidos_saida: JSON com os pedidos (fora da pasta).
+        manifesto: JSON ``[{id, arquivo, rotulo, tela, coluna, notas}]`` para a página.
+
+    Returns:
+        Código de saída (0 se deu certo).
+    """
+    v2 = ler_alinhamento(str(v2_arq))
+    v21 = ler_alinhamento(str(v21_arq))
+    produto = json.loads(Path(produto_arq).read_text(encoding="utf-8"))
+    audio = carregar_audio(v21["video"]["arquivo"])
+    entradas = planejar_rasgueado(v2, v21, produto, audio, semente)
+    pasta.mkdir(parents=True, exist_ok=True)
+    manifesto_lista, chave_lista, pedidos_lista = [], [], []
+    for e in entradas:
+        it = e["item"]
+        if e["categoria"] == "controle":
+            ctrl = it["_ctrl"]
+            pedido = {
+                "id": e["id"],
+                **{
+                    k: v
+                    for k, v in pedido_coluna(
+                        {**ctrl["a"], "video": v21["video"]["arquivo"]}, produto, 0
+                    ).items()
+                    if k != "id"
+                },
+                "t_audio": round(ctrl["clique"], 6),
+            }
+        else:
+            item = {**it, "video": v21["video"]["arquivo"]}
+            pedido = {**pedido_coluna(item, produto, 0), "id": e["id"]}
+        medido = gerar_clipe(pedido, pasta)
+        manifesto_lista.append(
+            {k: medido[k] for k in ("id", "arquivo", "rotulo", "tela", "coluna")}
+            | {"notas": medido.get("notas", [])}
+        )
+        registro = {
+            "id": e["id"],
+            "categoria": e["categoria"],
+            "controle": e["categoria"] == "controle",
+            "tipo": it["tipo"],
+            "tela": it["tela"],
+            "exibicao": it["exibicao"],
+            "coluna": it["coluna"],
+            "t_v2": it["t_v2"],
+            "t_v21": it["_ctrl"]["a"]["t_audio"]
+            if e["categoria"] == "controle"
+            else it["t_audio"],
+            "t_clique": pedido["t_audio"],
+            "dist_vizinho_s": e["dist_vizinho_s"],
+        }
+        if e["categoria"] == "controle":
+            registro["dist_coluna_s"] = round(it["_ctrl"]["dist_coluna_s"], 4)
+            registro["dist_pico_s"] = round(it["_ctrl"]["dist_pico_s"], 4)
+            registro["t_c"] = it["_ctrl"]["a"]["t_audio"]
+            registro["t_c1"] = it["_ctrl"]["b"]["t_audio"]
+        chave_lista.append(registro)
+        pedidos_lista.append(pedido)
+    _gravar_json(chave, chave_lista)
+    _gravar_json(pedidos_saida, pedidos_lista)
+    _gravar_json(manifesto, manifesto_lista)
+    contagem = Counter(e["categoria"] for e in entradas)
+    print(f"{len(entradas)} clipes em {pasta}: {dict(contagem)}")
+    return 0
+
+
+def pedido_coluna(item: dict, produto: dict, numero: int) -> dict:
+    """Pedido de uma coluna da folha 4: nota (``notas``) ou abafada (``nao_notas``).
+
+    Args:
+        item: item com ``video``, ``tela``, ``exibicao``, ``coluna``, ``t_audio``, ``tipo``.
+        produto: produto do vídeo.
+        numero: número do pedido.
+
+    Returns:
+        O pedido (ver ``_pedido_do_item`` e ``pedido_abafada``).
+    """
+    if item.get("tipo") == "abafada":
+        return pedido_abafada(item, produto, numero)
+    return _pedido_do_item(item, produto, numero)
+
+
 def main() -> int:
     """Ponto de entrada da CLI: subcomandos ``clipes``, ``pagina`` e ``sortear``.
 
@@ -1892,6 +2291,7 @@ def main() -> int:
     p_pagina = sub.add_parser("pagina", help="gera o index.html da pasta")
     p_pagina.add_argument("--pasta", type=Path, required=True)
     p_pagina.add_argument("--manifesto", type=Path, default=None)
+    p_pagina.add_argument("--aviso", default="")
 
     p_sortear = sub.add_parser(
         "sortear", help="sorteia colunas afirmadas, pares ALINHADO PRODUTO"
@@ -1914,11 +2314,32 @@ def main() -> int:
     p_pagc.add_argument("--pasta", type=Path, required=True)
     p_pagc.add_argument("--manifesto", type=Path, required=True)
 
+    p_rasg = sub.add_parser("rasgueado", help="monta a folha 4 (abafadas e notas v2.1)")
+    p_rasg.add_argument("--v2", type=Path, required=True)
+    p_rasg.add_argument("--v21", type=Path, required=True)
+    p_rasg.add_argument("--produto", type=Path, required=True)
+    p_rasg.add_argument("--semente", type=int, required=True)
+    p_rasg.add_argument("--pasta", type=Path, required=True)
+    p_rasg.add_argument("--chave", type=Path, required=True)
+    p_rasg.add_argument("--pedidos-saida", type=Path, required=True)
+    p_rasg.add_argument("--manifesto", type=Path, required=True)
+
     args = parser.parse_args()
     if args.comando == "comparar":
         return cmd_comparar(
             args.gold,
             args.pedidos,
+            args.semente,
+            args.pasta,
+            args.chave,
+            args.pedidos_saida,
+            args.manifesto,
+        )
+    if args.comando == "rasgueado":
+        return cmd_rasgueado(
+            args.v2,
+            args.v21,
+            args.produto,
             args.semente,
             args.pasta,
             args.chave,
@@ -1933,7 +2354,7 @@ def main() -> int:
     if args.comando == "clipes":
         return cmd_clipes(args.pedidos, args.pasta, args.manifesto)
     if args.comando == "pagina":
-        destino = gerar_pagina(args.pasta, args.manifesto)
+        destino = gerar_pagina(args.pasta, args.manifesto, args.aviso)
         print(f"página gerada: {destino}")
         return 0
     return cmd_sortear(args.alinhado, args.por_video, args.semente, args.saida)
