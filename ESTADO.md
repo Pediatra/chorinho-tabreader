@@ -5141,3 +5141,11 @@ Gate: ruff ok, 620 testes (fora 2 arquivos não rastreados da trilha mãos, um d
 - **`t_amostra0` = 1º frame de áudio decodificado**, não o `start_time`: com Opus o `start_time` erra **~7 ms** (pré-salto). Teste sintético de clique: erro ≤ 1,1 ms em PCM/AAC/Opus, áudio deslocado 0 e 0,5 s.
 - 20 vídeos (2 por canal, 10 canais): **20 de 20** extraídos, **Opus em 20 de 20**, deslocamento áudio−vídeo **0 ms em 20 de 20**, nenhum buraco que mude a duração; 1,7 s por vídeo (mediana), 82 MB de FLAC por hora. Projeção (estimativa): ~2,2 h de HD e ~24 GB para 2.998 vídeos.
 - **Não repetir**: usar o `start_time` do stream de áudio como instante da amostra 0 (−7 ms em todo o acervo Opus).
+
+## Áudio — 2026-10-13 — A1: atraso marcador → som no MVP (rodada 2002)
+
+- `tab/audio_onsets.py` (STFT 2048/256 a 22 050 Hz, fluxo espectral) e `tab/audio_atraso.py`: 636 eventos de coluna do MVP, ataque mais próximo em janela de meia-distância (teto ±0,30 s), 2 passadas.
+- **O marcador vem ANTES do som**: Δ = t_som − t_marcador, fluxo, passada 2: ataque em **636 de 636**, mediana **139 ms**, p10 60, p90 268. Sem capotraste (transposição pela música: k = 0).
+- **Degrau, não deriva**: mediana por exibição 79–125 ms até ~448 s (10 exibições) e 164–277 ms depois (12 exibições), inclusive na 2ª exibição de telas já vistas. Causa não medida.
+- Viés do detector no sintético: −28 ms (pico antes do ataque); o fluxo nas alturas não separa 1 semitom com N_FFT 2048 (razão 0,98). Os dois testes ficam `xfail` estrito com o número.
+- **Não repetir**: usar `t_marcador + atraso fixo` como verdade de tempo do som neste vídeo (degrau de ~110 ms e dispersão de 60–100 ms).
