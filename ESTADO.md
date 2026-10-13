@@ -5185,3 +5185,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - `data/gold/audio/folha1.json` (26 clipes, aprovado pelo dono): MVP com régua concordante **4 de 4** certos; os **3 "falsos" pela régua do A1 estavam certos** (erro da régua); colunas que o marcador nunca acende: 2 de 4 erradas (tela 2, cols 17–18); sem marcador (iwaki, kimny, shin izumi): **8 certos, 1 errado, 3 não sei em 12**.
 - A régua do A3 passa a ser o gabarito de escuta. Próximo conserto: coluna sem ataque (ligadura/ornamento) não pode receber tempo.
 - **Não repetir**: controle errado deslocado para onde há coluna recusada vizinha (o clique caiu numa nota real; f03).
+
+## Áudio — 2026-10-13 — colunas que o marcador não acende são ornamentos; v3 reprovada (rodada 2006)
+
+- No MVP, as 10 colunas com nota que o marcador nunca acende são **notas pequenas de ornamento sob arco** (mordente 2–3–2, deslize), vistas nos recortes. Às vezes soam com ataque (f21 certo), às vezes não (f20, f26 errados).
+- Regra por proxy (corda 1 + nota única + ≤ 1,75 passo): 6 de 10 ornamentos e 0 de 400 colunas acesas no MVP, mas no gabarito do dono **recusa 2 "certos"** (f06, f21) e não resolve o f11. **Reprovada e desfeita.**
+- Pedido à trilha tablatura: marcar ornamento (tamanho do glifo) e arco no produto (`docs/decisoes/2002-ornamento-no-produto.md`).
+- **Não repetir**: adivinhar ornamento por geometria de coluna (corda/nota única/distância).
