@@ -5330,3 +5330,8 @@ Tempo falso continua 0 em todos. Scripts: `data/saida/fase8/medida/regua_a/`.
 ## Áudio — 2026-10-13 — campanitas descartado pelo dono
 
 - O dono tirou o transcriptor *campanitas* (Ernesto Cavour) do dataset, por não atender aos padrões dele. A folha 4 não entra no gabarito. As rodadas 2012 e 2013 ficam como registro; o v2.1 não muda os outros 13 vídeos.
+
+## Áudio — 2026-10-13 — por que o alinhador fica com trecho curto (rodada 2014)
+
+- Medição sem mudar código, em 6 exibições recusadas (room 335 e giant steps) e 4 boas. O DP perde o caminho que cobre a página por causa do termo de andamento (3 casos) ou do custo de coluna sem ataque (3). Afrouxar λ aceita até 5 de 6, mas muda 10 a 15 de 112 colunas boas em mais de 30 ms. **Alinhador fica como está**; a causa é leitura com colunas faltando (decisão 2004).
+- Achado: 8 dos 42 alarmes de leitura vêm de trecho escolhido todo na margem de 0,5 s fora da página (casou a página vizinha). Proposta: o alarme ignorar esses casos. Ainda não feito.
