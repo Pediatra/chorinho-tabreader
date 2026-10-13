@@ -5179,3 +5179,9 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - **v2** (trecho contínuo com início e fim livres + andamento iterativo), MVP, régua = ataques do A1: **591 de 636** a ≤ 50 ms (fluxo ou alturas), **3 falsos de 636 (0,47 %)**, 7 recusas; trecho igual ao da régua em 19 de 22 exibições. v1 (página inteira): 10 falsos.
 - Cada exibição do MVP toca um **trecho contínuo** da página (repetições e casas de volta); forçar a página inteira gerava 7 dos 10 falsos da v1.
 - **Não repetir**: DTW de passo padrão sobre o perfil de alturas (14 de 636 a ≤ 100 ms); alinhar a página inteira em cada exibição.
+
+## Áudio — 2026-10-13 — folha 1: primeiro gabarito de tempo do som, por escuta (rodada 2005)
+
+- `data/gold/audio/folha1.json` (26 clipes, aprovado pelo dono): MVP com régua concordante **4 de 4** certos; os **3 "falsos" pela régua do A1 estavam certos** (erro da régua); colunas que o marcador nunca acende: 2 de 4 erradas (tela 2, cols 17–18); sem marcador (iwaki, kimny, shin izumi): **8 certos, 1 errado, 3 não sei em 12**.
+- A régua do A3 passa a ser o gabarito de escuta. Próximo conserto: coluna sem ataque (ligadura/ornamento) não pode receber tempo.
+- **Não repetir**: controle errado deslocado para onde há coluna recusada vizinha (o clique caiu numa nota real; f03).
