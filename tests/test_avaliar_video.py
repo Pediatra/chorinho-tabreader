@@ -23,6 +23,7 @@ from tab.avaliar_video import (
     linhas_do_relatorio,
     notas_distintas,
     ocorrencias,
+    so_conferidas,
     tela_em_t,
     validar_ouro,
 )
@@ -741,3 +742,24 @@ def test_coluna_do_ouro_antes_da_primeira_coluna_ou_sem_ajuste():
     assert coluna_do_ouro(1100.0, [1204.5, 1291.2], 24.4) == 1100.0
     assert coluna_do_ouro(1240.0, [], 24.4) == 1240.0
     assert coluna_do_ouro(1240.0, [1241.0], 0.0) == 1240.0
+
+
+def test_so_conferidas_descarta_pagina_nao_conferida_e_seus_instantes():
+    """Página só pré-preenchida pelo modelo não entra como gabarito."""
+    ouro = {
+        "telas": [
+            {"id": 1, "conferida": True, "notas": []},
+            {"id": 2, "conferida": False, "notas": []},
+        ],
+        "instantes": [{"t": 0, "tela": 1}, {"t": 5, "tela": 2}, {"t": 9, "tela": None}],
+    }
+    recortado = so_conferidas(ouro)
+    assert [t["id"] for t in recortado["telas"]] == [1]
+    assert [i["t"] for i in recortado["instantes"]] == [0, 9]
+    assert len(ouro["telas"]) == 2
+
+
+def test_so_conferidas_mantem_ouro_v1_sem_marca():
+    """Ouro sem nenhuma página conferida (v1) volta inteiro."""
+    ouro = {"telas": [{"id": 1, "notas": []}], "instantes": []}
+    assert so_conferidas(ouro) is ouro

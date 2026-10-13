@@ -451,6 +451,34 @@ def classificar_instante(
     return "erro"
 
 
+def so_conferidas(ouro: dict) -> dict:
+    """Recorta o ouro às páginas que o dono conferiu.
+
+    No ouro v2 a página não conferida traz as notas do modelo (pré-preenchimento), e
+    contá-la como gabarito mediria o modelo contra ele mesmo. Se nenhuma página tem
+    ``conferida`` verdadeiro (ouro v1, sem a marca), o ouro volta inteiro. Instantes
+    que apontam para uma página descartada saem junto.
+
+    Args:
+        ouro: JSON do ouro de vídeo.
+
+    Returns:
+        O mesmo ouro se nada foi recortado; senão, uma cópia rasa com ``telas`` e
+        ``instantes`` filtrados.
+    """
+    telas = ouro.get("telas", [])
+    conferidas = [t for t in telas if t.get("conferida")]
+    if not conferidas or len(conferidas) == len(telas):
+        return ouro
+    ids = {int(t["id"]) for t in conferidas}
+    instantes = [
+        i
+        for i in ouro.get("instantes", [])
+        if i.get("tela") is None or int(i["tela"]) in ids
+    ]
+    return {**ouro, "telas": conferidas, "instantes": instantes}
+
+
 def avaliar(
     ouro: dict,
     predicao: Predicao,
@@ -473,6 +501,7 @@ def avaliar(
         Notas e tempo saem com ``avaliavel: false`` e ``motivo`` quando a predição não
         tem ``x_quadro`` ou ``passo`` suficientes.
     """
+    ouro = so_conferidas(ouro)
     telas_ouro = ouro.get("telas", [])
     instantes = ouro.get("instantes", [])
     ids_ouro = [int(tela["id"]) for tela in telas_ouro]
