@@ -5192,3 +5192,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - Regra por proxy (corda 1 + nota única + ≤ 1,75 passo): 6 de 10 ornamentos e 0 de 400 colunas acesas no MVP, mas no gabarito do dono **recusa 2 "certos"** (f06, f21) e não resolve o f11. **Reprovada e desfeita.**
 - Pedido à trilha tablatura: marcar ornamento (tamanho do glifo) e arco no produto (`docs/decisoes/2002-ornamento-no-produto.md`).
 - **Não repetir**: adivinhar ornamento por geometria de coluna (corda/nota única/distância).
+
+## Áudio — 2026-10-13 — folha 2: vídeos sem marcador; a escuta separa coluna, não ms (rodada 2007)
+
+- `data/gold/audio/folha2.json` (30 clipes, aprovado pelo dono): afirmadas do alinhador v2 nos 3 vídeos sem marcador, **23 de 27 certos, 0 errados, 4 não sei**.
+- **Controles não detectados: 0 de 3** (clique a 226–244 ms das notas, sem ataque a < 80 ms, ouvido "certo"). Com a folha 1: 1 de 4. "Certo" em folha de clique único = **coluna certa**, não ±50 ms (vale também para a folha 1).
+- A5 proposto: `docs/decisoes/2003-tempo-do-audio-no-produto.md`. Arquivo irmão `chorinho/audio@1` por (tela, exibição, coluna), com recusas e motivo e `afericao.nivel = "coluna"`; sem mexer no `chorinho/video@1`.
+- **Não repetir**: tratar "certo" de folha de clique único como precisão de tempo. Próximo formato: comparação A/B com deslocamentos de 50/100/200 ms.
