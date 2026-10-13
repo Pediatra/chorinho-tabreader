@@ -19,6 +19,7 @@ from tab.audio_produto import (
     confere_produto,
     main,
     montar,
+    trecho_fora_da_pagina,
     validar,
 )
 
@@ -282,6 +283,19 @@ def _mut_sem_n_abafadas(d: dict) -> None:
     del d["exibicoes"][0]["n_abafadas_casadas"]
 
 
+def _mut_sem_fora_da_pagina(d: dict) -> None:
+    """Tira ``fora_da_pagina`` de uma exibição."""
+    del d["exibicoes"][0]["fora_da_pagina"]
+
+
+def _mut_alarme_com_fora_da_pagina(d: dict) -> None:
+    """Exibição recusada, cos alto e fora da página, com o alarme ligado (deveria ser False)."""
+    e = d["exibicoes"][1]
+    e["cos_medio"] = 0.85
+    e["fora_da_pagina"] = True
+    e["alarme_leitura"] = True
+
+
 def _mut_nota_sem_entrada(d: dict) -> None:
     """Some a coluna 3 da exibição 0, que tem nota no produto."""
     d["colunas"] = [
@@ -309,6 +323,8 @@ def _mut_nota_sem_entrada(d: dict) -> None:
         (_mut_sem_tipo, "chave ausente: tipo"),
         (_mut_sem_rasgueado, "chave ausente: rasgueado"),
         (_mut_sem_n_abafadas, "chave ausente: n_abafadas_casadas"),
+        (_mut_sem_fora_da_pagina, "chave ausente: fora_da_pagina"),
+        (_mut_alarme_com_fora_da_pagina, "alarme_leitura incoerente"),
     ],
 )
 def test_validar_acusa_cada_regra_quebrada(
@@ -440,6 +456,45 @@ def test_alarme_leitura_nao_dispara_em_rasgueado() -> None:
     """Exibição recusada com cosseno alto não dá alarme se for rasgueado (colunas abafadas)."""
     assert alarme_leitura(True, 0.85, rasgueado=True) is False
     assert alarme_leitura(True, 0.85, rasgueado=False) is True
+
+
+@pytest.mark.parametrize(
+    ("janela", "trecho", "esperado"),
+    [
+        ([9.5, 20.5], [2.0, 3.0], True),  # todo antes de t0 (10.0)
+        ([9.5, 20.5], [25.0, 26.0], True),  # todo depois de t1 (20.0)
+        ([9.5, 20.5], [9.0, 10.5], False),  # atravessa a borda de entrada
+        ([9.5, 20.5], [19.5, 21.0], False),  # atravessa a borda de saída
+        ([9.5, 20.5], [12.0, 15.0], False),  # dentro da página
+        ([9.5, 20.5], None, False),
+        (None, [2.0, 3.0], False),
+    ],
+)
+def test_trecho_fora_da_pagina(
+    janela: list[float] | None, trecho: list[float] | None, esperado: bool
+) -> None:
+    """Só o trecho inteiro na margem conta como fora da página (rodada 2014)."""
+    assert trecho_fora_da_pagina(janela, trecho, 0.5) is esperado
+
+
+def test_alarme_leitura_nao_dispara_fora_da_pagina() -> None:
+    """Recusada com cos alto não dá alarme se o trecho está fora da página (rodada 2014)."""
+    assert alarme_leitura(True, 0.85, fora_da_pagina=True) is False
+    assert alarme_leitura(True, 0.85, fora_da_pagina=False) is True
+
+
+def test_montar_fora_da_pagina_tira_alarme_da_exibicao_vizinha(tmp_path: Path) -> None:
+    """Exibição recusada, cos alto, trecho todo na margem: fora da página e sem alarme."""
+    alinhado = _alinhado()
+    alinhado["exibicoes"][1]["cos_medio"] = 0.85
+    alinhado["exibicoes"][1]["n_casadas"] = 2
+    alinhado["exibicoes"][1]["janela"] = [9.5, 20.5]
+    alinhado["exibicoes"][1]["trecho_tempo"] = [2.0, 3.0]
+    caminho_produto, caminho_alinhado = _arquivos(tmp_path, _produto(), alinhado)
+    d = montar(str(caminho_produto), str(caminho_alinhado), commit="abc", gabarito=[])
+    assert [e["fora_da_pagina"] for e in d["exibicoes"]] == [False, True]
+    assert [e["alarme_leitura"] for e in d["exibicoes"]] == [False, False]
+    assert validar(d, _produto()) == []
 
 
 def test_montar_rasgueado_sai_sem_alarme_e_com_contagem(tmp_path: Path) -> None:

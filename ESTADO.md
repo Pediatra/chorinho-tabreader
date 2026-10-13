@@ -5335,3 +5335,7 @@ Tempo falso continua 0 em todos. Scripts: `data/saida/fase8/medida/regua_a/`.
 
 - Medição sem mudar código, em 6 exibições recusadas (room 335 e giant steps) e 4 boas. O DP perde o caminho que cobre a página por causa do termo de andamento (3 casos) ou do custo de coluna sem ataque (3). Afrouxar λ aceita até 5 de 6, mas muda 10 a 15 de 112 colunas boas em mais de 30 ms. **Alinhador fica como está**; a causa é leitura com colunas faltando (decisão 2004).
 - Achado: 8 dos 42 alarmes de leitura vêm de trecho escolhido todo na margem de 0,5 s fora da página (casou a página vizinha). Proposta: o alarme ignorar esses casos. Ainda não feito.
+
+## Áudio — 2026-10-13 — alarme de leitura ignora trecho fora da página (rodada 2014)
+
+- `tab.audio_produto`: nova chave `fora_da_pagina` por exibição (trecho escolhido inteiro na margem de 0,5 s). O alarme não dispara nesses casos. Nos 13 vídeos: alarmes **42 → 34**, colunas iguais 5342 de 5342. Lista de telas da decisão 2004 atualizada.

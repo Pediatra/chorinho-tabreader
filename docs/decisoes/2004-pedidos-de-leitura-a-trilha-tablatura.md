@@ -35,15 +35,15 @@ compara colunas com tempo e número de alarmes. Exemplo: sakura com 0 de 62 colu
 alarmes; room 335 com 114 de 552 colunas e 21 alarmes. É uma medida independente da métrica
 de glifos, porque vem do som.
 
-## Telas com alarme (v2.1)
+## Telas com alarme (v2.1, sem os 8 trechos fora da página da rodada 2014)
 
-- guitarous *sakura*: 1, 3, 4, 6, 7, 8, 9
+- guitarous *sakura*: 1, 3, 4, 7, 8, 9
 - iwaki *fly me to the moon*: 10
 - shin izumi *dream is a wish*: 19, 20
-- shin izumi *giant steps*: 1, 5, 9, 10, 13, 14, 15, 17, 20
-- shin izumi *room 335*: 1–7, 12, 15–18, 21, 22, 24, 25, 28, 31, 33, 34, 40
+- shin izumi *giant steps*: 1, 5, 9, 10, 14, 17, 20
+- shin izumi *room 335*: 1–5, 7, 12, 15, 16, 18, 21, 22, 25, 28, 33, 40
 - transcriptor *charagua*: 6
-- transcriptor *campanitas*: 3, 4, 5, 7, 8, 12, 13, 15, 16, 17, 38, 39, 40, 43, 47, 48, 49.
+- transcriptor *campanitas* (descartado pelo dono): 3, 4, 5, 7, 8, 12, 13, 15, 16, 17, 38, 39, 40, 43, 47, 48, 49.
   Rodada 2013: só 3 de 17 são leitura verificada (13, 38, 47). As telas 5 e 7 vêm de painel
   ou rótulo lido como nota. Outras 3 são do método (setas de rasgueado sem X), e 9 não
   foram olhadas.

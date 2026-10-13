@@ -69,9 +69,15 @@ cada buraco. Com isso o DP prefere um trecho curto.
 ## Consequências
 
 1. O alinhador fica como está (v2.1).
-2. Proposta pequena: o alarme de leitura passa a ignorar exibições cujo trecho caiu todo na
-   margem. Isso tira 8 alarmes falsos dos 42, e a lista de telas da decisão 2004 perde, por
-   exemplo, room 335 telas 6, 24, 31 e 34 e giant steps telas 13 e 15. Ainda não feito.
+2. Feito, com o aval do dono: `tab.audio_produto` ganhou `fora_da_pagina` por exibição, e
+   o alarme ignora essas exibições. Nos 13 vídeos o resultado foi:
+   - alarmes: **42 → 34**;
+   - telas que perderam o alarme: room 335, telas 6, 17, 24, 31 e 34; giant steps, telas 13
+     e 15; sakura, tela 6;
+   - colunas com o mesmo `t_audio`: 5342 de 5342.
+
+   Os arquivos antes da mudança estão em `data/saida/audio/a4/alarme_margem/antes/`. A
+   lista da decisão 2004 foi atualizada.
 
 ## Limites
 

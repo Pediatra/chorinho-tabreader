@@ -84,6 +84,7 @@ CHAVES_EXIBICAO = (
     "n_casadas",
     "n_abafadas_casadas",
     "rasgueado",
+    "fora_da_pagina",
     "alarme_leitura",
 )
 CHAVES_COLUNA = (
@@ -167,25 +168,52 @@ def _chave_coluna(registro: dict) -> tuple[int, int, int]:
     return (int(registro["tela"]), int(registro["exibicao"]), int(registro["coluna"]))
 
 
+def trecho_fora_da_pagina(
+    janela: list[float] | None, trecho_tempo: list[float] | None, margem: float
+) -> bool:
+    """Trecho escolhido cai inteiro na margem da janela, fora da página (rodada 2014).
+
+    O alinhador procura a página numa janela ``[t0 - margem, t1 + margem]``. Em 8 de 42
+    alarmes da rodada 2014 o trecho escolhido estava todo na margem: casou a página vizinha,
+    e o alarme era falso. Um trecho que atravessa a borda da página não conta como fora.
+
+    Args:
+        janela: ``[t0 - margem, t1 + margem]`` da exibição, ou ``None``.
+        trecho_tempo: ``[início, fim]`` do trecho escolhido, ou ``None``.
+        margem: a margem da janela, em segundos (``MARGEM_JANELA_S``).
+
+    Returns:
+        ``True`` se o trecho termina antes de ``t0`` ou começa depois de ``t1``; ``False`` se
+        algum dos dois é ``None`` ou se o trecho está (ao menos em parte) na página.
+    """
+    if janela is None or trecho_tempo is None:
+        return False
+    inicio, fim = trecho_tempo
+    return fim < janela[0] + margem or inicio > janela[1] - margem
+
+
 def _linhas_exibicoes(alinhado: dict) -> list[dict]:
     """Uma linha de ``exibicoes[]`` por exibição do alinhamento, em ordem estável.
 
     Alinhamentos anteriores à v2.1 não trazem ``rasgueado`` nem ``n_abafadas_casadas``: nesses
-    casos vale ``False`` e ``0``, que é o que a v2 fazia.
+    casos vale ``False`` e ``0``, que é o que a v2 fazia. Alinhamentos sem ``janela`` ou
+    ``trecho_tempo`` dão ``fora_da_pagina`` ``False``.
 
     Args:
         alinhado: saída do ``tab.audio_alinhar``.
 
     Returns:
         Lista com ``tela``, ``exibicao``, ``trecho_colunas``, ``T_s``, ``recusada``,
-        ``motivo``, ``cos_medio``, ``n_casadas``, ``n_abafadas_casadas``, ``rasgueado`` e
-        ``alarme_leitura``, ordenada por (tela, exibicao).
+        ``motivo``, ``cos_medio``, ``n_casadas``, ``n_abafadas_casadas``, ``rasgueado``,
+        ``fora_da_pagina`` e ``alarme_leitura``, ordenada por (tela, exibicao).
     """
+    margem = float(alinhado["parametros"].get("MARGEM_JANELA_S", 0.5))
     linhas = []
     for e in alinhado["exibicoes"]:
         recusada = bool(e["recusada_exibicao"])
         cos_medio = e.get("cos_medio")
         rasgueado = bool(e.get("rasgueado", False))
+        fora = trecho_fora_da_pagina(e.get("janela"), e.get("trecho_tempo"), margem)
         linhas.append(
             {
                 "tela": int(e["tela"]),
@@ -198,33 +226,42 @@ def _linhas_exibicoes(alinhado: dict) -> list[dict]:
                 "n_casadas": e.get("n_casadas"),
                 "n_abafadas_casadas": int(e.get("n_abafadas_casadas", 0)),
                 "rasgueado": rasgueado,
-                "alarme_leitura": alarme_leitura(recusada, cos_medio, rasgueado),
+                "fora_da_pagina": fora,
+                "alarme_leitura": alarme_leitura(recusada, cos_medio, rasgueado, fora),
             }
         )
     return sorted(linhas, key=lambda e: (e["tela"], e["exibicao"]))
 
 
 def alarme_leitura(
-    recusada: bool, cos_medio: float | None, rasgueado: bool = False
+    recusada: bool,
+    cos_medio: float | None,
+    rasgueado: bool = False,
+    fora_da_pagina: bool = False,
 ) -> bool:
     """Exibição recusada em que as colunas casadas casam bem: sinal de leitura com falhas.
 
     Medido na rodada 2009 (shin izumi, corda 1 perdida) e na 2010 (guitarous, cordas
     deslocadas): a recusa vem de poucas colunas casadas, com cosseno alto. Um rasgueado
     (``rasgueado``) não dispara: a recusa vem das colunas abafadas, que não têm altura e
-    que o alinhador não casa como nota, e a leitura está certa.
+    que o alinhador não casa como nota, e a leitura está certa. Na rodada 2014, um trecho
+    todo fora da página (``fora_da_pagina``) também não dispara: casou a página vizinha,
+    e o cosseno alto é de outra página.
 
     Args:
         recusada: a exibição foi recusada pelo alinhador.
         cos_medio: cosseno médio das colunas casadas (``None`` se nenhuma casou).
         rasgueado: a exibição é um rasgueado (fração de colunas abafadas no limite).
+        fora_da_pagina: o trecho escolhido está inteiro na margem da janela (rodada 2014).
 
     Returns:
-        ``True`` se recusada, não rasgueado e ``cos_medio >= LIMIAR_ALARME_COS``.
+        ``True`` se recusada, não rasgueado, não fora da página e
+        ``cos_medio >= LIMIAR_ALARME_COS``.
     """
     return bool(
         recusada
         and not rasgueado
+        and not fora_da_pagina
         and cos_medio is not None
         and cos_medio >= LIMIAR_ALARME_COS
     )
@@ -547,13 +584,20 @@ def validar(d: dict, produto: dict | None = None) -> list[str]:
         colunas = []
     for i, e in enumerate(exibicoes):
         erros.extend(_faltando(e, CHAVES_EXIBICAO, f"exibicoes[{i}]"))
+        chaves_alarme = (
+            "recusada",
+            "cos_medio",
+            "rasgueado",
+            "fora_da_pagina",
+            "alarme_leitura",
+        )
         coerente = (
             not isinstance(e, dict)
-            or not all(
-                k in e for k in ("recusada", "cos_medio", "rasgueado", "alarme_leitura")
-            )
+            or not all(k in e for k in chaves_alarme)
             or e["alarme_leitura"]
-            == alarme_leitura(e["recusada"], e["cos_medio"], e["rasgueado"])
+            == alarme_leitura(
+                e["recusada"], e["cos_medio"], e["rasgueado"], e["fora_da_pagina"]
+            )
         )
         if not coerente:
             erros.append(f"exibicoes[{i}]: alarme_leitura incoerente com recusa e cos")
@@ -612,6 +656,11 @@ def resumo(d: dict) -> list[str]:
         f"alarmes de leitura: {sum(e['alarme_leitura'] for e in exibicoes)} de "
         f"{len(exibicoes)} exibições"
         + (f" (telas {', '.join(str(t) for t in alarmes)})" if alarmes else "")
+    )
+    fora = [e for e in exibicoes if e["fora_da_pagina"]]
+    linhas.append(
+        f"fora da página (trecho na margem): {len(fora)} de {len(exibicoes)} exibições, "
+        f"{sum(1 for e in fora if e['recusada'])} delas recusadas"
     )
     return linhas
 
