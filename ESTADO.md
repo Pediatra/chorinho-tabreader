@@ -5305,3 +5305,24 @@ tokenizadas (revocação). Presets `fina`, `fina2`, `fina4` (com desfoque) medid
 
 - Causas: 3 de 17 do método (setas de rasgueado sem X), 3 de 17 de leitura, 2 de 17 outras (painel na partitura; uma sem causa), 9 de 17 não olhadas. **14 de 17 têm página gêmea aceita**, e 38 × 20 têm sequências idênticas no produto: o alinhador casa 1 coluna numa passagem e 5 na outra. Hipótese: o alinhador escolhe trecho mínimo quando há mais ataques que colunas. Não provado.
 - `docs/decisoes/2004-pedidos-de-leitura-a-trilha-tablatura.md`: 9 pedidos de leitura com evidência e as telas com alarme por vídeo, para o dono repassar.
+
+## Tablatura — 2026-10-13 — régua de tempo: cursor em trânsito vale a última coluna passada (decisão do dono)
+
+Diagnóstico do Greensleeves (`data/saida/tempo_gs/`, folha `folha.png`): dos 17 erros + 3 sem
+tempo, **10** eram o cursor fino do pablo romé **entre duas colunas** (a régua levava o clique
+para a mais próxima, às vezes a seguinte; o produto dava a última passada); **7** eram coluna
+que o produto não leu (o "1" lido como harmônico; o candidato `serif3_*` lê); **3** são a 1ª
+coluna de uma exibição, sem tempo (onset atrasado; defeito real, aberto). Decisão do dono: entre
+duas colunas vale **a última que o cursor passou** (a nota que soa). `coluna_do_ouro`: a última
+coluna à esquerda do clique, salvo se a próxima está a até 0,75 passo à direita **e** mais perto
+(cursor chegando, ~17 px antes). A versão "até 0,75 passo, sem comparar" piorava o South
+American em t=98 (colunas a 20 px) e foi corrigida antes do commit.
+
+| vídeo | régua antiga | régua nova |
+| --- | --- | --- |
+| MVP (oficial) | 39/40 | **40/40** |
+| Greensleeves (oficial) | 20/40 | **29/40** |
+| Greensleeves (`serif3_1/2/3`) | 23, 24, 23 /40 | **33, 33, 32 /40** |
+| South American (v2) | 37/40 | 37/40 |
+
+Tempo falso continua 0 em todos. Scripts: `data/saida/fase8/medida/regua_a/`.

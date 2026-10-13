@@ -721,8 +721,23 @@ def test_coluna_do_ouro_leva_o_clique_do_cursor_para_a_coluna():
     assert coluna_do_ouro(1274.5, xs, 24.4) == 1291.2
 
 
-def test_coluna_do_ouro_longe_de_toda_coluna_fica_como_esta():
-    """A mais de um passo de toda nota do ouro, o clique vale como está."""
-    assert coluna_do_ouro(1240.0, [1204.5, 1291.2], 24.4) == 1240.0
+def test_coluna_do_ouro_entre_colunas_vale_a_ultima_passada():
+    """Decisão do dono: cursor em trânsito = a última coluna passada (a que soa)."""
+    xs = [1204.5, 1291.2, 1382.0]
+    assert coluna_do_ouro(1240.0, xs, 24.4) == 1204.5
+    assert coluna_do_ouro(1300.0, xs, 24.4) == 1291.2
+    assert coluna_do_ouro(1500.0, xs, 24.4) == 1382.0  # depois da última coluna
+
+
+def test_coluna_do_ouro_cursor_chegando_so_se_mais_perto_que_a_passada():
+    """Cursor 17 px antes da coluna vale ela; colunas coladas, vale a mais perto."""
+    assert coluna_do_ouro(1274.5, [1204.5, 1291.2], 24.4) == 1291.2
+    assert coluna_do_ouro(936.0, [928.0, 948.0], 18.0) == 928.0
+
+
+def test_coluna_do_ouro_antes_da_primeira_coluna_ou_sem_ajuste():
+    """Antes da 1ª coluna: a mais próxima a até 1 passo; senão, o clique como está."""
+    assert coluna_do_ouro(1182.0, [1204.5, 1291.2], 24.4) == 1204.5
+    assert coluna_do_ouro(1100.0, [1204.5, 1291.2], 24.4) == 1100.0
     assert coluna_do_ouro(1240.0, [], 24.4) == 1240.0
     assert coluna_do_ouro(1240.0, [1241.0], 0.0) == 1240.0

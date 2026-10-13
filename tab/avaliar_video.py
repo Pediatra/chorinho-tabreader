@@ -1057,14 +1057,25 @@ def _somar_notas(
     }
 
 
-def coluna_do_ouro(clique: float, xs_ouro: list[float], passo: float) -> float:
-    """Leva o clique do dono para a coluna de notas do ouro mais próxima.
+#: Até quanto à DIREITA do clique uma coluna ainda conta como "a que está soando", em
+#: passos: o cursor do pablo romé chega ~17 px (0,7 passo) antes do centro da coluna.
+FOLGA_CURSOR_PASSOS = 0.75
 
-    O dono clica onde o marcador está. Em canais cujo marcador é um cursor fino ANTES da
-    coluna (pablo romé: ~17 px à esquerda do centro dos algarismos, passo ~24 px), o
-    clique fica fora de ``FRACAO_PASSO * passo`` da própria coluna. A coluna acesa é a
-    coluna de notas do ouro mais próxima do clique, desde que a até ``passo`` dele;
-    senão o clique vale como está.
+
+def coluna_do_ouro(clique: float, xs_ouro: list[float], passo: float) -> float:
+    """Leva o clique do dono para a coluna de notas do ouro que está soando.
+
+    O dono clica onde o marcador está. Em canais cujo marcador é um cursor fino que
+    desliza (pablo romé), o cursor chega ~17 px à esquerda do centro dos algarismos
+    (passo ~24 px) no instante do ataque e, entre duas colunas, está "em trânsito".
+    Decisão do dono (2026-10-13): entre duas colunas vale a **última que o cursor
+    passou** (a nota que está soando), não a mais próxima. A coluna acesa é a última
+    coluna do ouro à esquerda do clique, a não ser que a próxima esteja até
+    ``FOLGA_CURSOR_PASSOS * passo`` à direita E mais perto que ela (cursor chegando;
+    medido no South American: colunas a 20 px, clique 8 px depois de uma e 12 px antes
+    da outra, é a de trás).
+    Clique antes da primeira coluna: a coluna mais próxima, se a até ``passo``; senão
+    o clique vale como está.
 
     Args:
         clique: ``coluna_x_quadro`` do ouro.
@@ -1076,6 +1087,17 @@ def coluna_do_ouro(clique: float, xs_ouro: list[float], passo: float) -> float:
     """
     if not xs_ouro or passo <= 0:
         return clique
+    passada = max((x for x in xs_ouro if x <= clique), default=None)
+    chegando = min(
+        (x for x in xs_ouro if clique < x <= clique + FOLGA_CURSOR_PASSOS * passo),
+        default=None,
+    )
+    if chegando is not None and (
+        passada is None or chegando - clique < clique - passada
+    ):
+        return chegando
+    if passada is not None:
+        return passada
     perto = min(xs_ouro, key=lambda x: abs(x - clique))
     return perto if abs(perto - clique) <= passo else clique
 
