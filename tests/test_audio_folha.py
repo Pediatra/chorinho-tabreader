@@ -343,3 +343,154 @@ def test_sorteio_espalhado_uma_coluna_por_faixa_de_tempo() -> None:
     assert len({it["coluna"] for it in escolhidos}) == 4
     faixas = [min(3, int((it["t_audio"] - 2.0) // 5.0)) for it in escolhidos]
     assert sorted(faixas) == [0, 1, 2, 3]
+
+
+def _elegivel(i: int, video: str = "/acervo/x/y.mp4") -> dict:
+    """Elegível sintético da comparação A/B (campos de ``elegiveis_comparacao``)."""
+    return {
+        "item_gold": f"f{i:02d}",
+        "video": video,
+        "tela": 1 + i % 5,
+        "exibicao": 0,
+        "coluna": i,
+        "t_alinhador": 10.0 + i,
+        "painel": [20, 100, 620, 200],
+        "passo": 21.6,
+        "x_centro_quadro": 300.0,
+        "rotulo": "sintetico",
+    }
+
+
+def test_planejar_comparacao_contagens_e_determinismo() -> None:
+    """36 pares com 6 de cada d, 2 de cada ±400; metade com o alinhador em A; mesma semente."""
+    elegiveis = [_elegivel(i, f"/acervo/v{i % 3}.mp4") for i in range(40)]
+    pares = af.planejar_comparacao(elegiveis, 2003)
+    assert len(pares) == 40
+    assert [p["id"] for p in pares] == [f"p{n:02d}" for n in range(1, 41)]
+    contagem = {}
+    for p in pares:
+        contagem[p["d_ms"]] = contagem.get(p["d_ms"], 0) + 1
+    assert all(contagem[d] == 6 for d in af.D_MS)
+    assert contagem[-400] == 2 and contagem[400] == 2
+    assert sum(1 for p in pares if p["alinhador_e"] == "A") == 20
+    assert pares == af.planejar_comparacao(elegiveis, 2003)
+    assert pares != af.planejar_comparacao(elegiveis, 2004)
+
+
+def test_planejar_comparacao_distribui_videos_pelos_deslocamentos() -> None:
+    """Cada vídeo com 6 ou mais pares principais aparece em todos os seis deslocamentos."""
+    elegiveis = [_elegivel(i, f"/acervo/v{i // 12}.mp4") for i in range(36)]
+    pares = af.planejar_comparacao(elegiveis, 2003)
+    for video in {e["video"] for e in elegiveis}:
+        ds = {p["d_ms"] for p in pares if p["video"] == video and not p["atencao"]}
+        assert ds == set(af.D_MS)
+
+
+def test_elegiveis_so_certo_e_sem_controle_e_sem_f13() -> None:
+    """Entram só 'certo', não controle e não o f13; o instante tem de bater com o pedido."""
+    golds = [
+        {"id": "f01", "resposta_dono": "certo", "controle": False, "t_clique": 5.0},
+        {"id": "f02", "resposta_dono": "errado", "controle": False, "t_clique": 6.0},
+        {"id": "f03", "resposta_dono": "certo", "controle": True, "t_clique": 7.0},
+        {"id": "f13", "resposta_dono": "certo", "controle": False, "t_clique": 8.0},
+    ]
+    pedido = {
+        "video": "/acervo/x/y.mp4",
+        "t_audio": 5.0,
+        "tela": 1,
+        "exibicao": 0,
+        "coluna": 2,
+        "painel": [1, 2, 3, 4],
+        "passo": 20.0,
+        "x_centro_quadro": 50.0,
+        "rotulo": "x",
+    }
+    pedidos = {"f01": pedido, "f13": {**pedido, "t_audio": 8.0}}
+    elegiveis = af.elegiveis_comparacao(golds, pedidos)
+    assert [e["item_gold"] for e in elegiveis] == ["f01"]
+    assert elegiveis[0]["t_alinhador"] == 5.0
+
+
+def test_pagina_comparacao_nao_revela_deslocamento_nem_alinhador(
+    tmp_path: Path,
+) -> None:
+    """A página só tem ids e arquivos: sem d, sem 'alinhador', sem o valor de d."""
+    pasta = tmp_path / "folha3"
+    pasta.mkdir()
+    manifesto = [
+        {
+            "id": f"p{n:02d}",
+            "arquivo_a": f"p{n:02d}_a.mp4",
+            "arquivo_b": f"p{n:02d}_b.mp4",
+        }
+        for n in range(1, 4)
+    ]
+    texto = af.gerar_pagina_comparacao(pasta, manifesto).read_text(encoding="utf-8")
+    assert texto.count('<section class="linha"') == 3
+    assert texto.count("<video ") == 6
+    for proibido in ("d_ms", "alinhador", "deslocado", "t_alinhador"):
+        assert proibido not in texto
+    for valor in ("-400", "+400", "-200", "+200", "-100", "+100", "-50", "+50"):
+        assert valor not in texto
+    assert sorted(p.name for p in pasta.iterdir()) == ["index.html"]
+
+
+@requer_ffmpeg
+def test_par_tem_mesma_janela_e_clique_separado_por_d(tmp_path: Path) -> None:
+    """A e B começam no mesmo quadro (mesma janela) e os cliques distam d (±2 ms)."""
+    video = _video_sintetico(tmp_path)
+    pasta = tmp_path / "saida"
+    pasta.mkdir()
+    par = {
+        **_elegivel(1, str(video)),
+        "id": "p01",
+        "d_ms": 200,
+        "alinhador_e": "A",
+        "t_alinhador": 6.0,
+        "passo": 21.6,
+        "painel": [20, 100, 620, 200],
+        "x_centro_quadro": 320.0,
+    }
+    saida = af.gerar_par_comparacao(
+        par, pasta, raiz=tmp_path / "cache", raiz_acervo=str(tmp_path)
+    )
+    a = pasta / saida["arquivo_a"]
+    b = pasta / saida["arquivo_b"]
+    assert abs(af._sondar_video(str(a))[2] - af._sondar_video(str(b))[2]) <= 1 / 25
+
+    def primeiro_quadro(arq: Path) -> bytes:
+        return subprocess.run(
+            [
+                "ffmpeg",
+                "-nostdin",
+                "-v",
+                "error",
+                "-i",
+                str(arq),
+                "-frames:v",
+                "1",
+                "-f",
+                "rawvideo",
+                "-pix_fmt",
+                "gray",
+                "-",
+            ],
+            capture_output=True,
+            check=True,
+        ).stdout
+
+    assert primeiro_quadro(a) == primeiro_quadro(b)
+
+    inicio = saida["inicio_clipe_s"]
+    orig = af._audio_mono(str(video), inicio) * af.GANHO_MUSICA
+
+    def clique(arq: Path, esperado: float) -> float:
+        amostras = af._audio_mono(str(arq), None)
+        lag = af._atraso_amostras(amostras, orig)
+        residuo = af._residuo(amostras, orig, lag)
+        return af._achar_clique(residuo, esperado)[0]
+
+    t_a = clique(a, saida["clique_a_s"])
+    t_b = clique(b, saida["clique_b_s"])
+    assert abs((t_b - t_a) - 0.200) <= 0.002, (t_a, t_b)
+    assert abs(t_a - saida["clique_a_s"]) <= 0.002

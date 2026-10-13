@@ -696,53 +696,35 @@ def medir_clipe(clipe: Path, video: str, inicio: float, t_clique_rel: float) -> 
     }
 
 
-def gerar_clipe(
-    pedido: dict,
-    pasta: Path,
-    raiz: Path | None = None,
-    raiz_acervo: str | None = None,
-) -> dict:
-    """Gera o MP4 de um pedido e mede o erro de quadro e de clique no arquivo final.
+def _renderizar_clipe(
+    video: str,
+    inicio: float,
+    t_clique_rel: float,
+    x_centro: float,
+    passo: float,
+    painel: list[int],
+    saida: Path,
+) -> None:
+    """Renderiza um MP4 de ``DURACAO_CLIPE_S`` a partir de ``inicio``.
+
+    O quadro tem a coluna destacada por um retângulo amarelo (``_caixa_destaque``) e o áudio
+    original a ``GANHO_MUSICA`` mais um clique de 10 ms em ``t_clique_rel`` (segundos a partir
+    de ``inicio``). Vídeo e áudio partem do mesmo instante; quem escolhe ``inicio`` decide a
+    janela.
 
     Args:
-        pedido: ``{id, video, t_audio, tela, coluna, x_centro_quadro, painel, passo, rotulo}``;
-            ``video`` é o caminho no container.
-        pasta: pasta de saída; o MP4 é ``<id>.mp4``.
-        raiz: raiz do cache de áudio (``None`` usa a padrão); útil em testes.
-        raiz_acervo: raiz do acervo para a chave do cache (``None`` usa ``/acervo``).
-
-    Returns:
-        O pedido com ``arquivo``, ``duracao_s``, ``tamanho_bytes``, ``quantizacao_ms`` (grade da
-        amostra de áudio, em relação a ``t_audio``) e as medidas de ``medir_clipe``.
-
-    Raises:
-        ValueError: se ``t_audio`` estiver a menos de ``JANELA_S`` do início do vídeo.
+        video: vídeo no container (somente leitura).
+        inicio: instante, na linha do tempo do vídeo, do primeiro quadro do clipe.
+        t_clique_rel: instante do clique dentro do clipe, em segundos.
+        x_centro: ``x_centro_quadro`` médio da coluna.
+        passo: distância entre cordas, em px.
+        painel: ``[x0, y0, x1, y1]`` da tablatura no quadro.
+        saida: MP4 de saída; o temporário fica na mesma pasta e é removido.
     """
-    video = str(pedido["video"])
-    t_audio = float(pedido["t_audio"])
-    inicio_pedido = t_audio - JANELA_S
-    if inicio_pedido < 0:
-        raise ValueError(f"{pedido['id']}: t_audio {t_audio} antes de {JANELA_S} s")
-    _, meta = garantir(video, raiz=raiz, raiz_acervo=raiz_acervo)
-    indice = indice_de(t_audio, meta)
-    t_clique_abs = instante_de(indice, meta)
-    # O clipe começa no primeiro quadro de fato (não no instante pedido): vídeo e áudio partem
-    # do mesmo instante, senão o quadro destacado fica até um quadro adiantado em relação ao
-    # som e ao clique. O atraso até esse quadro é reportado (``atraso_inicio_quadro_ms``).
-    inicio = _primeiro_quadro_a_partir(video, inicio_pedido)
-    t_clique_rel = t_clique_abs - inicio
-
     largura, altura, _ = _sondar_video(video)
-    x, y, w, h = _caixa_destaque(
-        float(pedido["x_centro_quadro"]),
-        float(pedido["passo"]),
-        list(pedido["painel"]),
-        largura,
-        altura,
-    )
+    x, y, w, h = _caixa_destaque(x_centro, passo, painel, largura, altura)
     largura_saida = min(LARGURA_MAX, largura)
     largura_saida -= largura_saida % 2
-    saida = Path(pasta) / f"{pedido['id']}.mp4"
     filtro = (
         f"[0:v]drawbox=x={x}:y={y}:w={w}:h={h}:color=yellow:t={ESPESSURA_DESTAQUE},"
         f"scale={largura_saida}:-2[v];"
@@ -750,7 +732,7 @@ def gerar_clipe(
         "[1:a]aformat=channel_layouts=stereo[c];"
         "[a][c]amix=inputs=2:duration=first:dropout_transition=0:normalize=0[m]"
     )
-    with tempfile.TemporaryDirectory(dir=Path(pasta)) as tmp:
+    with tempfile.TemporaryDirectory(dir=saida.parent) as tmp:
         wav = Path(tmp) / "cliques.wav"
         _gravar_wav(wav, trilha_cliques([t_clique_rel], DURACAO_CLIPE_S))
         _ffmpeg(
@@ -787,6 +769,54 @@ def gerar_clipe(
                 str(saida),
             ]
         )
+
+
+def gerar_clipe(
+    pedido: dict,
+    pasta: Path,
+    raiz: Path | None = None,
+    raiz_acervo: str | None = None,
+) -> dict:
+    """Gera o MP4 de um pedido e mede o erro de quadro e de clique no arquivo final.
+
+    Args:
+        pedido: ``{id, video, t_audio, tela, coluna, x_centro_quadro, painel, passo, rotulo}``;
+            ``video`` é o caminho no container.
+        pasta: pasta de saída; o MP4 é ``<id>.mp4``.
+        raiz: raiz do cache de áudio (``None`` usa a padrão); útil em testes.
+        raiz_acervo: raiz do acervo para a chave do cache (``None`` usa ``/acervo``).
+
+    Returns:
+        O pedido com ``arquivo``, ``duracao_s``, ``tamanho_bytes``, ``quantizacao_ms`` (grade da
+        amostra de áudio, em relação a ``t_audio``) e as medidas de ``medir_clipe``.
+
+    Raises:
+        ValueError: se ``t_audio`` estiver a menos de ``JANELA_S`` do início do vídeo.
+    """
+    video = str(pedido["video"])
+    t_audio = float(pedido["t_audio"])
+    inicio_pedido = t_audio - JANELA_S
+    if inicio_pedido < 0:
+        raise ValueError(f"{pedido['id']}: t_audio {t_audio} antes de {JANELA_S} s")
+    _, meta = garantir(video, raiz=raiz, raiz_acervo=raiz_acervo)
+    indice = indice_de(t_audio, meta)
+    t_clique_abs = instante_de(indice, meta)
+    # O clipe começa no primeiro quadro de fato (não no instante pedido): vídeo e áudio partem
+    # do mesmo instante, senão o quadro destacado fica até um quadro adiantado em relação ao
+    # som e ao clique. O atraso até esse quadro é reportado (``atraso_inicio_quadro_ms``).
+    inicio = _primeiro_quadro_a_partir(video, inicio_pedido)
+    t_clique_rel = t_clique_abs - inicio
+
+    saida = Path(pasta) / f"{pedido['id']}.mp4"
+    _renderizar_clipe(
+        video,
+        inicio,
+        t_clique_rel,
+        float(pedido["x_centro_quadro"]),
+        float(pedido["passo"]),
+        list(pedido["painel"]),
+        saida,
+    )
     _, _, duracao = _sondar_video(str(saida))
     medidas = medir_clipe(saida, video, inicio, t_clique_rel)
     return {
@@ -1340,6 +1370,511 @@ def cmd_sortear(pares: list[str], por_video: int, semente: int, saida: Path) -> 
     return 0
 
 
+#: Deslocamentos, em ms, do clique de comparação (6 pares cada, 36 ao todo).
+D_MS = (-200, -100, -50, 50, 100, 200)
+
+#: Deslocamentos de atenção (resposta óbvia), 2 de cada sinal.
+D_ATENCAO_MS = (-400, -400, 400, 400)
+
+#: Gabarito que não entra na comparação: leitura "coluna errada" (ritornelo), confirmada.
+IDS_EXCLUIDOS_COMPARACAO = frozenset({"f13"})
+
+#: Modelo da página de comparação A/B. ``__LINHAS__`` e ``__DADOS__`` são trocados.
+_MODELO_COMPARACAO = """<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folha 3: comparação A/B</title>
+<style>
+:root { --fundo: #f7f6f3; --texto: #1d1d1b; --borda: #d6d3cb; --cartao: #ffffff;
+  --ativo: #d9a400; --escolha: #2f6f9a; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --fundo: #1b1c1e; --texto: #eceae4;
+    --borda: #3a3c40; --cartao: #25262a; }
+}
+:root[data-theme="dark"] { --fundo: #1b1c1e; --texto: #eceae4; --borda: #3a3c40;
+  --cartao: #25262a; }
+body { margin: 0; background: var(--fundo); color: var(--texto);
+  font: 16px/1.45 system-ui, sans-serif; }
+main { max-width: 900px; margin: 0 auto; padding: 16px; }
+header { position: sticky; top: 0; background: var(--fundo); padding: 8px 0 12px;
+  border-bottom: 1px solid var(--borda); z-index: 1; }
+h1 { font-size: 20px; margin: 0 0 6px; }
+.ajuda { margin: 0; font-size: 15px; }
+#contador { font-weight: 600; margin: 6px 0 0; }
+.linha { background: var(--cartao); border: 2px solid var(--borda); border-radius: 8px;
+  padding: 12px; margin: 16px 0; }
+.linha.ativa { border-color: var(--ativo); }
+.linha h2 { font-size: 15px; margin: 0 0 8px; font-weight: 600; }
+.videos { display: flex; gap: 12px; flex-wrap: wrap; }
+.videos figure { flex: 1 1 320px; margin: 0; }
+.videos figcaption { font-weight: 600; margin-bottom: 4px; }
+video { width: 100%; background: #000; border-radius: 4px; }
+.botoes { display: flex; gap: 8px; margin: 10px 0; flex-wrap: wrap; }
+button { font: inherit; padding: 10px 16px; border-radius: 6px; cursor: pointer;
+  border: 2px solid var(--borda); background: transparent; color: var(--texto); }
+button[aria-pressed="true"] { background: var(--escolha); border-color: var(--escolha);
+  color: #fff; }
+input[type="text"] { width: 100%; box-sizing: border-box; font: inherit; padding: 8px;
+  border: 1px solid var(--borda); border-radius: 6px; background: var(--fundo);
+  color: var(--texto); }
+#exportar { margin: 24px 0 40px; }
+#saida { width: 100%; box-sizing: border-box; font: 13px ui-monospace, monospace;
+  background: var(--cartao); color: var(--texto); border: 1px solid var(--borda);
+  border-radius: 6px; padding: 8px; margin-top: 8px; }
+#status { font-size: 14px; margin-left: 8px; }
+</style>
+</head>
+<body>
+<header>
+  <main>
+    <h1>Folha 3: comparação A/B</h1>
+    <p class="ajuda">Cada linha tem dois vídeos do mesmo trecho. Só muda o instante do clique.
+      Em qual dos dois o clique cai mais junto com o começo das notas da caixa amarela?
+      1 = A, 2 = B, 3 = não sei. Ignore o traço azul.</p>
+    <p id="contador"></p>
+  </main>
+</header>
+<main id="lista">__LINHAS__</main>
+<main id="exportar">
+  <button type="button" id="copiar">copiar respostas</button>
+  <span id="status"></span>
+  <textarea id="saida" rows="8" readonly></textarea>
+</main>
+<script>
+(function () {
+  "use strict";
+  var LINHAS = __DADOS__;
+  var CHAVE = "chorinho-folha3";
+  var estado = carregar();
+  var atual = primeiroPendente();
+  var contador = document.getElementById("contador");
+  var saida = document.getElementById("saida");
+  var status = document.getElementById("status");
+
+  function carregar() {
+    try {
+      return JSON.parse(localStorage.getItem(CHAVE)) || {};
+    } catch (_e) {
+      return {};
+    }
+  }
+
+  function gravar() {
+    try {
+      localStorage.setItem(CHAVE, JSON.stringify(estado));
+    } catch (_e) {
+      status.textContent = "não consegui guardar no navegador";
+    }
+  }
+
+  function respostaDe(i) {
+    return (estado[LINHAS[i].id] || {}).resposta || null;
+  }
+
+  function primeiroPendente() {
+    for (var i = 0; i < LINHAS.length; i++) {
+      if (!respostaDe(i)) return i;
+    }
+    return 0;
+  }
+
+  function marcar(i) {
+    if (i < 0 || i >= LINHAS.length) return;
+    var antiga = document.querySelector(".linha.ativa");
+    if (antiga) antiga.classList.remove("ativa");
+    atual = i;
+    document.getElementById("linha-" + i).classList.add("ativa");
+  }
+
+  function atualizarBotoes(i) {
+    var secao = document.getElementById("linha-" + i);
+    var resposta = respostaDe(i);
+    secao.querySelectorAll("button[data-resposta]").forEach(function (b) {
+      b.setAttribute("aria-pressed", b.getAttribute("data-resposta") === resposta ? "true" : "false");
+    });
+  }
+
+  function atualizarContador() {
+    var feitos = 0;
+    for (var i = 0; i < LINHAS.length; i++) {
+      if (respostaDe(i)) feitos++;
+    }
+    contador.textContent = feitos + " de " + LINHAS.length + " respondidos";
+  }
+
+  function atualizarSaida() {
+    var respostas = LINHAS.map(function (l) {
+      var e = estado[l.id] || {};
+      return { id: l.id, resposta: e.resposta || null, obs: e.obs || "" };
+    });
+    saida.value = JSON.stringify({ folha: "folha3", respostas: respostas }, null, 2);
+  }
+
+  function responder(i, resposta) {
+    var id = LINHAS[i].id;
+    var e = estado[id] || {};
+    e.resposta = resposta;
+    estado[id] = e;
+    gravar();
+    atualizarBotoes(i);
+    atualizarContador();
+    atualizarSaida();
+    if (i + 1 < LINHAS.length) {
+      marcar(i + 1);
+      document.getElementById("linha-" + (i + 1)).scrollIntoView({ block: "center" });
+    }
+  }
+
+  function ligar() {
+    LINHAS.forEach(function (l, i) {
+      var secao = document.getElementById("linha-" + i);
+      secao.querySelectorAll("button[data-resposta]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          responder(i, b.getAttribute("data-resposta"));
+        });
+      });
+      var obs = secao.querySelector("input[data-obs]");
+      obs.value = (estado[l.id] || {}).obs || "";
+      obs.addEventListener("input", function () {
+        var e = estado[l.id] || {};
+        e.obs = obs.value;
+        estado[l.id] = e;
+        gravar();
+        atualizarSaida();
+      });
+      obs.addEventListener("focus", function () {
+        marcar(i);
+      });
+      secao.addEventListener("click", function () {
+        marcar(i);
+      }, true);
+    });
+  }
+
+  document.addEventListener("keydown", function (ev) {
+    var alvo = ev.target;
+    if (alvo && (alvo.tagName === "INPUT" || alvo.tagName === "TEXTAREA")) return;
+    if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
+    if (ev.key === "1") responder(atual, "A");
+    else if (ev.key === "2") responder(atual, "B");
+    else if (ev.key === "3") responder(atual, "nao_sei");
+  });
+
+  document.getElementById("copiar").addEventListener("click", function () {
+    atualizarSaida();
+    saida.focus();
+    saida.select();
+    try {
+      navigator.clipboard.writeText(saida.value).then(function () {
+        status.textContent = "copiado";
+      }, function () {
+        status.textContent = "selecione e copie o texto acima";
+      });
+    } catch (_e) {
+      status.textContent = "selecione e copie o texto acima";
+    }
+  });
+
+  ligar();
+  LINHAS.forEach(function (l, i) {
+    atualizarBotoes(i);
+  });
+  atualizarContador();
+  atualizarSaida();
+  marcar(atual);
+})();
+</script>
+</body>
+</html>
+"""
+
+
+def elegiveis_comparacao(golds: list[dict], pedidos: dict[str, dict]) -> list[dict]:
+    """Itens do gabarito que servem de base à comparação A/B.
+
+    Entram os itens com ``resposta_dono == "certo"`` e ``controle == false``, exceto os de
+    ``IDS_EXCLUIDOS_COMPARACAO``. O instante do alinhador é o ``t_clique`` do item, que tem de
+    coincidir com o ``t_audio`` do pedido (conferido). A caixa (painel, passo, notas) vem do
+    pedido, para sair igual à das folhas 1 e 2.
+
+    Args:
+        golds: itens dos gabaritos (``data/gold/audio/folha*.json``).
+        pedidos: pedidos das folhas, indexados pelo ``id`` (``folha1_pedidos.json``,
+            ``folha2_pedidos.json``).
+
+    Returns:
+        Itens com ``item_gold``, ``video``, ``tela``, ``exibicao``, ``coluna``,
+        ``t_alinhador``, ``painel``, ``passo``, ``x_centro_quadro`` e ``rotulo``.
+
+    Raises:
+        ValueError: se um item certo não tem pedido correspondente, ou se o instante não bate.
+    """
+    elegiveis = []
+    for g in golds:
+        if g["resposta_dono"] != "certo" or g["controle"]:
+            continue
+        if g["id"] in IDS_EXCLUIDOS_COMPARACAO:
+            continue
+        ped = pedidos.get(g["id"])
+        if ped is None:
+            raise ValueError(f"{g['id']}: sem pedido correspondente")
+        if abs(float(ped["t_audio"]) - float(g["t_clique"])) > 1e-5:
+            raise ValueError(f"{g['id']}: t_clique do gabarito não bate com o pedido")
+        elegiveis.append(
+            {
+                "item_gold": g["id"],
+                "video": ped["video"],
+                "tela": ped["tela"],
+                "exibicao": ped["exibicao"],
+                "coluna": ped["coluna"],
+                "t_alinhador": float(g["t_clique"]),
+                "painel": list(ped["painel"]),
+                "passo": float(ped["passo"]),
+                "x_centro_quadro": float(ped["x_centro_quadro"]),
+                "rotulo": ped["rotulo"],
+            }
+        )
+    return elegiveis
+
+
+def planejar_comparacao(
+    elegiveis: list[dict], semente: int, por_d: int = 6
+) -> list[dict]:
+    """Sorteia os pares da comparação: itens, deslocamento e posição do alinhador.
+
+    Embaralha os elegíveis com ``Random(semente)``. Os primeiros ``len(D_MS) * por_d`` viram
+    os pares principais: ordenados por vídeo e distribuídos em ciclo sobre os ``D_MS``, de modo
+    que cada vídeo apareça em vários deslocamentos. Os pares de atenção (``D_ATENCAO_MS``)
+    usam os itens que sobraram, e reusam itens principais se faltar. Por fim, a ordem é
+    embaralhada e metade dos pares tem o alinhador em A.
+
+    Args:
+        elegiveis: saída de ``elegiveis_comparacao``.
+        semente: semente do sorteio (2003 na folha 3).
+        por_d: pares principais por deslocamento.
+
+    Returns:
+        Lista de pares com ``id`` (p01..), ``d_ms``, ``atencao`` e ``alinhador_e`` (``"A"`` ou
+        ``"B"``), mais os campos dos elegíveis.
+
+    Raises:
+        ValueError: se houver menos itens do que pares de atenção.
+    """
+    if len(elegiveis) < len(D_ATENCAO_MS):
+        raise ValueError("elegíveis insuficientes para os pares de atenção")
+    rng = random.Random(semente)
+    ordem = list(elegiveis)
+    rng.shuffle(ordem)
+    n_principais = min(len(D_MS) * por_d, len(ordem))
+    principais = ordem[:n_principais]
+    resto = ordem[n_principais:]
+
+    por_video = sorted(
+        principais, key=lambda e: (e["video"], e["tela"], e["exibicao"], e["coluna"])
+    )
+    pares = [
+        {**it, "d_ms": D_MS[i % len(D_MS)], "atencao": False}
+        for i, it in enumerate(por_video)
+    ]
+    reserva = resto + principais
+    atencao_itens = []
+    for it in reserva:
+        if len(atencao_itens) == len(D_ATENCAO_MS):
+            break
+        atencao_itens.append(it)
+    pares += [
+        {**it, "d_ms": d, "atencao": True}
+        for it, d in zip(atencao_itens, D_ATENCAO_MS, strict=True)
+    ]
+
+    rng.shuffle(pares)
+    flags = [True] * (len(pares) // 2) + [False] * (len(pares) - len(pares) // 2)
+    rng.shuffle(flags)
+    for n, (par, a_e_alinhador) in enumerate(zip(pares, flags, strict=True), start=1):
+        par["id"] = f"p{n:02d}"
+        par["alinhador_e"] = "A" if a_e_alinhador else "B"
+    return pares
+
+
+def gerar_par_comparacao(
+    par: dict,
+    pasta: Path,
+    raiz: Path | None = None,
+    raiz_acervo: str | None = None,
+) -> dict:
+    """Gera os dois MP4 do par (``<id>_a.mp4`` e ``<id>_b.mp4``) com a mesma janela.
+
+    A janela é ``t_alinhador - JANELA_S`` até ``t_alinhador + JANELA_S`` (começa no primeiro
+    quadro), para A e B. O clique do alinhador fica em ``t_alinhador``; o outro, em
+    ``t_alinhador + d_ms/1000``. A caixa é a mesma nos dois.
+
+    Args:
+        par: um par de ``planejar_comparacao``.
+        pasta: pasta onde os MP4 são gravados (a pasta servida).
+        raiz: raiz do cache de áudio (``None`` usa a padrão).
+        raiz_acervo: raiz do acervo para a chave do cache (``None`` usa ``/acervo``).
+
+    Returns:
+        ``{id, arquivo_a, arquivo_b, inicio_clipe_s, clique_a_s, clique_b_s}``, com os
+        instantes do clique em segundos da linha do tempo do clipe.
+
+    Raises:
+        ValueError: se ``t_alinhador`` estiver a menos de ``JANELA_S`` do início do vídeo.
+    """
+    video = str(par["video"])
+    t_al = float(par["t_alinhador"])
+    t_des = t_al + par["d_ms"] / 1000.0
+    inicio_pedido = t_al - JANELA_S
+    if inicio_pedido < 0:
+        raise ValueError(f"{par['id']}: t_alinhador antes de {JANELA_S} s")
+    inicio = _primeiro_quadro_a_partir(video, inicio_pedido)
+    _, meta = garantir(video, raiz=raiz, raiz_acervo=raiz_acervo)
+    clique_al = instante_de(indice_de(t_al, meta), meta)
+    clique_des = instante_de(indice_de(t_des, meta), meta)
+    if par["alinhador_e"] == "A":
+        clique_a, clique_b = clique_al, clique_des
+    else:
+        clique_a, clique_b = clique_des, clique_al
+    arquivo_a = f"{par['id']}_a.mp4"
+    arquivo_b = f"{par['id']}_b.mp4"
+    for arquivo, clique in ((arquivo_a, clique_a), (arquivo_b, clique_b)):
+        _renderizar_clipe(
+            video,
+            inicio,
+            clique - inicio,
+            float(par["x_centro_quadro"]),
+            float(par["passo"]),
+            list(par["painel"]),
+            Path(pasta) / arquivo,
+        )
+    return {
+        "id": par["id"],
+        "arquivo_a": arquivo_a,
+        "arquivo_b": arquivo_b,
+        "inicio_clipe_s": round(inicio, 6),
+        "clique_a_s": round(clique_a - inicio, 6),
+        "clique_b_s": round(clique_b - inicio, 6),
+    }
+
+
+def gerar_pagina_comparacao(pasta: Path, manifesto: list[dict]) -> Path:
+    """Gera o ``index.html`` da comparação A/B: uma linha por par, sem revelar d.
+
+    A página só recebe ``id``, ``arquivo_a`` e ``arquivo_b`` do manifesto. Nada do gabarito
+    (deslocamento, alinhador, vídeo) entra nela.
+
+    Args:
+        pasta: pasta servida (recebe ``index.html``; os MP4 já estão nela).
+        manifesto: ``[{id, arquivo_a, arquivo_b}]`` na ordem da página.
+
+    Returns:
+        O caminho do ``index.html``.
+    """
+    linhas = []
+    for n, m in enumerate(manifesto):
+        ident = html.escape(m["id"], quote=True)
+        arq_a = html.escape(m["arquivo_a"], quote=True)
+        arq_b = html.escape(m["arquivo_b"], quote=True)
+        linhas.append(
+            f'<section class="linha" id="linha-{n}">\n'
+            f"  <h2>Linha {n + 1} de {len(manifesto)} ({ident})</h2>\n"
+            '  <div class="videos">\n'
+            f'    <figure><figcaption>A</figcaption><video controls preload="metadata" '
+            f'src="{arq_a}"></video></figure>\n'
+            f'    <figure><figcaption>B</figcaption><video controls preload="metadata" '
+            f'src="{arq_b}"></video></figure>\n'
+            "  </div>\n"
+            '  <div class="botoes">\n'
+            '    <button type="button" data-resposta="A">A (1)</button>\n'
+            '    <button type="button" data-resposta="B">B (2)</button>\n'
+            '    <button type="button" data-resposta="nao_sei">não sei (3)</button>\n'
+            "  </div>\n"
+            '  <input type="text" data-obs="1" placeholder="observação (opcional)">\n'
+            "</section>"
+        )
+    dados = json.dumps(
+        [{"id": m["id"]} for m in manifesto], ensure_ascii=False
+    ).replace("</", "<\\/")
+    pagina = _MODELO_COMPARACAO.replace("__LINHAS__", "\n".join(linhas)).replace(
+        "__DADOS__", dados
+    )
+    destino = pasta / "index.html"
+    destino.write_text(pagina, encoding="utf-8")
+    return destino
+
+
+def cmd_comparar(
+    golds: list[Path],
+    pedidos: list[Path],
+    semente: int,
+    pasta: Path,
+    chave: Path,
+    pedidos_saida: Path,
+    manifesto: Path,
+) -> int:
+    """Monta a folha 3: sorteia os pares, gera os MP4 e grava chave, pedidos e manifesto.
+
+    A chave, os pedidos e o manifesto ficam FORA de ``pasta`` (a pasta servida).
+
+    Args:
+        golds: gabaritos ``folha*.json`` (só leitura).
+        pedidos: pedidos ``folha*_pedidos.json`` das mesmas folhas.
+        semente: semente do sorteio (2003).
+        pasta: pasta servida (``folha3/``).
+        chave: JSON com o gabarito completo (fora da pasta).
+        pedidos_saida: JSON com os pares sorteados (fora da pasta).
+        manifesto: JSON ``[{id, arquivo_a, arquivo_b}]`` para a página (fora da pasta).
+
+    Returns:
+        Código de saída (0 se deu certo).
+    """
+    mapa_pedidos: dict[str, dict] = {}
+    for arq in pedidos:
+        for p in _ler_pedidos(arq):
+            mapa_pedidos[p["id"]] = p
+    golds_lidos = []
+    for arq in golds:
+        golds_lidos += json.loads(Path(arq).read_text(encoding="utf-8"))["itens"]
+    elegiveis = elegiveis_comparacao(golds_lidos, mapa_pedidos)
+    planos = planejar_comparacao(elegiveis, semente)
+    pasta.mkdir(parents=True, exist_ok=True)
+    saidas = []
+    for plano in planos:
+        saidas.append(gerar_par_comparacao(plano, pasta))
+        print(f"{plano['id']} pronto")
+    _gravar_json(pedidos_saida, planos)
+    _gravar_json(
+        chave,
+        [
+            {
+                "id": pl["id"],
+                "item_gold": pl["item_gold"],
+                "video": pl["rotulo"],
+                "tela": pl["tela"],
+                "exibicao": pl["exibicao"],
+                "coluna": pl["coluna"],
+                "t_alinhador": pl["t_alinhador"],
+                "d_ms": pl["d_ms"],
+                "t_deslocado": round(pl["t_alinhador"] + pl["d_ms"] / 1000.0, 6),
+                "alinhador_e": pl["alinhador_e"],
+                "atencao": pl["atencao"],
+            }
+            for pl in planos
+        ],
+    )
+    _gravar_json(
+        manifesto,
+        [
+            {"id": s["id"], "arquivo_a": s["arquivo_a"], "arquivo_b": s["arquivo_b"]}
+            for s in saidas
+        ],
+    )
+    print(f"{len(planos)} pares em {pasta}")
+    return 0
+
+
 def main() -> int:
     """Ponto de entrada da CLI: subcomandos ``clipes``, ``pagina`` e ``sortear``.
 
@@ -1366,7 +1901,35 @@ def main() -> int:
     p_sortear.add_argument("--semente", type=int, required=True)
     p_sortear.add_argument("--saida", type=Path, required=True)
 
+    p_comp = sub.add_parser("comparar", help="monta a folha A/B (pares de clipes)")
+    p_comp.add_argument("--gold", type=Path, nargs="+", required=True)
+    p_comp.add_argument("--pedidos", type=Path, nargs="+", required=True)
+    p_comp.add_argument("--semente", type=int, required=True)
+    p_comp.add_argument("--pasta", type=Path, required=True)
+    p_comp.add_argument("--chave", type=Path, required=True)
+    p_comp.add_argument("--pedidos-saida", type=Path, required=True)
+    p_comp.add_argument("--manifesto", type=Path, required=True)
+
+    p_pagc = sub.add_parser("pagina-comparacao", help="gera o index da folha A/B")
+    p_pagc.add_argument("--pasta", type=Path, required=True)
+    p_pagc.add_argument("--manifesto", type=Path, required=True)
+
     args = parser.parse_args()
+    if args.comando == "comparar":
+        return cmd_comparar(
+            args.gold,
+            args.pedidos,
+            args.semente,
+            args.pasta,
+            args.chave,
+            args.pedidos_saida,
+            args.manifesto,
+        )
+    if args.comando == "pagina-comparacao":
+        manifesto = json.loads(args.manifesto.read_text(encoding="utf-8"))
+        destino = gerar_pagina_comparacao(args.pasta, manifesto)
+        print(f"página gerada: {destino}")
+        return 0
     if args.comando == "clipes":
         return cmd_clipes(args.pedidos, args.pasta, args.manifesto)
     if args.comando == "pagina":
