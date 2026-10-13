@@ -5275,3 +5275,8 @@ Critério do Gymnopédie (casa ≥ 0,95) não alcançado (0,93–0,94), mas a ca
 revocação de 0,47 para 0,65–0,70. Ainda falha: `4` lido como `harmonico` e notas não
 tokenizadas (revocação). Presets `fina`, `fina2`, `fina4` (com desfoque) medidos e piores
 (`data/saida/serif/g2_*`, `g4_*`). Uso: `serif3_2` só para PRÉ-PREENCHER o ouro (o dono corrige).
+
+## Áudio — 2026-10-13 — A4: alinhador em 10 vídeos sem marcador (rodada 2010)
+
+- 10 de 10 rodaram sem erro (37 min): **2799 de 4531 colunas com tempo (62 %)**, 64 de 184 exibições recusadas. **6 de 10 bons** (77–97 % das colunas: iwaki ×2, kimny ×2, shin izumi *dream is a wish*, paolo d'angelo).
+- Falhas olhadas no recorte: **guitarous sakura 0 de 62**, porque o produto lê tudo uma corda abaixo (pedido à trilha tablatura); **transcriptor campanitas 201 de 935**, por ser rasgueado com batidas abafadas "X" (limite do método, a leitura está certa). Giant steps e charagua não olhados.
