@@ -1,10 +1,12 @@
 """Testes da folha de cliques (``tab.audio_folha``). Sem acervo: vídeo sintético do ffmpeg."""
 
 import json
+import random
 import shutil
 import subprocess
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 from tab import audio_folha as af
@@ -278,3 +280,66 @@ def test_pedido_usa_notas_de_outra_exibicao_quando_falta_na_propria() -> None:
     pedido = af._pedido_do_item(item, produto, 1)
     assert pedido["notas"]
     assert {tuple(n) for n in pedido["notas"]} == {(3, 2)}
+
+
+def _audio_com_rajadas(instantes: list[float], dur: float = 8.0) -> tuple:
+    """Áudio int16 mono de 22 050 Hz com rajadas de ruído de 40 ms nos instantes dados.
+
+    Args:
+        instantes: início de cada rajada, em segundos.
+        dur: duração total, em segundos.
+
+    Returns:
+        ``(amostras, taxa, t_amostra0)`` no formato de ``carregar_audio``.
+    """
+    taxa = 22050
+    rng = np.random.default_rng(0)
+    x = np.zeros(round(dur * taxa))
+    for t in instantes:
+        i = round(t * taxa)
+        x[i : i + round(0.04 * taxa)] = 0.5 * rng.standard_normal(round(0.04 * taxa))
+    return (x * 32767).astype(np.int16), taxa, 0.0
+
+
+def _coluna(coluna: int, t: float) -> dict:
+    """Registro de coluna no formato do alinhador (só o necessário ao controle)."""
+    return {"tela": 1, "exibicao": 0, "coluna": coluna, "t_audio": t}
+
+
+def test_pares_vizinhos_exigem_consecutivas_afirmadas_e_intervalo() -> None:
+    """Par (c, c+1) só vale com as duas afirmadas, numeração seguida e dt >= 0,40 s."""
+    colunas = [
+        _coluna(1, 1.0),
+        _coluna(2, 1.5),  # ok: dt 0,5
+        _coluna(3, None),  # recusada: bloqueia (2,3) e (3,4)
+        _coluna(4, 3.0),
+        _coluna(5, 3.2),  # dt 0,2: fora
+        _coluna(7, 5.0),  # não consecutiva com 5
+    ]
+    pares = af.pares_vizinhos_validos(colunas)
+    assert [(a["coluna"], b["coluna"]) for a, b in pares] == [(1, 2)]
+
+
+def test_controle_rejeita_clique_sobre_pico_e_aceita_limpo() -> None:
+    """Clique no ponto médio de uma rajada é rejeitado; num trecho limpo é aceito."""
+    audio = _audio_com_rajadas([2.0, 4.0, 5.3])
+    sobre_pico = (_coluna(1, 5.0), _coluna(2, 5.6))  # médio 5,3 = rajada
+    limpo = (_coluna(1, 2.0), _coluna(2, 4.0))  # médio 3,0, sem rajada
+    assert af.escolher_controle([sobre_pico], audio, random.Random(0), set()) is None
+    escolha = af.escolher_controle([limpo], audio, random.Random(0), set())
+    assert escolha is not None
+    assert abs(escolha["clique"] - 3.0) < 1e-9
+    assert escolha["distancia_pico_s"] >= af.DISTANCIA_MIN_PICO_S
+
+
+def test_sorteio_espalhado_uma_coluna_por_faixa_de_tempo() -> None:
+    """Com K faixas e itens em todas, sai um item por faixa, sem repetição."""
+    itens = [
+        {"tela": 1, "exibicao": 0, "coluna": c, "t_audio": 1.0 + c * 1.0}
+        for c in range(1, 21)
+    ]
+    escolhidos = af.sortear_espalhado(itens, 4, random.Random(7))
+    assert len(escolhidos) == 4
+    assert len({it["coluna"] for it in escolhidos}) == 4
+    faixas = [min(3, int((it["t_audio"] - 2.0) // 5.0)) for it in escolhidos]
+    assert sorted(faixas) == [0, 1, 2, 3]

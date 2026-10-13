@@ -24,6 +24,7 @@ produto ``tab.video`` do mesmo vídeo (traz painel, passo e notas).
 
 import argparse
 import html
+import itertools
 import json
 import os
 import random
@@ -36,7 +37,8 @@ from pathlib import Path
 
 import numpy as np
 
-from .audio_extrair import garantir, indice_de, instante_de
+from .audio_extrair import garantir, indice_de, instante_de, ler
+from .audio_onsets import espectrograma, fluxo_espectral, picos
 
 #: Metade da janela do clipe: de ``t_audio - JANELA_S`` a ``t_audio + JANELA_S``.
 JANELA_S = 2.0
@@ -1137,6 +1139,186 @@ def sortear_pedidos(
         for item in escolhidos:
             pedidos.append(_pedido_do_item(item, produtos[video], len(pedidos) + 1))
     return pedidos
+
+
+#: Intervalo mínimo, em s, entre a coluna c e a c+1 para o controle da folha 2.
+INTERVALO_MIN_CONTROLE_S = 0.40
+
+#: Distância mínima, em s, do clique de controle ao pico de fluxo mais próximo.
+DISTANCIA_MIN_PICO_S = 0.080
+
+#: Margem, em s, de cada lado do par (c, c+1) ao calcular os picos de fluxo.
+MARGEM_PICOS_S = 0.5
+
+
+def carregar_audio(
+    video: str, raiz: Path | None = None, raiz_acervo: str | None = None
+) -> tuple[np.ndarray, int, float]:
+    """Áudio de um vídeo (cache do A0) para o espectrograma.
+
+    Args:
+        video: vídeo no container.
+        raiz: raiz do cache de áudio (``None`` usa a padrão).
+        raiz_acervo: raiz do acervo (``None`` usa ``/acervo``).
+
+    Returns:
+        ``(amostras int16 mono, taxa, t_amostra0)``.
+    """
+    flac, meta = garantir(video, raiz=raiz, raiz_acervo=raiz_acervo)
+    amostras, taxa = ler(flac)
+    return amostras, taxa, float(meta["t_amostra0"])
+
+
+def picos_de_fluxo(
+    amostras: np.ndarray, taxa: int, t_amostra0: float, t0: float, t1: float
+) -> np.ndarray:
+    """Instantes dos picos do fluxo espectral (``tab.audio_onsets``) em ``[t0, t1]``.
+
+    Args:
+        amostras: áudio ``int16`` mono de ``carregar_audio``.
+        taxa: taxa do áudio, em Hz.
+        t_amostra0: instante, no vídeo, da amostra 0.
+        t0: início da janela, em segundos do vídeo.
+        t1: fim da janela, em segundos do vídeo.
+
+    Returns:
+        Array de instantes (s, linha do tempo do vídeo), em ordem crescente.
+    """
+    mag, tempos, _ = espectrograma(amostras, taxa, t_amostra0, t0=t0, t1=t1)
+    if len(tempos) < 3:
+        return np.zeros(0)
+    fluxo = fluxo_espectral(mag)
+    return tempos[np.asarray(picos(fluxo, tempos), dtype=int)]
+
+
+def pares_vizinhos_validos(colunas: list[dict]) -> list[tuple[dict, dict]]:
+    """Pares (c, c+1) de uma exibição que servem de controle.
+
+    Regra: as duas colunas são consecutivas na tela (c+1 logo depois de c, sem coluna entre
+    elas), ambas têm ``t_audio`` (nenhuma recusada entre elas) e ``t(c+1) - t(c) >=
+    INTERVALO_MIN_CONTROLE_S``. A verificação é local (vizinhos na lista), não precisa de
+    programação dinâmica.
+
+    Args:
+        colunas: registros ``{coluna, t_audio, ...}`` de UMA exibição, em ordem de coluna.
+
+    Returns:
+        Pares ``(a, b)`` na ordem da tela.
+    """
+    pares = []
+    for a, b in itertools.pairwise(colunas):
+        if a["t_audio"] is None or b["t_audio"] is None:
+            continue
+        if b["coluna"] - a["coluna"] != 1:
+            continue
+        if b["t_audio"] - a["t_audio"] < INTERVALO_MIN_CONTROLE_S:
+            continue
+        pares.append((a, b))
+    return pares
+
+
+def distancia_ao_pico(instante: float, picos_t: np.ndarray) -> float:
+    """Distância, em s, do instante ao pico de fluxo mais próximo (``inf`` sem picos).
+
+    Args:
+        instante: instante, em segundos.
+        picos_t: instantes dos picos.
+
+    Returns:
+        ``min |instante - pico|``.
+    """
+    if len(picos_t) == 0:
+        return float("inf")
+    return float(np.min(np.abs(np.asarray(picos_t) - instante)))
+
+
+def escolher_controle(
+    pares: list[tuple[dict, dict]],
+    audio: tuple[np.ndarray, int, float],
+    rng: random.Random,
+    proibidas: set[tuple[int, int]],
+) -> dict | None:
+    """Primeiro par (em ordem sorteada) cujo clique no ponto médio não cai perto de um pico.
+
+    O clique fica em ``(t(c) + t(c+1)) / 2``. O par é aceito se nenhum pico de fluxo estiver a
+    menos de ``DISTANCIA_MIN_PICO_S`` do clique. A janela de picos é o par com
+    ``MARGEM_PICOS_S`` de cada lado.
+
+    Args:
+        pares: pares de ``pares_vizinhos_validos``, de vários candidatos.
+        audio: ``carregar_audio`` do vídeo do controle.
+        rng: gerador da folha (define a ordem de tentativa).
+        proibidas: pares ``(tela, coluna)`` que não podem ser usados (já na folha).
+
+    Returns:
+        ``{a, b, clique, distancia_pico_s}`` ou ``None`` se nenhum par servir.
+    """
+    amostras, taxa, t0_amostra = audio
+    ordem = list(range(len(pares)))
+    rng.shuffle(ordem)
+    for i in ordem:
+        a, b = pares[i]
+        if (a["tela"], a["coluna"]) in proibidas or (
+            b["tela"],
+            b["coluna"],
+        ) in proibidas:
+            continue
+        clique = (a["t_audio"] + b["t_audio"]) / 2.0
+        janela = picos_de_fluxo(
+            amostras,
+            taxa,
+            t0_amostra,
+            a["t_audio"] - MARGEM_PICOS_S,
+            b["t_audio"] + MARGEM_PICOS_S,
+        )
+        dist = distancia_ao_pico(clique, janela)
+        if dist >= DISTANCIA_MIN_PICO_S:
+            return {"a": a, "b": b, "clique": clique, "distancia_pico_s": dist}
+    return None
+
+
+def sortear_espalhado(itens: list[dict], k: int, rng: random.Random) -> list[dict]:
+    """K itens espalhados pelo vídeo: uma coluna sorteada por faixa de tempo.
+
+    O intervalo de ``t_audio`` dos itens é dividido em ``k`` faixas de mesmo tamanho; de cada
+    faixa sai uma coluna sorteada (com ``rng``). Como as exibições ocupam faixas diferentes do
+    vídeo, o sorteio cobre o vídeo inteiro. Se uma faixa está vazia, usa-se o item não usado
+    mais próximo do centro dela.
+
+    Args:
+        itens: itens de ``itens_afirmados`` (já filtrados).
+        k: quantidade de itens.
+        rng: gerador da folha.
+
+    Returns:
+        Até ``k`` itens distintos, em ordem de tempo.
+    """
+    if not itens or k <= 0:
+        return []
+    tempos = [it["t_audio"] for it in itens]
+    t_min, t_max = min(tempos), max(tempos)
+    passo = (t_max - t_min) / k if t_max > t_min else 1.0
+    restantes = sorted(itens, key=lambda it: it["t_audio"])
+    escolhidos: list[dict] = []
+    for j in range(k):
+        ini = t_min + j * passo
+        fim_faixa = t_min + (j + 1) * passo
+        centro = (ini + fim_faixa) / 2.0
+        faixa = [
+            it
+            for it in restantes
+            if ini <= it["t_audio"] < fim_faixa
+            or (j == k - 1 and it["t_audio"] == t_max)
+        ]
+        if faixa:
+            escolhido = faixa[rng.randrange(len(faixa))]
+        elif restantes:
+            escolhido = min(restantes, key=lambda it: abs(it["t_audio"] - centro))
+        else:
+            break
+        restantes.remove(escolhido)
+        escolhidos.append(escolhido)
+    return escolhidos
 
 
 def cmd_sortear(pares: list[str], por_video: int, semente: int, saida: Path) -> int:
