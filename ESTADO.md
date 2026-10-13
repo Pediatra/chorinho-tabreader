@@ -5154,8 +5154,8 @@ Gate: ruff ok, 620 testes (fora 2 arquivos não rastreados da trilha mãos, um d
 
 Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`data/saida/fase8/medida/`; 2 execuções do `transcrever` idênticas):
 - notas: precisão **88/90**, revocação **88/106**, casa **88/88**, telas 4/4. As 18 perdidas são glifos lidos como símbolo (`nao_notas`): 14 são o algarismo **1** saindo como `harmonico` com casa recuperada 4; 2 inventadas na borda direita (casa 8, fora de 0–7);
-- tempo: **1/40 com a régua antiga, 20/40 com a nova**; tempo falso 0. MVP sem mudança (39/40, 0 colunas ajustadas).
+- tempo: **1/40 com a régua antiga, 20/40 com a nova**; tempo falso 0. MVP sem mudança (39/40; 38 cliques movidos para o x exato da coluna, todos já dentro da tolerância antiga).
 
-**Régua** (`tab/avaliar_video.py::coluna_do_ouro`): neste canal o marcador é um cursor fino **antes** da coluna, e o dono clica no cursor (~17 px à esquerda do centro dos algarismos, passo 24; tolerância era 0,5 passo). O clique agora vai para a coluna de notas do ouro mais próxima, se a até 1 passo; relatório traz `colunas_ajustadas` (Greensleeves: ver JSON). Não muda nenhum rótulo.
+**Régua** (`tab/avaliar_video.py::coluna_do_ouro`): neste canal o marcador é um cursor fino **antes** da coluna, e o dono clica no cursor (~17 px à esquerda do centro dos algarismos, passo 24; tolerância era 0,5 passo). O clique agora vai para a coluna de notas do ouro mais próxima, se a até 1 passo; relatório traz `colunas_ajustadas` (Greensleeves 27 de 40). Não muda nenhum rótulo.
 
 **Pendências (T8.3)**: o `1` deste canal lido como harmônico; 17 erros de tempo + 3 sem tempo (primeiras colunas de cada sistema; coluna cujo único token numérico não tem `t_ini`).

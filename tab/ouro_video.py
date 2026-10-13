@@ -1411,10 +1411,12 @@ def completar(
             max(rect[3], painel[3]),
         )
         if v1 is None:
-            # vídeo novo: o painel do tab.telas pode vir parcial na horizontal (medido em
-            # 2 de 7 vídeos da Fase 8); a tela vai de borda a borda para o dono ver e
-            # acrescentar as notas que o recorte cortaria
-            rect = (0, rect[1], int(quadro.shape[1]), rect[3])
+            # vídeo novo: o painel do tab.telas pode vir parcial na horizontal (2 de 7
+            # vídeos da Fase 8) ou alto demais, com o vídeo e a partitura juntos (South
+            # American Music: 9 a 11 vezes a altura da TAB). A tela vai de borda a borda,
+            # e na vertical fica só a faixa onde o painel achou as cordas.
+            vertical = retangulo_do_painel(cand, quadro.shape)
+            rect = (0, vertical[1], int(quadro.shape[1]), vertical[3])
         paginas.append(
             {
                 "id": int(p["id"]),

@@ -1,7 +1,7 @@
 {
  "video": "kenneth acoustic/end of beginning - djo ｜ fingerstyle guitar ｜ tab + chords + lyrics.mp4",
  "como_foi_rotulado": "v2 sem v1: páginas do tab.telas (1 - IoU da tinta, limiar 0,3), todas com as notas do modelo, a rotular (origem 'modelo — a rotular', conferida=false). 40 instantes sorteados dentro da presença de tablatura (semente 0, grade de 2.0 s); a página de cada um foi SUGERIDA pelo tempo (pagina_sugerida=true, tela_confirmada=false até o dono confirmar): há viés de confirmação. A coluna acesa é do dono.",
- "rotulado_em": "2026-10-13T00:02:49",
+ "rotulado_em": "2026-10-13T00:45:09",
  "telas": [
   {
    "id": 1,
