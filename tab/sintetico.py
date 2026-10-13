@@ -43,6 +43,32 @@ os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
 #: distribuição do treino e, portanto, o número medido.
 NOMES_FONTES = ("LiberationSans-Bold.ttf", "LiberationSerif-Bold.ttf")
 
+#: Presets de fonte aceitos por `--fontes`: (nomes, chance de o buraco cortar a corda
+#: sob a fonte `Regular`, se a fonte `Regular` é desenhada GRANDE: 1,0 a 1,4 passo, como
+#: o algarismo de 0,85 passo do robert lunn, e se metade das linhas leva desfoque
+#: gaussiano 0,5-0,9 px: o traço fino do vídeo vira cinza e quebra na binarização). `padrao` reproduz os pesos `oficial_*`. `fina` acrescenta
+#: `LiberationSerif-Regular` (serifa fina, tipo Times, do canal robert lunn; o `0`
+#: lido como `8` e o `4`/`2` como `tecnica` no ouro da Gymnopédie). `fina2` dobra o
+#: peso da fonte fina e faz a corda passar por cima dela quase sempre (como no vídeo).
+#: As fontes vêm do pacote `fonts-liberation` que o container já instala.
+PRESETS_FONTES = {
+    "padrao": (NOMES_FONTES, 0.5, False, False),
+    "fina": ((*NOMES_FONTES, "LiberationSerif-Regular.ttf"), 0.5, False, False),
+    "fina2": (
+        (*NOMES_FONTES, *("LiberationSerif-Regular.ttf",) * 2),
+        0.15,
+        False,
+        False,
+    ),
+    "fina3": (
+        (*NOMES_FONTES, *("LiberationSerif-Regular.ttf",) * 2),
+        0.15,
+        True,
+        False,
+    ),
+    "fina4": ((*NOMES_FONTES, *("LiberationSerif-Regular.ttf",) * 2), 0.15, True, True),
+}
+
 #: Onde cada distribuição instala as fontes Liberation: Fedora/openSUSE (host) e
 #: Debian/Ubuntu (container). Os caminhos eram fixos do host e o treino passou a
 #: falhar dentro do container — melhor falhar do que treinar com outra fonte.
@@ -54,14 +80,17 @@ DIRETORIOS_FONTES = (
 )
 
 
-def _resolver_fontes() -> list[str]:
+def _resolver_fontes(nomes: tuple[str, ...] = NOMES_FONTES) -> list[str]:
     """Caminhos das fontes do gerador, procurando nos diretórios conhecidos.
 
+    Args:
+        nomes: nomes de arquivo das fontes (com repetição = peso).
+
     Returns:
-        Um caminho por nome de ``NOMES_FONTES`` que for encontrado, na mesma ordem.
+        Um caminho por nome que for encontrado, na mesma ordem.
     """
     achadas: list[str] = []
-    for nome in NOMES_FONTES:
+    for nome in nomes:
         for diretorio in DIRETORIOS_FONTES:
             caminho = os.path.join(diretorio, nome)
             if os.path.exists(caminho):
@@ -151,6 +180,10 @@ def gerar_linha(
     rng: random.Random,
     casas: tuple[int, ...] = CASAS_OFICIAIS,
     escala_larga: bool = False,
+    fontes: list[str] | None = None,
+    p_buraco_fina: float = 0.5,
+    fina_grande: bool = False,
+    borrar: bool = False,
 ) -> tuple[np.ndarray, list[dict]]:
     """Desenha uma linha de tablatura aleatória e devolve (imagem, notas).
 
@@ -160,10 +193,15 @@ def gerar_linha(
         escala_larga: se ``True``, metade das linhas desenha algarismo MAIOR que o
             passo (fonte 1,0 a 1,4 passo). Desligado por padrão: com ``False`` a
             sequência de sorteios é a de antes, e os pesos ``oficial_*`` reproduzem.
+        fontes: caminhos das fontes (padrão: ``FONTES``).
+        p_buraco_fina: chance de a corda ser cortada sob uma fonte ``Regular``.
+        borrar: se ``True``, metade das linhas leva desfoque gaussiano de 0,5 a 0,9 px.
+        fina_grande: se ``True``, a fonte ``Regular`` é desenhada com 1,0 a 1,4 passo.
 
     Returns:
         Tupla (imagem BGR, lista de notas desenhadas).
     """
+    fontes = FONTES if fontes is None else fontes
     passo = rng.choice([14, 16, 18, 20, 22, 24, 28, 30, 36])
     n_compassos = rng.randint(2, 5)
     n_col = rng.randint(8, 26)
@@ -189,7 +227,7 @@ def gerar_linha(
         else:
             d.line([(borda // 2, y), (larg - borda // 2, y)], fill=cor_linha, width=ti)
     if rng.random() < 0.5:  # rótulo TAB
-        f = ImageFont.truetype(rng.choice(FONTES), int(passo * 1.15))
+        f = ImageFont.truetype(rng.choice(fontes), int(passo * 1.15))
         for j, ch in enumerate("TAB"):
             d.text((borda * 0.25, ys[j] - passo * 0.5), ch, font=f, fill=cor_linha)
     for c in range(1, n_compassos):  # barlines
@@ -230,7 +268,11 @@ def gerar_linha(
                 tecnica, txt = "harmonico", f"<{casa % 13}>"
             elif rng.random() < 0.35:
                 tecnica, txt = rng.choice(["hammer_on", "pull_off"]), str(casa)
-            f = ImageFont.truetype(rng.choice(FONTES), tam_fonte)
+            caminho_fonte = rng.choice(fontes)
+            tam_glifo = tam_fonte
+            if fina_grande and "Regular" in caminho_fonte:
+                tam_glifo = max(6, int(passo * rng.uniform(1.0, 1.4)))
+            f = ImageFont.truetype(caminho_fonte, tam_glifo)
             bb = d.textbbox((0, 0), txt, font=f)
             w, h = bb[2] - bb[0], bb[3] - bb[1]
             px, py = int(x - w / 2), int(ys[c] - h / 2 - bb[1])
@@ -239,7 +281,8 @@ def gerar_linha(
             #   - outros canais (ex.: paolo d'angelo): a corda PASSA POR CIMA do algarismo,
             #     o que acrescenta um traço horizontal e fazia `1` ser lido como `4`.
             # O gerador agora sorteia os dois casos; antes só existia o buraco.
-            if rng.random() < 0.5:
+            p_buraco = p_buraco_fina if "Regular" in caminho_fonte else 0.5
+            if rng.random() < p_buraco:
                 d.rectangle(
                     [px - 2, ys[c] - passo * 0.30, px + w + 2, ys[c] + passo * 0.30],
                     fill=fundo,
@@ -280,21 +323,28 @@ def gerar_linha(
                         fill=(0, 0, 0) if not escuro else (255, 255, 255),
                         width=max(1, ti - 1),
                     )
-    return cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR), notas
+    saida = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+    if borrar and rng.random() < 0.5:
+        saida = cv2.GaussianBlur(saida, (0, 0), rng.uniform(0.5, 0.9))
+    return saida, notas
 
 
-def conferir_fontes() -> None:
+def conferir_fontes(nomes: tuple[str, ...] = NOMES_FONTES) -> None:
     """Falha cedo e com mensagem útil se as fontes do gerador não existirem.
 
     Fonte aqui é dependência de DADO, não de desenho: trocar de fonte muda a
     distribuição do sintético e, portanto, o número medido. Melhor quebrar do que
     treinar com outra fonte em silêncio.
 
+    Args:
+        nomes: nomes de arquivo exigidos (padrão: ``NOMES_FONTES``).
+
     Raises:
-        SystemExit: se alguma fonte de ``NOMES_FONTES`` não for encontrada.
+        SystemExit: se alguma das fontes não for encontrada.
     """
-    if len(FONTES) != len(NOMES_FONTES):
-        faltando = [n for n in NOMES_FONTES if not any(n in f for f in FONTES)]
+    achadas = _resolver_fontes(nomes)
+    if len(achadas) != len(nomes):
+        faltando = [n for n in nomes if not any(n in f for f in achadas)]
         raise SystemExit(
             "fontes do gerador ausentes (instale `fonts-liberation` na imagem): "
             + ", ".join(faltando)
@@ -308,6 +358,7 @@ def montar(
     seed: int = 0,
     casas: tuple[int, ...] = CASAS_OFICIAIS,
     escala_larga: bool = False,
+    preset_fontes: str = "padrao",
 ) -> tuple[list, list, list]:
     """Gera linhas, passa pelo extrator e casa cada glifo extraído com a nota desenhada.
 
@@ -317,15 +368,26 @@ def montar(
         casas: lista de casas do gerador; ver ``LISTAS_CASAS``.
         escala_larga: algarismo maior que o passo em metade das linhas; ver
             ``gerar_linha``.
+        preset_fontes: chave de ``PRESETS_FONTES``.
 
     Returns:
         Tupla (glifos normalizados, rótulos, identificadores de canal).
     """
-    conferir_fontes()
+    nomes, p_buraco_fina, fina_grande, borrar = PRESETS_FONTES[preset_fontes]
+    conferir_fontes(nomes)
+    fontes = _resolver_fontes(nomes)
     rng = random.Random(seed)
     X, y, canais = [], [], []
     for i in range(n_linhas):
-        img, notas = gerar_linha(rng, casas, escala_larga=escala_larga)
+        img, notas = gerar_linha(
+            rng,
+            casas,
+            escala_larga=escala_larga,
+            fontes=fontes,
+            p_buraco_fina=p_buraco_fina,
+            fina_grande=fina_grande,
+            borrar=borrar,
+        )
         g = segmentar(img)
         if len(g.linhas_y) != 6:
             continue
@@ -492,6 +554,15 @@ def _parser() -> argparse.ArgumentParser:
         help="normal = pesos oficial_* (padrão); larga = metade das linhas com algarismo "
         "de 1,0 a 1,4 passo (candidato da rodada 0009)",
     )
+    ap.add_argument(
+        "--fontes",
+        choices=sorted(PRESETS_FONTES),
+        default="padrao",
+        help="padrao = pesos oficial_*; fina = + LiberationSerif-Regular (robert lunn); "
+        "fina2 = fonte fina com o dobro do peso e corda por cima quase sempre; "
+        "fina3 = fina2 com a fonte fina GRANDE (1,0 a 1,4 passo); "
+        "fina4 = fina3 + desfoque em metade das linhas",
+    )
     return ap
 
 
@@ -503,6 +574,7 @@ def main() -> int:
         seed=1,
         casas=LISTAS_CASAS[args.casas],
         escala_larga=args.escala == "larga",
+        preset_fontes=args.fontes,
     )
     print(
         f"sintético: {len(X)} glifos extraídos de {args.n_linhas} linhas | "

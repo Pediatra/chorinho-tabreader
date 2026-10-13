@@ -5253,3 +5253,25 @@ foi revertido. Saídas: `data/saida/painel_braco/`, `data/saida/fase8/medida/*_v
 - Pente de 6 cordas (3 faixas) + trastes pela regra de 12 notas sob projetiva 1D, sobre a mediana da cena. Constantes fixadas antes; dev q02/q16, teste q21/q23.
 - Piora: q16 trastes 10/15 → 2/15 e cordas 0,35 → 0,65; q21 cordas 0,14 → 0,42; q23 trastes 9/14 → 0/14 e nut 0,05 → 0,66. Cada metade (só cordas, só trastes) acerta num quadro e erra em outro.
 - **Não repetir**: busca global de pente por perfil de linhas claras no layout do sky guitar sem critério de "não achou" (pega a borda do braço e o painel da mão direita).
+
+## Tablatura — 2026-10-13 — gerador: fonte serifada fina (robert lunn), candidato `fina3`
+
+O Gymnopédie (robert lunn) usa serifa fina tipo Times; o modelo oficial leu 186 de 392 notas
+e errou a casa em 108 (`0` lido como `8`, `4`/`2` como `tecnica`/`harmonico`). Presets novos em
+`tab.sintetico --fontes` (padrão `padrao` = sequência de sorteios idêntica, pesos `oficial_*`
+reproduzem). Treino `--n-linhas 320 --epocas 22 --seed S`, saída `artefatos/serif3_S`;
+medições em `data/saida/serif/t1..t3` (`fina3`: + LiberationSerif-Regular com peso 2, corda por
+cima quase sempre, fonte fina grande 1,0–1,4 passo).
+
+| `fina3` semente | oficial /72 | MVP casa | Greensleeves revoc. / casa | Gymnopédie revoc. / casa |
+| --- | --- | --- | --- | --- |
+| 1 | 63 (0,875) | 464/471, revoc. 471/491 | 106/106, 105/106 | 275/392, 259/275 (0,942) |
+| 2 | 70 (0,972) | 483/488, revoc. 488/491 | 106/106, 106/106 | 254/392, 238/254 (0,937) |
+| 3 | 69 (0,958) | 481/488, revoc. 488/491 | 101/106, 101/101 | 266/392, 247/266 (0,929) |
+| oficial (ref.) | 66, 71, 68 (0,949) | 483/485, revoc. 485/491 | 88/106, 88/88 | 186 lidas, 78 casas certas |
+
+Média oficial 0,935 (amplitude 0,097) contra 0,949: **não promovido** (`MODELO_PADRAO` igual).
+Critério do Gymnopédie (casa ≥ 0,95) não alcançado (0,93–0,94), mas a casa saiu de ~0,42 e a
+revocação de 0,47 para 0,65–0,70. Ainda falha: `4` lido como `harmonico` e notas não
+tokenizadas (revocação). Presets `fina`, `fina2`, `fina4` (com desfoque) medidos e piores
+(`data/saida/serif/g2_*`, `g4_*`). Uso: `serif3_2` só para PRÉ-PREENCHER o ouro (o dono corrige).
