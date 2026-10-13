@@ -55,8 +55,9 @@ Formato proposto (`chorinho/audio@1`):
     {"tela": 1, "exibicao": 0, "coluna": 3, "t_audio": 245.08,
      "confianca": 0.82, "cos": 0.71, "motivo": null}
   ],
-  "afericao": {"gabarito": ["data/gold/audio/folha1.json", "data/gold/audio/folha2.json"],
-               "nivel": "coluna", "resolucao_escuta_ms": 240}
+  "afericao": {"gabarito": ["data/gold/audio/folha1.json", "data/gold/audio/folha2.json",
+               "data/gold/audio/folha3.json"],
+               "nivel": "ms", "resolucao_escuta_ms": 100}
 }
 ```
 
@@ -66,9 +67,10 @@ Regras:
   regra do glifo cru.
 - `t_audio` é instante de **ataque do som**, na linha do tempo do vídeo (a mesma do
   `t_ini`), já com a convenção `t_amostra0` do A0. O viés do detector (−28 ms, rodada
-  2002) **não** é descontado enquanto a escuta não medir abaixo de ~240 ms.
-- `afericao.nivel = "coluna"` diz ao consumidor o que foi verificado: a nota certa, não o
-  milissegundo. Sobe para `"ms"` quando a folha A/B medir o erro.
+  2002) **não** é descontado: a escuta não separa abaixo de ~50–100 ms (rodada 2008).
+- `afericao.nivel` diz ao consumidor o que foi verificado. Era `"coluna"` (folhas 1 e 2:
+  a nota certa, não o milissegundo); passou a `"ms"` com `resolucao_escuta_ms = 100` depois
+  da folha A/B (rodada 2008): 200 e 100 ms separados pelo dono, 50 ms não.
 - Quem junta: chave (tela, exibicao, coluna). No vídeo com marcador, a `exibicao` da nota
   já existe; no vídeo sem marcador, a nota recebe `exibicao` pelo trecho da exibição
   (`t0`–`t1`), feito por quem consome (ou por um `tab.audio_juntar` da trilha áudio).

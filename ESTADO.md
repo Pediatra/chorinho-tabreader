@@ -5233,3 +5233,10 @@ caixas erradas do censo, que vêm das vias escura e por máscara do `telas.py`. 
 vias derrubava 3 TAB translúcidas de linha fina (pablo romé #20/#21, robert lunn #26: n = 1) e
 foi revertido. Saídas: `data/saida/painel_braco/`, `data/saida/fase8/medida/*_v2/`,
 `data/saida/mvp_v2/`.
+
+## Áudio — 2026-10-13 — folha 3 A/B: o tempo do áudio está a ~100 ms (rodada 2008)
+
+- `data/gold/audio/folha3.json` (40 pares, aprovado pelo dono): o dono escolheu o clique do alinhador contra um deslocado em **10 de 10** com 200 ms (2 "não sei") e **9 de 11** com 100 ms; com 50 ms, **7 de 12 "não sei"**. Não há tendência de cedo ou tarde.
+- `chorinho/audio@1` (`tab/audio_produto.py`, commit `b6da3b38`): arquivo irmão por (tela, exibição, coluna), validado nos 4 produtos (MVP 645/699 colunas com tempo; iwaki 245/273; kimny 158/222; shin izumi 114/552). Aferição agora `nivel = "ms"`, `resolucao_escuta_ms = 100`.
+- **Não repetir**: deslocamento (controle ou par A/B) que cai a menos de |d| + 50 ms de uma coluna vizinha, afirmada ou não. No shin izumi, p21 e p24 caíram em outra nota.
+- Abaixo de ~50 ms, o ouvido não separa: a medição tem de ser com áudio sintético.

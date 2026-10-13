@@ -39,11 +39,11 @@ METODO = "onsets_v2"
 #: O alinhador v2 só vê a primeira passagem de cada exibição.
 PASSAGENS = "so_primeira"
 
-#: Nível de aferição: o que foi verificado é a coluna certa, não o milissegundo.
-NIVEL_AFERICAO = "coluna"
+#: Nível de aferição: a escuta A/B (folha 3, rodada 2008) conferiu o tempo a ~100 ms.
+NIVEL_AFERICAO = "ms"
 
-#: Resolução da escuta, em ms, medida na folha A/B (rodada 2007).
-RESOLUCAO_ESCUTA_MS = 240
+#: Resolução da escuta, em ms: 200 e 100 ms separados, 50 ms não (rodada 2008).
+RESOLUCAO_ESCUTA_MS = 100
 
 #: Pasta das folhas de escuta do dono (gabarito do tempo do som).
 GABARITO_AUDIO = RAIZ / "data" / "gold" / "audio"

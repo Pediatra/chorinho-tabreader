@@ -179,8 +179,8 @@ def test_montar_sem_gabarito_grava_lista_vazia(tmp_path: Path) -> None:
     d = montar(str(caminho_produto), str(caminho_alinhado), commit="abc", gabarito=[])
     assert d["afericao"] == {
         "gabarito": [],
-        "nivel": "coluna",
-        "resolucao_escuta_ms": 240,
+        "nivel": "ms",
+        "resolucao_escuta_ms": 100,
     }
 
 
