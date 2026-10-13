@@ -351,3 +351,18 @@ def test_faixa_estreita_translucida_ainda_conta():
         np.uint8
     )
     assert faixa_translucida(quadro, x0, x1)
+
+
+def test_cursor_fino_com_pouca_tinta_ainda_conta():
+    """Cursor fino do ``greensleeves``: só uma corda aparece por dentro (~1,3 % de tinta).
+
+    Com o limiar antigo (0,02) esse marcador era recusado e a coluna ficava pulada.
+    """
+    quadro = np.full((150, 400, 3), 245, np.uint8)
+    quadro[70:72, :] = 60
+    x0, x1 = 200, 203
+    faixa = quadro[:, x0 : x1 + 1].astype(np.float32)
+    quadro[:, x0 : x1 + 1] = (0.75 * faixa + 0.25 * np.array([60, 200, 60])).astype(
+        np.uint8
+    )
+    assert faixa_translucida(quadro, x0, x1)

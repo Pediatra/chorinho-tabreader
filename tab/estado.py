@@ -72,8 +72,11 @@ DIFERENCA_TINTA = 40
 #: Fração mínima da faixa que precisa ser tinta para a faixa contar como marcador. O marcador real
 #: é uma tinta translúcida sobre o papel: cordas e notas aparecem através dela (medido no
 #: ``retrato brasileiro``, 6 qps, em 40 quadros de 245 a 265 s: 0,094 a 0,122). A moldura verde de
-#: uma ilustração (sólida, 12 px) tem 0,000 em todos os quadros do mesmo intervalo.
-TINTA_MINIMA_FAIXA = 0.02
+#: uma ilustração (sólida, 12 px) tem 0,000 em todos os quadros do mesmo intervalo. O cursor fino
+#: do ``greensleeves`` mostra pouca tinta por dentro (p5 0,0115, p10 0,0157): com 0,02 o marcador
+#: era recusado e a coluna pulada. 0,02 → 0,01 levou o tempo do Greensleeves de 33 a 38 de 40, sem
+#: mudar MVP (40/40) nem South American (37/40) (``data/saida/limiar_tinta/``, 2026-10-13).
+TINTA_MINIMA_FAIXA = 0.01
 
 
 @dataclass

@@ -5343,3 +5343,21 @@ Tempo falso continua 0 em todos. Scripts: `data/saida/fase8/medida/regua_a/`.
 ## Áudio — 2026-10-13 — andamento com lacunas: não adotado (rodada 2015)
 
 - Variante do termo de andamento que aceita buracos de 2T e 3T (κ por coluna perdida). Em nenhum κ os 6 casos da rodada 2014 passam. Com κ = 0,1, 3 exibições a mais passam, mas 69 de 3760 colunas boas mudam em mais de 30 ms; nenhum dos 72 itens do gabarito muda. **Alinhador fica v2.1**; o conserto é a leitura (decisão 2004).
+
+## Tablatura — 2026-10-13 — marcador pulado: limiar de tinta 0,02 → 0,01
+
+Causa das colunas puladas do Greensleeves (t = 62, 82, 114): o cursor fino do pablo romé mostra
+pouca tinta por dentro (p1 0,0087, p5 0,0115, mediana 0,0276; 291 de 1.238 amostras abaixo de
+0,02) e `faixa_translucida` o recusava. MVP (mediana 0,106) e South American (0,129) ficam longe;
+a moldura sólida do MVP mede 0,0 exato. Medido com `serif3_2`, mesmo leitor do produto:
+
+| vídeo | 0,02 | 0,01 | 0,005 |
+| --- | --- | --- | --- |
+| MVP | 40/40 | 40/40 | 40/40 |
+| Greensleeves | 33/40 | **38/40** | 38/40 |
+| South American | 37/40 | 37/40 | 37/40 |
+
+Nenhum instante piora; no Greensleeves 6 mudam para acerto (62, 82, 114, e 92/130, que eram a
+"1ª coluna sem tempo"). MVP e South American saem com JSON idêntico. Greensleeves ganha 12 notas
+fora das páginas do ouro (203 → 215), não pontuadas. Adotado 0,01 (o mais conservador dos dois
+que empatam). Scripts: `data/saida/limiar_tinta/`.
