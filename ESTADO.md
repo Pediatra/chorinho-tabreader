@@ -5172,3 +5172,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - Só q02 e q16 do gabarito do braço são medíveis: q06 e q11 têm 0 notas com tempo no produto; o q07 é de outra câmera (abertura).
 - **q16**: estável (0,17 px) e errado: trastes **10/15** dentro de 1/4 de casa, nut **0,49** de casa, corda 1 a **0,35** do vão 1–6. Grade comprimida no sentido das cordas: a ponta do dedo fica ~1 passo para a corda 6 em relação ao contato (q02: ~0,3).
 - **Não repetir**: recuo constante da ponta sobre o DIP. Escolhido no q02 = 0 (qualquer recuo piora o nut); o q16 melhoraria em 0,4–0,6. Os quadros discordam.
+
+## Áudio — 2026-10-13 — A2: alinhador sem marcador, v1 e v2 (rodada 2004)
+
+- `tab/audio_alinhar.py`: casa as colunas de cada exibição a picos de ataque por programação dinâmica (alturas esperadas × "nova energia" + andamento), com o marcador escondido.
+- **v2** (trecho contínuo com início e fim livres + andamento iterativo), MVP, régua = ataques do A1: **591 de 636** a ≤ 50 ms (fluxo ou alturas), **3 falsos de 636 (0,47 %)**, 7 recusas; trecho igual ao da régua em 19 de 22 exibições. v1 (página inteira): 10 falsos.
+- Cada exibição do MVP toca um **trecho contínuo** da página (repetições e casas de volta); forçar a página inteira gerava 7 dos 10 falsos da v1.
+- **Não repetir**: DTW de passo padrão sobre o perfil de alturas (14 de 636 a ≤ 100 ms); alinhar a página inteira em cada exibição.
