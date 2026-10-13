@@ -27,6 +27,9 @@ documento.
 | 8 | Possível **marcador cinza** (fundo da nota atual) num canal que o censo chama de `sem_marcador` | guitarous *sakura* | rodada 2010 |
 | 8b | **Painel na partitura em vez da TAB** (notas espúrias), **rótulos "12" lidos como casa**, **início de slide lido como `tecnica`**, coluna faltando repetida em páginas gêmeas | transcriptor *campanitas*, telas 5, 7, 16, 13, 17, 38/20 | rodada 2013; `data/saida/audio/a4/campanitas_alarmes/quadros/` |
 | 9 | O X do rasgueado sai como top-1 "15" em `nao_notas` `tecnica`; a trilha áudio depende disso (`TOP1_ABAFADA`). **Avisar antes de retreinar** ou dar ao X classe própria | transcriptor *campanitas* | rodada 2012 |
+| 10 | **Observador de marcador não lê** em 9 de 12 canais que o censo chama de faixa/cor (coerência < 0,9) | lote 2: leonardo ramos, robert lunn, kenneth, mr. tabs, tv on guitar, lonelypicker, violaodecria, yunus, vvxo | rodada 2016 |
+| 11 | **Troca de página não detectada**: uma tela de 3,75 a 93,1 s com 9 colunas | vvxofingerstyletab *sword art online* | rodada 2016; `data/saida/audio/a4/lote2/quadros/vvxofingerstyletab_sao_t1.png` |
+| 12 | **Padrão de ritmo** (pausas e X, sem casa) classificado como tablatura | kenneth acoustic *believer* | rodada 2016; `data/saida/audio/a4/lote2/quadros/kenneth_acoustic_t1.png` |
 
 ## Como medir o efeito
 

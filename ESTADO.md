@@ -5361,3 +5361,8 @@ Nenhum instante piora; no Greensleeves 6 mudam para acerto (62, 82, 114, e 92/13
 "1ª coluna sem tempo"). MVP e South American saem com JSON idêntico. Greensleeves ganha 12 notas
 fora das páginas do ouro (203 → 215), não pontuadas. Adotado 0,01 (o mais conservador dos dois
 que empatam). Scripts: `data/saida/limiar_tinta/`.
+
+## Áudio — 2026-10-13 — lote 2: 12 canais novos (rodada 2016)
+
+- 12 de 12 vídeos rodaram sem erro; **2292 de 4587 colunas com tempo (50 %)**. 5 vídeos bons (74–98 %), 5 no meio, 2 falham por causa da entrada: kenneth acoustic é padrão de ritmo sem casa; vvxofingerstyletab tem 1 tela de 90 s (troca de página não detectada).
+- Som × marcador (3 canais com `t_ini`): tirado o atraso fixo do canal (−115 a +178 ms), 77–95 % das colunas ficam a ≤ 100 ms. O produto leu marcador em só 3 de 12 canais marcados. Pedidos 10–12 na decisão 2004.
