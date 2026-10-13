@@ -1281,6 +1281,33 @@ def preparar(
     return pre
 
 
+def detector_na_faixa(
+    faixa: tuple[int, int],
+) -> Callable[[np.ndarray], segmentacao.Retangulo | None]:
+    """Detector de painel do ``tab.telas`` que só olha a faixa vertical ``faixa``.
+
+    Para preparar o ouro de um vídeo em que o detector escolhe o braço do violão (fundo
+    claro atrás das cordas) e deixa a tablatura de lado: quem prepara OLHA o quadro e
+    diz em que faixa a tablatura está (``--faixa Y0 Y1``). É ajuda de rotulagem, como o
+    dono apontar a tablatura; não muda o produto, que é medido contra o ouro.
+
+    Args:
+        faixa: ``(y0, y1)`` no quadro, em px.
+
+    Returns:
+        ``quadro -> retângulo | None``, com o retângulo no espaço do quadro.
+    """
+    y0, y1 = faixa
+
+    def detectar(quadro: np.ndarray) -> segmentacao.Retangulo | None:
+        rect = segmentacao.painel_do_quadro(quadro[y0:y1])
+        if rect is None:
+            return None
+        return (rect[0], rect[1] + y0, rect[2], rect[3] + y0)
+
+    return detectar
+
+
 def _candidato_na_faixa(quadro: np.ndarray, painel: Retangulo) -> Candidato | None:
     """Painel escolhido SÓ na faixa vertical que o ``tab.telas`` deu à página.
 
@@ -1304,7 +1331,9 @@ def _candidato_na_faixa(quadro: np.ndarray, painel: Retangulo) -> Candidato | No
     return replace(cand, y0=cand.y0 + topo, y1=cand.y1 + topo)
 
 
-def _candidato_da_pagina(video: str, pagina: dict) -> tuple[np.ndarray, Candidato]:
+def _candidato_da_pagina(
+    video: str, pagina: dict, so_na_faixa: bool = False
+) -> tuple[np.ndarray, Candidato]:
     """Quadro e painel da página: tenta o ``quadro_ref_s`` e depois o meio das exibições.
 
     Primeiro o quadro inteiro (``painel.escolher``); se nenhum instante da página dá
@@ -1313,6 +1342,8 @@ def _candidato_da_pagina(video: str, pagina: dict) -> tuple[np.ndarray, Candidat
     Args:
         video: caminho do vídeo.
         pagina: página com ``quadro_ref_s``, ``exibicoes`` e ``painel``.
+        so_na_faixa: pula o quadro inteiro (com ``--faixa``, o quadro inteiro é o
+            que escolhe o braço do violão).
 
     Returns:
         ``(quadro, candidato)``.
@@ -1329,6 +1360,8 @@ def _candidato_da_pagina(video: str, pagina: dict) -> tuple[np.ndarray, Candidat
         if quadro is None:
             continue
         quadros.append(quadro)
+        if so_na_faixa:
+            continue
         cand = escolher(quadro)
         if cand is not None and PASSO_MINIMO_PX <= cand.passo <= PASSO_MAXIMO_PX:
             return quadro, cand
@@ -1349,6 +1382,7 @@ def completar(
     passo_s: float = 2.0,
     n_instantes: int = 40,
     seed: int = 0,
+    faixa: tuple[int, int] | None = None,
 ) -> dict:
     """Prepara o ouro v2: páginas do ``tab.telas`` + notas do dono herdadas do v1.
 
@@ -1368,6 +1402,9 @@ def completar(
         passo_s: grade do sorteio de instantes (só sem ``ouro_v1``).
         n_instantes: quantos instantes sortear (só sem ``ouro_v1``).
         seed: semente do sorteio (só sem ``ouro_v1``).
+        faixa: ``(y0, y1)`` onde a tablatura está, vista por quem prepara; a
+            segmentação e o painel de cada página só olham essa faixa
+            (``detector_na_faixa``). ``None``: o quadro inteiro.
 
     Returns:
         O ``pre.json`` gravado (com ``fusao``).
@@ -1383,7 +1420,10 @@ def completar(
     if telas_json is not None:
         previstas = json.loads(telas_json.read_text(encoding="utf-8"))["telas"]
     else:
-        previstas = [asdict(t) for t in segmentacao.telas(video)]
+        detectar = (
+            segmentacao.painel_do_quadro if faixa is None else detector_na_faixa(faixa)
+        )
+        previstas = [asdict(t) for t in segmentacao.telas(video, detectar=detectar)]
     (saida / "telas").mkdir(parents=True, exist_ok=True)
     (saida / "instantes").mkdir(parents=True, exist_ok=True)
     meta = leitor.info(video)
@@ -1392,7 +1432,7 @@ def completar(
     paginas, quadros, descartadas = [], {}, []
     for p in previstas:
         try:
-            quadro, cand = _candidato_da_pagina(video, p)
+            quadro, cand = _candidato_da_pagina(video, p, faixa is not None)
         except RuntimeError as erro:
             if v1 is not None:
                 raise
@@ -1435,6 +1475,12 @@ def completar(
         )
         fusao["paginas_descartadas"] = descartadas
         texto = texto_sem_v1(fusao)
+        if faixa is not None:
+            fusao["faixa"] = list(faixa)
+            texto += (
+                f" Faixa da tablatura dada por quem preparou, por leitura visual: y "
+                f"{faixa[0]}-{faixa[1]} (o detector escolhia o braço do violão)."
+            )
     else:
         estado, fusao = fundir_ouro(v1, paginas)
         texto = texto_fusao(fusao, ouro_v1.name)
@@ -1983,6 +2029,14 @@ def main() -> int:
     c.add_argument("--telas-json", type=Path, default=None)
     c.add_argument("--modelo", type=Path, default=MODELO_PADRAO)
     c.add_argument(
+        "--faixa",
+        type=int,
+        nargs=2,
+        metavar=("Y0", "Y1"),
+        default=None,
+        help="faixa vertical onde a tablatura está (vídeo em que o detector acha o braço)",
+    )
+    c.add_argument(
         "--passo-s", type=float, default=2.0, help="sem v1: grade do sorteio"
     )
     c.add_argument("--n-instantes", type=int, default=40, help="sem v1")
@@ -2004,6 +2058,7 @@ def main() -> int:
             passo_s=args.passo_s,
             n_instantes=args.n_instantes,
             seed=args.seed,
+            faixa=tuple(args.faixa) if args.faixa else None,
         )
         print(json.dumps(pre["fusao"], ensure_ascii=False, indent=1))
         return 0
