@@ -1,0 +1,87 @@
+# Imagem DERIVADA da trilha de partitura (OMR): chorinho:dev + três leitores de pauta.
+#
+# Candidatas, todas em CPU nesta fase (a GPU é compartilhada por quatro trilhas):
+# - homr 0.7.0 (PyPI): foto/PDF de partitura -> MusicXML. Modelos baixados no build.
+# - oemer 0.1.8 (PyPI): foto de partitura -> MusicXML. Checkpoints baixados no build.
+# - Audiveris 5.10.2 (.deb oficial, Ubuntu 22.04): modo batch -> MusicXML.
+#
+# Por que derivada: as três trazem pilhas incompatíveis com a base. O homr 0.7.0 exige
+# `opencv-python-headless<5.0.0.0`, e a base tem cv2 5.0.0.93. O oemer pede
+# `onnxruntime-gpu`, que não convive com o onnxruntime de CPU. Por isso as bibliotecas OMR
+# ficam em um venv SEPARADO, `/opt/omr`, com Python 3.12 (o README do homr pede 3.11 ou 3.12).
+# O venv /opt/venv da base, com torch, cv2 e numpy, não é tocado.
+# Decisão: docs/decisoes/3001-imagem-derivada-partitura.md.
+#
+# Build, a partir da raiz do repositório (exige chorinho:dev já construída):
+#   podman build -t chorinho-partitura:dev -f Dockerfile.partitura .
+#
+# Execução (o label=disable é obrigatório por causa do SELinux):
+#   podman run --rm --security-opt label=disable -v $PWD:/app -w /app \
+#     chorinho-partitura:dev /opt/omr/bin/homr <imagem>
+#
+# Modelos baixados no build, com sha256 impresso no log do build (fixados na decisão 3001).
+# O container de execução é --rm, então nada é baixado na execução.
+
+FROM docker.io/library/chorinho:dev
+
+# Ferramentas de download e medição de tempo/memória. `time` é o pacote do /usr/bin/time.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl ca-certificates time \
+    && rm -rf /var/lib/apt/lists/*
+
+# Audiveris 5.10.2: pacote .deb oficial do release (Ubuntu 22.04; glibc mais antiga, roda
+# no Debian trixie). O sha256 do release é verificado antes de instalar.
+# O .deb traz o JRE embutido em /opt/audiveris/lib/runtime. Não usamos `apt install` do .deb:
+# o postinst só registra menu e MIME de desktop e falha no container (exit 3, medido). Em
+# vez disso, instalamos as bibliotecas do campo Depends pelo apt e extraímos o pacote.
+RUN mkdir -p /opt/download \
+    && curl -fsSL -o /opt/download/Audiveris.deb \
+        https://github.com/Audiveris/audiveris/releases/download/5.10.2/Audiveris-5.10.2-ubuntu22.04-x86_64.deb \
+    && echo "9470d15e79dd4fe45f817b8545ba9f8e57ddaebff3b3a1031f21218647602068  /opt/download/Audiveris.deb" | sha256sum -c - \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends libasound2 libbsd0 libx11-6 libxau6 libxcb1 libxdmcp6 libxext6 libxi6 libxrender1 libxtst6 \
+    && dpkg-deb -x /opt/download/Audiveris.deb / \
+    && ln -s /opt/audiveris/bin/Audiveris /usr/local/bin/audiveris \
+    && rm -rf /var/lib/apt/lists/* /opt/download
+
+# Venv separado para OMR, em Python 3.12. O `uv` vai num venv próprio (/opt/uvtool) para não
+# entrar no /opt/venv da base.
+ENV UV_PYTHON_INSTALL_DIR=/opt/pythons
+RUN python -m venv /opt/uvtool && /opt/uvtool/bin/pip install --no-cache-dir uv==0.13.0 \
+    && /opt/uvtool/bin/uv venv --python 3.12 /opt/omr
+
+# homr 0.7.0. Pede onnxruntime (CPU), que é o que queremos.
+RUN /opt/uvtool/bin/uv pip install --python /opt/omr/bin/python --no-cache homr==0.7.0
+
+# oemer 0.1.8 com --no-deps: as dependências dele pedem onnxruntime-gpu, que não queremos.
+# As demais, instaladas à mão.
+RUN /opt/uvtool/bin/uv pip install --python /opt/omr/bin/python --no-cache --no-deps oemer==0.1.8 \
+    && /opt/uvtool/bin/uv pip install --python /opt/omr/bin/python --no-cache \
+        matplotlib pillow scipy "scikit-learn>=1.2" typing-extensions
+
+# onnxruntime fixado em 1.24.1 (CPU). Medido: com 1.31.0 (que o homr puxa) o oemer falha ao
+# carregar o unet_big com "ConvTranspose ... pads must not contain negative values". Com
+# 1.24.1 o modelo carrega. O piso do homr é >=1.24.1, então as duas bibliotecas convivem.
+RUN /opt/uvtool/bin/uv pip install --python /opt/omr/bin/python --no-cache --reinstall-package onnxruntime onnxruntime==1.24.1
+
+# Modelos no build (o container de execução é --rm, sem rede necessária).
+# homr: `--init` baixa os modelos de segmentação e de transformer (download_weights) e o
+# OCR de título (rapidocr), e sai. Não processa imagem.
+RUN /opt/omr/bin/homr --init \
+    && find /opt/omr -type f \( -name '*.onnx' -o -name '*.h5' -o -name '*.pt' \) | sort | xargs sha256sum
+
+# oemer: os checkpoints são baixados pelo main() de oemer/ete.py só na primeira execução.
+# Aqui reproduzimos esse passo, com a mesma lógica (nomes, pastas e URLs da própria lib).
+RUN /opt/omr/bin/python -c "import os; from oemer import ete; [(os.makedirs(os.path.join(ete.MODULE_PATH, 'checkpoints', 'unet_big' if t.startswith('1st') else 'seg_net'), exist_ok=True), ete.download_file(t, u, os.path.join(ete.MODULE_PATH, 'checkpoints', 'unet_big' if t.startswith('1st') else 'seg_net', t.split('_')[1]))) for t, u in ete.CHECKPOINTS_URL.items()]" \
+    && find /opt/omr/lib/python3.12/site-packages/oemer/checkpoints -type f | sort | xargs sha256sum
+
+# Verificação: as bibliotecas importam, e as versões ficam no log do build.
+RUN /opt/omr/bin/python -c "import importlib.metadata as m, homr, oemer, cv2, numpy, onnxruntime; print('homr', m.version('homr'), 'oemer', m.version('oemer'), 'onnxruntime', onnxruntime.__version__, 'cv2', cv2.__version__, 'numpy', numpy.__version__); print('providers', onnxruntime.get_available_providers())" \
+    && /opt/omr/bin/python -c "from homr.main import *" \
+    && /opt/audiveris/bin/Audiveris -version 2>&1 | tail -3
+
+# Versões da base, para comparação do relatório (não é alterada por este Dockerfile).
+RUN /opt/venv/bin/python -c "import sys, torch, cv2, numpy; print('BASE', sys.version.split()[0], 'torch', torch.__version__, 'cv2', cv2.__version__, 'numpy', numpy.__version__)"
+
+# uv só foi usado para criar o venv; sai da imagem.
+RUN rm -rf /opt/uvtool
