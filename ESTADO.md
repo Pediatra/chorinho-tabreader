@@ -5210,6 +5210,14 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - Adendo (rodada 6, detector refinado para a Gymnopédie e barras de colcheia): 21 quadros ganhos, 0 perdidos, mesmo número de vídeos.
 - **Não repetir**: (1) limite de espessura medido na sequência inteira de linhas de pixel: a 6ª linha borrada da tab e a chave ao lado da pauta engrossam a sequência (a 1ª rodada deu 2.188 vídeos, inflada por tab lida como pauta); medir no núcleo (≥ 50 % do pico). (2) máscara de polaridade clara sem teste de crista: acha o fundo branco entre as linhas da tab como "linhas". (3) subir o limite de espessura sem exigir espessura parecida: barra de colcheia (5 a 6 px) vira 6ª linha falsa.
 
+## Partitura — 2026-10-13 — P1: qual biblioteca lê a pauta (rodada 3002)
+
+- 21 recortes reais de pauta; R01–R12 medidos contra a tab do gabarito convertida em altura (546 notas, 3 vídeos). CPU, sem treino.
+- **Audiveris com ampliação 2x: 479/546 notas certas (87,7 %), 4 inventadas**, saída em 20/21 recortes, 13 s por recorte. homr: 467/546, 23 inventadas, 21/21, 8,5 s. Audiveris sem ampliar: 388/546. oemer: falha (0/2, 8 min cada).
+- Greensleeves 106/106 nas duas. No south american, 14 erros do Audiveris são fá# lido como fá em recortes sem clave e sem armadura na tela (a partitura rola): herdar clave e armadura do vídeo.
+- **Base para a P2: Audiveris x2**; homr como segunda opinião. A medida é de altura, não de ritmo.
+- **Não repetir**: (1) comparar MusicXML do Audiveris sem aplicar `clef-octave-change` (clave de sol com 8): a altura sai uma oitava abaixo (R05 dava 8/85, é 73/85). (2) oemer neste acervo: falha em todos os recortes testados, ~8 min e 5,6 GB cada.
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do
