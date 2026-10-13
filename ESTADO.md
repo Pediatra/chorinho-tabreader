@@ -5300,3 +5300,8 @@ tokenizadas (revocação). Presets `fina`, `fina2`, `fina4` (com desfoque) medid
 - Coluna abafada = ≥ 4 `nao_notas` `tecnica` em cordas distintas, sem nota e com ≥ 4 de top-1 "15". Campanitas: 122. Nos 9 vídeos bons: 0. Recortes confirmam pilhas de X.
 - v2.1: as abafadas entram como ataque sem altura. Nos 9 bons a saída é **idêntica à v2 (4131 de 4131 colunas)**. Campanitas: notas com tempo 201 → **268 de 935**, alarmes 21 → 17, 12 exibições marcadas `rasgueado` (alarme desligado). Não conferido de ouvido.
 - **Não repetir**: regra de 3 cordas `tecnica` para X (pega acordes de números e ornamentos em 3 vídeos bons).
+
+## Áudio — 2026-10-13 — campanitas: os 17 alarmes restantes; pedidos consolidados à tablatura (rodada 2013, decisão 2004)
+
+- Causas: 3 de 17 do método (setas de rasgueado sem X), 3 de 17 de leitura, 2 de 17 outras (painel na partitura; uma sem causa), 9 de 17 não olhadas. **14 de 17 têm página gêmea aceita**, e 38 × 20 têm sequências idênticas no produto: o alinhador casa 1 coluna numa passagem e 5 na outra. Hipótese: o alinhador escolhe trecho mínimo quando há mais ataques que colunas. Não provado.
+- `docs/decisoes/2004-pedidos-de-leitura-a-trilha-tablatura.md`: 9 pedidos de leitura com evidência e as telas com alarme por vídeo, para o dono repassar.
