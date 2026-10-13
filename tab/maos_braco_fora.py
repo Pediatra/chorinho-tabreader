@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -46,6 +47,17 @@ INDICE_QUADROS = MAOS_M3.parent / "m3b" / "indice.json"
 #: Pares de conjuntos comparados na estabilidade (0-1, 0-2, 1-2).
 PARES = ((0, 1), (0, 2), (1, 2))
 
+#: Critério de confiança da calibração. Os limiares foram escolhidos depois de ver o
+#: q22 (rodada 1008) e ainda não foram validados em quadro novo.
+#: Uma casa "conta" se tem pelo menos essas notas pisadas usadas na calibração.
+MIN_NOTAS_POR_CASA = 5
+#: Número mínimo de casas que contam.
+MIN_CASAS = 5
+#: Menor vão, em casas, entre a menor e a maior casa que contam.
+MIN_VAO_CASAS = 5
+#: Estabilidade máxima, em px, entre conjuntos de sementes (média das medianas).
+MAX_ESTABILIDADE_PX = 2.0
+
 
 def estabilidade(Hs: list[np.ndarray]) -> dict[str, Any]:
     """Diferença, em px sobre a grade, entre as homografias de cada par de conjuntos.
@@ -68,6 +80,54 @@ def estabilidade(Hs: list[np.ndarray]) -> dict[str, Any]:
         "maximo_px_amplitude": round(float(np.ptp(maximos)), 3),
     }
     return {"entre_conjuntos": entre, "resumo": resumo}
+
+
+def avaliar_confianca(
+    contagem_por_casa: dict[int, int], estabilidade_mediana_px: float
+) -> dict[str, Any]:
+    """Diz se a calibração do braço pela música é confiável, e por quê não é.
+
+    Uma casa conta se tem pelo menos ``MIN_NOTAS_POR_CASA`` notas pisadas usadas na
+    calibração. A calibração é confiável se há pelo menos ``MIN_CASAS`` casas que
+    contam, se o vão entre a menor e a maior delas é de pelo menos ``MIN_VAO_CASAS``, e
+    se a estabilidade entre conjuntos de sementes é de no máximo
+    ``MAX_ESTABILIDADE_PX``. Os limiares foram escolhidos depois de ver o q22 (rodada
+    1008) e ainda não foram validados em quadro novo.
+
+    Args:
+        contagem_por_casa: número de notas pisadas usadas na calibração, por casa.
+        estabilidade_mediana_px: mediana (média dos 3 pares de conjuntos) da diferença
+            entre as homografias, em px.
+
+    Returns:
+        ``confiavel`` (bool), ``motivos`` (uma frase em português por regra violada),
+        ``casas_que_contam`` (ordenadas), ``vao_casas`` (maior menos menor casa que
+        contam, 0 se não há nenhuma) e ``estabilidade_mediana_px``.
+    """
+    casas = sorted(c for c, n in contagem_por_casa.items() if n >= MIN_NOTAS_POR_CASA)
+    vao = casas[-1] - casas[0] if casas else 0
+    motivos: list[str] = []
+    if len(casas) < MIN_CASAS:
+        motivos.append(
+            f"só {len(casas)} casas com pelo menos {MIN_NOTAS_POR_CASA} notas "
+            f"pisadas (precisa de {MIN_CASAS})"
+        )
+    if vao < MIN_VAO_CASAS:
+        motivos.append(
+            f"vão de {vao} casas entre as que contam (precisa de {MIN_VAO_CASAS})"
+        )
+    if estabilidade_mediana_px > MAX_ESTABILIDADE_PX:
+        motivos.append(
+            f"estabilidade de {estabilidade_mediana_px:.1f} px entre conjuntos de "
+            f"sementes (limite {MAX_ESTABILIDADE_PX:.1f} px)"
+        )
+    return {
+        "confiavel": not motivos,
+        "motivos": motivos,
+        "casas_que_contam": casas,
+        "vao_casas": vao,
+        "estabilidade_mediana_px": float(estabilidade_mediana_px),
+    }
 
 
 def achar_quadro(indice: dict[str, Any], quadro: str) -> dict[str, Any]:
@@ -284,6 +344,19 @@ def main() -> None:
     H = consensos[0]["H"]
     estab = estabilidade([c["H"] for c in consensos])
     print(f"estabilidade: {estab['resumo']}", flush=True)
+    contagem_casas = dict(Counter(int(c) for c in conj.casa))
+    confianca = avaliar_confianca(contagem_casas, estab["resumo"]["mediana_px_media"])
+    if confianca["confiavel"]:
+        print(
+            f"calibração confiável: casas {confianca['casas_que_contam']}, "
+            f"vão {confianca['vao_casas']}",
+            flush=True,
+        )
+    else:
+        print(
+            "calibração recusada: " + "; ".join(confianca["motivos"]),
+            flush=True,
+        )
 
     dono = gabarito_dono(GABARITO_BRACO, args.quadro)
     medida = medir_contra_dono(H, dono)
@@ -321,6 +394,7 @@ def main() -> None:
             for k, c in enumerate(consensos)
         ],
         "estabilidade": estab,
+        "confianca": confianca,
         "H": H.tolist(),
         "contra_dono": medida,
         "conferencia_png": str(saida / "conferencia.png"),
