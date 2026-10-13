@@ -5247,3 +5247,9 @@ foi revertido. Saídas: `data/saida/painel_braco/`, `data/saida/fase8/medida/*_v
 - 23 de 42 exibições recusadas, todas por "poucas colunas casadas", mas com cosseno **alto** (0,83). Descartados por medição: casas > 7 (as recusadas têm menos), afinação (transposição 0 é a melhor: 114 afirmadas, contra 0–8 nas outras) e densidade de notas (10 candidatos/s nos dois grupos).
 - Causa apoiada: o produto do shin izumi tem só **4 % das notas na corda 1** (42 de 998), contra 17–27 % nos outros vídeos. Nos recortes, as telas 12 e 25 perdem as notas da corda 1, e na 25 pausas viram notas. Pedido à trilha tablatura (via dono).
 - Exibição recusada com cosseno alto é **alarme de leitura** (colunas faltando).
+
+## 2026-10-13 — Mãos — M3c: correção do braço pela imagem em pente (rodada 1009, reprovada)
+
+- Pente de 6 cordas (3 faixas) + trastes pela regra de 12 notas sob projetiva 1D, sobre a mediana da cena. Constantes fixadas antes; dev q02/q16, teste q21/q23.
+- Piora: q16 trastes 10/15 → 2/15 e cordas 0,35 → 0,65; q21 cordas 0,14 → 0,42; q23 trastes 9/14 → 0/14 e nut 0,05 → 0,66. Cada metade (só cordas, só trastes) acerta num quadro e erra em outro.
+- **Não repetir**: busca global de pente por perfil de linhas claras no layout do sky guitar sem critério de "não achou" (pega a borda do braço e o painel da mão direita).

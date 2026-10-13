@@ -37,6 +37,7 @@ from .maos_medicoes_braco import (
     gabarito_dono,
     medir_contra_dono,
 )
+from .maos_pente_braco import COMPONENTES, calibrar_por_pente
 from .maos_refinar_braco import consenso
 
 #: Índice dos quadros do gabarito do braço (tempo e png de cada quadro).
@@ -131,6 +132,98 @@ def _jsonavel(valor: Any) -> Any:
     return str(valor)
 
 
+def _medir_pente(
+    args: argparse.Namespace,
+    H: np.ndarray,
+    dono: dict[str, Any],
+    quadro_png: np.ndarray,
+    saida: Path,
+) -> dict[str, Any]:
+    """Pente sobre a H da música: ajusta, mede contra o dono e grava a conferência.
+
+    Args:
+        args: argumentos da CLI (``pente_componentes``, ``mediana``, ``quadro``).
+        H: homografia da música (conjunto 0 de sementes).
+        dono: saída de :func:`gabarito_dono`.
+        quadro_png: quadro do gabarito, para a conferência.
+        saida: pasta de saída.
+
+    Returns:
+        Os campos extras do ``medicao.json``: mediana, componentes, resumo do pente,
+        H do pente, medição contra o dono e o caminho da conferência.
+
+    Raises:
+        SystemExit: se a mediana do quadro não existe.
+    """
+    componentes = (
+        COMPONENTES if args.pente_componentes == "ambos" else (args.pente_componentes,)
+    )
+    mediana_path = args.mediana or MAOS_M3.parent / "m3d" / args.quadro / "mediana.png"
+    mediana = cv2.imread(str(mediana_path))
+    if mediana is None:
+        raise SystemExit(
+            f"sem a mediana: {mediana_path} (rode --gerar-mediana-cena {args.quadro})"
+        )
+    H_pente, resumo = calibrar_por_pente(H, mediana, componentes)
+    medida = medir_contra_dono(H_pente, dono)
+    caminho = saida / "conferencia_pente.png"
+    cv2.imwrite(str(caminho), desenhar_conferencia(quadro_png, H_pente, dono))
+    print(f"pente {componentes}: {_resumo_pente(resumo)}", flush=True)
+    print(f"contra o dono (pente): {_linha_contra_dono(medida, dono)}", flush=True)
+    return {
+        "pente": {
+            "mediana": str(mediana_path),
+            "componentes": list(componentes),
+            "resumo": resumo,
+        },
+        "H_pente": H_pente.tolist(),
+        "contra_dono_pente": medida,
+        "conferencia_pente_png": str(caminho),
+    }
+
+
+def _resumo_pente(resumo: dict[str, Any]) -> str:
+    """Uma linha com os escores do pente (e os da música) para o terminal.
+
+    Args:
+        resumo: saída de :func:`tab.maos_pente_braco.calibrar_por_pente`.
+
+    Returns:
+        Texto curto.
+    """
+    partes = []
+    if "cordas" in resumo:
+        c = resumo["cordas"]
+        partes.append(f"cordas score {c['score']:.1f} (música {c['score_musica']:.1f})")
+    if "trastes" in resumo:
+        t = resumo["trastes"]
+        partes.append(
+            f"trastes score {t['score']:.1f} (música {t['score_musica']:.1f})"
+        )
+    partes.append(f"resíduo do ajuste {resumo['residuo_ajuste_px']}")
+    return "; ".join(partes)
+
+
+def _linha_contra_dono(medida: dict[str, Any], dono: dict[str, Any]) -> str:
+    """Uma linha com as métricas contra o dono (cordas, nut e trastes).
+
+    Args:
+        medida: saída de :func:`tab.maos_medicoes_braco.medir_contra_dono`.
+        dono: saída de :func:`gabarito_dono` (para o total de trastes).
+
+    Returns:
+        Texto curto.
+    """
+    t = medida["trastes"]
+    return (
+        f"c1 {medida['cordas']['corda1']['fracao_span_16_media']} "
+        f"c6 {medida['cordas']['corda6']['fracao_span_16_media']} "
+        f"nut {medida['nut']['fracao_casa1']} "
+        f"trastes {t['n_com_traste_previsto']}/{len(dono['trastes'])} "
+        f"mediana {t['fracao_mediana_dos_casados']}"
+    )
+
+
 def main() -> None:
     """Calibra pela música, mede contra o gabarito do dono e grava a conferência."""
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
@@ -148,6 +241,23 @@ def main() -> None:
         type=float,
         default=0.0,
         help="recuo da ponta sobre o DIP, fração do dedo (0 = ponta pura)",
+    )
+    parser.add_argument(
+        "--pente",
+        action="store_true",
+        help="ajusta o pente (cordas e trastes) pela imagem e mede também",
+    )
+    parser.add_argument(
+        "--pente-componentes",
+        choices=("ambos", "cordas", "trastes"),
+        default="ambos",
+        help="o que o pente ajusta; os outros ficam como a música (diagnóstico)",
+    )
+    parser.add_argument(
+        "--mediana",
+        type=Path,
+        default=None,
+        help="PNG da mediana do quadro (padrão: m3d/<quadro>/mediana.png)",
     )
     args = parser.parse_args()
     saida = args.saida or MAOS_M3.parent / "m3d" / args.quadro
@@ -185,6 +295,9 @@ def main() -> None:
 
     saida.mkdir(parents=True, exist_ok=True)
     cv2.imwrite(str(saida / "conferencia.png"), conferencia)
+    extra: dict[str, Any] = {}
+    if args.pente:
+        extra = _medir_pente(args, H, dono, quadro_png, saida)
     resultado = {
         "quadro": args.quadro,
         "recuo": args.recuo,
@@ -211,6 +324,7 @@ def main() -> None:
         "H": H.tolist(),
         "contra_dono": medida,
         "conferencia_png": str(saida / "conferencia.png"),
+        **extra,
     }
     (saida / "medicao.json").write_text(
         json.dumps(resultado, ensure_ascii=False, indent=2, default=_jsonavel),

@@ -29,7 +29,7 @@ from typing import Any
 import cv2
 import numpy as np
 
-from .caminhos import GABARITO_BRACO, GABARITO_DEDOS, MAOS_M3, MVP
+from .caminhos import GABARITO_BRACO, GABARITO_DEDOS, MAOS_M3, MAOS_M3B, MVP, acervo
 from .maos_avaliar_dedos import carregar_json, montar_predicao
 from .maos_calibrar_por_notas import (
     BRACO_FIXO,
@@ -74,6 +74,12 @@ CALIBRACAO_V2_JPG = PASTA / "calibracao_v2.jpg"
 
 #: Quadros da mediana, espalhados pelos instantes das notas pisadas.
 N_QUADROS = 30
+
+#: Quadros da mediana de uma cena do quadro do dono (rodada 1009).
+N_QUADROS_CENA = 15
+
+#: Pasta das cenas (``<quadro>_cena.json``, com as notas) e das medianas por quadro.
+PASTA_CENAS = MAOS_M3.parent / "m3d"
 
 #: Conjuntos de sementes (cada um com 10) para medir a estabilidade.
 SEMENTES_POR_CONJUNTO = 10
@@ -148,17 +154,25 @@ def mediana_de_quadros(quadros: list[np.ndarray]) -> np.ndarray:
     return saida
 
 
-def gerar_mediana(video: Path, instantes: list[float]) -> None:
+def gerar_mediana(
+    video: Path, instantes: list[float], destino: Path = MEDIANA_PNG
+) -> Path:
     """Lê os quadros, faz a mediana e grava a imagem e a lista de instantes.
 
+    A lista vai junto, em ``destino`` com extensão ``.json``.
+
     Args:
-        video: vídeo do M3 (precisa do acervo montado).
+        video: vídeo (precisa do acervo montado).
         instantes: instantes dos quadros.
+        destino: PNG de saída (padrão: a mediana do MVP, na pasta m3c).
+
+    Returns:
+        O caminho do PNG gravado.
     """
     quadros = [quadro_bgr(video, t) for t in instantes]
-    PASTA.mkdir(parents=True, exist_ok=True)
-    cv2.imwrite(str(MEDIANA_PNG), mediana_de_quadros(quadros))
-    MEDIANA_JSON.write_text(
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    cv2.imwrite(str(destino), mediana_de_quadros(quadros))
+    destino.with_suffix(".json").write_text(
         json.dumps(
             {"video": str(video), "instantes": instantes, "n": len(instantes)},
             ensure_ascii=False,
@@ -166,7 +180,51 @@ def gerar_mediana(video: Path, instantes: list[float]) -> None:
         ),
         encoding="utf-8",
     )
-    print(f"mediana de {len(instantes)} quadros: {MEDIANA_PNG}")
+    print(f"mediana de {len(instantes)} quadros: {destino}")
+    return destino
+
+
+def instantes_pisados(notas: list[dict[str, Any]]) -> list[float]:
+    """Instantes distintos, em ordem, das notas pisadas com tempo.
+
+    Args:
+        notas: lista ``notas`` de uma cena (com ``t_ini`` e ``casa``).
+
+    Returns:
+        Os ``t_ini`` (3 casas) das notas com casa > 0, sem repetição, em ordem.
+    """
+    return sorted(
+        {
+            round(float(n["t_ini"]), 3)
+            for n in notas
+            if n.get("t_ini") is not None and n["casa"] > 0
+        }
+    )
+
+
+def gerar_mediana_da_cena(quadro: str) -> Path:
+    """Mediana de ``N_QUADROS_CENA`` quadros da cena do quadro do dono.
+
+    O vídeo vem do índice dos quadros (``m3b/indice.json``) e os instantes das notas
+    pisadas da cena (``m3d/<quadro>_cena.json``). Grava ``m3d/<quadro>/mediana.png``.
+
+    Args:
+        quadro: id do quadro no gabarito (``q16``, ``q21``...).
+
+    Returns:
+        O caminho do PNG gravado.
+
+    Raises:
+        ValueError: se o quadro não está no índice dos quadros.
+    """
+    indice = carregar_json(MAOS_M3B / "indice.json")
+    entradas = [q for q in indice["quadros"] if q["id"] == quadro]
+    if not entradas:
+        raise ValueError(f"quadro {quadro} não está no índice dos quadros")
+    video = acervo() / entradas[0]["arquivo"]
+    notas = carregar_json(PASTA_CENAS / f"{quadro}_cena.json")["notas"]
+    instantes = instantes_espalhados(instantes_pisados(notas), N_QUADROS_CENA)
+    return gerar_mediana(video, instantes, PASTA_CENAS / quadro / "mediana.png")
 
 
 def retificar(mediana: np.ndarray, H: np.ndarray) -> np.ndarray:
@@ -693,6 +751,12 @@ def main() -> None:
     """Gera a mediana (com ``--gerar-mediana``) ou roda a calibração e as medições."""
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--gerar-mediana", action="store_true")
+    parser.add_argument(
+        "--gerar-mediana-cena",
+        metavar="QUADRO",
+        default=None,
+        help="mediana da cena do quadro (ex.: q16), em m3d/<quadro>/mediana.png",
+    )
     args = parser.parse_args()
 
     mvp = carregar_json(MVP)["notas"]
@@ -705,6 +769,9 @@ def main() -> None:
     )
     if args.gerar_mediana:
         gerar_mediana(VIDEO, instantes_espalhados(instantes_todos, N_QUADROS))
+        return
+    if args.gerar_mediana_cena:
+        gerar_mediana_da_cena(args.gerar_mediana_cena)
         return
 
     gabarito = carregar_json(GABARITO_DEDOS)
