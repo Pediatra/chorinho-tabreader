@@ -54,3 +54,7 @@ produto, o alinhador casa 20 colunas numa passagem e 1–2 na outra. Isso aponta
 ## Limites
 
 8 de 17 telas olhadas; a tela 47 só pela metade; nada ouvido.
+
+## Nota posterior (2026-10-13)
+
+O dono **descartou o vídeo** transcriptor *campanitas* (Ernesto Cavour) do dataset, por não atender aos padrões dele. Esta rodada fica como registro. A folha 4 (escuta do campanitas) **não** entrou no gabarito; as respostas estão em `data/saida/audio/a2/folha/respostas_folha4.json`. O código do v2.1 fica: nos outros 13 vídeos ele dá saída idêntica à v2.

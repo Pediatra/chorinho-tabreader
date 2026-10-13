@@ -5326,3 +5326,7 @@ American em t=98 (colunas a 20 px) e foi corrigida antes do commit.
 | South American (v2) | 37/40 | 37/40 |
 
 Tempo falso continua 0 em todos. Scripts: `data/saida/fase8/medida/regua_a/`.
+
+## Áudio — 2026-10-13 — campanitas descartado pelo dono
+
+- O dono tirou o transcriptor *campanitas* (Ernesto Cavour) do dataset, por não atender aos padrões dele. A folha 4 não entra no gabarito. As rodadas 2012 e 2013 ficam como registro; o v2.1 não muda os outros 13 vídeos.

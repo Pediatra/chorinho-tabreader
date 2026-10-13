@@ -62,3 +62,7 @@ Recortes olhados:
   de ser medida de novo (`TOP1_ABAFADA`).
 - Setas de batida sem X não viram coluna.
 - Um vídeo de rasgueado no lote.
+
+## Nota posterior (2026-10-13)
+
+O dono **descartou o vídeo** transcriptor *campanitas* (Ernesto Cavour) do dataset, por não atender aos padrões dele. Esta rodada fica como registro. A folha 4 (escuta do campanitas) **não** entrou no gabarito; as respostas estão em `data/saida/audio/a2/folha/respostas_folha4.json`. O código do v2.1 fica: nos outros 13 vídeos ele dá saída idêntica à v2.
