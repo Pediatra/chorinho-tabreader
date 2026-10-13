@@ -37,6 +37,7 @@ import math
 import random
 import re
 import shutil
+import subprocess
 import sys
 import threading
 from pathlib import Path
@@ -45,7 +46,8 @@ import cv2
 import numpy as np
 
 from .cache import ModoCache, caminho_do_quadro, pasta_do_video
-from .caminhos import CENSO_MAOS, GABARITO_BRACO, MAOS_M3B, cache_quadros
+from .caminhos import CENSO_MAOS, GABARITO_BRACO, MAOS_M3B, acervo, cache_quadros
+from .censo import chave_do_arquivo
 from .maos_gabarito import gravar_atomico
 
 #: Ponto ``[x, y]`` no espaço do quadro original.
@@ -1432,8 +1434,312 @@ def montar_folha(pasta: Path, saida: Path, colunas: int = 5) -> int:
     return len(itens)
 
 
+# ---------------------------------------------------------------------------------
+# Acrescentar quadros depois da amostra (conjunto de teste, sem ajuste)
+# ---------------------------------------------------------------------------------
+
+
+def proximo_id(indice: list[dict]) -> str:
+    """Próximo id ``qNN`` depois do maior que já existe no índice.
+
+    Args:
+        indice: itens do ``indice.json`` (com ``id``).
+
+    Returns:
+        O id seguinte, com pelo menos dois dígitos (ex.: ``q21``).
+    """
+    maior = max((int(item["id"][1:]) for item in indice), default=0)
+    return f"q{maior + 1:02d}"
+
+
+def entrada_do_indice(
+    id_quadro: str,
+    chave: str,
+    arquivo: str,
+    t: float,
+    tab: bool | None,
+    largura: int,
+    altura: int,
+) -> dict:
+    """Item do ``indice.json`` para um quadro acrescentado depois da amostra.
+
+    Campos que a amostra mediria e que aqui não foram medidos ficam ``None``:
+    ``indice`` (o número do quadro no censo) e ``n_maos`` (a detecção de mãos não
+    rodou neste quadro). ``mvp`` é falso: o quadro não é controle do vídeo do MVP.
+
+    Args:
+        id_quadro: id novo (``qNN``).
+        chave: chave de retomada do vídeo (``relativo|tamanho|mtime``).
+        arquivo: caminho relativo ao acervo; o canal é a primeira pasta.
+        t: instante do quadro, em segundos.
+        tab: se a tablatura aparece no quadro; ``None`` se não foi conferido.
+        largura: largura do PNG, em px.
+        altura: altura do PNG, em px.
+
+    Returns:
+        Dicionário no mesmo formato dos itens da amostra.
+    """
+    return {
+        "id": id_quadro,
+        "chave": chave,
+        "arquivo": arquivo,
+        "canal": arquivo.split("/")[0],
+        "indice": None,
+        "t": float(t),
+        "tab": tab,
+        "n_maos": None,
+        "mvp": False,
+        "png": f"quadros/{id_quadro}.png",
+        "largura": int(largura),
+        "altura": int(altura),
+    }
+
+
+def acrescentar_indice(indice_doc: dict, novas: list[dict]) -> dict:
+    """Acrescenta itens ao índice, sem tocar nos que já estão lá.
+
+    Args:
+        indice_doc: ``indice.json`` com ``semente`` e ``quadros``.
+        novas: itens feitos por ``entrada_do_indice``.
+
+    Returns:
+        Cópia do índice com os itens novos no fim.
+
+    Raises:
+        ValueError: se um id já existir, ou se o par (vídeo, instante) já estiver no
+            índice (inclusive entre os próprios itens novos).
+    """
+    ids = {item["id"] for item in indice_doc["quadros"]}
+    pares = {(item["chave"], item["t"]) for item in indice_doc["quadros"]}
+    for item in novas:
+        if item["id"] in ids:
+            raise ValueError(f"id repetido: {item['id']}")
+        if (item["chave"], item["t"]) in pares:
+            raise ValueError(f"{item['arquivo']} em t={item['t']} já está no índice")
+        ids.add(item["id"])
+        pares.add((item["chave"], item["t"]))
+    copia = copy.deepcopy(indice_doc)
+    copia["quadros"].extend(copy.deepcopy(novas))
+    return copia
+
+
+def acrescentar_gabarito(gabarito: dict, id_quadro: str, chave: str) -> dict:
+    """Acrescenta o registro em branco de um quadro novo; os outros ficam iguais.
+
+    Args:
+        gabarito: gabarito do braço (formato ``FORMATO_GABARITO``).
+        id_quadro: id novo.
+        chave: chave do vídeo de origem.
+
+    Returns:
+        Cópia do gabarito com o registro novo no fim.
+
+    Raises:
+        ValueError: se o id já tiver registro.
+    """
+    if id_quadro in gabarito["quadros"]:
+        raise ValueError(f"{id_quadro} já tem registro no gabarito")
+    copia = copy.deepcopy(gabarito)
+    copia["quadros"][id_quadro] = registro_em_branco(chave)
+    return copia
+
+
+def extrair_quadro(video: Path, t: float, destino: Path) -> tuple[int, int]:
+    """Extrai um quadro do vídeo na resolução original, com o ffmpeg.
+
+    Args:
+        video: arquivo no acervo (só leitura).
+        t: instante em segundos.
+        destino: PNG de saída; não pode existir.
+
+    Returns:
+        ``(largura, altura)`` do PNG gravado.
+
+    Raises:
+        FileExistsError: se o destino já existir.
+        RuntimeError: se o ffmpeg falhar ou a imagem não puder ser lida.
+    """
+    if destino.exists():
+        raise FileExistsError(f"já existe: {destino}")
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    comando = [
+        "ffmpeg",
+        "-v",
+        "error",
+        "-nostdin",
+        "-ss",
+        f"{t:.3f}",
+        "-i",
+        str(video),
+        "-frames:v",
+        "1",
+        str(destino),
+    ]
+    resultado = subprocess.run(comando, capture_output=True, text=True, check=False)
+    if resultado.returncode != 0 or not destino.is_file():
+        erro = resultado.stderr.strip()
+        raise RuntimeError(f"ffmpeg falhou em {video} (t={t}): {erro}")
+    imagem = cv2.imread(str(destino))
+    if imagem is None:
+        raise RuntimeError(f"imagem ilegível: {destino}")
+    altura, largura = imagem.shape[:2]
+    return int(largura), int(altura)
+
+
+def ler_pares(videos: list[str], tempos: list[float]) -> list[dict]:
+    """Junta ``--video`` e ``--t`` (repetidos, na mesma ordem) em itens.
+
+    Args:
+        videos: caminhos relativos ao acervo.
+        tempos: instantes em segundos, um para cada vídeo.
+
+    Returns:
+        Itens ``{arquivo, t, tab}`` com ``tab`` igual a ``None``.
+
+    Raises:
+        ValueError: se a quantidade de ``--video`` e ``--t`` não bater.
+    """
+    if len(videos) != len(tempos):
+        raise ValueError(f"{len(videos)} --video para {len(tempos)} --t")
+    return [
+        {"arquivo": v, "t": _tempo_valido(t), "tab": None}
+        for v, t in zip(videos, tempos, strict=True)
+    ]
+
+
+def ler_lista(caminho: Path) -> list[dict]:
+    """Lê uma lista JSON ``[{"arquivo", "t", "tab"?}]`` de quadros a acrescentar.
+
+    Args:
+        caminho: arquivo JSON. ``tab`` é opcional (``true``, ``false`` ou ausente).
+
+    Returns:
+        Itens ``{arquivo, t, tab}``.
+
+    Raises:
+        ValueError: se o formato não bater.
+    """
+    dados = json.loads(caminho.read_text(encoding="utf-8"))
+    if not isinstance(dados, list):
+        raise ValueError("a lista precisa ser um JSON com uma lista de objetos")
+    itens = []
+    for k, item in enumerate(dados, start=1):
+        if not isinstance(item, dict) or "arquivo" not in item or "t" not in item:
+            raise ValueError(f"item {k} sem 'arquivo' ou 't'")
+        tab = item.get("tab")
+        if tab is not None and not isinstance(tab, bool):
+            raise ValueError(f"item {k}: 'tab' precisa ser true, false ou ausente")
+        itens.append(
+            {
+                "arquivo": str(item["arquivo"]),
+                "t": _tempo_valido(item["t"]),
+                "tab": tab,
+            }
+        )
+    return itens
+
+
+def _tempo_valido(valor: object) -> float:
+    """Instante em segundos: número finito e não negativo (sem booleanos).
+
+    Args:
+        valor: o que veio da linha de comando ou do JSON.
+
+    Returns:
+        O instante como ``float``.
+
+    Raises:
+        ValueError: se não for um número finito e não negativo.
+    """
+    if isinstance(valor, bool) or not isinstance(valor, (int, float)):
+        raise ValueError(f"instante inválido: {valor!r}")
+    if not math.isfinite(valor) or valor < 0:
+        raise ValueError(f"instante inválido: {valor!r}")
+    return float(valor)
+
+
+def acrescentar(
+    itens: list[dict], raiz_acervo: Path, pasta: Path, ouro: Path
+) -> list[str]:
+    """Acrescenta quadros novos: PNG, item do índice e registro em branco.
+
+    Antes de extrair qualquer quadro, valida tudo (vídeo no acervo, ids e pares
+    repetidos). Se a extração falhar no meio, apaga os PNGs já gravados. Grava o
+    gabarito antes do índice, ambos de forma atômica. Nada que já existe é alterado.
+
+    Args:
+        itens: itens ``{arquivo, t, tab}``.
+        raiz_acervo: raiz do acervo (só leitura).
+        pasta: pasta ``m3b`` (``indice.json`` e ``quadros/``).
+        ouro: gabarito do braço.
+
+    Returns:
+        Os ids criados, na ordem dos itens.
+
+    Raises:
+        FileNotFoundError: se um vídeo não estiver no acervo.
+        ValueError: se o gabarito tiver formato errado ou algo se repetir.
+        RuntimeError: se a extração de um quadro falhar.
+    """
+    indice_doc = json.loads((pasta / "indice.json").read_text(encoding="utf-8"))
+    gabarito = json.loads(ouro.read_text(encoding="utf-8"))
+    if gabarito.get("formato") != FORMATO_GABARITO:
+        raise ValueError(f"gabarito fora do formato {FORMATO_GABARITO}")
+
+    planos = []
+    for item in itens:
+        video = raiz_acervo / item["arquivo"]
+        if not video.is_file():
+            raise FileNotFoundError(f"vídeo fora do acervo: {video}")
+        chave = chave_do_arquivo(str(video), str(raiz_acervo))
+        id_quadro = proximo_id(
+            indice_doc["quadros"] + [{"id": p["id"]} for p in planos]
+        )
+        planos.append({"id": id_quadro, "chave": chave, "video": video, **item})
+    # Validação pura antes de gravar qualquer PNG: id e par repetidos recusam aqui.
+    acrescentar_indice(
+        indice_doc,
+        [
+            entrada_do_indice(p["id"], p["chave"], p["arquivo"], p["t"], p["tab"], 0, 0)
+            for p in planos
+        ],
+    )
+
+    novas: list[dict] = []
+    criados: list[Path] = []
+    try:
+        for p in planos:
+            destino = pasta / "quadros" / f"{p['id']}.png"
+            criados.append(destino)
+            largura, altura = extrair_quadro(p["video"], p["t"], destino)
+            novas.append(
+                entrada_do_indice(
+                    p["id"],
+                    p["chave"],
+                    p["arquivo"],
+                    p["t"],
+                    p["tab"],
+                    largura,
+                    altura,
+                )
+            )
+    except RuntimeError, FileExistsError:
+        for destino in criados:
+            destino.unlink(missing_ok=True)
+        raise
+
+    novo_gabarito = gabarito
+    for entrada in novas:
+        novo_gabarito = acrescentar_gabarito(
+            novo_gabarito, entrada["id"], entrada["chave"]
+        )
+    gravar_atomico(ouro, novo_gabarito)
+    gravar_atomico(pasta / "indice.json", acrescentar_indice(indice_doc, novas))
+    return [entrada["id"] for entrada in novas]
+
+
 def main() -> int:
-    """Ponto de entrada: ``preparar``, ``servir`` e ``folha``.
+    """Ponto de entrada: ``preparar``, ``servir``, ``folha`` e ``acrescentar``.
 
     Returns:
         Código de saída do processo.
@@ -1456,6 +1762,19 @@ def main() -> int:
     f = sub.add_parser("folha", help="folha numerada com as miniaturas")
     f.add_argument("--pasta", type=Path, default=MAOS_M3B)
     f.add_argument("--saida", type=Path, default=MAOS_M3B / "folha.jpg")
+    a = sub.add_parser(
+        "acrescentar", help="acrescenta quadros novos, sem mexer nos existentes"
+    )
+    a.add_argument(
+        "--video", action="append", default=[], help="caminho relativo no acervo"
+    )
+    a.add_argument(
+        "--t", action="append", type=float, default=[], help="instante, em segundos"
+    )
+    a.add_argument("--lista", type=Path, help="JSON [{arquivo, t, tab?}]")
+    a.add_argument("--acervo", type=Path, default=None)
+    a.add_argument("--pasta", type=Path, default=MAOS_M3B)
+    a.add_argument("--ouro", type=Path, default=GABARITO_BRACO)
     args = ap.parse_args()
     if args.comando == "preparar":
         try:
@@ -1470,6 +1789,19 @@ def main() -> int:
     if args.comando == "folha":
         total = montar_folha(args.pasta, args.saida)
         print(f"folha com {total} miniaturas em {args.saida}")
+        return 0
+    if args.comando == "acrescentar":
+        try:
+            itens = ler_pares(args.video, args.t)
+            if args.lista:
+                itens += ler_lista(args.lista)
+            if not itens:
+                raise ValueError("nenhum quadro pedido (--video/--t ou --lista)")
+            ids = acrescentar(itens, args.acervo or acervo(), args.pasta, args.ouro)
+        except (ValueError, FileNotFoundError, FileExistsError, RuntimeError) as erro:
+            print(f"não acrescentou: {erro}", file=sys.stderr)
+            return 2
+        print(f"acrescentados: {', '.join(ids)}")
         return 0
     return servir(args.pasta, args.ouro, args.porta, args.host)
 

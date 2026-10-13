@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import copy
 import json
+import shutil
+import subprocess
 import threading
 import urllib.error
 import urllib.request
@@ -18,16 +20,22 @@ from tab.caminhos import CENSO_MAOS
 from tab.maos_braco_gabarito import (
     ARQUIVO_MVP,
     CANAL_MVP,
+    acrescentar,
+    acrescentar_gabarito,
+    acrescentar_indice,
     amostrar_quadros,
     aplicar_acao,
     completos,
     converter_clique,
     criar_servidor,
+    entrada_do_indice,
     gabarito_novo,
+    ler_pares,
     mesclar_gabarito,
     numerar_trastes,
     ordenar_trastes,
     preparar,
+    proximo_id,
     registro_completo,
     registro_em_branco,
     resumo,
@@ -660,3 +668,199 @@ def test_amostra_real_do_censo_tem_20_quadros_com_mvp() -> None:
     assert len(amostra) == 20
     assert len({a["canal"] for a in amostra}) == 8
     assert any(a["mvp"] and a["tab"] for a in amostra)
+
+
+# ---------------------------------------------------------------------------------
+# Acrescentar quadros depois da amostra
+# ---------------------------------------------------------------------------------
+
+
+def _registros_em_bytes(gabarito: dict, ids: list[str]) -> list[str]:
+    """Registros serializados como o ``gravar_atomico`` faz, para comparar bytes.
+
+    Args:
+        gabarito: gabarito com ``quadros``.
+        ids: ids a serializar, na ordem.
+
+    Returns:
+        Um texto JSON por registro.
+    """
+    return [
+        json.dumps(gabarito["quadros"][i], ensure_ascii=False, indent=1) for i in ids
+    ]
+
+
+def _indice_com(n: int) -> dict:
+    """Índice fictício com ``n`` quadros ``q01``..``qNN`` de vídeos distintos.
+
+    Args:
+        n: quantos quadros.
+
+    Returns:
+        Dicionário no formato do ``indice.json``.
+    """
+    return {
+        "semente": 1,
+        "quadros": [
+            {
+                "id": f"q{k:02d}",
+                "chave": f"canal/v{k}.mp4|10|20",
+                "arquivo": f"canal/v{k}.mp4",
+                "canal": "canal",
+                "indice": k,
+                "t": 1.0 + k,
+                "tab": True,
+                "n_maos": 1,
+                "mvp": False,
+                "png": f"quadros/q{k:02d}.png",
+                "largura": 320,
+                "altura": 240,
+            }
+            for k in range(1, n + 1)
+        ],
+    }
+
+
+def test_proximo_id_continua_a_numeracao() -> None:
+    """O id novo vem depois do maior existente, com dois dígitos."""
+    assert proximo_id(_indice_com(20)["quadros"]) == "q21"
+    assert proximo_id([]) == "q01"
+
+
+def test_acrescentar_gabarito_nao_mexe_nos_registros_existentes() -> None:
+    """Os registros q01 a q20 ficam iguais, byte a byte; o novo entra em branco."""
+    ids = [f"q{k:02d}" for k in range(1, 21)]
+    gabarito = _gabarito_com(ids)
+    gabarito["quadros"]["q07"]["braco"] = "sim"
+    gabarito["quadros"]["q07"]["respondido_em"] = "2026-10-12T10:00:00"
+    antes = _registros_em_bytes(gabarito, ids)
+    novo = acrescentar_gabarito(gabarito, "q21", "canal/x.mp4|1|2")
+    assert _registros_em_bytes(novo, ids) == antes
+    assert novo["quadros"]["q21"] == registro_em_branco("canal/x.mp4|1|2")
+    assert list(gabarito["quadros"]) == ids
+
+
+def test_acrescentar_gabarito_recusa_id_repetido() -> None:
+    """Um id que já tem registro não é sobrescrito."""
+    with pytest.raises(ValueError):
+        acrescentar_gabarito(_gabarito_com(["q01"]), "q01", "x")
+
+
+def test_acrescentar_indice_recusa_id_e_par_repetidos() -> None:
+    """Id repetido, ou o mesmo vídeo no mesmo instante, não entram; nada muda."""
+    indice = _indice_com(20)
+    antes = copy.deepcopy(indice)
+    com_id_repetido = entrada_do_indice("q01", "c|1|2", "c/n.mp4", 5.0, None, 320, 240)
+    with pytest.raises(ValueError):
+        acrescentar_indice(indice, [com_id_repetido])
+    mesmo_par = entrada_do_indice(
+        "q21", indice["quadros"][0]["chave"], "canal/v1.mp4", 2.0, None, 320, 240
+    )
+    with pytest.raises(ValueError):
+        acrescentar_indice(indice, [mesmo_par])
+    assert indice == antes
+
+
+def test_acrescentar_indice_anexa_no_fim_e_preserva_os_antigos() -> None:
+    """Os itens antigos ficam como estavam; o novo traz os campos não medidos como None."""
+    indice = _indice_com(20)
+    antes = copy.deepcopy(indice["quadros"])
+    nova = entrada_do_indice("q21", "novo|1|2", "novo/a.mp4", 3.5, True, 1920, 1080)
+    feito = acrescentar_indice(indice, [nova])
+    assert feito["quadros"][:20] == antes
+    item = feito["quadros"][20]
+    assert item["id"] == "q21"
+    assert item["canal"] == "novo"
+    assert item["indice"] is None
+    assert item["n_maos"] is None
+    assert item["mvp"] is False
+    assert item["png"] == "quadros/q21.png"
+
+
+def test_ler_pares_recusa_quantidades_diferentes_e_instante_invalido() -> None:
+    """``--video`` e ``--t`` precisam bater; instante booleano ou negativo é recusado."""
+    with pytest.raises(ValueError):
+        ler_pares(["a.mp4", "b.mp4"], [1.0])
+    with pytest.raises(ValueError):
+        ler_pares(["a.mp4"], [True])
+    with pytest.raises(ValueError):
+        ler_pares(["a.mp4"], [-1.0])
+    assert ler_pares(["a.mp4"], [2]) == [{"arquivo": "a.mp4", "t": 2.0, "tab": None}]
+
+
+@pytest.mark.skipif(shutil.which("ffmpeg") is None, reason="precisa do ffmpeg")
+def test_acrescentar_grava_png_indice_e_gabarito(tmp_path: Path) -> None:
+    """Dois quadros novos viram q21 e q22; q01 a q20 ficam como estavam.
+
+    Um segundo pedido igual é recusado e não altera o índice.
+    """
+    raiz = tmp_path / "acervo"
+    (raiz / "novo").mkdir(parents=True)
+    subprocess.run(
+        [
+            "ffmpeg",
+            "-v",
+            "error",
+            "-y",
+            "-f",
+            "lavfi",
+            "-i",
+            "testsrc=size=320x240:rate=10",
+            "-t",
+            "3",
+            "-c:v",
+            "mpeg4",
+            str(raiz / "novo" / "a.mp4"),
+        ],
+        check=True,
+    )
+    pasta = tmp_path / "m3b"
+    (pasta / "quadros").mkdir(parents=True)
+    indice = _indice_com(20)
+    (pasta / "indice.json").write_text(json.dumps(indice), encoding="utf-8")
+    ids = [f"q{k:02d}" for k in range(1, 21)]
+    ouro = tmp_path / "braco.json"
+    gabarito = _gabarito_com(ids)
+    ouro.write_text(json.dumps(gabarito), encoding="utf-8")
+    antes = _registros_em_bytes(gabarito, ids)
+
+    pedidos = [
+        {"arquivo": "novo/a.mp4", "t": 1.0, "tab": True},
+        {"arquivo": "novo/a.mp4", "t": 2.0, "tab": None},
+    ]
+    assert acrescentar(pedidos, raiz, pasta, ouro) == ["q21", "q22"]
+
+    imagem = cv2.imread(str(pasta / "quadros" / "q21.png"))
+    assert imagem.shape[:2] == (240, 320)
+    depois = json.loads(ouro.read_text(encoding="utf-8"))
+    assert _registros_em_bytes(depois, ids) == antes
+    assert depois["quadros"]["q22"] == registro_em_branco(
+        depois["quadros"]["q22"]["chave"]
+    )
+    itens = json.loads((pasta / "indice.json").read_text(encoding="utf-8"))["quadros"]
+    assert itens[:20] == indice["quadros"]
+    assert [i["id"] for i in itens[20:]] == ["q21", "q22"]
+    assert itens[20]["tab"] is True
+    assert itens[21]["tab"] is None
+
+    antes_indice = (pasta / "indice.json").read_bytes()
+    with pytest.raises(ValueError):
+        acrescentar(pedidos[:1], raiz, pasta, ouro)
+    assert (pasta / "indice.json").read_bytes() == antes_indice
+
+
+def test_acrescentar_recusa_video_fora_do_acervo(tmp_path: Path) -> None:
+    """Vídeo que não existe no acervo para antes de gravar qualquer coisa."""
+    pasta = tmp_path / "m3b"
+    (pasta / "quadros").mkdir(parents=True)
+    (pasta / "indice.json").write_text(json.dumps(_indice_com(20)), encoding="utf-8")
+    ouro = tmp_path / "braco.json"
+    ouro.write_text(json.dumps(_gabarito_com(["q01"])), encoding="utf-8")
+    with pytest.raises(FileNotFoundError):
+        acrescentar(
+            [{"arquivo": "nao/existe.mp4", "t": 1.0, "tab": None}],
+            tmp_path,
+            pasta,
+            ouro,
+        )
+    assert not list((pasta / "quadros").iterdir())
