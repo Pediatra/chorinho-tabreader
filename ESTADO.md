@@ -5339,3 +5339,7 @@ Tempo falso continua 0 em todos. Scripts: `data/saida/fase8/medida/regua_a/`.
 ## Áudio — 2026-10-13 — alarme de leitura ignora trecho fora da página (rodada 2014)
 
 - `tab.audio_produto`: nova chave `fora_da_pagina` por exibição (trecho escolhido inteiro na margem de 0,5 s). O alarme não dispara nesses casos. Nos 13 vídeos: alarmes **42 → 34**, colunas iguais 5342 de 5342. Lista de telas da decisão 2004 atualizada.
+
+## Áudio — 2026-10-13 — andamento com lacunas: não adotado (rodada 2015)
+
+- Variante do termo de andamento que aceita buracos de 2T e 3T (κ por coluna perdida). Em nenhum κ os 6 casos da rodada 2014 passam. Com κ = 0,1, 3 exibições a mais passam, mas 69 de 3760 colunas boas mudam em mais de 30 ms; nenhum dos 72 itens do gabarito muda. **Alinhador fica v2.1**; o conserto é a leitura (decisão 2004).
