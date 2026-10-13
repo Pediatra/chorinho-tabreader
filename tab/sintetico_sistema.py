@@ -2,9 +2,11 @@
 
 Diferença para `tab.sintetico.gerar_linha`: aquele desenha uma linha de algarismos.
 Este desenha um sistema inteiro, com acordes empilhados (que se encostam na vertical),
-técnicas entre notas da mesma corda e distratores que NÃO são nota: barlines, ritmo
-(com haste que sobe por dentro do sistema), fundo cinza atrás de uma nota, faixa do
-marcador, número de compasso, rótulo TAB e nome de acorde.
+técnicas entre notas da mesma corda, técnicas NA nota (bend, vibrato), marcações de
+REGIÃO (let ring, P.M., trêmolo, rasgueado, arpejo) e distratores que NÃO são nota:
+barlines, ritmo (com haste que sobe por dentro do sistema, e pausas no lugar de
+algumas hastes), fundo cinza atrás de uma nota, faixa do marcador, número de compasso,
+rótulo TAB e nome de acorde.
 
 Determinismo: toda escolha vem de `rng`. A mesma semente dá a mesma imagem e os mesmos
 rótulos. Nada usa o gerador global de `random` nem o de `numpy`, e nenhum conjunto é
@@ -36,7 +38,24 @@ from .sintetico import CORES_VOZ, PRESETS_FONTES, _resolver_fontes
 ROTULOS = (*(str(casa) for casa in range(25)), "x")
 
 #: Técnicas possíveis; `None` é a nota sem técnica.
-TECNICAS = (None, "h", "p", "/", "\\", "harm", "lig")
+TECNICAS = (None, "h", "p", "/", "\\", "harm", "lig", "bend", "vib", "orn", "enfeite")
+
+#: Tipos de item de "estrutura" (ritornelo, casa de volta, texto de navegação, fórmula).
+ESTRUTURA_TIPOS = (
+    "ritornelo_inicio",
+    "ritornelo_fim",
+    "volta_1",
+    "volta_2",
+    "texto_navegacao",
+    "formula_compasso",
+)
+
+#: Fórmulas de compasso possíveis ("C" é o compasso comum).
+FORMULAS = ("4/4", "3/4", "6/8", "2/4", "12/8", "C")
+
+#: Marcações de região (cobrem várias notas ou cordas): let ring, P.M., trêmolo,
+#: rasgueado e arpejo. O código aparece no campo "tecnica" de cada região.
+REGIOES = ("let ring", "pm", "trem", "rasg", "arpejo")
 
 #: Nomes de acorde desenhados acima do sistema (distrator sem rótulo).
 ACORDES = ("Am7", "C", "G7", "Dm", "Em", "F#m7", "D7", "Bm7", "A", "Cmaj7")
@@ -108,6 +127,50 @@ P_CURSOR_FINO = 0.25
 P_REESCALA = 0.6
 #: Chance de desfoque (0,3 a 1,0 px).
 P_DESFOQUE = 0.5
+#: Chance de uma nota ter `bend` (seta curva para cima-direita).
+P_BEND = 0.05
+#: Dentro do bend, chance de a ponta ter o texto "full" ou "1/2".
+P_BEND_TEXTO = 0.5
+#: Chance de uma nota ter `vib` (linha ondulada à direita, na altura da corda).
+P_VIB = 0.05
+#: Chance de uma coluna de ritmo virar pausa (no lugar da haste).
+P_PAUSA_RITMO = 0.2
+#: Chance de o sistema ter "let ring" acima da corda 1 (linha tracejada).
+P_LET_RING = 0.12
+#: Chance de o sistema ter "P.M." acima da corda 1 (linha tracejada).
+P_PM = 0.10
+#: Dentro de let ring / P.M., chance de a linha terminar em gancho "|".
+P_GANCHO = 0.4
+#: Chance de o sistema ter barras de trêmolo sobre uma nota.
+P_TREM = 0.15
+#: Dentro do trêmolo, chance de ser "trem. pick" (com tracejado).
+P_TREM_PICK = 0.4
+#: Chance de o sistema ter uma seta de rasgueado sobre uma coluna com 4 ou mais cordas.
+P_RASG = 0.15
+#: Chance de o sistema ter um arpejo (linha ondulada) sobre uma coluna com 3 ou mais.
+P_ARPEJO = 0.12
+#: Chance de uma nota sem técnica (com coluna vizinha livre) ter enfeite "orn".
+P_ORN = 0.04
+#: Dado orn, chance de haver um mordente (zigue-zague) acima da nota.
+P_MORDENTE = 0.4
+#: Chance de uma coluna (a partir da segunda) ter ligadura de prolongamento (tie).
+P_TIE = 0.05
+#: Chance de uma nota sem técnica ser um slide sem nota de origem (entrada ou saída).
+P_SLIDE_SOLTO = 0.04
+#: Chance de um legato h/p ter a letra; o resto é só o arco.
+P_LETRA_LEGATO = 0.6
+#: Chance de um grupo de 2 ou mais colcheias ter viga dupla (semicolcheias).
+P_VIGA_DUPLA = 0.3
+#: Chance de uma barline virar ritornelo (barra dupla com dois pontos).
+P_RITORNELO = 0.12
+#: Chance de o sistema ter uma casa de volta "1." ou "2.".
+P_VOLTA = 0.1
+#: Chance de o sistema ter texto de navegação (D.S., D.C., Fine, Coda ou símbolo).
+P_NAV = 0.1
+#: Chance de o sistema ter fórmula de compasso logo depois do TAB.
+P_FORMULA = 0.4
+#: Chance de cada barline interna trazer uma mudança de fórmula.
+P_FORMULA_MEIO = 0.08
 
 _COR_BANDA_INICIO = 0.12
 _COR_BANDA_FIM = 0.35
@@ -198,11 +261,12 @@ def _texto_da_nota(nota: dict) -> str:
         nota: dict com "rotulo" e "tecnica".
 
     Returns:
-        "<n>" para harmônico, "(n)" para ligada, e o próprio rótulo nos demais casos.
+        "<n>" para harmônico, "(n)" para ligada de verdade (a ligadura de
+        prolongamento, marcada com "tie", tem só o arco) e o rótulo nos demais casos.
     """
     if nota["tecnica"] == "harm":
         return f"<{nota['rotulo']}>"
-    if nota["tecnica"] == "lig":
+    if nota["tecnica"] == "lig" and not nota.get("tie"):
         return f"({nota['rotulo']})"
     return nota["rotulo"]
 
@@ -284,6 +348,9 @@ def _tecnicas_pares(
             continue
         s = rng.randrange(6)
         tipo = rng.choices(TIPOS_PAR, weights=PESOS_PAR)[0]
+        destino_existente = grade.get((c, s))
+        if destino_existente is not None and destino_existente["tecnica"] is not None:
+            continue
         for chave in ((c - 1, s), (c, s)):
             if chave not in grade:
                 grade[chave] = {"rotulo": _sortear_rotulo(rng), "tecnica": None}
@@ -352,28 +419,24 @@ def _sortear_cores(
 
 
 def _medir_notas(
-    rng: random.Random,
     d: ImageDraw.ImageDraw,
     grade: dict[tuple[int, int], dict],
     xs: list[float],
     ys: list[int],
     cores: list[tuple[int, int, int]],
     tamanho: int,
-    fontes: list[str],
     largura: int,
     altura: int,
 ) -> dict[tuple[int, int], dict]:
     """Mede a posição e a caixa de cada nota, sem desenhar.
 
     Args:
-        rng: gerador aleatório (escolhe a fonte de cada nota).
         d: desenho usado para medir.
-        grade: notas por (coluna, corda).
+        grade: notas por (coluna, corda), com "fonte" já sorteada.
         xs: centro horizontal de cada coluna.
         ys: linha de cada corda.
         cores: cor de cada coluna.
         tamanho: tamanho da fonte, em pixels.
-        fontes: caminhos das fontes.
         largura: largura da imagem.
         altura: altura da imagem.
 
@@ -383,7 +446,7 @@ def _medir_notas(
     medidas: dict[tuple[int, int], dict] = {}
     for (c, s), nota in sorted(grade.items()):
         texto = _texto_da_nota(nota)
-        fonte = _carregar_fonte(rng.choice(fontes), tamanho)
+        fonte = _carregar_fonte(nota["fonte"], tamanho)
         px, py, caixa = _posicionar(d, texto, xs[c], ys[s], fonte, largura, altura)
         medidas[(c, s)] = {
             "texto": texto,
@@ -477,7 +540,8 @@ def _desenhar_barra(
     Args:
         d: desenho.
         x: posição horizontal da barline.
-        tipo: "simples", "dupla" ou "final".
+        tipo: "simples", "dupla", "final", "ritornelo_fim" (fina e grossa, com os
+            pontos à esquerda) ou "ritornelo_inicio" (grossa e fina, pontos à direita).
         ys: linha de cada corda.
         passo: passo do sistema.
         espessura: espessura da corda (base para o traço fino).
@@ -493,7 +557,13 @@ def _desenhar_barra(
             xx = round(x + dx)
             d.line([(xx, topo), (xx, base)], fill=cor, width=fina)
         return round(x + 0.175 * passo)
-    if tipo == "final":
+    if tipo == "ritornelo_inicio":
+        grossa = max(2, round(0.3 * passo))
+        d.line([(round(x), topo), (round(x), base)], fill=cor, width=grossa)
+        xx = round(x + 0.4 * passo)
+        d.line([(xx, topo), (xx, base)], fill=cor, width=fina)
+        return round(x + 0.2 * passo)
+    if tipo in ("final", "ritornelo_fim"):
         xx = round(x - 0.4 * passo)
         d.line([(xx, topo), (xx, base)], fill=cor, width=fina)
         grossa = max(2, round(0.3 * passo))
@@ -526,8 +596,11 @@ def _desenhar_tecnicas_pares(
     espessura: int,
     tinta: tuple[int, int, int],
     fontes: list[str],
+    marcas: list[str],
 ) -> None:
     """Desenha a ligação de cada par de técnica (letra e arco, ou diagonal).
+
+    O legato pode vir só com o arco (sem a letra); registra "legato_sem_letra".
 
     Args:
         d: desenho.
@@ -539,12 +612,13 @@ def _desenhar_tecnicas_pares(
         espessura: espessura da corda.
         tinta: cor da tinta.
         fontes: caminhos das fontes.
+        marcas: lista onde se registram as variantes desenhadas.
     """
     espessura_traco = max(1, espessura - 1)
     tamanho_letra = max(6, round(0.5 * passo / DIGITO_ALTURA_EM))
     for (c, s), nota in sorted(grade.items()):
         tipo = nota["tecnica"]
-        if tipo not in ("h", "p", "/", "\\"):
+        if tipo not in ("h", "p", "/", "\\") or "lado" in nota:
             continue
         origem = medidas[(c - 1, s)]["caixa"]
         destino = medidas[(c, s)]["caixa"]
@@ -553,7 +627,8 @@ def _desenhar_tecnicas_pares(
         y = ys[s]
         if tipo in ("h", "p"):
             xm = (xa + xb) / 2
-            if rng.random() < 0.5:  # arco de ligado por cima da ligação
+            com_letra = rng.random() < P_LETRA_LEGATO
+            if not com_letra or rng.random() < 0.5:  # arco de ligado
                 pontos = []
                 for i in range(11):
                     t = i / 10
@@ -566,9 +641,14 @@ def _desenhar_tecnicas_pares(
                         )
                     )
                 d.line(pontos, fill=tinta, width=espessura_traco)
-            fonte = _carregar_fonte(rng.choice(fontes), tamanho_letra)
-            px, py, _ = _posicionar(d, tipo, xm, y - 1.1 * passo, fonte, 10**6, 10**6)
-            d.text((px, py), tipo, font=fonte, fill=tinta)
+                if not com_letra:
+                    marcas.append("legato_sem_letra")
+            if com_letra:
+                fonte = _carregar_fonte(rng.choice(fontes), tamanho_letra)
+                px, py, _ = _posicionar(
+                    d, tipo, xm, y - 1.1 * passo, fonte, 10**6, 10**6
+                )
+                d.text((px, py), tipo, font=fonte, fill=tinta)
         else:
             if tipo == "/":
                 pa, pb = y + 0.25 * passo, y - 0.25 * passo
@@ -610,11 +690,14 @@ def _desenhar_ritmo(
     base_por_coluna: dict[int, int],
     sobe: bool,
     tinta: tuple[int, int, int],
+    marcas: list[str],
 ) -> None:
-    """Desenha hastes e vigas de ritmo abaixo da corda 6.
+    """Desenha hastes, vigas (simples ou duplas), colcheias, semicolcheias e pausas.
 
     Com `sobe`, a haste vai da viga até o algarismo mais baixo da coluna (encostando
     nele), como no canal guitarous. Sem `sobe`, a haste desce da corda 6 até a viga.
+    Uma coluna sorteada pode virar pausa em vez de haste. Nota isolada tem 1 bandeirola
+    (colcheia) ou 2 (semicolcheia).
 
     Args:
         d: desenho.
@@ -626,12 +709,18 @@ def _desenhar_ritmo(
         base_por_coluna: y da parte de baixo do algarismo mais baixo de cada coluna.
         sobe: se a haste sobe por dentro do sistema.
         tinta: cor do ritmo.
+        marcas: lista onde se registram as variantes desenhadas.
     """
     viga_y = round(ys[5] + 2.6 * passo)
     espessura_haste = max(1, round(0.1 * passo))
     espessura_viga = max(2, round(0.25 * passo))
     colunas = [c for c in range(n_col) if rng.random() < 0.6]
-    for grupo in _agrupar_consecutivos(colunas, 3):
+    pausas = [c for c in colunas if rng.random() < P_PAUSA_RITMO]
+    hastes = [c for c in colunas if c not in pausas]
+    for c in pausas:
+        _desenhar_pausa(d, rng, passo, round(xs[c]), ys, tinta, espessura_haste)
+        marcas.append("pausa")
+    for grupo in _agrupar_consecutivos(hastes, 3):
         for c in grupo:
             topo = ys[5] + 0.5 * passo
             if sobe and c in base_por_coluna:
@@ -641,9 +730,17 @@ def _desenhar_ritmo(
         xa, xb = round(xs[grupo[0]]), round(xs[grupo[-1]])
         if len(grupo) >= 2:
             d.line([(xa, viga_y), (xb, viga_y)], fill=tinta, width=espessura_viga)
-        else:  # colchete
+            if rng.random() < P_VIGA_DUPLA:
+                y2 = round(viga_y - 0.4 * passo)
+                d.line([(xa, y2), (xb, y2)], fill=tinta, width=espessura_viga)
+                marcas.append("viga_dupla")
+            continue
+        bandeirolas = rng.choice((1, 2))
+        marcas.append("colcheia" if bandeirolas == 1 else "semicolcheia")
+        for k in range(bandeirolas):
+            yk = viga_y - k * 0.4 * passo
             d.line(
-                [(xa, viga_y), (round(xa + 0.5 * passo), round(viga_y - 0.5 * passo))],
+                [(xa, round(yk)), (round(xa + 0.5 * passo), round(yk - 0.5 * passo))],
                 fill=tinta,
                 width=espessura_haste,
             )
@@ -717,6 +814,9 @@ def _degradar(rng: random.Random, img: np.ndarray) -> np.ndarray:
 def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, dict]:
     """Desenha um sistema de tablatura de 6 cordas e devolve a imagem e os rótulos.
 
+    O espaçamento entre colunas é o maior entre o sorteado e o necessário para que as
+    notas vizinhas não se encostem (ver `_xs_por_medida`).
+
     Args:
         rng: gerador aleatório; a mesma semente dá a mesma imagem e os mesmos rótulos.
         fontes: caminhos das fontes (com repetição = peso).
@@ -727,7 +827,13 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
             "linhas_y": y de cada corda, da 1 (em cima) à 6, em px (6 ints).
             "barlines_x": x do centro de cada barline, em px.
             "notas": lista de {"corda" (1-6), "rotulo", "tecnica", "x" (centro),
-            "caixa" ([x0, y0, x1, y1])}, na ordem coluna a coluna.
+            "caixa" ([x0, y0, x1, y1])}, na ordem coluna a coluna; inclui os
+            enfeites ("tecnica": "enfeite") depois das notas.
+            "regioes": lista de {"tecnica" (código de REGIOES), "cordas": [a, b],
+            "caixa"}.
+            "estrutura": lista de {"tipo" (ESTRUTURA_TIPOS), "x", "caixa"} e, nas
+            fórmulas e no texto de navegação, "texto". Não são notas.
+            "variantes": nomes (ordenados) das variantes de desenho presentes.
 
     Raises:
         ValueError: se `fontes` estiver vazio.
@@ -744,12 +850,25 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
     espessura = rng.choice(_TAMANHOS_CORDA)
     n_col = rng.randint(4, 9)
     espaco = passo * rng.uniform(1.2, 2.6)
-    x_ini = 2.6 * passo
-    x_fim = x_ini + n_col * espaco
-    largura = round(x_fim + 2.2 * passo)
+    tem_formula = rng.random() < P_FORMULA
+    formula = rng.choice(FORMULAS) if tem_formula else ""
+    x_ini = (4.6 if tem_formula else 2.6) * passo
     ys = [round(2.4 * passo + i * passo) for i in range(6)]
     altura = round(ys[5] + (3.4 if tem_ritmo else 1.6) * passo)
-    xs = [x_ini + (c + 0.5) * espaco for c in range(n_col)]
+
+    marcas: list[str] = []
+    grade = _sortear_grade(rng, n_col)
+    _tecnicas_isoladas(rng, grade)
+    _tecnicas_bend_vib(rng, grade)
+    _sortear_orn(rng, grade)
+    _sortear_ligaduras(rng, grade, n_col)
+    _sortear_slides_soltos(rng, grade)
+    _tecnicas_pares(rng, grade, n_col)
+    tamanho = max(6, round(passo * rng.uniform(0.55, 1.05) / DIGITO_ALTURA_EM))
+    _escolher_fontes(rng, grade, fontes)
+    xs = _xs_por_medida(grade, n_col, passo, espaco, x_ini, tamanho)
+    x_fim = xs[-1] + 0.5 * espaco
+    largura = round(x_fim + 2.2 * passo)
     x_linha0 = 0.4 * passo
     x_linha1 = largura - 0.4 * passo
 
@@ -758,18 +877,11 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
     cor_fundo_nota = (
         (min(255, topo_cinza + 45),) * 3 if escuro else (max(0, topo_cinza - 35),) * 3
     )
-
-    grade = _sortear_grade(rng, n_col)
-    _tecnicas_isoladas(rng, grade)
-    _tecnicas_pares(rng, grade, n_col)
     cores = _sortear_cores(rng, n_col, tinta, escuro)
-    tamanho = max(6, round(passo * rng.uniform(0.55, 1.05) / DIGITO_ALTURA_EM))
 
     img = Image.fromarray(arr)
     d = ImageDraw.Draw(img)
-    medidas = _medir_notas(
-        rng, d, grade, xs, ys, cores, tamanho, list(fontes), largura, altura
-    )
+    medidas = _medir_notas(d, grade, xs, ys, cores, tamanho, largura, altura)
 
     if medidas and rng.random() < P_FUNDO_NOTA:  # fundo cinza atrás de uma nota
         x0, y0, x1, y1 = medidas[rng.choice(sorted(medidas))]["caixa"]
@@ -789,12 +901,47 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
     for c in range(1, n_col):
         if rng.random() < P_BARLINE_INTERNA:
             tipo = "dupla" if rng.random() < P_BARLINE_DUPLA else "simples"
-            barras.append((x_ini + c * espaco, tipo))
+            barras.append(((xs[c - 1] + xs[c]) / 2, tipo))
     barras.append((x_fim, "final"))
-    barlines_x = [
-        _desenhar_barra(d, x, tipo, ys, passo, espessura, cor_linha)
-        for x, tipo in barras
-    ]
+    if rng.random() < P_RITORNELO:  # uma barline vira ritornelo (com dois pontos)
+        idx = rng.randrange(len(barras) - 1)
+        tipo_r = "ritornelo_inicio" if idx == 0 else "ritornelo_fim"
+        barras[idx] = (barras[idx][0], tipo_r)
+
+    estrutura: list[dict] = []
+    barlines_x: list[int] = []
+    for x, tipo in barras:
+        barlines_x.append(_desenhar_barra(d, x, tipo, ys, passo, espessura, cor_linha))
+        if tipo.startswith("ritornelo"):
+            caixa = _desenhar_pontos_ritornelo(
+                d, x, tipo, ys, passo, cor_linha, largura, altura
+            )
+            estrutura.append({"tipo": tipo, "x": round(x), "caixa": caixa})
+    for x, _ in barras[1:-1]:  # mudança de fórmula depois de uma barline interna
+        if rng.random() < P_FORMULA_MEIO:
+            texto = rng.choice(FORMULAS)
+            cx = x + 0.35 * passo
+            caixa = _desenhar_compasso(
+                d,
+                rng,
+                texto,
+                cx,
+                passo,
+                ys,
+                list(fontes),
+                1.4,
+                cor_linha,
+                largura,
+                altura,
+            )
+            estrutura.append(
+                {
+                    "tipo": "formula_compasso",
+                    "x": round(cx),
+                    "caixa": caixa,
+                    "texto": texto,
+                }
+            )
 
     if rng.random() < P_TAB:  # rótulo TAB
         fonte = _carregar_fonte(
@@ -823,6 +970,59 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
             d, nome, rng.choice(xs), ys[0] - 1.8 * passo, fonte, largura, altura
         )
         d.text((px, py), nome, font=fonte, fill=cor_linha)
+    if tem_formula:  # fórmula de compasso logo depois do TAB
+        caixa = _desenhar_compasso(
+            d,
+            rng,
+            formula,
+            2.4 * passo,
+            passo,
+            ys,
+            list(fontes),
+            2.2,
+            cor_linha,
+            largura,
+            altura,
+        )
+        estrutura.append(
+            {
+                "tipo": "formula_compasso",
+                "x": round(2.4 * passo),
+                "caixa": caixa,
+                "texto": formula,
+            }
+        )
+    if rng.random() < P_VOLTA:  # casa de volta sobre uma barline
+        x_v = barras[rng.randrange(len(barras) - 1)][0]
+        estrutura.append(
+            _desenhar_volta(
+                d,
+                rng,
+                x_v,
+                ys,
+                passo,
+                espessura,
+                cor_linha,
+                list(fontes),
+                largura,
+                altura,
+            )
+        )
+    if rng.random() < P_NAV:  # texto de navegação
+        estrutura.append(
+            _desenhar_navegacao(
+                d,
+                rng,
+                xs,
+                ys,
+                passo,
+                espessura,
+                cor_linha,
+                list(fontes),
+                largura,
+                altura,
+            )
+        )
 
     if not corta:
         _desenhar_notas(d, medidas)
@@ -840,8 +1040,43 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
     else:
         _desenhar_notas(d, medidas)
 
-    _desenhar_tecnicas_pares(
+    _desenhar_tecnicas_notas(
         d, rng, grade, medidas, ys, passo, espessura, tinta, list(fontes)
+    )
+    _desenhar_tecnicas_pares(
+        d, rng, grade, medidas, ys, passo, espessura, tinta, list(fontes), marcas
+    )
+    _desenhar_ligaduras(d, grade, medidas, ys, passo, espessura, tinta, marcas)
+    _desenhar_slides_soltos(d, grade, medidas, ys, passo, espessura, tinta, marcas)
+    enfeites = _desenhar_enfeites(
+        d,
+        rng,
+        grade,
+        medidas,
+        ys,
+        passo,
+        espessura,
+        tinta,
+        tamanho,
+        largura,
+        altura,
+        marcas,
+    )
+    regioes = _desenhar_regioes(
+        d,
+        rng,
+        grade,
+        medidas,
+        xs,
+        ys,
+        n_col,
+        passo,
+        espaco,
+        espessura,
+        tinta,
+        list(fontes),
+        largura,
+        altura,
     )
 
     if tem_ritmo:
@@ -849,7 +1084,7 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
         for (c, _), m in medidas.items():
             base_por_coluna[c] = max(base_por_coluna.get(c, 0), m["caixa"][3])
         _desenhar_ritmo(
-            d, rng, passo, xs, ys, n_col, base_por_coluna, haste_sobe, tinta
+            d, rng, passo, xs, ys, n_col, base_por_coluna, haste_sobe, tinta, marcas
         )
 
     arr = np.asarray(img).copy()
@@ -869,13 +1104,1197 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
         }
         for (c, s) in sorted(grade)
     ]
+    notas.extend(enfeites)
     info = {
         "passo": float(passo),
         "linhas_y": ys,
         "barlines_x": barlines_x,
         "notas": notas,
+        "regioes": regioes,
+        "estrutura": estrutura,
+        "variantes": sorted(set(marcas)),
     }
     return img_bgr, info
+
+
+def _tecnicas_bend_vib(rng: random.Random, grade: dict[tuple[int, int], dict]) -> None:
+    """Marca bend e vib, técnicas NA nota, em notas sem técnica que não são "x".
+
+    Args:
+        rng: gerador aleatório.
+        grade: notas, alteradas no lugar.
+    """
+    for nota in grade.values():
+        if nota["rotulo"] == "x" or nota["tecnica"] is not None:
+            continue
+        r = rng.random()
+        if r < P_BEND:
+            nota["tecnica"] = "bend"
+        elif r < P_BEND + P_VIB:
+            nota["tecnica"] = "vib"
+
+
+def _sortear_orn(rng: random.Random, grade: dict[tuple[int, int], dict]) -> None:
+    """Marca `orn` em notas com a casa à esquerda livre (sem nota na mesma corda).
+
+    O algarismo do enfeite e o mordente são sorteados aqui; o desenho é feito em
+    `_desenhar_enfeites`.
+
+    Args:
+        rng: gerador aleatório.
+        grade: notas, alteradas no lugar.
+    """
+    for (c, s), nota in sorted(grade.items()):
+        if c == 0 or nota["rotulo"] == "x" or nota["tecnica"] is not None:
+            continue
+        if (c - 1, s) in grade or rng.random() >= P_ORN:
+            continue
+        nota["tecnica"] = "orn"
+        nota["enfeite"] = str(rng.randint(0, 12))
+        nota["mordente"] = rng.random() < P_MORDENTE
+
+
+def _sortear_ligaduras(
+    rng: random.Random, grade: dict[tuple[int, int], dict], n_col: int
+) -> None:
+    """Cria ligaduras de prolongamento: duas notas na mesma corda e mesma casa.
+
+    A segunda nota leva técnica "lig" e `tie=True` (desenho de arco, sem parênteses).
+
+    Args:
+        rng: gerador aleatório.
+        grade: notas, alteradas no lugar.
+        n_col: número de colunas.
+    """
+    for c in range(1, n_col):
+        if rng.random() >= P_TIE:
+            continue
+        s = rng.randrange(6)
+        origem = grade.get((c - 1, s))
+        destino = grade.get((c, s))
+        if origem is None:
+            origem = {"rotulo": str(rng.randint(0, 12)), "tecnica": None}
+            grade[(c - 1, s)] = origem
+        if destino is None:
+            destino = {"rotulo": origem["rotulo"], "tecnica": None}
+            grade[(c, s)] = destino
+        if "x" in (origem["rotulo"], destino["rotulo"]):
+            continue
+        if origem["tecnica"] is not None or destino["tecnica"] is not None:
+            continue
+        destino["rotulo"] = origem["rotulo"]
+        destino["tecnica"] = "lig"
+        destino["tie"] = True
+
+
+def _sortear_slides_soltos(
+    rng: random.Random, grade: dict[tuple[int, int], dict]
+) -> None:
+    """Marca slides sem nota de origem: um traço curto antes ou depois da nota.
+
+    Args:
+        rng: gerador aleatório.
+        grade: notas, alteradas no lugar (ganham "lado": "antes" ou "depois").
+    """
+    for nota in grade.values():
+        if nota["rotulo"] == "x" or nota["tecnica"] is not None:
+            continue
+        if rng.random() < P_SLIDE_SOLTO:
+            nota["tecnica"] = rng.choice(("/", "\\"))
+            nota["lado"] = rng.choice(("antes", "depois"))
+
+
+def _desenhar_slides_soltos(
+    d: ImageDraw.ImageDraw,
+    grade: dict[tuple[int, int], dict],
+    medidas: dict[tuple[int, int], dict],
+    ys: list[int],
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    marcas: list[str],
+) -> None:
+    """Desenha o traço curto de cada slide sem origem, antes ou depois da nota.
+
+    Args:
+        d: desenho.
+        grade: notas (as com "lado" são slides soltos).
+        medidas: saída de `_medir_notas`.
+        ys: linha de cada corda.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        marcas: lista onde se registram as variantes desenhadas.
+    """
+    espessura_traco = max(1, espessura - 1)
+    for (c, s), nota in sorted(grade.items()):
+        if "lado" not in nota:
+            continue
+        x0, _, x1, _ = medidas[(c, s)]["caixa"]
+        y = ys[s]
+        if nota["lado"] == "antes":
+            xa, xb = x0 - 0.45 * passo, x0 - 0.1 * passo
+        else:
+            xa, xb = x1 + 0.1 * passo, x1 + 0.45 * passo
+        if nota["tecnica"] == "/":
+            pa, pb = y + 0.25 * passo, y - 0.25 * passo
+        else:
+            pa, pb = y - 0.25 * passo, y + 0.25 * passo
+        d.line(
+            [(round(xa), round(pa)), (round(xb), round(pb))],
+            fill=tinta,
+            width=espessura_traco,
+        )
+        marcas.append("slide_solo")
+
+
+def _desenhar_ligaduras(
+    d: ImageDraw.ImageDraw,
+    grade: dict[tuple[int, int], dict],
+    medidas: dict[tuple[int, int], dict],
+    ys: list[int],
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    marcas: list[str],
+) -> None:
+    """Desenha o arco de cada ligadura de prolongamento (sem letra e sem parênteses).
+
+    Args:
+        d: desenho.
+        grade: notas (as com `tie` são a segunda nota da ligadura).
+        medidas: saída de `_medir_notas`.
+        ys: linha de cada corda.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        marcas: lista onde se registram as variantes desenhadas.
+    """
+    espessura_traco = max(1, espessura - 1)
+    for (c, s), nota in sorted(grade.items()):
+        if not nota.get("tie"):
+            continue
+        xa = medidas[(c - 1, s)]["caixa"][2] + 0.1 * passo
+        xb = medidas[(c, s)]["caixa"][0] - 0.1 * passo
+        y = ys[s]
+        pontos = [
+            (
+                round(xa + (xb - xa) * i / 10),
+                round(y - 0.5 * passo - 0.25 * passo * math.sin(math.pi * i / 10)),
+            )
+            for i in range(11)
+        ]
+        d.line(pontos, fill=tinta, width=espessura_traco)
+        marcas.append("ligadura")
+
+
+def _desenhar_enfeites(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    grade: dict[tuple[int, int], dict],
+    medidas: dict[tuple[int, int], dict],
+    ys: list[int],
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    tamanho: int,
+    largura: int,
+    altura: int,
+    marcas: list[str],
+) -> list[dict]:
+    """Desenha o enfeite (algarismo pequeno ligado à nota) e o mordente de cada `orn`.
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        grade: notas (as com tecnica "orn" ganham enfeite, com "fonte_enfeite").
+        medidas: saída de `_medir_notas`.
+        ys: linha de cada corda.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        tamanho: tamanho da fonte da nota principal, em px.
+        largura: largura da imagem.
+        altura: altura da imagem.
+        marcas: lista onde se registram as variantes desenhadas.
+
+    Returns:
+        Uma nota {"corda", "rotulo", "tecnica": "enfeite", "x", "caixa"} por enfeite.
+    """
+    espessura_traco = max(1, espessura - 1)
+    tamanho_enfeite = max(6, round(0.5 * tamanho))
+    enfeites: list[dict] = []
+    for (c, s), nota in sorted(grade.items()):
+        if nota["tecnica"] != "orn":
+            continue
+        x0, y0, x1, _ = medidas[(c, s)]["caixa"]
+        y = ys[s]
+        texto = nota["enfeite"]
+        fonte = _carregar_fonte(nota["fonte_enfeite"], tamanho_enfeite)
+        bb = d.textbbox((0, 0), texto, font=fonte)
+        cx = x0 - 0.45 * passo - (bb[2] - bb[0]) / 2
+        px, py, caixa = _posicionar(d, texto, cx, y, fonte, largura, altura)
+        d.text((px, py), texto, font=fonte, fill=tinta)
+        xa, xb = caixa[2] + 0.05 * passo, x0 - 0.05 * passo
+        if rng.random() < 0.5:  # arco pequeno
+            pontos = [
+                (
+                    round(xa + (xb - xa) * i / 10),
+                    round(y - 0.3 * passo * math.sin(math.pi * i / 10)),
+                )
+                for i in range(11)
+            ]
+            d.line(pontos, fill=tinta, width=espessura_traco)
+        else:  # traço curto, acima da linha da corda
+            ya = round(y - 0.3 * passo)
+            d.line(
+                [(round(xa), ya), (round(xb), ya)], fill=tinta, width=espessura_traco
+            )
+        if nota["mordente"]:
+            mx = (x0 + x1) / 2
+            topo = y0 - 0.35 * passo
+            zig = [
+                (round(mx - 0.25 * passo), round(topo)),
+                (round(mx - 0.1 * passo), round(topo - 0.15 * passo)),
+                (round(mx + 0.1 * passo), round(topo)),
+                (round(mx + 0.25 * passo), round(topo - 0.15 * passo)),
+            ]
+            d.line(zig, fill=tinta, width=espessura_traco)
+            if rng.random() < 0.5:  # traço vertical do mordente
+                d.line(
+                    [
+                        (round(mx), round(topo - 0.15 * passo)),
+                        (round(mx), round(topo - 0.45 * passo)),
+                    ],
+                    fill=tinta,
+                    width=espessura_traco,
+                )
+            marcas.append("mordente")
+        marcas.append("enfeite")
+        enfeites.append(
+            {
+                "corda": s + 1,
+                "rotulo": texto,
+                "tecnica": "enfeite",
+                "x": round(cx),
+                "caixa": caixa,
+            }
+        )
+    return enfeites
+
+
+def _quadratica(
+    p0: tuple[float, float],
+    p1: tuple[float, float],
+    p2: tuple[float, float],
+    t: float,
+) -> tuple[float, float]:
+    """Ponto de uma curva quadrática de Bézier no instante t.
+
+    Args:
+        p0: ponto inicial.
+        p1: ponto de controle.
+        p2: ponto final.
+        t: instante em [0, 1].
+
+    Returns:
+        (x, y) da curva em t.
+    """
+    a = (1 - t) ** 2
+    b = 2 * (1 - t) * t
+    c = t**2
+    return (
+        a * p0[0] + b * p1[0] + c * p2[0],
+        a * p0[1] + b * p1[1] + c * p2[1],
+    )
+
+
+def _desenhar_tecnicas_notas(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    grade: dict[tuple[int, int], dict],
+    medidas: dict[tuple[int, int], dict],
+    ys: list[int],
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    fontes: list[str],
+) -> None:
+    """Desenha bend (seta curva para cima-direita) e vib (onda à direita da nota).
+
+    O bend às vezes tem "full" ou "1/2" na ponta. O vib é uma linha ondulada, na altura
+    da corda, logo à direita da nota.
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        grade: notas (a técnica está na própria nota).
+        medidas: saída de `_medir_notas`.
+        ys: linha de cada corda.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        fontes: caminhos das fontes.
+    """
+    espessura_traco = max(1, espessura - 1)
+    tamanho_letra = max(6, round(0.5 * passo / DIGITO_ALTURA_EM))
+    for (c, s), nota in sorted(grade.items()):
+        tipo = nota["tecnica"]
+        if tipo not in ("bend", "vib"):
+            continue
+        x1 = medidas[(c, s)]["caixa"][2]
+        y = ys[s]
+        xa = x1 + 0.1 * passo
+        if tipo == "vib":
+            pontos = [
+                (
+                    round(xa + 0.8 * passo * i / 24),
+                    round(y + 0.12 * passo * math.sin(2 * math.pi * 2 * i / 24)),
+                )
+                for i in range(25)
+            ]
+            d.line(pontos, fill=tinta, width=espessura_traco)
+            continue
+        p0 = (xa, y - 0.2 * passo)
+        p1 = (xa + 0.6 * passo, y - 0.2 * passo)
+        p2 = (x1 + 0.9 * passo, y - 0.9 * passo)
+        pontos = [
+            (round(px), round(py))
+            for px, py in (_quadratica(p0, p1, p2, i / 10) for i in range(11))
+        ]
+        d.line(pontos, fill=tinta, width=espessura_traco)
+        ax, ay = _quadratica(p0, p1, p2, 0.9)
+        dx, dy = p2[0] - ax, p2[1] - ay
+        norma = math.hypot(dx, dy) or 1.0
+        ux, uy = dx / norma, dy / norma
+        for angulo in (math.radians(150), math.radians(-150)):  # asas da ponta
+            rx = ux * math.cos(angulo) - uy * math.sin(angulo)
+            ry = ux * math.sin(angulo) + uy * math.cos(angulo)
+            asa = (p2[0] + 0.25 * passo * rx, p2[1] + 0.25 * passo * ry)
+            d.line(
+                [(round(p2[0]), round(p2[1])), (round(asa[0]), round(asa[1]))],
+                fill=tinta,
+                width=espessura_traco,
+            )
+        if rng.random() < P_BEND_TEXTO:
+            texto = rng.choice(("full", "1/2"))
+            fonte = _carregar_fonte(rng.choice(fontes), tamanho_letra)
+            px, py, _ = _posicionar(
+                d, texto, p2[0], p2[1] - 0.45 * passo, fonte, 10**6, 10**6
+            )
+            d.text((px, py), texto, font=fonte, fill=tinta)
+
+
+def _desenhar_pausa(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    passo: float,
+    x: int,
+    ys: list[int],
+    tinta: tuple[int, int, int],
+    espessura_haste: int,
+) -> None:
+    """Desenha uma pausa de ritmo abaixo da corda 6, no lugar de uma haste.
+
+    Sorteia entre semínima (zigue-zague), colcheia (um "7" pequeno inclinado) e
+    mínima (retângulo). Não tem rótulo.
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        passo: passo do sistema.
+        x: centro horizontal da pausa.
+        ys: linha de cada corda.
+        tinta: cor do ritmo.
+        espessura_haste: espessura do traço.
+    """
+    topo = ys[5] + 0.6 * passo
+    tipo = rng.choice(("seminima", "colcheia", "minima"))
+    if tipo == "seminima":
+        pontos = [
+            (
+                round(x + (0.25 if i % 2 else -0.25) * passo),
+                round(topo + 0.3 * i * passo),
+            )
+            for i in range(5)
+        ]
+        d.line(pontos, fill=tinta, width=espessura_haste)
+    elif tipo == "colcheia":
+        d.line(
+            [
+                (round(x - 0.2 * passo), round(topo)),
+                (round(x + 0.25 * passo), round(topo)),
+            ],
+            fill=tinta,
+            width=espessura_haste,
+        )
+        d.line(
+            [
+                (round(x + 0.25 * passo), round(topo)),
+                (round(x - 0.05 * passo), round(topo + 0.9 * passo)),
+            ],
+            fill=tinta,
+            width=espessura_haste,
+        )
+    else:
+        d.rectangle(
+            [
+                round(x - 0.25 * passo),
+                round(topo),
+                round(x + 0.25 * passo),
+                round(topo + 0.3 * passo),
+            ],
+            outline=tinta,
+            width=espessura_haste,
+        )
+
+
+def _caixa_uniao(caixas: list[list[int]]) -> list[int]:
+    """Caixa que envolve todas as caixas dadas.
+
+    Args:
+        caixas: lista de [x0, y0, x1, y1].
+
+    Returns:
+        [x0, y0, x1, y1] da união.
+    """
+    return [
+        min(c[0] for c in caixas),
+        min(c[1] for c in caixas),
+        max(c[2] for c in caixas),
+        max(c[3] for c in caixas),
+    ]
+
+
+def _posicionar_esquerda(
+    d: ImageDraw.ImageDraw,
+    texto: str,
+    x_esq: float,
+    cy: float,
+    fonte: ImageFont.FreeTypeFont,
+    largura: int,
+    altura: int,
+) -> tuple[int, int, list[int]]:
+    """Posiciona um texto com a borda esquerda da caixa em `x_esq`.
+
+    Args:
+        d: desenho onde o texto será medido.
+        texto: texto a desenhar.
+        x_esq: posição horizontal da borda esquerda da caixa.
+        cy: centro vertical desejado.
+        fonte: fonte usada.
+        largura: largura da imagem.
+        altura: altura da imagem.
+
+    Returns:
+        (px, py, caixa): origem para `d.text` e a caixa já recortada.
+    """
+    bb = d.textbbox((0, 0), texto, font=fonte)
+    return _posicionar(
+        d, texto, x_esq + (bb[2] - bb[0]) / 2, cy, fonte, largura, altura
+    )
+
+
+def _cordas_da_coluna(grade: dict[tuple[int, int], dict], c: int) -> list[int]:
+    """Cordas (0-5) com nota na coluna c, em ordem crescente.
+
+    Args:
+        grade: notas por (coluna, corda).
+        c: coluna.
+
+    Returns:
+        Lista ordenada de cordas.
+    """
+    return sorted(s for cc, s in grade if cc == c)
+
+
+def _colunas_com(grade: dict[tuple[int, int], dict], minimo: int) -> list[int]:
+    """Colunas com pelo menos `minimo` cordas, em ordem crescente.
+
+    Args:
+        grade: notas por (coluna, corda).
+        minimo: número mínimo de cordas.
+
+    Returns:
+        Lista de colunas.
+    """
+    colunas = sorted({cc for cc, _ in grade})
+    return [c for c in colunas if len(_cordas_da_coluna(grade, c)) >= minimo]
+
+
+def _marcar_linha(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    tecnica: str,
+    texto: str,
+    passo: float,
+    xs: list[float],
+    espaco: float,
+    ys: list[int],
+    n_col: int,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    fontes: list[str],
+    largura: int,
+    altura: int,
+) -> dict:
+    """Desenha "let ring" ou "P.M." acima da corda 1, com linha tracejada e gancho.
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        tecnica: código da região ("let ring" ou "pm").
+        texto: texto desenhado ("let ring" ou "P.M.").
+        passo: passo do sistema.
+        xs: centro horizontal de cada coluna.
+        espaco: distância entre colunas.
+        ys: linha de cada corda.
+        n_col: número de colunas.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        fontes: caminhos das fontes.
+        largura: largura da imagem.
+        altura: altura da imagem.
+
+    Returns:
+        Região {"tecnica", "cordas": [1, 6], "caixa"}.
+    """
+    tamanho = max(6, round(0.5 * passo / DIGITO_ALTURA_EM))
+    espessura_traco = max(1, espessura - 1)
+    c0 = rng.randrange(n_col - 1)
+    k = rng.randint(2, min(6, n_col - c0))
+    cy = ys[0] - 0.9 * passo
+    fonte = _carregar_fonte(rng.choice(fontes), tamanho)
+    px, py, caixa_texto = _posicionar_esquerda(
+        d, texto, xs[c0] - 0.3 * passo, cy, fonte, largura, altura
+    )
+    d.text((px, py), texto, font=fonte, fill=tinta)
+    xa = caixa_texto[2] + 0.2 * passo
+    xb = min(largura - 1, max(xs[c0 + k - 1] + 0.3 * espaco, xa + passo))
+    for a, b in _trechos(xa, xb, [], True, passo):
+        d.line(
+            [(round(a), round(cy)), (round(b), round(cy))],
+            fill=tinta,
+            width=espessura_traco,
+        )
+    caixas = [caixa_texto, [round(xa), round(cy) - 1, round(xb) + 1, round(cy) + 1]]
+    if rng.random() < P_GANCHO:
+        fim = round(cy + 0.5 * passo)
+        d.line(
+            [(round(xb), round(cy)), (round(xb), fim)],
+            fill=tinta,
+            width=espessura_traco,
+        )
+        caixas.append([round(xb), round(cy), round(xb) + 1, fim + 1])
+    return {
+        "tecnica": tecnica,
+        "cordas": [1, 6],
+        "caixa": _limitar(_caixa_uniao(caixas), largura, altura),
+    }
+
+
+def _marcar_trem(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    grade: dict[tuple[int, int], dict],
+    medidas: dict[tuple[int, int], dict],
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    fontes: list[str],
+    largura: int,
+    altura: int,
+) -> dict:
+    """Desenha barras de trêmolo (///) sobre uma nota, às vezes com "trem. pick".
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        grade: notas por (coluna, corda).
+        medidas: saída de `_medir_notas`.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        fontes: caminhos das fontes.
+        largura: largura da imagem.
+        altura: altura da imagem.
+
+    Returns:
+        Região {"tecnica": "trem", "cordas": [s, s], "caixa"}.
+    """
+    c, s = rng.choice(sorted(grade))
+    x0, y0, x1, _ = medidas[(c, s)]["caixa"]
+    cx = (x0 + x1) / 2
+    base = y0 - 0.15 * passo
+    espessura_traco = max(1, espessura - 1)
+    n = rng.randint(2, 3)
+    meia = (n - 1) / 2 * 0.3 * passo + 0.12 * passo
+    for i in range(n):
+        x = cx + (i - (n - 1) / 2) * 0.3 * passo
+        d.line(
+            [
+                (round(x - 0.12 * passo), round(base + 0.2 * passo)),
+                (round(x + 0.12 * passo), round(base - 0.2 * passo)),
+            ],
+            fill=tinta,
+            width=espessura_traco,
+        )
+    caixas = [
+        [
+            round(cx - meia),
+            round(base - 0.2 * passo),
+            round(cx + meia) + 1,
+            round(base + 0.2 * passo) + 1,
+        ]
+    ]
+    if rng.random() < P_TREM_PICK:
+        tamanho = max(6, round(0.5 * passo / DIGITO_ALTURA_EM))
+        fonte = _carregar_fonte(rng.choice(fontes), tamanho)
+        cy = base - 0.9 * passo
+        px, py, caixa_t = _posicionar(d, "trem. pick", cx, cy, fonte, largura, altura)
+        d.text((px, py), "trem. pick", font=fonte, fill=tinta)
+        xa = caixa_t[2] + 0.2 * passo
+        xb = xa + 1.5 * passo
+        for a, b in _trechos(xa, xb, [], True, passo):
+            d.line(
+                [(round(a), round(cy)), (round(b), round(cy))],
+                fill=tinta,
+                width=espessura_traco,
+            )
+        caixas += [caixa_t, [round(xa), round(cy) - 1, round(xb) + 1, round(cy) + 1]]
+    return {
+        "tecnica": "trem",
+        "cordas": [s + 1, s + 1],
+        "caixa": _limitar(_caixa_uniao(caixas), largura, altura),
+    }
+
+
+def _marcar_rasgueado(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    grade: dict[tuple[int, int], dict],
+    xs: list[float],
+    ys: list[int],
+    espaco: float,
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    largura: int,
+    altura: int,
+) -> dict | None:
+    """Desenha uma seta vertical de rasgueado à esquerda de uma coluna com 4+ cordas.
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        grade: notas por (coluna, corda).
+        xs: centro horizontal de cada coluna.
+        ys: linha de cada corda.
+        espaco: distância entre colunas.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        largura: largura da imagem.
+        altura: altura da imagem.
+
+    Returns:
+        Região {"tecnica": "rasg", "cordas": [min, max], "caixa"}, ou None se não
+        houver coluna com 4 cordas.
+    """
+    candidatas = _colunas_com(grade, 4)
+    if not candidatas:
+        return None
+    c = rng.choice(candidatas)
+    cordas = _cordas_da_coluna(grade, c)
+    a, b = cordas[0], cordas[-1]
+    x = xs[c] - 0.3 * espaco
+    topo, base = ys[a] - 0.4 * passo, ys[b] + 0.4 * passo
+    espessura_traco = max(1, espessura - 1)
+    para_cima = rng.random() < 0.5
+    ponta, cauda = (topo, base) if para_cima else (base, topo)
+    abre = 0.25 * passo if para_cima else -0.25 * passo
+    d.line(
+        [(round(x), round(cauda)), (round(x), round(ponta))],
+        fill=tinta,
+        width=espessura_traco,
+    )
+    for lado in (-0.15, 0.15):
+        d.line(
+            [(round(x), round(ponta)), (round(x + lado * passo), round(ponta + abre))],
+            fill=tinta,
+            width=espessura_traco,
+        )
+    caixa = _limitar(
+        [
+            round(x - 0.2 * passo),
+            round(topo),
+            round(x + 0.2 * passo) + 1,
+            round(base) + 1,
+        ],
+        largura,
+        altura,
+    )
+    return {"tecnica": "rasg", "cordas": [a + 1, b + 1], "caixa": caixa}
+
+
+def _marcar_arpejo(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    grade: dict[tuple[int, int], dict],
+    xs: list[float],
+    ys: list[int],
+    espaco: float,
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    largura: int,
+    altura: int,
+) -> dict | None:
+    """Desenha uma linha ondulada vertical à esquerda de uma coluna com 3+ cordas.
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        grade: notas por (coluna, corda).
+        xs: centro horizontal de cada coluna.
+        ys: linha de cada corda.
+        espaco: distância entre colunas.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        largura: largura da imagem.
+        altura: altura da imagem.
+
+    Returns:
+        Região {"tecnica": "arpejo", "cordas": [min, max], "caixa"}, ou None se não
+        houver coluna com 3 cordas.
+    """
+    candidatas = _colunas_com(grade, 3)
+    if not candidatas:
+        return None
+    c = rng.choice(candidatas)
+    cordas = _cordas_da_coluna(grade, c)
+    a, b = cordas[0], cordas[-1]
+    x = xs[c] - 0.3 * espaco
+    topo, base = ys[a] - 0.4 * passo, ys[b] + 0.4 * passo
+    espessura_traco = max(1, espessura - 1)
+    pontos = [
+        (
+            round(x + 0.12 * passo * math.sin(2 * math.pi * (b - a + 1) * i / 24)),
+            round(topo + (base - topo) * i / 24),
+        )
+        for i in range(25)
+    ]
+    d.line(pontos, fill=tinta, width=espessura_traco)
+    caixa = _limitar(
+        [
+            round(x - 0.2 * passo),
+            round(topo),
+            round(x + 0.2 * passo) + 1,
+            round(base) + 1,
+        ],
+        largura,
+        altura,
+    )
+    return {"tecnica": "arpejo", "cordas": [a + 1, b + 1], "caixa": caixa}
+
+
+def _desenhar_regioes(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    grade: dict[tuple[int, int], dict],
+    medidas: dict[tuple[int, int], dict],
+    xs: list[float],
+    ys: list[int],
+    n_col: int,
+    passo: float,
+    espaco: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    fontes: list[str],
+    largura: int,
+    altura: int,
+) -> list[dict]:
+    """Desenha as marcações de região do sistema (let ring, P.M., trêmolo, rasg, arpejo).
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        grade: notas por (coluna, corda).
+        medidas: saída de `_medir_notas`.
+        xs: centro horizontal de cada coluna.
+        ys: linha de cada corda.
+        n_col: número de colunas.
+        passo: passo do sistema.
+        espaco: distância entre colunas.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        fontes: caminhos das fontes.
+        largura: largura da imagem.
+        altura: altura da imagem.
+
+    Returns:
+        Lista de regiões {"tecnica", "cordas": [a, b], "caixa"}.
+    """
+    regioes: list[dict] = []
+    if rng.random() < P_LET_RING:
+        regioes.append(
+            _marcar_linha(
+                d,
+                rng,
+                "let ring",
+                "let ring",
+                passo,
+                xs,
+                espaco,
+                ys,
+                n_col,
+                espessura,
+                tinta,
+                fontes,
+                largura,
+                altura,
+            )
+        )
+    if rng.random() < P_PM:
+        regioes.append(
+            _marcar_linha(
+                d,
+                rng,
+                "pm",
+                "P.M.",
+                passo,
+                xs,
+                espaco,
+                ys,
+                n_col,
+                espessura,
+                tinta,
+                fontes,
+                largura,
+                altura,
+            )
+        )
+    if rng.random() < P_TREM:
+        regioes.append(
+            _marcar_trem(
+                d,
+                rng,
+                grade,
+                medidas,
+                passo,
+                espessura,
+                tinta,
+                fontes,
+                largura,
+                altura,
+            )
+        )
+    if rng.random() < P_RASG:
+        rasg = _marcar_rasgueado(
+            d, rng, grade, xs, ys, espaco, passo, espessura, tinta, largura, altura
+        )
+        if rasg is not None:
+            regioes.append(rasg)
+    if rng.random() < P_ARPEJO:
+        arpejo = _marcar_arpejo(
+            d, rng, grade, xs, ys, espaco, passo, espessura, tinta, largura, altura
+        )
+        if arpejo is not None:
+            regioes.append(arpejo)
+    return regioes
+
+
+def _desenhar_pontos_ritornelo(
+    d: ImageDraw.ImageDraw,
+    x: float,
+    tipo: str,
+    ys: list[int],
+    passo: float,
+    tinta: tuple[int, int, int],
+    largura: int,
+    altura: int,
+) -> list[int]:
+    """Desenha os dois pontos de um ritornelo, entre as cordas 2-3 e 4-5.
+
+    Os pontos ficam à direita da barline no início do ritornelo e à esquerda no fim.
+
+    Args:
+        d: desenho.
+        x: posição horizontal da barline.
+        tipo: "ritornelo_inicio" ou "ritornelo_fim".
+        ys: linha de cada corda.
+        passo: passo do sistema.
+        tinta: cor dos pontos.
+        largura: largura da imagem.
+        altura: altura da imagem.
+
+    Returns:
+        Caixa [x0, y0, x1, y1] que envolve os dois pontos.
+    """
+    raio = max(1, round(0.12 * passo))
+    dx = 0.6 * passo if tipo == "ritornelo_inicio" else -0.6 * passo
+    caixas = []
+    for y in ((ys[1] + ys[2]) / 2, (ys[3] + ys[4]) / 2):
+        cx, cy = round(x + dx), round(y)
+        d.ellipse([cx - raio, cy - raio, cx + raio, cy + raio], fill=tinta)
+        caixas.append([cx - raio, cy - raio, cx + raio + 1, cy + raio + 1])
+    return _limitar(_caixa_uniao(caixas), largura, altura)
+
+
+def _desenhar_volta(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    x: float,
+    ys: list[int],
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    fontes: list[str],
+    largura: int,
+    altura: int,
+) -> dict:
+    """Desenha uma casa de volta ("1." ou "2.") com colchete acima da corda 1.
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        x: posição horizontal do início do colchete (uma barline).
+        ys: linha de cada corda.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        fontes: caminhos das fontes.
+        largura: largura da imagem.
+        altura: altura da imagem.
+
+    Returns:
+        Item de estrutura {"tipo": "volta_1" ou "volta_2", "x", "caixa"}.
+    """
+    numero = rng.choice(("1.", "2."))
+    tipo = "volta_1" if numero == "1." else "volta_2"
+    espessura_traco = max(1, espessura - 1)
+    y = ys[0] - 1.0 * passo
+    fim = x + 1.5 * passo
+    d.line(
+        [(round(x), round(y)), (round(fim), round(y))],
+        fill=tinta,
+        width=espessura_traco,
+    )
+    d.line(
+        [(round(fim), round(y)), (round(fim), round(y + 0.4 * passo))],
+        fill=tinta,
+        width=espessura_traco,
+    )
+    tamanho = max(6, round(0.5 * passo / DIGITO_ALTURA_EM))
+    fonte = _carregar_fonte(rng.choice(fontes), tamanho)
+    px, py, caixa_t = _posicionar_esquerda(
+        d, numero, x + 0.2 * passo, y + 0.5 * passo, fonte, largura, altura
+    )
+    d.text((px, py), numero, font=fonte, fill=tinta)
+    caixa_linha = [round(x), round(y) - 1, round(fim) + 1, round(y + 0.4 * passo) + 1]
+    return {
+        "tipo": tipo,
+        "x": round(x),
+        "caixa": _limitar(_caixa_uniao([caixa_linha, caixa_t]), largura, altura),
+    }
+
+
+def _desenhar_navegacao(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    xs: list[float],
+    ys: list[int],
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    fontes: list[str],
+    largura: int,
+    altura: int,
+) -> dict:
+    """Desenha texto de navegação acima da corda 1: D.S., D.C., Fine, Coda ou símbolo.
+
+    O símbolo de coda é um círculo com cruz; nesse caso o texto guardado é
+    "coda_simbolo".
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        xs: centro horizontal de cada coluna.
+        ys: linha de cada corda.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        fontes: caminhos das fontes.
+        largura: largura da imagem.
+        altura: altura da imagem.
+
+    Returns:
+        Item de estrutura {"tipo": "texto_navegacao", "x", "caixa", "texto"}.
+    """
+    cx = rng.choice(xs)
+    cy = ys[0] - 1.45 * passo
+    espessura_traco = max(1, espessura - 1)
+    if rng.random() < 0.3:  # símbolo de coda: círculo com cruz
+        raio = 0.3 * passo
+        d.ellipse(
+            [cx - raio, cy - raio, cx + raio, cy + raio],
+            outline=tinta,
+            width=espessura_traco,
+        )
+        d.line([(cx - raio, cy), (cx + raio, cy)], fill=tinta, width=espessura_traco)
+        d.line([(cx, cy - raio), (cx, cy + raio)], fill=tinta, width=espessura_traco)
+        texto = "coda_simbolo"
+        caixa = _limitar(
+            [
+                round(cx - raio) - 1,
+                round(cy - raio) - 1,
+                round(cx + raio) + 2,
+                round(cy + raio) + 2,
+            ],
+            largura,
+            altura,
+        )
+    else:
+        texto = rng.choice(("D.S.", "D.C.", "Fine", "Coda"))
+        tamanho = max(6, round(0.5 * passo / DIGITO_ALTURA_EM))
+        fonte = _carregar_fonte(rng.choice(fontes), tamanho)
+        px, py, caixa = _posicionar(d, texto, cx, cy, fonte, largura, altura)
+        d.text((px, py), texto, font=fonte, fill=tinta)
+    return {"tipo": "texto_navegacao", "x": round(cx), "caixa": caixa, "texto": texto}
+
+
+def _desenhar_compasso(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    texto: str,
+    cx: float,
+    passo: float,
+    ys: list[int],
+    fontes: list[str],
+    altura_passos: float,
+    tinta: tuple[int, int, int],
+    largura: int,
+    altura: int,
+) -> list[int]:
+    """Desenha uma fórmula de compasso empilhada (ou "C") ocupando as cordas.
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        texto: fórmula, como "3/4", ou "C".
+        cx: centro horizontal.
+        passo: passo do sistema.
+        ys: linha de cada corda.
+        fontes: caminhos das fontes.
+        altura_passos: altura de cada número, em passos.
+        tinta: cor da tinta.
+        largura: largura da imagem.
+        altura: altura da imagem.
+
+    Returns:
+        Caixa [x0, y0, x1, y1] que envolve os números.
+    """
+    tamanho = max(6, round(altura_passos * passo / DIGITO_ALTURA_EM))
+    if texto == "C":
+        partes = [(texto, (ys[0] + ys[5]) / 2)]
+    else:
+        numerador, denominador = texto.split("/")
+        partes = [
+            (numerador, (ys[0] + ys[2]) / 2),
+            (denominador, (ys[3] + ys[5]) / 2),
+        ]
+    caixas = []
+    for trecho, cy in partes:
+        fonte = _carregar_fonte(rng.choice(fontes), tamanho)
+        px, py, caixa = _posicionar(d, trecho, cx, cy, fonte, largura, altura)
+        d.text((px, py), trecho, font=fonte, fill=tinta)
+        caixas.append(caixa)
+    return _caixa_uniao(caixas)
+
+
+def _meia_largura(texto: str, caminho: str, tamanho: int) -> float:
+    """Meia largura, em px, da caixa de um texto desenhado com a fonte dada.
+
+    Args:
+        texto: texto medido.
+        caminho: arquivo .ttf da fonte.
+        tamanho: tamanho da fonte, em pixels.
+
+    Returns:
+        Metade da largura da caixa do texto.
+    """
+    d = ImageDraw.Draw(Image.new("L", (1, 1)))
+    bb = d.textbbox((0, 0), texto, font=_carregar_fonte(caminho, tamanho))
+    return (bb[2] - bb[0]) / 2
+
+
+def _escolher_fontes(
+    rng: random.Random, grade: dict[tuple[int, int], dict], fontes: list[str]
+) -> None:
+    """Sorteia a fonte de cada nota (e do enfeite, quando há), antes de medir.
+
+    Args:
+        rng: gerador aleatório.
+        grade: notas, alteradas no lugar (ganham "fonte" e, no orn, "fonte_enfeite").
+        fontes: caminhos das fontes (com repetição = peso).
+    """
+    for chave in sorted(grade):
+        nota = grade[chave]
+        nota["fonte"] = rng.choice(fontes)
+        if nota["tecnica"] == "orn":
+            nota["fonte_enfeite"] = rng.choice(fontes)
+
+
+def _xs_por_medida(
+    grade: dict[tuple[int, int], dict],
+    n_col: int,
+    passo: float,
+    espaco: float,
+    x_ini: float,
+    tamanho: int,
+) -> list[float]:
+    """Centro de cada coluna, com vão suficiente entre colunas vizinhas.
+
+    Cada vão entre as colunas c e c+1 é o maior entre `espaco` e o necessário: entre
+    as caixas de quaisquer duas notas dessas colunas sobra pelo menos 0,35 passo (mais
+    1 px de folga para arredondamento), e o enfeite de uma nota da coluna c+1 fica a
+    0,45 passo da nota principal e também respeita essa folga.
+
+    Args:
+        grade: notas com "fonte" (e "fonte_enfeite" no orn), já sorteadas.
+        n_col: número de colunas.
+        passo: passo do sistema.
+        espaco: espaçamento sorteado (mínimo entre colunas).
+        x_ini: início horizontal das colunas (primeira barline).
+        tamanho: tamanho da fonte das notas, em pixels.
+
+    Returns:
+        Centro horizontal de cada coluna, em px.
+    """
+    tamanho_enfeite = max(6, round(0.5 * tamanho))
+    folga = 0.35 * passo + 2
+    por_coluna: dict[int, list[tuple[float, dict]]] = {}
+    for (c, _), nota in sorted(grade.items()):
+        meia = _meia_largura(_texto_da_nota(nota), nota["fonte"], tamanho)
+        por_coluna.setdefault(c, []).append((meia, nota))
+    xs: list[float] = []
+    cursor = x_ini + 0.5 * espaco
+    for c in range(n_col):
+        xs.append(cursor)
+        necessario = espaco
+        for ha, _ in por_coluna.get(c, []):
+            for hb, nota_b in por_coluna.get(c + 1, []):
+                necessario = max(necessario, ha + hb + folga)
+                if nota_b["tecnica"] == "orn":
+                    he = _meia_largura(
+                        nota_b["enfeite"], nota_b["fonte_enfeite"], tamanho_enfeite
+                    )
+                    necessario = max(
+                        necessario, ha + hb + 0.45 * passo + 2 * he + folga
+                    )
+        cursor += necessario
+    return xs
 
 
 def _folha(
@@ -883,10 +2302,12 @@ def _folha(
 ) -> np.ndarray:
     """Monta uma grade de sistemas; com `com_rotulos`, anota caixas e rótulos.
 
+    Com `com_rotulos`: notas em verde (rótulo em vermelho), regiões em azul e
+    estrutura (ritornelos, voltas, fórmulas, navegação) em laranja.
+
     Args:
         sistemas: pares (imagem, dict) de `gerar_sistema`.
-        com_rotulos: se True, desenha a caixa de cada nota em verde e o rótulo em
-            vermelho ao lado.
+        com_rotulos: se True, desenha as caixas e os rótulos.
         colunas: número de colunas da grade.
 
     Returns:
@@ -923,6 +2344,33 @@ def _folha(
                 cv2.FONT_HERSHEY_SIMPLEX,
                 0.35,
                 (0, 0, 255),
+                1,
+                cv2.LINE_AA,
+            )
+        for regiao in info["regioes"]:
+            x0, y0, x1, y1 = regiao["caixa"]
+            cv2.rectangle(folha, (ox + x0, oy + y0), (ox + x1, oy + y1), (255, 0, 0), 1)
+            cv2.putText(
+                folha,
+                regiao["tecnica"],
+                (ox + x0, oy + y1 + 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.35,
+                (255, 0, 0),
+                1,
+                cv2.LINE_AA,
+            )
+        for item in info["estrutura"]:
+            x0, y0, x1, y1 = item["caixa"]
+            cor = (0, 140, 255)
+            cv2.rectangle(folha, (ox + x0, oy + y0), (ox + x1, oy + y1), cor, 1)
+            cv2.putText(
+                folha,
+                item["tipo"],
+                (ox + x0, oy + y1 + 20),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.35,
+                cor,
                 1,
                 cv2.LINE_AA,
             )
