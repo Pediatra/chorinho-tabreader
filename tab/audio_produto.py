@@ -45,6 +45,10 @@ NIVEL_AFERICAO = "ms"
 #: Resolução da escuta, em ms: 200 e 100 ms separados, 50 ms não (rodada 2008).
 RESOLUCAO_ESCUTA_MS = 100
 
+#: Cosseno médio a partir do qual uma exibição recusada vira alarme de leitura (rodada 2009:
+#: as notas que casam, casam bem, mas casam poucas; aponta colunas faltando ou erradas).
+LIMIAR_ALARME_COS = 0.7
+
 #: Pasta das folhas de escuta do dono (gabarito do tempo do som).
 GABARITO_AUDIO = RAIZ / "data" / "gold" / "audio"
 
@@ -69,7 +73,17 @@ CHAVES_GERADO_POR = (
     "commit",
     "passagens",
 )
-CHAVES_EXIBICAO = ("tela", "exibicao", "trecho_colunas", "T_s", "recusada", "motivo")
+CHAVES_EXIBICAO = (
+    "tela",
+    "exibicao",
+    "trecho_colunas",
+    "T_s",
+    "recusada",
+    "motivo",
+    "cos_medio",
+    "n_casadas",
+    "alarme_leitura",
+)
 CHAVES_COLUNA = ("tela", "exibicao", "coluna", "t_audio", "confianca", "cos", "motivo")
 CHAVES_AFERICAO = ("gabarito", "nivel", "resolucao_escuta_ms")
 
@@ -149,21 +163,45 @@ def _linhas_exibicoes(alinhado: dict) -> list[dict]:
         alinhado: saída do ``tab.audio_alinhar``.
 
     Returns:
-        Lista com ``tela``, ``exibicao``, ``trecho_colunas``, ``T_s``, ``recusada`` e
-        ``motivo``, ordenada por (tela, exibicao).
+        Lista com ``tela``, ``exibicao``, ``trecho_colunas``, ``T_s``, ``recusada``,
+        ``motivo``, ``cos_medio``, ``n_casadas`` e ``alarme_leitura``, ordenada por
+        (tela, exibicao).
     """
-    linhas = [
-        {
-            "tela": int(e["tela"]),
-            "exibicao": int(e["exibicao"]),
-            "trecho_colunas": e.get("trecho_colunas"),
-            "T_s": e.get("T_usado_s"),
-            "recusada": bool(e["recusada_exibicao"]),
-            "motivo": e.get("motivo_exibicao"),
-        }
-        for e in alinhado["exibicoes"]
-    ]
+    linhas = []
+    for e in alinhado["exibicoes"]:
+        recusada = bool(e["recusada_exibicao"])
+        cos_medio = e.get("cos_medio")
+        linhas.append(
+            {
+                "tela": int(e["tela"]),
+                "exibicao": int(e["exibicao"]),
+                "trecho_colunas": e.get("trecho_colunas"),
+                "T_s": e.get("T_usado_s"),
+                "recusada": recusada,
+                "motivo": e.get("motivo_exibicao"),
+                "cos_medio": cos_medio,
+                "n_casadas": e.get("n_casadas"),
+                "alarme_leitura": alarme_leitura(recusada, cos_medio),
+            }
+        )
     return sorted(linhas, key=lambda e: (e["tela"], e["exibicao"]))
+
+
+def alarme_leitura(recusada: bool, cos_medio: float | None) -> bool:
+    """Exibição recusada em que as colunas casadas casam bem: sinal de leitura com falhas.
+
+    Medido na rodada 2009 (shin izumi, corda 1 perdida) e na 2010 (guitarous, cordas
+    deslocadas): a recusa vem de poucas colunas casadas, com cosseno alto. Também dispara
+    em música fora do método (rasgueado), então é alarme para olhar a tela, não veredito.
+
+    Args:
+        recusada: a exibição foi recusada pelo alinhador.
+        cos_medio: cosseno médio das colunas casadas (``None`` se nenhuma casou).
+
+    Returns:
+        ``True`` se recusada e ``cos_medio >= LIMIAR_ALARME_COS``.
+    """
+    return bool(recusada and cos_medio is not None and cos_medio >= LIMIAR_ALARME_COS)
 
 
 def _linhas_colunas(alinhado: dict) -> list[dict]:
@@ -481,6 +519,13 @@ def validar(d: dict, produto: dict | None = None) -> list[str]:
         colunas = []
     for i, e in enumerate(exibicoes):
         erros.extend(_faltando(e, CHAVES_EXIBICAO, f"exibicoes[{i}]"))
+        coerente = (
+            not isinstance(e, dict)
+            or not all(k in e for k in ("recusada", "cos_medio", "alarme_leitura"))
+            or e["alarme_leitura"] == alarme_leitura(e["recusada"], e["cos_medio"])
+        )
+        if not coerente:
+            erros.append(f"exibicoes[{i}]: alarme_leitura incoerente com recusa e cos")
 
     chaves = _validar_colunas(colunas, erros)
     _validar_monotonia(colunas, erros)
@@ -527,6 +572,12 @@ def resumo(d: dict) -> list[str]:
     ]
     for e in recusadas:
         linhas.append(f"  tela {e['tela']}, exibição {e['exibicao']}: {e['motivo']}")
+    alarmes = sorted({e["tela"] for e in exibicoes if e["alarme_leitura"]})
+    linhas.append(
+        f"alarmes de leitura: {sum(e['alarme_leitura'] for e in exibicoes)} de "
+        f"{len(exibicoes)} exibições"
+        + (f" (telas {', '.join(str(t) for t in alarmes)})" if alarmes else "")
+    )
     return linhas
 
 

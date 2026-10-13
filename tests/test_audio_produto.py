@@ -15,6 +15,7 @@ import pytest
 
 from tab.audio_produto import (
     ESQUEMA,
+    alarme_leitura,
     confere_produto,
     main,
     montar,
@@ -80,6 +81,8 @@ def _alinhado() -> dict:
                 "T_usado_s": 0.5,
                 "recusada_exibicao": False,
                 "motivo_exibicao": None,
+                "cos_medio": 0.8,
+                "n_casadas": 2,
             },
             {
                 "tela": 1,
@@ -88,6 +91,8 @@ def _alinhado() -> dict:
                 "T_usado_s": None,
                 "recusada_exibicao": True,
                 "motivo_exibicao": "poucas colunas casadas: 0 < 4",
+                "cos_medio": None,
+                "n_casadas": 0,
             },
         ],
         "colunas": [
@@ -252,6 +257,11 @@ def _mut_exibicao_inexistente(d: dict) -> None:
     d["colunas"][0]["exibicao"] = 5
 
 
+def _mut_alarme_incoerente(d: dict) -> None:
+    """Liga o alarme numa exibição aceita."""
+    d["exibicoes"][0]["alarme_leitura"] = True
+
+
 def _mut_nota_sem_entrada(d: dict) -> None:
     """Some a coluna 3 da exibição 0, que tem nota no produto."""
     d["colunas"] = [
@@ -275,6 +285,7 @@ def _mut_nota_sem_entrada(d: dict) -> None:
         (_mut_tela_inexistente, "não existe no produto"),
         (_mut_exibicao_inexistente, "não existe no produto"),
         (_mut_nota_sem_entrada, "nota sem entrada em colunas"),
+        (_mut_alarme_incoerente, "alarme_leitura incoerente"),
     ],
 )
 def test_validar_acusa_cada_regra_quebrada(
@@ -372,3 +383,31 @@ def test_cli_grava_arquivo_valido_e_recusa_o_invalido(tmp_path: Path) -> None:
         == 1
     )
     assert not saida_ruim.exists()
+
+
+@pytest.mark.parametrize(
+    ("recusada", "cos_medio", "esperado"),
+    [
+        (True, 0.83, True),
+        (True, 0.70, True),
+        (True, 0.55, False),
+        (True, None, False),
+        (False, 0.90, False),
+    ],
+)
+def test_alarme_leitura(
+    recusada: bool, cos_medio: float | None, esperado: bool
+) -> None:
+    """Alarme só em exibição recusada com cosseno médio >= 0,7."""
+    assert alarme_leitura(recusada, cos_medio) is esperado
+
+
+def test_montar_marca_alarme_na_exibicao_recusada_com_cos_alto(tmp_path: Path) -> None:
+    """A exibição recusada com cos alto sai com alarme; a aceita, sem."""
+    alinhado = _alinhado()
+    alinhado["exibicoes"][1]["cos_medio"] = 0.85
+    alinhado["exibicoes"][1]["n_casadas"] = 2
+    caminho_produto, caminho_alinhado = _arquivos(tmp_path, _produto(), alinhado)
+    d = montar(str(caminho_produto), str(caminho_alinhado), commit="abc", gabarito=[])
+    assert [e["alarme_leitura"] for e in d["exibicoes"]] == [False, True]
+    assert validar(d, _produto()) == []

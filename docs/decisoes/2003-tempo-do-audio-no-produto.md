@@ -49,7 +49,8 @@ Formato proposto (`chorinho/audio@1`):
   "gerado_por": {"metodo": "onsets_v2", "commit": "…", "parametros": {}},
   "exibicoes": [
     {"tela": 1, "exibicao": 0, "trecho_colunas": [1, 24], "T_s": 0.65,
-     "recusada": false, "motivo": null}
+     "recusada": false, "motivo": null, "cos_medio": 0.78, "n_casadas": 20,
+     "alarme_leitura": false}
   ],
   "colunas": [
     {"tela": 1, "exibicao": 0, "coluna": 3, "t_audio": 245.08,
@@ -76,6 +77,10 @@ Regras:
   (`t0`–`t1`), feito por quem consome (ou por um `tab.audio_juntar` da trilha áudio).
 - Repetição dentro da exibição (mais de uma passagem) não é tratada pelo alinhador v2.
   O arquivo só tem a primeira passagem; isso é declarado em `gerado_por`.
+- `alarme_leitura` (rodada 2011): exibição recusada com `cos_medio ≥ 0,7`. As colunas que
+  casam, casam bem, mas são poucas, o que aponta colunas faltando ou erradas no produto. É
+  alarme para olhar a tela, não veredito: também dispara em música fora do método
+  (rasgueado).
 - `produto_sha256` amarra o arquivo ao produto: se a tablatura for regerada, o `.audio.json`
   fica velho e é detectável.
 

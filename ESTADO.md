@@ -5281,3 +5281,8 @@ tokenizadas (revocação). Presets `fina`, `fina2`, `fina4` (com desfoque) medid
 - 10 de 10 rodaram sem erro (37 min): **2799 de 4531 colunas com tempo (62 %)**, 64 de 184 exibições recusadas. **6 de 10 bons** (77–97 % das colunas: iwaki ×2, kimny ×2, shin izumi *dream is a wish*, paolo d'angelo).
 - Falhas olhadas no recorte: **guitarous sakura 0 de 62**, porque o produto lê tudo uma corda abaixo (pedido à trilha tablatura); **transcriptor campanitas 201 de 935**, por ser rasgueado com batidas abafadas "X" (limite do método, a leitura está certa). Giant steps e charagua não olhados.
 - **Recusa da calibração pela música** (`tab/maos_braco_fora.py::avaliar_confianca`, campo `confianca` no medicao.json): ≥ 5 casas com ≥ 5 notas, vão ≥ 5 casas, estabilidade entre conjuntos ≤ 2 px. Recusa o q22 (três motivos); aceita q02, q16, q21, q23. **O q16 passa e é ruim** (nut 0,49, 10/15): o critério pega instabilidade e pouca cobertura, não o viés da ponta do dedo. Limiares escolhidos depois de ver o q22, ainda não validados.
+
+## Áudio — 2026-10-13 — alarme de leitura no arquivo de áudio (rodada 2011)
+
+- `chorinho/audio@1` ganha, por exibição, `cos_medio`, `n_casadas` e `alarme_leitura`: recusada com cos ≥ 0,7. Nos 14 vídeos: 0–2 alarmes nos 9 bons; 7–21 nos 4 fracos.
+- Das telas com alarme olhadas na imagem, **5 de 6 têm leitura com falhas**: colunas faltando, cordas deslocadas, números de dois algarismos e acordes em elipse. A sexta é rasgueado com leitura certa.
