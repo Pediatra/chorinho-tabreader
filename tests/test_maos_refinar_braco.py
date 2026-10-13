@@ -5,11 +5,13 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
+from tab import maos_refinar_braco
 from tab.maos_calibrar_por_notas import (
     Conjunto,
     aplicar_homografia,
     coordenadas_do_braco,
     grade_do_braco,
+    ransac,
     s_traste,
 )
 from tab.maos_refinar_braco import (
@@ -171,6 +173,43 @@ def test_consenso_escolhe_o_menor_custo() -> None:
     r = consenso(c, (4, 5), iteracoes=600)
     custos = [cand["custo"] for cand in r["candidatos"]]
     assert r["custo"] == min(custos)
+
+
+def test_consenso_pula_semente_com_h_invalida(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Semente com H inválida vira candidato inválido; a escolha vem das outras."""
+    c = _conjunto(n=80, frac_errada=0.5, semente=10)
+
+    def ransac_com_h_ruim(conj: Conjunto, semente: int, **kwargs: object) -> dict:
+        r = ransac(conj, semente, **kwargs)
+        if semente == 2:
+            r = {**r, "H": np.full((3, 3), np.nan)}
+        return r
+
+    monkeypatch.setattr(maos_refinar_braco, "ransac", ransac_com_h_ruim)
+    r = consenso(c, (1, 2, 3), iteracoes=600)
+    assert r["invalidas"] == 1
+    invalida = next(cand for cand in r["candidatos"] if cand["semente"] == 2)
+    assert invalida["valida"] is False
+    assert "H" not in invalida and "custo" not in invalida
+    assert r["semente"] != 2
+    validas = [cand["custo"] for cand in r["candidatos"] if cand["valida"]]
+    assert r["custo"] == min(validas)
+
+
+def test_consenso_sem_semente_valida_levanta_erro(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Se todas as sementes dão H inválida, a função levanta ValueError claro."""
+    c = _conjunto(n=80, frac_errada=0.5, semente=11)
+
+    def ransac_sempre_ruim(conj: Conjunto, semente: int, **kwargs: object) -> dict:
+        return {"H": np.full((3, 3), np.nan), "inliers": 0}
+
+    monkeypatch.setattr(maos_refinar_braco, "ransac", ransac_sempre_ruim)
+    with pytest.raises(ValueError, match="nenhuma das sementes"):
+        consenso(c, (1, 2), iteracoes=600)
 
 
 def test_s_traste_coerente_com_a_grade() -> None:

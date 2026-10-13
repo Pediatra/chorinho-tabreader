@@ -82,3 +82,36 @@ desempatar. Recuo constante não é a correção. Anomalia não investigada: est
 - Código: `tab/maos_braco_fora.py`, `tab/maos_medicoes_braco.py` (`gabarito_dono` genérico),
   `tab/maos_calibrar_por_notas.py` (`pontas_com_recuo`). Commits `8e490947` e o desta rodada.
 - Saídas: `data/saida/maos/m3d/` (produtos, cenas, pontas, `q16/`, `recuo/`, `diag/`, `q07/`).
+
+## Adendo (2026-10-13): três quadros novos do dono (q21–q23, sky guitar)
+
+O dono marcou o braço em 3 quadros novos, tirados no instante de uma nota tocada, na cena
+das notas (`tab.maos_braco_gabarito acrescentar`). São teste: nada foi ajustado neles.
+
+Duas correções de robustez antes da medida (q16 e q21 com saída idêntica antes/depois):
+`montar_conjunto` pula e conta nota com casa > 14 (q22 tinha uma casa 21, leitura errada);
+`consenso` descarta a semente cujo RANSAC dá H inválida em vez de abortar (q23, 1 de 10).
+
+| | q02 (MVP) | q16 | q21 | q22 | q23 |
+| --- | --- | --- | --- | --- | --- |
+| notas pisadas na cena | 526 | 452 | 328 | 414 | 441 |
+| inliers | 465 | 357 | 262 | 286 | 378 |
+| estabilidade, mediana (px) | 0,03 | 0,17 | 0,0 | **85** | 0,13 |
+| trastes dentro de 1/4 de casa | 14/14 | 10/15 | 14/14 | 4/14 | 9/14 |
+| nut (fração da casa 1) | 0,04 | 0,49 | 0,30 | 0,20 | 0,05 |
+| corda 1 (fração do vão 1–6) | 0,11 | 0,35 | 0,14 | 0,16 | 0,06 |
+| corda 6 | 0,07 | 0,19 | 0,06 | 0,25 | 0,15 |
+
+Recuo 0,4 e 0,6 (exploratório) em q21–q23: não melhora de forma consistente (q22
+degenera, q23 cai para 7/14 e 6/14). Recuo continua reprovado.
+
+**Cobertura do braço manda.** O q22 tem quase todas as notas nas casas 2 (170) e 4 (150),
+nada de 6 a 10: os três conjuntos de sementes discordam (128 px entre o conjunto 2 e os
+outros) e a grade sai em leque. Q16, q21 e q23 têm notas de 1 a 10–12. Uma calibração
+pela música precisa declarar a cobertura (casas distintas com notas e o vão entre elas) e
+a estabilidade entre conjuntos, e recusar-se quando uma ou outra falha; o limiar ainda não
+foi fixado (com 5 quadros, qualquer limiar seria ajustado no teste).
+
+Leitura: em 3 dos 4 quadros com boa cobertura (q02, q21, q23) as cordas ficam a ≤ 0,15 do
+vão e os trastes medidos, em geral, no lugar; o q16 é o pior (cordas 0,35, nut 0,49). O
+nut e os trastes altos (poucas notas) são os pontos fracos.

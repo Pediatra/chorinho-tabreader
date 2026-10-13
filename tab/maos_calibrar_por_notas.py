@@ -241,6 +241,8 @@ class Conjunto:
         uv: ``(N, 2)`` coordenadas no plano do braço.
         cand: ``(N, P, 2)`` pontas candidatas (preenchidas com 0 onde não há).
         mascara: ``(N, P)`` bool, ``True`` onde a ponta candidata existe.
+        descartadas_casa: notas com casa acima de ``N_TRASTES`` que foram puladas ao
+            montar o conjunto (fora do modelo do braço, não entram na calibração).
     """
 
     indices: np.ndarray
@@ -250,6 +252,7 @@ class Conjunto:
     uv: np.ndarray
     cand: np.ndarray
     mascara: np.ndarray
+    descartadas_casa: int = 0
 
     @property
     def tem_candidato(self) -> np.ndarray:
@@ -324,9 +327,10 @@ def montar_conjunto(
 ) -> Conjunto:
     """Notas pisadas do MVP com as pontas do seu instante, para o RANSAC.
 
-    Usa só as notas com ``casa > 0`` e ``t_ini`` presente no mapa de pontas. Instantes
-    em ``excluir`` (arredondados a 3 casas) saem: é o teste de honestidade com os
-    instantes do gabarito fora da calibração.
+    Usa só as notas com ``casa > 0`` e ``t_ini`` presente no mapa de pontas. Notas com
+    casa acima de ``N_TRASTES`` ficam fora do modelo do braço: são puladas e contadas
+    em ``descartadas_casa``. Instantes em ``excluir`` (arredondados a 3 casas) saem: é
+    o teste de honestidade com os instantes do gabarito fora da calibração.
 
     Args:
         mvp: lista ``notas`` do MVP.
@@ -341,12 +345,16 @@ def montar_conjunto(
         ValueError: se o conjunto fica vazio.
     """
     linhas: list[tuple[int, int, int, float, np.ndarray]] = []
+    descartadas_casa = 0
     for indice, nota in enumerate(mvp):
         t = nota.get("t_ini")
         if t is None or nota["casa"] <= 0:
             continue
         chave = round(float(t), 3)
         if chave in excluir or chave not in maos_por_t:
+            continue
+        if nota["casa"] > N_TRASTES:
+            descartadas_casa += 1
             continue
         pontas = pontas_esquerdas(maos_por_t[chave], recuo)
         linhas.append((indice, nota["corda"], nota["casa"], chave, pontas))
@@ -372,6 +380,7 @@ def montar_conjunto(
         uv=uv,
         cand=cand,
         mascara=mascara,
+        descartadas_casa=descartadas_casa,
     )
 
 

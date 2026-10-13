@@ -11,6 +11,7 @@ from tab.maos_calibrar_por_notas import (
     avaliar,
     coordenadas_do_braco,
     dlt_homografia,
+    montar_conjunto,
     pontas_com_recuo,
     pontas_esquerdas,
     ransac,
@@ -213,3 +214,25 @@ def test_dip_faltando_usa_a_ponta_pura() -> None:
     saida = pontas_com_recuo(_mao_esquerda(dip_em_none=True), 0.5)
     assert saida[1] == pytest.approx((100.0, 200.0))
     assert saida[2] == pytest.approx((100.0, 170.0))
+
+
+def test_montar_conjunto_pula_casa_fora_do_braco_e_conta() -> None:
+    """Casa acima de N_TRASTES sai do conjunto e é contada; a casa 14 ainda entra."""
+    mao = _mao_esquerda()
+    mvp = [
+        {"t_ini": 1.0, "corda": 1, "casa": 3},
+        {"t_ini": 1.0, "corda": 2, "casa": 21},
+        {"t_ini": 1.0, "corda": 3, "casa": 14},
+        {"t_ini": 2.0, "corda": 4, "casa": 22},
+    ]
+    conj = montar_conjunto(mvp, {1.0: [mao], 2.0: [mao]})
+    assert conj.descartadas_casa == 2
+    assert list(conj.casa) == [3, 14]
+    assert conj.uv.shape == (2, 2)
+
+
+def test_montar_conjunto_sem_casa_fora_do_braco_zera_o_contador() -> None:
+    """Sem nota com casa fora do braço, o contador de descartadas fica em zero."""
+    mao = _mao_esquerda()
+    mvp = [{"t_ini": 1.0, "corda": 1, "casa": 5}]
+    assert montar_conjunto(mvp, {1.0: [mao]}).descartadas_casa == 0

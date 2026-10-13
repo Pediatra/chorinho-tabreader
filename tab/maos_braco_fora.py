@@ -157,14 +157,18 @@ def main() -> None:
     contagem = contar_notas(produto, pontas)
     print(f"contagem: {contagem}", flush=True)
     conj = montar_conjunto(produto, mapa_de_maos(pontas), recuo=args.recuo)
+    print(
+        f"notas descartadas (casa fora do braço): {conj.descartadas_casa}", flush=True
+    )
 
     consensos = []
     for k, sementes in enumerate(CONJUNTOS_DE_SEMENTES):
         cons = consenso(conj, sementes)
         consensos.append(cons)
-        inliers = [c["inliers"] for c in cons["candidatos"]]
+        inliers = [c.get("inliers", "invalida") for c in cons["candidatos"]]
         print(
-            f"conjunto {k}: escolhida {cons['semente']}, inliers {inliers}",
+            f"conjunto {k}: escolhida {cons['semente']}, inliers {inliers}, "
+            f"sementes invalidas {cons['invalidas']}",
             flush=True,
         )
     H = consensos[0]["H"]
@@ -188,12 +192,14 @@ def main() -> None:
         "produto": str(args.produto),
         "pontas": str(args.pontas),
         "contagem": contagem,
+        "descartadas_casa": conj.descartadas_casa,
         "inliers_do_conjunto_0": int(avaliar(H, conj)["n"]),
         "notas_com_pontas": len(conj.indices),
         "consenso": [
             {
                 "conjunto": k,
                 "escolhida": c["semente"],
+                "sementes_invalidas": c["invalidas"],
                 "candidatos": [
                     {kk: vv for kk, vv in cand.items() if kk != "H"}
                     for cand in c["candidatos"]

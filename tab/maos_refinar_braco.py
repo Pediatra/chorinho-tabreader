@@ -317,6 +317,10 @@ def consenso(
 ) -> dict[str, Any]:
     """RANSAC com cada semente, refino por reprojeção, e a H de menor custo robusto.
 
+    Uma semente cuja H inicial é inválida para o conjunto não derruba as outras: ela
+    entra nos candidatos com ``valida`` False (sem H nem custo) e fica de fora da
+    escolha.
+
     Args:
         c: conjunto de notas.
         sementes: sementes do RANSAC.
@@ -324,17 +328,29 @@ def consenso(
             (por exemplo ``iteracoes``).
 
     Returns:
-        ``H`` (a escolhida), ``semente`` (a que a deu), ``custo``, e ``candidatos``: uma
-        entrada por semente, com ``semente``, ``inliers_ransac``, ``custo_ransac``,
-        ``inliers`` e ``custo`` após o refino, e ``H``.
+        ``H`` (a escolhida), ``semente`` (a que a deu), ``custo``, ``invalidas``
+        (quantas sementes deram H inválida) e ``candidatos``: uma entrada por semente.
+        Válidas têm ``valida`` True, ``semente``, ``inliers_ransac``, ``custo_ransac``,
+        ``inliers`` e ``custo`` após o refino, e ``H``. Inválidas têm ``valida`` False,
+        ``semente`` e ``motivo``.
+
+    Raises:
+        ValueError: se nenhuma semente deu homografia válida.
     """
-    candidatos = []
+    candidatos: list[dict[str, Any]] = []
     for semente in sementes:
         r = ransac(c, semente, **ransac_kwargs)
-        H_ref = refinar_reprojecao(r["H"], c)
+        try:
+            H_ref = refinar_reprojecao(r["H"], c)
+        except ValueError as erro:
+            candidatos.append(
+                {"semente": semente, "valida": False, "motivo": str(erro)}
+            )
+            continue
         candidatos.append(
             {
                 "semente": semente,
+                "valida": True,
                 "inliers_ransac": r["inliers"],
                 "custo_ransac": custo_robusto(r["H"], c),
                 "inliers": int(_contar_inliers(H_ref, c)),
@@ -342,11 +358,18 @@ def consenso(
                 "H": H_ref,
             }
         )
-    escolhida = min(candidatos, key=lambda d: d["custo"])
+    validas = [d for d in candidatos if d["valida"]]
+    if not validas:
+        raise ValueError(
+            f"nenhuma das sementes {list(sementes)} deu homografia válida "
+            f"para o conjunto de {len(c.indices)} notas"
+        )
+    escolhida = min(validas, key=lambda d: d["custo"])
     return {
         "H": escolhida["H"],
         "semente": escolhida["semente"],
         "custo": escolhida["custo"],
+        "invalidas": len(candidatos) - len(validas),
         "candidatos": candidatos,
     }
 
