@@ -1704,8 +1704,9 @@ main{display:flex;gap:16px;padding:12px 16px}
 .caixa{position:absolute;outline:2px solid var(--caixa);outline-offset:4px;pointer-events:none}
 .caixa.nao{outline:1px dashed var(--suave)}.caixa.removida{opacity:.25}.caixa.dono{outline-style:dotted}
 .caixa b{position:absolute;left:-6px;top:-22px;background:var(--caixa);color:#fff;font-size:11px;line-height:14px;padding:0 3px;border-radius:3px}
-.caixa i{position:absolute;left:calc(100% + 7px);top:50%;transform:translateY(-50%);background:#1565c0;color:#fff;font-style:normal;font-weight:700;font-size:15px;line-height:18px;padding:0 4px;border-radius:3px;white-space:nowrap}
-.caixa i.mudou{background:#e65100}
+.copia{margin-top:6px;cursor:default;background:#fff}.copia img{opacity:.18}
+.copia span{position:absolute;transform:translate(-50%,-50%);color:#1565c0;font-weight:700;font-size:clamp(11px,1.15vw,18px);line-height:1;white-space:nowrap;background:#fff;padding:0 2px;border-radius:3px}
+.copia span.mudou{color:#e65100}.copia span.dono{color:#1a7f37}.copia span.removida{text-decoration:line-through;opacity:.45}
 .coluna{position:absolute;top:0;bottom:0;width:0;border-left:3px solid var(--caixa);pointer-events:none}
 table{border-collapse:collapse;margin-top:10px}td,th{padding:3px 8px;border-bottom:1px solid var(--borda);text-align:left}
 td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.removida td:last-child{text-decoration:none;opacity:1}
@@ -1818,11 +1819,13 @@ function caixaDe(tp, n) {  /* retângulo da nota em % da imagem */
   if (!c) { const p = tp.passo, y = tp.linhas_y[n.corda - 1]; c = [n.x_centro_quadro - 0.3 * p, y - 0.4 * p, n.x_centro_quadro + 0.3 * p, y + 0.4 * p]; }
   return {left: (c[0] - rx0) / w * 100, top: (c[1] - ry0) / hh * 100, width: (c[2] - c[0]) / w * 100, height: (c[3] - c[1]) / hh * 100};
 }
-function pintarRotulo(el, tp, n) {  /* leitura do modelo; "modelo→dono" se o dono mudou */
+function pintarRotulo(el, tp, n) {  /* cópia de baixo: azul = modelo; laranja = "modelo→dono"; verde = do dono */
+  const atual = String(n.casa).trim();
+  if (n.origem !== "modelo") { el.textContent = atual || "?"; el.className = "dono"; return; }
   const lido = String((tp.notas[Number(n.id.slice(1))] || {}).casa ?? "");
-  const atual = String(n.casa).trim(), trocou = atual !== lido;
+  const trocou = atual !== lido;
   el.textContent = trocou ? lido + "→" + (atual || "?") : lido;
-  el.className = trocou ? "mudou" : "";
+  el.className = (trocou ? "mudou" : "") + (n.removida ? " removida" : "");
 }
 function estiloCaixa(r) { return `left:${r.left}%;top:${r.top}%;width:${r.width}%;height:${r.height}%`; }
 
@@ -1832,12 +1835,14 @@ function desenharTela() {
   const tp = telaPre(E.tela_atual), te = telaEst(E.tela_atual);
   const mold = h("div", {class: "moldura"}, h("img", {src: "/" + tp.arquivo, draggable: "false"}));
   tp.nao_nota.forEach(n => { const r = caixaDe(tp, n); mold.append(h("div", {class: "caixa nao", style: estiloCaixa(r), title: "não é nota: " + n.casa})); });
+  /* cópia logo abaixo, alinhada: a mesma faixa apagada com a leitura em cima de cada nota */
+  const copia = h("div", {class: "moldura copia"}, h("img", {src: "/" + tp.arquivo, draggable: "false"}));
   te.notas.forEach((n, i) => {
     const r = caixaDe(tp, n);
-    /* leitura do modelo ao lado da caixa (azul); se o dono mudou: "modelo→dono" (laranja) */
-    const rotulo = n.origem === "modelo" ? h("i", {"data-rotulo": n.id}) : "";
-    if (rotulo) pintarRotulo(rotulo, tp, n);
-    mold.append(h("div", {class: "caixa" + (n.removida ? " removida" : "") + (n.origem === "dono" ? " dono" : ""), style: estiloCaixa(r)}, h("b", {}, i + 1), rotulo));
+    mold.append(h("div", {class: "caixa" + (n.removida ? " removida" : "") + (n.origem === "dono" ? " dono" : ""), style: estiloCaixa(r), title: "#" + (i + 1)}));
+    const rotulo = h("span", {"data-rotulo": n.id, title: "#" + (i + 1), style: `left:${r.left + r.width / 2}%;top:${r.top + r.height / 2}%`});
+    pintarRotulo(rotulo, tp, n);
+    copia.append(rotulo);
   });
   mold.addEventListener("click", ev => {
     const rc = mold.getBoundingClientRect();
@@ -1874,7 +1879,7 @@ function desenharTela() {
       sel,
       h("button", {onclick: () => { const p = E.telas.find(t => !t.conferida && !t.junta_em && t.id !== te.id); if (p) { E.tela_atual = p.id; desenhar(); } }}, "próxima não conferida")),
     h("div", {class: "suave"}, "Clique na imagem para acrescentar uma nota que faltou (a corda sai da linha mais próxima). Corrija só a casa que estiver errada."),
-    mold, sem ? h("div", {class: "linha", style: "color:var(--ruim)"}, sem + " nota(s) sem casa não serão gravadas") : "", tabela);
+    mold, copia, sem ? h("div", {class: "linha", style: "color:var(--ruim)"}, sem + " nota(s) sem casa não serão gravadas") : "", tabela);
 }
 
 /* ---- aba INSTANTES ---- */
