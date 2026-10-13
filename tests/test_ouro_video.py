@@ -11,6 +11,7 @@ import pytest
 
 from tab.ouro_video import (
     PAGINA,
+    TECNICAS,
     Agrupador,
     agrupar_telas,
     clique_para_quadro,
@@ -511,3 +512,26 @@ def test_sem_v1_gera_ouro_inicial_valido_e_registra_a_sugestao() -> None:
     assert len(ouro["instantes"]) == 2
     assert all(i["pagina_sugerida"] is True for i in ouro["instantes"])
     assert all(i["tela_confirmada"] is False for i in ouro["instantes"])
+
+
+def test_tecnica_marcada_entra_no_ouro_em_ordem_fixa() -> None:
+    """Técnica do dono vai para a nota do ouro; nota sem técnica não ganha o campo."""
+    est = estado()
+    est["telas"][0]["notas"][0]["tecnica"] = ["lig", "h"]
+    ouro = montar_ouro(PRE, est, agora="2026-10-10T12:00:00")
+    assert validar_ouro(ouro) == []
+    notas = ouro["telas"][0]["notas"]
+    assert [n.get("tecnica") for n in notas] == [["h", "lig"], None]
+
+
+def test_tecnica_desconhecida_e_acusada() -> None:
+    """Código fora de TECNICAS não passa na validação."""
+    ouro = montar_ouro(PRE, estado(), agora="2026-10-10T12:00:00")
+    ouro["telas"][0]["notas"][0]["tecnica"] = ["martelo"]
+    assert any("técnica" in e for e in validar_ouro(ouro))
+
+
+def test_pagina_recebe_o_vocabulario_de_tecnicas() -> None:
+    """O JS usa o mesmo dicionário do Python (sem marcador por substituir)."""
+    assert "__TECNICAS__" not in PAGINA
+    assert json.dumps(TECNICAS, ensure_ascii=False) in PAGINA

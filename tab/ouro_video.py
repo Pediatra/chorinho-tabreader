@@ -105,6 +105,22 @@ FOLGA_FAIXA_PX = 60
 #: Folga (px) em volta de caixas que ficariam fora do painel da tela.
 MARGEM_PAINEL_PX = 8
 
+#: Técnicas que o dono pode marcar numa nota (código -> descrição). Convenção: h, p,
+#: slide e ligada vão na nota de CHEGADA, a que não é atacada de novo; o símbolo é o que
+#: está desenhado, não o que se ouve. Gabarito dos símbolos (Fase 10, item 1).
+TECNICAS = {
+    "h": "hammer-on",
+    "p": "pull-off",
+    "/": "slide subindo",
+    "\\": "slide descendo",
+    "lig": "ligada: arco, a nota continua soando",
+    "(n)": "nota entre parênteses",
+    "harm": "harmônico",
+    "bend": "bend",
+    "vib": "vibrato",
+    "x": "abafada",
+}
+
 #: Páginas servidas: só estes tipos saem da pasta (nada de listar diretório).
 _TIPOS = {".png": "image/png", ".json": "application/json; charset=utf-8"}
 
@@ -419,6 +435,9 @@ def validar_ouro(ouro: dict) -> list[str]:
                 erros.append(f"tela {tela['id']}: casa inválida {casa!r}")
             if not _numero(nota.get("x_quadro")):
                 erros.append(f"tela {tela['id']}: x_quadro inválido")
+            tecnica = nota.get("tecnica", [])
+            if not isinstance(tecnica, list) or not set(tecnica) <= TECNICAS.keys():
+                erros.append(f"tela {tela['id']}: técnica inválida {tecnica!r}")
     for inst in ouro.get("instantes") or []:
         if not _numero(inst.get("t")):
             erros.append("instante com t inválido")
@@ -500,6 +519,9 @@ def montar_ouro(pre: dict, estado: dict, agora: str | None = None) -> dict:
             }
             if n.get("x_centro_quadro") is not None:
                 nota["x_centro_quadro"] = round(float(n["x_centro_quadro"]), 1)
+            marcadas = set(n.get("tecnica") or [])
+            if marcadas:
+                nota["tecnica"] = [k for k in TECNICAS if k in marcadas]
             notas.append(nota)
         notas.sort(key=lambda n: (n["x_quadro"], n["corda"]))
         tela = {
@@ -1707,6 +1729,8 @@ main{display:flex;gap:16px;padding:12px 16px}
 .caixa b{position:absolute;left:-6px;top:-22px;background:var(--caixa);color:#fff;font-size:11px;line-height:14px;padding:0 3px;border-radius:3px}
 .copia{margin-top:6px;cursor:default;background:#fff}.copia img{opacity:.18}
 .copia span{position:absolute;transform:translate(-50%,-50%);color:#1565c0;font-weight:700;font-size:clamp(11px,1.15vw,18px);line-height:1;white-space:nowrap;background:#fff;padding:0 2px;border-radius:3px}
+.editor{flex-wrap:wrap;max-width:min(560px,90vw)}.editor button.tec{padding:2px 6px;font-family:monospace}.editor button.tec.ligado{background:#7b1fa2;color:#fff;border-color:#7b1fa2}
+.copia span sup.tec{color:#7b1fa2;font-size:.7em}
 .copia span.mudou{color:#e65100}.copia span.dono{color:#1a7f37}.copia span.removida{text-decoration:line-through;opacity:.45}
 .coluna{position:absolute;top:0;bottom:0;width:0;border-left:3px solid var(--caixa);pointer-events:none}
 table{border-collapse:collapse;margin-top:10px}td,th{padding:3px 8px;border-bottom:1px solid var(--borda);text-align:left}
@@ -1727,6 +1751,7 @@ td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.rem
 <main><div id="lista"></div><div id="conteudo"></div></main>
 <script>
 "use strict";
+const TECNICAS = __TECNICAS__;
 let PRE = null, E = null, SO_ROTULAR = false, EMPILHAR = false, OUTRA = false, ABA = "telas", sujo = false, versao = 0, ultimoOuro = null, temporizador = null;
 
 function h(tag, attrs, ...filhos) {
@@ -1822,11 +1847,15 @@ function caixaDe(tp, n) {  /* retângulo da nota em % da imagem */
 }
 function pintarRotulo(el, tp, n) {  /* cópia de baixo: azul = modelo; laranja = "modelo→dono"; verde = do dono */
   const atual = String(n.casa).trim();
-  if (n.origem !== "modelo") { el.textContent = atual || "?"; el.className = "dono"; return; }
+  if (n.origem !== "modelo") { el.textContent = atual || "?"; el.className = "dono"; marcarTecnica(el, n); return; }
   const lido = String((tp.notas[Number(n.id.slice(1))] || {}).casa ?? "");
   const trocou = atual !== lido;
   el.textContent = trocou ? lido + "→" + (atual || "?") : lido;
   el.className = (trocou ? "mudou" : "") + (n.removida ? " removida" : "");
+  marcarTecnica(el, n);
+}
+function marcarTecnica(el, n) {  /* técnicas marcadas pelo dono, em roxo, depois da casa */
+  if (n.tecnica && n.tecnica.length) el.append(h("sup", {class: "tec"}, " " + n.tecnica.join(" ")));
 }
 function estiloCaixa(r) { return `left:${r.left}%;top:${r.top}%;width:${r.width}%;height:${r.height}%`; }
 
@@ -1859,8 +1888,16 @@ function abrirEditor(mold, tp, te, n, r) {
   const acao = h("button", {onclick: () => {
     if (n.origem === "dono") te.notas.splice(te.notas.indexOf(n), 1); else n.removida = !n.removida;
     mudou(); fecharEditor(); }}, n.origem === "dono" ? "apagar" : n.removida ? "restaurar" : "não é nota");
+  const tecs = Object.entries(TECNICAS).map(([k, d]) => h("button", {class: "tec" + ((n.tecnica || []).includes(k) ? " ligado" : ""), title: d,
+    onclick: ev => {
+      const l = new Set(n.tecnica || []); if (l.has(k)) l.delete(k); else l.add(k);
+      n.tecnica = Object.keys(TECNICAS).filter(c => l.has(c)); mudou();
+      ev.currentTarget.classList.toggle("ligado", l.has(k));
+      const el = document.querySelector(`[data-rotulo="${n.id}"]`); if (el) pintarRotulo(el, tp, n);
+      campo.focus();
+    }}, k));
   const ed = h("div", {class: "editor", style: `left:${r.left}%;top:calc(${r.top + r.height}% + 8px)`},
-    h("span", {class: "suave"}, "corda " + n.corda), campo, acao);
+    h("span", {class: "suave"}, "corda " + n.corda), campo, acao, h("span", {class: "suave"}, "técnica:"), tecs);
   mold.append(ed);
   campo.focus(); campo.select();
 }
@@ -1919,7 +1956,7 @@ function desenharTela() {
       h("button", {class: te.conferida ? "ok" : "", onclick: () => { te.conferida = !te.conferida; mudou(); desenhar(); }}, te.conferida ? "✓ conferida" : "tela conferida"),
       sel,
       h("button", {onclick: () => { const p = E.telas.find(t => !t.conferida && !t.junta_em && t.id !== te.id); if (p) { E.tela_atual = p.id; desenhar(); } }}, "próxima não conferida")),
-    h("div", {class: "suave"}, "Clique numa caixa vermelha para corrigir a casa (Enter ou clique fora fecha). Clique fora das caixas para acrescentar uma nota que faltou (a corda sai da linha mais próxima)."),
+    h("div", {class: "suave"}, "Clique numa caixa vermelha para corrigir a casa (Enter ou clique fora fecha). Técnica (opcional, em roxo): h, p, slide e ligada vão na nota de CHEGADA, a que não é atacada de novo; marque o que está desenhado. Clique fora das caixas para acrescentar uma nota que faltou (a corda sai da linha mais próxima)."),
     mold, copia, sem ? h("div", {class: "linha", style: "color:var(--ruim)"}, sem + " nota(s) sem casa não serão gravadas") : "", tabela);
   const editando = te.notas.find(n => n.id === EDITAR);
   if (editando) abrirEditor(mold, tp, te, editando, caixaDe(tp, editando)); else EDITAR = null;
@@ -2019,6 +2056,7 @@ document.getElementById("aba-inst").addEventListener("click", () => irParaAba("i
 })();
 </script></body></html>
 """
+PAGINA = PAGINA.replace("__TECNICAS__", json.dumps(TECNICAS, ensure_ascii=False))
 
 
 def servir(pasta: Path, ouro: Path, porta: int, host: str = "127.0.0.1") -> int:
