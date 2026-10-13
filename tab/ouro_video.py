@@ -24,6 +24,8 @@ Uso:
     python -m tab.ouro_video preparar VIDEO --saida data/saida/ouro_video/<slug>/
     python -m tab.ouro_video completar VIDEO --ouro-v1 data/gold/ouro_video/<slug>.json \
         --ouro-v2 data/gold/ouro_video/<slug>_v2.json --saida data/saida/ouro_video/<slug>_v2/
+    python -m tab.ouro_video completar VIDEO --ouro-v2 data/gold/ouro_video/<slug>.json \
+        --saida data/saida/ouro_video/<slug>/   # vídeo NOVO, sem ouro v1
     python -m tab.ouro_video servir --pasta data/saida/ouro_video/<slug>/ \
         --ouro data/gold/ouro_video/<slug>.json --porta 8099
 """
@@ -42,7 +44,7 @@ import threading
 import time
 import unicodedata
 from collections.abc import Callable
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 
 import cv2
@@ -95,6 +97,10 @@ LARGURA_ALGARISMO_PASSOS = 0.5
 
 #: Tolerância (px) para considerar que o painel "não mudou de lugar" entre quadros.
 TOLERANCIA_RETANGULO = 6
+
+#: Folga vertical (px) em volta do painel do ``tab.telas`` ao procurar o painel só na
+#: faixa dele (``_candidato_na_faixa``): sem ela a escolha cai no braço do violão.
+FOLGA_FAIXA_PX = 60
 
 #: Folga (px) em volta de caixas que ficariam fora do painel da tela.
 MARGEM_PAINEL_PX = 8
@@ -444,10 +450,13 @@ def _raiz_da_juncao(juntadas: dict[int, int], id_: int) -> int:
 
 
 def _confirmacao(instante: dict) -> dict:
-    """``{"tela_confirmada": bool}`` se o instante é do v2 (tem o campo); senão vazio."""
+    """Campos do v2 do instante (``tela_confirmada``, ``pagina_sugerida``), se houver."""
     if "tela_confirmada" not in instante:
         return {}
-    return {"tela_confirmada": bool(instante["tela_confirmada"])}
+    campos = {"tela_confirmada": bool(instante["tela_confirmada"])}
+    if "pagina_sugerida" in instante:
+        campos["pagina_sugerida"] = bool(instante["pagina_sugerida"])
+    return campos
 
 
 def montar_ouro(pre: dict, estado: dict, agora: str | None = None) -> dict:
@@ -740,6 +749,38 @@ def pagina_do_quadro_ref(paginas: list[dict], tela_v1: dict) -> tuple[int | None
     return melhor, detalhe
 
 
+def _tela_do_modelo(pagina: dict) -> dict:
+    """Tela do estado com as notas do modelo, a rotular (``conferida`` falso).
+
+    Args:
+        pagina: página com ``id`` e ``notas`` do modelo.
+
+    Returns:
+        A tela no formato do estado da ferramenta, origem ``ORIGEM_MODELO``.
+    """
+    notas = [
+        {
+            "id": f"m{i}",
+            "corda": n["corda"],
+            "casa": str(n["casa"]),
+            "x_quadro": n["x_quadro"],
+            "x_centro_quadro": n.get("x_centro_quadro"),
+            "origem": "modelo",
+            "removida": False,
+            "caixa": n.get("caixa"),
+        }
+        for i, n in enumerate(pagina["notas"])
+    ]
+    return {
+        "id": int(pagina["id"]),
+        "conferida": False,
+        "junta_em": None,
+        "origem": ORIGEM_MODELO,
+        "v1_telas": [],
+        "notas": notas,
+    }
+
+
 def fundir_ouro(ouro_v1: dict, paginas: list[dict]) -> tuple[dict, dict]:
     """Funde o ouro v1 com as páginas do ``tab.telas``: o estado da ferramenta do v2.
 
@@ -777,29 +818,7 @@ def fundir_ouro(ouro_v1: dict, paginas: list[dict]) -> tuple[dict, dict]:
     for p in paginas:
         candidatas = do_v1.get(int(p["id"]), [])
         if not candidatas:
-            notas = [
-                {
-                    "id": f"m{i}",
-                    "corda": n["corda"],
-                    "casa": str(n["casa"]),
-                    "x_quadro": n["x_quadro"],
-                    "x_centro_quadro": n.get("x_centro_quadro"),
-                    "origem": "modelo",
-                    "removida": False,
-                    "caixa": n.get("caixa"),
-                }
-                for i, n in enumerate(p["notas"])
-            ]
-            telas.append(
-                {
-                    "id": int(p["id"]),
-                    "conferida": False,
-                    "junta_em": None,
-                    "origem": ORIGEM_MODELO,
-                    "v1_telas": [],
-                    "notas": notas,
-                }
-            )
+            telas.append(_tela_do_modelo(p))
             continue
         usada = min(
             candidatas,
@@ -886,6 +905,86 @@ def fundir_ouro(ouro_v1: dict, paginas: list[dict]) -> tuple[dict, dict]:
         "instantes_sem_pagina": sem_pagina,
     }
     return estado, relatorio
+
+
+def fundir_sem_v1(
+    paginas: list[dict], duracao_s: float, passo_s: float, n: int, seed: int
+) -> tuple[dict, dict]:
+    """Estado da ferramenta para um vídeo SEM ouro v1: tudo a rotular pelo dono.
+
+    Cada página traz as notas do modelo (``conferida`` falso, origem "modelo — a
+    rotular"). Os instantes são sorteados DENTRO da presença de tablatura (as exibições
+    das páginas, numa grade de ``passo_s``) por ``sortear_instantes``, e a página é
+    SUGERIDA pelo tempo (``pagina_sugerida`` verdadeiro, ``tela_confirmada`` falso): o
+    dono confirma a página e clica a coluna acesa. Sugerir cria viés de confirmação;
+    o campo existe para isso ficar registrado no ouro.
+
+    Args:
+        paginas: páginas com ``id``, ``exibicoes`` e ``notas`` do modelo.
+        duracao_s: duração do vídeo, em segundos.
+        passo_s: intervalo da grade de onde se sorteia, em segundos.
+        n: quantos instantes sortear.
+        seed: semente do sorteio.
+
+    Returns:
+        ``(estado, relatorio)``, com as mesmas chaves de ``fundir_ouro``.
+    """
+    grade = [pagina_em(paginas, k * passo_s) for k in range(int(duracao_s / passo_s))]
+    sorteio = sortear_instantes(grade, passo_s, n, seed)
+    telas = [_tela_do_modelo(p) for p in paginas]
+    instantes = [
+        {
+            "t": t,
+            "estado": None,
+            "tela": pagina,
+            "tela_v1": None,
+            "coluna_x_quadro": None,
+            "obs": "",
+            "tela_confirmada": False,
+            "pagina_sugerida": True,
+        }
+        for t, pagina in sorteio
+    ]
+    estado = {
+        "proximo": 1,
+        "tela_atual": paginas[0]["id"] if paginas else None,
+        "inst_atual": 0,
+        "telas": telas,
+        "instantes": instantes,
+    }
+    relatorio = {
+        "n_paginas": len(paginas),
+        "herdadas": [],
+        "a_rotular": [t["id"] for t in telas],
+        "notas_a_rotular": sum(len(t["notas"]) for t in telas),
+        "notas_herdadas": 0,
+        "conflitos": [],
+        "sem_v1": True,
+        "n_instantes": len(instantes),
+        "seed": seed,
+        "passo_s": passo_s,
+    }
+    return estado, relatorio
+
+
+def texto_sem_v1(relatorio: dict) -> str:
+    """Frase do ``como_foi_rotulado`` do ouro v2 de um vídeo sem v1.
+
+    Args:
+        relatorio: o relatório de ``fundir_sem_v1``.
+
+    Returns:
+        O texto explicando a origem do pré-preenchimento e o viés da sugestão.
+    """
+    return (
+        "v2 sem v1: páginas do tab.telas (1 - IoU da tinta, limiar 0,3), todas com as "
+        f"notas do modelo, a rotular (origem '{ORIGEM_MODELO}', conferida=false). "
+        f"{relatorio['n_instantes']} instantes sorteados dentro da presença de "
+        f"tablatura (semente {relatorio['seed']}, grade de {relatorio['passo_s']} s); a "
+        "página de cada um foi SUGERIDA pelo tempo (pagina_sugerida=true, "
+        "tela_confirmada=false até o dono confirmar): há viés de confirmação. A coluna "
+        "acesa é do dono."
+    )
 
 
 def texto_fusao(relatorio: dict, video_v1: str) -> str:
@@ -1182,12 +1281,38 @@ def preparar(
     return pre
 
 
+def _candidato_na_faixa(quadro: np.ndarray, painel: Retangulo) -> Candidato | None:
+    """Painel escolhido SÓ na faixa vertical que o ``tab.telas`` deu à página.
+
+    O ``painel.escolher`` olha o quadro inteiro e, com a câmera mostrando o braço do violão
+    (6 cordas, passo ~6 px), escolhe o braço e deixa a tablatura de lado. Aqui o quadro é
+    cortado na faixa do painel (mais ``FOLGA_FAIXA_PX``) e a escolha é refeita; o ``y0`` do
+    candidato volta para o espaço do quadro.
+
+    Args:
+        quadro: quadro BGR inteiro.
+        painel: painel da página, no quadro (``tab.telas``).
+
+    Returns:
+        O candidato (``y0`` no quadro) ou ``None`` se a faixa não tem tablatura.
+    """
+    topo = max(0, painel[1] - FOLGA_FAIXA_PX)
+    base = min(quadro.shape[0], painel[3] + FOLGA_FAIXA_PX)
+    cand = escolher(quadro[topo:base, :])
+    if cand is None or not PASSO_MINIMO_PX <= cand.passo <= PASSO_MAXIMO_PX:
+        return None
+    return replace(cand, y0=cand.y0 + topo, y1=cand.y1 + topo)
+
+
 def _candidato_da_pagina(video: str, pagina: dict) -> tuple[np.ndarray, Candidato]:
     """Quadro e painel da página: tenta o ``quadro_ref_s`` e depois o meio das exibições.
 
+    Primeiro o quadro inteiro (``painel.escolher``); se nenhum instante da página dá
+    painel com passo de tablatura, tenta de novo só na faixa do painel do ``tab.telas``.
+
     Args:
         video: caminho do vídeo.
-        pagina: página com ``quadro_ref_s`` e ``exibicoes``.
+        pagina: página com ``quadro_ref_s``, ``exibicoes`` e ``painel``.
 
     Returns:
         ``(quadro, candidato)``.
@@ -1198,47 +1323,63 @@ def _candidato_da_pagina(video: str, pagina: dict) -> tuple[np.ndarray, Candidat
     instantes = [float(pagina["quadro_ref_s"])] + [
         (a + b) / 2 for a, b in pagina["exibicoes"]
     ]
+    quadros = []
     for t in instantes:
         quadro = leitor.quadro_em(video, t)
         if quadro is None:
             continue
+        quadros.append(quadro)
         cand = escolher(quadro)
         if cand is not None and PASSO_MINIMO_PX <= cand.passo <= PASSO_MAXIMO_PX:
+            return quadro, cand
+    for quadro in quadros:
+        cand = _candidato_na_faixa(quadro, tuple(pagina["painel"]))
+        if cand is not None:
             return quadro, cand
     raise RuntimeError(f"página {pagina['id']}: nenhum quadro com painel")
 
 
 def completar(
     video: str,
-    ouro_v1: Path,
+    ouro_v1: Path | None,
     saida: Path,
     ouro_v2: Path,
     telas_json: Path | None = None,
     modelo_caminho: Path = MODELO_PADRAO,
+    passo_s: float = 2.0,
+    n_instantes: int = 40,
+    seed: int = 0,
 ) -> dict:
     """Prepara o ouro v2: páginas do ``tab.telas`` + notas do dono herdadas do v1.
 
     Grava ``saida/telas/NNN.png``, ``saida/instantes/NNN.png`` e ``saida/pre.json``, e o
     ouro v2 inicial em ``ouro_v2`` (NUNCA o v1, que só é lido; o v2 existente não é
-    sobrescrito, pois guarda trabalho do dono).
+    sobrescrito, pois guarda trabalho do dono). Sem ``ouro_v1`` (vídeo novo), todas as
+    páginas ficam com as notas do modelo a rotular e os instantes são sorteados na
+    presença de tablatura (``fundir_sem_v1``).
 
     Args:
         video: caminho do vídeo.
-        ouro_v1: ouro v1 (só leitura).
+        ouro_v1: ouro v1 (só leitura), ou ``None`` para um vídeo sem ouro anterior.
         saida: pasta de saída.
         ouro_v2: ouro v2 a criar.
         telas_json: saída já pronta de ``python -m tab.telas`` (pula a segmentação).
         modelo_caminho: pesos do classificador de glifos.
+        passo_s: grade do sorteio de instantes (só sem ``ouro_v1``).
+        n_instantes: quantos instantes sortear (só sem ``ouro_v1``).
+        seed: semente do sorteio (só sem ``ouro_v1``).
 
     Returns:
         O ``pre.json`` gravado (com ``fusao``).
 
     Raises:
         FileExistsError: se ``ouro_v2`` já existe.
+        RuntimeError: com ``ouro_v1``, se uma página não tem painel (sem v1 a página é
+            descartada e listada em ``fusao["paginas_descartadas"]``).
     """
     if ouro_v2.exists():
         raise FileExistsError(f"{ouro_v2} já existe; não sobrescrevo trabalho do dono")
-    v1 = json.loads(ouro_v1.read_text(encoding="utf-8"))
+    v1 = json.loads(ouro_v1.read_text(encoding="utf-8")) if ouro_v1 else None
     if telas_json is not None:
         previstas = json.loads(telas_json.read_text(encoding="utf-8"))["telas"]
     else:
@@ -1248,9 +1389,18 @@ def completar(
     meta = leitor.info(video)
     modelo, rotulos, dev = carregar_modelo(str(modelo_caminho))
     discriminador = carregar()
-    paginas, quadros = [], {}
+    paginas, quadros, descartadas = [], {}, []
     for p in previstas:
-        quadro, cand = _candidato_da_pagina(video, p)
+        try:
+            quadro, cand = _candidato_da_pagina(video, p)
+        except RuntimeError as erro:
+            if v1 is not None:
+                raise
+            # vídeo novo: o dono não tem como rotular uma "página" sem tablatura
+            # (falso positivo da presença do tab.telas); fica registrada no pre.json
+            descartadas.append({"id": int(p["id"]), "exibicoes": p["exibicoes"]})
+            _log(f"página {p['id']:02d}: DESCARTADA ({erro})")
+            continue
         pre_leitura = ler_notas(cand, modelo, rotulos, dev, discriminador)
         rect = retangulo_do_painel(cand, quadro.shape)
         painel = tuple(p["painel"])
@@ -1260,6 +1410,11 @@ def completar(
             max(rect[2], painel[2]),
             max(rect[3], painel[3]),
         )
+        if v1 is None:
+            # vídeo novo: o painel do tab.telas pode vir parcial na horizontal (medido em
+            # 2 de 7 vídeos da Fase 8); a tela vai de borda a borda para o dono ver e
+            # acrescentar as notas que o recorte cortaria
+            rect = (0, rect[1], int(quadro.shape[1]), rect[3])
         paginas.append(
             {
                 "id": int(p["id"]),
@@ -1272,7 +1427,15 @@ def completar(
         )
         quadros[int(p["id"])] = quadro
         _log(f"página {p['id']:02d}: {len(pre_leitura['notas'])} notas pré-lidas")
-    estado, fusao = fundir_ouro(v1, paginas)
+    if v1 is None:
+        estado, fusao = fundir_sem_v1(
+            paginas, float(meta["duracao_s"] or 0.0), passo_s, n_instantes, seed
+        )
+        fusao["paginas_descartadas"] = descartadas
+        texto = texto_sem_v1(fusao)
+    else:
+        estado, fusao = fundir_ouro(v1, paginas)
+        texto = texto_fusao(fusao, ouro_v1.name)
     caixas_v1 = {
         t["id"]: [n["caixa"] for n in t["notas"] if n.get("caixa")]
         for t in estado["telas"]
@@ -1323,6 +1486,7 @@ def completar(
                 "arquivo": f"instantes/{ordem:03d}.png",
                 "tela_sugerida": i["tela"],
                 "tela_v1": i["tela_v1"],
+                "pagina_sugerida": bool(i.get("pagina_sugerida", False)),
                 "recorte": [0, y0, int(quadro.shape[1]), y1],
                 "escala": 1,
             }
@@ -1342,7 +1506,7 @@ def completar(
         "duracao_s": float(meta["duracao_s"] or 0.0),
         "codec": meta["codec"],
         "segmentacao": "telas",
-        "como_foi_rotulado": texto_fusao(fusao, ouro_v1.name),
+        "como_foi_rotulado": texto,
         "telas": pre_telas,
         "instantes": pre_instantes,
         "estado_inicial": estado,
@@ -1363,14 +1527,16 @@ def completar(
 
 
 def criar_servidor(
-    pasta: Path, ouro: Path, porta: int = 8099
+    pasta: Path, ouro: Path, porta: int = 8099, host: str = "127.0.0.1"
 ) -> http.server.ThreadingHTTPServer:
-    """Cria o servidor (não o inicia). Escuta SOMENTE em 127.0.0.1.
+    """Cria o servidor (não o inicia). Escuta em 127.0.0.1 (ou ``host``).
 
     Args:
         pasta: pasta do ``preparar`` (``pre.json``, ``telas/``, ``instantes/``).
         ouro: arquivo do ouro, gravado a cada ``POST /salvar``.
         porta: porta TCP (0 = uma livre).
+        host: endereço de escuta; ``0.0.0.0`` só dentro de container, com a porta
+            publicada em 127.0.0.1 do host (o cabeçalho Host continua checado).
 
     Returns:
         O servidor; ``servidor.server_address[1]`` é a porta real.
@@ -1464,7 +1630,7 @@ def criar_servidor(
                 },
             )
 
-    return http.server.ThreadingHTTPServer(("127.0.0.1", porta), Manipulador)
+    return http.server.ThreadingHTTPServer((host, porta), Manipulador)
 
 
 PAGINA = """<!doctype html>
@@ -1743,13 +1909,14 @@ document.getElementById("aba-inst").addEventListener("click", () => irParaAba("i
 """
 
 
-def servir(pasta: Path, ouro: Path, porta: int) -> int:
+def servir(pasta: Path, ouro: Path, porta: int, host: str = "127.0.0.1") -> int:
     """Sobe o servidor e fica nele até Ctrl+C.
 
     Args:
         pasta: pasta do ``preparar``.
         ouro: arquivo do ouro.
         porta: porta TCP.
+        host: endereço de escuta (``0.0.0.0`` só dentro de container).
 
     Returns:
         Código de saída.
@@ -1757,7 +1924,7 @@ def servir(pasta: Path, ouro: Path, porta: int) -> int:
     if not (pasta / "pre.json").exists():
         print(f"sem pre.json em {pasta}; rode `preparar` antes", file=sys.stderr)
         return 2
-    servidor = criar_servidor(pasta, ouro, porta)
+    servidor = criar_servidor(pasta, ouro, porta, host)
     print(f"ferramenta do ouro: http://127.0.0.1:{servidor.server_address[1]}/")
     print(f"o ouro é gravado a cada alteração em: {ouro}")
     print(
@@ -1794,15 +1961,21 @@ def main() -> int:
         "completar", help="ouro v2: páginas do tab.telas + notas do dono herdadas do v1"
     )
     c.add_argument("video")
-    c.add_argument("--ouro-v1", type=Path, required=True)
+    c.add_argument("--ouro-v1", type=Path, default=None, help="omita em vídeo novo")
     c.add_argument("--ouro-v2", type=Path, required=True)
     c.add_argument("--saida", type=Path, required=True)
     c.add_argument("--telas-json", type=Path, default=None)
     c.add_argument("--modelo", type=Path, default=MODELO_PADRAO)
+    c.add_argument(
+        "--passo-s", type=float, default=2.0, help="sem v1: grade do sorteio"
+    )
+    c.add_argument("--n-instantes", type=int, default=40, help="sem v1")
+    c.add_argument("--seed", type=int, default=0, help="sem v1")
     s = sub.add_parser("servir", help="serve a ferramenta de rotular (autosave)")
     s.add_argument("--pasta", type=Path, required=True)
     s.add_argument("--ouro", type=Path, required=True)
     s.add_argument("--porta", type=int, default=8099)
+    s.add_argument("--host", default="127.0.0.1", help="0.0.0.0 só dentro de container")
     args = ap.parse_args()
     if args.comando == "completar":
         pre = completar(
@@ -1812,6 +1985,9 @@ def main() -> int:
             args.ouro_v2,
             telas_json=args.telas_json,
             modelo_caminho=args.modelo,
+            passo_s=args.passo_s,
+            n_instantes=args.n_instantes,
+            seed=args.seed,
         )
         print(json.dumps(pre["fusao"], ensure_ascii=False, indent=1))
         return 0
@@ -1827,7 +2003,7 @@ def main() -> int:
             modelo_caminho=args.modelo,
         )
         return 0
-    return servir(args.pasta, args.ouro, args.porta)
+    return servir(args.pasta, args.ouro, args.porta, args.host)
 
 
 if __name__ == "__main__":

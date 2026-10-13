@@ -20,12 +20,14 @@ from tab.ouro_video import (
     diferenca_cinza,
     fazer_slug,
     fundir_ouro,
+    fundir_sem_v1,
     gravar_atomico,
     histograma,
     montar_ouro,
     pagina_em,
     painel_com_caixas,
     sortear_instantes,
+    texto_sem_v1,
     validar_ouro,
 )
 
@@ -448,3 +450,64 @@ def test_fusao_tela_v1_na_borda_vai_para_a_pagina_cujas_notas_concordam() -> Non
     assert rel["herdadas"] == [2] and rel["a_rotular"] == [1]
     assert rel["telas_v1_na_borda"][0]["contem_o_instante"] == 1
     assert estado["telas"][1]["origem"].startswith("ouro_v1")
+
+
+# --- vídeo NOVO, sem ouro v1 --------------------------------------------------------
+
+
+def test_sem_v1_toda_pagina_fica_a_rotular_com_notas_do_modelo() -> None:
+    """Sem v1: nenhuma página herdada, todas ``conferida: false`` com o modelo."""
+    estado, rel = fundir_sem_v1(_paginas(), 120.0, 2.0, 10, 0)
+    assert [t["conferida"] for t in estado["telas"]] == [False, False, False]
+    assert all(t["origem"].startswith("modelo") for t in estado["telas"])
+    assert all(n["origem"] == "modelo" for t in estado["telas"] for n in t["notas"])
+    assert rel["herdadas"] == [] and rel["a_rotular"] == [1, 2, 3]
+    assert rel["notas_a_rotular"] == 3 and rel["conflitos"] == []
+
+
+def test_sem_v1_instantes_na_presenca_sem_coluna_e_com_pagina_sugerida() -> None:
+    """Instantes só onde há página, sem resposta, página sugerida e não confirmada."""
+    paginas = _paginas()
+    estado, _ = fundir_sem_v1(paginas, 120.0, 2.0, 10, 0)
+    instantes = estado["instantes"]
+    assert len(instantes) == 10
+    for i in instantes:
+        assert i["tela"] == pagina_em(paginas, i["t"]) and i["tela"] is not None
+        assert i["estado"] is None and i["coluna_x_quadro"] is None
+        assert i["tela_confirmada"] is False and i["pagina_sugerida"] is True
+    assert not any(60 <= i["t"] < 100 for i in instantes)  # fora das exibições
+
+
+def test_sem_v1_e_reprodutivel_e_depende_da_semente() -> None:
+    """Mesma semente, mesmos instantes; outra semente, outro sorteio."""
+    a = fundir_sem_v1(_paginas(), 120.0, 2.0, 10, 3)[0]["instantes"]
+    b = fundir_sem_v1(_paginas(), 120.0, 2.0, 10, 3)[0]["instantes"]
+    c = fundir_sem_v1(_paginas(), 120.0, 2.0, 10, 4)[0]["instantes"]
+    assert [i["t"] for i in a] == [i["t"] for i in b]
+    assert [i["t"] for i in a] != [i["t"] for i in c]
+
+
+def test_sem_v1_gera_ouro_inicial_valido_e_registra_a_sugestao() -> None:
+    """O ouro inicial é válido; instante respondido leva ``pagina_sugerida``."""
+    estado, rel = fundir_sem_v1(_paginas(), 120.0, 2.0, 4, 0)
+    pre = {
+        "video": "v.mp4",
+        "modelo": "m.pt",
+        "como_foi_rotulado": texto_sem_v1(rel),
+        "telas": [
+            {"id": p["id"], "quadro_ref_s": p["quadro_ref_s"]} for p in _paginas()
+        ],
+    }
+    inicial = montar_ouro(pre, estado, agora="2026-10-12T00:00:00")
+    assert validar_ouro(inicial) == []
+    assert all(t["conferida"] is False for t in inicial["telas"])
+    assert inicial["instantes"] == []  # nada respondido ainda
+    assert "viés" in inicial["como_foi_rotulado"]
+    estado["instantes"][0]["estado"] = "coluna"
+    estado["instantes"][0]["coluna_x_quadro"] = 33.0
+    estado["instantes"][1]["estado"] = "nenhuma"
+    ouro = montar_ouro(pre, estado)
+    assert validar_ouro(ouro) == []
+    assert len(ouro["instantes"]) == 2
+    assert all(i["pagina_sugerida"] is True for i in ouro["instantes"])
+    assert all(i["tela_confirmada"] is False for i in ouro["instantes"])

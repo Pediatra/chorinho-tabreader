@@ -5116,3 +5116,21 @@ Rodada [1006](docs/rodadas/1006-braco-calibrado-pela-musica.md). Homografia do b
 Rodada [1007](docs/rodadas/1007-braco-pela-musica-estabilizado.md). Consenso de 10 sementes + refino por reprojeção: grade estável (mediana 0,027 px entre execuções; 1,07 px sem os instantes do gabarito). **Dedo 42/53 (29/40) sem os instantes do gabarito**, igual à calibração feita à mão. Contra o gabarito do dono (q02): trastes 14/14 a < 1/4 de casa (0,032 casa), nut 0,036 casa; cordas ainda erram (0,11 do vão na corda 1). Correção das cordas pela imagem (janela por corda): não adotada, frágil.
 
 **Não repetir**: procurar cada corda numa janela própria (as primas têm contraste fraco e a janela corta o pico); atribuir as 6 juntas por espaçamento.
+
+## Tablatura — 2026-10-13 — Fase 8 (T8.1): ouro v2 inicial de 7 vídeos novos
+
+Escolha aprovada pelo dono (2026-10-12), 1 vídeo por canal, pelo censo v2 (`data/saida/fase8/candidatos.json`, folhas `folha_<canal>.jpg`); cifra club fora (falso positivo de presença), rolantes (leonardo ramos, mr. tabs) esperam o formato da T8.4.
+
+`python -m tab.ouro_video completar VIDEO --ouro-v2 data/gold/ouro_video/<slug>.json --saida data/saida/ouro_video/<slug>/` agora aceita vídeo **sem ouro v1**: páginas do `tab.telas` com as notas do modelo (todas `conferida: false`), 40 instantes sorteados dentro da presença (semente 0, grade 2 s) com a página **sugerida** pelo tempo (`pagina_sugerida: true`: viés de confirmação registrado), tela de borda a borda (o painel do `tab.telas` vinha parcial em 2 de 7), painel refeito só na faixa do `tab.telas` quando o quadro inteiro escolhe o braço do violão, página sem painel descartada e listada. `servir --host` para expor a porta do container. O caminho v1→v2 não mudou.
+
+| vídeo | páginas | notas do modelo | instantes |
+| --- | --- | --- | --- |
+| guitar dell'arte, South American Music | 7 (1 descartada; 5 são o braço do violão, falso positivo do `tab.telas`) | 168 | 40 |
+| robert lunn, Gymnopédie no.1 | 12 | 179 | 40 |
+| iwaki, La Vie en Rose | 8 | 423 | 40 |
+| kenneth acoustic, End of Beginning | 22 | 624 | 40 |
+| shin izumi, Room 335 | 42 | 998 | 40 |
+| pablo romé, Greensleeves | 4 | 90 | 40 |
+| kimny's guitar, From This Place | 5 | 389 | 40 |
+
+Gate: ruff ok, 620 testes (fora 2 arquivos não rastreados da trilha mãos, um deles com 1 falha da outra sessão). **Pendências**: rotulagem do dono (~2.870 notas no total; shin izumi sozinho tem 998); casas > 7 não aferidas (gymnopédie, room 335, from this place); iwaki/shin izumi/kimny sem marcador: instantes quase todos "nenhuma acesa".
