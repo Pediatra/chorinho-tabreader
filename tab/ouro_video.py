@@ -1701,7 +1701,8 @@ main{display:flex;gap:16px;padding:12px 16px}
 #conteudo{flex:1;min-width:0}
 .moldura{position:relative;display:inline-block;max-width:100%;border:1px solid var(--borda);cursor:crosshair;line-height:0}
 .moldura img{max-width:100%;height:auto;display:block}
-.caixa{position:absolute;outline:2px solid var(--caixa);outline-offset:4px;pointer-events:none}
+.caixa{position:absolute;outline:2px solid var(--caixa);outline-offset:4px;cursor:pointer}.caixa.nao{pointer-events:none}.caixa.editando{outline-width:3px;outline-color:#1565c0}
+.editor{position:absolute;z-index:4;display:flex;gap:4px;align-items:center;background:var(--fundo);border:1px solid var(--borda);border-radius:6px;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,.3);line-height:normal;cursor:default}.editor input{width:4.5em;font-size:16px}
 .caixa.nao{outline:1px dashed var(--suave)}.caixa.removida{opacity:.25}.caixa.dono{outline-style:dotted}
 .caixa b{position:absolute;left:-6px;top:-22px;background:var(--caixa);color:#fff;font-size:11px;line-height:14px;padding:0 3px;border-radius:3px}
 .copia{margin-top:6px;cursor:default;background:#fff}.copia img{opacity:.18}
@@ -1829,6 +1830,41 @@ function pintarRotulo(el, tp, n) {  /* cópia de baixo: azul = modelo; laranja =
 }
 function estiloCaixa(r) { return `left:${r.left}%;top:${r.top}%;width:${r.width}%;height:${r.height}%`; }
 
+let EDITAR = null;  /* id da nota com o editor aberto sobre a imagem */
+let IGNORAR_CLIQUE = false;  /* o clique que fechou o editor não acrescenta nota */
+function fecharEditor(redesenhar = true) {
+  if (EDITAR === null) return;
+  EDITAR = null;
+  if (redesenhar) desenhar();
+  else {  /* sem redesenhar: o clique que fechou segue para o botão onde caiu */
+    document.querySelectorAll(".editor").forEach(e => e.remove());
+    document.querySelectorAll(".caixa.editando").forEach(e => e.classList.remove("editando"));
+  }
+  window.scrollTo({top: 0});
+}
+document.addEventListener("mousedown", ev => {
+  IGNORAR_CLIQUE = false;
+  if (EDITAR === null || ev.target.closest(".editor")) return;
+  if (ev.target.closest(".caixa")) return;  /* outra caixa: ela mesma troca o editor */
+  IGNORAR_CLIQUE = !!ev.target.closest(".moldura");  /* fechar não acrescenta nota */
+  fecharEditor(false);
+}, true);
+function abrirEditor(mold, tp, te, n, r) {
+  const caixa = mold.querySelector(`[data-caixa="${n.id}"]`); if (caixa) caixa.classList.add("editando");
+  const campo = h("input", {value: n.casa, inputmode: "numeric", oninput: ev => {
+    n.casa = ev.target.value; mudou();
+    const el = document.querySelector(`[data-rotulo="${n.id}"]`); if (el) pintarRotulo(el, tp, n);
+    const tab = document.querySelector(`td input[data-nota="${n.id}"]`); if (tab) tab.value = n.casa;
+  }, onkeydown: ev => { if (ev.key === "Enter" || ev.key === "Escape") fecharEditor(); }});
+  const acao = h("button", {onclick: () => {
+    if (n.origem === "dono") te.notas.splice(te.notas.indexOf(n), 1); else n.removida = !n.removida;
+    mudou(); fecharEditor(); }}, n.origem === "dono" ? "apagar" : n.removida ? "restaurar" : "não é nota");
+  const ed = h("div", {class: "editor", style: `left:${r.left}%;top:calc(${r.top + r.height}% + 8px)`},
+    h("span", {class: "suave"}, "corda " + n.corda), campo, acao);
+  mold.append(ed);
+  campo.focus(); campo.select();
+}
+
 function desenharTela() {
   const c = document.getElementById("conteudo"); c.replaceChildren();
   if (E.tela_atual === null) { c.append("Sem telas."); return; }
@@ -1839,12 +1875,16 @@ function desenharTela() {
   const copia = h("div", {class: "moldura copia"}, h("img", {src: "/" + tp.arquivo, draggable: "false"}));
   te.notas.forEach((n, i) => {
     const r = caixaDe(tp, n);
-    mold.append(h("div", {class: "caixa" + (n.removida ? " removida" : "") + (n.origem === "dono" ? " dono" : ""), style: estiloCaixa(r), title: "#" + (i + 1)}));
+    mold.append(h("div", {class: "caixa" + (n.removida ? " removida" : "") + (n.origem === "dono" ? " dono" : ""), style: estiloCaixa(r),
+      title: "#" + (i + 1) + " — clique para corrigir", "data-caixa": n.id,
+      onclick: ev => { ev.stopPropagation(); EDITAR = n.id; desenhar(); }}));
     const rotulo = h("span", {"data-rotulo": n.id, title: "#" + (i + 1), style: `left:${r.left + r.width / 2}%;top:${r.top + r.height / 2}%`});
     pintarRotulo(rotulo, tp, n);
     copia.append(rotulo);
   });
   mold.addEventListener("click", ev => {
+    if (IGNORAR_CLIQUE) { IGNORAR_CLIQUE = false; return; }
+    if (ev.target.closest(".editor")) return;
     const rc = mold.getBoundingClientRect();
     if (rc.width < 50) return;  /* imagem ainda não carregou */
     const fx = (ev.clientX - rc.left) / rc.width, fy = (ev.clientY - rc.top) / rc.height;
@@ -1852,7 +1892,8 @@ function desenharTela() {
     const xq = cliqueParaQuadro(xImg, tp.escala, tp.painel[0]), yq = cliqueParaQuadro(yImg, tp.escala, tp.painel[1]);
     te.notas.push({id: "d" + (E.proximo++), corda: cordaMaisProxima(yq, tp.linhas_y), casa: "", x_centro_quadro: Math.round(xq * 10) / 10,
       x_quadro: Math.round((xq - 0.25 * tp.passo) * 10) / 10, origem: "dono", removida: false});
-    mudou(); desenhar(true);
+    EDITAR = te.notas[te.notas.length - 1].id;
+    mudou(); desenhar();
   });
   const outras = E.telas.filter(t => t.id !== te.id);
   const sel = h("select", {onchange: ev => { te.junta_em = ev.target.value ? Number(ev.target.value) : null; mudou(); desenhar(); }},
@@ -1878,8 +1919,10 @@ function desenharTela() {
       h("button", {class: te.conferida ? "ok" : "", onclick: () => { te.conferida = !te.conferida; mudou(); desenhar(); }}, te.conferida ? "✓ conferida" : "tela conferida"),
       sel,
       h("button", {onclick: () => { const p = E.telas.find(t => !t.conferida && !t.junta_em && t.id !== te.id); if (p) { E.tela_atual = p.id; desenhar(); } }}, "próxima não conferida")),
-    h("div", {class: "suave"}, "Clique na imagem para acrescentar uma nota que faltou (a corda sai da linha mais próxima). Corrija só a casa que estiver errada."),
+    h("div", {class: "suave"}, "Clique numa caixa vermelha para corrigir a casa (Enter ou clique fora fecha). Clique fora das caixas para acrescentar uma nota que faltou (a corda sai da linha mais próxima)."),
     mold, copia, sem ? h("div", {class: "linha", style: "color:var(--ruim)"}, sem + " nota(s) sem casa não serão gravadas") : "", tabela);
+  const editando = te.notas.find(n => n.id === EDITAR);
+  if (editando) abrirEditor(mold, tp, te, editando, caixaDe(tp, editando)); else EDITAR = null;
 }
 
 /* ---- aba INSTANTES ---- */
@@ -1893,6 +1936,8 @@ function desenharInstante() {
   if (ie.estado === "coluna") mold.append(h("div", {class: "coluna", style: `left:${(ie.coluna_x_quadro - ip.recorte[0]) / w * 100}%`}));
   const avancar = () => { OUTRA = false; if (E.inst_atual < E.instantes.length - 1) E.inst_atual++; desenhar(); };
   mold.addEventListener("click", ev => {
+    if (IGNORAR_CLIQUE) { IGNORAR_CLIQUE = false; return; }
+    if (ev.target.closest(".editor")) return;
     const rc = mold.getBoundingClientRect(); if (rc.width < 50) return;
     const fx = (ev.clientX - rc.left) / rc.width;
     ie.estado = "coluna"; ie.coluna_x_quadro = Math.round(cliqueParaQuadro(fx * w * ip.escala, ip.escala, ip.recorte[0]) * 10) / 10;
