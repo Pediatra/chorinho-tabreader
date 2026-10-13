@@ -8,7 +8,9 @@ e aperta "confirmar compasso".
 O registro de cada compasso (formato 2) guarda:
 
 - ``dedos``: por nota ``{corda, casa, t_ini, palpite, regra, dono}``. ``palpite`` e
-  ``regra`` são o que a regra disse e o dono viu; ``dono`` é o dedo confirmado;
+  ``regra`` são o que a regra disse e o dono viu; ``dono`` é o dedo confirmado, ou ``l``
+  quando a nota é ligada (slide, hammer-on, pull-off: sem ataque da direita). A regra nunca
+  dá ``l``, então marcar ``l`` conta como troca;
 - ``alteradas``: quantas notas o dono trocou (``dono != palpite``);
 - ``confirmado``, ``obs``, ``respondido_em``.
 
@@ -49,8 +51,9 @@ from .maos_regra_direita import atribuir_dedos_direita
 #: Formato do gabarito dos padrões (2: confirmação por nota). O servidor só aceita este.
 FORMATO_GABARITO = 2
 
-#: Dedos da mão direita que o dono pode escolher.
-DEDOS = ("p", "i", "m", "a")
+#: Valores de ``dono`` aceitos: os dedos da mão direita e ``"l"`` (ligada: nota presa por
+#: slide, hammer-on ou pull-off, sem ataque da direita).
+DEDOS = ("p", "i", "m", "a", "l")
 
 #: Tamanho máximo de ``obs``.
 TAMANHO_OBS_MAXIMO = 500
@@ -63,7 +66,8 @@ CAMPOS_PRESERVADOS = ("dedos", "alteradas", "confirmado", "obs", "respondido_em"
 
 COMO_FOI_ROTULADO = (
     "dono confirma, por compasso tocado, o dedo de cada nota sugerido pela regra "
-    "(tab.maos_regra_direita); ferramenta tab.maos_padroes servir"
+    "(tab.maos_regra_direita), ou marca 'l' se a nota é ligada (sem ataque da direita); "
+    "ferramenta tab.maos_padroes servir"
 )
 
 #: Tipos de arquivo que o servidor entrega da pasta do material.
@@ -105,7 +109,8 @@ def validar_dedos(donos: object, n_notas: int) -> list[str]:
     """Confere os dedos confirmados pelo dono, um por nota do compasso.
 
     Args:
-        donos: lista de dedos (``p``, ``i``, ``m``, ``a``), na ordem das notas.
+        donos: lista de dedos (``p``, ``i``, ``m``, ``a``) ou ``l`` (ligada), na ordem das
+            notas.
         n_notas: quantas notas o compasso tem.
 
     Returns:
@@ -594,6 +599,8 @@ h2 { font-size: 1.05rem; margin: 0 0 8px; }
 .nota { display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center;
   padding:9px 8px; border-bottom:1px solid var(--borda); border-left:4px solid transparent; }
 .nota.trocada { border-left-color: var(--aviso); }
+.nota.ligada .tempo, .nota.ligada .local { text-decoration: line-through; color: var(--apagado); }
+.opcoes .lig { margin-left: 14px; border-style: dashed; }
 .nota .tempo { min-width: 96px; font-variant-numeric: tabular-nums; font-weight:600; }
 .nota .local { min-width: 120px; }
 .nota .regra { flex-basis:100%; font-size:.82rem; color:var(--apagado); }
@@ -624,6 +631,7 @@ textarea { width:100%; box-sizing:border-box; font:inherit; padding:8px; min-hei
     <li>Veja o vídeo <em>lento</em> (0,5×) e o normal. A tablatura embaixo mostra o compasso em vermelho.</li>
     <li>A lista mostra cada nota (tempo, corda, casa) com o <strong>dedo que a regra achou</strong> já marcado.</li>
     <li>Só clique no dedo que estiver <strong>errado</strong>. Se estiver certo, não mexa.</li>
+    <li>Se a nota for <strong>ligada</strong> (slide, hammer-on, pull-off: a direita não ataca), clique em <strong>lig</strong>. Ela fica riscada e conta como troca.</li>
     <li>Aperte <strong>Confirmar compasso</strong>. Isso grava e avança para o próximo pendente.</li>
   </ol>
   <div class="info">Nada é gravado até confirmar. Confirmar grava tudo que está na tela, inclusive o que
@@ -678,7 +686,8 @@ textarea { width:100%; box-sizing:border-box; font:inherit; padding:8px; min-hei
 </main>
 
 <script>
-const ROTULOS = { p: "polegar", i: "indicador", m: "médio", a: "anelar" };
+const ROTULOS = { p: "polegar", i: "indicador", m: "médio", a: "anelar",
+  l: "ligado — sem ataque da direita (slide, hammer-on, pull-off…)" };
 let itens = [];
 let gabarito = null;
 let atual = 0;
@@ -743,7 +752,8 @@ function render() {
   lista.innerHTML = "";
   it.notas.forEach((n, k) => {
     const linha = document.createElement("div");
-    linha.className = "nota" + (cur.dedos[k] !== n.palpite ? " trocada" : "");
+    linha.className = "nota" + (cur.dedos[k] !== n.palpite ? " trocada" : "")
+      + (cur.dedos[k] === "l" ? " ligada" : "");
     const tempo = document.createElement("span");
     tempo.className = "tempo";
     tempo.textContent = `${n.t_ini.toFixed(2)} s`;
@@ -761,6 +771,14 @@ function render() {
       b.addEventListener("click", () => trocarDedo(k, d));
       opc.appendChild(b);
     });
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "lig";
+    b.textContent = "lig";
+    b.title = ROTULOS.l;
+    if (cur.dedos[k] === "l") b.classList.add("marcado");
+    b.addEventListener("click", () => trocarDedo(k, "l"));
+    opc.appendChild(b);
     const regra = document.createElement("div");
     regra.className = "regra";
     regra.textContent = `palpite da regra: ${n.palpite} (${n.regra})`;

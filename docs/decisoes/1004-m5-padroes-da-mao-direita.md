@@ -73,6 +73,7 @@ casa 1, corda 2 casa 0 → `i, m, a`.
 troca o que estiver errado e confirma. Formato 2 do gabarito, por compasso: `dedos`
 (`corda`, `casa`, `t_ini`, `palpite`, `regra`, `dono`), `alteradas`, `confirmado`, `obs`,
 `respondido_em`. `alteradas` / notas é a taxa de erro da regra.
+A pedido do dono, ele pode marcar `l` numa nota ligada (slide, hammer-on, pull-off; sem ataque da direita): a regra nunca dá `l`, então a marcação conta como troca em `alteradas`.
 
 **Página**: 20 dos 40 compassos (os ímpares, 5 por vídeo, `na_pagina` no `indice.json`).
 

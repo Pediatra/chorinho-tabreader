@@ -86,11 +86,24 @@ def test_validar_dedos_aceita_lista_do_tamanho_das_notas():
         (["p", "i", "x"], 3),  # dedo fora do vocabulário
         ("pim", 3),  # não é lista
         (["p", "?", "m"], 3),  # "?" não existe aqui: o dono confirma ou troca
+        (["p", "L", "m"], 3),  # maiúscula não é o valor "l"
     ],
 )
 def test_validar_dedos_recusa_o_que_nao_bate(donos, n):
     with pytest.raises(ValueError):
         validar_dedos(donos, n)
+
+
+def test_validar_dedos_aceita_l_ligada():
+    assert validar_dedos(["p", "l", "m"], 3) == ["p", "l", "m"]
+
+
+def test_confirmar_com_l_grava_ligada_e_conta_como_troca():
+    gab = gabarito_novo(ITENS, 1)
+    reg = confirmar_compasso(gab, "c01", NOTAS_A, ["i", "l", "a"], None, "agora")
+    assert reg["dedos"][1]["dono"] == "l"
+    assert reg["dedos"][1]["palpite"] == "m"  # a regra nunca dá "l"
+    assert reg["alteradas"] == 1
 
 
 def test_validar_obs_limpa_vazio_e_limita_tamanho():
