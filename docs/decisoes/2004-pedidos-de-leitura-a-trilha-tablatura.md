@@ -17,7 +17,7 @@ documento.
 
 | # | o quê | onde foi visto | evidência |
 | --- | --- | --- | --- |
-| 1 | **Notas lidas uma corda abaixo** (grade de cordas deslocada; a nota da 1ª linha some) | guitarous *sakura*, telas 1–9 | rodada 2010; `data/saida/audio/a4/lote1/quadros/guitarous_sakura_t3.png`; alinhador 0 de 62 |
+| 1 | ~~Notas lidas uma corda abaixo~~ **Notas perdidas** (resposta da tablatura: as cordas estão certas; algarismos encostados em hastes, acordes empilhados ou fundo cinza viram barline e são descartados, 19 de 19 numa tela) | guitarous *sakura*, telas 1–9 | rodada 2010 (corrigida); `data/saida/sakura_cordas/` (tablatura); alinhador 0 de 62 |
 | 2 | **Corda 1 quase ausente** (4 % das notas, contra 17–27 % nos outros vídeos); pausa lida como nota | shin izumi *room 335* | rodada 2009; `data/saida/audio/a4/shin/quadros/` (telas 12, 25) |
 | 3 | **Números de dois algarismos mal lidos** (13, 12, 10, 15, (12) viram 21, 17, 14…); ~25 colunas na imagem, 7 no produto | iwaki *fly me to the moon*, tela 10 | rodada 2011; `data/saida/audio/a4/alarme/quadros/iwaki_fly_me_to_the_moon_t10.png` |
 | 4 | **Acordes dentro de elipse ignorados**; acordes 6/6/6, 7/5/5 e 5/5/5 perdidos; ligadura (6)(6) lida como (1,6)(1,0); a corda 6 encosta na borda de baixo do painel | shin izumi *giant steps*, tela 5 | rodada 2011; `data/saida/audio/a4/alarme/quadros/shin_izumi_giant_steps_t5.png` |
@@ -52,3 +52,15 @@ de glifos, porque vem do som.
   foram olhadas.
 - sem alarme: MVP, iwaki *la vie en rose*, iwaki *michelle*, kimny *from this place*,
   kimny *群青*, kimny *bach prelude*, paolo d'angelo *those who wait*
+
+## Resposta da trilha tablatura (2026-10-13)
+
+1. Sakura: não é deslocamento de corda, é nota perdida (item 1 corrigido). Duas correções
+   foram medidas e reprovadas; sem conserto por ora.
+2. Room 335, corda 1: vão medir com o ouro que o dono está rotulando. A causa provável é a
+   mesma do sakura.
+3. Dois algarismos: fica para depois, porque pede retreino (o gerador cobre as casas 0 a 7).
+4. Marcador não lido (item 10): começam agora, por leonardo ramos e mr. tabs.
+5. Ritmo do kenneth e página do vvxo (itens 11 e 12): na fila, depois do marcador.
+6. X do rasgueado (item 9): o leitor do produto continua o `oficial_3`. A trilha tablatura
+   avisa antes de trocá-lo, e a troca virá com classe própria para o X.

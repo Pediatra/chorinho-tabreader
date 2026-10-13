@@ -75,3 +75,10 @@ Cadeia por vídeo: `tab.video` (CPU) → `tab.audio_extrair` → `tab.audio_alin
 
 1 vídeo a 2 por canal; tempo não conferido de ouvido neste lote (a precisão de ~100 ms vem
 das folhas, em outros vídeos); 2 dos 4 vídeos fracos não olhados.
+
+## Correção (2026-10-13)
+
+A trilha tablatura conferiu o sakura. As cordas estão no lugar: o que acontece é que notas são
+**perdidas**, quase todas nas cordas 1 e 2. Os algarismos encostados em hastes de ritmo, em
+acordes empilhados ou no fundo cinza são tomados por barline e descartados. A leitura "uma
+corda abaixo" acima estava errada; continua sendo erro de leitura (decisão 2004, item 1).
