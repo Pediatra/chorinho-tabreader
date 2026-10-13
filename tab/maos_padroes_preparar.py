@@ -22,7 +22,6 @@ Uso::
 from __future__ import annotations
 
 import argparse
-import copy
 import json
 import random
 import statistics
@@ -42,6 +41,7 @@ from .caminhos import (
     acervo,
 )
 from .maos_gabarito import ampliar_caixa, gravar_atomico
+from .maos_padroes import gabarito_novo, mesclar_gabarito
 
 #: Semente do sorteio do M5 (a da decisão 1004).
 SEMENTE_PADRAO = 20261013
@@ -66,12 +66,6 @@ N_PROXIMOS = 5
 
 #: Margem, em pixels, do retângulo que marca o compasso no ``tab.png``.
 MARGEM_RETANGULO_PX = 20
-
-#: Formato do gabarito dos padrões.
-FORMATO_GABARITO = 1
-
-#: Campos que o dono responde (copiados na mesclagem).
-CAMPOS_RESPOSTA = ("tipo", "sequencia", "alternancia", "apoio", "obs")
 
 #: Os quatro vídeos do M5: o produto (telas e notas) e as pontas das mãos.
 VIDEOS = (
@@ -359,105 +353,29 @@ def nome_do_item(indice: int) -> str:
 
 
 # ---------------------------------------------------------------------------------
-# Gabarito (funções puras)
+# Página (funções puras)
 # ---------------------------------------------------------------------------------
 
 
-def registro_em_branco(item: dict) -> dict:
-    """Resposta de um compasso, sem nada marcado.
+def escolher_pagina(itens: list[dict]) -> set[str]:
+    """Ids da página: os compassos de posição ímpar dentro de cada vídeo.
+
+    Mantém a estratificação: a amostra de cada vídeo vem em ordem de tempo, e a página
+    fica com a 1ª, 3ª, 5ª... (c01, c03, ...). Os pares continuam no gabarito.
 
     Args:
-        item: entrada do ``indice.json`` (com ``video``, ``tela``, ``compasso``,
-            ``exibicao``).
+        itens: entradas do ``indice.json``, na ordem da amostra.
 
     Returns:
-        Registro com os campos de resposta em ``None``.
+        Conjunto dos ids que a página mostra.
     """
-    return {
-        "video": item["video"],
-        "tela": item["tela"],
-        "compasso": item["compasso"],
-        "exibicao": item["exibicao"],
-        "tipo": None,
-        "sequencia": None,
-        "alternancia": None,
-        "apoio": None,
-        "obs": None,
-        "respondido_em": None,
-    }
-
-
-def gabarito_novo(itens: list[dict], semente: int) -> dict:
-    """Gabarito sem respostas para a amostra dada.
-
-    Args:
-        itens: entradas do ``indice.json``.
-        semente: semente do sorteio.
-
-    Returns:
-        Dicionário no formato 1, com um registro por id.
-    """
-    return {
-        "formato": FORMATO_GABARITO,
-        "como_foi_rotulado": (
-            "dono, por compasso, na ferramenta tab.maos_padroes servir; a unidade é o "
-            "compasso tocado (tela, compasso, exibicao)"
-        ),
-        "semente": semente,
-        "ferramenta": "tab.maos_padroes",
-        "itens": {it["id"]: registro_em_branco(it) for it in itens},
-    }
-
-
-def tem_resposta(registro: dict) -> bool:
-    """Se o compasso já foi respondido alguma vez.
-
-    Args:
-        registro: resposta de um compasso.
-
-    Returns:
-        True quando ``respondido_em`` está preenchido.
-    """
-    return registro.get("respondido_em") is not None
-
-
-def mesclar_gabarito(novo: dict, existente: dict | None) -> dict:
-    """Mescla o gabarito recém-sorteado com o que já está no disco.
-
-    Cada resposta do existente é copiada para o item novo de mesmo id, desde que o
-    vídeo, a tela, o compasso e a exibição batam. Nunca apaga resposta.
-
-    Args:
-        novo: gabarito gerado pela amostra atual.
-        existente: gabarito do disco, ou ``None``.
-
-    Returns:
-        O gabarito novo, com as respostas do existente.
-
-    Raises:
-        ValueError: se o formato for outro, ou se uma resposta não couber na amostra.
-    """
-    if existente is None:
-        return novo
-    if existente.get("formato") != FORMATO_GABARITO:
-        raise ValueError(
-            f"gabarito existente tem formato {existente.get('formato')}, "
-            f"esperado {FORMATO_GABARITO}"
-        )
-    for id_item, antigo in existente.get("itens", {}).items():
-        if not tem_resposta(antigo):
-            continue
-        if id_item not in novo["itens"]:
-            raise ValueError(f"{id_item} tem resposta mas não está na amostra nova")
-        atual = novo["itens"][id_item]
-        for campo in ("video", "tela", "compasso", "exibicao"):
-            if antigo.get(campo) != atual[campo]:
-                raise ValueError(
-                    f"{id_item} tem resposta de outro compasso; não mesclou"
-                )
-        for campo in (*CAMPOS_RESPOSTA, "respondido_em"):
-            atual[campo] = copy.deepcopy(antigo.get(campo))
-    return novo
+    posicao: dict[str, int] = {}
+    escolhidos: set[str] = set()
+    for item in itens:
+        posicao[item["video"]] = posicao.get(item["video"], 0) + 1
+        if posicao[item["video"]] % 2 == 1:
+            escolhidos.add(item["id"])
+    return escolhidos
 
 
 # ---------------------------------------------------------------------------------
@@ -683,6 +601,10 @@ def _preparar_compasso(
         "caixa": caixa,
         "caixa_origem": origem,
         "pasta": item["id"],
+        "notas": [
+            {"corda": n["corda"], "casa": n["casa"], "t_ini": n["t_ini"]}
+            for n in compasso["notas"]
+        ],
     }
 
 
@@ -735,6 +657,9 @@ def preparar(saida: Path, gabarito: Path, semente: int) -> int:
                     pasta,
                 )
             )
+    na_pagina = escolher_pagina(indice)
+    for entrada in indice:
+        entrada["na_pagina"] = entrada["id"] in na_pagina
     gravar_atomico(
         saida / "indice.json",
         {"semente": semente, "itens": indice},

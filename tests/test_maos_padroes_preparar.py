@@ -1,4 +1,4 @@
-"""Testes do preparo dos padrões da mão direita (M5): amostra, caixa, janela e gabarito."""
+"""Testes do preparo dos padrões da mão direita (M5): amostra, caixa, janela e página."""
 
 from __future__ import annotations
 
@@ -14,9 +14,8 @@ from tab.maos_padroes_preparar import (
     caixas_da_direita,
     comando_clipe,
     compassos_tocados,
-    gabarito_novo,
+    escolher_pagina,
     janela_do_compasso,
-    mesclar_gabarito,
     nome_do_item,
     notas_com_tempo,
 )
@@ -152,30 +151,11 @@ def test_nome_do_item_tem_dois_digitos():
     assert nome_do_item(40) == "c40"
 
 
-def _itens() -> list[dict]:
-    return [
-        {"id": "c01", "video": "v1.mp4", "tela": 1, "compasso": 2, "exibicao": 0},
-        {"id": "c02", "video": "v1.mp4", "tela": 1, "compasso": 3, "exibicao": 0},
+def test_escolher_pagina_pega_os_impares_de_cada_video():
+    itens = [
+        {"id": f"c{k:02d}", "video": "a.mp4" if k <= 10 else "b.mp4"}
+        for k in range(1, 21)
     ]
-
-
-def test_mesclar_mantem_resposta_existente():
-    existente = gabarito_novo(_itens(), 1)
-    existente["itens"]["c01"]["tipo"] = "arpejo"
-    existente["itens"]["c01"]["respondido_em"] = "2026-10-13T10:00:00"
-    novo = mesclar_gabarito(gabarito_novo(_itens(), 1), existente)
-    assert novo["itens"]["c01"]["tipo"] == "arpejo"
-    assert novo["itens"]["c01"]["respondido_em"] == "2026-10-13T10:00:00"
-    assert novo["itens"]["c02"]["tipo"] is None
-
-
-def test_mesclar_recusa_resposta_de_outro_compasso():
-    existente = gabarito_novo(_itens(), 1)
-    existente["itens"]["c01"]["respondido_em"] = "2026-10-13T10:00:00"
-    existente["itens"]["c01"]["compasso"] = 99
-    try:
-        mesclar_gabarito(gabarito_novo(_itens(), 1), existente)
-    except ValueError as erro:
-        assert "outro compasso" in str(erro)
-    else:
-        raise AssertionError("deveria recusar a mesclagem")
+    escolhidos = escolher_pagina(itens)
+    assert escolhidos == {f"c{k:02d}" for k in (1, 3, 5, 7, 9, 11, 13, 15, 17, 19)}
+    assert len(escolhidos) == 10

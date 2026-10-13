@@ -47,3 +47,40 @@ ataques. A visão (trajetória das pontas da direita) só entra se superar a bas
   a nota do M2, que fica só como indicativa.
 - Se o dono achar que 40 compassos de 4 vídeos de um canal só não bastam, a amostra cresce
   depois, sem mudar o formato.
+
+## Revisão (2026-10-13): regra do dono + confirmação, gabarito do zero
+
+O dono achou o rótulo por campos trabalhoso demais ("qual a utilidade de eu rotular isso?") e
+propôs trocar o gabarito pela lógica do dedilhado, que vale para ~90% das músicas. A unidade
+(compasso tocado), o material (clipes) e a amostra de 40 continuam; muda o que o dono faz.
+
+**Regra** (`tab/maos_regra_direita.py`, só tablatura, sem visão), na ordem:
+
+1. padrão da corda: 6, 5, 4 → `p`; 3 → `i`; 2 → `m`; 1 → `a`;
+2. exceção do bordão: corda 4 com polegar na 5 ou 6 no mesmo ataque, ou no ataque anterior
+   até `JANELA_POLEGAR_S` = 0,25 s ("logo abaixo") → `i`;
+3. acorde: notas fora do polegar recebem `i`, `m`, `a` da corda mais grave para a mais
+   aguda, sem nunca ficar abaixo do padrão da corda (cordas 3 e 1 → `i`, `a`);
+4. sequência: ataques de uma nota fora do polegar até `JANELA_SEQUENCIA_S` = 0,6 s, na
+   mesma corda ou mais aguda, avançam `i` → `m` → `a`; passando de `a`, volta ao padrão.
+   A sequência vale mais que a exceção do bordão; um acorde zera a sequência.
+
+As duas janelas e as três escolhas da regra 3 e 4 foram confirmadas pelo dono no chat.
+Os exemplos dele viram teste: corda 3 casas 4-5-6 → `i, m, a`; corda 3 casa 2, corda 3
+casa 1, corda 2 casa 0 → `i, m, a`.
+
+**Rótulo**: a página mostra as notas do compasso com o palpite da regra marcado; o dono só
+troca o que estiver errado e confirma. Formato 2 do gabarito, por compasso: `dedos`
+(`corda`, `casa`, `t_ini`, `palpite`, `regra`, `dono`), `alteradas`, `confirmado`, `obs`,
+`respondido_em`. `alteradas` / notas é a taxa de erro da regra.
+
+**Página**: 20 dos 40 compassos (os ímpares, 5 por vídeo, `na_pagina` no `indice.json`).
+
+**Gabarito antigo**: o dono mandou descartar as 2 respostas do formato 1 ("vamos começar do
+0"). Cópia de registro em `data/saida/maos/m5/padroes_direita_formato1_descartado.json`;
+não é gabarito.
+
+**Sanidade indicativa** contra a direita nota a nota do M2 (que o dono declarou parcial e
+em parte inferida; a regra **não** foi ajustada a ela): 35/53 (66%). Quase todos os erros
+são do padrão da corda (dono marcou `a` ou `i` onde a regra dá `p`/`m`). Detalhe em
+`data/saida/maos/m5/sanidade_regra_direita.json`. O número que vale é o `alteradas` do M5.
