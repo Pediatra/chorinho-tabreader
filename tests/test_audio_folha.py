@@ -165,7 +165,7 @@ def test_pedido_aceita_nota_sem_exibicao() -> None:
 
 def test_sorteio_e_deterministico_e_estratificado(tmp_path: Path) -> None:
     """Mesma semente, mesmos pedidos; por vídeo, as exibições saem em partes iguais."""
-    produtos = {"x/y.mp4": _produto("x/y.mp4")}
+    produtos = {"/acervo/x/y.mp4": _produto("x/y.mp4")}
     itens = _itens("/acervo/x/y.mp4")
 
     primeiro = af.sortear_pedidos(itens, produtos, por_video=4, semente=7)
@@ -217,3 +217,64 @@ def test_pagina_tem_video_e_tres_respostas_por_clipe(tmp_path: Path) -> None:
     assert "http://" not in texto and "https://" not in texto
     assert 'src="p1.mp4"' in texto
     assert "corda 2 casa 0 + corda 5 casa 3" in texto
+
+
+def test_itens_afirmados_exclui_sem_tempo_e_exibicao_recusada() -> None:
+    """Só entram colunas com ``t_audio`` em exibições não recusadas."""
+    alinhamento = {
+        "video": {"arquivo": "/acervo/x/y.mp4"},
+        "exibicoes": [
+            {"tela": 1, "exibicao": 0, "recusada_exibicao": False, "T_usado_s": 0.6},
+            {"tela": 2, "exibicao": 0, "recusada_exibicao": True, "T_usado_s": 0.4},
+        ],
+        "colunas": [
+            {
+                "tela": 1,
+                "exibicao": 0,
+                "coluna": 1,
+                "t_audio": 3.0,
+                "confianca": 0.9,
+                "motivo": None,
+                "cos": 0.8,
+            },
+            {
+                "tela": 1,
+                "exibicao": 0,
+                "coluna": 2,
+                "t_audio": None,
+                "confianca": None,
+                "motivo": "fora_do_trecho",
+                "cos": None,
+            },
+            {
+                "tela": 2,
+                "exibicao": 0,
+                "coluna": 1,
+                "t_audio": 4.0,
+                "confianca": 0.9,
+                "motivo": None,
+                "cos": 0.8,
+            },
+        ],
+    }
+    itens = af.itens_afirmados(alinhamento)
+    assert [(i["tela"], i["coluna"]) for i in itens] == [(1, 1)]
+    assert itens[0]["T_usado_s"] == 0.6
+    assert itens[0]["video"] == "/acervo/x/y.mp4"
+
+
+def test_pedido_usa_notas_de_outra_exibicao_quando_falta_na_propria() -> None:
+    """Coluna afirmada na exibição 0 sem nota nela usa as notas da coluna (MVP, tela 9 col 9)."""
+    produto = _produto("x/y.mp4")
+    for nota in produto["notas"]:
+        nota["exibicao"] = 1
+    item = {
+        "video": "/acervo/x/y.mp4",
+        "tela": 1,
+        "exibicao": 0,
+        "coluna": 2,
+        "t_audio": 3.0,
+    }
+    pedido = af._pedido_do_item(item, produto, 1)
+    assert pedido["notas"]
+    assert {tuple(n) for n in pedido["notas"]} == {(3, 2)}

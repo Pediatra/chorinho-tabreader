@@ -12,10 +12,14 @@ exatamente no instante pedido. Três subcomandos:
 
 Uso::
 
-    python -m tab.audio_folha clipes --pedidos PEDIDOS.json --pasta PASTA
-    python -m tab.audio_folha pagina --pasta PASTA
-    python -m tab.audio_folha sortear --alinhados A.json [B.json ...] --por-video K \\
-        --semente S --saida PEDIDOS.json
+    python -m tab.audio_folha clipes --pedidos PEDIDOS.json --pasta PASTA [--manifesto M.json]
+    python -m tab.audio_folha pagina --pasta PASTA [--manifesto M.json]
+    python -m tab.audio_folha sortear --alinhado ALINHADO1.json PRODUTO1.json \\
+        [ALINHADO2.json PRODUTO2.json ...] --por-video K --semente S --saida PEDIDOS.json
+
+O ``--manifesto`` deixa o manifesto FORA da pasta servida (a página só deve ter index.html e
+os MP4). ``sortear`` recebe pares: a saída de ``tab.audio_alinhar`` (traz o vídeo) e o
+produto ``tab.video`` do mesmo vídeo (traz painel, passo e notas).
 """
 
 import argparse
@@ -33,7 +37,6 @@ from pathlib import Path
 import numpy as np
 
 from .audio_extrair import garantir, indice_de, instante_de
-from .caminhos import SAIDA
 
 #: Metade da janela do clipe: de ``t_audio - JANELA_S`` a ``t_audio + JANELA_S``.
 JANELA_S = 2.0
@@ -52,6 +55,10 @@ ESPESSURA_DESTAQUE = 3
 
 #: Taxa do áudio do clipe e da trilha de cliques, em Hz.
 TAXA_MIX = 48000
+
+#: Ganho do áudio original na mistura (0,5 = -6 dB). Com 1,0 o pico decodificado passava de 1
+#: (saturação) em clipes com música forte + clique. Vale na mistura e na medição.
+GANHO_MUSICA = 0.5
 
 #: Duração de cada clique, em segundos.
 DURACAO_CLIQUE_S = 0.010
@@ -77,9 +84,6 @@ MARGEM_QUADRO_S = 0.25
 
 #: Prefixo do acervo dentro do container.
 PREFIXO_ACERVO = "/acervo/"
-
-#: Pasta, dentro de ``SAIDA``, onde ficam os produtos ``tab.video`` dos vídeos.
-PASTA_PRODUTOS = SAIDA / "audio" / "a2" / "produtos"
 
 #: Modelo da página. Os marcadores ``__TITULO__``, ``__NOME_JS__`` e ``__DADOS__`` são trocados.
 _MODELO_HTML = """<!doctype html>
@@ -675,7 +679,7 @@ def medir_clipe(clipe: Path, video: str, inicio: float, t_clique_rel: float) -> 
         ``pico_saida``, ``erro_quadro_ms`` e ``margem_quadro``.
     """
     saida = _audio_mono(str(clipe), None)
-    original = _audio_mono(video, inicio)
+    original = _audio_mono(video, inicio) * GANHO_MUSICA
     atraso = _atraso_amostras(saida, original)
     residuo = _residuo(saida, original, atraso)
     t_medido, similaridade = _achar_clique(residuo, t_clique_rel)
@@ -740,7 +744,7 @@ def gerar_clipe(
     filtro = (
         f"[0:v]drawbox=x={x}:y={y}:w={w}:h={h}:color=yellow:t={ESPESSURA_DESTAQUE},"
         f"scale={largura_saida}:-2[v];"
-        "[0:a]aresample=48000,aformat=channel_layouts=stereo[a];"
+        f"[0:a]aresample=48000,aformat=channel_layouts=stereo,volume={GANHO_MUSICA}[a];"
         "[1:a]aformat=channel_layouts=stereo[c];"
         "[a][c]amix=inputs=2:duration=first:dropout_transition=0:normalize=0[m]"
     )
@@ -828,12 +832,14 @@ def _gravar_json(caminho: Path, dados: object) -> None:
     os.replace(temporario, caminho)
 
 
-def cmd_clipes(pedidos_arq: Path, pasta: Path) -> int:
-    """Gera os clipes de uma lista de pedidos e o ``manifesto.json`` da pasta.
+def cmd_clipes(pedidos_arq: Path, pasta: Path, manifesto_arq: Path | None) -> int:
+    """Gera os clipes de uma lista de pedidos e grava o manifesto.
 
     Args:
         pedidos_arq: JSON com a lista de pedidos.
-        pasta: pasta de saída.
+        pasta: pasta de saída (os MP4 vão para cá).
+        manifesto_arq: onde gravar o manifesto; ``None`` grava ``pasta/manifesto.json``.
+            Para folha servida por HTTP, use um caminho FORA da pasta servida.
 
     Returns:
         Código de saída (0 se deu certo).
@@ -850,7 +856,7 @@ def cmd_clipes(pedidos_arq: Path, pasta: Path) -> int:
             f"tamanho={entrada['tamanho_bytes'] / 1e6:.2f} MB "
             f"duracao={entrada['duracao_s']} s"
         )
-    _gravar_json(pasta / "manifesto.json", manifesto)
+    _gravar_json(manifesto_arq or pasta / "manifesto.json", manifesto)
     print(f"{len(manifesto)} clipes em {pasta}")
     return 0
 
@@ -901,11 +907,12 @@ def _cartoes(clipes: list[dict]) -> str:
     return "\n".join(blocos)
 
 
-def gerar_pagina(pasta: Path) -> Path:
-    """Gera o ``index.html`` estático da folha a partir do ``manifesto.json``.
+def gerar_pagina(pasta: Path, manifesto_arq: Path | None = None) -> Path:
+    """Gera o ``index.html`` estático da folha a partir do manifesto.
 
     Args:
-        pasta: pasta com o manifesto e os MP4.
+        pasta: pasta onde o ``index.html`` é gravado e onde estão os MP4.
+        manifesto_arq: manifesto; ``None`` usa ``pasta/manifesto.json``.
 
     Returns:
         O caminho do ``index.html`` gerado.
@@ -913,7 +920,8 @@ def gerar_pagina(pasta: Path) -> Path:
     Raises:
         FileNotFoundError: se não houver ``manifesto.json`` na pasta.
     """
-    manifesto = json.loads((pasta / "manifesto.json").read_text(encoding="utf-8"))
+    arq = manifesto_arq or pasta / "manifesto.json"
+    manifesto = json.loads(arq.read_text(encoding="utf-8"))
     nome = pasta.name
     clipes = [
         {"id": e["id"], "arquivo": e["arquivo"], "rotulo": _rotulo_pagina(e)}
@@ -931,32 +939,91 @@ def gerar_pagina(pasta: Path) -> Path:
     return destino
 
 
-def ler_alinhados(caminhos: list[str]) -> list[dict]:
-    """Lê os itens do alinhador de um ou mais arquivos JSON.
-
-    Formato provisório, isolado aqui para ser adaptado ao formato real do alinhador: cada arquivo
-    é uma lista de itens, ou um objeto com a chave ``itens``. Cada item traz ao menos
-    ``video`` (caminho no container), ``tela``, ``exibicao``, ``coluna``, ``t_audio`` (ou
-    ``null``) e ``confianca``.
+def ler_alinhamento(caminho: str) -> dict:
+    """Lê um JSON de saída do ``tab.audio_alinhar``.
 
     Args:
-        caminhos: arquivos JSON do alinhador.
+        caminho: JSON de saída do alinhador.
 
     Returns:
-        Todos os itens, na ordem dos arquivos.
+        O dicionário lido, com ``video``, ``exibicoes`` e ``colunas``.
 
     Raises:
-        ValueError: se um arquivo não tiver nenhum dos dois formatos.
+        ValueError: se faltar alguma dessas chaves (o arquivo não é do alinhador).
     """
-    itens: list[dict] = []
-    for caminho in caminhos:
-        bruto = json.loads(Path(caminho).read_text(encoding="utf-8"))
-        if isinstance(bruto, dict) and "itens" in bruto:
-            bruto = bruto["itens"]
-        if not isinstance(bruto, list):
-            raise ValueError(f"{caminho}: formato de alinhamento não reconhecido")
-        itens.extend(bruto)
+    bruto = json.loads(Path(caminho).read_text(encoding="utf-8"))
+    for chave in ("video", "exibicoes", "colunas"):
+        if chave not in bruto:
+            raise ValueError(f"{caminho}: falta '{chave}' (não é saída do alinhador)")
+    return bruto
+
+
+def itens_afirmados(alinhamento: dict) -> list[dict]:
+    """Colunas afirmadas pelo alinhador, de exibições não recusadas.
+
+    Uma coluna entra se tem ``t_audio`` e a exibição não foi recusada inteira. O ``T_usado_s``
+    da exibição vem junto, para o controle de +0,5 período.
+
+    Args:
+        alinhamento: JSON de ``ler_alinhamento``.
+
+    Returns:
+        Itens ``{video, tela, exibicao, coluna, t_audio, confianca, cos, T_usado_s}``.
+    """
+    video = alinhamento["video"]["arquivo"]
+    exibicoes = {(e["tela"], e["exibicao"]): e for e in alinhamento["exibicoes"]}
+    itens = []
+    for c in alinhamento["colunas"]:
+        ex = exibicoes[(c["tela"], c["exibicao"])]
+        if c["t_audio"] is None or ex["recusada_exibicao"]:
+            continue
+        itens.append(
+            {
+                "video": video,
+                "tela": c["tela"],
+                "exibicao": c["exibicao"],
+                "coluna": c["coluna"],
+                "t_audio": c["t_audio"],
+                "confianca": c["confianca"],
+                "cos": c["cos"],
+                "T_usado_s": ex.get("T_usado_s"),
+            }
+        )
     return itens
+
+
+def ler_pares(pares: list[str]) -> tuple[list[dict], dict[str, dict]]:
+    """Lê os pares ``ALINHADO PRODUTO`` (um par por vídeo).
+
+    Formato escolhido: o alinhamento já traz o vídeo (``video.arquivo``, caminho no container),
+    e o produto ``tab.video`` traz painel, passo e notas. O par liga os dois. O produto precisa
+    ser do mesmo vídeo (conferido).
+
+    Args:
+        pares: caminhos alternados, ``[ALINHADO1, PRODUTO1, ALINHADO2, PRODUTO2, ...]``.
+
+    Returns:
+        ``(itens, produtos)``: itens de ``itens_afirmados`` de todos os pares, e os produtos
+        indexados pelo caminho do vídeo no container.
+
+    Raises:
+        ValueError: se o número de caminhos for ímpar ou se um produto não for do vídeo.
+    """
+    if len(pares) % 2:
+        raise ValueError(
+            "--alinhado recebe pares ALINHADO PRODUTO (número par de caminhos)"
+        )
+    itens: list[dict] = []
+    produtos: dict[str, dict] = {}
+    for alin_arq, prod_arq in zip(pares[::2], pares[1::2], strict=True):
+        alin = ler_alinhamento(alin_arq)
+        prod = json.loads(Path(prod_arq).read_text(encoding="utf-8"))
+        video = alin["video"]["arquivo"]
+        if video != PREFIXO_ACERVO + prod["video"]["arquivo"]:
+            raise ValueError(f"{prod_arq} não é o produto de {video}")
+        produtos[video] = prod
+        itens.extend(itens_afirmados(alin))
+    return itens, produtos
 
 
 def _relativo_ao_acervo(video: str) -> str:
@@ -976,50 +1043,36 @@ def _relativo_ao_acervo(video: str) -> str:
     return video[len(PREFIXO_ACERVO) :]
 
 
-def carregar_produtos(pasta: Path) -> dict[str, dict]:
-    """Produtos ``tab.video`` de uma pasta, indexados pelo caminho relativo do vídeo.
-
-    Args:
-        pasta: pasta com os JSON de produto.
-
-    Returns:
-        ``{video_relativo: produto}``; arquivos que não são produto são ignorados.
-    """
-    produtos: dict[str, dict] = {}
-    for arq in sorted(pasta.glob("*.json")):
-        try:
-            prod = json.loads(arq.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            continue
-        if isinstance(prod, dict) and "video" in prod and "telas" in prod:
-            produtos[prod["video"]["arquivo"]] = prod
-    return produtos
-
-
 def _pedido_do_item(item: dict, produto: dict, numero: int) -> dict:
-    """Pedido de clipe a partir de um item do alinhador e do produto do vídeo.
+    """Pedido de clipe a partir de um item afirmado e do produto do vídeo.
 
     Args:
-        item: item do alinhador (``video``, ``tela``, ``exibicao``, ``coluna``, ``t_audio``).
+        item: item de ``itens_afirmados`` (``video``, ``tela``, ``exibicao``, ``coluna``,
+            ``t_audio``).
         produto: produto ``tab.video`` do vídeo.
         numero: número sequencial do pedido, usado no ``id``.
 
     Returns:
         O pedido com ``id``, ``video``, ``t_audio``, ``tela``, ``coluna``, ``exibicao``,
         ``x_centro_quadro`` (média das notas da coluna), ``painel``, ``passo``, ``rotulo``
-        e ``notas`` (``[corda, casa]``).
+        e ``notas`` (``[corda, casa]``). Nota com ``exibicao`` null vale para qualquer exibição
+        (é o caso de todos os produtos sem marcador); se a exibição não tem nota na coluna,
+        usa as notas da coluna em qualquer exibição.
 
     Raises:
         ValueError: se a tela ou as notas da coluna não estiverem no produto.
     """
     tela = next(t for t in produto["telas"] if t["id"] == item["tela"])
-    notas = [
+    da_coluna = [
         n
         for n in produto["notas"]
-        if n["tela"] == item["tela"]
-        and n["coluna"] == item["coluna"]
-        and n.get("exibicao") in (None, item["exibicao"])
+        if n["tela"] == item["tela"] and n["coluna"] == item["coluna"]
     ]
+    # O alinhador usa a união das colunas da tela em toda exibição: se a exibição do item
+    # não tem nota nessa coluna (ex.: MVP, tela 9 coluna 9), vale o conjunto da coluna.
+    notas = [n for n in da_coluna if n.get("exibicao") in (None, item["exibicao"])]
+    if not notas:
+        notas = da_coluna
     if not notas:
         raise ValueError(f"sem notas na tela {item['tela']} coluna {item['coluna']}")
     x_centro = sum(float(n["x_centro_quadro"]) for n in notas) / len(notas)
@@ -1045,31 +1098,29 @@ def sortear_pedidos(
 ) -> list[dict]:
     """Sorteia K colunas por vídeo, estratificadas pelas exibições, com semente fixa.
 
-    Só entram itens com ``t_audio`` não nulo. Dentro de cada vídeo, as exibições são
-    percorridas em ordem sorteada, e de cada uma sai uma coluna por rodada.
+    Dentro de cada vídeo, as exibições são percorridas em ordem sorteada, e de cada uma sai
+    uma coluna por rodada, até K.
 
     Args:
-        itens: itens do alinhador (ver ``ler_alinhados``).
-        produtos: ``{video_relativo: produto}`` (ver ``carregar_produtos``).
+        itens: itens de ``itens_afirmados``.
+        produtos: produtos indexados pelo caminho do vídeo no container (``ler_pares``).
         por_video: número de colunas sorteadas por vídeo.
         semente: semente do sorteio.
 
     Returns:
-        A lista de pedidos (ver ``_pedido_do_item``), vídeo a vídeo, em ordem de caminho.
+        Lista de pedidos (ver ``_pedido_do_item``), vídeo a vídeo, em ordem de caminho.
 
     Raises:
-        ValueError: se um vídeo dos itens não tiver produto na pasta de produtos.
+        ValueError: se um vídeo dos itens não tiver produto.
     """
     rng = random.Random(semente)
-    videos = sorted({it["video"] for it in itens})
     pedidos: list[dict] = []
-    for video in videos:
-        rel = _relativo_ao_acervo(video)
-        if rel not in produtos:
-            raise ValueError(f"sem produto para {video} (rode tab.video antes)")
+    for video in sorted({it["video"] for it in itens}):
+        if video not in produtos:
+            raise ValueError(f"sem produto para {video}")
         grupos: dict[object, list[dict]] = {}
         for it in itens:
-            if it["video"] == video and it.get("t_audio") is not None:
+            if it["video"] == video:
                 grupos.setdefault(it["exibicao"], []).append(it)
         ordem = sorted(grupos)
         rng.shuffle(ordem)
@@ -1084,27 +1135,24 @@ def sortear_pedidos(
                 sorteado = grupos[exib].pop(rng.randrange(len(grupos[exib])))
                 escolhidos.append(sorteado)
         for item in escolhidos:
-            pedidos.append(_pedido_do_item(item, produtos[rel], len(pedidos) + 1))
+            pedidos.append(_pedido_do_item(item, produtos[video], len(pedidos) + 1))
     return pedidos
 
 
-def cmd_sortear(
-    alinhados: list[str], por_video: int, semente: int, saida: Path, produtos: Path
-) -> int:
-    """Sorteia os pedidos a partir dos alinhamentos e grava o JSON de pedidos.
+def cmd_sortear(pares: list[str], por_video: int, semente: int, saida: Path) -> int:
+    """Sorteia os pedidos a partir dos pares alinhamento/produto e grava o JSON.
 
     Args:
-        alinhados: arquivos JSON do alinhador.
+        pares: ver ``ler_pares``.
         por_video: colunas sorteadas por vídeo.
         semente: semente do sorteio.
         saida: JSON de pedidos de saída.
-        produtos: pasta com os produtos ``tab.video``.
 
     Returns:
         Código de saída (0 se deu certo).
     """
-    itens = ler_alinhados(alinhados)
-    pedidos = sortear_pedidos(itens, carregar_produtos(produtos), por_video, semente)
+    itens, produtos = ler_pares(pares)
+    pedidos = sortear_pedidos(itens, produtos, por_video, semente)
     _gravar_json(saida, pedidos)
     print(f"{len(pedidos)} pedidos em {saida}")
     return 0
@@ -1122,27 +1170,28 @@ def main() -> int:
     p_clipes = sub.add_parser("clipes", help="gera os MP4 dos pedidos")
     p_clipes.add_argument("--pedidos", type=Path, required=True)
     p_clipes.add_argument("--pasta", type=Path, required=True)
+    p_clipes.add_argument("--manifesto", type=Path, default=None)
 
     p_pagina = sub.add_parser("pagina", help="gera o index.html da pasta")
     p_pagina.add_argument("--pasta", type=Path, required=True)
+    p_pagina.add_argument("--manifesto", type=Path, default=None)
 
-    p_sortear = sub.add_parser("sortear", help="sorteia colunas dos alinhamentos")
-    p_sortear.add_argument("--alinhados", nargs="+", required=True)
+    p_sortear = sub.add_parser(
+        "sortear", help="sorteia colunas afirmadas, pares ALINHADO PRODUTO"
+    )
+    p_sortear.add_argument("--alinhado", nargs="+", required=True)
     p_sortear.add_argument("--por-video", type=int, required=True)
     p_sortear.add_argument("--semente", type=int, required=True)
     p_sortear.add_argument("--saida", type=Path, required=True)
-    p_sortear.add_argument("--produtos", type=Path, default=PASTA_PRODUTOS)
 
     args = parser.parse_args()
     if args.comando == "clipes":
-        return cmd_clipes(args.pedidos, args.pasta)
+        return cmd_clipes(args.pedidos, args.pasta, args.manifesto)
     if args.comando == "pagina":
-        destino = gerar_pagina(args.pasta)
+        destino = gerar_pagina(args.pasta, args.manifesto)
         print(f"página gerada: {destino}")
         return 0
-    return cmd_sortear(
-        args.alinhados, args.por_video, args.semente, args.saida, args.produtos
-    )
+    return cmd_sortear(args.alinhado, args.por_video, args.semente, args.saida)
 
 
 if __name__ == "__main__":
