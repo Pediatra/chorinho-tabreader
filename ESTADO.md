@@ -5134,3 +5134,10 @@ Escolha aprovada pelo dono (2026-10-12), 1 vídeo por canal, pelo censo v2 (`dat
 | kimny's guitar, From This Place | 5 | 389 | 40 |
 
 Gate: ruff ok, 620 testes (fora 2 arquivos não rastreados da trilha mãos, um deles com 1 falha da outra sessão). **Pendências**: rotulagem do dono (~2.870 notas no total; shin izumi sozinho tem 998); casas > 7 não aferidas (gymnopédie, room 335, from this place); iwaki/shin izumi/kimny sem marcador: instantes quase todos "nenhuma acesa".
+
+## Áudio — 2026-10-13 — A0: áudio em cache e sincronia (rodada 2001)
+
+- `tab/audio_extrair.py`: FLAC mono 16 bits 22 050 Hz em `/cache/audio/`, chave do censo; `indice_de`/`instante_de` convertem o PTS do vídeo em amostra.
+- **`t_amostra0` = 1º frame de áudio decodificado**, não o `start_time`: com Opus o `start_time` erra **~7 ms** (pré-salto). Teste sintético de clique: erro ≤ 1,1 ms em PCM/AAC/Opus, áudio deslocado 0 e 0,5 s.
+- 20 vídeos (2 por canal, 10 canais): **20 de 20** extraídos, **Opus em 20 de 20**, deslocamento áudio−vídeo **0 ms em 20 de 20**, nenhum buraco que mude a duração; 1,7 s por vídeo (mediana), 82 MB de FLAC por hora. Projeção (estimativa): ~2,2 h de HD e ~24 GB para 2.998 vídeos.
+- **Não repetir**: usar o `start_time` do stream de áudio como instante da amostra 0 (−7 ms em todo o acervo Opus).
