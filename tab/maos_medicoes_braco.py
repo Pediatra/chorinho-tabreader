@@ -49,6 +49,7 @@ from .maos_calibrar_por_notas import (
     mapa_de_maos,
     montar_conjunto,
     quadro_bgr,
+    s_traste,
     v_corda,
 )
 from .maos_linhas_braco import (
@@ -340,12 +341,12 @@ def reta_de_h_traste(H: np.ndarray, n: int) -> tuple[np.ndarray, np.ndarray]:
 
     Args:
         H: homografia.
-        n: número do traste.
+        n: número do traste (qualquer, pela fórmula :func:`s_traste`).
 
     Returns:
         ``(A, B)``: pontos da reta em ``v = 0`` e ``v = 1``.
     """
-    u = float(S_TRASTES[n])
+    u = float(s_traste(n))
     pa, pb = aplicar_homografia(H, np.array([(u, 0.0), (u, 1.0)]))
     return pa, pb
 
@@ -406,19 +407,20 @@ def retas_da_calibracao_fixa(
 
 
 def retas_da_calibracao(
-    H: np.ndarray,
+    H: np.ndarray, n_trastes: int = N_TRASTES
 ) -> dict[str, dict[Any, tuple[np.ndarray, np.ndarray]]]:
     """Retas das cordas, trastes e nut previstas por uma H.
 
     Args:
         H: homografia.
+        n_trastes: quantos trastes além do nut (1 a ``n_trastes``).
 
     Returns:
-        ``cordas`` (corda -> reta), ``trastes`` (traste 0 a 14 -> reta).
+        ``cordas`` (corda -> reta), ``trastes`` (traste 0 a ``n_trastes`` -> reta).
     """
     return {
         "cordas": {j: reta_de_h_corda(H, j) for j in range(1, 7)},
-        "trastes": {n: reta_de_h_traste(H, n) for n in range(N_TRASTES + 1)},
+        "trastes": {n: reta_de_h_traste(H, n) for n in range(n_trastes + 1)},
     }
 
 
@@ -427,7 +429,7 @@ def largura_casa_em_v(H: np.ndarray, n: int) -> float:
 
     Args:
         H: homografia.
-        n: casa (de 1 em diante); o nut é a fronteira 0.
+        n: casa (de 1 em diante, qualquer); o nut é a fronteira 0.
 
     Returns:
         Distância entre os trastes ``n-1`` e ``n``, em px.
@@ -436,8 +438,8 @@ def largura_casa_em_v(H: np.ndarray, n: int) -> float:
         H,
         np.array(
             [
-                (float(S_TRASTES[n - 1]), 0.5),
-                (float(S_TRASTES[n]), 0.5),
+                (float(s_traste(n - 1)), 0.5),
+                (float(s_traste(n)), 0.5),
             ]
         ),
     )
@@ -480,61 +482,79 @@ def medir_contra_fixa(H: np.ndarray, braco: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def gabarito_dono(caminho: Path, quadro: str) -> dict[str, Any]:
+    """Pontos do dono num quadro do braço (cordas 1 e 6, nut e todos os trastes).
+
+    Args:
+        caminho: ``data/gold/maos/braco.json``.
+        quadro: id do quadro (``q02``, ``q16``...).
+
+    Returns:
+        ``corda1``, ``corda6`` (dois pontos cada), ``nut`` e ``trastes`` (um ponto por
+        traste marcado, do traste 1 para cima; o número é a posição + 1).
+
+    Raises:
+        ValueError: se o quadro não tem o braço ou não tem nenhum traste marcado.
+    """
+    dados = carregar_json(caminho)["quadros"][quadro]
+    if dados.get("braco") != "sim" or not dados["trastes"]:
+        raise ValueError(f"quadro {quadro} sem o braço completo")
+    return {
+        "corda1": np.asarray(dados["corda1"], dtype=float),
+        "corda6": np.asarray(dados["corda6"], dtype=float),
+        "nut": np.asarray(dados["nut"], dtype=float),
+        "trastes": np.asarray(dados["trastes"], dtype=float),
+    }
+
+
 def gabarito_dono_q02(caminho: Path) -> dict[str, Any]:
-    """Pontos do dono no quadro q02 do braço (cordas 1 e 6, nut e trastes 1 a 14).
+    """Atalho: :func:`gabarito_dono` no quadro q02 (14 trastes).
 
     Args:
         caminho: ``data/gold/maos/braco.json``.
 
     Returns:
-        ``corda1``, ``corda6`` (dois pontos cada), ``nut`` e ``trastes`` (14 pontos,
-        do traste 1 para cima).
-
-    Raises:
-        ValueError: se o quadro não tem o braço ou não tem 14 trastes.
+        O mesmo que :func:`gabarito_dono` para o q02.
     """
-    quadro = carregar_json(caminho)["quadros"][QUADRO_DONO]
-    if quadro.get("braco") != "sim" or len(quadro["trastes"]) != N_TRASTES:
-        raise ValueError(f"quadro {QUADRO_DONO} sem o braço completo")
-    return {
-        "corda1": np.asarray(quadro["corda1"], dtype=float),
-        "corda6": np.asarray(quadro["corda6"], dtype=float),
-        "nut": np.asarray(quadro["nut"], dtype=float),
-        "trastes": np.asarray(quadro["trastes"], dtype=float),
-    }
+    return gabarito_dono(caminho, QUADRO_DONO)
 
 
 def medir_contra_dono(
-    H: np.ndarray, dono: dict[str, Any], braco: dict[str, Any] | None = None
+    H: np.ndarray | None, dono: dict[str, Any], braco: dict[str, Any] | None = None
 ) -> dict[str, Any]:
     """Medição (b): distância dos pontos do dono às retas previstas.
 
     Cordas 1 e 6: distância média dos dois pontos à reta prevista, em px e como fração
     da distância vertical entre as cordas 1 e 6 no mesmo ``x`` (o espaçamento 1 a 6
     inteiro; dividir por 5 dá o passo). Nut: distância à reta do nut, em fração da casa 1.
-    Trastes: para cada traste do dono, o traste previsto de mesmo número; conta se a
-    distância é menor que 1/4 da casa; fração = distância / largura da casa.
+    Trastes: para cada traste marcado pelo dono (quantos forem, do traste 1 para cima),
+    o traste previsto de mesmo número; conta se a distância é menor que 1/4 da casa;
+    fração = distância / largura da casa. Na calibração à mão, só entram os trastes
+    que ``braco.json`` tem; os outros não são medidos.
 
     Args:
         H: homografia, ou ``None`` para a calibração à mão (usa ``braco``).
-        dono: saída de :func:`gabarito_dono_q02`.
+        dono: saída de :func:`gabarito_dono`.
         braco: conteúdo de ``braco.json``, para a calibração à mão.
 
     Returns:
         Por corda, nut e trastes, com px e fração, e o resumo.
     """
+    n_trastes = len(dono["trastes"])
     if H is None:
         retas = retas_da_calibracao_fixa(braco)
         cordas = retas["cordas"]
         trastes = retas["trastes"]
         largura = {
-            n: abs(retas["x"][n] - retas["x"][n - 1]) for n in range(1, N_TRASTES + 1)
+            n: abs(retas["x"][n] - retas["x"][n - 1])
+            for n in range(1, n_trastes + 1)
+            if n in retas["x"] and n - 1 in retas["x"]
         }
     else:
-        retas = retas_da_calibracao(H)
+        retas = retas_da_calibracao(H, n_trastes)
         cordas = retas["cordas"]
         trastes = retas["trastes"]
-        largura = {n: largura_casa_em_v(H, n) for n in range(1, N_TRASTES + 1)}
+        largura = {n: largura_casa_em_v(H, n) for n in range(1, n_trastes + 1)}
 
     saida: dict[str, Any] = {"cordas": {}}
     for nome, j in (("corda1", 1), ("corda6", 6)):
@@ -556,6 +576,8 @@ def medir_contra_dono(
     saida["nut"] = {"px": round(d_nut, 2), "fracao_casa1": round(d_nut / largura[1], 4)}
     casamentos = []
     for k, p in enumerate(dono["trastes"], start=1):
+        if k not in trastes or k not in largura:
+            continue
         A, B = trastes[k]
         d = distancia_a_reta(p, A, B)
         w = largura[k]
@@ -599,25 +621,28 @@ def _pontos_inteiros(pontos: np.ndarray) -> list[tuple[int, int]]:
 def desenhar_conferencia(
     quadro: np.ndarray, H: np.ndarray, dono: dict[str, Any]
 ) -> np.ndarray:
-    """Grade "música + imagem" em vermelho e os pontos do dono do q02 em verde.
+    """Grade "música + imagem" em vermelho e os pontos do dono em verde.
+
+    A grade vai até o último traste marcado pelo dono.
 
     Args:
-        quadro: quadro BGR da mediana.
+        quadro: quadro BGR da mediana (ou do quadro do dono).
         H: homografia "música + imagem".
-        dono: saída de :func:`gabarito_dono_q02`.
+        dono: saída de :func:`gabarito_dono`.
 
     Returns:
         Cópia do quadro com as linhas e os pontos.
     """
     img = quadro.copy()
-    us = np.linspace(0.0, float(S_TRASTES[N_TRASTES]), 40)
+    n_trastes = len(dono["trastes"])
+    us = np.linspace(0.0, float(s_traste(n_trastes)), 40)
     vs = np.linspace(0.0, 1.0, 40)
     for j in range(1, 7):
         pts = aplicar_homografia(H, np.column_stack([us, np.full_like(us, v_corda(j))]))
         cv2.polylines(img, [pts.astype(np.int32)], False, VERMELHO, 2)
-    for n in range(N_TRASTES + 1):
+    for n in range(n_trastes + 1):
         pts = aplicar_homografia(
-            H, np.column_stack([np.full_like(vs, S_TRASTES[n]), vs])
+            H, np.column_stack([np.full_like(vs, s_traste(n)), vs])
         )
         cv2.polylines(img, [pts.astype(np.int32)], False, VERMELHO, 1)
     for nome in ("corda1", "corda6"):
