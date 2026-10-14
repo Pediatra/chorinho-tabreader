@@ -7,18 +7,25 @@ espaço do quadro (soma do ``x0`` do candidato) e as colunas e o compasso.
 from __future__ import annotations
 
 import json
+from types import SimpleNamespace
 
 import numpy as np
 import pytest
 
+from tab import video
 from tab.avaliar_video import FORMATO_V1, ler_predicao
+from tab.telas import Tela
 from tab.video import (
+    BORDA_SEM_GLIFO,
+    CLASSE_ABAFADA,
     ESQUEMA,
     MOTIVO_TEMPO,
     colunas_do_quadro,
     compasso_de,
+    ler_tela,
     mediana_temporal,
     montar_v1,
+    tokens_da_rede,
     tokens_do_quadro,
 )
 
@@ -65,6 +72,74 @@ def test_tokens_somam_x0_do_candidato_ao_x_do_roi():
     assert tk["x_centro_quadro"] == 314.5
     assert tk["classe"] == "7"
     assert tk["corda"] == 2
+
+
+def _nota_rede(corda: int, rotulo: str, x: float, tecnica: list[str] | None = None):
+    """Nota no formato de ``tab.detector_tab.detectar``."""
+    return {
+        "corda": corda,
+        "rotulo": rotulo,
+        "tecnica": tecnica or [],
+        "x": x,
+        "confianca": 0.9,
+    }
+
+
+def test_rede_herda_borda_esquerda_do_glifo_da_mesma_corda():
+    glifos = [
+        SimpleNamespace(corda=2, x0=40, x1=56),  # "12": centro da rede em 48
+        SimpleNamespace(corda=3, x0=44, x1=50),  # outra corda: não conta
+    ]
+    (tk,) = tokens_da_rede([_nota_rede(2, "12", 48.0)], glifos, 300, passo=16.0)
+    assert tk["x_quadro"] == 340
+    assert tk["x_centro_quadro"] == 348.0
+    assert tk["classe"] == "12"
+    assert tk["tecnica"] is None
+
+
+def test_rede_sem_glifo_estima_borda_pelo_passo_e_junta_tecnicas():
+    (tk,) = tokens_da_rede([_nota_rede(1, "7", 100.0, ["h", "lig"])], [], 0, passo=20.0)
+    assert tk["x_quadro"] == round(100.0 - BORDA_SEM_GLIFO * 20.0)
+    assert tk["tecnica"] == "h+lig"
+
+
+def test_rede_glifo_largo_nao_junta_duas_notas_na_mesma_coluna():
+    """Slide ``2/3`` num glifo só: a segunda nota não herda a borda da primeira."""
+    glifos = [SimpleNamespace(corda=1, x0=100, x1=130)]
+    notas = [_nota_rede(1, "2", 107.0), _nota_rede(1, "3", 125.0)]
+    tokens = tokens_da_rede(notas, glifos, 0, passo=18.0)
+    assert tokens[0]["x_quadro"] == 100
+    assert tokens[1]["x_quadro"] == round(125.0 - BORDA_SEM_GLIFO * 18.0)
+    assert colunas_do_quadro(tokens, passo=18.0) == [1, 2]
+
+
+def test_ler_tela_rede_manda_x_para_nao_notas_e_casa_para_notas(monkeypatch):
+    """Leitor ``rede``: algarismo vira nota (com técnica), X vira não-nota de classe x."""
+    grade = SimpleNamespace(
+        linhas_y=[10, 26, 42, 58, 74, 90], barlines_x=[5, 200], glifos=[]
+    )
+    m = SimpleNamespace(
+        passo=16.0, roi=np.zeros((100, 300, 3), np.uint8), x0=50, y0=20, grade=grade
+    )
+    monkeypatch.setattr(video, "escolher_ou_mascara", lambda _img: m)
+    lidas = [_nota_rede(1, "3", 100.0, ["/"]), _nota_rede(2, "x", 150.0)]
+    monkeypatch.setattr(video.detector_tab, "detectar", lambda *a: lidas)
+    tela = Tela(id=1, painel=(0, 0, 10, 10), modo="faixa", exibicoes=[(0.0, 1.0)])
+    entrada, notas, nao_notas = ler_tela(
+        np.zeros((200, 400, 3), np.uint8),
+        tela,
+        None,
+        None,
+        None,
+        None,
+        "",
+        video=None,
+        detector=object(),
+    )
+    assert entrada["leitura"] == "ok"
+    assert entrada["barlines_x"] == [55, 250]
+    assert [(n["corda"], n["casa"], n["tecnica"]) for n in notas] == [(1, 3, "/")]
+    assert [(n["corda"], n["classe"]) for n in nao_notas] == [(2, CLASSE_ABAFADA)]
 
 
 def test_colunas_agrupam_mesmo_x_e_numeram_em_ordem():

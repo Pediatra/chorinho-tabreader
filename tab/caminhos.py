@@ -109,6 +109,12 @@ PARTES = RAIZ / "parts"
 # gabarito de 72 glifos é sobreajustar a régua. Ver docs/decisoes/0008-modelo-do-produto.md.
 MODELO_PADRAO = ARTEFATOS / "oficial_3" / "glifo_sint.pt"
 
+#: Detector de notas (rede de sistema inteiro) usado pelo leitor ``rede`` do produto.
+# Ajuste fino com os 8 gabaritos + sintético (``data/saida/n4/treinar_ft.py --dobra 0``).
+# A semente 1 foi declarada ANTES de medir, pelo mesmo motivo do ``MODELO_PADRAO``: escolher a
+# melhor semente pelo gabarito é sobreajustar a régua. Ver docs/decisoes/0010-leitor-rede.md.
+DETECTOR_PADRAO = ARTEFATOS / "detector_tab_final_s1" / "modelo.pt"
+
 
 def acervo() -> Path:
     """Raiz do acervo de vídeos (somente leitura).

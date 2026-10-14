@@ -5,7 +5,9 @@ Cadeia, por tela (``tab.telas``, Fase 3):
 1. imagem limpa: o quadro de referência (``quadro_ref_s``) ou a mediana temporal de alguns
    quadros da maior exibição, que apaga o marcador;
 2. painel: ``tab.painel.escolher_ou_mascara`` nessa imagem; o ``roi`` dele dá o x no espaço do QUADRO;
-3. ``reconhecer_linha`` no ``roi``: tokens com corda, casa e símbolo cru;
+3. leitura do ``roi``, por um de dois leitores (``LEITORES``): ``rede`` (padrão), o detector
+   de sistema inteiro ``tab.detector_tab`` sobre a grade de ``tab.tabseg``; ou ``glifos``,
+   o leitor antigo ``reconhecer_linha`` (tokens com corda, casa e símbolo cru);
 4. colunas (um acorde é uma coluna) e compasso, pelas barlines da tela;
 5. tempo por exibição (Fase 5): dentro de cada ``[t0, t1]`` da tela, os quadros são lidos
    a ~6 qps pelo ``tab.leitor``, e dois observadores (posição do marcador e cor do algarismo)
@@ -13,12 +15,14 @@ Cadeia, por tela (``tab.telas``, Fase 3):
    a exibição sai com ``medido: false`` e o motivo.
 
 Algarismo vai para ``notas``; o resto vai para ``nao_notas`` com a classe e o símbolo cru,
-porque símbolo não se descarta. Cada nota sai com ``t_ini`` do observador escolhido na
+porque símbolo não se descarta. No leitor ``rede``, o X (nota abafada) sai em ``nao_notas``
+com classe ``x``, e a técnica que a rede vê sai no campo ``tecnica`` da nota, **sem
+validação** (o gabarito não tem técnica por nota). Cada nota sai com ``t_ini`` do observador escolhido na
 exibição (``null`` sem tempo medido). Quando a aula **repete** uma passagem dentro de uma
 exibição, a nota ganha uma entrada por passagem, com ``exibicao`` e ``passagem``.
 
 Uso:
-    python -m tab.video VIDEO --json saida.json [--imagem quadro|mediana] [--modelo CAMINHO]
+    python -m tab.video VIDEO --json saida.json [--leitor rede|glifos] [--imagem quadro|mediana]
 """
 
 from __future__ import annotations
@@ -33,8 +37,8 @@ from pathlib import Path
 
 import numpy as np
 
-from . import leitor
-from .caminhos import MODELO_PADRAO, RAIZ, SAIDA, acervo
+from . import detector_tab, leitor
+from .caminhos import DETECTOR_PADRAO, MODELO_PADRAO, RAIZ, SAIDA, acervo
 from .colunas import agrupar_colunas
 from .digito import carregar
 from .estado import (
@@ -60,6 +64,29 @@ IMAGENS = ("quadro", "mediana")
 
 #: Imagem usada por padrão. Escolhida pela medição no ouro (ver ``ESTADO.md``, Fase 4).
 IMAGEM_PADRAO = "quadro"
+
+#: Leitores de nota: a rede de sistema inteiro e o classificador de glifos antigo (reserva).
+LEITORES = ("rede", "glifos")
+
+#: Leitor usado por padrão. Medido nos 8 gabaritos (validação cruzada por vídeo, 2.689
+#: notas): rede 0,974/0,949/0,987 (precisão/revocação/casa) contra 0,962/0,830/0,943.
+LEITOR_PADRAO = "rede"
+
+#: Classe da nota abafada (X) no leitor ``rede``. Vai para ``nao_notas``.
+CLASSE_ABAFADA = "x"
+
+#: Folga, em passos, em volta da caixa de um glifo para a nota da rede herdar a borda esquerda
+#: dele. Sem glifo assim, a borda é estimada a ``BORDA_SEM_GLIFO`` passos à esquerda do centro.
+FOLGA_GLIFO_PASSO = 0.15
+
+#: Meia largura típica de um algarismo, em passos (estimativa da borda esquerda).
+BORDA_SEM_GLIFO = 0.3
+
+#: Distância máxima, em passos, da borda esquerda do glifo ao centro da nota para a nota
+#: herdar essa borda. Um ``12`` tem o centro a ~0,5 passo da borda; num glifo largo (slide
+#: ``2/3`` grudado), a segunda nota está a ~1 passo e herdaria a borda da primeira, caindo na
+#: mesma coluna (medido no South American: 5 pares repetidos).
+BORDA_MAXIMA_PASSO = 0.8
 
 #: Quadros da mediana temporal, espalhados pela maior exibição da tela.
 MEDIANA_QUADROS = 7
@@ -137,6 +164,53 @@ def tokens_do_quadro(r: dict, x0: int) -> list[dict]:
                 "tecnica": n.get("tecnica"),
                 "simbolo_cru": n.get("simbolo_cru"),
                 "casa_recuperada": n.get("casa_recuperada"),
+            }
+        )
+    return tokens
+
+
+def tokens_da_rede(
+    notas: list[dict], glifos: list, x0: int, passo: float
+) -> list[dict]:
+    """Tokens no formato de ``tokens_do_quadro`` a partir da saída de ``detectar``.
+
+    A rede dá o centro da nota. A borda esquerda (``x_quadro``, usada nas colunas e no
+    compasso) vem do glifo da mesma corda cuja caixa, com ``FOLGA_GLIFO_PASSO`` de folga,
+    contém o centro e começa a até ``BORDA_MAXIMA_PASSO`` dele; sem glifo assim, é o
+    centro menos ``BORDA_SEM_GLIFO`` passos.
+
+    Args:
+        notas: saída de ``tab.detector_tab.detectar``; o x vem em pixels do ``roi``.
+        glifos: glifos da grade (``grade.glifos``), com ``corda``, ``x0`` e ``x1`` no ``roi``.
+        x0: deslocamento em x do ``roi`` no quadro.
+        passo: passo entre cordas, em px.
+
+    Returns:
+        Um dict por nota, com as chaves de ``tokens_do_quadro``. ``tecnica`` é o texto das
+        técnicas da rede unidas por ``+`` (``None`` sem técnica).
+    """
+    folga = FOLGA_GLIFO_PASSO * passo
+    tokens = []
+    for n in notas:
+        xc = float(n["x"])
+        bordas = [
+            g.x0
+            for g in glifos
+            if g.corda == int(n["corda"])
+            and g.x0 - folga <= xc <= g.x1 + folga
+            and xc - g.x0 <= BORDA_MAXIMA_PASSO * passo
+        ]
+        borda = min(bordas) if bordas else xc - BORDA_SEM_GLIFO * passo
+        tokens.append(
+            {
+                "corda": int(n["corda"]),
+                "classe": str(n["rotulo"]),
+                "x_quadro": int(x0) + round(borda),
+                "x_centro_quadro": round(int(x0) + xc, 1),
+                "confianca": float(n["confianca"]),
+                "tecnica": "+".join(n["tecnica"]) or None,
+                "simbolo_cru": None,
+                "casa_recuperada": None,
             }
         )
     return tokens
@@ -504,6 +578,7 @@ def ler_tela(
     discriminador,
     dir_simbolos: str,
     video: str | None = None,
+    detector=None,
 ) -> tuple[dict, list[dict], list[dict]]:
     """Lê uma tela: painel, tokens, colunas, compasso e tempo por exibição.
 
@@ -517,6 +592,8 @@ def ler_tela(
         dir_simbolos: pasta dos recortes crus de símbolo.
         video: caminho do vídeo para medir o tempo; ``None`` deixa todas as exibições sem
             tempo, com o motivo.
+        detector: ``DetectorTab`` carregado (leitor ``rede``); ``None`` usa o leitor
+            ``glifos`` (``modelo``, ``rotulos``, ``discriminador``).
 
     Returns:
         ``(entrada da tela, notas, nao_notas)``. Sem painel legível, as listas saem vazias
@@ -542,18 +619,24 @@ def ler_tela(
         return entrada, [], []
 
     altura, largura = m.roi.shape[:2]
-    r = reconhecer_linha(
-        m.roi,
-        modelo,
-        rotulos,
-        dev,
-        dir_simbolos=dir_simbolos,
-        prefixo="",
-        discriminador=discriminador,
-    )
-    tokens = tokens_do_quadro(r, m.x0)
+    if detector is not None:
+        lidas = detector_tab.detectar(detector, m.roi, m.grade.linhas_y, m.passo)
+        tokens = tokens_da_rede(lidas, m.grade.glifos, m.x0, m.passo)
+        barlines_roi = m.grade.barlines_x
+    else:
+        r = reconhecer_linha(
+            m.roi,
+            modelo,
+            rotulos,
+            dev,
+            dir_simbolos=dir_simbolos,
+            prefixo="",
+            discriminador=discriminador,
+        )
+        tokens = tokens_do_quadro(r, m.x0)
+        barlines_roi = r.get("barlines_x") or []
     colunas = colunas_do_quadro(tokens, m.passo)
-    barlines = [m.x0 + int(bx) for bx in r.get("barlines_x") or []]
+    barlines = [m.x0 + int(bx) for bx in barlines_roi]
     painel = [m.x0, m.y0, m.x0 + largura, m.y0 + altura]
 
     if video is None:
@@ -607,7 +690,7 @@ def ler_tela(
                 **comum,
                 "compasso": compasso_de(tk["x_quadro"], barlines),
                 "casa": int(tk["classe"]),
-                "tecnica": None,
+                "tecnica": tk["tecnica"] if detector is not None else None,
                 "confianca": confianca,
             }
             notas.extend(entradas_da_nota(base, medidas))
@@ -626,21 +709,34 @@ def transcrever_video(
     modelo: str | Path = MODELO_PADRAO,
     imagem: str = IMAGEM_PADRAO,
     telas_lidas: list[Tela] | None = None,
+    leitor_notas: str = LEITOR_PADRAO,
+    detector: str | Path = DETECTOR_PADRAO,
 ) -> dict:
     """Lê todas as telas de um vídeo e devolve o JSON v1, com o tempo por exibição.
 
     Args:
         caminho: caminho do vídeo (sempre lido por ``tab.leitor``).
-        modelo: classificador de glifos.
+        modelo: classificador de glifos (leitor ``glifos``).
         imagem: ``"quadro"`` ou ``"mediana"`` (ver ``imagem_da_tela``).
         telas_lidas: telas já medidas por ``tab.telas``; se ``None``, o vídeo é segmentado
             aqui. Serve para medir variantes sem refazer a presença.
+        leitor_notas: ``"rede"`` ou ``"glifos"`` (``LEITORES``).
+        detector: pesos do ``DetectorTab`` (leitor ``rede``).
 
     Returns:
         O dicionário do esquema ``chorinho/video@1``.
     """
-    rede, rotulos, dev = carregar_modelo(str(modelo))
-    discriminador = carregar()
+    if leitor_notas not in LEITORES:
+        raise ValueError(f"leitor desconhecido: {leitor_notas!r}")
+    if leitor_notas == "rede":
+        rede_tab = detector_tab.carregar(Path(detector))
+        rede, rotulos, dev, discriminador = None, None, None, None
+        modelo_usado = detector
+    else:
+        rede_tab = None
+        rede, rotulos, dev = carregar_modelo(str(modelo))
+        discriminador = carregar()
+        modelo_usado = modelo
     dir_simbolos = str(SAIDA / "video" / _slug(caminho))
     lista = telas_lidas if telas_lidas is not None else telas(caminho)
     telas_v1: list[dict] = []
@@ -649,7 +745,15 @@ def transcrever_video(
     for tela in lista:
         img = imagem_da_tela(caminho, tela, imagem)
         entrada, nts, nns = ler_tela(
-            img, tela, rede, rotulos, dev, discriminador, dir_simbolos, video=caminho
+            img,
+            tela,
+            rede,
+            rotulos,
+            dev,
+            discriminador,
+            dir_simbolos,
+            video=caminho,
+            detector=rede_tab,
         )
         telas_v1.append(entrada)
         notas.extend(nts)
@@ -665,7 +769,8 @@ def transcrever_video(
             "codec": info.get("codec"),
         },
         gerado_por={
-            "modelo": _relativo(str(modelo), RAIZ),
+            "modelo": _relativo(str(modelo_usado), RAIZ),
+            "leitor": leitor_notas,
             "commit": _commit(),
             "imagem": imagem,
             "em": datetime.now().isoformat(timespec="seconds"),
@@ -752,10 +857,18 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("video")
     ap.add_argument("--json", required=True, help="onde gravar o JSON v1")
-    ap.add_argument("--modelo", default=str(MODELO_PADRAO))
+    ap.add_argument("--leitor", choices=LEITORES, default=LEITOR_PADRAO)
+    ap.add_argument("--modelo", default=str(MODELO_PADRAO), help="leitor glifos")
+    ap.add_argument("--detector", default=str(DETECTOR_PADRAO), help="leitor rede")
     ap.add_argument("--imagem", choices=IMAGENS, default=IMAGEM_PADRAO)
     args = ap.parse_args()
-    dados = transcrever_video(args.video, modelo=args.modelo, imagem=args.imagem)
+    dados = transcrever_video(
+        args.video,
+        modelo=args.modelo,
+        imagem=args.imagem,
+        leitor_notas=args.leitor,
+        detector=args.detector,
+    )
     destino = Path(args.json)
     destino.parent.mkdir(parents=True, exist_ok=True)
     destino.write_text(

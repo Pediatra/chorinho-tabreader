@@ -5228,6 +5228,13 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - Ferramenta de conferência (`tab.partitura_gabarito servir`, porta 8099) pronta; o dono ainda não gravou nada em `data/gold/partitura/`.
 - **Não repetir**: (1) ampliar além de 2x para o Audiveris. (2) binarizar por Otsu antes do Audiveris. (3) pesos antoniorv6/SMT com o código `master`: o decoder carrega aleatório e só avisa ("newly initialized"); usar o commit d25acd4.
 
+## Partitura — 2026-10-14 — gabarito do dono: o que o Audiveris erra (rodada 3004)
+
+- O dono conferiu os 21 recortes (`data/gold/partitura/leitura_p1.json`). Dos 873 símbolos lidos, **852 estão certos (97,6 %)**: 7 com figura errada, 4 com altura errada e 10 que não existem. Há **78 notas faltando**.
+- O ritmo do que é lido está certo em ~99 % dos símbolos. O gargalo é a cobertura (notas que faltam) e a armadura que não aparece no recorte (R06).
+- Recomendação: não treinar o SMT agora. Primeiro juntar homr + Audiveris, completar pela tab e herdar a armadura. A decisão é do dono.
+- **Não repetir**: tratar a altura do gabarito como altura soada. O dono confere contra o desenho: sem armadura na tela, um F#4 sai como F4 "certo".
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do
@@ -5401,3 +5408,37 @@ Medição no mesmo quadro de cada tela conferida dos 8 ouros (63 telas, 2.689 no
 - Viés a favor do produto: os ouros v2 foram pré-preenchidos por ele (posições herdadas).
 - Fora do produto até decisão do dono; trocar o leitor muda o X do rasgueado ("15") de que o áudio depende.
 Scripts e tabelas: `data/saida/n3/`, `data/saida/n4/`.
+
+## Tablatura — 2026-10-14 — produto troca de leitor: `rede` é o padrão (decisão 0010)
+
+- **Aprovado pelo dono** ("trocar é a escolha certa"). `tab.video` e `tab.transcrever` ganham
+  `--leitor rede|glifos`, e o padrão é `rede`. O leitor de glifos fica de reserva.
+- **Modelo**: `artefatos/detector_tab_final_s{1,2,3}/`, ajuste fino a partir de `v3_s1` com os 8
+  ouros (63 telas) e o sintético, 3000 passos. O comando está no `config.json`
+  (`data/saida/n4/treinar_ft.py --dobra 0`). Perda final nas sementes 1/2/3: 0,0541, 0,0541 e
+  0,0543. O produto usa a **s1**, declarada antes de medir.
+- **Régua de tempo nos 3 vídeos com marcador**, mesmo HEAD. A rede usa o modelo da dobra que
+  NÃO viu o vídeo (`data/saida/troca/`):
+
+  | vídeo | leitor | precisão | revocação | casa | tempo |
+  | --- | --- | --- | --- | --- | --- |
+  | MVP (retrato) | glifos | 1,000 | 0,988 | 0,996 | 40/40 |
+  | MVP (retrato) | rede | 0,998 | 0,994 | 0,996 | 40/40 |
+  | Greensleeves | glifos | 0,978 | 0,830 | 1,000 | 34/40 |
+  | Greensleeves | rede | 0,991 | 1,000 | 1,000 | 38/40 |
+  | South American | glifos | 0,996 | 0,944 | 0,965 | 37/40 |
+  | South American | rede | 1,000 | 1,000 | 1,000 | 38/40 |
+
+  - Tempo falso: 0 em todos.
+  - Esquema: 0 erros nos 3 JSONs da rede.
+  - O MVP passa a ter **1 nota inventada** (CA-3 pede 0 no MVP). É a mesma nota da validação
+    cruzada.
+- **Bug achado e corrigido antes do commit**: nota da rede herdava a borda esquerda de um glifo
+  largo (slide `2/3` grudado). Duas notas caíam na mesma coluna e geravam 5 erros de esquema no
+  South American. Agora a borda só é herdada se o glifo começa a até 0,8 passo do centro
+  (`BORDA_MAXIMA_PASSO`), com teste.
+- **Consequências** (decisão 0010):
+  - o X sai em `nao_notas` como classe `x`; a trilha áudio foi avisada pelo texto da decisão;
+  - `tecnica` da nota vem preenchida pela rede, **sem validação**;
+  - o leitor `rede` não grava `simbolo_cru`. É dívida: quem precisar do recorte cru usa
+    `--leitor glifos`.

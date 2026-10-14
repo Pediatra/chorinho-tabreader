@@ -18,11 +18,18 @@ from pathlib import Path
 import numpy as np
 
 from . import leitor
-from .caminhos import MODELO_PADRAO
+from .caminhos import DETECTOR_PADRAO, MODELO_PADRAO
 from .cursor import detectar_cursor
 from .esquema import validar
 from .painel import escolher
-from .video import IMAGEM_PADRAO, IMAGENS, _json_seguro, transcrever_video
+from .video import (
+    IMAGEM_PADRAO,
+    IMAGENS,
+    LEITOR_PADRAO,
+    LEITORES,
+    _json_seguro,
+    transcrever_video,
+)
 
 
 def achar_painel(frame):
@@ -213,10 +220,18 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="VÍDEO -> JSON chorinho/video@1.")
     ap.add_argument("video")
     ap.add_argument("--json", required=True, help="onde gravar o JSON v1")
-    ap.add_argument("--modelo", default=str(MODELO_PADRAO))
+    ap.add_argument("--leitor", choices=LEITORES, default=LEITOR_PADRAO)
+    ap.add_argument("--modelo", default=str(MODELO_PADRAO), help="leitor glifos")
+    ap.add_argument("--detector", default=str(DETECTOR_PADRAO), help="leitor rede")
     ap.add_argument("--imagem", choices=IMAGENS, default=IMAGEM_PADRAO)
     args = ap.parse_args()
-    dados = transcrever_video(args.video, modelo=args.modelo, imagem=args.imagem)
+    dados = transcrever_video(
+        args.video,
+        modelo=args.modelo,
+        imagem=args.imagem,
+        leitor_notas=args.leitor,
+        detector=args.detector,
+    )
     erros = validar(dados)
     if erros:
         for erro in erros[:20]:
