@@ -7,11 +7,13 @@ import numpy as np
 
 from tab.partitura_pauta import Pauta
 from tab.partitura_recortes import (
+    PASTA_SAIDA,
     Estrutura,
     Vizinha,
     caixa_do_recorte,
     canal_ascii,
     candidatos_verticais,
+    construir_parser,
     escolher_quadros_b,
     estruturas_horizontais,
     extensao_horizontal,
@@ -271,3 +273,36 @@ def test_escolha_b_ignora_videos_sem_pauta_tab() -> None:
             amostra, ["C"], semente=semente, videos_por_canal={"C": 1}
         )
         assert [video["chave"] for video, _ in escolhidos] == ["c|2"]
+
+
+def test_caixa_margem_padrao_e_igual_a_4_e_6() -> None:
+    """Margens explícitas 4 e 6 dão a mesma caixa que o padrão (nada muda sem opção)."""
+    padrao = caixa_do_recorte(_pauta(), LARGURA, ALTURA, None, None)
+    explicita = caixa_do_recorte(_pauta(), LARGURA, ALTURA, None, None, 4, 6)
+    assert padrao == explicita
+
+
+def test_caixa_margem_7_ganha_3_entrelinhas_em_cada_lado() -> None:
+    """Margem 7 em cima e embaixo: 3 entrelinhas a mais que a margem padrão."""
+    caixa = caixa_do_recorte(_pauta(), LARGURA, ALTURA, None, None, 7, 7)
+    # y: 100 - 70 = 30 e 140 + 70 + 1 = 211; x não muda
+    assert caixa == (180, 30, 1021, 211)
+
+
+def test_caixa_margem_7_limitada_pela_tablatura_vizinha() -> None:
+    """Com tablatura a 80 px acima, a margem de 7 é limitada: corta meia entrelinha antes."""
+    acima = Vizinha(y=80.0, de_pauta=False)
+    caixa = caixa_do_recorte(_pauta(), LARGURA, ALTURA, acima, None, 7, 7)
+    # topo = ceil(80 + 0.5 * 10) = 85, não 30
+    assert caixa[1] == 85
+
+
+def test_parser_padrao_e_opcoes_de_margem() -> None:
+    """Sem opções, a CLI usa 4 e 6 entrelinhas e a pasta da rodada 3001."""
+    padrao = construir_parser().parse_args([])
+    assert (padrao.margem_cima, padrao.margem_baixo) == (4, 6)
+    assert padrao.saida == PASTA_SAIDA
+    opcoes = construir_parser().parse_args(
+        ["--margem-cima", "7", "--margem-baixo", "7", "--saida", "/tmp/x"]
+    )
+    assert (opcoes.margem_cima, opcoes.margem_baixo) == (7, 7)

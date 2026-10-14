@@ -26,6 +26,7 @@ Uso:
 
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import random
@@ -629,6 +630,8 @@ def caixa_do_recorte(
     altura: int,
     acima: Vizinha | None,
     abaixo: Vizinha | None,
+    margem_cima: float = MARGEM_Y_ENTRELINHAS,
+    margem_baixo: float = MARGEM_Y_BAIXO_ENTRELINHAS,
 ) -> tuple[int, int, int, int]:
     """Caixa do recorte de uma pauta, em coordenadas do quadro.
 
@@ -650,6 +653,10 @@ def caixa_do_recorte(
         altura: altura do quadro, em px.
         acima: vizinha de cima (``candidatos_verticais``), ou ``None``.
         abaixo: vizinha de baixo (``candidatos_verticais``), ou ``None``.
+        margem_cima: entrelinhas de margem acima de ``ys[0]``; padrão
+            ``MARGEM_Y_ENTRELINHAS``.
+        margem_baixo: entrelinhas de margem abaixo de ``ys[4]``; padrão
+            ``MARGEM_Y_BAIXO_ENTRELINHAS``.
 
     Returns:
         ``(x0, y0, x1, y1)`` com ``x1`` e ``y1`` exclusivos (fatia de array: ``q[y0:y1,
@@ -657,8 +664,8 @@ def caixa_do_recorte(
     """
     e = pauta.entrelinha
     margem_x = round(MARGEM_X_ENTRELINHAS * e)
-    margem_y = round(MARGEM_Y_ENTRELINHAS * e)
-    margem_base = round(MARGEM_Y_BAIXO_ENTRELINHAS * e)
+    margem_y = round(margem_cima * e)
+    margem_base = round(margem_baixo * e)
     topo = pauta.ys[0] - margem_y
     base = pauta.ys[4] + margem_base
     if acima is not None:
@@ -711,6 +718,8 @@ def processar_quadro(
     quadro: np.ndarray,
     fonte_quadro: str,
     primeiro_numero: int,
+    margem_cima: float = MARGEM_Y_ENTRELINHAS,
+    margem_baixo: float = MARGEM_Y_BAIXO_ENTRELINHAS,
 ) -> tuple[list[dict], list[Recorte], Celula]:
     """Acha as pautas de um quadro e recorta cada uma.
 
@@ -719,6 +728,8 @@ def processar_quadro(
         quadro: quadro BGR em resolução nativa.
         fonte_quadro: ``"cache"`` ou ``"video"``.
         primeiro_numero: número do primeiro recorte deste quadro (``R{numero:02d}``).
+        margem_cima: entrelinhas de margem acima da pauta (padrão: 4).
+        margem_baixo: entrelinhas de margem abaixo da pauta (padrão: 6).
 
     Returns:
         ``(entradas do índice, recortes, célula de contexto)``. Quadro sem pauta gera uma
@@ -752,7 +763,9 @@ def processar_quadro(
         pauta = replace(pauta_achada, x0=ex0, x1=ex1)
         outras = [p for j, p in enumerate(pautas) if j != k]
         acima, abaixo = candidatos_verticais(pauta, estruturas, fonte.rect, outras)
-        x0, y0, x1, y1 = caixa_do_recorte(pauta, largura, altura, acima, abaixo)
+        x0, y0, x1, y1 = caixa_do_recorte(
+            pauta, largura, altura, acima, abaixo, margem_cima, margem_baixo
+        )
         identificador = f"R{primeiro_numero + k:02d}"
         ids.append(identificador)
         caixas.append((x0, y0, x1, y1))
@@ -929,13 +942,47 @@ def limpar_saida(pasta: Path) -> None:
             arquivo.unlink()
 
 
-def main() -> None:
-    """Gera os recortes, o índice e as folhas de conferência da P1 em ``PASTA_SAIDA``."""
+def construir_parser() -> argparse.ArgumentParser:
+    """Opções da CLI. Sem opções, o resultado é o da rodada 3001 (4 e 6 entrelinhas).
+
+    Returns:
+        O ``ArgumentParser`` com ``--margem-cima``, ``--margem-baixo`` e ``--saida``.
+    """
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument(
+        "--margem-cima",
+        type=float,
+        default=MARGEM_Y_ENTRELINHAS,
+        help="entrelinhas acima da 1ª linha (padrão: %(default)s)",
+    )
+    parser.add_argument(
+        "--margem-baixo",
+        type=float,
+        default=MARGEM_Y_BAIXO_ENTRELINHAS,
+        help="entrelinhas abaixo da 5ª linha (padrão: %(default)s)",
+    )
+    parser.add_argument(
+        "--saida",
+        type=Path,
+        default=PASTA_SAIDA,
+        help="pasta de saída (padrão: recortes/ da rodada 3001)",
+    )
+    return parser
+
+
+def main(argv: list[str] | None = None) -> None:
+    """Gera os recortes, o índice e as folhas de conferência da P1.
+
+    Args:
+        argv: argumentos da CLI (None = ``sys.argv``).
+    """
+    args = construir_parser().parse_args(argv)
+    pasta_saida = args.saida
     inicio = time.perf_counter()
     amostra = carregar_amostra(AMOSTRA_P0)
     fontes = fontes_ouro() + fontes_b(escolher_quadros_b(amostra, CANAIS_B))
-    PASTA_SAIDA.mkdir(parents=True, exist_ok=True)
-    limpar_saida(PASTA_SAIDA)
+    pasta_saida.mkdir(parents=True, exist_ok=True)
+    limpar_saida(pasta_saida)
 
     indice: list[dict] = []
     recortes: list[Recorte] = []
@@ -943,19 +990,24 @@ def main() -> None:
     for fonte in fontes:
         quadro, fonte_quadro = ler_fonte(fonte)
         entradas, novos, celula = processar_quadro(
-            fonte, quadro, fonte_quadro, len(recortes) + 1
+            fonte,
+            quadro,
+            fonte_quadro,
+            len(recortes) + 1,
+            args.margem_cima,
+            args.margem_baixo,
         )
         indice.extend(entradas)
         recortes.extend(novos)
         celulas.append(celula)
         for recorte in novos:
-            cv2.imwrite(str(PASTA_SAIDA / f"{recorte.id}.png"), recorte.imagem)
+            cv2.imwrite(str(pasta_saida / f"{recorte.id}.png"), recorte.imagem)
 
-    (PASTA_SAIDA / "indice.json").write_text(
+    (pasta_saida / "indice.json").write_text(
         json.dumps(indice, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
-    folha_contexto(celulas, PASTA_SAIDA)
-    folha_recortes(recortes, PASTA_SAIDA)
+    folha_contexto(celulas, pasta_saida)
+    folha_recortes(recortes, pasta_saida)
 
     sem_pauta = [e["canal"] for e in indice if e["sem_pauta"]]
     tempo = time.perf_counter() - inicio
@@ -963,7 +1015,7 @@ def main() -> None:
         f"{len(fontes)} quadros, {len(recortes)} recortes, "
         f"{len(sem_pauta)} quadros sem pauta, {tempo:.1f} s"
     )
-    print(f"saída: {PASTA_SAIDA}")
+    print(f"saída: {pasta_saida}")
 
 
 if __name__ == "__main__":

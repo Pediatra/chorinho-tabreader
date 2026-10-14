@@ -15,7 +15,7 @@ from tab.partitura_avaliar import (
     ler_musicxml,
     referencia_do_recorte,
 )
-from tab.partitura_omr import comando, preparar_entrada
+from tab.partitura_omr import Cabecalho, comando, compor_cabecalho, preparar_entrada
 
 MUSICXML_VOZES = """<?xml version="1.0" encoding="UTF-8"?>
 <score-partwise version="4.0">
@@ -200,3 +200,60 @@ def test_comando_de_cada_biblioteca() -> None:
     ]
     audiveris = comando("audiveris", entrada, pasta)
     assert audiveris[1:5] == ["-batch", "-export", "-output", str(pasta)]
+
+
+def test_preparar_entrada_x3_e_x4_ampliam(tmp_path: Path) -> None:
+    """x3 e x4 ampliam 3x e 4x, com o mesmo tamanho de linha de base."""
+    origem = tmp_path / "origem.png"
+    cv2.imwrite(str(origem), np.full((5, 10, 3), 200, dtype=np.uint8))
+    x3 = preparar_entrada(origem, "x3", tmp_path / "x3" / "entrada.png")
+    assert cv2.imread(str(x3)).shape[:2] == (15, 30)
+    x4 = preparar_entrada(origem, "x4", tmp_path / "x4" / "entrada.png")
+    assert cv2.imread(str(x4)).shape[:2] == (20, 40)
+
+
+def test_preparar_entrada_binaria_so_tem_preto_e_branco(tmp_path: Path) -> None:
+    """x2_binaria: cinza, 2x e Otsu; a saída só tem 0 e 255 e o dobro do tamanho."""
+    origem = tmp_path / "origem.png"
+    imagem = np.zeros((10, 12, 3), dtype=np.uint8)
+    imagem[:, :6] = (250, 240, 200)  # fundo claro
+    imagem[:, 6:] = (20, 30, 40)  # tinta escura
+    cv2.imwrite(str(origem), imagem)
+    binaria = preparar_entrada(origem, "x2_binaria", tmp_path / "b" / "entrada.png")
+    lido = cv2.imread(str(binaria), cv2.IMREAD_GRAYSCALE)
+    assert lido.shape == (20, 24)
+    assert set(np.unique(lido).tolist()) <= {0, 255}
+    assert lido[0, 0] == 255 and lido[0, 23] == 0
+
+
+def test_cabecalho_soma_largura_e_alinha_a_primeira_linha(tmp_path: Path) -> None:
+    """Cabeçalho colado: largura soma, linhas da pauta alinhadas, branco onde falta."""
+    destino = np.full((20, 30, 3), 255, dtype=np.uint8)
+    destino[5, :, :] = (0, 0, 0)  # 1ª linha da pauta do destino, na linha 5
+    destino[7, 0, :] = (0, 0, 255)  # marca de conteúdo do destino
+    origem_cab = np.full((40, 50, 3), 255, dtype=np.uint8)
+    origem_cab[10, :, :] = (0, 0, 0)  # 1ª linha da pauta do cabeçalho, na linha 10
+    origem_cab[30, 0:5, :] = (255, 0, 0)  # marca só no cabeçalho
+    cab_path = tmp_path / "R05.png"
+    cv2.imwrite(str(cab_path), origem_cab)
+    cabecalho = Cabecalho(imagem=cab_path, x_fim=12, linha_origem=10, linha_destino=5)
+    tela = compor_cabecalho(destino, cabecalho)
+    # acima = 5 (a pauta do destino desce 5 linhas); altura = max(5+20, 40) = 40
+    assert tela.shape == (40, 42, 3)
+    assert tela[10, 0].tolist() == [0, 0, 0]  # linha da pauta do cabeçalho
+    assert tela[10, 12].tolist() == [0, 0, 0]  # mesma linha, no destino (linha 5)
+    assert tela[10, 11].tolist() == [0, 0, 0]  # a faixa colada termina em x=11
+    assert tela[30, 0].tolist() == [255, 0, 0]  # marca só do cabeçalho
+    assert tela[12, 12].tolist() == [0, 0, 255]  # marca do destino (linha 7 -> 12)
+    assert tela[25, 0].tolist() == [255, 255, 255]  # abaixo do cabeçalho? não: vazio
+    assert tela[39, 12].tolist() == [255, 255, 255]  # abaixo do destino: branco
+    # preparar_entrada soma a largura e dobra tudo na x2
+    dest_path = tmp_path / "R06.png"
+    cv2.imwrite(str(dest_path), destino)
+    saida = preparar_entrada(
+        dest_path, "x2_cabecalho", tmp_path / "c" / "entrada.png", cabecalho
+    )
+    assert cv2.imread(str(saida)).shape[:2] == (80, 84)
+    # sem cabeçalho, x2_cabecalho é x2 pura
+    pura = preparar_entrada(dest_path, "x2_cabecalho", tmp_path / "p" / "entrada.png")
+    assert cv2.imread(str(pura)).shape[:2] == (40, 60)

@@ -51,7 +51,15 @@ EPSILON = 1e-9
 
 #: Ordem das combinações na saída e na tabela.
 BIBLIOTECAS = ("homr", "audiveris", "oemer")
-CONDICOES = ("nativo", "x2")
+CONDICOES = (
+    "nativo",
+    "x2",
+    "x3",
+    "x4",
+    "x2_binaria",
+    "x2_margem",
+    "x2_cabecalho",
+)
 
 #: Um evento é um conjunto de alturas (MIDI, ou classes 0–11) que soam juntas.
 Evento = frozenset

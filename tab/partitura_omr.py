@@ -12,7 +12,13 @@ falha, o tempo de parede e o caminho da saída. Rodar com ``--ids`` atualiza só
 
 Condições:
     ``nativo``: o PNG do recorte, copiado sem alteração;
-    ``x2``: o PNG ampliado 2x com ``cv2.resize(..., fx=2, fy=2, INTER_CUBIC)``, e mais nada.
+    ``x2``: o PNG ampliado 2x com ``cv2.resize(..., fx=2, fy=2, INTER_CUBIC)``, e mais nada;
+    ``x3`` e ``x4``: o mesmo, ampliado 3x e 4x;
+    ``x2_binaria``: cinza, ampliado 2x cúbico, depois limiar de Otsu (preto e branco);
+    ``x2_margem``: como ``x2``, mas sobre os recortes de ``recortes_margem/`` (margem de
+    7 entrelinhas em cima e embaixo, em vez de 4 e 6);
+    ``x2_cabecalho``: como ``x2``, mas R06 e R07 recebem à esquerda o cabeçalho do R05
+    (clave, armadura e fórmula, até ``CABECALHO_X_FIM``), alinhado pela 1ª linha da pauta.
 
 Roda DENTRO da imagem ``chorinho-partitura:dev``, com o ``python`` da base e
 ``subprocess`` chamando os executáveis dos venvs e do Audiveris.
@@ -35,20 +41,44 @@ import sys
 import time
 import xml.etree.ElementTree as ET
 import zipfile
+from dataclasses import dataclass
 from pathlib import Path
 
 import cv2
+import numpy as np
 
 from tab.caminhos import RAIZ, SAIDA
 
 #: Recortes e índice gerados por ``tab.partitura_recortes``.
 PASTA_RECORTES = SAIDA / "partitura" / "p1" / "recortes"
 
+#: Recortes com margem de 7 entrelinhas (``tab.partitura_recortes --margem-cima 7
+#: --margem-baixo 7 --saida ...``), lidos pela condição ``x2_margem``.
+PASTA_RECORTES_MARGEM = SAIDA / "partitura" / "p1" / "recortes_margem"
+
+#: Recorte de onde sai o cabeçalho (clave, armadura, fórmula) colado em R06 e R07.
+CABECALHO_ORIGEM = "R05"
+
+#: Recortes que recebem o cabeçalho (início de sistema sem clave nem armadura).
+CABECALHO_IDS = ("R06", "R07")
+
+#: Colunas 0 a ``CABECALHO_X_FIM - 1`` do R05 vão para a frente do recorte. No R05 a
+#: fórmula de compasso vai até x=93 e a primeira nota começa em x=132; 110 cai no vazio.
+CABECALHO_X_FIM = 110
+
 #: Saída das bibliotecas: ``<biblioteca>/<condicao>/<id>/``.
 PASTA_OMR = SAIDA / "partitura" / "p1" / "omr"
 
 BIBLIOTECAS = ("homr", "audiveris", "oemer")
-CONDICOES = ("nativo", "x2")
+CONDICOES = (
+    "nativo",
+    "x2",
+    "x3",
+    "x4",
+    "x2_binaria",
+    "x2_margem",
+    "x2_cabecalho",
+)
 
 #: Segundos de parede antes de matar a biblioteca, por biblioteca.
 TIMEOUTS = {"homr": 300, "audiveris": 300, "oemer": 900}
@@ -74,13 +104,71 @@ def carregar_indice() -> list[dict]:
     return json.loads(caminho.read_text(encoding="utf-8"))
 
 
-def preparar_entrada(origem: Path, condicao: str, destino: Path) -> Path:
+@dataclass(frozen=True)
+class Cabecalho:
+    """Cabeçalho do R05 a ser colado à esquerda de um recorte de destino.
+
+    Attributes:
+        imagem: PNG do recorte de origem (R05).
+        x_fim: colunas ``0..x_fim-1`` do recorte de origem vão para a frente.
+        linha_origem: linha (px, no recorte de origem) da 1ª linha da pauta.
+        linha_destino: linha (px, no recorte de destino) da 1ª linha da pauta.
+    """
+
+    imagem: Path
+    x_fim: int
+    linha_origem: int
+    linha_destino: int
+
+
+def compor_cabecalho(imagem: np.ndarray, cabecalho: Cabecalho) -> np.ndarray:
+    """Cola o cabeçalho à esquerda da imagem, alinhando a 1ª linha da pauta.
+
+    A imagem de destino fica intacta à direita (a partir de ``x_fim``). Onde a
+    pauta do cabeçalho cai acima ou abaixo da imagem, a tela cresce com branco.
+
+    Args:
+        imagem: recorte de destino, BGR ou cinza, em resolução nativa.
+        cabecalho: origem do cabeçalho e as linhas de alinhamento.
+
+    Returns:
+        A imagem composta, com ``x_fim + largura(imagem)`` colunas.
+
+    Raises:
+        ValueError: se o cabeçalho não abre ou não tem os mesmos canais.
+    """
+    cab = cv2.imread(str(cabecalho.imagem), cv2.IMREAD_UNCHANGED)
+    if cab is None:
+        raise ValueError(f"cabeçalho ilegível: {cabecalho.imagem}")
+    if cab.ndim != imagem.ndim:
+        raise ValueError("cabeçalho e recorte com canais diferentes")
+    cab = cab[:, : cabecalho.x_fim]
+    deslocamento = cabecalho.linha_destino - cabecalho.linha_origem
+    acima = max(0, -deslocamento)
+    topo_cab = deslocamento + acima
+    altura_dest = imagem.shape[0]
+    altura = max(acima + altura_dest, topo_cab + cab.shape[0])
+    forma = (altura, cabecalho.x_fim + imagem.shape[1], *imagem.shape[2:])
+    tela = np.full(forma, 255, dtype=imagem.dtype)
+    tela[acima : acima + altura_dest, cabecalho.x_fim :] = imagem
+    tela[topo_cab : topo_cab + cab.shape[0], : cabecalho.x_fim] = cab
+    return tela
+
+
+def preparar_entrada(
+    origem: Path,
+    condicao: str,
+    destino: Path,
+    cabecalho: Cabecalho | None = None,
+) -> Path:
     """Escreve a entrada da biblioteca na condição pedida.
 
     Args:
-        origem: PNG do recorte em resolução nativa.
-        condicao: ``nativo`` (cópia) ou ``x2`` (ampliação 2x, cúbica).
+        origem: PNG do recorte (em ``PASTA_RECORTES`` ou ``PASTA_RECORTES_MARGEM``).
+        condicao: uma de ``CONDICOES``.
         destino: arquivo PNG a escrever.
+        cabecalho: só para ``x2_cabecalho``; se None, a condição é ``x2`` pura (é o
+            que acontece com os recortes que não recebem cabeçalho).
 
     Returns:
         O próprio ``destino``.
@@ -92,13 +180,23 @@ def preparar_entrada(origem: Path, condicao: str, destino: Path) -> Path:
     if condicao == "nativo":
         shutil.copyfile(origem, destino)
         return destino
-    if condicao != "x2":
+    if condicao not in CONDICOES:
         raise ValueError(f"condição desconhecida: {condicao}")
     imagem = cv2.imread(str(origem), cv2.IMREAD_UNCHANGED)
     if imagem is None:
         raise ValueError(f"imagem ilegível: {origem}")
-    ampliada = cv2.resize(imagem, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
-    if not cv2.imwrite(str(destino), ampliada):
+    if condicao == "x2_binaria":
+        cinza = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY) if imagem.ndim == 3 else imagem
+        ampliada = cv2.resize(cinza, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+        _, saida = cv2.threshold(ampliada, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    else:
+        if condicao == "x2_cabecalho" and cabecalho is not None:
+            imagem = compor_cabecalho(imagem, cabecalho)
+        fator = {"x3": 3, "x4": 4}.get(condicao, 2)
+        saida = cv2.resize(
+            imagem, None, fx=fator, fy=fator, interpolation=cv2.INTER_CUBIC
+        )
+    if not cv2.imwrite(str(destino), saida):
         raise ValueError(f"não consegui gravar: {destino}")
     return destino
 
@@ -234,27 +332,93 @@ def _executar(
     return processo.returncode, out or "", err or "", None
 
 
-def rodar_um(biblioteca: str, condicao: str, item: dict, pasta_base: Path) -> dict:
+def cabecalho_de(item: dict, indice: dict[str, dict]) -> Cabecalho | None:
+    """Cabeçalho do R05 para um recorte, se ele é um dos que recebem (``CABECALHO_IDS``).
+
+    Args:
+        item: entrada do índice original (com ``id``, ``ys`` e ``caixa_recorte``).
+        indice: entradas do índice original, por id.
+
+    Returns:
+        O ``Cabecalho`` com as linhas de alinhamento, ou None para os outros ids.
+    """
+    if item["id"] not in CABECALHO_IDS:
+        return None
+    origem = indice[CABECALHO_ORIGEM]
+    linha_origem = origem["ys"][0] - origem["caixa_recorte"][1]
+    linha_destino = item["ys"][0] - item["caixa_recorte"][1]
+    return Cabecalho(
+        imagem=PASTA_RECORTES / f"{CABECALHO_ORIGEM}.png",
+        x_fim=CABECALHO_X_FIM,
+        linha_origem=linha_origem,
+        linha_destino=linha_destino,
+    )
+
+
+def conferir_margem(indice: dict[str, dict]) -> None:
+    """Confere que o índice com margem tem os mesmos ids e as mesmas caixas em x.
+
+    Args:
+        indice: entradas do índice original, por id.
+
+    Raises:
+        ValueError: se faltam ids ou se a caixa horizontal de algum recorte mudou.
+    """
+    caminho = PASTA_RECORTES_MARGEM / "indice.json"
+    margem = {
+        i["id"]: i
+        for i in json.loads(caminho.read_text(encoding="utf-8"))
+        if i.get("id")
+    }
+    faltam = sorted(set(indice) - set(margem))
+    if faltam:
+        raise ValueError(f"ids ausentes no índice com margem: {faltam}")
+    for id_, original in indice.items():
+        novo = margem[id_]
+        if (original["caixa_recorte"][0], original["caixa_recorte"][2]) != (
+            novo["caixa_recorte"][0],
+            novo["caixa_recorte"][2],
+        ):
+            raise ValueError(f"caixa horizontal de {id_} mudou com a margem")
+
+
+def rodar_um(
+    biblioteca: str,
+    condicao: str,
+    item: dict,
+    pasta_base: Path,
+    origem: Path | None = None,
+    cabecalho: Cabecalho | None = None,
+) -> dict:
     """Roda uma biblioteca em um recorte e devolve o registro de execução.
 
     Args:
         biblioteca: ``homr``, ``audiveris`` ou ``oemer``.
-        condicao: ``nativo`` ou ``x2``.
+        condicao: uma de ``CONDICOES``.
         item: entrada do ``indice.json`` (com ``id``).
         pasta_base: ``<biblioteca>/<condicao>`` em ``PASTA_OMR``.
+        origem: PNG do recorte; None = ``PASTA_RECORTES/<id>.png``.
+        cabecalho: cabeçalho a colar (só ``x2_cabecalho``); None = sem colar.
 
     Returns:
-        Dict com ``id``, ``ok``, ``motivo``, ``segundos``, ``codigo`` e ``saida``
-        (caminho relativo à raiz, ou None).
+        Dict com ``id``, ``ok``, ``motivo``, ``segundos``, ``codigo``, ``saida``
+        (caminho relativo à raiz, ou None) e ``entrada`` (o que foi montado).
     """
     id_ = item["id"]
     pasta = pasta_base / id_
     if pasta.exists():
         shutil.rmtree(pasta)
     pasta.mkdir(parents=True)
-    entrada = preparar_entrada(
-        PASTA_RECORTES / f"{id_}.png", condicao, pasta / "entrada.png"
-    )
+    if origem is None:
+        origem = PASTA_RECORTES / f"{id_}.png"
+    entrada = preparar_entrada(origem, condicao, pasta / "entrada.png", cabecalho)
+    detalhe = {"origem": str(origem.relative_to(RAIZ))}
+    if cabecalho is not None:
+        detalhe["cabecalho"] = {
+            "x_fim": cabecalho.x_fim,
+            "deslocamento_px": cabecalho.linha_destino - cabecalho.linha_origem,
+        }
+    detalhe["largura_entrada_px"] = int(cv2.imread(str(entrada)).shape[1])
     cmd = comando(biblioteca, entrada, pasta)
     inicio = time.perf_counter()
     codigo, out, err, motivo_proc = _executar(cmd, TIMEOUTS[biblioteca], pasta)
@@ -279,6 +443,7 @@ def rodar_um(biblioteca: str, condicao: str, item: dict, pasta_base: Path) -> di
         "segundos": round(segundos, 2),
         "codigo": codigo,
         "saida": str(saida.relative_to(RAIZ)) if saida is not None else None,
+        "entrada": detalhe,
     }
 
 
@@ -320,9 +485,18 @@ def rodar(biblioteca: str, condicao: str, ids: list[str] | None) -> list[dict]:
         indice = [i for i in indice if i["id"] in ids]
     pasta_base = PASTA_OMR / biblioteca / condicao
     pasta_base.mkdir(parents=True, exist_ok=True)
+    original = {i["id"]: i for i in carregar_indice()}
+    if condicao == "x2_margem":
+        conferir_margem(original)
     registros = []
     for item in indice:
-        registro = rodar_um(biblioteca, condicao, item, pasta_base)
+        origem = None
+        if condicao == "x2_margem":
+            origem = PASTA_RECORTES_MARGEM / f"{item['id']}.png"
+        cabecalho = None
+        if condicao == "x2_cabecalho":
+            cabecalho = cabecalho_de(item, original)
+        registro = rodar_um(biblioteca, condicao, item, pasta_base, origem, cabecalho)
         registros.append(registro)
         print(
             f"{biblioteca} {condicao} {registro['id']}: "
