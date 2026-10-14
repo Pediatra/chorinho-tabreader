@@ -5259,6 +5259,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - `python -m tab.partitura_pareamento`: o pareamento por sequência põe **325 de 326 pares no mesmo x do quadro** (mediana de 0,5 a 2,7 px, R01–R12).
 - O tempo da partitura é o `t_ini` da coluna pareada. Hoje ele sai vazio: nem o gabarito de tab nem a saída `fase8/medida` desses vídeos têm `t_ini` por nota. Depende da trilha tablatura.
 
+## Partitura — 2026-10-14 — saída única da partitura (rodada 3011)
+
+- `python -m tab.partitura_pareamento` agora faz leitura com armadura do vídeo + notas do homr confirmadas pela tab + pareamento. R01–R12: **526/546 certas (96,3 %)**. As notas erradas continuam 14 (as inventadas sobem de 3 para 8 só por troca de categoria). São 336 de 337 pares no mesmo x.
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do

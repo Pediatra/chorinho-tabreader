@@ -9,6 +9,7 @@ from pathlib import Path
 from tab.partitura_pareamento import (
     EventoPartitura,
     EventoTab,
+    completar_com_homr,
     eventos_da_tab,
     parear,
     x_dos_compassos,
@@ -151,3 +152,60 @@ def test_x_dos_compassos_le_stacks_do_omr(tmp_path: Path) -> None:
         (10.0, {Fraction(0): 5.0, Fraction(1, 4): 20.0}),
         (100.0, {Fraction(0): 3.0}),
     ]
+
+
+def _com_simbolos(evento: EventoPartitura) -> EventoPartitura:
+    """Dá ao evento um símbolo por altura (o que ``completar_com_homr`` copia)."""
+    evento.simbolos = [{"midi": m, "figura": "quarter"} for m in sorted(evento.midis)]
+    return evento
+
+
+def test_completar_com_homr_so_entra_nota_que_a_tab_confirma() -> None:
+    """Nota do homr confirmada pela tab completa o acorde; a não confirmada não entra."""
+    tab = [_evento_tab(0, 100.0, {60, 64}, []), _evento_tab(1, 200.0, {62}, [])]
+    partitura = [
+        _com_simbolos(_evento_partitura(0, 100.0, {60})),
+        _com_simbolos(_evento_partitura(1, 200.0, {62})),
+    ]
+    homr = [
+        _com_simbolos(_evento_partitura(0, None, {60, 64, 67})),
+        _com_simbolos(_evento_partitura(1, None, {62})),
+    ]
+    eventos, acrescimos = completar_com_homr(partitura, homr, tab)
+    assert acrescimos == 1
+    assert eventos[0].midis == frozenset({60, 64})
+    origens = {s["midi"]: s["origem"] for s in eventos[0].simbolos}
+    assert origens == {60: "audiveris", 64: "homr"}
+
+
+def test_completar_com_homr_cria_evento_na_coluna_sem_partitura() -> None:
+    """Coluna que só o homr viu vira evento novo, no lugar certo e com o x da tab."""
+    tab = [
+        _evento_tab(0, 100.0, {60}, []),
+        _evento_tab(1, 150.0, {65}, []),
+        _evento_tab(2, 200.0, {62}, []),
+    ]
+    partitura = [
+        _com_simbolos(_evento_partitura(0, 100.0, {60})),
+        _com_simbolos(_evento_partitura(1, 200.0, {62})),
+    ]
+    homr = [
+        _com_simbolos(_evento_partitura(0, None, {60})),
+        _com_simbolos(_evento_partitura(1, None, {65})),
+        _com_simbolos(_evento_partitura(2, None, {62})),
+    ]
+    eventos, acrescimos = completar_com_homr(partitura, homr, tab)
+    assert acrescimos == 1
+    assert [sorted(e.midis) for e in eventos] == [[60], [65], [62]]
+    assert eventos[1].x_quadro == 150.0
+    assert [e.indice for e in eventos] == [0, 1, 2]
+
+
+def test_completar_com_homr_sem_confirmacao_nao_muda_nada() -> None:
+    """Se o homr não tem a nota que falta, a sequência fica igual."""
+    tab = [_evento_tab(0, 100.0, {60, 64}, [])]
+    partitura = [_com_simbolos(_evento_partitura(0, 100.0, {60}))]
+    homr = [_com_simbolos(_evento_partitura(0, None, {60, 67}))]
+    eventos, acrescimos = completar_com_homr(partitura, homr, tab)
+    assert acrescimos == 0
+    assert eventos[0].midis == frozenset({60})

@@ -4,7 +4,8 @@ A pauta fica em cima da tab, alinhada na vertical. Se o pareamento por sequênci
 certo, a nota da partitura e a coluna da tab pareada caem no mesmo x do quadro. O x da
 partitura vem do ``.omr`` do Audiveris (``stack.left`` + ``slot.x-offset``, na imagem
 ampliada), e o da tab vem de ``x_centro_quadro``. O tempo de cada nota da partitura é o
-``t_ini`` da coluna da tab pareada: não há medidor próprio.
+``t_ini`` da coluna da tab pareada: não há medidor próprio. Antes de parear, as notas
+do homr que a tab confirma completam a leitura (``completar_com_homr``).
 
 Uso (dentro do container)::
 
@@ -28,6 +29,7 @@ from tab.partitura_avaliar import (
     SEMITONS_ESCRITA,
     _carregar_ouro,
     alinhar,
+    contar,
 )
 from tab.partitura_gabarito import _e_nota, ler_partitura
 
@@ -43,6 +45,9 @@ CONDICAO_OMR = "x2_margem"
 
 #: Saída do pareamento: um JSON por recorte.
 PASTA_PAREAMENTO = SAIDA / "partitura" / "p3" / "pareamento"
+
+#: Leitura do homr usada para completar as notas que o Audiveris perdeu.
+CONDICAO_HOMR = "nativo"
 
 
 @dataclass
@@ -289,6 +294,96 @@ def parear(
     return linhas
 
 
+def completar_com_homr(
+    partitura: list[EventoPartitura],
+    homr: list[EventoPartitura],
+    tab: list[EventoTab],
+) -> tuple[list[EventoPartitura], int]:
+    """Acrescenta à partitura as notas do homr que a tab confirma (rodada 3006).
+
+    As duas leituras são alinhadas, cada uma, com a tab. Uma nota da tab que a
+    partitura não cobre entra se o evento do homr casado com a mesma coluna tem essa
+    altura. Ela vai para o evento da partitura casado com a coluna; se a coluna não
+    tem evento da partitura, vira um evento novo, com o x da tab. Toda nota ganha
+    ``origem`` (``audiveris`` ou ``homr``). Nota que a tab não confirma não entra, então
+    a junção não inventa nota.
+
+    Args:
+        partitura: eventos da leitura principal (Audiveris), em ordem.
+        homr: eventos da leitura do homr, em ordem (sem x).
+        tab: eventos da tab, em ordem.
+
+    Returns:
+        ``(eventos, acrescimos)``: a sequência completada, reindexada em ordem, e
+        quantas notas vieram do homr.
+    """
+    alvo = [evento.midis for evento in tab]
+    par_da_tab = {
+        j: i for op, i, j in alinhar([e.midis for e in partitura], alvo) if op == "casa"
+    }
+    homr_da_tab = {
+        j: i for op, i, j in alinhar([e.midis for e in homr], alvo) if op == "casa"
+    }
+    novos = [
+        EventoPartitura(
+            indice=e.indice,
+            compasso=e.compasso,
+            t=e.t,
+            t_global=e.t_global,
+            x_quadro=e.x_quadro,
+            midis=e.midis,
+            simbolos=[{**s, "origem": "audiveris"} for s in e.simbolos],
+        )
+        for e in partitura
+    ]
+    criados: list[tuple[int, EventoPartitura]] = []
+    acrescimos = 0
+    for j, coluna in enumerate(tab):
+        if j not in homr_da_tab:
+            continue
+        i = par_da_tab.get(j)
+        cobertas = novos[i].midis if i is not None else frozenset()
+        do_homr = homr[homr_da_tab[j]]
+        extras = [
+            {**s, "origem": "homr"}
+            for s in do_homr.simbolos
+            if s["midi"] in coluna.midis - cobertas
+        ]
+        if not extras:
+            continue
+        acrescimos += len(extras)
+        midis = frozenset(s["midi"] for s in extras)
+        if i is not None:
+            novos[i].simbolos.extend(extras)
+            novos[i].midis = novos[i].midis | midis
+        else:
+            criados.append(
+                (
+                    j,
+                    EventoPartitura(
+                        indice=-1,
+                        compasso=do_homr.compasso,
+                        t=do_homr.t,
+                        t_global=do_homr.t_global,
+                        x_quadro=coluna.x_quadro,
+                        midis=midis,
+                        simbolos=extras,
+                    ),
+                )
+            )
+    # Evento criado entra logo depois do último evento da partitura casado com uma
+    # coluna anterior à dele.
+    posicoes = [(float(i), -1, e) for i, e in enumerate(novos)]
+    for j, evento in criados:
+        anteriores = [i for jj, i in par_da_tab.items() if jj < j]
+        posicoes.append(((max(anteriores) if anteriores else -1) + 0.5, j, evento))
+    ordenados = sorted(posicoes, key=lambda item: (item[0], item[1]))
+    eventos = [item[2] for item in ordenados]
+    for indice, evento in enumerate(eventos):
+        evento.indice = indice
+    return eventos, acrescimos
+
+
 def _gabarito_do_video(video: str, ouro: dict[str, list[dict]]) -> dict:
     """O gabarito único de um vídeo do ouro.
 
@@ -328,6 +423,13 @@ def _parear_recorte(entrada: dict, ouro: dict[str, list[dict]]) -> dict:
         x0,
     )
     tab = eventos_da_tab(tela["notas"], x0, x1)
+    homr = eventos_da_partitura(
+        PASTA_P1 / "omr" / "homr" / CONDICAO_HOMR / rid / "saida.musicxml", None, x0
+    )
+    referencia = [evento.midis for evento in tab]
+    antes, _ = contar([e.midis for e in partitura], referencia, "exato")
+    partitura, acrescimos = completar_com_homr(partitura, homr, tab)
+    depois, _ = contar([e.midis for e in partitura], referencia, "exato")
     tolerancia = float(entrada["entrelinha"])
     pares = parear(partitura, tab, tolerancia)
     distancias = sorted(p["distancia_x"] for p in pares if p["distancia_x"] is not None)
@@ -367,6 +469,9 @@ def _parear_recorte(entrada: dict, ouro: dict[str, list[dict]]) -> dict:
             "mediana_distancia_px": (
                 round(distancias[len(distancias) // 2], 2) if distancias else None
             ),
+            "acrescimos_homr": acrescimos,
+            "tab_antes": antes,
+            "tab_depois": depois,
         },
     }
 
@@ -409,7 +514,9 @@ def main(argv: list[str] | None = None) -> int:
         entradas = [por_id[rid] for rid in pedidos]
     ouro = _carregar_ouro()
     PASTA_PAREAMENTO.mkdir(parents=True, exist_ok=True)
-    total = {"pares": 0, "com_x": 0}
+    total = {"pares": 0, "com_x": 0, "acrescimos_homr": 0}
+    tab_antes: dict[str, int] = {}
+    tab_depois: dict[str, int] = {}
     for entrada in entradas:
         documento = _parear_recorte(entrada, ouro)
         resumo = documento["resumo"]
@@ -419,6 +526,11 @@ def main(argv: list[str] | None = None) -> int:
         )
         total["pares"] += resumo["pares"]
         total["com_x"] += resumo["com_x_conferido"]
+        total["acrescimos_homr"] += resumo["acrescimos_homr"]
+        for chave, valor in resumo["tab_antes"].items():
+            tab_antes[chave] = tab_antes.get(chave, 0) + valor
+        for chave, valor in resumo["tab_depois"].items():
+            tab_depois[chave] = tab_depois.get(chave, 0) + valor
         print(
             f"{entrada['id']} eventos partitura {resumo['eventos_partitura']} "
             f"eventos tab {resumo['eventos_tab']} pares {resumo['pares']} "
@@ -426,7 +538,12 @@ def main(argv: list[str] | None = None) -> int:
             f"(mediana {resumo['mediana_distancia_px']}, "
             f"tol {documento['tolerancia_px']:.1f} px)"
         )
-    print(f"total: pares {total['pares']}, com x conferido {total['com_x']}")
+    print(
+        f"total: pares {total['pares']}, com x conferido {total['com_x']}, "
+        f"notas do homr {total['acrescimos_homr']}"
+    )
+    print(f"tab antes:  {tab_antes}")
+    print(f"tab depois: {tab_depois}")
     print(f"gravado em {PASTA_PAREAMENTO}")
     return 0
 
