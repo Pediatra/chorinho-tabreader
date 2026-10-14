@@ -37,6 +37,20 @@ VARIANTES = (
     "enfeite",
 )
 
+#: Desenhos novos (arpejo GP, rasgueado, início GP, pausas internas, diagrama, marca
+#: acima, serif com corda por cima e faixa amarela): cada 100 sementes mostra todos.
+DESENHOS_NOVOS = (
+    "arpejo_gp",
+    "rasgueado_gp",
+    "letras_gp",
+    "pausa_interna",
+    "diagrama_acorde",
+    "marca_acima",
+    "corda_sobre_serif",
+    "serif_casa_1",
+    "faixa_amarela",
+)
+
 
 @pytest.fixture(scope="module")
 def fontes() -> list[str]:
@@ -189,3 +203,73 @@ def test_notas_vizinhas_na_mesma_corda_nao_se_encostam(fontes: list[str]) -> Non
                     continue
                 vao = b["caixa"][0] - a["caixa"][2]
                 assert vao >= 0.3 * passo, (semente, corda, a, b, vao, passo)
+
+
+def test_desenhos_novos_aparecem_em_100_sementes(fontes: list[str]) -> None:
+    """Em 100 sementes aparece cada desenho novo (arpejo, rasgueado, GP, diagrama...)."""
+    vistos: set[str] = set()
+    for semente in range(100):
+        _, info = gerar_sistema(random.Random(semente), fontes)
+        vistos.update(info["variantes"])
+        vistos.update(item["tipo"] for item in info["estrutura"])
+    assert set(DESENHOS_NOVOS) <= vistos
+
+
+def test_frequencias_de_arpejo_rasgueado_e_inicio_gp(fontes: list[str]) -> None:
+    """Em 300 sementes: rasgueado ~25% e início GP ~40% (tolerância 8 pts).
+
+    O arpejo só é desenhado onde cabe (folga de 0,1 passo, ou pula), então a taxa cai
+    de 35% para o piso medido de 20% em 300 sementes.
+    """
+    contagem: collections.Counter = collections.Counter()
+    for semente in range(300):
+        _, info = gerar_sistema(random.Random(semente), fontes)
+        contagem.update(info["variantes"])
+        contagem.update({item["tipo"] for item in info["estrutura"]})
+    assert contagem["arpejo_gp"] / 300 >= 0.2, contagem["arpejo_gp"]
+    for nome, alvo in (("rasgueado_gp", 0.25), ("letras_gp", 0.4)):
+        assert abs(contagem[nome] / 300 - alvo) <= 0.08, (nome, contagem[nome])
+
+
+def test_distratores_grandes_nao_cobrem_notas(fontes: list[str]) -> None:
+    """Em 200 sementes, fórmula, letras GP, diagrama e pausa interna não cobrem nota.
+
+    A folga é de 0,2 passo em volta da caixa da nota.
+    """
+    tipos = {"formula_compasso", "letras_gp", "diagrama_acorde", "pausa_interna"}
+    for semente in range(200):
+        _, info = gerar_sistema(random.Random(semente), fontes)
+        margem = 0.2 * info["passo"]
+        for item in info["estrutura"]:
+            if item["tipo"] not in tipos:
+                continue
+            a = item["caixa"]
+            for nota in info["notas"]:
+                b = nota["caixa"]
+                cruza = (
+                    a[0] < b[2] + margem
+                    and b[0] - margem < a[2]
+                    and a[1] < b[3] + margem
+                    and b[1] - margem < a[3]
+                )
+                assert not cruza, (semente, item["tipo"], nota)
+
+
+def test_arpejo_e_rasgueado_nao_cobrem_notas(fontes: list[str]) -> None:
+    """Em 200 sementes, arpejo e rasgueado não cobrem nota (folga de 0,1 passo)."""
+    for semente in range(200):
+        _, info = gerar_sistema(random.Random(semente), fontes)
+        margem = 0.1 * info["passo"]
+        for regiao in info["regioes"]:
+            if regiao["tecnica"] not in ("arpejo", "rasg"):
+                continue
+            a = regiao["caixa"]
+            for nota in info["notas"]:
+                b = nota["caixa"]
+                cruza = (
+                    a[0] < b[2] + margem
+                    and b[0] - margem < a[2]
+                    and a[1] < b[3] + margem
+                    and b[1] - margem < a[3]
+                )
+                assert not cruza, (semente, regiao["tecnica"], nota)
