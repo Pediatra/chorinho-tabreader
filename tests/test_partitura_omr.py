@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 import cv2
 import numpy as np
+import pytest
 
 from tab.partitura_avaliar import (
     NotaXML,
@@ -15,7 +17,13 @@ from tab.partitura_avaliar import (
     ler_musicxml,
     referencia_do_recorte,
 )
-from tab.partitura_omr import Cabecalho, comando, compor_cabecalho, preparar_entrada
+from tab.partitura_omr import (
+    Cabecalho,
+    comando,
+    compor_cabecalho,
+    herdar_armadura,
+    preparar_entrada,
+)
 
 MUSICXML_VOZES = """<?xml version="1.0" encoding="UTF-8"?>
 <score-partwise version="4.0">
@@ -257,3 +265,123 @@ def test_cabecalho_soma_largura_e_alinha_a_primeira_linha(tmp_path: Path) -> Non
     # sem cabeçalho, x2_cabecalho é x2 pura
     pura = preparar_entrada(dest_path, "x2_cabecalho", tmp_path / "p" / "entrada.png")
     assert cv2.imread(str(pura)).shape[:2] == (40, 60)
+
+
+def _partitura_sem_armadura(*compassos: str, atributos: str = "") -> str:
+    """MusicXML mínimo sem armadura; cada argumento é o conteúdo de um compasso."""
+    corpo = ""
+    for i, conteudo in enumerate(compassos, start=1):
+        cabeca = ""
+        if i == 1:
+            cabeca = f"<attributes><divisions>1</divisions>{atributos}</attributes>"
+        corpo += f'<measure number="{i}">{cabeca}{conteudo}</measure>'
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<score-partwise version="4.0"><part-list><score-part id="P1">'
+        "<part-name>G</part-name></score-part></part-list>"
+        f'<part id="P1">{corpo}</part></score-partwise>'
+    )
+
+
+def _nota_xml(step: str, octave: int, extra: str = "", alter: str = "") -> str:
+    """Nota de 1 tempo com pitch; ``extra`` (ex.: accidental) vai depois do tipo."""
+    alter_xml = f"<alter>{alter}</alter>" if alter else ""
+    return (
+        f"<note><pitch><step>{step}</step>{alter_xml}<octave>{octave}</octave></pitch>"
+        f"<duration>1</duration><type>quarter</type>{extra}</note>"
+    )
+
+
+def _alteracoes(xml: str) -> list[str]:
+    """Para cada nota com pitch, a ``step``+``octave`` e o ``alter`` (ou ``-``)."""
+    saida = []
+    for nota in ET.fromstring(xml).iter("note"):
+        pitch = nota.find("pitch")
+        if pitch is None:
+            continue
+        alter = pitch.findtext("alter") or "-"
+        saida.append(f"{pitch.findtext('step')}{pitch.findtext('octave')}={alter}")
+    return saida
+
+
+def test_herdar_armadura_sustenido_cria_key_e_alter() -> None:
+    """Com 1 sustenido, F sem acidente vira F#; C e B (fora da armadura) não mudam."""
+    xml = _partitura_sem_armadura(
+        _nota_xml("F", 4) + _nota_xml("C", 4) + _nota_xml("F", 5)
+    )
+    saida = herdar_armadura(xml, 1)
+    assert "<key><fifths>1</fifths></key>" in saida
+    assert _alteracoes(saida) == ["F4=1", "C4=-", "F5=1"]
+
+
+def test_herdar_armadura_bemol_aplica_menos_um() -> None:
+    """Com 2 bemóis (B e E), B e E sem acidente recebem -1; A não."""
+    xml = _partitura_sem_armadura(
+        _nota_xml("B", 3) + _nota_xml("E", 4) + _nota_xml("A", 4)
+    )
+    assert _alteracoes(herdar_armadura(xml, -2)) == ["B3=-1", "E4=-1", "A4=-"]
+
+
+def test_herdar_armadura_nota_com_accidental_nao_muda() -> None:
+    """Nota com <accidental>natural</accidental> mantém o próprio alter."""
+    xml = _partitura_sem_armadura(
+        _nota_xml("F", 4, extra="<accidental>natural</accidental>")
+    )
+    assert _alteracoes(herdar_armadura(xml, 1)) == ["F4=-"]
+
+
+def test_herdar_armadura_segue_natural_explicito_no_compasso() -> None:
+    """Depois de F natural explícito no compasso, o F seguinte não é alterado."""
+    xml = _partitura_sem_armadura(
+        _nota_xml("F", 4, extra="<accidental>natural</accidental>")
+        + _nota_xml("F", 4)
+        + _nota_xml("F", 5)
+    )
+    # A F5 é outra altura: sem acidente próprio, recebe a armadura.
+    assert _alteracoes(herdar_armadura(xml, 1)) == ["F4=-", "F4=-", "F5=1"]
+
+
+def test_herdar_armadura_proximo_compasso_volta_a_aplicar() -> None:
+    """O natural explícito vale só no compasso em que aparece."""
+    xml = _partitura_sem_armadura(
+        _nota_xml("F", 4, extra="<accidental>natural</accidental>"),
+        _nota_xml("F", 4),
+    )
+    assert _alteracoes(herdar_armadura(xml, 1)) == ["F4=-", "F4=1"]
+
+
+def test_herdar_armadura_step_fora_da_armadura_nao_muda() -> None:
+    """Com 1 sustenido, só F é alterado; C, G, D e A continuam naturais."""
+    xml = _partitura_sem_armadura(
+        _nota_xml("C", 4) + _nota_xml("G", 4) + _nota_xml("D", 4) + _nota_xml("A", 4)
+    )
+    assert _alteracoes(herdar_armadura(xml, 1)) == ["C4=-", "G4=-", "D4=-", "A4=-"]
+
+
+def test_herdar_armadura_nao_aplica_duas_vezes() -> None:
+    """Partitura que já tem fifths=1 volta igual: a armadura não é somada de novo."""
+    xml = _partitura_sem_armadura(
+        _nota_xml("F", 4, alter="1"),
+        atributos="<key><fifths>1</fifths></key>",
+    )
+    assert herdar_armadura(xml, 1) == xml
+
+
+def test_herdar_armadura_substitui_key_com_fifths_zero() -> None:
+    """Key com fifths 0 é trocado pelo valor pedido, e o modo é mantido."""
+    xml = _partitura_sem_armadura(
+        _nota_xml("F", 4),
+        atributos="<key><fifths>0</fifths><mode>major</mode></key>",
+    )
+    saida = herdar_armadura(xml, 1)
+    assert saida.count("<key>") == 1
+    assert "<fifths>1</fifths><mode>major</mode>" in saida
+    assert _alteracoes(saida) == ["F4=1"]
+
+
+def test_herdar_armadura_zero_e_fora_do_intervalo() -> None:
+    """Armadura 0 não muda o texto; valor fora de -7..7 é erro."""
+    xml = _partitura_sem_armadura(_nota_xml("F", 4))
+    assert herdar_armadura(xml, 0) == xml
+    with pytest.raises(ValueError):
+        herdar_armadura(xml, 8)

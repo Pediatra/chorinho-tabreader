@@ -509,6 +509,142 @@ def rodar(biblioteca: str, condicao: str, ids: list[str] | None) -> list[dict]:
     return registros
 
 
+#: Ordem em que os sustenidos entram na armadura.
+ORDEM_SUSTENIDOS = ("F", "C", "G", "D", "A", "E", "B")
+#: Ordem em que os bemóis entram na armadura.
+ORDEM_BEMOIS = ("B", "E", "A", "D", "G", "C", "F")
+#: Alter de cada valor de ``<accidental>`` (quando ``<alter>`` não está presente).
+_ALTER_DO_ACCIDENTAL = {
+    "natural": 0.0,
+    "sharp": 1.0,
+    "flat": -1.0,
+    "double-sharp": 2.0,
+    "flat-flat": -2.0,
+}
+
+
+def _alter_da_nota(nota: ET.Element) -> float:
+    """Alter sonoro escrito na nota, pelo ``<alter>`` ou pelo ``<accidental>``.
+
+    Args:
+        nota: elemento ``<note>`` com ``<pitch>``.
+
+    Returns:
+        Alter em semitons (0.0 se a nota não tem alteração escrita).
+    """
+    texto = nota.findtext("pitch/alter")
+    if texto:
+        return float(texto)
+    return _ALTER_DO_ACCIDENTAL.get(nota.findtext("accidental") or "", 0.0)
+
+
+def _gravar_alter(nota: ET.Element, valor: float) -> None:
+    """Grava ``valor`` em ``<alter>`` do ``<pitch>``, criando o elemento se preciso.
+
+    Args:
+        nota: elemento ``<note>`` com ``<pitch>``.
+        valor: alter em semitons a gravar.
+    """
+    pitch = nota.find("pitch")
+    if pitch is None:
+        raise ValueError("nota sem <pitch>")
+    alter = pitch.find("alter")
+    if alter is None:
+        posicao = next(i for i, f in enumerate(pitch) if f.tag == "step") + 1
+        alter = ET.Element("alter")
+        pitch.insert(posicao, alter)
+    alter.text = format(valor, "g")
+
+
+def _gravar_armadura(atributos: ET.Element, fifths: int) -> None:
+    """Põe ``<key><fifths>`` no ``<attributes>``, substituindo ou criando.
+
+    Args:
+        atributos: primeiro ``<attributes>`` da partitura.
+        fifths: número de sustenidos (positivo) ou bemóis (negativo).
+    """
+    chave = atributos.find("key")
+    if chave is None:
+        posicao = 0
+        for i, filho in enumerate(atributos):
+            if filho.tag == "divisions":
+                posicao = i + 1
+        chave = ET.Element("key")
+        atributos.insert(posicao, chave)
+    campo = chave.find("fifths")
+    if campo is None:
+        campo = ET.Element("fifths")
+        chave.insert(0, campo)
+    campo.text = str(fifths)
+
+
+def herdar_armadura(musicxml: str, fifths: int) -> str:
+    """Aplica uma armadura a um MusicXML lido sem ela.
+
+    Grava ``<key><fifths>`` no primeiro ``<attributes>`` e, para cada nota cujo
+    ``<step>`` é alterado pela armadura, sem ``<accidental>`` próprio e sem uma nota
+    anterior de mesmo step e oitava com ``<accidental>`` no mesmo compasso, soma a
+    alteração da armadura ao ``<alter>``. Nota que segue um ``<accidental>`` explícito
+    no mesmo compasso herda o alter dele. Se a partitura já tem armadura não nula, ou
+    ``fifths`` é 0, devolve o texto sem mudança (não aplica duas vezes).
+
+    Os comentários XML são preservados; ``DOCTYPE`` e a formatação original não.
+
+    Args:
+        musicxml: texto de um MusicXML ``score-partwise``.
+        fifths: armadura pedida, de -7 (7 bemóis) a 7 (7 sustenidos).
+
+    Returns:
+        O MusicXML com a armadura aplicada, ou o mesmo texto se nada muda.
+
+    Raises:
+        ValueError: se ``fifths`` está fora de -7..7 ou o documento não tem
+            ``<attributes>``.
+        xml.etree.ElementTree.ParseError: se o XML não abre.
+    """
+    if not -7 <= fifths <= 7:
+        raise ValueError(f"armadura fora de -7..7: {fifths}")
+    if fifths == 0:
+        return musicxml
+    parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
+    raiz = ET.fromstring(musicxml, parser=parser)
+    atributos = raiz.find(".//attributes")
+    if atributos is None:
+        raise ValueError("MusicXML sem <attributes>")
+    atual = atributos.findtext("key/fifths")
+    if atual is not None and int(atual) != 0:
+        return musicxml
+    _gravar_armadura(atributos, fifths)
+
+    if fifths > 0:
+        alterados = dict.fromkeys(ORDEM_SUSTENIDOS[:fifths], 1.0)
+    else:
+        alterados = dict.fromkeys(ORDEM_BEMOIS[:-fifths], -1.0)
+    for medida in raiz.iter("measure"):
+        explicitos: dict[tuple[str | None, str | None], float] = {}
+        for nota in medida.findall("note"):
+            pitch = nota.find("pitch")
+            if pitch is None:
+                continue
+            chave = (pitch.findtext("step"), pitch.findtext("octave"))
+            if nota.find("accidental") is not None:
+                explicitos[chave] = _alter_da_nota(nota)
+                continue
+            if chave in explicitos:
+                novo = explicitos[chave]
+            elif chave[0] in alterados:
+                novo = _alter_da_nota(nota) + alterados[chave[0]]
+            else:
+                continue
+            if novo != _alter_da_nota(nota):
+                _gravar_alter(nota, novo)
+
+    corpo = ET.tostring(raiz, encoding="unicode")
+    if musicxml.lstrip().startswith("<?xml"):
+        return '<?xml version="1.0" encoding="UTF-8"?>\n' + corpo
+    return corpo
+
+
 def main(argv: list[str] | None = None) -> int:
     """Ponto de entrada da CLI.
 
