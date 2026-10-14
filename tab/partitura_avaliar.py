@@ -58,6 +58,7 @@ CONDICOES = (
     "x4",
     "x2_binaria",
     "x2_margem",
+    "x2_margem_herdada",
     "x2_cabecalho",
 )
 

@@ -5249,6 +5249,11 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - Armadura herdada (rodada 3007): aplicando a armadura do R05 à leitura sem clave, R06 sobe de 79 para 81/88 e R07 de 88 para 89/96 (R07 sem altura errada). Falta tirar a armadura automaticamente do quadro do vídeo onde a clave aparece.
 - Recorte (rodada 3008): conjunto de barras de colcheia, mais grosso que 1,5 entrelinha, deixa de contar como vizinho. Com isso, R21 e R14 deixam de cortar a parte de cima; as outras 19 caixas não mudam. `recortes_margem/` foi mantido, porque o gabarito usa as coordenadas dele.
 
+## Partitura — 2026-10-14 — armadura do vídeo automática (rodada 3009)
+
+- `python -m tab.partitura_omr herdar`: a armadura vem da maioria das leituras do mesmo vídeo que têm clave e é aplicada às leituras sem clave. R01–R12: **491 → 494/546**, inventadas continuam 3.
+- No R06, as 5 alturas que sobram são bemóis inventados pelo Audiveris (compassos 7 e 11). O dono marcou essas notas como certas na conferência: rever o R06 na próxima rodada de conferência, sem mexer no gabarito por conta própria.
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do

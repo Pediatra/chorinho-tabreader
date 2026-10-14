@@ -23,9 +23,13 @@ Condições:
 Roda DENTRO da imagem ``chorinho-partitura:dev``, com o ``python`` da base e
 ``subprocess`` chamando os executáveis dos venvs e do Audiveris.
 
+``herdar``: para uma condição já rodada, aplica a armadura do vídeo (``armadura_do_video``)
+aos recortes cuja leitura não tem clave, e grava a condição ``<condicao>_herdada``.
+
 Uso:
     python -m tab.partitura_omr rodar --biblioteca homr --condicao nativo
     python -m tab.partitura_omr rodar --biblioteca audiveris --condicao x2 --ids R01,R08
+    python -m tab.partitura_omr herdar --biblioteca audiveris --condicao x2_margem
 """
 
 from __future__ import annotations
@@ -41,6 +45,7 @@ import sys
 import time
 import xml.etree.ElementTree as ET
 import zipfile
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -645,6 +650,147 @@ def herdar_armadura(musicxml: str, fifths: int) -> str:
     return corpo
 
 
+def _tem_clave(musicxml: str) -> bool:
+    """Diz se a leitura tem ``<clef>``, ou seja, se começa um sistema com clave.
+
+    Args:
+        musicxml: texto de um MusicXML.
+
+    Returns:
+        True se há algum ``<clef>`` no documento.
+    """
+    return ET.fromstring(musicxml).find(".//clef") is not None
+
+
+def _fifths_da_leitura(musicxml: str) -> int:
+    """Armadura escrita na leitura (primeiro ``<key><fifths>``; sem ``<key>``, 0).
+
+    Args:
+        musicxml: texto de um MusicXML.
+
+    Returns:
+        ``fifths`` da primeira armadura do documento, ou 0.
+    """
+    texto = ET.fromstring(musicxml).findtext(".//key/fifths")
+    return int(texto) if texto else 0
+
+
+def armadura_do_video(leituras: list[str]) -> int | None:
+    """Armadura do vídeo, pela maioria das leituras que têm clave.
+
+    Só as leituras com ``<clef>`` contam, porque são as que começam um sistema. Sem
+    ``<key>``, a leitura conta como armadura 0. Empate vai para o menor valor absoluto
+    e, depois, para o menor valor.
+
+    Args:
+        leituras: textos MusicXML das leituras de um vídeo.
+
+    Returns:
+        O ``fifths`` escolhido, ou None se nenhuma leitura tem clave.
+    """
+    contagem = Counter(_fifths_da_leitura(t) for t in leituras if _tem_clave(t))
+    if not contagem:
+        return None
+    return min(contagem, key=lambda v: (-contagem[v], abs(v), v))
+
+
+def herdar_condicao(
+    execucoes: list[dict],
+    indice: list[dict],
+    pasta_destino: Path,
+    base: Path,
+) -> list[dict]:
+    """Grava uma condição com a armadura do vídeo aplicada aos recortes sem clave.
+
+    Para cada recorte, a leitura é copiada igual, exceto quando não tem ``<clef>`` e a
+    armadura do vídeo não é 0 ou None; nesse caso recebe ``herdar_armadura``.
+
+    Args:
+        execucoes: registros do ``execucao.json`` da condição de origem.
+        indice: entradas do índice dos recortes (``id`` e ``video``).
+        pasta_destino: pasta ``<condicao>_herdada`` a escrever (é recriada).
+        base: raiz para ler e gravar os caminhos ``saida`` (``RAIZ`` na CLI).
+
+    Returns:
+        Os registros de ``herdada.json``, na ordem do índice.
+    """
+    por_id = {r["id"]: r for r in execucoes}
+    textos: dict[str, str] = {}
+    leituras_do_video: dict[str, list[str]] = {}
+    for item in indice:
+        registro = por_id[item["id"]]
+        if not registro["ok"]:
+            continue
+        texto = (base / registro["saida"]).read_text(encoding="utf-8")
+        textos[item["id"]] = texto
+        leituras_do_video.setdefault(item["video"], []).append(texto)
+    armadura = {v: armadura_do_video(ts) for v, ts in leituras_do_video.items()}
+
+    if pasta_destino.exists():
+        shutil.rmtree(pasta_destino)
+    pasta_destino.mkdir(parents=True)
+    execucao_nova = []
+    herdada = []
+    for item in indice:
+        id_ = item["id"]
+        registro = dict(por_id[id_])
+        tinha_clave = False
+        aplicado = None
+        if id_ in textos:
+            texto = textos[id_]
+            tinha_clave = _tem_clave(texto)
+            novo = texto
+            fifths = armadura[item["video"]]
+            if not tinha_clave and fifths:
+                novo = herdar_armadura(texto, fifths)
+                if novo != texto:
+                    aplicado = fifths
+            pasta = pasta_destino / id_
+            pasta.mkdir(parents=True)
+            caminho = pasta / NOME_SAIDA
+            caminho.write_text(novo, encoding="utf-8")
+            registro["saida"] = str(caminho.relative_to(base))
+        execucao_nova.append(registro)
+        herdada.append(
+            {
+                "id": id_,
+                "video": item["video"],
+                "tinha_clave": tinha_clave,
+                "fifths_aplicado": aplicado,
+            }
+        )
+    (pasta_destino / "execucao.json").write_text(
+        json.dumps(execucao_nova, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (pasta_destino / "herdada.json").write_text(
+        json.dumps(herdada, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    return herdada
+
+
+def herdar(biblioteca: str, condicao: str) -> list[dict]:
+    """Roda ``herdar_condicao`` sobre uma condição já rodada, com o índice dela.
+
+    Args:
+        biblioteca: ``homr``, ``audiveris`` ou ``oemer``.
+        condicao: uma de ``CONDICOES`` já rodada (``execucao.json`` existente).
+
+    Returns:
+        Os registros de ``herdada.json``.
+    """
+    origem = PASTA_OMR / biblioteca / condicao
+    execucoes = json.loads((origem / "execucao.json").read_text(encoding="utf-8"))
+    pasta_indice = PASTA_RECORTES_MARGEM if condicao == "x2_margem" else PASTA_RECORTES
+    indice = json.loads((pasta_indice / "indice.json").read_text(encoding="utf-8"))
+    return herdar_condicao(
+        execucoes,
+        indice,
+        PASTA_OMR / biblioteca / f"{condicao}_herdada",
+        RAIZ,
+    )
+
+
 def main(argv: list[str] | None = None) -> int:
     """Ponto de entrada da CLI.
 
@@ -660,7 +806,21 @@ def main(argv: list[str] | None = None) -> int:
     rod.add_argument("--biblioteca", choices=BIBLIOTECAS, required=True)
     rod.add_argument("--condicao", choices=CONDICOES, required=True)
     rod.add_argument("--ids", default=None, help="ex.: R01,R08 (padrão: todos)")
+    her = sub.add_parser("herdar", help="aplica a armadura do vídeo às leituras")
+    her.add_argument("--biblioteca", choices=BIBLIOTECAS, required=True)
+    her.add_argument("--condicao", choices=CONDICOES, required=True)
     args = parser.parse_args(argv)
+
+    if args.comando == "herdar":
+        herdada = herdar(args.biblioteca, args.condicao)
+        com_clave = sum(r["tinha_clave"] for r in herdada)
+        aplicados = sum(r["fifths_aplicado"] is not None for r in herdada)
+        print(
+            f"{args.biblioteca} {args.condicao}_herdada: {len(herdada)} recortes, "
+            f"{com_clave} com clave, {aplicados} com armadura herdada",
+            file=sys.stderr,
+        )
+        return 0
 
     ids = args.ids.split(",") if args.ids else None
     registros = rodar(args.biblioteca, args.condicao, ids)

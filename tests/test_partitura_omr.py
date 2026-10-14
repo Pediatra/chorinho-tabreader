@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
@@ -19,9 +20,11 @@ from tab.partitura_avaliar import (
 )
 from tab.partitura_omr import (
     Cabecalho,
+    armadura_do_video,
     comando,
     compor_cabecalho,
     herdar_armadura,
+    herdar_condicao,
     preparar_entrada,
 )
 
@@ -385,3 +388,82 @@ def test_herdar_armadura_zero_e_fora_do_intervalo() -> None:
     assert herdar_armadura(xml, 0) == xml
     with pytest.raises(ValueError):
         herdar_armadura(xml, 8)
+
+
+def _leitura(fifths: int | None, clave: bool = True) -> str:
+    """Leitura MusicXML com clave (opcional) e armadura (None = sem ``<key>``)."""
+    clef = "<clef><sign>G</sign><line>2</line></clef>" if clave else ""
+    key = "" if fifths is None else f"<key><fifths>{fifths}</fifths></key>"
+    return _partitura_sem_armadura(_nota_xml("G", 4), atributos=f"{clef}{key}")
+
+
+def test_armadura_do_video_pela_maioria_das_com_clave() -> None:
+    """Leituras sem clave não contam: a maioria entre as com clave é 2."""
+    leituras = [_leitura(2), _leitura(2), _leitura(1), _leitura(5, clave=False)]
+    assert armadura_do_video(leituras) == 2
+
+
+def test_armadura_do_video_sem_clave_em_nenhuma_e_none() -> None:
+    """Nenhuma leitura com clave: não há armadura a herdar."""
+    assert armadura_do_video([_leitura(1, clave=False), _leitura(0, False)]) is None
+    assert armadura_do_video([]) is None
+
+
+def test_armadura_do_video_sem_key_conta_como_zero() -> None:
+    """Clave sem ``<key>`` vota 0: duas delas vencem uma com fifths 1."""
+    leituras = [_leitura(None), _leitura(None), _leitura(1)]
+    assert armadura_do_video(leituras) == 0
+
+
+def test_armadura_do_video_empate_menor_absoluto_depois_menor() -> None:
+    """Empate de 1 a 1: |-1| < |2| vence; empate de 2 e -2 fica com -2."""
+    assert armadura_do_video([_leitura(3), _leitura(-1)]) == -1
+    assert armadura_do_video([_leitura(2), _leitura(-2)]) == -2
+
+
+def test_herdar_condicao_aplica_so_onde_falta_clave(tmp_path: Path) -> None:
+    """R01 tem clave (fifths 1); R02 do mesmo vídeo não tem: recebe 1 sustenido.
+
+    R03 é de outro vídeo, sem leitura: fica sem saída e não recebe nada.
+    """
+    base = tmp_path
+    pasta_origem = tmp_path / "x2_margem"
+    indice = [
+        {"id": "R01", "video": "v1"},
+        {"id": "R02", "video": "v1"},
+        {"id": "R03", "video": "v2"},
+    ]
+    com_clave = _leitura(1)
+    sem_clave = _partitura_sem_armadura(_nota_xml("F", 4))
+    for id_, texto in (("R01", com_clave), ("R02", sem_clave)):
+        pasta = pasta_origem / id_
+        pasta.mkdir(parents=True)
+        (pasta / "saida.musicxml").write_text(texto, encoding="utf-8")
+    execucoes = [
+        {"id": "R01", "ok": True, "saida": "x2_margem/R01/saida.musicxml"},
+        {"id": "R02", "ok": True, "saida": "x2_margem/R02/saida.musicxml"},
+        {"id": "R03", "ok": False, "saida": None, "motivo": "timeout 300 s"},
+    ]
+    destino = tmp_path / "x2_margem_herdada"
+    herdada = herdar_condicao(execucoes, indice, destino, base)
+
+    assert herdada == [
+        {"id": "R01", "video": "v1", "tinha_clave": True, "fifths_aplicado": None},
+        {"id": "R02", "video": "v1", "tinha_clave": False, "fifths_aplicado": 1},
+        {"id": "R03", "video": "v2", "tinha_clave": False, "fifths_aplicado": None},
+    ]
+    saida_r02 = (destino / "R02" / "saida.musicxml").read_text(encoding="utf-8")
+    assert "<fifths>1</fifths>" in saida_r02
+    assert _alteracoes(saida_r02) == ["F4=1"]
+    assert (destino / "R01" / "saida.musicxml").read_text(encoding="utf-8") == com_clave
+    assert not (destino / "R03").exists()
+
+    execucao = json.loads((destino / "execucao.json").read_text(encoding="utf-8"))
+    assert [r["saida"] for r in execucao] == [
+        "x2_margem_herdada/R01/saida.musicxml",
+        "x2_margem_herdada/R02/saida.musicxml",
+        None,
+    ]
+    assert execucao[2]["motivo"] == "timeout 300 s"
+    registros = json.loads((destino / "herdada.json").read_text(encoding="utf-8"))
+    assert registros == herdada
