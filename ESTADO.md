@@ -5241,6 +5241,14 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - 43 das 74 faltando não aparecem em nenhuma das duas leituras. Filtrar pela tab zeraria as inventadas, mas isso é pareamento (P3): só com aviso do dono.
 - **Não repetir**: juntar homr e Audiveris sem filtro, seja completando acordes (14/102 casam), seja com eventos só do homr (17/62).
 
+## Partitura — 2026-10-14 — P3 liberada: homr confirmado pela tab (rodada 3006)
+
+- O dono liberou a P3 em 2026-10-14. Primeiro passo: a nota do homr só entra se a tab tem a mesma altura no evento casado. Resultado em R01–R12: **certas 491→523/546 (95,8 %), inventadas continuam 3**.
+- 23 notas continuam sem leitura nenhuma: a altura vem da tab, mas a figura não tem fonte. A figura das 32 recuperadas vem do homr e não foi conferida.
+- R20: a segunda metade não foi lida, e o dono não marcou faltando. O gabarito do R20 vale só para os símbolos lidos.
+- Armadura herdada (rodada 3007): aplicando a armadura do R05 à leitura sem clave, R06 sobe de 79 para 81/88 e R07 de 88 para 89/96 (R07 sem altura errada). Falta tirar a armadura automaticamente do quadro do vídeo onde a clave aparece.
+- Recorte (rodada 3008): conjunto de barras de colcheia, mais grosso que 1,5 entrelinha, deixa de contar como vizinho. Com isso, R21 e R14 deixam de cortar a parte de cima; as outras 19 caixas não mudam. `recortes_margem/` foi mantido, porque o gabarito usa as coordenadas dele.
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do

@@ -62,3 +62,10 @@ Nenhum dos dois tipos serve sozinho.
   do `.omr` difere do número de eventos.
 - **Inventada é estimativa.** Acréscimo sem clique conta como inventado, mas ele pode
   corresponder a um símbolo que o dono marcou com altura errada.
+
+## Adendo (mesmo dia): R20
+
+O dono confirmou que o Audiveris acertou a primeira metade do R20 e **não leu a segunda metade
+inteira**. Ele não clicou nas notas faltando porque seria a metade toda. Então os 25 acréscimos
+do homr no R20 não podem ser contados como inventados. Tirando o R20, são 139 acréscimos, dos quais **108 ficam sem
+clique**, e a conclusão não muda. Para o R20, o gabarito vale só para os símbolos lidos.
