@@ -13,9 +13,15 @@ nesta ordem, cada uma podendo trocar o dedo da anterior:
 4. sequência melódica (ataques de uma nota fora do polegar, até
    ``JANELA_SEQUENCIA_S`` um do outro, ignorando ataques só de polegar): na mesma corda
    ou numa mais aguda, o dedo é o seguinte ao anterior (i → m → a); ao passar de ``a``
-   reinicia no padrão da corda; numa corda mais grave, usa o padrão.
+   reinicia no padrão da corda; numa corda mais grave, usa o padrão. Com
+   ``alternar_ma``, a mesma corda depois de ``a`` dá ``m`` (I-M-A-M-A).
 
-Em toda regra o dedo nunca fica abaixo do padrão da corda (na ordem i < m < a).
+Em toda regra o dedo nunca fica abaixo do padrão da corda (na ordem i < m < a), salvo
+a alternância m-a da regra 4.
+
+Versão atual: v2 (janelas de 1,0 s e alternância ligada). A v2 foi medida na rodada 1010
+(``docs/rodadas/1010-m5-regra-da-direita-contra-o-dono.md``): 171/199 fora da amostra,
+contra 154/199 da v1. A v1 é a que o dono viu e confirmou nos compassos ímpares.
 
 Funções puras: a regra só lê corda e tempo. A casa vai na saída para o dono conferir,
 mas não entra na decisão.
@@ -38,10 +44,18 @@ ORDEM_DEDOS: tuple[str, ...] = ("i", "m", "a")
 TOLERANCIA_ATAQUE_S = 0.02
 
 #: Polegar ainda ocupado: a corda 4 logo depois de um bordão (5 ou 6) usa ``i``.
-JANELA_POLEGAR_S = 0.25
+JANELA_POLEGAR_S = 1.0
 
 #: Ataques de uma nota fora do polegar, até este intervalo um do outro, formam sequência.
-JANELA_SEQUENCIA_S = 0.6
+JANELA_SEQUENCIA_S = 1.0
+
+#: Regra v1, a que o dono viu nos compassos ímpares (rodada 1010, referência).
+V1_JANELA_POLEGAR_S = 0.25
+V1_JANELA_SEQUENCIA_S = 0.6
+V1_ALTERNAR_MA = False
+
+#: Alternância m-a na sequência (I-M-A-M-A), ligada na v2.
+ALTERNAR_MA_PADRAO = True
 
 #: Folga para comparar tempos em ponto flutuante.
 _EPS = 1e-9
@@ -204,7 +218,7 @@ def _aplicar_sequencia(
     dedo: list[str],
     regra: list[str],
     janela_sequencia_s: float = JANELA_SEQUENCIA_S,
-    alternar_ma: bool = False,
+    alternar_ma: bool = ALTERNAR_MA_PADRAO,
 ) -> None:
     """Regra 4: sequência de ataques de uma nota fora do polegar.
 
@@ -262,7 +276,7 @@ def atribuir_dedos_direita(
     *,
     janela_polegar_s: float = JANELA_POLEGAR_S,
     janela_sequencia_s: float = JANELA_SEQUENCIA_S,
-    alternar_ma: bool = False,
+    alternar_ma: bool = ALTERNAR_MA_PADRAO,
 ) -> list[dict]:
     """Palpite do dedo da mão direita para cada nota de um compasso tocado.
 

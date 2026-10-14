@@ -25,7 +25,12 @@ from pathlib import Path
 from typing import Any
 
 from .caminhos import GABARITO_PADROES, MAOS_M5_REGRA_V2
-from .maos_regra_direita import atribuir_dedos_direita
+from .maos_regra_direita import (
+    V1_ALTERNAR_MA,
+    V1_JANELA_POLEGAR_S,
+    V1_JANELA_SEQUENCIA_S,
+    atribuir_dedos_direita,
+)
 
 #: Grade de ``janela_polegar_s``.
 JANELAS_POLEGAR_S: tuple[float, ...] = (0.25, 0.5, 0.7, 1.0)
@@ -36,11 +41,12 @@ JANELAS_SEQUENCIA_S: tuple[float, ...] = (0.6, 0.8, 1.0, 1.2)
 #: Grade de ``alternar_ma``.
 ALTERNAR_MA: tuple[bool, ...] = (False, True)
 
-#: A regra de produção, como referência de comparação.
+#: A regra v1 (a que o dono viu nos ímpares), como referência de comparação. Não é
+#: mais o default de produção, que é a v2.
 VARIANTE_ATUAL: dict[str, Any] = {
-    "janela_polegar_s": 0.25,
-    "janela_sequencia_s": 0.6,
-    "alternar_ma": False,
+    "janela_polegar_s": V1_JANELA_POLEGAR_S,
+    "janela_sequencia_s": V1_JANELA_SEQUENCIA_S,
+    "alternar_ma": V1_ALTERNAR_MA,
 }
 
 #: Dono que marca nota ligada (sem ataque da direita): fica fora da conta.

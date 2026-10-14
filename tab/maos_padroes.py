@@ -21,8 +21,10 @@ Este módulo tem:
 
 1. funções puras (validação, gabarito, confirmação, progresso), testadas no gate;
 2. o subcomando ``servir``: servidor ``http.server`` com uma página para a amostra da
-   página. Cada confirmação é gravada em disco (escrita atômica) e o servidor atende
-   ``Range``, que o navegador usa para tocar o vídeo.
+   página (``--pagina na_pagina``, os marcados no índice; ``--pagina pendentes``, os que
+   ainda não estão confirmados quando o servidor sobe). Cada confirmação é gravada em
+   disco (escrita atômica) e o servidor atende ``Range``, que o navegador usa para tocar
+   o vídeo.
 
 O material é gerado por ``tab.maos_padroes_preparar`` (sem GPU).
 
@@ -317,6 +319,31 @@ def ordem_da_pagina(itens: list[dict]) -> list[str]:
     return [it["id"] for it in itens if it.get("na_pagina")]
 
 
+def ordem_dos_pendentes(itens: list[dict], gabarito: dict) -> list[str]:
+    """Ids de todo o índice que ainda não estavam confirmados no gabarito.
+
+    Usada com ``servir --pagina pendentes``. A lista é tirada uma vez, quando o servidor
+    sobe: um compasso confirmado depois continua na página e conta no progresso.
+
+    Args:
+        itens: entradas do ``indice.json`` (todas, não só as da página).
+        gabarito: gabarito formato 2 como está no disco.
+
+    Returns:
+        Ids sem ``confirmado: true``, na ordem do índice.
+    """
+    confirmados = gabarito["itens"]
+    return [
+        it["id"]
+        for it in itens
+        if confirmados.get(it["id"], {}).get("confirmado") is not True
+    ]
+
+
+#: Conjuntos de compassos que a página mostra (``servir --pagina``).
+PAGINAS: tuple[str, ...] = ("na_pagina", "pendentes")
+
+
 def progresso(gabarito: dict, ordem: list[str]) -> tuple[int, int]:
     """Quantos compassos da página estão confirmados, de quantos.
 
@@ -359,7 +386,11 @@ def proximo_pendente(ordem: list[str], gabarito: dict, atual: str | None) -> str
 
 
 def criar_servidor(
-    pasta: Path, ouro: Path, porta: int = 8097, host: str = "127.0.0.1"
+    pasta: Path,
+    ouro: Path,
+    porta: int = 8097,
+    host: str = "127.0.0.1",
+    pagina: str = "na_pagina",
 ) -> http.server.ThreadingHTTPServer:
     """Cria o servidor (não o inicia). Por padrão escuta SOMENTE em 127.0.0.1.
 
@@ -368,20 +399,27 @@ def criar_servidor(
         ouro: gabarito formato 2; é carregado agora e gravado a cada confirmação.
         porta: porta TCP (0 = uma livre).
         host: endereço de escuta (``0.0.0.0`` só dentro de container).
+        pagina: ``na_pagina`` (os marcados no índice) ou ``pendentes`` (os que não
+            estão confirmados no gabarito agora).
 
     Returns:
         O servidor; ``servidor.server_address[1]`` é a porta real.
 
     Raises:
-        ValueError: se o gabarito não estiver no formato 2.
+        ValueError: se o gabarito não estiver no formato 2 ou ``pagina`` for desconhecida.
     """
+    if pagina not in PAGINAS:
+        raise ValueError(f"página desconhecida: {pagina!r}; use {PAGINAS}")
     pasta = pasta.resolve()
     indice = json.loads((pasta / "indice.json").read_text(encoding="utf-8"))
     estado = json.loads(ouro.read_text(encoding="utf-8"))
     if estado.get("formato") != FORMATO_GABARITO:
         raise ValueError(f"{ouro} não está no formato {FORMATO_GABARITO}")
     por_id = {it["id"]: it for it in indice["itens"]}
-    ordem = ordem_da_pagina(indice["itens"])
+    if pagina == "pendentes":
+        ordem = ordem_dos_pendentes(indice["itens"], estado)
+    else:
+        ordem = ordem_da_pagina(indice["itens"])
     vistas = [vista_do_item(por_id[id_item]) for id_item in ordem]
     trava = threading.Lock()
 
@@ -879,7 +917,9 @@ carregar().catch(erro => { $("erro").textContent = "Falha ao carregar: " + erro;
 """
 
 
-def servir(pasta: Path, ouro: Path, porta: int, host: str) -> int:
+def servir(
+    pasta: Path, ouro: Path, porta: int, host: str, pagina: str = "na_pagina"
+) -> int:
     """Sobe o servidor e fica nele até Ctrl+C.
 
     Args:
@@ -887,6 +927,7 @@ def servir(pasta: Path, ouro: Path, porta: int, host: str) -> int:
         ouro: gabarito dos padrões (já criado pelo ``preparar``).
         porta: porta TCP.
         host: endereço de escuta.
+        pagina: conjunto de compassos da página (ver ``criar_servidor``).
 
     Returns:
         Código de saída.
@@ -905,8 +946,9 @@ def servir(pasta: Path, ouro: Path, porta: int, host: str) -> int:
             file=sys.stderr,
         )
         return 2
-    servidor = criar_servidor(pasta, ouro, porta, host)
-    print(f"ferramenta dos padrões: http://127.0.0.1:{servidor.server_address[1]}/")
+    servidor = criar_servidor(pasta, ouro, porta, host, pagina)
+    porta_real = servidor.server_address[1]
+    print(f"ferramenta dos padrões ({pagina}): http://127.0.0.1:{porta_real}/")
     print(f"escutando em {host}; cada confirmação é gravada em: {ouro}", flush=True)
     try:
         servidor.serve_forever()
@@ -930,8 +972,14 @@ def main() -> int:
     servidor.add_argument("--ouro", type=Path, default=GABARITO_PADROES)
     servidor.add_argument("--porta", type=int, default=8097)
     servidor.add_argument("--host", default="127.0.0.1")
+    servidor.add_argument(
+        "--pagina",
+        choices=PAGINAS,
+        default="na_pagina",
+        help="na_pagina: os marcados no índice; pendentes: os não confirmados agora",
+    )
     args = parser.parse_args()
-    return servir(args.pasta, args.ouro, args.porta, args.host)
+    return servir(args.pasta, args.ouro, args.porta, args.host, args.pagina)
 
 
 if __name__ == "__main__":

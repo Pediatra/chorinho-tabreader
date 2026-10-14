@@ -75,7 +75,9 @@ troca o que estiver errado e confirma. Formato 2 do gabarito, por compasso: `ded
 `respondido_em`. `alteradas` / notas é a taxa de erro da regra.
 A pedido do dono, ele pode marcar `l` numa nota ligada (slide, hammer-on, pull-off; sem ataque da direita): a regra nunca dá `l`, então a marcação conta como troca em `alteradas`.
 
-**Página**: 20 dos 40 compassos (os ímpares, 5 por vídeo, `na_pagina` no `indice.json`).
+**Página**: 20 dos 40 compassos (os ímpares, 5 por vídeo, `na_pagina` no `indice.json`). Segunda rodada: os 20 pares (c02..c40) com a regra v2 pré-marcada
+(janelas de 1,0 s e alternância m-a ligada), com `servir --pagina pendentes`. É a validação
+fora da amostra da rodada 1010 (171/199 com a v2, contra 154/199 da v1).
 
 **Gabarito antigo**: o dono mandou descartar as 2 respostas do formato 1 ("vamos começar do
 0"). Cópia de registro em `data/saida/maos/m5/padroes_direita_formato1_descartado.json`;

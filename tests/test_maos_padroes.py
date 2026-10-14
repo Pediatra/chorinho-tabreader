@@ -16,6 +16,7 @@ from tab.maos_padroes import (
     gabarito_novo,
     mesclar_gabarito,
     ordem_da_pagina,
+    ordem_dos_pendentes,
     progresso,
     proximo_pendente,
     validar_dedos,
@@ -149,6 +150,18 @@ def test_confirmar_recusa_dedo_invalido_sem_mexer_no_gabarito():
 
 def test_ordem_da_pagina_so_tem_os_marcados():
     assert ordem_da_pagina(ITENS) == ["c01", "c03"]
+
+
+def test_ordem_dos_pendentes_tira_os_confirmados_na_ordem_do_indice():
+    gab = gabarito_novo(ITENS, 1)
+    assert ordem_dos_pendentes(ITENS, gab) == ["c01", "c02", "c03"]
+    confirmar_compasso(gab, "c02", NOTAS_B, ["p", "i", "m"], None, "agora")
+    assert ordem_dos_pendentes(ITENS, gab) == ["c01", "c03"]
+
+
+def test_criar_servidor_recusa_pagina_desconhecida(tmp_path: Path):
+    with pytest.raises(ValueError):
+        criar_servidor(tmp_path, tmp_path / "g.json", pagina="todas")
 
 
 def test_progresso_conta_so_a_pagina():
@@ -309,3 +322,32 @@ def test_servidor_recusa_host_estranho(servidor):
     with pytest.raises(urllib.error.HTTPError) as erro:
         urllib.request.urlopen(pedido)
     assert erro.value.code == 403
+
+
+def test_servidor_pendentes_mantem_a_lista_fixa_ao_confirmar(tmp_path: Path):
+    pasta = tmp_path / "padroes"
+    pasta.mkdir()
+    (pasta / "indice.json").write_text(
+        json.dumps({"semente": 1, "itens": ITENS}), encoding="utf-8"
+    )
+    gab = gabarito_novo(ITENS, 1)
+    confirmar_compasso(gab, "c01", NOTAS_A, ["i", "m", "a"], None, "agora")
+    ouro = tmp_path / "padroes_direita.json"
+    ouro.write_text(json.dumps(gab), encoding="utf-8")
+    srv = criar_servidor(pasta, ouro, porta=0, host="127.0.0.1", pagina="pendentes")
+    fio = threading.Thread(target=srv.serve_forever, daemon=True)
+    fio.start()
+    url = f"http://127.0.0.1:{srv.server_address[1]}"
+    try:
+        with urllib.request.urlopen(url + "/itens.json") as resp:
+            antes = [it["id"] for it in json.loads(resp.read())["itens"]]
+        assert antes == ["c02", "c03"]
+        resp = _post(url, {"id": "c02", "dedos": ["p", "i", "m"], "obs": None})
+        assert resp["alteradas"] == 0
+        assert resp["confirmados"] == 1 and resp["total"] == 2
+        with urllib.request.urlopen(url + "/itens.json") as resp:
+            depois = [it["id"] for it in json.loads(resp.read())["itens"]]
+        assert depois == ["c02", "c03"]
+    finally:
+        srv.shutdown()
+        srv.server_close()
