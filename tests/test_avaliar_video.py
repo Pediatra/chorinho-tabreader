@@ -15,6 +15,7 @@ from tab.avaliar_video import (
     NotaPrevista,
     avaliar,
     casar_legado,
+    casar_notas,
     casar_telas,
     coluna_atual,
     coluna_do_ouro,
@@ -763,3 +764,18 @@ def test_so_conferidas_mantem_ouro_v1_sem_marca():
     """Ouro sem nenhuma página conferida (v1) volta inteiro."""
     ouro = {"telas": [{"id": 1, "notas": []}], "instantes": []}
     assert so_conferidas(ouro) is ouro
+
+
+def test_casa_de_dois_algarismos_casa_com_clique_no_primeiro_algarismo():
+    """O "10" clicado no "1" (centro 4 px após a borda) casa com a leitura no centro real.
+
+    Caso medido no ``la vie en rose``: passo 24, centro do ouro 1124, leitura 1141 (0,7
+    passo). Uma casa de um algarismo à mesma distância continua não casando.
+    """
+    previstas = [NotaPrevista(corda=2, casa=10, x=1141.0, t_ini=None)]
+    ouro_dois = [
+        {"corda": 2, "casa": 10, "x_quadro": 1120.0, "x_centro_quadro": 1124.0}
+    ]
+    ouro_um = [{"corda": 2, "casa": 1, "x_quadro": 1120.0, "x_centro_quadro": 1124.0}]
+    assert casar_notas(ouro_dois, previstas, 12.0) == [(0, 0)]
+    assert casar_notas(ouro_um, previstas, 12.0) == []

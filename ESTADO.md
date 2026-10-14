@@ -5376,3 +5376,28 @@ que empatam). Scripts: `data/saida/limiar_tinta/`.
 
 - 12 de 12 vídeos rodaram sem erro; **2292 de 4587 colunas com tempo (50 %)**. 5 vídeos bons (74–98 %), 5 no meio, 2 falham por causa da entrada: kenneth acoustic é padrão de ritmo sem casa; vvxofingerstyletab tem 1 tela de 90 s (troca de página não detectada).
 - Som × marcador (3 canais com `t_ini`): tirado o atraso fixo do canal (−115 a +178 ms), 77–95 % das colunas ficam a ≤ 100 ms. O produto leu marcador em só 3 de 12 canais marcados. Pedidos 10–12 na decisão 2004.
+
+## Tablatura — 2026-10-14 — detector neural de sistema (N1–N4): medido nos 8 ouros
+
+Troca o recorte por regras (`_glifos_por_faixa` + barline + classificador de glifo) por
+uma rede que vê o sistema inteiro (`tab.detector_tab`, 555 mil parâmetros, treinada com
+`tab.sintetico_sistema`). A geometria (painel, cordas, passo) continua a do produto.
+Medição no mesmo quadro de cada tela conferida dos 8 ouros (63 telas, 2.689 notas):
+
+| leitura | precisão | revocação | casa |
+| --- | --- | --- | --- |
+| produto (`oficial_3`) | 0,962 | 0,830 | 0,943 |
+| v3 só sintético (3 sementes, média) | 0,977 | 0,950 | 0,977 |
+| v3 + ajuste fino com ouros, validação cruzada por vídeo (4 dobras) | 0,974 | 0,949 | **0,987** |
+
+- Room 335 corda 1: 8/28 → 28/28; Gymnopédie revocação 0,43 → 0,93; Greensleeves 0,83 → 1,00.
+- O que custou caro e foi consertado pelo GERADOR, não por regra: arpejo Guitar Pro, "TAB"/fórmula
+  grandes e pausas lidos como nota (74 inventadas → 10); "1" fino de sans regular lido como "4"
+  (78 casos; fontes de treino 2 → 6; o ajuste fino zerou o resto).
+- Régua: a nota acrescentada por clique guarda o clique como centro, e no "10" o dono clica no "1"
+  (50 notas de dois algarismos com centro < 8 px da borda). `casar_notas` usa 0,8 passo para casa
+  de dois algarismos (`FOLGA_DOIS_ALGARISMOS`); números do produto não mudam.
+- Única piora contra o produto (ajuste fino, 3 sementes): retrato e la vie, 1-2 notas em ~450.
+- Viés a favor do produto: os ouros v2 foram pré-preenchidos por ele (posições herdadas).
+- Fora do produto até decisão do dono; trocar o leitor muda o X do rasgueado ("15") de que o áudio depende.
+Scripts e tabelas: `data/saida/n3/`, `data/saida/n4/`.

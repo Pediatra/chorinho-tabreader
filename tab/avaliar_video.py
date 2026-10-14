@@ -59,6 +59,10 @@ QUADROS_ANTES = 1
 #: do plano (§6, Fase 2): ``|Δx_quadro| <= 0,5 * passo``.
 FRACAO_PASSO = 0.5
 
+#: A meia janela vezes este fator vale para a nota do ouro com casa de dois algarismos
+#: (largura ~1,2 passo; o clique do dono fica no primeiro algarismo): 0,8 passo.
+FOLGA_DOIS_ALGARISMOS = 1.6
+
 #: Classes de tempo que contam como estado certo.
 CERTAS_TEMPO = ("acerto", "acerto_quadro", "acerto_tolerancia")
 
@@ -274,6 +278,24 @@ def casar_sem_instante(
     return novo, criterio
 
 
+def _folga_largura(nota: dict) -> float:
+    """Fator da meia janela para a nota do ouro: maior para casa de dois algarismos.
+
+    A nota acrescentada por clique na ferramenta do ouro guarda o CLIQUE como centro, e
+    num número de dois algarismos o dono clica no primeiro: no ``la vie en rose`` o "10"
+    tem centro 4 px depois da borda, quando o centro real está ~17 px adiante (0,7 passo),
+    e as duas leituras que achavam a nota eram contadas como 1 inventada + 1 perdida. Em
+    50 notas de dois algarismos dos ouros o centro está a menos de 8 px da borda.
+
+    Args:
+        nota: nota do ouro.
+
+    Returns:
+        ``FOLGA_DOIS_ALGARISMOS`` se a casa tem dois algarismos; senão 1.
+    """
+    return FOLGA_DOIS_ALGARISMOS if len(str(nota.get("casa", ""))) >= 2 else 1.0
+
+
 def casar_notas(
     notas_ouro: list[dict], previstas: list[NotaPrevista], meia_janela: float
 ) -> list[tuple[int, int]]:
@@ -297,7 +319,7 @@ def casar_notas(
             if prevista.x is None or prevista.corda != nota["corda"]:
                 continue
             distancia = abs(_x_ouro(nota) - prevista.x)
-            if distancia <= meia_janela:
+            if distancia <= meia_janela * _folga_largura(nota):
                 candidatos.append((distancia, i, j))
     candidatos.sort()
     usadas_ouro: set[int] = set()
