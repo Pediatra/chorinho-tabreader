@@ -5220,6 +5220,14 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - **Base para a P2: Audiveris x2**; homr como segunda opinião. A medida é de altura, não de ritmo.
 - **Não repetir**: (1) comparar MusicXML do Audiveris sem aplicar `clef-octave-change` (clave de sol com 8): a altura sai uma oitava abaixo (R05 dava 8/85, é 73/85). (2) oemer neste acervo: falha em todos os recortes testados, ~8 min e 5,6 GB cada.
 
+## Partitura — 2026-10-14 — comparativo: variantes do Audiveris e SMT sem treino (rodada 3003)
+
+- R01–R12 (546 notas da tab), mesma régua: **Audiveris x2 com margem 7/7: 491/546, 3 inventadas, 70/83 compassos cheios** (x2 com margem 4/6: 479, 67/83). homr: 467, 23 inventadas, 44/78.
+- Ampliar 3x/4x piora (417/270); binarizar quebra 4 recortes (196); colar clave e armadura do início do sistema não ajuda (466).
+- SMT sem treino (4 dos 7 pesos públicos rodaram; 3 sem pesos ou com acesso fechado): o melhor acerta 20/546, os outros 0. São pesos de piano, fora do domínio; o SMT só entra treinado (P2).
+- Ferramenta de conferência (`tab.partitura_gabarito servir`, porta 8099) pronta; o dono ainda não gravou nada em `data/gold/partitura/`.
+- **Não repetir**: (1) ampliar além de 2x para o Audiveris. (2) binarizar por Otsu antes do Audiveris. (3) pesos antoniorv6/SMT com o código `master`: o decoder carrega aleatório e só avisa ("newly initialized"); usar o commit d25acd4.
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do

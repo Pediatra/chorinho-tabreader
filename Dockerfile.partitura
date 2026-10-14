@@ -85,3 +85,57 @@ RUN /opt/venv/bin/python -c "import sys, torch, cv2, numpy; print('BASE', sys.ve
 
 # uv só foi usado para criar o venv; sai da imagem.
 RUN rm -rf /opt/uvtool
+
+# ---------------------------------------------------------------------------
+# SMT (Sheet Music Transformer): venv SEPARADO em /opt/smt, Python 3.11 (o que o
+# Dockerfile do repositório usa: pytorch 2.6.0), torch CPU (sem CUDA, para não inchar a
+# imagem). Fonte: github.com/antoniorv6/SMT no commit fixado abaixo (master, 2026-09-27).
+# Decisão e medições: docs/decisoes/3001-imagem-derivada-partitura.md (seção SMT).
+#
+# Pesos baixados aqui: só os que o Hugging Face entrega sem login (4 dos 7 pedidos):
+#   - antoniorv6/smt-string-quartets: o repositório não tem model.safetensors (404);
+#   - PRAIG/smt-fp-polish-scores e PRAIG/smt-fp-mozarteum: gated (401 sem login).
+# O build NÃO usa token. Os três ficam de fora até o dono dar acesso.
+# ---------------------------------------------------------------------------
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/* \
+    && git clone https://github.com/antoniorv6/SMT /opt/smt-src \
+    && git -C /opt/smt-src checkout 20d8240c47b4a1851e9a5aa5a0ca3d0ddbc16da8 \
+    && test "$(git -C /opt/smt-src rev-parse HEAD)" = "20d8240c47b4a1851e9a5aa5a0ca3d0ddbc16da8"
+
+# uv foi apagado acima (/opt/uvtool); recriado num venv próprio só para o SMT.
+RUN python -m venv /opt/uvsmt \
+    && /opt/uvsmt/bin/pip install --no-cache-dir uv==0.13.0 \
+    && /opt/uvsmt/bin/uv venv --python 3.11 /opt/smt
+
+# torch CPU do índice do PyTorch (2.6.0, a versão do repositório). Primeiro, sozinho.
+RUN /opt/uvsmt/bin/uv pip install --python /opt/smt/bin/python --no-cache \
+        --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchvision==0.21.0
+
+# Demais dependências, nas versões de uv.lock do repositório (transformers 4.49.0 é a que
+# o repositório pede). music21 10.5.0 converte o kern em MusicXML.
+RUN /opt/uvsmt/bin/uv pip install --python /opt/smt/bin/python --no-cache \
+        numpy==2.2.3 opencv-python-headless==4.11.0.86 pillow==11.1.0 \
+        scikit-image==0.25.2 transformers==4.49.0 tokenizers==0.21.0 \
+        huggingface-hub==0.29.1 safetensors==0.5.2 loguru==0.7.3 \
+        music21==10.5.0 pytest==8.3.4
+
+# Pesos, em revisão de commit fixada (não 'main'). sha256 impresso no log do build.
+RUN /opt/smt/bin/python -c 'import os; from huggingface_hub import snapshot_download; MODELOS = [("antoniorv6/smt-grandstaff", "2eb5a45c29d63bdf063cd0427175f57675e7da9e", "antoniorv6-smt-grandstaff"), ("antoniorv6/smt-camera-grandstaff", "9c1355631fbddc297d3d10fe4e6e5d3b5d3126b7", "antoniorv6-smt-camera-grandstaff"), ("PRAIG/smt-grandstaff", "fd3d512a64aab51ee4048435d44c0455d6cc0abd", "praig-smt-grandstaff"), ("PRAIG/smt-fp-grandstaff", "6f8d5c093d218a71117ef51492efc2952adcc217", "praig-smt-fp-grandstaff")]; [snapshot_download(repo_id=r, revision=v, local_dir=os.path.join("/opt/smt-modelos", c)) for r, v, c in MODELOS]' \
+    && find /opt/smt-modelos \( -name '*.safetensors' -o -name 'config.json' \) | sort | xargs sha256sum
+
+# Verificação do venv SMT: o código do repositório importa, e as versões ficam no log.
+RUN PYTHONPATH=/opt/smt-src /opt/smt/bin/python -c "import importlib.metadata as m, torch, transformers, music21, cv2, numpy; from smt_model import SMTModelForCausalLM; from data_augmentation.data_augmentation import convert_img_to_tensor; print('SMT torch', torch.__version__, 'cuda', torch.cuda.is_available(), 'transformers', transformers.__version__, 'music21', music21.__version__, 'cv2', cv2.__version__, 'numpy', numpy.__version__)"
+
+# Segundo código do SMT, no commit d25acd4 (2024-09-03), que os checkpoints de antoniorv6
+# (enviados em 2024-09-07) carregam sem camada faltando. Medido: com o código de 20d8240
+# o decoder desses pesos sai aleatório ("newly initialized"). Extraído do mesmo clone.
+RUN mkdir -p /opt/smt-src-2024 \
+    && git -C /opt/smt-src cat-file -e d25acd4^{commit} \
+    && git -C /opt/smt-src archive d25acd4 | tar -x -C /opt/smt-src-2024 \
+    && PYTHONPATH=/opt/smt-src-2024 /opt/smt/bin/python -c "from smt_model import SMTModelForCausalLM; from data_augmentation.data_augmentation import convert_img_to_tensor; print('SMT 2024 importa ok')"
+
+# uv e os caches do build saem da imagem.
+RUN rm -rf /opt/uvsmt /root/.cache

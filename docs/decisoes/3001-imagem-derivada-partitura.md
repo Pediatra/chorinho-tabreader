@@ -108,3 +108,91 @@ do container.
 - oemer não produziu saída em nenhuma das três tentativas. A causa não foi investigada além
   do erro; ele fica registrado como falha a reexaminar, não como descarte definitivo.
 - A medição de qualidade (se a leitura está certa) não faz parte deste teste de fumaça.
+
+## SMT (Sheet Music Transformer)
+
+Teste sem treino dos modelos públicos do SMT (github.com/antoniorv6/SMT e Hugging Face
+PRAIG/antoniorv6). Imagem `chorinho-partitura:smt` (tag separada; `chorinho-partitura:dev`
+não foi tocada). Código: `tab/partitura_smt.py`, `tests/test_partitura_smt.py`.
+
+**Imagem**: 9,87 GB, contra 7,94 GB da `chorinho-partitura:dev` (+1,93 GB). Venv próprio em
+`/opt/smt` (Python 3.11.17, via uv), torch **2.6.0+cpu** (índice do PyTorch, sem CUDA),
+torchvision 0.21.0. Os pacotes seguem o `uv.lock` do repositório SMT:
+transformers **4.49.0**, numpy 2.2.3, opencv-python-headless 4.11.0.86, pillow 11.1.0,
+scikit-image 0.25.2, tokenizers 0.21.0, huggingface-hub 0.29.1, safetensors 0.5.2,
+loguru 0.7.3, pytest 8.3.4. Mais **music21 10.5.0** (conversão kern para MusicXML).
+
+**Código do SMT, dois commits.** Os checkpoints de antoniorv6 (enviados em 2024-09-07)
+carregam sem camada faltando só com o código de **d25acd4** (2024-09-03, o último commit antes
+de a decodificação mudar em 2025-02). Com o `master` de 2025, o decoder sai com pesos
+aleatórios: o transformers avisa "newly initialized" para todas as camadas do decoder
+(`cross_attn`, `ffn`, `norm_layers` em vez de `cross_attention`, `ffNet`). Os checkpoints
+de PRAIG carregam sem aviso só com o `master`. Por isso a imagem tem os dois:
+
+| uso | commit | pasta na imagem |
+| --- | --- | --- |
+| antoniorv6 (2 modelos) | `d25acd4` (2024-09-03) | `/opt/smt-src-2024` |
+| PRAIG (2 modelos) | `20d8240` (master, 2026-09-27) | `/opt/smt-src` |
+
+O `predict` e a junção dos tokens (`<b>`, `<s>`, `<t>`) são os mesmos nos dois commits.
+
+**Pesos** (revisão de commit do HF fixada, sha256 do `model.safetensors` e do `config.json`):
+
+| modelo | revisão HF | sha256 model.safetensors | sha256 config.json | licença (metadado HF) |
+| --- | --- | --- | --- | --- |
+| antoniorv6/smt-grandstaff | `2eb5a45c` | `495b5831c5a92fc75b6bf607cbe65d8a8432508177e0f76055da750d132c7be0` | `de430bd1c38063fd002b93eab623fc467527d5f1167bb4ded067637dbe32d961` | MIT |
+| antoniorv6/smt-camera-grandstaff | `9c135563` | `93be49ca62c1d270579648e0c6d596cd239a7f0461c796f647ec0597ac085448` | `de430bd1c38063fd002b93eab623fc467527d5f1167bb4ded067637dbe32d961` | MIT |
+| PRAIG/smt-grandstaff | `fd3d512a` | `9d29acc558bcbb8c851a80ead7435fc79c35578c845fd89bc97d86f3d49619c8` | `f01907a88fdd1cbdbf82a0f698b5ceec0e1aa233f9cd6d88b8e284f60e351400` | **não declarada** |
+| PRAIG/smt-fp-grandstaff | `6f8d5c09` | `3b72668235c0519e2258739c736dd97d9e0d4226dbd628eec7891085a3f4c7e2` | `5327ddb41605a81d95a974a54d3f8c0f748d30f1b10cfba3afbd292ebc7b36da` | MIT |
+
+Commits do HF completos: `2eb5a45c29d63bdf063cd0427175f57675e7da9e`,
+`9c1355631fbddc297d3d10fe4e6e5d3b5d3126b7`, `fd3d512a64aab51ee4048435d44c0455d6cc0abd`,
+`6f8d5c093d218a71117ef51492efc2952adcc217`.
+
+**Não baixados** (3 de 7):
+
+- `antoniorv6/smt-string-quartets` (revisão `94e23854`): o repositório só tem o README; não
+  há `model.safetensors` (404) nem `config.json`.
+- `PRAIG/smt-fp-polish-scores` e `PRAIG/smt-fp-mozarteum`: **gated** (401 sem login). O build
+  não usa token. Falta o dono aceitar o acesso no Hugging Face e fornecer um token para
+  baixar.
+
+**Pré-processamento**: replica `data.py` do repositório (o trecho de uso do `README` não
+redimensiona a imagem). Sistema: altura `ceil(max(h, 256) * reduce_ratio)`, largura
+`ceil(min(w, 3056) * reduce_ratio)`. Página: `ceil(dim * reduce_ratio)`. `reduce_ratio` vem
+da configuração do treino: 1.0 para `GrandStaff` e `FP-GrandStaff`, 0.85 para a câmera. O
+`PRAIG/smt-grandstaff` não publica configuração: usou-se 1.0, e isso é premissa.
+
+**Recorte de página (fp)**: a entrada é o recorte de um sistema, no papel de página. A saída
+bekern não tem o cabeçalho `**bekern` (o treino tirou as quatro primeiras linhas de tokens),
+então o runner acrescenta `**kern` por spine para o music21, com o número de spines lido da
+primeira linha de tokens. `saida.krn` guarda o texto cru, sem o cabeçalho.
+
+**Tempo**: um recorte roda em processo próprio (carrega o modelo, prediz e converte). O limite
+é 600 s por recorte. Acima disso o modelo para e o relatório diz o tempo.
+
+**Cabeçalho ekern**: a saída dos modelos de sistema sai com `**ekern_1.0`, mas sem os `·`
+(o treino os removeu). O music21 não lê esse rótulo (0 notas). O runner troca só o
+cabeçalho por `**kern` antes da conversão e grava `cabecalho_ekern_trocado` em
+`saida_spines.json`. `saida.krn` guarda o texto cru.
+
+**Estado da rodada (R01–R12, CPU, condição `crop`)**. Sem avaliação de qualidade, só o
+que saiu:
+
+| modelo | com MusicXML com notas | falhas | parou por timeout de 600 s |
+| --- | ---: | --- | --- |
+| antoniorv6/smt-grandstaff | 5 de 9 rodados (R02, R03, R04, R06, R07) | kern malformado: R01, R05, R08 | R09; R10–R12 não rodados |
+| antoniorv6/smt-camera-grandstaff | 0 de 2 | kern malformado: R01, R02 | R03 |
+| PRAIG/smt-grandstaff | 0 de 12 | kern malformado: 11; R08 erro de tensor | nenhum |
+| PRAIG/smt-fp-grandstaff | 0 de 1 rodado | — | R01 (sem saída) |
+
+O R08 tem 288 px de altura, acima do `maxh` = 256 da configuração. A entrada tem
+essa altura, e o código de 2025 falha ao posicionar a atenção.
+
+Quando music21 lê o kern e não acha nota, ele devolve um `Score` vazio e não erro. O
+runner trata isso como falha (`music21 não leu nenhuma nota`). Sem essa checagem, 5
+recortes do antoniorv6 pareceriam certos com MusicXML sem nenhuma nota.
+
+Sanidade do pipeline (uma linha do conjunto de teste GrandStaff, fora da rodada): o
+modelo antoniorv6/smt-grandstaff reproduz o gabarito quase igual, a menos dos `·`. Com
+cabeçalho `**kern`, o music21 lê a saída: 2 partes, 47 notas.
