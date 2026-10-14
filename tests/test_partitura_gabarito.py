@@ -149,7 +149,7 @@ def _item(id_: str = "R01", numeros: tuple[str, ...] = ("1",)) -> dict:
         "canal": "canal de teste",
         "video": "v.mp4",
         "tela": 1,
-        "fonte": "audiveris/x2",
+        "fonte": "audiveris/x2_margem",
         "png": f"data/saida/partitura/p1/recortes/{id_}.png",
         "musicxml": "",
         "clave": None,

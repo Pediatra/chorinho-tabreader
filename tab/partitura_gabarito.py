@@ -2,9 +2,10 @@
 
 Dois subcomandos:
 
-- ``preparar``: lê os MusicXML das leituras (Audiveris x2; homr nativo quando o Audiveris
-  não tem saída) símbolo a símbolo e grava ``itens.json``. Cada símbolo traz altura,
-  figura, pausa, ligadura e se o homr e a tablatura concordam com ele.
+- ``preparar``: lê os MusicXML das leituras (Audiveris x2 sobre o recorte com margem
+  7/7; homr nativo quando o Audiveris não tem saída) símbolo a símbolo e grava
+  ``itens.json``. Cada símbolo traz altura, figura, pausa, ligadura e se o homr e a
+  tablatura concordam com ele.
 - ``servir``: página local com o recorte original (zoom, com marcação de notas que
   faltaram) e a leitura desenhada e tocável, em que o dono clica em cada nota ou pausa
   e diz o que está errado. Cada recorte confirmado vai para o gabarito (formato 3), em
@@ -44,14 +45,21 @@ from tab.partitura_avaliar import (
     eventos_da_biblioteca,
 )
 
-#: Pastas da trilha partitura P1 (recortes, leituras do OMR e a conferência).
+#: Pastas da trilha partitura P1 (recortes, leituras do OMR e a conferência). A
+#: conferência usa o recorte com margem 7/7, a melhor entrada medida (rodada 3003).
 PASTA_PARTITURA = SAIDA / "partitura" / "p1"
-PASTA_RECORTES = PASTA_PARTITURA / "recortes"
+PASTA_RECORTES = PASTA_PARTITURA / "recortes_margem"
 PASTA_OMR = PASTA_PARTITURA / "omr"
 PASTA_CONFERENCIA = PASTA_PARTITURA / "conferencia"
 
 #: Índice dos recortes (R01–R21), gerado antes pela P1.
 INDICE_RECORTES = PASTA_RECORTES / "indice.json"
+
+#: Condição do Audiveris lida na conferência (x2 sobre o recorte com margem).
+CONDICAO_AUDIVERIS = "x2_margem"
+
+#: Nome da fonte quando a leitura vem do Audiveris.
+FONTE_AUDIVERIS = f"audiveris/{CONDICAO_AUDIVERIS}"
 
 #: Itens da conferência, gerados por ``preparar``.
 ITENS = PASTA_CONFERENCIA / "itens.json"
@@ -554,21 +562,21 @@ def _gravar_atomico(destino: Path, conteudo: dict) -> None:
 
 
 def _fonte_da_leitura(id_: str, execucao: dict[str, bool]) -> tuple[str, Path]:
-    """Escolhe a leitura de um recorte: Audiveris x2, ou homr nativo se não houver.
+    """Escolhe a leitura de um recorte: Audiveris, ou homr nativo se não houver.
 
     Args:
         id_: id do recorte (``R01``).
-        execucao: ``ok`` da execução do Audiveris x2, por id.
+        execucao: ``ok`` da execução do Audiveris, por id.
 
     Returns:
-        ``(fonte, caminho)``, com ``fonte`` ``audiveris/x2`` ou ``homr/nativo``.
+        ``(fonte, caminho)``, com ``fonte`` ``FONTE_AUDIVERIS`` ou ``homr/nativo``.
 
     Raises:
         FileNotFoundError: se nenhuma das duas leituras existe.
     """
-    audiveris = PASTA_OMR / "audiveris" / "x2" / id_ / "saida.musicxml"
+    audiveris = PASTA_OMR / "audiveris" / CONDICAO_AUDIVERIS / id_ / "saida.musicxml"
     if audiveris.exists() and execucao.get(id_, True):
-        return "audiveris/x2", audiveris
+        return FONTE_AUDIVERIS, audiveris
     homr = PASTA_OMR / "homr" / "nativo" / id_ / "saida.musicxml"
     if not homr.exists():
         raise FileNotFoundError(f"{id_}: sem MusicXML do Audiveris nem do homr")
@@ -576,12 +584,12 @@ def _fonte_da_leitura(id_: str, execucao: dict[str, bool]) -> tuple[str, Path]:
 
 
 def _carregar_execucao() -> dict[str, bool]:
-    """Status ``ok`` da execução do Audiveris x2, por id (vazio se não há arquivo).
+    """Status ``ok`` da execução do Audiveris, por id (vazio se não há arquivo).
 
     Returns:
         Mapa id -> se a execução gerou saída.
     """
-    caminho = PASTA_OMR / "audiveris" / "x2" / "execucao.json"
+    caminho = PASTA_OMR / "audiveris" / CONDICAO_AUDIVERIS / "execucao.json"
     if not caminho.exists():
         return {}
     registros = json.loads(caminho.read_text(encoding="utf-8"))
@@ -612,7 +620,7 @@ def _item(entrada: dict, execucao: dict[str, bool], ouro: dict) -> dict:
 
     Args:
         entrada: entrada do ``indice.json``.
-        execucao: ``ok`` do Audiveris x2, por id.
+        execucao: ``ok`` do Audiveris, por id.
         ouro: mapa ``video`` -> gabaritos (só usado para recortes ``ouro``).
 
     Returns:
@@ -638,7 +646,7 @@ def _item(entrada: dict, execucao: dict[str, bool], ouro: dict) -> dict:
         for simbolo in compasso["simbolos"]:
             simbolo["idx"] = len(lista)
             lista.append(simbolo)
-    if fonte == "audiveris/x2":
+    if fonte == FONTE_AUDIVERIS:
         homr = ler_partitura(PASTA_OMR / "homr" / "nativo" / id_ / "saida.musicxml")
         marcar_concordancia(
             lista, eventos_da_leitura(_todos(homr["compassos"])), "homr_concorda"
