@@ -38,7 +38,7 @@ import torch.nn.functional as F
 from torch import nn
 
 from .caminhos import ARTEFATOS
-from .sintetico import PRESETS_FONTES, _resolver_fontes, fixar_semente
+from .sintetico import _resolver_fontes, fixar_semente
 from .sintetico_sistema import ROTULOS, TECNICAS, gerar_sistema
 
 #: Passo do sistema depois da normalização, em px.
@@ -91,8 +91,23 @@ AVALIACAO_CADA = 5000
 SEMENTE_VALIDACAO_INICIO = 10_000
 N_VALIDACAO = 300
 
-#: Fontes do gerador de treino: preset `padrao`, o mesmo dos pesos oficiais.
-FONTES_TREINO = _resolver_fontes(PRESETS_FONTES["padrao"][0])
+#: Nomes das fontes do gerador de treino, todas do pacote `fonts-liberation` do
+#: container. Sans e serif em regular e bold, mais Mono. Motivo: com só as Bold
+#: (preset `padrao`) o "1" fino regular de fonte sans nunca aparecia no treino, e o
+#: v2 lia esse "1" como "4" nos vídeos reais (27 casos no greensleeves, 33 no end of
+#: beginning, 18 no retrato). O gerador separa serif de sans pelo nome ("Serif"),
+#: então Mono entra como sans.
+NOMES_FONTES_TREINO = (
+    "LiberationSans-Regular.ttf",
+    "LiberationSans-Bold.ttf",
+    "LiberationSerif-Regular.ttf",
+    "LiberationSerif-Bold.ttf",
+    "LiberationMono-Regular.ttf",
+    "LiberationMono-Bold.ttf",
+)
+
+#: Caminhos das fontes de treino, na ordem de `NOMES_FONTES_TREINO`.
+FONTES_TREINO = _resolver_fontes(NOMES_FONTES_TREINO)
 
 #: Limiar de probabilidade do centro e das técnicas na decodificação.
 LIMIAR = 0.5
