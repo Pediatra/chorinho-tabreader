@@ -5254,6 +5254,11 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - `python -m tab.partitura_omr herdar`: a armadura vem da maioria das leituras do mesmo vídeo que têm clave e é aplicada às leituras sem clave. R01–R12: **491 → 494/546**, inventadas continuam 3.
 - No R06, as 5 alturas que sobram são bemóis inventados pelo Audiveris (compassos 7 e 11). O dono marcou essas notas como certas na conferência: rever o R06 na próxima rodada de conferência, sem mexer no gabarito por conta própria.
 
+## Partitura — 2026-10-14 — P3: pareamento partitura × tab (rodada 3010)
+
+- `python -m tab.partitura_pareamento`: o pareamento por sequência põe **325 de 326 pares no mesmo x do quadro** (mediana de 0,5 a 2,7 px, R01–R12).
+- O tempo da partitura é o `t_ini` da coluna pareada. Hoje ele sai vazio: nem o gabarito de tab nem a saída `fase8/medida` desses vídeos têm `t_ini` por nota. Depende da trilha tablatura.
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do
