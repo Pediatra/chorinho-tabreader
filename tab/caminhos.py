@@ -68,6 +68,9 @@ MAOS_M5 = SAIDA / "maos" / "m5" / "padroes"
 #: ``tab.maos_padroes servir``.
 GABARITO_PADROES = RAIZ / "data" / "gold" / "maos" / "padroes_direita.json"
 
+#: Medição das variantes da regra da mão direita (``tab.maos_regra_direita_medir``).
+MAOS_M5_REGRA_V2 = SAIDA / "maos" / "m5" / "regra_v2_medicao.json"
+
 #: Perfil dos canais (o que foi medido, e quais canais estão fora do rollout).
 CANAIS = RAIZ / "configs" / "canais.yaml"
 

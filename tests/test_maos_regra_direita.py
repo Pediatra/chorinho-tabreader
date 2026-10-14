@@ -10,6 +10,7 @@ from tab.maos_regra_direita import (
     REGRA_PADRAO,
     REGRA_SEQUENCIA,
     REGRA_SEQUENCIA_ACIMA,
+    REGRA_SEQUENCIA_ALTERNA,
     REGRA_SEQUENCIA_GRAVE,
     REGRA_SEQUENCIA_REINICIA,
     atribuir_dedos_direita,
@@ -24,6 +25,11 @@ def _n(corda: int, t: float, casa: int = 0) -> dict:
 def _dedos(notas: list[dict]) -> list[str]:
     """Só os dedos, na ordem de ``t_ini`` (e de corda dentro do ataque)."""
     return [n["dedo"] for n in atribuir_dedos_direita(notas)]
+
+
+def _dedos_com(notas: list[dict], **kwargs) -> list[str]:
+    """Só os dedos, com parâmetros opcionais da regra."""
+    return [n["dedo"] for n in atribuir_dedos_direita(notas, **kwargs)]
 
 
 def _regras(notas: list[dict]) -> list[str]:
@@ -161,3 +167,48 @@ def test_acorde_zera_a_sequencia():
     # o acorde em 0.5 (3 e 2) quebra a cadeia: a 3 de 0.9 volta ao padrão
     assert [n["dedo"] for n in saida][-1] == "i"
     assert saida[-1]["regra"] == REGRA_PADRAO
+
+
+# --- variantes (parâmetros opcionais; default = produção) ----------------------
+
+
+def test_alternar_ma_mesma_corda_1_repetida_vira_a_m_a_m():
+    notas = [_n(1, t) for t in (0.0, 0.2, 0.4, 0.6)]
+    assert _dedos(notas) == ["a", "a", "a", "a"]  # default: não alterna
+    saida = atribuir_dedos_direita(notas, alternar_ma=True)
+    assert [n["dedo"] for n in saida] == ["a", "m", "a", "m"]
+    assert saida[1]["regra"] == REGRA_SEQUENCIA_ALTERNA
+
+
+def test_alternar_ma_mesma_corda_3_repetida_vira_i_m_a_m_a():
+    notas = [_n(3, 0.1 * k) for k in range(5)]
+    saida = atribuir_dedos_direita(notas, alternar_ma=True)
+    assert [n["dedo"] for n in saida] == ["i", "m", "a", "m", "a"]
+
+
+def test_alternar_ma_nao_mexe_em_corda_diferente():
+    notas = [_n(1, 0.0), _n(3, 0.3)]
+    assert _dedos(notas) == ["a", "i"]
+    assert atribuir_dedos_direita(notas, alternar_ma=True)[1]["regra"] == (
+        REGRA_SEQUENCIA_GRAVE
+    )
+
+
+def test_default_de_alternar_ma_e_desligado():
+    notas = [_n(1, t) for t in (0.0, 0.2, 0.4)]
+    assert _dedos(notas) == ["a", "a", "a"]
+    assert _dedos_com(notas, alternar_ma=False) == ["a", "a", "a"]
+
+
+def test_janela_polegar_maior_pega_bordao_ate_1s_antes_da_corda_4():
+    notas = [_n(5, 0.0), _n(4, 0.7)]
+    assert _dedos(notas) == ["p", "p"]
+    saida = atribuir_dedos_direita(notas, janela_polegar_s=1.0)
+    assert [n["dedo"] for n in saida] == ["p", "i"]
+    assert saida[1]["regra"] == REGRA_EXCECAO
+
+
+def test_janela_sequencia_maior_mantem_a_sequencia_ate_1_2s():
+    notas = [_n(3, 0.0), _n(3, 0.9)]
+    assert _dedos(notas) == ["i", "i"]
+    assert _dedos_com(notas, janela_sequencia_s=1.0) == ["i", "m"]

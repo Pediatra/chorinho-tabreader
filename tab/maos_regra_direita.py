@@ -57,6 +57,7 @@ REGRA_SEQUENCIA = "sequência: seguinte ao anterior (i-m-a)"
 REGRA_SEQUENCIA_REINICIA = "sequência: passou de a, reinicia no padrão"
 REGRA_SEQUENCIA_ACIMA = "sequência: padrão da corda, acima do seguinte"
 REGRA_SEQUENCIA_GRAVE = "sequência: corda mais grave, padrão da corda"
+REGRA_SEQUENCIA_ALTERNA = "sequência: mesma corda depois de a, alterna m-a"
 
 
 def _padrao_sem_polegar(corda: int) -> str:
@@ -119,7 +120,11 @@ def _tem_bordao(notas: list[dict], ataque: list[int]) -> bool:
 
 
 def _aplicar_excecao_bordao(
-    notas: list[dict], ataques: list[list[int]], dedo: list[str], regra: list[str]
+    notas: list[dict],
+    ataques: list[list[int]],
+    dedo: list[str],
+    regra: list[str],
+    janela_polegar_s: float = JANELA_POLEGAR_S,
 ) -> None:
     """Regra 2: corda 4 com polegar em 5/6 no mesmo ataque ou logo antes usa ``i``.
 
@@ -128,6 +133,8 @@ def _aplicar_excecao_bordao(
         ataques: ataques (índices) de ``notas``.
         dedo: dedos atuais, alterados em lugar.
         regra: textos das regras, alterados em lugar.
+        janela_polegar_s: até quantos segundos depois de um ataque com polegar em 5/6
+            a corda 4 ainda usa ``i``.
     """
     for k, ataque in enumerate(ataques):
         bordao_antes = False
@@ -135,7 +142,7 @@ def _aplicar_excecao_bordao(
             gap = _tempo_do_ataque(notas, ataque) - _tempo_do_ataque(
                 notas, ataques[k - 1]
             )
-            bordao_antes = gap <= JANELA_POLEGAR_S + _EPS and _tem_bordao(
+            bordao_antes = gap <= janela_polegar_s + _EPS and _tem_bordao(
                 notas, ataques[k - 1]
             )
         for i in ataque:
@@ -192,17 +199,28 @@ def _proximo_dedo(dedo: str) -> str | None:
 
 
 def _aplicar_sequencia(
-    notas: list[dict], ataques: list[list[int]], dedo: list[str], regra: list[str]
+    notas: list[dict],
+    ataques: list[list[int]],
+    dedo: list[str],
+    regra: list[str],
+    janela_sequencia_s: float = JANELA_SEQUENCIA_S,
+    alternar_ma: bool = False,
 ) -> None:
     """Regra 4: sequência de ataques de uma nota fora do polegar.
 
     Um ataque só de polegar é ignorado (não quebra a sequência). Um acorde a zera.
+    Com ``alternar_ma``, depois de ``a`` na MESMA corda vem ``m`` (I-M-A-M-A), e essa
+    alternância é a única exceção à ordem i < m < a (inclusive na corda 1, onde dá ``m``
+    abaixo do padrão). Numa corda diferente vale a regra normal.
 
     Args:
         notas: notas ordenadas.
         ataques: ataques (índices) de ``notas``.
         dedo: dedos atuais, alterados em lugar.
         regra: textos das regras, alterados em lugar.
+        janela_sequencia_s: intervalo máximo, em segundos, entre dois ataques de uma
+            nota fora do polegar para formarem sequência.
+        alternar_ma: se True, a mesma corda repetida depois de ``a`` alterna ``m``/``a``.
     """
     anterior: dict | None = None
     for ataque in ataques:
@@ -216,12 +234,15 @@ def _aplicar_sequencia(
         corda = notas[i]["corda"]
         tempo = _tempo_do_ataque(notas, ataque)
         if anterior is not None and (
-            tempo - anterior["tempo"] <= JANELA_SEQUENCIA_S + _EPS
+            tempo - anterior["tempo"] <= janela_sequencia_s + _EPS
         ):
             padrao = _padrao_sem_polegar(corda)
             if corda > anterior["corda"]:
                 dedo[i] = padrao
                 regra[i] = REGRA_SEQUENCIA_GRAVE
+            elif alternar_ma and corda == anterior["corda"] and anterior["dedo"] == "a":
+                dedo[i] = "m"
+                regra[i] = REGRA_SEQUENCIA_ALTERNA
             else:
                 seguinte = _proximo_dedo(anterior["dedo"])
                 if seguinte is None:
@@ -236,12 +257,27 @@ def _aplicar_sequencia(
         anterior = {"corda": corda, "dedo": dedo[i], "tempo": tempo}
 
 
-def atribuir_dedos_direita(notas: list[dict]) -> list[dict]:
+def atribuir_dedos_direita(
+    notas: list[dict],
+    *,
+    janela_polegar_s: float = JANELA_POLEGAR_S,
+    janela_sequencia_s: float = JANELA_SEQUENCIA_S,
+    alternar_ma: bool = False,
+) -> list[dict]:
     """Palpite do dedo da mão direita para cada nota de um compasso tocado.
+
+    Os parâmetros opcionais existem para medir variantes contra o gabarito. O default
+    de cada um é a regra de produção; sem eles a saída é a mesma de sempre.
 
     Args:
         notas: notas do compasso, cada uma com ``corda`` (1 a 6), ``casa`` e
             ``t_ini`` (segundos). Campos extras são preservados na saída.
+        janela_polegar_s: até quantos segundos depois de um ataque com polegar em 5/6
+            a corda 4 usa ``i`` (regra 2).
+        janela_sequencia_s: intervalo máximo, em segundos, entre dois ataques de uma
+            nota fora do polegar para formarem sequência (regra 4).
+        alternar_ma: se True, na sequência a mesma corda depois de ``a`` dá ``m``
+            (I-M-A-M-A). Numa corda diferente segue a regra normal.
 
     Returns:
         Cópias das notas, na ordem de ``t_ini``, cada uma com ``dedo`` (``p``, ``i``,
@@ -257,9 +293,16 @@ def atribuir_dedos_direita(notas: list[dict]) -> list[dict]:
     ataques = _agrupar_ataques(ordenadas)
     dedo = [PADRAO_POR_CORDA[n["corda"]] for n in ordenadas]
     regra = [REGRA_PADRAO] * len(ordenadas)
-    _aplicar_excecao_bordao(ordenadas, ataques, dedo, regra)
+    _aplicar_excecao_bordao(ordenadas, ataques, dedo, regra, janela_polegar_s)
     _aplicar_acordes(ordenadas, ataques, dedo, regra)
-    _aplicar_sequencia(ordenadas, ataques, dedo, regra)
+    _aplicar_sequencia(
+        ordenadas,
+        ataques,
+        dedo,
+        regra,
+        janela_sequencia_s=janela_sequencia_s,
+        alternar_ma=alternar_ma,
+    )
     return [
         {**nota, "dedo": d, "regra": r}
         for nota, d, r in zip(ordenadas, dedo, regra, strict=True)
