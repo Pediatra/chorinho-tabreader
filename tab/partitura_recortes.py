@@ -102,6 +102,11 @@ FOLGA_MIN_PX = 3.0
 #: pauta. Linha de tablatura e de outra pauta passam; barra de nota e linha suplementar não.
 FRACAO_ESTRUTURA_VIZINHA = 0.5
 
+#: Estrutura mais grossa que isto (em entrelinhas) não é linha: é um conjunto de barras de
+#: grupo de notas, que sobe da pauta e não pode cortar o recorte. Linha de pauta ou de
+#: tablatura tem 2 a 3 px; a barra da R21 do guitarous tem 23 px com entrelinha de 9,75.
+FATOR_ESPESSURA_VIZINHA = 1.5
+
 #: Corte antes da tablatura, em entrelinhas (meia entrelinha, para não cortar as cifras
 #: que ficam logo acima das cordas).
 MARGEM_TAB_ENTRELINHAS = 0.5
@@ -391,11 +396,14 @@ class Estrutura:
         y: y central da faixa, em px.
         x0: primeira coluna com tinta da faixa.
         x1: última coluna com tinta da faixa.
+        altura: número de linhas de pixel da faixa (linha de pauta ou tablatura tem poucos
+            px; um conjunto de barras de grupo de notas tem muitos).
     """
 
     y: float
     x0: int
     x1: int
+    altura: int = 1
 
 
 def _cinza(quadro: np.ndarray) -> np.ndarray:
@@ -451,6 +459,7 @@ def estruturas_horizontais(quadro: np.ndarray) -> list[Estrutura]:
                 y=(inicio + fim) / 2,
                 x0=int(colunas[0]),
                 x1=int(colunas[-1]),
+                altura=fim - inicio + 1,
             )
         )
     return estruturas
@@ -585,10 +594,11 @@ def candidatos_verticais(
 
     Ignora as linhas da própria pauta (até a folga ``max(FOLGA_MIN_PX, entrelinha / 2)``
     além da 1ª e da 5ª). Só conta estrutura com extensão de pelo menos
-    ``FRACAO_ESTRUTURA_VIZINHA`` da extensão da pauta: barra de nota, linha suplementar e
-    texto curto não limitam o recorte; linha de tablatura e de outra pauta, sim. O
-    retângulo da tablatura do censo, quando existe, entra como uma estrutura a mais (a base
-    dele acima, o topo dele abaixo). Cada vizinha diz se é linha de outra pauta
+    ``FRACAO_ESTRUTURA_VIZINHA`` da extensão da pauta e no máximo
+    ``FATOR_ESPESSURA_VIZINHA`` entrelinhas de espessura: barra de nota, linha suplementar,
+    texto curto e conjunto de barras grossas não limitam o recorte; linha de tablatura e de
+    outra pauta, sim. O retângulo da tablatura do censo, quando existe, entra como uma
+    estrutura a mais (a base dele acima, o topo dele abaixo). Cada vizinha diz se é linha de outra pauta
     (``de_pauta``), porque a regra de corte é diferente para cada caso.
 
     Args:
@@ -604,7 +614,10 @@ def candidatos_verticais(
     outras = outras or []
     folga = max(FOLGA_MIN_PX, pauta.entrelinha / 2)
     minimo = FRACAO_ESTRUTURA_VIZINHA * (pauta.x1 - pauta.x0)
-    longas = [e.y for e in estruturas if e.x1 - e.x0 >= minimo]
+    grossura_maxima = FATOR_ESPESSURA_VIZINHA * pauta.entrelinha
+    longas = [
+        e.y for e in estruturas if e.x1 - e.x0 >= minimo and e.altura <= grossura_maxima
+    ]
     acima = [y for y in longas if y < pauta.ys[0] - folga]
     abaixo = [y for y in longas if y > pauta.ys[4] + folga]
     if rect is not None:

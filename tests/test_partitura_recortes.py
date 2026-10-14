@@ -119,6 +119,19 @@ def test_barra_curta_nao_limita_e_linha_longa_limita() -> None:
     assert abaixo == Vizinha(170.0, False)
 
 
+def test_conjunto_de_barras_grossas_nao_limita_o_recorte() -> None:
+    """Faixa com 23 px de espessura (mais de 1,5 entrelinha de 10 px) é barra, não linha.
+
+    A barra não corta o recorte; a linha fina de tablatura acima dela (y=60), sim.
+    """
+    barras = Estrutura(y=170.0, x0=200, x1=1000, altura=23)
+    _, abaixo = candidatos_verticais(_pauta(), [barras], None)
+    assert abaixo is None
+    linha_fina = Estrutura(y=60.0, x0=200, x1=1000, altura=3)
+    acima, _ = candidatos_verticais(_pauta(), [barras, linha_fina], None)
+    assert acima == Vizinha(60.0, False)
+
+
 def test_candidatos_marcam_linha_de_outra_pauta() -> None:
     """A linha de cima da pauta de baixo (200) é marcada como pauta, não como tablatura."""
     estruturas = _faixas_longas(
