@@ -5235,6 +5235,12 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 - Recomendação: não treinar o SMT agora. Primeiro juntar homr + Audiveris, completar pela tab e herdar a armadura. A decisão é do dono.
 - **Não repetir**: tratar a altura do gabarito como altura soada. O dono confere contra o desenho: sem armadura na tela, um F#4 sai como F4 "certo".
 
+## Partitura — 2026-10-14 — homr completando o Audiveris (rodada 3005)
+
+- A união cega das leituras recupera **31 das 74** notas faltando, mas acrescenta 164 notas (~133 sem clique do dono). Na tab de R01–R12: certas 491→520, **inventadas 3→43**.
+- 43 das 74 faltando não aparecem em nenhuma das duas leituras. Filtrar pela tab zeraria as inventadas, mas isso é pareamento (P3): só com aviso do dono.
+- **Não repetir**: juntar homr e Audiveris sem filtro, seja completando acordes (14/102 casam), seja com eventos só do homr (17/62).
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do
