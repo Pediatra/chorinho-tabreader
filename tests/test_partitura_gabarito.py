@@ -14,6 +14,7 @@ from tab.partitura_gabarito import (
     _tamanho_png,
     aplicar_resposta,
     carregar_gabarito,
+    chaves_notacoes,
     criar_servidor,
     eventos_da_leitura,
     gabarito_vazio,
@@ -22,6 +23,7 @@ from tab.partitura_gabarito import (
     progresso,
     proximo_pendente_recorte,
     validar_faltando,
+    validar_notacoes_recorte,
     validar_obs,
 )
 
@@ -73,6 +75,31 @@ MUSICXML_CLAVE_8_EMBAIXO = """<?xml version="1.0" encoding="UTF-8"?>
 """
 
 
+MUSICXML_NOTACOES = """<?xml version="1.0" encoding="UTF-8"?>
+<score-partwise version="4.0">
+  <part-list><score-part id="P1"><part-name>Guitar</part-name></score-part></part-list>
+  <part id="P1">
+    <measure number="1">
+      <attributes>
+        <divisions>1</divisions>
+        <time><beats>4</beats><beat-type>4</beat-type></time>
+        <clef><sign>G</sign><line>2</line></clef>
+      </attributes>
+      <note><pitch><step>C</step><octave>4</octave></pitch><duration>1</duration>
+        <voice>1</voice><type>quarter</type>
+        <accidental>sharp</accidental><dot/><dot/>
+        <notations>
+          <fermata type="upright"/>
+          <articulations><staccato/></articulations>
+          <technical><fingering>2</fingering></technical>
+          <slur type="start" number="1"/>
+        </notations></note>
+    </measure>
+  </part>
+</score-partwise>
+"""
+
+
 def _gravar(caminho: Path, texto: str) -> Path:
     """Grava um texto em ``caminho`` e devolve o próprio caminho."""
     caminho.write_text(texto, encoding="utf-8")
@@ -97,6 +124,7 @@ def _sim(midi: int | None, t: float, idx: int = 0, **extra: object) -> dict:
         "ligadura_inicio": False,
         "ligadura_fim": False,
         "graca": False,
+        "notacoes": [],
     }
     base.update(extra)
     return base
@@ -205,6 +233,35 @@ def test_clave_com_8_embaixo_soma_12_na_altura_escrita(tmp_path: Path) -> None:
     assert lido["clave"]["octave_change"] == -1
 
 
+def test_notacoes_fermata_staccato_dedilhado_slur_acidente_e_pontos(
+    tmp_path: Path,
+) -> None:
+    lido = ler_partitura(_gravar(tmp_path / "n.musicxml", MUSICXML_NOTACOES))
+    nota = lido["compassos"][0]["simbolos"][0]
+    assert nota["notacoes"] == [
+        "acidente:sharp",
+        "ponto",
+        "ponto",
+        "fermata",
+        "staccato",
+        "fingering:2",
+        "slur-start",
+    ]
+    assert nota["pontuada"] is True
+
+
+def test_ligadura_repetida_em_tie_e_tied_conta_uma_vez(tmp_path: Path) -> None:
+    lido = ler_partitura(_gravar(tmp_path / "b2.musicxml", MUSICXML_BASE))
+    dou = next(s for s in lido["compassos"][0]["simbolos"] if s["midi"] == 60)
+    assert dou["notacoes"] == ["tie-start"]
+
+
+def test_chaves_notacoes_desambiguam_repeticao() -> None:
+    nomes = ["ponto", "ponto", "fermata", "ponto"]
+    assert chaves_notacoes(nomes) == ["ponto", "ponto#2", "fermata", "ponto#3"]
+    assert chaves_notacoes([]) == []
+
+
 def test_sustenido_e_bemol_no_nome(tmp_path: Path) -> None:
     lido = ler_partitura(_gravar(tmp_path / "b.musicxml", MUSICXML_BASE))
     nomes = {s["nome"] for c in lido["compassos"] for s in c["simbolos"] if s["nome"]}
@@ -276,7 +333,7 @@ def test_pausa_e_graca_nao_entram_na_concordancia() -> None:
 
 
 # ---------------------------------------------------------------------------------
-# Validação e gabarito (formato 2: uma entrada por recorte)
+# Validação e gabarito (formato 3: uma entrada por recorte, notações por símbolo)
 # ---------------------------------------------------------------------------------
 
 
@@ -345,9 +402,9 @@ def test_obs_longa_e_erro() -> None:
         validar_obs("x" * 501)
 
 
-def test_resposta_gravada_formato_2_com_palpite_sem_campos_da_conferencia() -> None:
+def test_resposta_gravada_formato_3_com_palpite_sem_campos_da_conferencia() -> None:
     gab = gabarito_vazio()
-    assert gab["formato"] == 2
+    assert gab["formato"] == 3
     itens = {"R01": _item()}
     corpo = _corpo(
         "R01",
@@ -406,12 +463,64 @@ def test_progresso_e_proximo_pendente_recorte() -> None:
     assert proximo_pendente_recorte(itens, gab, "R02") is None
 
 
-def test_carregar_gabarito_formato_1_e_erro(tmp_path: Path) -> None:
-    antigo = tmp_path / "antigo.json"
-    antigo.write_text(json.dumps({"formato": 1, "recortes": {}}), encoding="utf-8")
-    with pytest.raises(ValueError, match="formato 1"):
-        carregar_gabarito(antigo)
+def test_carregar_gabarito_formato_1_e_2_e_erro(tmp_path: Path) -> None:
+    for formato in (1, 2):
+        antigo = tmp_path / f"antigo{formato}.json"
+        antigo.write_text(
+            json.dumps({"formato": formato, "recortes": {}}), encoding="utf-8"
+        )
+        with pytest.raises(ValueError, match=f"formato {formato}"):
+            carregar_gabarito(antigo)
     assert carregar_gabarito(tmp_path / "nao_existe.json") == gabarito_vazio()
+
+
+def _item_com_notacoes() -> dict:
+    """Item de R01 em que o primeiro símbolo tem fermata e dois pontos."""
+    item = _item("R01")
+    item["compassos"][0]["simbolos"][0]["notacoes"] = ["fermata", "ponto", "ponto"]
+    return item
+
+
+def test_validar_notacoes_recusa_chave_inexistente_e_estado_invalido() -> None:
+    item = _item_com_notacoes()
+    simbolos = item["compassos"][0]["simbolos"]
+    lista = [{"idx": 10, "dono": "certo", "notacoes": {"tie-start": "certo"}}]
+    lista.append({"idx": 11, "dono": "certo"})
+    with pytest.raises(ValueError, match="não existe"):
+        validar_notacoes_recorte(lista, simbolos)
+    lista[0]["notacoes"] = {"fermata": "talvez"}
+    with pytest.raises(ValueError, match="estado de notação"):
+        validar_notacoes_recorte(lista, simbolos)
+    lista[0]["notacoes"] = {"ponto#3": "certo"}
+    with pytest.raises(ValueError, match="não existe"):
+        validar_notacoes_recorte(lista, simbolos)
+
+
+def test_gravacao_formato_3_guarda_todas_as_notacoes() -> None:
+    gab = gabarito_vazio()
+    itens = {"R01": _item_com_notacoes()}
+    corpo = _corpo("R01", _todos("R01"))
+    corpo["simbolos"][0]["notacoes"] = {"fermata": "inventado", "ponto#2": "errado"}
+    registro = aplicar_resposta(gab, itens, corpo, "t")
+    primeiro = registro["simbolos"][0]
+    assert primeiro["notacoes_dono"] == {
+        "fermata": "inventado",
+        "ponto": "certo",
+        "ponto#2": "errado",
+    }
+    assert primeiro["palpite"]["notacoes"] == ["fermata", "ponto", "ponto"]
+    assert "notacoes_dono" not in primeiro["palpite"]
+    assert registro["simbolos"][1]["notacoes_dono"] == {}
+
+
+def test_notacao_invalida_nao_grava_nada() -> None:
+    gab = gabarito_vazio()
+    itens = {"R01": _item_com_notacoes()}
+    corpo = _corpo("R01", _todos("R01"))
+    corpo["simbolos"][0]["notacoes"] = {"fermata": "estranho"}
+    with pytest.raises(ValueError, match="estado de notação"):
+        aplicar_resposta(gab, itens, corpo, "t")
+    assert gab["recortes"] == {}
 
 
 # ---------------------------------------------------------------------------------
@@ -483,7 +592,7 @@ def test_servidor_pagina_itens_salvar_e_host_recusado(servidor) -> None:
     )
     assert status == 200
     gravado = json.loads(ouro.read_text(encoding="utf-8"))
-    assert gravado["formato"] == 2
+    assert gravado["formato"] == 3
     assert gravado["recortes"]["R01"]["confirmado"] is True
     assert len(gravado["recortes"]["R01"]["simbolos"]) == 4
 
@@ -564,3 +673,38 @@ def test_servidor_recusa_gabarito_formato_1(tmp_path: Path) -> None:
     )
     with pytest.raises(ValueError, match="formato 1"):
         criar_servidor(itens_path, ouro, porta=0, host="127.0.0.1")
+
+
+def test_servidor_grava_notacoes_e_recusa_chave_errada(tmp_path: Path) -> None:
+    ouro = tmp_path / "gabarito.json"
+    itens_path = tmp_path / "itens.json"
+    itens_path.write_text(
+        json.dumps({"formato": 1, "itens": [_item_com_notacoes()]}), encoding="utf-8"
+    )
+    srv = criar_servidor(itens_path, ouro, porta=0, host="127.0.0.1")
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    porta = srv.server_address[1]
+    try:
+        corpo = _corpo("R01", _todos("R01"))
+        corpo["simbolos"][0]["notacoes"] = {"fermata": "inventado"}
+        status, _ = _pedido(porta, "POST", "/salvar", corpo)
+        assert status == 200
+        gravado = json.loads(ouro.read_text(encoding="utf-8"))
+        assert gravado["formato"] == 3
+        notas = gravado["recortes"]["R01"]["simbolos"][0]["notacoes_dono"]
+        assert notas == {"fermata": "inventado", "ponto": "certo", "ponto#2": "certo"}
+
+        antes = ouro.read_text(encoding="utf-8")
+        ruins = [
+            {"fermata": "errado", "tie-start": "certo"},
+            {"ponto#3": "certo"},
+            {"fermata": "talvez"},
+        ]
+        for notacoes in ruins:
+            corpo["simbolos"][0]["notacoes"] = notacoes
+            status, _ = _pedido(porta, "POST", "/salvar", corpo)
+            assert status == 400
+        assert ouro.read_text(encoding="utf-8") == antes
+    finally:
+        srv.shutdown()
+        srv.server_close()

@@ -7,7 +7,7 @@ Dois subcomandos:
   figura, pausa, ligadura e se o homr e a tablatura concordam com ele.
 - ``servir``: página local com o recorte original (zoom, com marcação de notas que
   faltaram) e a leitura desenhada e tocável, em que o dono clica em cada nota ou pausa
-  e diz o que está errado. Cada recorte confirmado vai para o gabarito (formato 2), em
+  e diz o que está errado. Cada recorte confirmado vai para o gabarito (formato 3), em
   escrita atômica. Re-confirmar um recorte sobrescreve só ele.
 
 Não usa GPU nem roda as bibliotecas de OMR. O gabarito real (``data/gold``) só é gravado
@@ -56,11 +56,15 @@ INDICE_RECORTES = PASTA_RECORTES / "indice.json"
 #: Itens da conferência, gerados por ``preparar``.
 ITENS = PASTA_CONFERENCIA / "itens.json"
 
-#: Formato do arquivo de gabarito (``--ouro``): uma entrada por recorte.
-FORMATO_GABARITO = 2
+#: Formato do arquivo de gabarito (``--ouro``): uma entrada por recorte, e cada
+#: símbolo com ``notacoes_dono`` (formato 3).
+FORMATO_GABARITO = 3
 
 #: Estados que o dono pode dar a um símbolo (a página mostra "inventada" no último).
 ESTADOS = ("certo", "altura_errada", "figura_errada", "nao_existe")
+
+#: Estados de cada notação (fermata, ponto, dedilhado...). Ausente vale "certo".
+ESTADOS_NOTACAO = ("certo", "errado", "inventado")
 
 #: Tamanho máximo da observação de um recorte.
 TAMANHO_OBS_MAXIMO = 500
@@ -100,6 +104,87 @@ def _ligadura(filho: ET.Element) -> tuple[bool, bool]:
     tipos = [e.get("type") for e in filho.findall("tie")]
     tipos += [e.get("type") for e in filho.findall("notations/tied")]
     return "start" in tipos, "stop" in tipos
+
+
+def _ligaduras_notacao(filho: ET.Element) -> list[str]:
+    """Nomes ``tie-start``/``tie-stop`` de uma nota, sem contar a mesma ligadura duas vezes.
+
+    O MusicXML repete a ligadura em ``tie`` (som) e em ``notations/tied`` (desenho).
+    Conta-se, por tipo, o maior dos dois, para que cada ligadura apareça uma vez.
+
+    Args:
+        filho: elemento ``note``.
+
+    Returns:
+        Nomes na ordem ``tie-start``, ``tie-stop``, com repetição se houver mais de um.
+    """
+    nomes: list[str] = []
+    for tipo in ("start", "stop"):
+        som = sum(1 for e in filho.findall("tie") if e.get("type") == tipo)
+        desenho = sum(
+            1 for e in filho.findall("notations/tied") if e.get("type") == tipo
+        )
+        nomes += [f"tie-{tipo}"] * max(som, desenho)
+    return nomes
+
+
+def _notacoes(filho: ET.Element) -> list[str]:
+    """Símbolos que não são a nota em si, lidos do XML, um nome por ocorrência.
+
+    A ordem é fixa: ligaduras, acidente desenhado, pontos, fermatas, articulações,
+    ornamentos, técnica (dedilhado e corda), ligaduras de expressão e arpejo. Cada
+    ``dot`` vira ``ponto``, cada ``accidental`` vira ``acidente:<texto>``, cada
+    ``fingering`` vira ``fingering:<texto>`` e cada ``string`` vira ``string:<texto>``.
+    Os outros filhos de ``technical``, ``articulations`` e ``ornaments`` valem pelo
+    próprio nome. Os nomes repetidos são desambiguados depois, por
+    ``chaves_notacoes``.
+
+    Args:
+        filho: elemento ``note``.
+
+    Returns:
+        Lista de nomes curtos, na ordem acima.
+    """
+    nomes = _ligaduras_notacao(filho)
+    nomes += [f"acidente:{(e.text or '').strip()}" for e in filho.findall("accidental")]
+    nomes += ["ponto"] * len(filho.findall("dot"))
+    notacoes = filho.findall("notations")
+    for nota in notacoes:
+        nomes += ["fermata"] * len(nota.findall("fermata"))
+    for nota in notacoes:
+        nomes += [a.tag for a in nota.findall("articulations/*")]
+    for nota in notacoes:
+        nomes += [o.tag for o in nota.findall("ornaments/*")]
+    for nota in notacoes:
+        for t in nota.findall("technical/*"):
+            if t.tag in ("fingering", "string"):
+                nomes.append(f"{t.tag}:{(t.text or '').strip()}")
+            else:
+                nomes.append(t.tag)
+    for nota in notacoes:
+        for s in nota.findall("slur"):
+            if s.get("type") in ("start", "stop"):
+                nomes.append(f"slur-{s.get('type')}")
+    for nota in notacoes:
+        nomes += ["arpeggiate"] * len(nota.findall("arpeggiate"))
+    return nomes
+
+
+def chaves_notacoes(nomes: list[str]) -> list[str]:
+    """Chave de cada notação: o nome, e ``nome#2``, ``nome#3`` para as repetições.
+
+    Args:
+        nomes: lista de ``notacoes`` de um símbolo.
+
+    Returns:
+        Chaves na mesma ordem, todas distintas dentro do símbolo.
+    """
+    vistos: dict[str, int] = {}
+    chaves: list[str] = []
+    for nome in nomes:
+        vistos[nome] = vistos.get(nome, 0) + 1
+        chaves.append(nome if vistos[nome] == 1 else f"{nome}#{vistos[nome]}")
+    return chaves
 
 
 def _altura(pitch: ET.Element, oitava_clave: int) -> tuple[int, str]:
@@ -194,6 +279,7 @@ def _ler_nota(
         "ligadura_inicio": ligada_inicio,
         "ligadura_fim": ligada_fim,
         "graca": graca,
+        "notacoes": _notacoes(filho),
     }
 
 
@@ -658,7 +744,7 @@ def _tabela(itens: list[dict]) -> str:
 
 
 def gabarito_vazio() -> dict:
-    """Gabarito sem nenhuma resposta (formato 2).
+    """Gabarito sem nenhuma resposta (formato 3).
 
     Returns:
         Dicionário com ``formato``, ``fonte_itens`` e ``recortes`` vazio.
@@ -677,11 +763,11 @@ def carregar_gabarito(caminho: Path) -> dict:
         caminho: arquivo de gabarito (``--ouro``).
 
     Returns:
-        Gabarito formato 2.
+        Gabarito formato 3.
 
     Raises:
-        ValueError: se o arquivo existe e não está no formato 2 (por exemplo, um
-            gabarito do formato 1, por compasso, que este código não converte).
+        ValueError: se o arquivo existe e não está no formato 3 (por exemplo, um
+            gabarito do formato 1 ou 2, que este código não converte).
     """
     if not caminho.exists():
         return gabarito_vazio()
@@ -803,6 +889,46 @@ def validar_simbolos(lista: object, simbolos: list[dict]) -> dict[int, str]:
     return donos
 
 
+def validar_notacoes_recorte(
+    lista: list[dict], simbolos: list[dict]
+) -> dict[int, dict[str, str]]:
+    """Confere o estado de cada notação (fermata, ponto...) dado pelo dono.
+
+    Chamada depois de ``validar_simbolos``, então todo ``idx`` de ``lista`` existe em
+    ``simbolos``. Ausente (``notacoes`` sem a chave) vale ``{}``: tudo certo.
+
+    Args:
+        lista: itens de símbolos enviados pela página; cada um pode ter ``notacoes``,
+            um objeto ``{chave: estado}``.
+        simbolos: todos os símbolos do recorte em ``itens.json``.
+
+    Returns:
+        Mapa ``idx`` -> ``{chave: estado}``, só com as chaves enviadas.
+
+    Raises:
+        ValueError: se ``notacoes`` não for objeto, se uma chave não existir no símbolo,
+            ou se um estado não for um dos três.
+    """
+    por_idx = {s["idx"]: s for s in simbolos}
+    saida: dict[int, dict[str, str]] = {}
+    for item in lista:
+        valor = item.get("notacoes")
+        if valor is None:
+            valor = {}
+        if not isinstance(valor, dict):
+            raise ValueError("notacoes deve ser um objeto {chave: estado}")
+        existentes = set(chaves_notacoes(por_idx[item["idx"]].get("notacoes", [])))
+        for chave, estado in valor.items():
+            if chave not in existentes:
+                raise ValueError(
+                    f"notação {chave!r} não existe no símbolo {item['idx']}"
+                )
+            if estado not in ESTADOS_NOTACAO:
+                raise ValueError(f"estado de notação inválido: {estado!r}")
+        saida[item["idx"]] = dict(valor)
+    return saida
+
+
 def _booleano(valor: object, padrao: bool) -> bool:
     """Lê um campo booleano; ausente vale ``padrao``.
 
@@ -847,10 +973,11 @@ def aplicar_resposta(
     como estava. Um recorte já confirmado é sobrescrito; os outros são preservados.
 
     Args:
-        gabarito: gabarito formato 2, alterado em lugar.
+        gabarito: gabarito formato 3, alterado em lugar.
         itens_por_id: itens de ``preparar`` indexados por id de recorte.
-        dados: corpo do POST: ``recorte``, ``simbolos`` (todos os símbolos do recorte),
-            e opcionalmente ``faltando``, ``obs``, ``clave_certa`` e ``armadura_certa``.
+        dados: corpo do POST: ``recorte``, ``simbolos`` (todos os símbolos do recorte,
+            cada um com ``idx``, ``dono`` e opcionalmente ``notacoes``), e
+            opcionalmente ``faltando``, ``obs``, ``clave_certa`` e ``armadura_certa``.
         agora: carimbo da resposta (ISO).
 
     Returns:
@@ -858,7 +985,7 @@ def aplicar_resposta(
 
     Raises:
         ValueError: se qualquer campo estiver errado (recorte desconhecido, estado
-            inválido, idx errado, ponto fora da imagem, obs longa).
+            inválido, idx errado, notação inexistente, ponto fora da imagem, obs longa).
     """
     if not isinstance(dados, dict):
         raise ValueError("o corpo deve ser um objeto JSON")
@@ -867,7 +994,9 @@ def aplicar_resposta(
         raise ValueError(f"recorte desconhecido: {recorte_id!r}")
     item = itens_por_id[recorte_id]
     simbolos = [s for c in item["compassos"] for s in c["simbolos"]]
-    donos = validar_simbolos(dados.get("simbolos"), simbolos)
+    lista = dados.get("simbolos")
+    donos = validar_simbolos(lista, simbolos)
+    notas = validar_notacoes_recorte(lista, simbolos)
     pontos = validar_faltando(
         dados.get("faltando"), item["largura_png"], item["altura_png"]
     )
@@ -888,6 +1017,10 @@ def aplicar_resposta(
                 "compasso": s["compasso"],
                 "palpite": _palpite(s),
                 "dono": donos[s["idx"]],
+                "notacoes_dono": {
+                    chave: notas.get(s["idx"], {}).get(chave, "certo")
+                    for chave in chaves_notacoes(s.get("notacoes", []))
+                },
             }
             for s in simbolos
         ],
@@ -906,7 +1039,7 @@ def confirmado_recorte(gabarito: dict, recorte_id: str) -> bool:
     """Se o recorte já foi confirmado no gabarito.
 
     Args:
-        gabarito: gabarito formato 2.
+        gabarito: gabarito formato 3.
         recorte_id: id do recorte.
 
     Returns:
@@ -921,7 +1054,7 @@ def progresso(itens: list[dict], gabarito: dict) -> dict:
 
     Args:
         itens: itens de ``preparar``.
-        gabarito: gabarito formato 2.
+        gabarito: gabarito formato 3.
 
     Returns:
         ``{"confirmados", "total", "por_recorte": {id: bool}}``.
@@ -941,7 +1074,7 @@ def proximo_pendente_recorte(
 
     Args:
         itens: itens na ordem da página.
-        gabarito: gabarito formato 2.
+        gabarito: gabarito formato 3.
         atual: id do recorte de partida, ou ``None``.
 
     Returns:
@@ -999,7 +1132,7 @@ def criar_servidor(
         O servidor; ``servidor.server_address[1]`` é a porta real.
 
     Raises:
-        ValueError: se o gabarito existe e não está no formato 2.
+        ValueError: se o gabarito existe e não está no formato 3.
     """
     itens_todos = json.loads(itens_caminho.read_text(encoding="utf-8"))["itens"]
     ordem = sorted(itens_todos, key=lambda it: (-it["discordancias"], it["id"]))
@@ -1221,6 +1354,22 @@ details summary { cursor: pointer; font-weight: 600; }
 .legenda span { display: inline-block; margin-right: 12px; }
 .legenda i { display: inline-block; width: 12px; height: 12px; vertical-align: middle;
   margin-right: 4px; border: 1px solid var(--borda); }
+g.vf-stavenote { cursor: pointer; }
+/* O OSMD põe pointer-events: bounding-box no g.vf-note: a caixa do acorde inteiro
+   (com a haste) roubaria o clique das fermatas e pontos das notas vizinhas. */
+#osmd g.vf-note { pointer-events: none; }
+#osmd g.vf-modifiers * { pointer-events: all; }
+.resumo { font-size: 13px; font-weight: 600; margin: 8px 0 0; }
+.menu-vazio { font-size: 12px; opacity: .8; padding: 2px 4px; }
+.menu-rotulo { font-size: 12px; font-weight: 600; padding: 4px 4px 0; }
+.menu .linha-menu { display: flex; flex-wrap: wrap; gap: 4px; align-items: center;
+  font-size: 13px; padding: 2px 4px; }
+.menu .linha-menu span { flex: 1 1 120px; }
+.menu .linha-menu button { padding: 3px 6px; font-size: 12px; }
+.menu .linha-menu button.ativo { background: var(--destaque); color: #fff;
+  border-color: var(--destaque); }
+.menu[hidden], .menu [hidden] { display: none; }
+.chip .notas-chip { font-size: 11px; opacity: .85; }
 @media (max-width: 800px) {
   body { grid-template-columns: 1fr; }
   aside { position: static; max-height: none; border-right: none;
@@ -1248,11 +1397,16 @@ details summary { cursor: pointer; font-weight: 600; }
     <img id="png" alt="recorte original da pauta" draggable="false">
   </div></div>
 
+  <div id="resumo" class="resumo"></div>
+  <div id="aviso-clave" class="aviso"></div>
+  <div id="osmd"></div>
+  <div class="dica">Leitura desenhada numa linha, rolada junto com a imagem. Clique
+    numa cabeça de nota para marcar a nota. Clique na haste, na fermata, no ponto,
+    no acidente ou em outro símbolo do grupo para marcar os símbolos.</div>
   <div class="barra">
     <button type="button" id="tocar-leitura" class="principal">tocar leitura</button>
     <button type="button" id="botao-parar">parar</button>
   </div>
-  <div class="dica">Clique numa nota ou pausa desenhada para marcar.</div>
   <div class="legenda dica">
     <span><i style="background:#fff"></i>certo</span>
     <span><i style="background:#e67e22"></i>altura errada</span>
@@ -1261,7 +1415,6 @@ details summary { cursor: pointer; font-weight: 600; }
     <span><i style="background:#f2c200"></i>discordância entre leituras</span>
   </div>
   <div id="aviso" class="aviso"></div>
-  <div id="osmd"></div>
 
   <div class="caixas barra" id="caixas"></div>
   <div class="campos">
@@ -1280,17 +1433,19 @@ details summary { cursor: pointer; font-weight: 600; }
 
 <div id="menu" class="menu" role="menu" hidden>
   <div class="titulo-menu" id="menu-titulo"></div>
-  <button type="button" data-estado="certo">certo <kbd>1</kbd></button>
-  <button type="button" data-estado="altura_errada">altura errada <kbd>2</kbd></button>
-  <button type="button" data-estado="figura_errada">figura errada <kbd>3</kbd></button>
-  <button type="button" data-estado="nao_existe">inventada <kbd>4</kbd></button>
+  <div id="menu-estados">
+    <button type="button" data-estado="certo">certo <kbd>1</kbd></button>
+    <button type="button" data-estado="altura_errada">altura errada <kbd>2</kbd></button>
+    <button type="button" data-estado="figura_errada">figura errada <kbd>3</kbd></button>
+    <button type="button" data-estado="nao_existe">inventada <kbd>4</kbd></button>
+  </div>
+  <div id="menu-simbolos" hidden></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@1.8.6/build/opensheetmusicdisplay.min.js"></script>
 <script>
 "use strict";
 const SVG_NS = "http://www.w3.org/2000/svg";
-const ESTADOS = ["certo", "altura_errada", "figura_errada", "nao_existe"];
 const ROTULO_ESTADO = {
   certo: "certo", altura_errada: "altura errada",
   figura_errada: "figura errada", nao_existe: "inventada"
@@ -1306,14 +1461,24 @@ const SEG_SEMINIMA = 60 / 72;
 const PONTOS_MAXIMO = 200;
 const ELEMENTOS_DE_TINTA = "path, ellipse, rect, polygon, polyline, line, circle";
 
+const OPCOES_NOTA = [
+  ["certo", "certo"], ["altura_errada", "altura errada"],
+  ["figura_errada", "figura errada"], ["nao_existe", "inventada"]
+];
+const COR_NOTACAO = {errado: "#e67e22", inventado: "#d62828"};
+let marcaClicada = null;
+const OPCOES_NOTACAO = [["certo", "certo"], ["errado", "errado"], ["inventado", "inventado"]];
+
 let itens = [];
 let porId = {};
 let gabarito = {recortes: {}};
 let rascunho = {};
 let atual = null;
 let mapaAtual = null;
+let osmdAtual = null;
 let tokenDesenho = 0;
-let notaMenu = null;
+let menu = null;
+let ignorarRolagem = null;
 let contextoAudio = null;
 let mestre = null;
 window.mapeamento = {};
@@ -1371,19 +1536,41 @@ function confirmado(id) {
   return gravadoDoRecorte(id).confirmado === true;
 }
 
+// Mesma regra de tab/partitura_gabarito.py (chaves_notacoes): nome, e nome#2, nome#3...
+function chavesNotacoes(nomes) {
+  const vistos = {};
+  return (nomes || []).map((nome) => {
+    vistos[nome] = (vistos[nome] || 0) + 1;
+    return vistos[nome] === 1 ? nome : nome + "#" + vistos[nome];
+  });
+}
+
 function inicializarRascunho() {
   rascunho = {};
   for (const it of itens) {
     const gr = gravadoDoRecorte(it.id);
     const donos = {};
-    for (const s of todosSimbolos(it)) donos[s.idx] = "certo";
-    for (const x of gr.simbolos || []) donos[x.idx] = x.dono;
+    const notas = {};
+    for (const s of todosSimbolos(it)) {
+      donos[s.idx] = "certo";
+      notas[s.idx] = {};
+      for (const chave of chavesNotacoes(s.notacoes)) notas[s.idx][chave] = "certo";
+    }
+    for (const x of gr.simbolos || []) {
+      donos[x.idx] = x.dono;
+      for (const [chave, estado] of Object.entries(x.notacoes_dono || {})) {
+        if (chave in notas[x.idx]) notas[x.idx][chave] = estado;
+      }
+    }
     rascunho[it.id] = {
       clave: gr.clave_certa !== false,
       armadura: gr.armadura_certa !== false,
       donos: donos,
+      notas: notas,
       faltando: (gr.faltando || []).map((p) => ({x: p.x, y: p.y})),
       obs: gr.obs || "",
+      // Só para pintar na página: qual marca desenhada foi clicada para cada notação.
+      marcas: {},
     };
   }
 }
@@ -1474,19 +1661,19 @@ function chip(it, s, r) {
   const motivos = [];
   if (s.homr_concorda === false) motivos.push("homr discorda");
   if (s.tab_concorda === false) motivos.push("tab discorda");
+  const notas = r.notas[s.idx] || {};
+  const linhas = chavesNotacoes(s.notacoes).map((chave) =>
+    el("small", {classe: "notas-chip", texto: chave + ": " + (notas[chave] || "certo")}));
   return el("button", {
     type: "button",
     classe: "chip estado-" + estado + (motivos.length ? " discorda" : ""),
     title: motivos.join("; "),
-    onclick: () => {
-      const i = ESTADOS.indexOf(r.donos[s.idx] || "certo");
-      r.donos[s.idx] = ESTADOS[(i + 1) % ESTADOS.length];
-      atualizarMarcacoes();
-    },
+    onclick: (ev) => abrirMenuSimbolos(ev, [s.idx]),
   }, [
     el("span", {texto: rotuloSimbolo(s)}),
     el("small", {texto: ROTULO_ESTADO[estado] +
                  (motivos.length ? " · " + motivos.join(", ") : "")}),
+    ...linhas,
   ]);
 }
 
@@ -1591,10 +1778,11 @@ function criarHalo(g) {
 }
 
 function elementosDasNotas(porNota) {
-  // idx -> cabeça da nota no SVG. O VexFlow desenha um acorde num único grupo
-  // (vf-stavenote); nele, cada nota é uma cabeça (vf-notehead). As cabeças são
-  // casadas com as notas pela altura: a mais baixa na tela é a de menor halfTone.
-  // Pausa (sem cabeça) usa o grupo inteiro.
+  // Devolve {alvos, grupos}. alvos: idx -> cabeça da nota no SVG. O VexFlow desenha
+  // um acorde num único grupo (vf-stavenote); nele, cada nota é uma cabeça
+  // (vf-notehead). As cabeças são casadas com as notas pela altura: a mais baixa na
+  // tela é a de menor halfTone. Pausa (sem cabeça) usa o grupo inteiro.
+  // grupos: grupo vf-stavenote -> idx das notas dele (para o clique fora da cabeça).
   const porGrupo = new Map();
   for (const [idx, gn] of porNota) {
     const g = gn.getSVGGElement ? gn.getSVGGElement() : null;
@@ -1602,20 +1790,22 @@ function elementosDasNotas(porNota) {
     if (!porGrupo.has(g)) porGrupo.set(g, []);
     porGrupo.get(g).push([idx, gn]);
   }
-  const elementos = new Map();
+  const alvos = new Map();
+  const grupos = new Map();
   for (const [g, notas] of porGrupo) {
+    grupos.set(g, notas.map(([idx]) => idx));
     const cabecas = [...g.querySelectorAll(".vf-notehead")];
     // A cabeça, e não o grupo: o grupo inclui haste e fermata, e a caixa dele
     // cobriria as notas vizinhas.
     if (cabecas.length !== notas.length) {
-      for (const [idx] of notas) elementos.set(idx, g);
+      for (const [idx] of notas) alvos.set(idx, g);
       continue;
     }
     notas.sort((a, b) => a[1].sourceNote.halfTone - b[1].sourceNote.halfTone);
     cabecas.sort((a, b) => b.getBBox().y - a.getBBox().y);
-    notas.forEach(([idx], k) => elementos.set(idx, cabecas[k]));
+    notas.forEach(([idx], k) => alvos.set(idx, cabecas[k]));
   }
-  return elementos;
+  return {alvos: alvos, grupos: grupos};
 }
 
 function criarAlvo(g, idx) {
@@ -1631,12 +1821,13 @@ function criarAlvo(g, idx) {
   r.style.cursor = "pointer";
   const transformacao = g.getAttribute("transform");
   if (transformacao) r.setAttribute("transform", transformacao);
-  r.addEventListener("click", (ev) => abrirMenu(ev, idx));
+  r.addEventListener("click", (ev) => abrirMenuNota(ev, idx));
   g.parentNode.appendChild(r);
 }
 
 function pintarNota(g, cor) {
-  for (const e of g.querySelectorAll(ELEMENTOS_DE_TINTA)) {
+  const elementos = g.matches(ELEMENTOS_DE_TINTA) ? [g] : g.querySelectorAll(ELEMENTOS_DE_TINTA);
+  for (const e of elementos) {
     if (!e.__original) {
       e.__original = {fill: e.getAttribute("fill"), stroke: e.getAttribute("stroke")};
     }
@@ -1655,37 +1846,185 @@ function pintarPartitura() {
   for (const [idx, g] of mapaAtual.porIdx) {
     pintarNota(g, COR_ESTADO[r.donos[idx]] || null);
   }
+  // Notação marcada a partir de um clique na própria marca: pinta essa marca.
+  for (const [chave, onde] of Object.entries(r.marcas)) {
+    const [idx, nome] = [Number(chave.split("|")[0]), chave.split("|").slice(1).join("|")];
+    const marca = (mapaAtual.marcasDoGrupo.get(onde.grupo) || [])[onde.pos];
+    if (marca) pintarNota(marca, COR_NOTACAO[(r.notas[idx] || {})[nome]] || null);
+  }
 }
 
 function atualizarMarcacoes() {
   pintarPartitura();
   desenharSimbolos(porId[atual]);
+  desenharMenuSimbolos();
 }
 
 function fecharMenu() {
-  notaMenu = null;
+  menu = null;
   dom("menu").hidden = true;
 }
 
-function abrirMenu(ev, idx) {
+function posicionarMenu(ev) {
+  const m = dom("menu");
+  m.hidden = false;
+  const x = Math.min(ev.clientX + 8, window.innerWidth - m.offsetWidth - 8);
+  const y = Math.min(ev.clientY + 8, window.innerHeight - m.offsetHeight - 8);
+  m.style.left = Math.max(8, x) + "px";
+  m.style.top = Math.max(8, y) + "px";
+}
+
+function simbolosDosIdx(idxs) {
+  const todos = todosSimbolos(porId[atual]);
+  return idxs.map((i) => todos.find((s) => s.idx === i)).filter((s) => s);
+}
+
+function abrirMenuNota(ev, idx) {
+  // Clique na cabeça: o menu de nota (4 estados), como antes.
   ev.stopPropagation();
-  const it = porId[atual];
-  const simbolo = todosSimbolos(it).find((s) => s.idx === idx);
-  notaMenu = idx;
-  dom("menu-titulo").textContent = simbolo ? rotuloSimbolo(simbolo) : "";
-  const menu = dom("menu");
-  menu.hidden = false;
-  const x = Math.min(ev.clientX + 8, window.innerWidth - menu.offsetWidth - 8);
-  const y = Math.min(ev.clientY + 8, window.innerHeight - menu.offsetHeight - 8);
-  menu.style.left = Math.max(8, x) + "px";
-  menu.style.top = Math.max(8, y) + "px";
+  const [s] = simbolosDosIdx([idx]);
+  menu = {modo: "nota", idxs: [idx]};
+  dom("menu-titulo").textContent = s ? rotuloSimbolo(s) : "";
+  dom("menu-estados").hidden = false;
+  dom("menu-simbolos").hidden = true;
+  posicionarMenu(ev);
+}
+
+function abrirMenuSimbolos(ev, idxs) {
+  // Clique fora da cabeça (haste, fermata, ponto...) ou numa linha da lista de
+  // reserva: o menu de símbolos do grupo de notas.
+  ev.stopPropagation();
+  menu = {modo: "simbolos", idxs: idxs.slice(), marca: marcaClicada};
+  marcaClicada = null;
+  dom("menu-estados").hidden = true;
+  dom("menu-simbolos").hidden = false;
+  desenharMenuSimbolos();
+  posicionarMenu(ev);
+}
+
+function rotuloGrupo(simbolos) {
+  if (simbolos.length === 0) return "";
+  const notas = simbolos.map((s) => (s.pausa ? "pausa" : s.nome)).join(" ");
+  return notas + " · " + rotuloFigura(simbolos[0]);
+}
+
+function linhaMenu(rotulo, opcoes, atualEstado, aoEscolher) {
+  return el("div", {classe: "linha-menu"}, [
+    el("span", {texto: rotulo}),
+    ...opcoes.map(([valor, texto]) => el("button", {
+      type: "button",
+      classe: atualEstado === valor ? "ativo" : "",
+      texto: texto,
+      onclick: () => aoEscolher(valor),
+    })),
+  ]);
+}
+
+function desenharMenuSimbolos() {
+  if (!menu || menu.modo !== "simbolos" || atual === null) return;
+  const r = rascunho[atual];
+  const simbolos = simbolosDosIdx(menu.idxs);
+  dom("menu-titulo").textContent = rotuloGrupo(simbolos);
+  const area = dom("menu-simbolos");
+  area.textContent = "";
+  const multi = simbolos.length > 1;
+  let total = 0;
+  for (const s of simbolos) {
+    const notas = r.notas[s.idx];
+    for (const chave of chavesNotacoes(s.notacoes)) {
+      total++;
+      area.append(linhaMenu(chave + (multi ? " · " + s.nome : ""), OPCOES_NOTACAO,
+                            notas[chave] || "certo", (novo) => {
+        notas[chave] = novo;
+        if (menu.marca) r.marcas[s.idx + "|" + chave] = menu.marca;
+        atualizarMarcacoes();
+      }));
+    }
+  }
+  if (total === 0) area.append(el("div", {classe: "menu-vazio", texto: "sem símbolos lidos aqui"}));
+  area.append(el("div", {classe: "menu-rotulo", texto: "notas do grupo:"}));
+  for (const s of simbolos) {
+    const rotulo = s.pausa ? "pausa" : "nota " + s.nome;
+    area.append(linhaMenu(rotulo, OPCOES_NOTA, r.donos[s.idx] || "certo", (novo) => {
+      r.donos[s.idx] = novo;
+      atualizarMarcacoes();
+    }));
+  }
 }
 
 function escolherEstado(estado) {
-  if (notaMenu === null || atual === null) return;
-  rascunho[atual].donos[notaMenu] = estado;
+  if (!menu || menu.modo !== "nota" || atual === null) return;
+  rascunho[atual].donos[menu.idxs[0]] = estado;
   fecharMenu();
   atualizarMarcacoes();
+}
+
+function renderizarPartitura(it) {
+  // Desenha de novo (zoom ou resize) e reaplica mapeamento, halos, alvos e cores.
+  // A escala é a que faz o desenho ter a mesma largura da imagem no mesmo zoom: o
+  // OSMD desenha de primeiro em zoom 1, mede, e o zoom passa a ser a razão entre a
+  // largura da imagem a 100% e a largura desse desenho, vezes o zoom do slider.
+  const o = osmdAtual;
+  o.Zoom = 1;
+  o.render();
+  const svg = dom("osmd").querySelector("svg");
+  const larguraBase = svg ? svg.getBoundingClientRect().width : 0;
+  const ajuste = larguraBase > 0 ? dom("png-rolagem").clientWidth / larguraBase : 1;
+  o.Zoom = ajuste * Number(dom("zoom").value) / 100;
+  o.render();
+  const mapa = mapear(o, it);
+  const simbolos = todosSimbolos(it);
+  const {alvos, grupos} = elementosDasNotas(mapa.porIdx);
+  for (const [idx, g] of alvos) {
+    const s = simbolos.find((x) => x.idx === idx);
+    if (s && (s.homr_concorda === false || s.tab_concorda === false)) criarHalo(g);
+  }
+  // Alvos depois de todos os halos, para ficarem por cima de tudo. Só as cabeças
+  // têm alvo próprio; pausa (sem cabeça) é clicada pelo grupo.
+  for (const [idx, g] of alvos) {
+    if (g.classList.contains("vf-notehead")) criarAlvo(g, idx);
+  }
+  const marcasDoGrupo = new Map();
+  // Clique no grupo (haste, fermata, ponto, acidente...) abre o menu de símbolos.
+  // A haste é uma linha de 1 px: um alvo transparente mais largo cobre a caixa dela.
+  for (const [g, idxs] of grupos) {
+    g.addEventListener("click", (ev) => abrirMenuSimbolos(ev, idxs));
+    const haste = g.querySelector("g.vf-stem");
+    if (haste && haste.parentNode) {
+      const caixa = haste.getBBox();
+      const r = document.createElementNS(SVG_NS, "rect");
+      r.setAttribute("x", caixa.x - 4);
+      r.setAttribute("y", caixa.y);
+      r.setAttribute("width", caixa.width + 8);
+      r.setAttribute("height", caixa.height);
+      r.setAttribute("fill", "transparent");
+      r.setAttribute("pointer-events", "all");
+      haste.parentNode.appendChild(r);
+    }
+    // Ponto e fermata têm 3 a 17 px: cada um ganha um alvo transparente com folga
+    // (o clique sobe até o grupo e abre o mesmo menu de símbolos).
+    const marcas = [...g.querySelectorAll("g.vf-modifiers > path")];
+    marcasDoGrupo.set(idxs[0], marcas);
+    for (const [pos, marca] of marcas.entries()) {
+      const caixa = marca.getBBox();
+      const r = document.createElementNS(SVG_NS, "rect");
+      r.setAttribute("x", caixa.x - 7);
+      r.setAttribute("y", caixa.y - 7);
+      r.setAttribute("width", caixa.width + 14);
+      r.setAttribute("height", caixa.height + 14);
+      r.setAttribute("fill", "transparent");
+      r.setAttribute("pointer-events", "all");
+      r.style.cursor = "pointer";
+      r.addEventListener("click", () => { marcaClicada = {grupo: idxs[0], pos: pos}; });
+      marca.parentNode.appendChild(r);
+    }
+  }
+  mapaAtual = {id: it.id, porIdx: alvos, marcasDoGrupo: marcasDoGrupo};
+  const mapeados = alvos.size;
+  window.mapeamento[it.id] = [mapeados, mapa.total];
+  const falta = mapa.total - mapeados;
+  aviso(falta ? falta + " símbolos sem posição na partitura (estão na lista de símbolos)" : "");
+  pintarPartitura();
 }
 
 async function desenharPartitura(it) {
@@ -1693,36 +2032,59 @@ async function desenharPartitura(it) {
   const meu = ++tokenDesenho;
   alvo.textContent = "";
   mapaAtual = null;
+  osmdAtual = null;
   if (typeof opensheetmusicdisplay === "undefined" || !opensheetmusicdisplay.OpenSheetMusicDisplay) {
     aviso("Leitura desenhada indisponível (a biblioteca de desenho não carregou). Use a lista de símbolos.");
     return;
   }
   try {
     const o = new opensheetmusicdisplay.OpenSheetMusicDisplay(alvo, {
-      autoResize: false, drawTitle: false,
+      autoResize: false, drawTitle: false, drawPartNames: false,
+      renderSingleHorizontalStaffline: true,
     });
     await o.load(it.musicxml);
     if (meu !== tokenDesenho) return;
-    o.render();
-    const mapa = mapear(o, it);
-    if (meu !== tokenDesenho) return;
-    const simbolos = todosSimbolos(it);
-    const porIdx = elementosDasNotas(mapa.porIdx);
-    for (const [idx, g] of porIdx) {
-      const s = simbolos.find((x) => x.idx === idx);
-      if (s && (s.homr_concorda === false || s.tab_concorda === false)) criarHalo(g);
-    }
-    // Alvos depois de todos os halos, para ficarem por cima de tudo.
-    for (const [idx, g] of porIdx) criarAlvo(g, idx);
-    mapaAtual = {id: it.id, porIdx: porIdx};
-    const mapeados = porIdx.size;
-    window.mapeamento[it.id] = [mapeados, mapa.total];
-    const falta = mapa.total - mapeados;
-    aviso(falta ? falta + " símbolos sem posição na partitura (estão na lista de símbolos)" : "");
-    pintarPartitura();
+    // Sem fórmula lida, não desenha o 4/4 padrão do OSMD (não é leitura).
+    o.EngravingRules.RenderTimeSignatures = it.compasso_formula !== null;
+    osmdAtual = o;
+    renderizarPartitura(it);
   } catch (erro) {
     if (meu === tokenDesenho) aviso("Leitura desenhada falhou: " + erro);
   }
+}
+
+function avisoLeitura(it) {
+  const partes = [];
+  if (!it.clave) partes.push("clave");
+  if (!it.compasso_formula) partes.push("fórmula de compasso");
+  if (partes.length === 0) {
+    dom("aviso-clave").textContent = "";
+    return;
+  }
+  let texto = "o Audiveris não leu " + partes.join(" nem ") + " neste trecho";
+  if (!it.clave) texto += "; a clave de sol desenhada é padrão do desenho, não leitura";
+  if (!it.compasso_formula) texto += "; a fórmula de compasso não foi desenhada (não há leitura)";
+  dom("aviso-clave").textContent = texto + ".";
+}
+
+function sincronizarRolagens(a, b) {
+  // Rolar um rola o outro na mesma proporção. ignorarRolagem evita o laço infinito:
+  // o scroll que a gente mesmo causa no outro elemento não é repassado de volta.
+  const seguir = (origem, destino) => () => {
+    if (ignorarRolagem === origem) {
+      ignorarRolagem = null;
+      return;
+    }
+    const maxOrigem = origem.scrollWidth - origem.clientWidth;
+    const maxDestino = destino.scrollWidth - destino.clientWidth;
+    const proporcao = maxOrigem > 0 ? origem.scrollLeft / maxOrigem : 0;
+    const alvo = proporcao * maxDestino;
+    if (Math.abs(destino.scrollLeft - alvo) < 1) return;
+    ignorarRolagem = destino;
+    destino.scrollLeft = alvo;
+  };
+  a.addEventListener("scroll", seguir(a, b));
+  b.addEventListener("scroll", seguir(b, a));
 }
 
 async function abrir(id) {
@@ -1741,6 +2103,9 @@ async function abrir(id) {
   desenharCaixas(it);
   desenharLista();
   desenharSimbolos(it);
+  dom("resumo").textContent = "leitura: " + it.n_compassos + " compassos, " +
+    it.n_notas + " notas, " + it.n_pausas + " pausas";
+  avisoLeitura(it);
   await desenharPartitura(it);
 }
 
@@ -1751,7 +2116,9 @@ async function confirmarTrecho() {
   const msg = dom("msg");
   const corpo = {
     recorte: it.id,
-    simbolos: todosSimbolos(it).map((s) => ({idx: s.idx, dono: r.donos[s.idx] || "certo"})),
+    simbolos: todosSimbolos(it).map((s) => ({
+      idx: s.idx, dono: r.donos[s.idx] || "certo", notacoes: r.notas[s.idx] || {},
+    })),
     faltando: r.faltando,
     obs: r.obs,
     clave_certa: r.clave,
@@ -1874,17 +2241,23 @@ dom("menu").querySelectorAll("button[data-estado]").forEach((b) => {
   b.addEventListener("click", () => escolherEstado(b.dataset.estado));
 });
 document.addEventListener("keydown", (ev) => {
-  if (notaMenu === null) return;
+  if (menu === null) return;
   if (ev.key === "Escape") {
     fecharMenu();
-  } else if (TECLA_ESTADO[ev.key]) {
+  } else if (menu.modo === "nota" && TECLA_ESTADO[ev.key]) {
     ev.preventDefault();
     escolherEstado(TECLA_ESTADO[ev.key]);
   }
 });
 document.addEventListener("click", (ev) => {
-  if (notaMenu !== null && !dom("menu").contains(ev.target)) fecharMenu();
+  // composedPath é lido antes dos listeners: o botão clicado pode já ter saído do DOM
+  // (o menu é redesenhado a cada marcação), e contains() daria falso.
+  if (menu !== null && !ev.composedPath().includes(dom("menu"))) fecharMenu();
 });
+dom("zoom").addEventListener("change", () => {
+  if (osmdAtual && atual !== null && mapaAtual) renderizarPartitura(porId[atual]);
+});
+sincronizarRolagens(dom("png-rolagem"), dom("osmd"));
 let temporizador = null;
 window.addEventListener("resize", () => {
   clearTimeout(temporizador);
