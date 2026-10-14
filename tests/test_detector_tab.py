@@ -25,6 +25,7 @@ from tab.detector_tab import (
     TECNICA_IDX,
     DetectorTab,
     _amostra_treino,
+    _parser,
     alvos_do_sistema,
     detectar,
     normalizar_sistema,
@@ -160,6 +161,17 @@ def test_detectar_com_oraculo_recupera_todas_as_notas(
         assert candidatas, nota
         assert any(p["rotulo"] == nota["rotulo"] for p in candidatas), nota
     assert len(preds) == len(info["notas"])
+
+
+def test_cli_treinar_aceita_pasta_de_saida(tmp_path) -> None:
+    """`treinar --saida` leva a pasta de saída até a função de treino."""
+    args = _parser().parse_args(
+        ["treinar", "--semente", "1", "--saida", str(tmp_path / "v2")]
+    )
+    assert args.saida == tmp_path / "v2"
+    assert args.semente == 1
+    padrao = _parser().parse_args(["treinar", "--semente", "1"])
+    assert padrao.saida is None
 
 
 def test_gerar_alvos_e_deterministico() -> None:

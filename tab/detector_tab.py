@@ -750,6 +750,12 @@ def _parser() -> argparse.ArgumentParser:
     treino.add_argument("--semente", type=int, required=True)
     treino.add_argument("--passos", type=int, default=20_000)
     treino.add_argument("--lote", type=int, default=LOTE_PADRAO)
+    treino.add_argument(
+        "--saida",
+        type=Path,
+        default=None,
+        help="pasta de saída (padrão artefatos/detector_tab_s{semente})",
+    )
     avaliacao = sub.add_parser("avaliar-sintetico", help="mede na validação fixa")
     avaliacao.add_argument("--modelo", type=Path, required=True)
     return parser
@@ -773,6 +779,7 @@ def main(argv: list[str] | None = None) -> int:
             args.semente,
             args.passos,
             lote=args.lote,
+            saida=args.saida,
             comando=comando_texto,
         )
         return 0
