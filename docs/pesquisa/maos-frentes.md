@@ -19,7 +19,7 @@ frentes entregarem. **Para quem**: agentes que vão testar as ideias em worktree
 7. As frentes: Frente 0 e Frentes A a E
 8. Pegadinhas que valem para todas as frentes
 9. O que cada frente entrega
-10. Perguntas para o dono (nenhuma bloqueia o começo)
+10. Decisões do dono
 
 ---
 
@@ -475,6 +475,30 @@ nesse caso, o ganho é ajuste, não regra.
 - Produtos com casa > 7 têm leitura não aferida (`sky_3` tem casa 24). Uma nota com a casa lida
   errada tem a altura errada, e os candidatos ficam errados. Relate a medida também só com
   casa ≤ 7.
+
+#### A3b — Custo aprendido também no DadaGP (aprovado pelo dono, só depois da A3)
+
+**Contexto.** O dono aprovou em 2026-10-15 usar um corpus externo de tablatura. O DadaGP tem
+26.181 músicas em Guitar Pro (Sarmento et al., ISMIR 2021). Os arquivos completos são
+distribuídos **sob pedido** aos autores. O registro no Zenodo é o do artigo, e o canal do pedido
+não ficou claro na busca.
+
+**Quando.** Só se a A3 passar e a curva "tablaturas de treino × acurácia" ainda subir no fim. Se
+a curva já estiver plana com as nossas tablaturas, mais dado não muda nada.
+
+**Pré-requisitos (não são da frente).**
+
+- **O pedido de acesso é feito pelo dono.** Agente não aceita termos de uso.
+- **A biblioteca que lê Guitar Pro** é dependência nova. A instalação passa pela sessão principal,
+  numa imagem derivada.
+
+**Pegadinhas.**
+
+- O DadaGP é de **739 gêneros**, quase todo rock e metal em guitarra elétrica. Afinação, capotraste
+  e convenções diferem do violão clássico e fingerstyle. Treine só com faixas de violão ou guitarra
+  em afinação padrão, e meça com e sem o filtro.
+- Algumas músicas do DadaGP podem ser as mesmas dos nossos vídeos. Tire do treino as que tiverem o
+  mesmo título de um vídeo de teste.
 
 #### A1 — Transições de Hori e Sagayama
 
@@ -947,13 +971,25 @@ A sessão principal remede o número antes de integrar e consolida o `ESTADO.md`
 
 ---
 
-## 10. Perguntas para o dono (nenhuma bloqueia o começo)
+## 10. Decisões do dono (2026-10-15)
 
-1. **B3.** Topa marcar 2 quadros a mais por vídeo na ferramenta do braço (8 quadros nos 4
-   vídeos)? Sem isso, o rastreio do braço não tem como ser validado.
-2. **A3.** Quer considerar um corpus externo de tablatura, como o DadaGP? Ele precisa de pedido
-   de acesso e é dependência nova. Só se o custo aprendido na nossa própria tablatura parar de
-   melhorar.
-3. **Critérios a priori.** Os limiares das seções 5.3 e 7 (+1 ponto percentual, 20 notas, 95 %,
-   70 %, AUC 0,80) foram fixados por mim antes de qualquer medida. Se quiser outros, ajuste
-   **antes** de as frentes medirem, não depois.
+1. **Quadros extras do braço (B3): sim.** Foram acrescentados **q24–q31** ao gabarito do braço,
+   2 por vídeo, longe do quadro já marcado:
+
+| vídeo | quadros | instantes |
+| --- | --- | --- |
+| retrato | q24, q25 | 263,263 s e 655,255 s |
+| noturno | q26, q27 | 399,866 s e 608,074 s (deriva de dy −22 e −60 px) |
+| lacrimosa | q28, q29 | 187,187 s (dy +37) e 439,773 s |
+| glimpse | q30, q31 | 269,536 s e 651,384 s |
+
+   A escolha veio do casamento da câmera do M8 (`data/saida/maos/m8/quadros_extra/`).
+
+   - **Validação da B3.** A frente usa **só** esses quadros. Não ajuste nada olhando para eles:
+     são o teste.
+   - **A câmera não corta de cena: ela deriva.** No noturno o braço desce cerca de 60 px em 5 min;
+     na lacrimosa sobe de +38 para −3. No retrato e no glimpse ela fica parada, e o score baixo vem
+     da mão.
+2. **Corpus externo (DadaGP): sim**, como A3b, só depois da A3 (seção 7).
+3. **Critérios de aceite: confirmados como estão.** Estão **congelados**: mudar um limiar depois
+   de ver o resultado invalida a frente.
