@@ -5578,3 +5578,7 @@ Scripts e tabelas: `data/saida/n3/`, `data/saida/n4/`.
   - Lidos pela rede, os 3 quadros trocados têm 60 notas reais: 59 certas, 1 perdida (o
     primeiro 7 de um "7/9"), 0 falsas.
   - 2 testes; o controle negativo falha.
+- **Ouro da Gymnopédie corrigido pelo dono** (2026-10-15). Cinco notas estavam como 8 e a
+  imagem mostra 0: tela 1 corda 5 (x 1191), tela 2 corda 5 (x 1404), tela 3 corda 6 (x 1690),
+  tela 8 corda 5 (x 1216) e tela 11 corda 3 (x 542). Com o mesmo JSON previsto, a casa da
+  Gymnopédie vai de 0,957 para **0,969**; precisão e revocação não mudam (0,997).

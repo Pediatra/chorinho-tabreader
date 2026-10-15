@@ -106,7 +106,7 @@
     },
     {
      "corda": 5,
-     "casa": 8,
+     "casa": 0,
      "x_quadro": 1191.0,
      "x_centro_quadro": 1200.5
     },
@@ -337,7 +337,7 @@
     },
     {
      "corda": 5,
-     "casa": 8,
+     "casa": 0,
      "x_quadro": 1404.0,
      "x_centro_quadro": 1413.5
     },
@@ -586,7 +586,7 @@
     },
     {
      "corda": 6,
-     "casa": 8,
+     "casa": 0,
      "x_quadro": 1690.0,
      "x_centro_quadro": 1699.0
     },
@@ -1633,7 +1633,7 @@
     },
     {
      "corda": 5,
-     "casa": 8,
+     "casa": 0,
      "x_quadro": 1216.0,
      "x_centro_quadro": 1225.0
     },
@@ -2230,7 +2230,7 @@
     },
     {
      "corda": 3,
-     "casa": 8,
+     "casa": 0,
      "x_quadro": 542.0,
      "x_centro_quadro": 551.0
     },
