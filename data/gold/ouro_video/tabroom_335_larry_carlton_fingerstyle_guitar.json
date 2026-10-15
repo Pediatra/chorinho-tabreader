@@ -1425,6 +1425,12 @@
      "x_centro_quadro": 1266.5
     },
     {
+     "corda": 3,
+     "casa": 1,
+     "x_quadro": 1260.0,
+     "x_centro_quadro": 1266.5
+    },
+    {
      "corda": 4,
      "casa": 2,
      "x_quadro": 1260.0,

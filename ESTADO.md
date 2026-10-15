@@ -5589,3 +5589,6 @@ Scripts e tabelas: `data/saida/n3/`, `data/saida/n4/`.
   imagem mostra 0: tela 1 corda 5 (x 1191), tela 2 corda 5 (x 1404), tela 3 corda 6 (x 1690),
   tela 8 corda 5 (x 1216) e tela 11 corda 3 (x 542). Com o mesmo JSON previsto, a casa da
   Gymnopédie vai de 0,957 para **0,969**; precisão e revocação não mudam (0,997).
+- **Ouro do Room 335: nota que faltava, incluída pelo dono** (2026-10-15). Tela 4, corda 3,
+  casa 1, na coluna x 1260 (2-1-2-0 nas cordas 2 a 5; conferido no recorte do quadro t=14 s).
+  Com o mesmo JSON previsto, a precisão vai de 0,922 para **0,925** (320 de 346).
