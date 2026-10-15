@@ -5622,6 +5622,23 @@ Scripts e tabelas: `data/saida/n3/`, `data/saida/n4/`.
 - **Ouro do Room 335: nota que faltava, incluída pelo dono** (2026-10-15). Tela 4, corda 3,
   casa 1, na coluna x 1260 (2-1-2-0 nas cordas 2 a 5; conferido no recorte do quadro t=14 s).
   Com o mesmo JSON previsto, a precisão vai de 0,922 para **0,925** (320 de 346).
+- **Gerador: pausa entre cordas e cinza** (`tab/sintetico_sistema.py`). Desenha a pausa que
+  fica entre duas cordas (`P_PAUSA_ENTRE = 0,3`, forma copiada dos recortes reais do Room 335)
+  e, às vezes, a fórmula de compasso e a TAB inteira em cinza (`P_FORMULA_CINZA`,
+  `P_TAB_CINZA` = 0,15). Eram as notas inventadas que sobravam no Room 335 e no From This
+  Place. Ajuste fino das dobras 2–4 (`data/saida/n4/treinar_ft.py`), 3 sementes por gerador,
+  régua nos 6 vídeos dessas dobras, mesmo código e mesmo ouro (`data/saida/fase8/ger/`):
+
+  | gerador | precisão (s1, s2, s3) | revocação | casa | inventadas |
+  | --- | --- | --- | --- | --- |
+  | antigo | 0,977 0,973 0,970 | 0,996 0,996 0,995 | 0,990 0,990 0,988 | 41 50 55 |
+  | novo | 0,981 0,980 0,978 | 0,994 0,994 0,996 | 0,990 0,988 0,987 | 35 36 40 |
+
+  - A precisão melhora nas 3 sementes, sem sobreposição (pior novo 0,978 > melhor antigo
+    0,977), e a amplitude cai de 0,008 para 0,003. Room 335: 0,904–0,925 → 0,928–0,936.
+  - Revocação e casa ficam dentro da amplitude. Gymnopédie, casa: 0,962–0,969 → 0,954–0,972.
+  - O modelo do produto (`detector_tab_final_s1`) ainda é do gerador antigo; retreinar é o
+    próximo passo.
 - **T8.2: casa fora do ouro, conferida pelo dono** (2026-10-15). 36 telas, 2 vídeos por canal
   dos 18 canais fora do ouro (sorteio com semente 0, `data/saida/t82/gerar.py`), lidas pelo
   produto (rede `detector_tab_final_s1`). O dono conferiu 35 na ferramenta do ouro

@@ -196,6 +196,13 @@ P_NAV = 0.1
 P_FORMULA = 0.4
 #: Chance de cada barline interna trazer uma mudança de fórmula.
 P_FORMULA_MEIO = 0.08
+#: Dentro das pausas internas, chance de a pausa ficar ENTRE duas cordas, no desenho
+#: de duas cabeças com haste diagonal (a pausa "7" do canal Room 335). Não é nota.
+P_PAUSA_ENTRE = 0.3
+#: Chance de a fórmula de compasso (depois do TAB) sair cinza, como texto de partitura.
+P_FORMULA_CINZA = 0.15
+#: Chance de o rótulo TAB sair cinza (como no From This Place).
+P_TAB_CINZA = 0.15
 
 _COR_BANDA_INICIO = 0.12
 _COR_BANDA_FIM = 0.35
@@ -982,6 +989,59 @@ def _desenhar_pausa_em(
     return "seminima"
 
 
+def _desenhar_pausa_entre_cordas(
+    d: ImageDraw.ImageDraw,
+    passo: float,
+    x: float,
+    y: float,
+    tinta: tuple[int, int, int],
+    espessura_haste: int,
+) -> None:
+    """Desenha a pausa de colcheia com duas cabeças e haste diagonal, entre cordas.
+
+    Duas cabeças cheias à esquerda e uma haste grossa que sai de cima à direita e
+    desce para a esquerda. É o desenho que o detector lia como nota 7.
+
+    Args:
+        d: desenho.
+        passo: passo do sistema.
+        x: centro horizontal da pausa.
+        y: centro vertical da pausa (entre duas cordas).
+        tinta: cor da pausa.
+        espessura_haste: espessura base do traço (a haste usa o dobro).
+    """
+    # medidas dos recortes reais do Room 335 (passo ~87 px): da cabeça de cima à ponta
+    # da haste ~1,8 passo; cabeças de ~0,35 passo, ligadas à haste por um gancho curto
+    raio = max(1, round(0.17 * passo))
+    topo = (round(x + 0.35 * passo), round(y - 0.6 * passo))
+    base = (round(x - 0.1 * passo), round(y + 1.2 * passo))
+    d.line([topo, base], fill=tinta, width=max(2, round(0.11 * passo)))
+    for dy in (-0.45, 0.25):
+        cx, cy = round(x - 0.15 * passo), round(y + dy * passo)
+        d.ellipse([cx - raio, cy - raio, cx + raio, cy + raio], fill=tinta)
+        frac = (cy + 0.1 * passo - topo[1]) / (base[1] - topo[1])
+        hx = round(topo[0] + frac * (base[0] - topo[0]))
+        d.line(
+            [(cx, cy + raio // 2), (hx, round(cy + 0.1 * passo))],
+            fill=tinta,
+            width=max(1, espessura_haste),
+        )
+
+
+def _cor_cinza(rng: random.Random, escuro: bool) -> tuple[int, int, int]:
+    """Cinza de texto de partitura: médio em fundo claro, claro em fundo escuro.
+
+    Args:
+        rng: gerador aleatório.
+        escuro: se o fundo é escuro.
+
+    Returns:
+        Cor RGB cinza.
+    """
+    tom = rng.randint(150, 190) if escuro else rng.randint(110, 160)
+    return (tom, tom, tom)
+
+
 def _desenhar_pausas_internas(
     d: ImageDraw.ImageDraw,
     rng: random.Random,
@@ -1027,7 +1087,9 @@ def _desenhar_pausas_internas(
     x0 = xs[rng.choice(alvo)] + 0.5 * espaco
     itens: list[dict] = []
     for k in range(rng.randint(1, 3)):
-        y = ys[rng.randint(1, 3)]
+        corda = rng.randint(1, 3)
+        entre = rng.random() < P_PAUSA_ENTRE
+        y = (ys[corda - 1] + ys[corda]) / 2 if entre else ys[corda]
         x = x0 + k * 0.9 * passo
         caixa = _limitar(
             [
@@ -1041,7 +1103,11 @@ def _desenhar_pausas_internas(
         )
         if not _livre_de_notas(caixa, medidas, passo):
             continue
-        _desenhar_pausa_em(d, rng, passo, x, y, tinta, espessura_haste)
+        if entre:
+            _desenhar_pausa_entre_cordas(d, passo, x, y, tinta, espessura_haste)
+            marcas.append("pausa_entre_cordas")
+        else:
+            _desenhar_pausa_em(d, rng, passo, x, y, tinta, espessura_haste)
         marcas.append("pausa_interna")
         itens.append({"tipo": "pausa_interna", "x": round(x), "caixa": caixa})
     return itens
@@ -1350,6 +1416,10 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
             )
             estrutura.append({"tipo": tipo, "x": round(x), "caixa": caixa})
     if rng.random() < P_TAB and not gp:  # rótulo TAB
+        cor_tab = cor_linha
+        if rng.random() < P_TAB_CINZA:
+            cor_tab = _cor_cinza(rng, escuro)
+            marcas.append("tab_cinza")
         fonte = _carregar_fonte(
             rng.choice(fontes), max(6, round(0.9 * passo / DIGITO_ALTURA_EM))
         )
@@ -1357,7 +1427,7 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
             px, py, _ = _posicionar(
                 d, letra, 0.9 * passo, ys[j], fonte, largura, altura
             )
-            d.text((px, py), letra, font=fonte, fill=cor_linha)
+            d.text((px, py), letra, font=fonte, fill=cor_tab)
     if rng.random() < P_COMPASSO:  # número de compasso pequeno acima da corda 1
         fonte = _carregar_fonte(
             rng.choice(fontes), max(6, round(0.5 * passo / DIGITO_ALTURA_EM))
@@ -1377,6 +1447,10 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
         )
         d.text((px, py), nome, font=fonte, fill=cor_linha)
     if tem_formula and not gp:  # fórmula de compasso logo depois do TAB
+        cor_formula = cor_linha
+        if rng.random() < P_FORMULA_CINZA:
+            cor_formula = _cor_cinza(rng, escuro)
+            marcas.append("formula_cinza")
         caixa = _desenhar_compasso(
             d,
             rng,
@@ -1386,7 +1460,7 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
             ys,
             list(fontes),
             2.2,
-            cor_linha,
+            cor_formula,
             largura,
             altura,
         )

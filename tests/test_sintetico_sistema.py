@@ -273,3 +273,15 @@ def test_arpejo_e_rasgueado_nao_cobrem_notas(fontes: list[str]) -> None:
                     and b[1] - margem < a[3]
                 )
                 assert not cruza, (semente, regiao["tecnica"], nota)
+
+
+def test_pausa_entre_cordas_e_cinzas_aparecem_em_300_sementes(
+    fontes: list[str],
+) -> None:
+    """Em 300 sementes, a pausa entre cordas e as cores cinza (TAB, fórmula) aparecem."""
+    vistos: collections.Counter = collections.Counter()
+    for semente in range(300):
+        _, info = gerar_sistema(random.Random(semente), fontes)
+        vistos.update(info["variantes"])
+    for variante in ("pausa_entre_cordas", "tab_cinza", "formula_cinza"):
+        assert vistos[variante] > 0, variante
