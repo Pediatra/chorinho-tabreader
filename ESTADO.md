@@ -5267,6 +5267,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - Quando o homr completa um evento com nota que a tab confirma, a nota do Audiveris que a tab desmente sai para `trocadas`. R01–R12: certas seguem **526/546**, notas erradas caem de **14 para 8** (inventadas 8 → 3). 5 das 6 trocas são os bemóis inventados do R06.
 
+## Partitura — 2026-10-15 — harmônico não é troca (rodada 3013)
+
+- A troca do R11 (3012) era um harmônico artificial: a pauta desenha a nota presa e a tab escreve o som, uma oitava acima. Nota igual à da tab em outra oitava não é mais trocada. R01–R12: **526/546 certas**, 9 notas erradas (uma é o próprio harmônico), 5 trocas (os bemóis do R06).
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do

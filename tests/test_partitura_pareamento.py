@@ -232,3 +232,14 @@ def test_completar_com_homr_sem_acrescimo_nao_troca() -> None:
     assert acrescimos == 0
     assert eventos[0].midis == frozenset({60, 65})
     assert eventos[0].trocadas == []
+
+
+def test_completar_com_homr_nao_troca_nota_na_oitava_da_tab() -> None:
+    """Harmônico: a pauta lê 80 (G#5) e a tab escreve 92 (a 8va); 80 não é trocada."""
+    tab = [_evento_tab(0, 100.0, {57, 92}, [])]
+    partitura = [_com_simbolos(_evento_partitura(0, 100.0, {80}))]
+    homr = [_com_simbolos(_evento_partitura(0, None, {57, 80}))]
+    eventos, acrescimos = completar_com_homr(partitura, homr, tab)
+    assert acrescimos == 1
+    assert eventos[0].midis == frozenset({57, 80})
+    assert eventos[0].trocadas == []

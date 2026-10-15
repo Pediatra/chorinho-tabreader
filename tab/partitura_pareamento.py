@@ -313,7 +313,8 @@ def completar_com_homr(
 
     Quando o homr completa um evento, as notas do Audiveris desse evento que a coluna
     da tab não tem saem para ``trocadas`` (rodada 3012): a tab desmente a altura lida e
-    confirma a do homr no mesmo instante.
+    confirma a do homr no mesmo instante. Nota igual à da tab em outra oitava
+    (harmônico, 8va) não é trocada (rodada 3013).
 
     Args:
         partitura: eventos da leitura principal (Audiveris), em ordem.
@@ -363,9 +364,11 @@ def completar_com_homr(
         if i is not None:
             evento = novos[i]
             evento.trocadas = [
-                s for s in evento.simbolos if s["midi"] not in coluna.midis
+                s for s in evento.simbolos if _desmentida(s["midi"], coluna.midis)
             ]
-            evento.simbolos = [s for s in evento.simbolos if s["midi"] in coluna.midis]
+            evento.simbolos = [
+                s for s in evento.simbolos if not _desmentida(s["midi"], coluna.midis)
+            ]
             evento.simbolos.extend(extras)
             evento.midis = frozenset(s["midi"] for s in evento.simbolos)
         else:
@@ -394,6 +397,21 @@ def completar_com_homr(
     for indice, evento in enumerate(eventos):
         evento.indice = indice
     return eventos, acrescimos
+
+
+def _desmentida(midi: int, coluna_midis: frozenset[int]) -> bool:
+    """Diz se a tab desmente uma altura lida: nem ela nem a sua classe estão na coluna.
+
+    Nota igual à da tab em outra oitava (harmônico, 8va) não é desmentida.
+
+    Args:
+        midi: altura escrita (MIDI) da nota lida.
+        coluna_midis: alturas escritas das notas da coluna da tab.
+
+    Returns:
+        True se nenhuma nota da coluna tem a mesma altura nem a mesma classe de altura.
+    """
+    return midi not in coluna_midis and all(m % 12 != midi % 12 for m in coluna_midis)
 
 
 def _gabarito_do_video(video: str, ouro: dict[str, list[dict]]) -> dict:
