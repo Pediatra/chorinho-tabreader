@@ -5637,8 +5637,19 @@ Scripts e tabelas: `data/saida/n3/`, `data/saida/n4/`.
   - A precisão melhora nas 3 sementes, sem sobreposição (pior novo 0,978 > melhor antigo
     0,977), e a amplitude cai de 0,008 para 0,003. Room 335: 0,904–0,925 → 0,928–0,936.
   - Revocação e casa ficam dentro da amplitude. Gymnopédie, casa: 0,962–0,969 → 0,954–0,972.
-  - O modelo do produto (`detector_tab_final_s1`) ainda é do gerador antigo; retreinar é o
-    próximo passo.
+  - **O produto passa a usar o gerador novo**: `detector_tab_final_s1_ger` (dobra 0, os 8
+    ouros + sintético, semente 1 declarada antes, cache refeito com os ouros corrigidos). Nas
+    35 telas da T8.2, que nenhum dos dois modelos viu, relidas pelos dois com o mesmo código
+    (`data/saida/fase8/ger/t82_comparar.py`):
+
+    | modelo | casa | precisão | revocação | inventadas | perdidas |
+    | --- | --- | --- | --- | --- | --- |
+    | `final_s1` (antigo) | 1549/1556 = 0,996 | 0,996 | 0,989 | 7 | 17 |
+    | `final_s1_ger` (novo) | 1551/1557 = 0,996 | 0,994 | 0,990 | 9 | 16 |
+
+    Fora do ouro é empate: 15 erros do antigo somem e 12 novos aparecem, a maioria de
+    algarismo duplo (10, 12, 14) perdido. O antigo reproduz exatamente o número da T8.2,
+    então a releitura confere. A troca vale pelo ganho nas dobras, sem perda fora delas.
 - **T8.2: casa fora do ouro, conferida pelo dono** (2026-10-15). 36 telas, 2 vídeos por canal
   dos 18 canais fora do ouro (sorteio com semente 0, `data/saida/t82/gerar.py`), lidas pelo
   produto (rede `detector_tab_final_s1`). O dono conferiu 35 na ferramenta do ouro

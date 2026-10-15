@@ -129,7 +129,10 @@ MODELO_PADRAO = ARTEFATOS / "oficial_3" / "glifo_sint.pt"
 # Ajuste fino com os 8 gabaritos + sintético (``data/saida/n4/treinar_ft.py --dobra 0``).
 # A semente 1 foi declarada ANTES de medir, pelo mesmo motivo do ``MODELO_PADRAO``: escolher a
 # melhor semente pelo gabarito é sobreajustar a régua. Ver docs/decisoes/0010-leitor-rede.md.
-DETECTOR_PADRAO = ARTEFATOS / "detector_tab_final_s1" / "modelo.pt"
+# Desde 2026-10-15, com o gerador de pausa entre cordas e cinza (``_s1_ger``): nas dobras, 3
+# sementes, a precisão passou de 0,970-0,977 para 0,978-0,981; nas 35 telas da T8.2 (fora do
+# treino) ficou igual ao anterior (casa 0,996, revocação 0,990). Ver ESTADO.md, fase 8.
+DETECTOR_PADRAO = ARTEFATOS / "detector_tab_final_s1_ger" / "modelo.pt"
 
 
 def acervo() -> Path:

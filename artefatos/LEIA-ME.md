@@ -14,7 +14,8 @@ todo peso daqui é **reproduzível** pelo comando registrado.
 | `casas24_1` | `python -m tab.sintetico --n-linhas 320 --epocas 22 --seed 1 --casas todas --saida artefatos/casas24_1` (lista 0–24; GPU) | 70/72 = **0,972** (régua 72 glifos; não adotado, ver ESTADO) |
 | `casas24_2` | idem, `--seed 2 --saida artefatos/casas24_2` | 69/72 = **0,958** |
 | `casas24_3` | idem, `--seed 3 --saida artefatos/casas24_3` | 70/72 = **0,972** |
-| `detector_tab_final_s1` | `python /app/data/saida/n4/treinar_ft.py --dobra 0 --passos 3000 --semente 1 --nome _s1` (ajuste fino de `detector_tab_v3_s1` com os 8 ouros de vídeo + sintético; o script ainda não está no git) | **leitor `rede` do produto** (decisão 0010); régua: validação cruzada por vídeo 0,974/0,949/0,987 |
+| `detector_tab_final_s1` | `python /app/data/saida/n4/treinar_ft.py --dobra 0 --passos 3000 --semente 1 --nome _s1` (ajuste fino de `detector_tab_v3_s1` com os 8 ouros de vídeo + sintético; o script ainda não está no git) | leitor `rede` do produto até 2026-10-15 (decisão 0010); régua: validação cruzada por vídeo 0,974/0,949/0,987 |
+| `detector_tab_final_s1_ger` | `python /app/data/saida/n4/treinar_ft.py --dobra 0 --passos 3000 --semente 1 --nome _s1_ger` (idem, com o gerador de pausa entre cordas e cinza, commit `6cd60d78`, e o cache refeito com os ouros corrigidos em 2026-10-15) | **leitor `rede` do produto desde 2026-10-15**; T8.2 (35 telas fora do ouro): casa 0,996, precisão 0,994, revocação 0,990 |
 | `detector_tab_final_s2`, `_s3` | idem, `--semente 2 --nome _s2` / `--semente 3 --nome _s3` | sementes de controle (perda final 0,0541 / 0,0543) |
 
 `casas24_*` foram treinados com **`--casas todas`** (lista 0–24). O comando acima antes saiu sem essa flag:

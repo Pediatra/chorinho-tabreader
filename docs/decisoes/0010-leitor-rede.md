@@ -60,6 +60,8 @@ Opção 2:
 - a semente 1 foi declarada antes de medir. Escolher a melhor semente pela régua seria
   sobreajustar a ela, o mesmo motivo da decisão 0008;
 - o `gerado_por` do JSON passa a ter `leitor`, e `modelo` aponta para os pesos usados.
+- **atualização (2026-10-15)**: os pesos passam a ser `artefatos/detector_tab_final_s1_ger/`,
+  a mesma receita com o gerador de pausa entre cordas e cinza (ver `ESTADO.md`, fase 8).
 
 ## Consequências
 
