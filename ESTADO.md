@@ -5279,6 +5279,12 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - O `<stem>.partitura.json` ganha `fifths`, `fifths_origem` e `compassos` por pauta, e `metodo` (`altura` ou `x`) em cada par. Quando o x desmente o par pela altura, o evento pega a coluna livre mais próxima a até uma entrelinha: Gym tela 10 vai de 0 para 10 de 14 pares conferidos; total 433 de 438. Notas certas iguais (723/767). Gym tela 12 tem `fifths` 1, provavelmente errado; `fracao` só na primeira pauta de cada vídeo.
 
+## Partitura — 2026-10-15 — `ler --pasta`: partitura de vídeo sem produto (rodada 3019)
+
+- `python -m tab.partitura_video ler --pasta <sem_produto/slug>` (imagem `chorinho-partitura:dev`) roda só o Audiveris nos recortes do `paginar` e grava `<slug>.partitura.json`: pautas com página, exibições, armadura, compassos e eventos, **sem par e sem tempo em segundos** (o tempo só vem da tab).
+- Piloto: agua 10/10 (403 eventos), athletic 7/8 (301), canon 6/6 (112); ~18 s por recorte em CPU.
+- Qualidade **não medida** (sem gabarito). Visto: canon P01a leu 5 de 16 notas; canon P06a perdeu a armadura de 2♯. Ver `docs/rodadas/3019-ler-pasta-sem-produto.md`.
+
 ## Partitura — 2026-10-15 — pauta com uma linha apagada ganha a 5ª linha (rodada 3018)
 
 - Linha cinza e borrada some na abertura e sobram 4. O detector agora completa a 5ª linha no meio ou na borda, se ela for crista no cinza; 6 linhas = tablatura, descartada.

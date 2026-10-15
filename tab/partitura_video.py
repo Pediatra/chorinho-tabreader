@@ -41,11 +41,19 @@ quadro no ponto médio da exibição mais longa, descarta as pautas que são tab
 ``PASTA_SEM_PRODUTO / <slug>/recortes/``: ``P{pagina}{letra}.png`` por pauta (``P01a``,
 ``P01b``...), ``contexto_PNN.jpg`` por página e ``indice.json``. Não grava produto nem as outras pastas.
 
+Para vídeo **sem** produto, ``ler --pasta PASTA`` roda só o Audiveris nos recortes de
+``paginar`` (sem homr, porque não há tablatura para confirmar a nota) e grava
+``PASTA / <nome>.partitura.json`` (ver ``ler_pasta``). Esse documento não tem tempo nem
+par na tab: o tempo só vem do pareamento com a tablatura.
+
 Uso:
     python -m tab.partitura_video recortar --produto CAMINHO [--produto CAMINHO ...]
     python -m tab.partitura_video ler --produto CAMINHO [--produto CAMINHO ...] [--ids T01,T02]
+    python -m tab.partitura_video ler --pasta PASTA [--pasta PASTA ...] [--ids P01a,P02a]
     python -m tab.partitura_video parear --produto CAMINHO [--produto CAMINHO ...]
     python -m tab.partitura_video paginar --video CAMINHO [--video CAMINHO ...] [--pasta PASTA]
+
+``ler`` pede exatamente um de ``--produto`` e ``--pasta``.
 
 A etapa ``ler`` roda dentro da imagem ``chorinho-partitura:dev``, em CPU, com
 ``--security-opt label=disable`` (obrigatório no host deste projeto):
@@ -355,6 +363,28 @@ def recortar(produto: Path) -> list[dict]:
     return indice
 
 
+def _recortes_escolhidos(com_pauta: list[dict], ids: list[str] | None) -> list[dict]:
+    """Recortes com pauta que entram numa leitura: todos, ou só os de ``ids``.
+
+    Args:
+        com_pauta: entradas do índice com ``sem_pauta`` falso, na ordem do índice.
+        ids: ids pedidos (``None`` = todos).
+
+    Returns:
+        As entradas escolhidas, na ordem do índice.
+
+    Raises:
+        ValueError: se algum id de ``ids`` não está entre as entradas com pauta.
+    """
+    if ids is None:
+        return com_pauta
+    existentes = {entrada["id"] for entrada in com_pauta}
+    desconhecidos = sorted(set(ids) - existentes)
+    if desconhecidos:
+        raise ValueError(f"ids sem pauta ou fora do índice: {desconhecidos}")
+    return [entrada for entrada in com_pauta if entrada["id"] in ids]
+
+
 def ler(produto: Path, ids: list[str] | None = None) -> list[dict]:
     """Roda Audiveris e homr em cada recorte com pauta de um produto.
 
@@ -379,14 +409,7 @@ def ler(produto: Path, ids: list[str] | None = None) -> list[dict]:
     pasta_recortes = pasta_do_produto(produto) / "recortes"
     indice = json.loads((pasta_recortes / "indice.json").read_text(encoding="utf-8"))
     com_pauta = [entrada for entrada in indice if not entrada["sem_pauta"]]
-    if ids is None:
-        escolhidas = com_pauta
-    else:
-        existentes = {entrada["id"] for entrada in com_pauta}
-        desconhecidos = sorted(set(ids) - existentes)
-        if desconhecidos:
-            raise ValueError(f"ids sem pauta ou fora do índice: {desconhecidos}")
-        escolhidas = [entrada for entrada in com_pauta if entrada["id"] in ids]
+    escolhidas = _recortes_escolhidos(com_pauta, ids)
 
     registros: list[dict] = []
     for biblioteca, condicao in (
@@ -430,6 +453,102 @@ def ler(produto: Path, ids: list[str] | None = None) -> list[dict]:
         RAIZ,
     )
     return registros
+
+
+def caminho_da_pasta(pasta: Path) -> Path:
+    """Caminho do documento de ``ler_pasta``: ``pasta / <nome da pasta>.partitura.json``.
+
+    Args:
+        pasta: pasta de um vídeo sem produto (``PASTA_SEM_PRODUTO / <slug>``).
+
+    Returns:
+        O caminho onde ``ler_pasta`` grava o documento.
+    """
+    return pasta / f"{pasta.name}.partitura.json"
+
+
+def ler_pasta(pasta: Path, ids: list[str] | None = None) -> dict:
+    """Roda só o Audiveris nos recortes de uma pasta sem produto e monta o documento.
+
+    Lê ``recortes/indice.json`` e fica com as entradas com pauta. Com ``ids``, roda só
+    essas; um id que não é recorte com pauta levanta ``ValueError`` antes de qualquer
+    leitor rodar. Não roda homr: sem tablatura não há como confirmar a nota do homr.
+    Grava ``omr/audiveris/<CONDICAO_AUDIVERIS>/`` com ``execucao.json`` e a armadura
+    do vídeo aplicada em ``omr/audiveris/<CONDICAO_AUDIVERIS>_herdada/`` (como ``ler``).
+    Ao fim, grava o documento em ``caminho_da_pasta(pasta)``, com uma pauta por recorte
+    com pauta (ver ``_pauta_sem_produto``). Não há tempo nem par na tab.
+
+    Args:
+        pasta: pasta do vídeo sem produto, com ``recortes/``.
+        ids: ids dos recortes a ler (``None`` = todos com pauta).
+
+    Returns:
+        O documento ``chorinho/partitura@1`` com ``produto`` None, gravado em disco.
+
+    Raises:
+        ValueError: se algum id de ``ids`` não é recorte com pauta do índice.
+    """
+    pasta = pasta.resolve()
+    pasta_recortes = pasta / "recortes"
+    indice = json.loads((pasta_recortes / "indice.json").read_text(encoding="utf-8"))
+    com_pauta = [entrada for entrada in indice if not entrada["sem_pauta"]]
+    escolhidas = _recortes_escolhidos(com_pauta, ids)
+
+    pasta_base = pasta / "omr" / "audiveris" / CONDICAO_AUDIVERIS
+    pasta_base.mkdir(parents=True, exist_ok=True)
+    do_lote: list[dict] = []
+    for entrada in escolhidas:
+        registro = rodar_um(
+            "audiveris",
+            CONDICAO_AUDIVERIS,
+            entrada,
+            pasta_base,
+            origem=pasta_recortes / f"{entrada['id']}.png",
+        )
+        do_lote.append(registro)
+        estado = "ok" if registro["ok"] else "FALHA"
+        detalhe = f" ({registro['motivo']})" if registro["motivo"] else ""
+        print(
+            f"audiveris {entrada['id']}: {estado} {registro['segundos']} s{detalhe}",
+            flush=True,
+        )
+    _gravar_execucao(pasta_base, do_lote)
+
+    execucoes = json.loads((pasta_base / "execucao.json").read_text(encoding="utf-8"))
+    no_execucao = {registro["id"] for registro in execucoes}
+    do_video = [entrada for entrada in com_pauta if entrada["id"] in no_execucao]
+    herdar_condicao(
+        execucoes,
+        do_video,
+        pasta / "omr" / "audiveris" / f"{CONDICAO_AUDIVERIS}_herdada",
+        RAIZ,
+    )
+
+    omr = pasta / "omr"
+    pautas = [_pauta_sem_produto(entrada, omr) for entrada in com_pauta]
+    eventos = sum(len(pauta["eventos"]) for pauta in pautas)
+    documento = {
+        "esquema": ESQUEMA_PARTITURA,
+        "produto": None,
+        "produto_sha256": None,
+        "video": indice[0]["video"],
+        "gerado_por": {
+            "leitor": "audiveris x2_margem + armadura do vídeo",
+            "completar": None,
+        },
+        "pautas": pautas,
+        "resumo": {
+            "pautas": len(pautas),
+            "eventos": eventos,
+            "com_erro": sum("erro" in pauta for pauta in pautas),
+            "paginas": len({pauta["pagina"] for pauta in pautas}),
+        },
+    }
+    destino = caminho_da_pasta(pasta)
+    destino.write_text(
+        json.dumps(documento, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    return documento
 
 
 def eventos_do_produto(
@@ -737,6 +856,72 @@ def _pauta_do_recorte(entrada: dict, notas: list[dict], omr: Path) -> dict:
             }
         )
     return {**pauta, "eventos": eventos}
+
+
+def _pauta_sem_produto(entrada: dict, omr: Path) -> dict:
+    """Pauta de um recorte de vídeo sem produto: armadura, compassos e eventos, sem tab.
+
+    Espelho de ``_pauta_do_recorte`` sem a tablatura e sem homr. Cada evento sai com
+    ``par`` None e ``trocadas`` vazio. O ``t`` é a posição em semínimas no compasso, não
+    o tempo do vídeo: o tempo só vem do pareamento com a tablatura.
+
+    Se falta a leitura herdada ou o ``.omr``, ou se a leitura levanta ``ValueError`` ou
+    ``ET.ParseError``, a pauta sai com ``eventos`` e ``compassos`` vazios, ``fifths`` None
+    e a chave ``erro``.
+
+    Args:
+        entrada: entrada do ``indice.json`` com ``sem_pauta`` falso.
+        omr: pasta ``omr`` do vídeo (``pasta / "omr"``).
+
+    Returns:
+        ``{"pagina", "letra", "recorte", "exibicoes", "caixa_quadro", "entrelinha",
+        "fifths", "fifths_origem", "compassos", "eventos"}``, com ``erro`` quando a
+        leitura não pôde ser feita.
+    """
+    rid = entrada["id"]
+    x0 = entrada["caixa_recorte"][0]
+    pauta: dict = {
+        "pagina": entrada["pagina"],
+        "letra": entrada["letra"],
+        "recorte": rid,
+        "exibicoes": entrada["exibicoes"],
+        "caixa_quadro": entrada["caixa_recorte"],
+        "entrelinha": float(entrada["entrelinha"]),
+        "fifths": None,
+        "fifths_origem": None,
+        "compassos": [],
+    }
+    herdada = (
+        omr / "audiveris" / f"{CONDICAO_AUDIVERIS}_herdada" / rid / "saida.musicxml"
+    )
+    entrada_omr = omr / "audiveris" / CONDICAO_AUDIVERIS / rid / "entrada.omr"
+    faltando = [str(c) for c in (herdada, entrada_omr) if not c.exists()]
+    if faltando:
+        return {**pauta, "eventos": [], "erro": f"faltando: {', '.join(faltando)}"}
+    try:
+        leitura = ler_partitura(herdada)
+        partitura = eventos_da_partitura(herdada, entrada_omr, x0, ESCALA_X2)
+        compassos = _compassos_do_recorte(leitura, entrada_omr, x0)
+    except (ValueError, ET.ParseError) as falha:
+        return {**pauta, "eventos": [], "erro": f"leitura: {falha}"}
+    eventos = [
+        {
+            "compasso": evento.compasso,
+            "t": evento.t,
+            "x_quadro": evento.x_quadro,
+            "par": None,
+            "simbolos": [_simbolo_do_documento(s) for s in evento.simbolos],
+            "trocadas": [],
+        }
+        for evento in partitura
+    ]
+    return {
+        **pauta,
+        "fifths": leitura["armadura"],
+        "fifths_origem": _fifths_origem(omr, rid),
+        "compassos": compassos,
+        "eventos": eventos,
+    }
 
 
 def _contagens_da_pauta(pauta: dict, notas: list[dict]) -> dict[str, int]:
@@ -1384,6 +1569,48 @@ def paginar(video: str, pasta: Path | None = None) -> list[dict]:
     return _paginar(video, pasta)[0]
 
 
+def _imprimir_ler_pasta(pasta: Path, documento: dict) -> None:
+    """Imprime uma linha por pauta, a linha de total e o caminho do documento.
+
+    Os ``ok`` do Audiveris e as armaduras herdadas vêm de ``execucao.json`` e de
+    ``herdada.json``, restritos aos recortes do documento.
+
+    Args:
+        pasta: pasta do vídeo sem produto (``ler_pasta``).
+        documento: documento devolvido por ``ler_pasta``.
+    """
+    ids_do_documento = {pauta["recorte"] for pauta in documento["pautas"]}
+    pasta_base = pasta / "omr" / "audiveris"
+    execucoes = json.loads(
+        (pasta_base / CONDICAO_AUDIVERIS / "execucao.json").read_text(encoding="utf-8")
+    )
+    deste = [r for r in execucoes if r["id"] in ids_do_documento]
+    herdada = json.loads(
+        (pasta_base / f"{CONDICAO_AUDIVERIS}_herdada" / "herdada.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    aplicadas = sum(
+        1
+        for h in herdada
+        if h["id"] in ids_do_documento and h["fifths_aplicado"] is not None
+    )
+    for pauta in documento["pautas"]:
+        aviso = f" (erro: {pauta['erro']})" if "erro" in pauta else ""
+        print(
+            f"{pauta['recorte']} pagina {pauta['pagina']}: eventos"
+            f" {len(pauta['eventos'])}, compassos {len(pauta['compassos'])},"
+            f" fifths {pauta['fifths']}{aviso}"
+        )
+    r = documento["resumo"]
+    print(
+        f"{pasta.name}: audiveris ok {sum(x['ok'] for x in deste)}/{len(deste)},"
+        f" armadura herdada em {aplicadas}, pautas {r['pautas']},"
+        f" eventos {r['eventos']}, com erro {r['com_erro']}"
+    )
+    print(f"gravado em {caminho_da_pasta(pasta)}")
+
+
 def main(argv: list[str] | None = None) -> int:
     """Ponto de entrada da linha de comando.
 
@@ -1392,6 +1619,9 @@ def main(argv: list[str] | None = None) -> int:
 
     Subcomando ``ler --produto CAMINHO [--ids T01,T02]`` (repetível). Para cada produto,
     imprime uma linha com os ``ok`` de cada biblioteca e a contagem de armaduras herdadas.
+    Subcomando ``ler --pasta PASTA [--ids P01a,P02a]`` (repetível), para vídeo sem produto:
+    imprime uma linha por pauta, a linha de total com ``audiveris ok``, a armadura herdada
+    e o caminho do documento. ``--produto`` e ``--pasta`` são exclusivos e um é obrigatório.
 
     Subcomando ``parear --produto CAMINHO`` (repetível). Para cada produto, imprime uma
     linha por pauta com as contagens, uma linha de total e o caminho gravado.
@@ -1422,14 +1652,21 @@ def main(argv: list[str] | None = None) -> int:
         help="JSON de produto (pode repetir)",
     )
     parser_ler = subparsers.add_parser(
-        "ler", help="roda Audiveris e homr em cada recorte de pauta de um produto"
+        "ler",
+        help="roda Audiveris (e homr, com produto) em cada recorte de pauta",
     )
-    parser_ler.add_argument(
+    origem_ler = parser_ler.add_mutually_exclusive_group(required=True)
+    origem_ler.add_argument(
         "--produto",
         action="append",
-        required=True,
         type=Path,
-        help="JSON de produto (pode repetir)",
+        help="JSON de produto (pode repetir); roda Audiveris e homr",
+    )
+    origem_ler.add_argument(
+        "--pasta",
+        action="append",
+        type=Path,
+        help="pasta de vídeo sem produto, com recortes/ (pode repetir); só Audiveris",
     )
     parser_ler.add_argument(
         "--ids",
@@ -1478,7 +1715,9 @@ def main(argv: list[str] | None = None) -> int:
         ids = None
         if args.ids is not None:
             ids = [i.strip() for i in args.ids.split(",") if i.strip()]
-        for produto in args.produto:
+        for pasta in args.pasta or []:
+            _imprimir_ler_pasta(pasta, ler_pasta(pasta, ids))
+        for produto in args.produto or []:
             registros = ler(produto, ids)
             audiveris = [r for r in registros if r["biblioteca"] == "audiveris"]
             homr = [r for r in registros if r["biblioteca"] == "homr"]

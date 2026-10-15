@@ -16,11 +16,13 @@ from tab.partitura_pauta import Pauta
 from tab.partitura_video import (
     agrupar_paginas,
     assinatura,
+    caminho_da_pasta,
     diferenca,
     e_tablatura,
     eventos_do_produto,
     instante_da_tela,
     ler,
+    ler_pasta,
     pasta_omr,
     pauta_acima_da_tab,
     reparear_por_x,
@@ -588,3 +590,211 @@ def test_e_tablatura_sexta_linha_interrompida_por_algarismos_e_verdadeira():
         cinza[145:156, x : x + 10] = 255
         cinza[146:155, x + 2 : x + 8] = 0
     assert e_tablatura(cinza, _YS_DE_TESTE, 10.0, 50, 350) is True
+
+
+def _entrada_pauta(id_: str, sem_pauta: bool = False) -> dict:
+    """Entrada de ``paginar`` com pauta (página 1, letra a) e exibição de 9 a 11 s."""
+    return {
+        "id": id_,
+        "tela": 1,
+        "video": "canal/v.mp4",
+        "t": 10.0,
+        "sem_pauta": sem_pauta,
+        "entrelinha": 10.0,
+        "caixa_recorte": [0, 0, 100, 50],
+        "pagina": 1,
+        "letra": "a",
+        "exibicoes": [{"t0": 9.0, "t1": 11.0}],
+    }
+
+
+def _pasta_sem_produto(tmp_path: Path) -> Path:
+    """Pasta de vídeo sem produto: T01 com pauta e T02 sem pauta, no ``indice.json``."""
+    pasta = tmp_path / "video_sem"
+    recortes = pasta / "recortes"
+    recortes.mkdir(parents=True)
+    sem = {**_entrada_pauta("T02", sem_pauta=True), "motivo": "modo fora"}
+    indice = [_entrada_pauta("T01"), sem]
+    (recortes / "indice.json").write_text(json.dumps(indice), encoding="utf-8")
+    return pasta
+
+
+def _rodar_um_falso(ok: bool, chamadas: list[tuple[str, str, str]]):
+    """Substituto de ``rodar_um`` que registra a chamada e devolve um registro fixo."""
+
+    def falso(biblioteca, condicao, item, pasta_base, origem=None, cabecalho=None):
+        chamadas.append((biblioteca, condicao, item["id"]))
+        return {
+            "id": item["id"],
+            "ok": ok,
+            "motivo": None if ok else "teste",
+            "segundos": 0.0,
+            "codigo": 0,
+            "saida": None,
+            "entrada": {},
+        }
+
+    return falso
+
+
+def test_ler_pasta_roda_so_audiveris_uma_vez_por_recorte_com_pauta(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Só a biblioteca Audiveris roda, uma vez por recorte com pauta; homr nunca."""
+    chamadas: list[tuple[str, str, str]] = []
+    monkeypatch.setattr(partitura_video, "rodar_um", _rodar_um_falso(False, chamadas))
+    ler_pasta(_pasta_sem_produto(tmp_path))
+    assert chamadas == [("audiveris", "x2_margem", "T01")]
+
+
+def test_ler_pasta_id_desconhecido_levanta_antes_de_rodar(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Id fora do índice, ou sem pauta, levanta ``ValueError`` e nenhum leitor roda."""
+
+    def nao_deve_rodar(*_args: object, **_kwargs: object) -> dict:
+        pytest.fail("rodar_um não podia ser chamado")
+
+    monkeypatch.setattr(partitura_video, "rodar_um", nao_deve_rodar)
+    pasta = _pasta_sem_produto(tmp_path)
+    with pytest.raises(ValueError, match="T99"):
+        ler_pasta(pasta, ids=["T01", "T99"])
+    with pytest.raises(ValueError, match="T02"):
+        ler_pasta(pasta, ids=["T02"])
+    assert not (pasta / "omr").exists()
+
+
+def test_pauta_sem_produto_sem_leitura_sai_com_erro(tmp_path: Path) -> None:
+    """Sem a leitura herdada e o ``.omr``: eventos e compassos vazios, ``fifths`` None."""
+    pauta = partitura_video._pauta_sem_produto(_entrada_pauta("T01"), tmp_path / "omr")
+    assert pauta["eventos"] == []
+    assert pauta["compassos"] == []
+    assert pauta["fifths"] is None
+    assert "erro" in pauta
+    assert pauta["recorte"] == "T01"
+    assert pauta["pagina"] == 1
+    assert pauta["letra"] == "a"
+    assert pauta["exibicoes"] == [{"t0": 9.0, "t1": 11.0}]
+
+
+def test_ler_pasta_documento_sem_tab_com_eventos(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Documento com produto None, eventos sem par e pautas com página, letra e exibições."""
+    chamadas: list[tuple[str, str, str]] = []
+    monkeypatch.setattr(partitura_video, "rodar_um", _rodar_um_falso(True, chamadas))
+    # herdar_condicao lê os MusicXML de verdade; aqui ele é substituído por um no-op.
+    monkeypatch.setattr(partitura_video, "herdar_condicao", lambda *a, **k: [])
+    monkeypatch.setattr(
+        partitura_video,
+        "ler_partitura",
+        lambda caminho: {
+            "armadura": 2,
+            "compassos": [{"numero": 1}],
+            "compasso_formula": None,
+        },
+    )
+    evento = EventoPartitura(
+        indice=0,
+        compasso=1,
+        t=0.0,
+        t_global=0.0,
+        x_quadro=12.5,
+        midis=frozenset({60}),
+        simbolos=[
+            {
+                "nome": "c",
+                "midi": 60,
+                "figura": "q",
+                "pontuada": False,
+                "voz": 1,
+                "ligadura_inicio": False,
+                "ligadura_fim": False,
+                "notacoes": [],
+            }
+        ],
+    )
+    monkeypatch.setattr(
+        partitura_video,
+        "eventos_da_partitura",
+        lambda musicxml, omr, x0, escala=2.0: [evento],
+    )
+    monkeypatch.setattr(
+        partitura_video,
+        "_compassos_do_recorte",
+        lambda leitura, entrada_omr, x0: [
+            {"numero": 1, "fracao": None, "x_quadro": 12.5}
+        ],
+    )
+    pasta = _pasta_sem_produto(tmp_path)
+    herdada = pasta / "omr" / "audiveris" / "x2_margem_herdada" / "T01"
+    herdada.mkdir(parents=True)
+    (herdada / "saida.musicxml").write_text("<x/>", encoding="utf-8")
+    entrada_omr = pasta / "omr" / "audiveris" / "x2_margem" / "T01"
+    entrada_omr.mkdir(parents=True)
+    (entrada_omr / "entrada.omr").write_bytes(b"")
+
+    documento = ler_pasta(pasta)
+
+    assert chamadas == [("audiveris", "x2_margem", "T01")]
+    assert documento["produto"] is None
+    assert documento["produto_sha256"] is None
+    assert documento["esquema"] == partitura_video.ESQUEMA_PARTITURA
+    assert documento["video"] == "canal/v.mp4"
+    assert documento["gerado_por"]["completar"] is None
+    assert len(documento["pautas"]) == 1
+    pauta = documento["pautas"][0]
+    assert pauta["fifths"] == 2
+    assert pauta["pagina"] == 1
+    assert pauta["letra"] == "a"
+    assert pauta["exibicoes"] == [{"t0": 9.0, "t1": 11.0}]
+    assert "erro" not in pauta
+    assert len(pauta["eventos"]) == 1
+    assert pauta["eventos"][0]["t"] == 0.0
+    assert pauta["eventos"][0]["trocadas"] == []
+    assert all(e["par"] is None for p in documento["pautas"] for e in p["eventos"])
+    assert documento["resumo"] == {
+        "pautas": 1,
+        "eventos": 1,
+        "com_erro": 0,
+        "paginas": 1,
+    }
+    gravado = json.loads(caminho_da_pasta(pasta).read_text(encoding="utf-8"))
+    assert gravado == documento
+
+
+def test_caminho_da_pasta_usa_o_nome_da_pasta(tmp_path: Path) -> None:
+    """O documento fica dentro da pasta, com o nome dela e ``.partitura.json``."""
+    pasta = tmp_path / "meu_video"
+    assert caminho_da_pasta(pasta) == pasta / "meu_video.partitura.json"
+
+
+def test_cli_ler_sem_produto_nem_pasta_dá_erro() -> None:
+    """``ler`` exige exatamente um de ``--produto`` e ``--pasta``."""
+    with pytest.raises(SystemExit) as erro:
+        partitura_video.main(["ler"])
+    assert erro.value.code == 2
+
+
+def test_cli_ler_com_produto_e_pasta_dá_erro(tmp_path: Path) -> None:
+    """Os dois juntos são exclusivos: erro do argparse, sem rodar nada."""
+    with pytest.raises(SystemExit) as erro:
+        partitura_video.main(["ler", "--produto", "a.json", "--pasta", str(tmp_path)])
+    assert erro.value.code == 2
+
+
+def test_cli_ler_pasta_imprime_total_e_caminho(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """``ler --pasta`` imprime a linha de cada pauta, o total e o caminho gravado."""
+    chamadas: list[tuple[str, str, str]] = []
+    monkeypatch.setattr(partitura_video, "rodar_um", _rodar_um_falso(False, chamadas))
+    pasta = _pasta_sem_produto(tmp_path)
+    assert partitura_video.main(["ler", "--pasta", str(pasta)]) == 0
+    saida = capsys.readouterr().out
+    assert "T01 pagina 1: eventos 0" in saida
+    assert "audiveris ok 0/1" in saida
+    assert "armadura herdada em 0" in saida
+    assert f"gravado em {caminho_da_pasta(pasta)}" in saida
