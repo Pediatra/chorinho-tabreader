@@ -158,6 +158,101 @@ def candidatos(frame: np.ndarray, min_glifos: int = MIN_GLIFOS) -> list[Candidat
     return achados
 
 
+#: Espessura, em px, a partir da qual uma linha de um grupo é tinta grossa e não corda.
+#: Medido nos 63 quadros conferidos dos ouros (`data/saida/haiku_gym/espessura_pares.py`):
+#: as cordas têm 2 a 5 px; a barra preta de borda que entrou no grupo ERRADO do
+#: Gymnopédie (tela 10, t=136,5 s, linha y=1072) tem 10 px. Com 6 px de piso, nenhuma
+#: corda medida passou para o lado de "grossa".
+ESPESSURA_CORDA_MAXIMA = 6
+
+
+def espessura_da_linha(cinza: np.ndarray, y: int, x0: int, x1: int) -> int:
+    """Altura, em px, da faixa escura contígua em torno da linha ``y``.
+
+    A escuridão de cada linha de pixels é a média em x (``x0`` a ``x1``) da tinta; a faixa
+    vai até onde a escuridão cai abaixo da metade do pico, com no máximo 12 px para cada
+    lado.
+
+    Args:
+        cinza: recorte em cinza (uint8).
+        y: linha do centro da corda, relativa ao recorte.
+        x0: início da extensão x onde se mede.
+        x1: fim da extensão x (exclusivo).
+
+    Returns:
+        Número de linhas de pixels da faixa (0 se a linha não tiver tinta).
+    """
+    perfil = 255.0 - cinza[:, x0:x1].astype(np.float32).mean(axis=1)
+    pico = float(perfil[max(0, y - 2) : y + 3].max())
+    if pico <= 0:
+        return 0
+    corte = 0.5 * pico
+    topo = base = y
+    while topo - 1 >= 0 and perfil[topo - 1] >= corte and y - topo < 12:
+        topo -= 1
+    while base + 1 < len(perfil) and perfil[base + 1] >= corte and base - y < 12:
+        base += 1
+    return base - topo + 1
+
+
+def linhas_grossas(frame: np.ndarray, y0: int, y1: int, grupo: list[int]) -> bool:
+    """O grupo de 6 linhas tem uma linha que é tinta grossa, e não corda?
+
+    A espessura é medida só na extensão x das próprias linhas (``extensao_das_linhas``),
+    não na largura do quadro: a barra de borda do vídeo ao lado atravessa o quadro inteiro.
+    É grossa a linha com pelo menos ``ESPESSURA_CORDA_MAXIMA`` px e pelo menos o dobro da
+    mediana do grupo.
+
+    Args:
+        frame: quadro inteiro (BGR).
+        y0: topo da faixa do grupo no quadro.
+        y1: base da faixa do grupo no quadro.
+        grupo: y das 6 linhas, no quadro.
+
+    Returns:
+        True se alguma linha do grupo for grossa.
+    """
+    roi = frame[y0:y1, :]
+    cinza = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+    cordas = [y - y0 for y in grupo]
+    x0, x1 = extensao_das_linhas(roi, cordas)
+    if x1 - x0 < 10:
+        x0, x1 = 0, roi.shape[1]
+    espessuras = [espessura_da_linha(cinza, c, x0, x1) for c in cordas]
+    maior = max(espessuras)
+    return maior >= ESPESSURA_CORDA_MAXIMA and maior >= 2 * float(np.median(espessuras))
+
+
+def descartar_grossas(
+    frame: np.ndarray, faixas: list[tuple[float, int, int, list[int]]]
+) -> list[tuple[float, int, int, list[int]]]:
+    """Tira o grupo grosso quando um vizinho de 5 linhas comuns é limpo.
+
+    Medido no Gymnopédie (tela 10, t=136,5 s): os grupos ``[899..1043]`` (6 cordas, 3 px
+    cada) e ``[928..1072]`` (5 das mesmas cordas mais a barra preta de 10 px) passam na
+    regularidade e na faixa de passo, e o errado ganhava por uniformidade (0,827 contra
+    0,820), porque o recorte dele inclui a barra. Um grupo grosso só sai quando existe
+    um grupo limpo com 5 das suas 6 linhas: se todos forem grossos (texto, bloco), nada
+    muda.
+
+    Args:
+        frame: quadro inteiro (BGR).
+        faixas: ``(passo, y0, y1, grupo)`` de cada grupo regular.
+
+    Returns:
+        As faixas sem os grupos grossos que têm um vizinho limpo.
+    """
+    grossas = [linhas_grossas(frame, y0, y1, g) for _p, y0, y1, g in faixas]
+    limpas = [
+        set(f[3]) for f, grossa in zip(faixas, grossas, strict=True) if not grossa
+    ]
+    return [
+        f
+        for f, grossa in zip(faixas, grossas, strict=True)
+        if not grossa or not any(len(set(f[3]) & limpa) >= 5 for limpa in limpas)
+    ]
+
+
 def candidatos_quadro(
     frame: np.ndarray,
     min_glifos: int = MIN_GLIFOS,
@@ -208,7 +303,7 @@ def candidatos_quadro(
     if len(picos) < 6:
         return []
     # 1) grupos de 6 linhas regulares — só geometria, sem custo de segmentação
-    faixas: list[tuple[float, int, int]] = []
+    faixas: list[tuple[float, int, int, list[int]]] = []
     for i in range(len(picos) - 5):
         grupo = picos[i : i + 6]
         passo = float(np.median([b - a for a, b in itertools.pairwise(grupo)]))
@@ -221,11 +316,13 @@ def candidatos_quadro(
         y1 = min(frame.shape[0], grupo[-1] + margem)
         if y1 - y0 < 60:
             continue
-        faixas.append((passo, y0, y1))
+        faixas.append((passo, y0, y1, grupo))
+    # 1b) grupo com uma linha GROSSA (barra de borda, bloco escuro) não é cordas
+    faixas = descartar_grossas(frame, faixas)
     # 2) uniformidade do fundo é barata (medida: 38 ms) e ordena quem merece segmentação
     ordenadas: list[tuple[float, int, int]] = []
     vistos: list[int] = []
-    for passo, y0, y1 in faixas:
+    for passo, y0, y1, _grupo in faixas:
         if any(abs(y0 - v) < passo for v in vistos):
             continue
         vistos.append(y0)

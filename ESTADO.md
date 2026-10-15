@@ -5528,3 +5528,13 @@ Scripts e tabelas: `data/saida/n3/`, `data/saida/n4/`.
   - From This Place: 4 são a fórmula de compasso 3/4 em cinza. As outras ficam em volta de
     algarismos pequenos de ligado ("h") e de "harm. 12".
   - O gerador não tem essa pausa nem o 3/4 cinza. É lacuna de cobertura (regra 6).
+- **Barra grossa não é corda** (`painel.descartar_grossas`). Na Gymnopédie, tela 10 (t=136,5 s),
+  o painel ficava uma corda abaixo. A barra preta de 10 px da borda do vídeo formava, com 5
+  cordas reais, um grupo de 6 linhas regular que ganhava por uniformidade (0,827 contra 0,820).
+  Agora um grupo com linha grossa (≥ 6 px e ≥ 2× a mediana, medida na extensão das próprias
+  linhas) sai quando existe grupo limpo com 5 das suas 6 linhas.
+  - Nas 63 telas conferidas dos 8 ouros, só a tela 10 mudou.
+  - Gymnopédie: precisão 0,951 → **0,997**, revocação 0,931 → **0,997**, casa 0,932 → 0,957.
+    Os outros 7 vídeos ficaram iguais (`data/saida/fase8/grossa/`, no worktree haiku-gym).
+  - 3 testes sintéticos; o controle negativo falha sem a regra.
+  - A casa da Gymnopédie (0,957) é a pior dos 8. Ainda não olhei quais casas erram.
