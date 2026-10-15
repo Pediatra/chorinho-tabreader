@@ -5538,3 +5538,21 @@ Scripts e tabelas: `data/saida/n3/`, `data/saida/n4/`.
     Os outros 7 vídeos ficaram iguais (`data/saida/fase8/grossa/`, no worktree haiku-gym).
   - 3 testes sintéticos; o controle negativo falha sem a regra.
   - A casa da Gymnopédie (0,957) é a pior dos 8. Ainda não olhei quais casas erram.
+- **Painel escuro do cifra club** (`painel._candidato_do_grupo` + `tabseg.extensao_das_linhas_claras`).
+  O cifra club desenha a TAB em fundo quase preto, com tracejado claro, letras e/B/G/D/A/E em
+  bolinhas laranja à esquerda e diagramas de acorde à direita. O grupo de 6 cordas era achado,
+  mas `extensao_das_linhas` só vê linha em fundo claro e estreitava o recorte a ~60 px, e a
+  escolha recusava. Agora, com faixa de mediana ≤ `FUNDO_ESCURO_MAXIMO`, a extensão é a do
+  tracejado claro, começando depois das bolinhas e com buraco máximo de 60 px. Os buracos do
+  tracejado têm 17–26 px (46 px num caso), e o intervalo até o diagrama tem 96–113 px.
+  - Em 8 quadros de cifra club, de 8 vídeos, o painel certo foi de 0 para 6. Os 2 restantes
+    (a grande família t=52, acenda o farol t=43) ainda escolhem o braço do violão antes do
+    ramo escuro. Pendente.
+  - Nos 6 quadros, as notas lidas batem com as reais contadas à mão (154). Falsas nas letras
+    e no diagrama: 33 → 0. A versão intermediária, com a largura cheia, lia essas 33.
+  - O bend escrito "6b7"/"b9r8" sai como mais de uma nota. Técnica não validada.
+  - Não-regressão do painel: 63 telas dos 8 ouros e 20 telas claras de outros canais com as
+    mesmas linhas e a mesma caixa.
+  - 2 testes sintéticos; o controle negativo, com a largura cheia, falha.
+  - A régua completa dos 8 ouros não foi rodada de novo: o ramo só age em faixa escura, e os
+    painéis dos ouros saíram idênticos.

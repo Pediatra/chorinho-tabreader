@@ -338,6 +338,122 @@ MARGEM_SISTEMA_PASSOS = 1.0
 #: vídeo escuro em volta do papel da Gymnopédie fica abaixo de 100.
 FUNDO_CLARO_MINIMO = 150
 
+#: Maior buraco, em px, que o tracejado claro pode ter e continuar contando como um só trecho.
+#: Medido nos 6 quadros do painel escuro (`haiku_escuro3/sonda_fim.py`): os buracos entre
+#: traços do tracejado têm 17 a 26 px, e há um buraco de 46 px na calice (x≈880). O menor
+#: intervalo até o diagrama de acorde é de 96 px (a_banda, always, calice, elvis, x≈1598) e
+#: o de "meu" é 113 px (x≈1811). 60 px fica entre os dois.
+TRACEJADO_BURACO_MAXIMO = 60
+
+#: Largura, em px, onde estão as bolinhas laranja das letras das cordas. Medido nos 6 quadros
+#: (`haiku_escuro3/sonda_laranja.py`): a última bolinha termina em x=77 a 92. 120 dá folga
+#: sem alcançar o primeiro traço do tracejado (x≥92, quase sempre ≥110).
+LARGURA_BOLINHAS_MAXIMA = 120
+
+
+def _tinta_laranja(roi: np.ndarray) -> np.ndarray:
+    """Pixels laranja (bolinhas das letras e algarismos coloridos) de um recorte BGR.
+
+    Args:
+        roi: recorte colorido (BGR).
+
+    Returns:
+        Máscara booleana: matiz 5–25 (escala do OpenCV), saturação e brilho acima de 150.
+    """
+    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+    return (
+        (hsv[..., 0] >= 5)
+        & (hsv[..., 0] <= 25)
+        & (hsv[..., 1] > 150)
+        & (hsv[..., 2] > 150)
+    )
+
+
+def _maior_trecho_ativo(ativo: np.ndarray, tolerancia: int) -> tuple[int, int]:
+    """Maior trecho contíguo de um vetor booleano, tolerando buracos de até ``tolerancia``.
+
+    Args:
+        ativo: vetor booleano por coluna.
+        tolerancia: maior buraco, em colunas, que não separa dois trechos.
+
+    Returns:
+        ``(inicio, fim)`` do maior trecho; ``(0, 0)`` se não há nenhum.
+    """
+    melhor = (0, 0)
+    inicio = None
+    buraco = 0
+    for x, a in enumerate(ativo):
+        if a:
+            if inicio is None:
+                inicio = x
+            buraco = 0
+        elif inicio is not None:
+            buraco += 1
+            if buraco > tolerancia:
+                if x - buraco - inicio > melhor[1] - melhor[0]:
+                    melhor = (inicio, x - buraco)
+                inicio = None
+    if inicio is not None and len(ativo) - inicio > melhor[1] - melhor[0]:
+        melhor = (inicio, len(ativo))
+    return int(melhor[0]), int(melhor[1])
+
+
+def extensao_das_linhas_claras(
+    roi: np.ndarray,
+    linhas_y: list[int],
+    espessura: int = 2,
+    minimo: int = 4,
+    buraco_maximo: int = TRACEJADO_BURACO_MAXIMO,
+) -> tuple[int, int]:
+    """Onde as linhas CLARAS e tracejadas de um painel escuro existem, em x.
+
+    Para o painel escuro (cifra club) a largura cheia da faixa pega as letras das cordas
+    (bolinhas laranja à esquerda) e os diagramas de acorde à direita, que geram notas
+    falsas. Esta função mede só o tracejado claro: conta as cordas com tinta mais clara
+    que o fundo local (``_contraste_local_claro``) e exige ``minimo`` delas na coluna.
+    Antes disso, descarta as bolinhas laranja da faixa esquerda (até
+    ``LARGURA_BOLINHAS_MAXIMA``), para o trecho começar no primeiro traço depois delas.
+
+    Args:
+        roi: recorte colorido (BGR) da faixa.
+        linhas_y: y das cordas, relativos ao recorte.
+        espessura: meia-espessura, em px, da faixa de cada corda.
+        minimo: quantas cordas precisam ter tinta clara na coluna.
+        buraco_maximo: maior buraco, em px, dentro do tracejado.
+
+    Returns:
+        ``(x0, x1)`` do trecho do tracejado; a largura inteira se não há tracejado claro.
+    """
+    cinza = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+    claro = _contraste_local_claro(cinza)
+    laranja = _tinta_laranja(roi)
+    contagem = np.zeros(roi.shape[1], dtype=np.int16)
+    contagem_laranja = np.zeros(roi.shape[1], dtype=np.int16)
+    for ly in linhas_y:
+        a, b = max(0, ly - espessura), min(roi.shape[0], ly + espessura + 1)
+        if b > a:
+            contagem += claro[a:b, :].any(axis=0).astype(np.int16)
+            contagem_laranja += laranja[a:b, :].any(axis=0).astype(np.int16)
+    ativo = contagem >= minimo
+    # bolinhas das letras: cada corda tem uma; o tracejado começa depois da última delas
+    ocupado = contagem_laranja >= minimo
+    fim_bolinhas = 0
+    x = 0
+    while x < min(LARGURA_BOLINHAS_MAXIMA, roi.shape[1]):
+        if ocupado[x]:
+            while x < roi.shape[1] and ocupado[x]:
+                x += 1
+            fim_bolinhas = x
+        else:
+            x += 1
+    ativo[:fim_bolinhas] = False
+    if not ativo.any():
+        return 0, roi.shape[1]
+    inicio, fim = _maior_trecho_ativo(ativo, buraco_maximo)
+    if fim <= inicio:
+        return 0, roi.shape[1]
+    return inicio, fim
+
 
 def extensao_das_linhas(
     roi: np.ndarray, linhas_y: list[int], espessura: int = 2, minimo: int = 4

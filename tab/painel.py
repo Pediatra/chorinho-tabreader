@@ -38,6 +38,7 @@ from .tabseg import (
     _uniao_mascaras,
     delimitar_tokens,
     extensao_das_linhas,
+    extensao_das_linhas_claras,
     mascaras_candidatas,
     picos_de_linha,
     segmentar,
@@ -1199,9 +1200,17 @@ def _candidato_do_grupo(
     # estreita em x à extensão das cordas: a faixa de largura cheia mistura as barras
     # pretas do vídeo vertical e o fundo mediano sai 0 (medido no caso 10)
     cheio = frame[y0:y1, :]
-    ex0, ex1 = extensao_das_linhas(cheio, list(cordas))
-    ex0 = max(0, ex0 - round(passo))
-    ex1 = min(cheio.shape[1], ex1 + round(passo))
+    if float(np.median(cv2.cvtColor(cheio, cv2.COLOR_BGR2GRAY))) <= FUNDO_ESCURO_MAXIMO:
+        # painel escuro: `extensao_das_linhas` só enxerga linha sobre fundo claro (ver a
+        # docstring dele) e estreitava a TAB escura a ~60 px, com 0 glifos. A largura cheia
+        # lia as letras das cordas e os diagramas à direita como notas; mede-se só o
+        # tracejado claro (sem padding à esquerda, que traria as bolinhas de volta).
+        ex0, ex1 = extensao_das_linhas_claras(cheio, list(cordas))
+        ex1 = min(cheio.shape[1], ex1 + round(passo))
+    else:
+        ex0, ex1 = extensao_das_linhas(cheio, list(cordas))
+        ex0 = max(0, ex0 - round(passo))
+        ex1 = min(cheio.shape[1], ex1 + round(passo))
     roi = cheio[:, ex0:ex1]
     if roi.shape[1] < 3 * passo:
         return None
