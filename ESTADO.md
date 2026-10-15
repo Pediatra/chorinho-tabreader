@@ -5606,3 +5606,19 @@ Scripts e tabelas: `data/saida/n3/`, `data/saida/n4/`.
 - **Ouro do Room 335: nota que faltava, incluída pelo dono** (2026-10-15). Tela 4, corda 3,
   casa 1, na coluna x 1260 (2-1-2-0 nas cordas 2 a 5; conferido no recorte do quadro t=14 s).
   Com o mesmo JSON previsto, a precisão vai de 0,922 para **0,925** (320 de 346).
+- **T8.2: casa fora do ouro, conferida pelo dono** (2026-10-15). 36 telas, 2 vídeos por canal
+  dos 18 canais fora do ouro (sorteio com semente 0, `data/saida/t82/gerar.py`), lidas pelo
+  produto (rede `detector_tab_final_s1`). O dono conferiu 35 na ferramenta do ouro
+  (`tab.ouro_video servir` com material de `data/saida/t82/material_ferramenta.py`; respostas
+  em `data/saida/t82/ferramenta/conferencia_t82.json`, fora de data/gold). A tela 33 ficou de
+  fora: a ferramenta abria o editor longe do clique em imagem muito larga.
+  - 1.563 notas lidas: 1.549 certas, 7 com casa errada, 7 falsas e 17 faltando. Casa certa
+    em 1.549 de 1.556 casadas (0,996); precisão 0,996; revocação 1.556 de 1.573 (0,989).
+  - Causas (31 erros, olhados um a um em `data/saida/t82/erros/`): número de dois
+    algarismos 12 (10, 11 e 12 perdidos ou lidos pela metade), nota encostada em haste,
+    arco ou barline 7, fundo ou cor 4, símbolo lido como nota 3, "1" de perna comprida lido
+    como 4 3, nota fora do recorte 2.
+  - Frequência não explica os dois algarismos: o gerador sintético já sorteia cerca de 33%
+    de casas com dois algarismos (`P_CASA_ALTA = 0,15` para 13–24, mais 10–12 entre 0–12).
+    A causa está no aspecto (espaço entre os algarismos, fonte, corda tocando o número), e
+    ainda não foi medida. O "1" de perna comprida é outra fonte que o gerador não tem.
