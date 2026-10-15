@@ -153,6 +153,21 @@ regras_do_dono:
     regra: "indica a métrica (3/4, 4/4). NÃO é técnica: é notação de tempo."
     confirmado: true
 
+# REGRA ÚNICA DO ARCO, dada pelo dono em 2026-10-15 (conferência T8.2). O arco pode estar
+# virado para cima ou para baixo; o que decide são os NÚMEROS dentro dele.
+regra_do_arco_pelos_numeros:
+  dois_numeros_iguais: prolongamento   # ligadura de prolongamento
+  um_numero_e_vazio_do_outro_lado: prolongamento   # também é ligadura válida
+  primeiro_maior_segundo_menor: pull_off
+  primeiro_menor_segundo_maior: hammer_on
+  tres_ou_mais_numeros: mordente   # vários h/p dentro do mesmo arco
+  barra_entre_os_numeros: slide    # o slide às vezes vem SEM arco; o arco não é a regra
+  outros_simbolos_citados: [arpejo de 2 a 6 cordas, ritornelo, harmonico, rasgueado]
+  aviso_de_recorte: >
+    Há tablaturas em que o arco da corda 1 fica acima da linha e o recorte corta a parte de
+    cima: o arco some. Ampliar o recorte um pouco para cima da corda 1.
+  confirmado: true
+
 # IMPORTANTE para o coletor: 3 destes símbolos NÃO são de técnica e sim de NOTAÇÃO —
 # fórmula de compasso e pausa. Se o objetivo é técnica por nota, eles devem ser guardados
 # separados (e não como símbolo da nota).
