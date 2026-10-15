@@ -24,7 +24,8 @@ Roda DENTRO da imagem ``chorinho-partitura:dev``, com o ``python`` da base e
 ``subprocess`` chamando os executáveis dos venvs e do Audiveris.
 
 ``herdar``: para uma condição já rodada, aplica a armadura do vídeo (``armadura_do_video``)
-aos recortes cuja leitura não tem clave, e grava a condição ``<condicao>_herdada``.
+aos recortes cuja leitura não tem clave ou não tem ``<key>``, e grava a condição
+``<condicao>_herdada``. Leitura com ``<key>`` não muda.
 
 Uso:
     python -m tab.partitura_omr rodar --biblioteca homr --condicao nativo
@@ -662,6 +663,18 @@ def _tem_clave(musicxml: str) -> bool:
     return ET.fromstring(musicxml).find(".//clef") is not None
 
 
+def _tem_armadura(musicxml: str) -> bool:
+    """Diz se a leitura tem ``<key>`` com ``<fifths>``, ou seja, uma armadura escrita.
+
+    Args:
+        musicxml: texto de um MusicXML.
+
+    Returns:
+        True se há algum ``<key>/<fifths>`` no documento.
+    """
+    return ET.fromstring(musicxml).find(".//key/fifths") is not None
+
+
 def _fifths_da_leitura(musicxml: str) -> int:
     """Armadura escrita na leitura (primeiro ``<key><fifths>``; sem ``<key>``, 0).
 
@@ -700,10 +713,12 @@ def herdar_condicao(
     pasta_destino: Path,
     base: Path,
 ) -> list[dict]:
-    """Grava uma condição com a armadura do vídeo aplicada aos recortes sem clave.
+    """Grava uma condição com a armadura do vídeo aplicada onde a leitura não a tem.
 
-    Para cada recorte, a leitura é copiada igual, exceto quando não tem ``<clef>`` e a
-    armadura do vídeo não é 0 ou None; nesse caso recebe ``herdar_armadura``.
+    Para cada recorte, a leitura é copiada igual, exceto quando a armadura do vídeo não
+    é 0 ou None e a leitura não tem ``<clef>`` ou não tem ``<key>`` com ``<fifths>``;
+    nesse caso recebe ``herdar_armadura``. Leitura com clave e ``<key>`` (inclusive
+    ``fifths`` 0 escrito) fica como está.
 
     Args:
         execucoes: registros do ``execucao.json`` da condição de origem.
@@ -741,7 +756,7 @@ def herdar_condicao(
             tinha_clave = _tem_clave(texto)
             novo = texto
             fifths = armadura[item["video"]]
-            if not tinha_clave and fifths:
+            if fifths and (not tinha_clave or not _tem_armadura(texto)):
                 novo = herdar_armadura(texto, fifths)
                 if novo != texto:
                     aplicado = fifths

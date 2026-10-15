@@ -5279,6 +5279,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - O `<stem>.partitura.json` ganha `fifths`, `fifths_origem` e `compassos` por pauta, e `metodo` (`altura` ou `x`) em cada par. Quando o x desmente o par pela altura, o evento pega a coluna livre mais próxima a até uma entrelinha: Gym tela 10 vai de 0 para 10 de 14 pares conferidos; total 433 de 438. Notas certas iguais (723/767). Gym tela 12 tem `fifths` 1, provavelmente errado; `fracao` só na primeira pauta de cada vídeo.
 
+## Partitura — 2026-10-15 — armadura do vídeo também para leitura com clave e sem armadura (rodada 3020)
+
+- `herdar_condicao` aplica a armadura do vídeo quando a leitura não tem clave **ou** não tem `<key>`. Gabarito R01–R21 idêntico; 3 produtos sem mudança; canon P06a None→2 (5 notas F→F#). Ver `docs/rodadas/3020-armadura-herdada-com-clave.md`.
+
 ## Partitura — 2026-10-15 — `ler --pasta`: partitura de vídeo sem produto (rodada 3019)
 
 - `python -m tab.partitura_video ler --pasta <sem_produto/slug>` (imagem `chorinho-partitura:dev`) roda só o Audiveris nos recortes do `paginar` e grava `<slug>.partitura.json`: pautas com página, exibições, armadura, compassos e eventos, **sem par e sem tempo em segundos** (o tempo só vem da tab).

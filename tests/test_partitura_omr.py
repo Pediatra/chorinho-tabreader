@@ -467,3 +467,75 @@ def test_herdar_condicao_aplica_so_onde_falta_clave(tmp_path: Path) -> None:
     assert execucao[2]["motivo"] == "timeout 300 s"
     registros = json.loads((destino / "herdada.json").read_text(encoding="utf-8"))
     assert registros == herdada
+
+
+CLAVE_SOL = "<clef><sign>G</sign><line>2</line></clef>"
+
+
+def _com_clave(chave: str = "") -> str:
+    """Leitura com clave de sol e as notas F, C, G (uma por tempo), com ``chave`` extra."""
+    notas = "".join(_nota_xml(step, 4) for step in ("F", "C", "G"))
+    return _partitura_sem_armadura(notas, atributos=f"{CLAVE_SOL}{chave}")
+
+
+def _herdar_video(tmp_path: Path, textos: dict[str, str]) -> tuple[list[dict], Path]:
+    """Roda ``herdar_condicao`` num único vídeo (``v1``), uma leitura por id."""
+    execucoes = []
+    indice = []
+    for id_, texto in textos.items():
+        pasta = tmp_path / "x2" / id_
+        pasta.mkdir(parents=True)
+        (pasta / "saida.musicxml").write_text(texto, encoding="utf-8")
+        execucoes.append({"id": id_, "ok": True, "saida": f"x2/{id_}/saida.musicxml"})
+        indice.append({"id": id_, "video": "v1"})
+    destino = tmp_path / "x2_herdada"
+    herdada = herdar_condicao(execucoes, indice, destino, tmp_path)
+    return herdada, destino
+
+
+def test_herdar_condicao_aplica_com_clave_e_sem_key(tmp_path: Path) -> None:
+    """Clave sem ``<key>`` num vídeo de armadura 2 recebe F# e C# (a clave não bloqueia).
+
+    R01 e R02 têm clave e armadura 2, então a armadura do vídeo é 2.
+    """
+    com_dois = _com_clave("<key><fifths>2</fifths></key>")
+    sem_key = _com_clave()
+    herdada, destino = _herdar_video(
+        tmp_path, {"R01": com_dois, "R02": com_dois, "R03": sem_key}
+    )
+
+    assert herdada[2] == {
+        "id": "R03",
+        "video": "v1",
+        "tinha_clave": True,
+        "fifths_aplicado": 2,
+    }
+    saida = (destino / "R03" / "saida.musicxml").read_text(encoding="utf-8")
+    assert "<fifths>2</fifths>" in saida
+    assert _alteracoes(saida) == ["F4=1", "C4=1", "G4=-"]
+
+
+def test_herdar_condicao_nao_aplica_com_key_zero_explicito(tmp_path: Path) -> None:
+    """Clave com ``<key><fifths>0</fifths></key>`` escrito: o texto não muda."""
+    com_dois = _com_clave("<key><fifths>2</fifths></key>")
+    com_zero = _com_clave("<key><fifths>0</fifths></key>")
+    herdada, destino = _herdar_video(
+        tmp_path, {"R01": com_dois, "R02": com_dois, "R03": com_zero}
+    )
+
+    assert herdada[2]["fifths_aplicado"] is None
+    assert herdada[2]["tinha_clave"] is True
+    saida = (destino / "R03" / "saida.musicxml").read_text(encoding="utf-8")
+    assert saida == com_zero
+
+
+def test_herdar_condicao_com_clave_e_key_nao_muda(tmp_path: Path) -> None:
+    """Clave com ``<key>`` 2 num vídeo de armadura 2: texto idêntico, sem aplicar."""
+    com_dois = _com_clave("<key><fifths>2</fifths></key>")
+    herdada, destino = _herdar_video(
+        tmp_path, {"R01": com_dois, "R02": com_dois, "R03": com_dois}
+    )
+
+    assert herdada[2]["fifths_aplicado"] is None
+    saida = (destino / "R03" / "saida.musicxml").read_text(encoding="utf-8")
+    assert saida == com_dois
