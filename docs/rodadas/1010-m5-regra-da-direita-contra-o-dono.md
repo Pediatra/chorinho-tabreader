@@ -45,3 +45,13 @@ a 0/0/6/41.
   qualquer palpite pré-marcado).
 - Ligadas (6) não se preveem pela corda: dependem do símbolo da tablatura (`h`, `p`, `/`),
   que o leitor ainda não classifica (`tecnica` é `None` no produto).
+
+## Adendo (2026-10-15): validação nos 20 pares
+
+O dono confirmou os 20 compassos pares (c02–c40) com a v2 pré-marcada. 219 notas, 3 `l` →
+216 pontuadas. **v2: 172/216 (0,796); v1 nos mesmos compassos: 149/216 (0,690).** Fora da
+amostra a v2 ganha +23 notas, mas fica abaixo do 0,859 estimado (deixando um vídeo de fora):
+o noturno cai para 33/65. Erros mais comuns: corda 2 com `i` (dono) onde a regra deu `m`/`a`
+(12), e `a`→`m` na sequência (8). Pelas observações do dono, em acordes e notas alternadas
+rápidas o violonista prefere i-m "pela coordenação motora", e o polegar repete (p-p-p) por
+comodidade conforme a distância ao baixo — preferências do violonista, não da tablatura.

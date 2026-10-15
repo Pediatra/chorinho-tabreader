@@ -101,11 +101,76 @@
    "tela": 3,
    "compasso": 4,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
+   "dedos": [
+    {
+     "corda": 2,
+     "casa": 0,
+     "t_ini": 297.197,
+     "palpite": "m",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 6,
+     "casa": 1,
+     "t_ini": 297.831,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 4,
+     "casa": 0,
+     "t_ini": 298.498,
+     "palpite": "i",
+     "regra": "exceção do bordão: corda 4 com polegar em 5/6",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "t_ini": 299.132,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 4,
+     "casa": 0,
+     "t_ini": 299.766,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 6,
+     "casa": 0,
+     "t_ini": 299.766,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 2,
+     "casa": 1,
+     "t_ini": 301.067,
+     "palpite": "m",
+     "regra": "padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 0,
+     "t_ini": 301.735,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "l"
+    }
+   ],
+   "alteradas": 2,
+   "confirmado": true,
    "obs": null,
-   "respondido_em": null
+   "respondido_em": "2026-10-15T13:01:51"
   },
   "c03": {
    "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
@@ -196,11 +261,76 @@
    "tela": 4,
    "compasso": 4,
    "exibicao": 1,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
+   "dedos": [
+    {
+     "corda": 2,
+     "casa": 0,
+     "t_ini": 401.568,
+     "palpite": "m",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 6,
+     "casa": 2,
+     "t_ini": 402.202,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 4,
+     "casa": 1,
+     "t_ini": 402.869,
+     "palpite": "i",
+     "regra": "exceção do bordão: corda 4 com polegar em 5/6",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "t_ini": 403.503,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 0,
+     "t_ini": 404.17,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "a"
+    },
+    {
+     "corda": 6,
+     "casa": 7,
+     "t_ini": 404.838,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 5,
+     "casa": 5,
+     "t_ini": 405.505,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 4,
+     "casa": 4,
+     "t_ini": 406.172,
+     "palpite": "i",
+     "regra": "exceção do bordão: corda 4 com polegar em 5/6",
+     "dono": "i"
+    }
+   ],
+   "alteradas": 1,
+   "confirmado": true,
    "obs": null,
-   "respondido_em": null
+   "respondido_em": "2026-10-15T13:02:47"
   },
   "c05": {
    "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
@@ -299,11 +429,92 @@
    "tela": 8,
    "compasso": 5,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
+   "dedos": [
+    {
+     "corda": 1,
+     "casa": 4,
+     "t_ini": 485.018,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 6,
+     "casa": 2,
+     "t_ini": 485.018,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 3,
+     "t_ini": 485.618,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 2,
+     "t_ini": 486.286,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 3,
+     "t_ini": 486.953,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 1,
+     "casa": 2,
+     "t_ini": 487.62,
+     "palpite": "a",
+     "regra": "sequência: padrão da corda, acima do seguinte",
+     "dono": "a"
+    },
+    {
+     "corda": 5,
+     "casa": 2,
+     "t_ini": 487.62,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "t_ini": 488.288,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 4,
+     "t_ini": 488.955,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "t_ini": 489.589,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    }
+   ],
+   "alteradas": 0,
+   "confirmado": true,
    "obs": null,
-   "respondido_em": null
+   "respondido_em": "2026-10-15T13:05:39"
   },
   "c07": {
    "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
@@ -402,11 +613,92 @@
    "tela": 8,
    "compasso": 2,
    "exibicao": 1,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
-   "obs": null,
-   "respondido_em": null
+   "dedos": [
+    {
+     "corda": 1,
+     "casa": 2,
+     "t_ini": 552.919,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 4,
+     "casa": 0,
+     "t_ini": 552.919,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 1,
+     "t_ini": 553.52,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 0,
+     "t_ini": 554.12,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 1,
+     "t_ini": 554.854,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 1,
+     "casa": 1,
+     "t_ini": 555.455,
+     "palpite": "a",
+     "regra": "sequência: padrão da corda, acima do seguinte",
+     "dono": "a"
+    },
+    {
+     "corda": 4,
+     "casa": 0,
+     "t_ini": 555.455,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 1,
+     "t_ini": 556.089,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 0,
+     "t_ini": 556.723,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 1,
+     "casa": 7,
+     "t_ini": 557.457,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "l"
+    }
+   ],
+   "alteradas": 1,
+   "confirmado": true,
+   "obs": "faltou junto com o 557.46s corda 1 · casa 7, o 557.46s corda 1 · casa 5 o começo do slide desse ligato que foi tocado com o dedo anelar, reparei agora",
+   "respondido_em": "2026-10-15T13:07:13"
   },
   "c09": {
    "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
@@ -497,11 +789,84 @@
    "tela": 11,
    "compasso": 5,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
-   "obs": null,
-   "respondido_em": null
+   "dedos": [
+    {
+     "corda": 1,
+     "casa": 7,
+     "t_ini": 625.892,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 4,
+     "casa": 4,
+     "t_ini": 625.892,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 4,
+     "t_ini": 626.526,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 4,
+     "t_ini": 627.193,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 4,
+     "t_ini": 627.861,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 4,
+     "casa": 4,
+     "t_ini": 628.528,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 4,
+     "t_ini": 629.195,
+     "palpite": "i",
+     "regra": "padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 1,
+     "casa": 8,
+     "t_ini": 629.829,
+     "palpite": "a",
+     "regra": "sequência: padrão da corda, acima do seguinte",
+     "dono": "a"
+    },
+    {
+     "corda": 1,
+     "casa": 7,
+     "t_ini": 630.497,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "a"
+    }
+   ],
+   "alteradas": 1,
+   "confirmado": true,
+   "obs": "no ultimo deu pra claramente ver que ele usa anelar anelar seguido, mas é incomum e exceção a regra",
+   "respondido_em": "2026-10-15T13:08:31"
   },
   "c11": {
    "video": "sky guitar/(chopin) nocturne no.20 - tab & lesson.mp4",
@@ -576,11 +941,124 @@
    "tela": 3,
    "compasso": 6,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
-   "obs": null,
-   "respondido_em": null
+   "dedos": [
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 320.721,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 5,
+     "casa": 0,
+     "t_ini": 320.721,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 2,
+     "casa": 6,
+     "t_ini": 321.087,
+     "palpite": "m",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 321.521,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 6,
+     "t_ini": 321.888,
+     "palpite": "m",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 322.289,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 6,
+     "t_ini": 322.522,
+     "palpite": "m",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 322.856,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 323.456,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "i"
+    },
+    {
+     "corda": 5,
+     "casa": 0,
+     "t_ini": 323.757,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 4,
+     "casa": 2,
+     "t_ini": 324.457,
+     "palpite": "i",
+     "regra": "exceção do bordão: corda 4 com polegar em 5/6",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 2,
+     "t_ini": 325.225,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 3,
+     "t_ini": 326.026,
+     "palpite": "m",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 4,
+     "t_ini": 326.026,
+     "palpite": "i",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "i"
+    }
+   ],
+   "alteradas": 8,
+   "confirmado": true,
+   "obs": "foi uma grande correção pois para arcodes em sequencia assim é prefirivel usar o indicador e meio pois a maior controle da cordenação motora entre a alternancia das notas",
+   "respondido_em": "2026-10-15T13:12:40"
   },
   "c13": {
    "video": "sky guitar/(chopin) nocturne no.20 - tab & lesson.mp4",
@@ -671,11 +1149,108 @@
    "tela": 7,
    "compasso": 4,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
-   "obs": null,
-   "respondido_em": null
+   "dedos": [
+    {
+     "corda": 1,
+     "casa": 1,
+     "t_ini": 386.786,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 5,
+     "casa": 1,
+     "t_ini": 386.786,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 2,
+     "casa": 4,
+     "t_ini": 387.487,
+     "palpite": "m",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 3,
+     "t_ini": 387.887,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 1,
+     "t_ini": 388.255,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 3,
+     "t_ini": 389.022,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 3,
+     "t_ini": 389.723,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 5,
+     "casa": 1,
+     "t_ini": 389.723,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 2,
+     "casa": 4,
+     "t_ini": 390.257,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 3,
+     "t_ini": 390.757,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 1,
+     "t_ini": 391.291,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "i"
+    },
+    {
+     "corda": 4,
+     "casa": 3,
+     "t_ini": 392.058,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "i"
+    }
+   ],
+   "alteradas": 7,
+   "confirmado": true,
+   "obs": "novamente mais facil usar esses dedos pelo controle da cordenação motora",
+   "respondido_em": "2026-10-15T13:15:09"
   },
   "c15": {
    "video": "sky guitar/(chopin) nocturne no.20 - tab & lesson.mp4",
@@ -806,11 +1381,92 @@
    "tela": 10,
    "compasso": 3,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
-   "obs": null,
-   "respondido_em": null
+   "dedos": [
+    {
+     "corda": 5,
+     "casa": 1,
+     "t_ini": 434.735,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 4,
+     "casa": 2,
+     "t_ini": 435.502,
+     "palpite": "i",
+     "regra": "exceção do bordão: corda 4 com polegar em 5/6",
+     "dono": "p"
+    },
+    {
+     "corda": 2,
+     "casa": 3,
+     "t_ini": 435.902,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 3,
+     "t_ini": 436.27,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 3,
+     "t_ini": 437.037,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 2,
+     "t_ini": 437.738,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 5,
+     "casa": 1,
+     "t_ini": 437.738,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 438.505,
+     "palpite": "a",
+     "regra": "sequência: passou de a, reinicia no padrão",
+     "dono": "a"
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "t_ini": 439.239,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 4,
+     "casa": 2,
+     "t_ini": 440.007,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    }
+   ],
+   "alteradas": 5,
+   "confirmado": true,
+   "obs": "pela sequencia de notas com os dedos foi escolhido p - p no começo",
+   "respondido_em": "2026-10-15T13:17:30"
   },
   "c17": {
    "video": "sky guitar/(chopin) nocturne no.20 - tab & lesson.mp4",
@@ -869,11 +1525,164 @@
    "tela": 14,
    "compasso": 3,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
-   "obs": null,
-   "respondido_em": null
+   "dedos": [
+    {
+     "corda": 1,
+     "casa": 10,
+     "t_ini": 514.347,
+     "palpite": "a",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "a"
+    },
+    {
+     "corda": 2,
+     "casa": 7,
+     "t_ini": 514.347,
+     "palpite": "m",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 7,
+     "t_ini": 514.347,
+     "palpite": "i",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "i"
+    },
+    {
+     "corda": 4,
+     "casa": 0,
+     "t_ini": 514.347,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 1,
+     "casa": 11,
+     "t_ini": 514.747,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 1,
+     "casa": 8,
+     "t_ini": 515.248,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "m"
+    },
+    {
+     "corda": 1,
+     "casa": 6,
+     "t_ini": 515.748,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "a"
+    },
+    {
+     "corda": 6,
+     "casa": 0,
+     "t_ini": 515.748,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 1,
+     "casa": 5,
+     "t_ini": 516.249,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "m"
+    },
+    {
+     "corda": 1,
+     "casa": 3,
+     "t_ini": 516.783,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "i"
+    },
+    {
+     "corda": 1,
+     "casa": 2,
+     "t_ini": 517.25,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "m"
+    },
+    {
+     "corda": 4,
+     "casa": 0,
+     "t_ini": 517.25,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 4,
+     "t_ini": 517.584,
+     "palpite": "m",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 3,
+     "t_ini": 517.884,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "a"
+    },
+    {
+     "corda": 3,
+     "casa": 5,
+     "t_ini": 518.184,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "t_ini": 518.785,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 6,
+     "casa": 0,
+     "t_ini": 518.785,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 4,
+     "casa": 4,
+     "t_ini": 519.285,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 4,
+     "casa": 0,
+     "t_ini": 519.752,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "i"
+    }
+   ],
+   "alteradas": 4,
+   "confirmado": true,
+   "obs": "tem uma sequencia de 4 1 0 na corda 4 mas no gabarito não está tudo junto não entendi, e nessa parte de 4 1 0 ele faça i - m - i",
+   "respondido_em": "2026-10-15T13:24:01"
   },
   "c19": {
    "video": "sky guitar/(chopin) nocturne no.20 - tab & lesson.mp4",
@@ -972,11 +1781,92 @@
    "tela": 18,
    "compasso": 3,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
-   "obs": null,
-   "respondido_em": null
+   "dedos": [
+    {
+     "corda": 4,
+     "casa": 3,
+     "t_ini": 569.002,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "t_ini": 569.769,
+     "palpite": "i",
+     "regra": "padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 4,
+     "casa": 3,
+     "t_ini": 570.536,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 571.237,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 6,
+     "casa": 0,
+     "t_ini": 571.237,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 2,
+     "casa": 8,
+     "t_ini": 571.771,
+     "palpite": "m",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 1,
+     "casa": 6,
+     "t_ini": 572.238,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 1,
+     "casa": 5,
+     "t_ini": 572.505,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 6,
+     "t_ini": 573.039,
+     "palpite": "m",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 3,
+     "t_ini": 573.539,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "i"
+    }
+   ],
+   "alteradas": 8,
+   "confirmado": true,
+   "obs": "novamente preferencia pelo indicador medir em alternadas pela facilidade com a cordenaçao motora",
+   "respondido_em": "2026-10-15T13:25:58"
   },
   "c21": {
    "video": "sky guitar/lacrimosa (requiem k.626) - guitar lesson + tab.mp4",
@@ -1091,11 +1981,132 @@
    "tela": 4,
    "compasso": 3,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
-   "obs": null,
-   "respondido_em": null
+   "dedos": [
+    {
+     "corda": 2,
+     "casa": 0,
+     "t_ini": 214.748,
+     "palpite": "m",
+     "regra": "padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 6,
+     "casa": 0,
+     "t_ini": 214.748,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 4,
+     "casa": 1,
+     "t_ini": 215.482,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 4,
+     "casa": 2,
+     "t_ini": 216.349,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 6,
+     "casa": 3,
+     "t_ini": 217.15,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 1,
+     "casa": 3,
+     "t_ini": 217.984,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 218.785,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "m"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 219.586,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "a"
+    },
+    {
+     "corda": 6,
+     "casa": 2,
+     "t_ini": 219.586,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 4,
+     "t_ini": 220.387,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 5,
+     "t_ini": 221.221,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 4,
+     "t_ini": 221.988,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "a"
+    },
+    {
+     "corda": 5,
+     "casa": 2,
+     "t_ini": 221.988,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 5,
+     "t_ini": 222.889,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 4,
+     "t_ini": 223.69,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    }
+   ],
+   "alteradas": 1,
+   "confirmado": true,
+   "obs": "o p - p - p seguido é questão de comodidade e distancia entre o grave e  as notas das cordas de baixo",
+   "respondido_em": "2026-10-15T13:30:17"
   },
   "c23": {
    "video": "sky guitar/lacrimosa (requiem k.626) - guitar lesson + tab.mp4",
@@ -1258,11 +2269,164 @@
    "tela": 7,
    "compasso": 3,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
+   "dedos": [
+    {
+     "corda": 2,
+     "casa": 4,
+     "t_ini": 273.14,
+     "palpite": "a",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "a"
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "t_ini": 273.14,
+     "palpite": "m",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "m"
+    },
+    {
+     "corda": 4,
+     "casa": 4,
+     "t_ini": 273.14,
+     "palpite": "i",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "i"
+    },
+    {
+     "corda": 5,
+     "casa": 2,
+     "t_ini": 273.14,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 4,
+     "casa": 4,
+     "t_ini": 273.874,
+     "palpite": "i",
+     "regra": "exceção do bordão: corda 4 com polegar em 5/6",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "t_ini": 274.708,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 5,
+     "casa": 2,
+     "t_ini": 275.509,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 2,
+     "casa": 5,
+     "t_ini": 276.376,
+     "palpite": "m",
+     "regra": "padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 1,
+     "casa": 2,
+     "t_ini": 277.177,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "a"
+    },
+    {
+     "corda": 1,
+     "casa": 2,
+     "t_ini": 277.978,
+     "palpite": "a",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "a"
+    },
+    {
+     "corda": 2,
+     "casa": 0,
+     "t_ini": 277.978,
+     "palpite": "m",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 0,
+     "t_ini": 277.978,
+     "palpite": "i",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "i"
+    },
+    {
+     "corda": 6,
+     "casa": 0,
+     "t_ini": 277.978,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 0,
+     "t_ini": 278.745,
+     "palpite": "i",
+     "regra": "padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 0,
+     "t_ini": 279.613,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 280.347,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "a"
+    },
+    {
+     "corda": 6,
+     "casa": 0,
+     "t_ini": 280.347,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 0,
+     "t_ini": 281.214,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 0,
+     "t_ini": 282.015,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    }
+   ],
+   "alteradas": 0,
+   "confirmado": true,
    "obs": null,
-   "respondido_em": null
+   "respondido_em": "2026-10-15T13:33:30"
   },
   "c25": {
    "video": "sky guitar/lacrimosa (requiem k.626) - guitar lesson + tab.mp4",
@@ -1433,11 +2597,140 @@
    "tela": 10,
    "compasso": 2,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
+   "dedos": [
+    {
+     "corda": 2,
+     "casa": 2,
+     "t_ini": 321.955,
+     "palpite": "m",
+     "regra": "padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 4,
+     "casa": 2,
+     "t_ini": 321.955,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 0,
+     "t_ini": 322.522,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 3,
+     "t_ini": 323.39,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 3,
+     "t_ini": 324.191,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "a"
+    },
+    {
+     "corda": 4,
+     "casa": 0,
+     "t_ini": 324.191,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 0,
+     "t_ini": 325.125,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 3,
+     "t_ini": 325.959,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 326.593,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "a"
+    },
+    {
+     "corda": 5,
+     "casa": 4,
+     "t_ini": 326.593,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 0,
+     "t_ini": 327.394,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 3,
+     "t_ini": 328.195,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 329.062,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "a"
+    },
+    {
+     "corda": 5,
+     "casa": 4,
+     "t_ini": 329.062,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 0,
+     "t_ini": 329.963,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 3,
+     "t_ini": 330.664,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    }
+   ],
+   "alteradas": 0,
+   "confirmado": true,
    "obs": null,
-   "respondido_em": null
+   "respondido_em": "2026-10-15T15:40:26"
   },
   "c27": {
    "video": "sky guitar/lacrimosa (requiem k.626) - guitar lesson + tab.mp4",
@@ -1576,11 +2869,148 @@
    "tela": 12,
    "compasso": 3,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
+   "dedos": [
+    {
+     "corda": 2,
+     "casa": 0,
+     "t_ini": 370.403,
+     "palpite": "a",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "a"
+    },
+    {
+     "corda": 3,
+     "casa": 0,
+     "t_ini": 370.403,
+     "palpite": "m",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "m"
+    },
+    {
+     "corda": 4,
+     "casa": 2,
+     "t_ini": 370.403,
+     "palpite": "i",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "i"
+    },
+    {
+     "corda": 6,
+     "casa": 0,
+     "t_ini": 370.403,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 4,
+     "casa": 1,
+     "t_ini": 371.204,
+     "palpite": "i",
+     "regra": "exceção do bordão: corda 4 com polegar em 5/6",
+     "dono": "i"
+    },
+    {
+     "corda": 4,
+     "casa": 2,
+     "t_ini": 372.038,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 6,
+     "casa": 3,
+     "t_ini": 372.806,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 1,
+     "casa": 3,
+     "t_ini": 373.607,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 374.407,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "m"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 375.242,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "a"
+    },
+    {
+     "corda": 6,
+     "casa": 2,
+     "t_ini": 375.242,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 4,
+     "t_ini": 376.042,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 5,
+     "t_ini": 376.843,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 4,
+     "t_ini": 377.711,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "a"
+    },
+    {
+     "corda": 5,
+     "casa": 2,
+     "t_ini": 377.711,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 3,
+     "casa": 5,
+     "t_ini": 378.545,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 4,
+     "t_ini": 379.346,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    }
+   ],
+   "alteradas": 1,
+   "confirmado": true,
    "obs": null,
-   "respondido_em": null
+   "respondido_em": "2026-10-15T16:57:49"
   },
   "c29": {
    "video": "sky guitar/lacrimosa (requiem k.626) - guitar lesson + tab.mp4",
@@ -1727,11 +3157,60 @@
    "tela": 16,
    "compasso": 3,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
-   "obs": null,
-   "respondido_em": null
+   "dedos": [
+    {
+     "corda": 1,
+     "casa": 4,
+     "t_ini": 448.214,
+     "palpite": "a",
+     "regra": "acorde: dedos insuficientes, padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 2,
+     "casa": 5,
+     "t_ini": 448.214,
+     "palpite": "a",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 4,
+     "t_ini": 448.214,
+     "palpite": "m",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "i"
+    },
+    {
+     "corda": 4,
+     "casa": 6,
+     "t_ini": 448.214,
+     "palpite": "i",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "p"
+    },
+    {
+     "corda": 5,
+     "casa": 7,
+     "t_ini": 448.214,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 6,
+     "casa": 0,
+     "t_ini": 448.214,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    }
+   ],
+   "alteradas": 3,
+   "confirmado": true,
+   "obs": "ele arpejou as 3 primeiras cordas",
+   "respondido_em": "2026-10-15T16:58:20"
   },
   "c31": {
    "video": "sky guitar/glimpse of us (joji) - fingerstyle lesson + tab.mp4",
@@ -1790,11 +3269,84 @@
    "tela": 5,
    "compasso": 2,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
+   "dedos": [
+    {
+     "corda": 2,
+     "casa": 5,
+     "t_ini": 322.022,
+     "palpite": "m",
+     "regra": "padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 5,
+     "casa": 0,
+     "t_ini": 322.022,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 2,
+     "casa": 5,
+     "t_ini": 322.689,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 5,
+     "t_ini": 323.323,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "m"
+    },
+    {
+     "corda": 2,
+     "casa": 5,
+     "t_ini": 323.59,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "i"
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "t_ini": 323.89,
+     "palpite": "i",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "i"
+    },
+    {
+     "corda": 4,
+     "casa": 2,
+     "t_ini": 323.89,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 2,
+     "casa": 5,
+     "t_ini": 324.558,
+     "palpite": "m",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "i"
+    },
+    {
+     "corda": 2,
+     "casa": 5,
+     "t_ini": 325.192,
+     "palpite": "a",
+     "regra": "sequência: seguinte ao anterior (i-m-a)",
+     "dono": "m"
+    }
+   ],
+   "alteradas": 4,
+   "confirmado": true,
    "obs": null,
-   "respondido_em": null
+   "respondido_em": "2026-10-15T16:59:55"
   },
   "c33": {
    "video": "sky guitar/glimpse of us (joji) - fingerstyle lesson + tab.mp4",
@@ -1845,11 +3397,76 @@
    "tela": 10,
    "compasso": 2,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
+   "dedos": [
+    {
+     "corda": 1,
+     "casa": 5,
+     "t_ini": 397.03,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 4,
+     "casa": 0,
+     "t_ini": 397.03,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 2,
+     "casa": 6,
+     "t_ini": 398.331,
+     "palpite": "m",
+     "regra": "padrão da corda",
+     "dono": "m"
+    },
+    {
+     "corda": 1,
+     "casa": 5,
+     "t_ini": 398.932,
+     "palpite": "a",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "a"
+    },
+    {
+     "corda": 2,
+     "casa": 6,
+     "t_ini": 398.932,
+     "palpite": "m",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 7,
+     "t_ini": 398.932,
+     "palpite": "i",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "i"
+    },
+    {
+     "corda": 1,
+     "casa": 7,
+     "t_ini": 399.532,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 1,
+     "casa": 8,
+     "t_ini": 400.2,
+     "palpite": "m",
+     "regra": "sequência: mesma corda depois de a, alterna m-a",
+     "dono": "m"
+    }
+   ],
+   "alteradas": 0,
+   "confirmado": true,
    "obs": null,
-   "respondido_em": null
+   "respondido_em": "2026-10-15T17:00:29"
   },
   "c35": {
    "video": "sky guitar/glimpse of us (joji) - fingerstyle lesson + tab.mp4",
@@ -1932,11 +3549,76 @@
    "tela": 8,
    "compasso": 2,
    "exibicao": 1,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
+   "dedos": [
+    {
+     "corda": 1,
+     "casa": 1,
+     "t_ini": 502.002,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 4,
+     "casa": 0,
+     "t_ini": 502.002,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 1,
+     "casa": 1,
+     "t_ini": 503.269,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "a"
+    },
+    {
+     "corda": 1,
+     "casa": 1,
+     "t_ini": 503.937,
+     "palpite": "a",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "a"
+    },
+    {
+     "corda": 2,
+     "casa": 3,
+     "t_ini": 503.937,
+     "palpite": "m",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "t_ini": 503.937,
+     "palpite": "i",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "i"
+    },
+    {
+     "corda": 1,
+     "casa": 0,
+     "t_ini": 504.237,
+     "palpite": "a",
+     "regra": "padrão da corda",
+     "dono": "l"
+    },
+    {
+     "corda": 2,
+     "casa": 3,
+     "t_ini": 505.205,
+     "palpite": "m",
+     "regra": "sequência: corda mais grave, padrão da corda",
+     "dono": "m"
+    }
+   ],
+   "alteradas": 1,
+   "confirmado": true,
    "obs": null,
-   "respondido_em": null
+   "respondido_em": "2026-10-15T17:00:59"
   },
   "c37": {
    "video": "sky guitar/glimpse of us (joji) - fingerstyle lesson + tab.mp4",
@@ -2011,11 +3693,52 @@
    "tela": 14,
    "compasso": 3,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
+   "dedos": [
+    {
+     "corda": 1,
+     "casa": 1,
+     "t_ini": 569.536,
+     "palpite": "a",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "a"
+    },
+    {
+     "corda": 2,
+     "casa": 1,
+     "t_ini": 569.536,
+     "palpite": "m",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "m"
+    },
+    {
+     "corda": 4,
+     "casa": 0,
+     "t_ini": 569.536,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 2,
+     "casa": 1,
+     "t_ini": 570.804,
+     "palpite": "m",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 2,
+     "t_ini": 570.804,
+     "palpite": "i",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "i"
+    }
+   ],
+   "alteradas": 0,
+   "confirmado": true,
    "obs": null,
-   "respondido_em": null
+   "respondido_em": "2026-10-15T17:01:04"
   },
   "c39": {
    "video": "sky guitar/glimpse of us (joji) - fingerstyle lesson + tab.mp4",
@@ -2098,11 +3821,60 @@
    "tela": 16,
    "compasso": 3,
    "exibicao": 0,
-   "dedos": [],
-   "alteradas": null,
-   "confirmado": false,
+   "dedos": [
+    {
+     "corda": 1,
+     "casa": 1,
+     "t_ini": 648.314,
+     "palpite": "a",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "a"
+    },
+    {
+     "corda": 2,
+     "casa": 0,
+     "t_ini": 648.314,
+     "palpite": "m",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 0,
+     "t_ini": 648.314,
+     "palpite": "i",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "i"
+    },
+    {
+     "corda": 6,
+     "casa": 3,
+     "t_ini": 648.314,
+     "palpite": "p",
+     "regra": "padrão da corda",
+     "dono": "p"
+    },
+    {
+     "corda": 2,
+     "casa": 0,
+     "t_ini": 649.549,
+     "palpite": "m",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "m"
+    },
+    {
+     "corda": 3,
+     "casa": 0,
+     "t_ini": 649.549,
+     "palpite": "i",
+     "regra": "acorde: dedos em sequência, da corda mais grave",
+     "dono": "i"
+    }
+   ],
+   "alteradas": 0,
+   "confirmado": true,
    "obs": null,
-   "respondido_em": null
+   "respondido_em": "2026-10-15T17:01:11"
   }
  }
 }
