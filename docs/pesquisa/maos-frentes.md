@@ -659,18 +659,43 @@ fluxo ótico e valida com duas restrições:
 - a borda de cima e a de baixo do braço são colineares;
 - as distâncias dos trastes seguem a regra das 12 notas a partir do nut.
 
-**Hipótese.** Propagar a grade do quadro do dono para os outros quadros da **mesma cena**,
-com teste de "não achou", aumenta a cobertura do D2 sem errar a posição. Hoje ela é de 6,5 %.
+**Observação do dono (2026-10-15).** Não existe ponto fixo na tela: o violão e o violonista se
+mexem. A grade do braço tem de ser **estimada em cada quadro** (ou em cada ataque), e o quadro do
+dono serve só de ponto de partida, nunca de referência fixa.
+
+**Linha de base medida (sessão principal, 2026-10-15, antes de qualquer frente).** Grade fixa do
+quadro antigo do dono (q02, q16, q21, q23) comparada com as marcas novas (q24–q31):
+
+| vídeo | quadro | erro do nut (casas) | pior traste 1–12 (casas) | deslocamento ⊥ ao braço |
+| --- | --- | --- | --- | --- |
+| retrato | q24 / q25 | 0,08 / 0,02 | 0,11 / 0,03 | +7 / +13 px (0,3 / 0,5 corda) |
+| noturno | q26 / q27 | 0,08 / 0,11 | 0,12 / 0,13 | −26 / −51 px (1,0 / 2,0 cordas) |
+| lacrimosa | q28 / q29 | 0,05 / 0,04 | 0,07 / 0,10 | +64 / 0 px (2,4 / 0,0 cordas) |
+| glimpse | q30 / q31 | 0,16 / 0,03 | 0,09 / 0,06 | +4 / −4 px (0,2 / 0,1 corda) |
+
+- **Ao longo do braço** (eixo das casas), a grade fixa já fica a < 1/4 de casa em 12/12 trastes
+  nos 8 quadros. O movimento é quase todo **perpendicular** ao braço: até 2,4 espaçamentos de
+  corda (lacrimosa q28).
+- Logo, o aceite em casas abaixo é cumprido por **não fazer nada**. A B3 só conta como ganho se
+  reduzir o erro **perpendicular** (em espaçamentos de corda), que é o que importa para a B1
+  (ponta → corda). Relate as duas colunas, sempre contra esta linha de base.
+- Para a janela de **casa** do D2, a grade fixa já serve: a cobertura de 6,5 % do M8 vem do teste
+  de câmera, não de a grade estar errada. Variante barata para medir primeiro: D2 **sem** o teste
+  de câmera (grade fixa em todos os ataques). Lembre que a janela da mão inteira tem 4–6 casas e
+  não desempatou nem onde existia.
+
+**Hipótese.** Estimar a grade quadro a quadro, com teste de "não achou", segue o braço também na
+direção perpendicular (das cordas), que a grade fixa erra em até 2,4 cordas.
 
 **Como.**
 
-0. **Primeiro, o barato.** Refaça o casamento do M8 com a **mão mascarada** nos dois quadros
-   (caixa das pontas e da palma, com folga) e meça só a cobertura. No retrato, onde o
-   enquadramento não muda, isso deve bastar. Nos outros vídeos, siga para os passos 1–5.
-1. Segmente o vídeo em cenas da câmera do braço. Já existem cortes em
-   `data/saida/maos/m3d/cenas/*.txt`: confira-os antes de usar.
-2. Dentro da cena do quadro do dono, siga pontos do braço (Lucas-Kanade do OpenCV), **com a
-   máscara da mão** (pontas e palma do detector) e **sem o painel da mão direita**.
+0. **Primeiro, o barato.** Meça o D2 **sem** o teste de câmera (grade fixa em todos os ataques)
+   e, à parte, o casamento do M8 com a **mão mascarada** (caixa das pontas e da palma, com folga).
+   São as linhas de base que a grade quadro a quadro precisa vencer.
+1. Não há corte de cena nos 4 vídeos, há deriva. Se usar `data/saida/maos/m3d/cenas/*.txt`,
+   confira os cortes no quadro antes.
+2. Quadro a quadro, a partir do quadro do dono, siga pontos do braço (Lucas-Kanade do
+   OpenCV), **com a máscara da mão** (pontas e palma do detector) e **sem o painel da mão direita**.
 3. Ajuste uma homografia por quadro e valide:
    - colinearidade das bordas;
    - razões dos trastes pela regra das 12 notas, com a mesma tolerância da projetiva da rodada
@@ -990,6 +1015,10 @@ A sessão principal remede o número antes de integrar e consolida o `ESTADO.md`
    - **A câmera não corta de cena: ela deriva.** No noturno o braço desce cerca de 60 px em 5 min;
      na lacrimosa sobe de +38 para −3. No retrato e no glimpse ela fica parada, e o score baixo vem
      da mão.
+   - **Marcados pelo dono em 2026-10-15**, os 8 com braço, nut e 14–15 trastes. Observação dele:
+     não há ponto fixo na tela, porque violão e violonista se mexem; o braço tem de ser analisado
+     quadro a quadro. Medido nas marcas: o deslocamento é quase todo perpendicular ao braço (até
+     2,4 cordas), e ao longo do braço a grade fixa erra ≤ 0,16 casa (tabela na B3).
 2. **Corpus externo (DadaGP): sim**, como A3b, só depois da A3 (seção 7).
 3. **Critérios de aceite: confirmados como estão.** Estão **congelados**: mudar um limiar depois
    de ver o resultado invalida a frente.
