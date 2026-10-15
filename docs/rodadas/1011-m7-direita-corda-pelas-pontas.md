@@ -42,3 +42,15 @@ cordas; e o `t_ini` da tablatura pode não coincidir com o ataque real (marcador
 áudio) — com 5 quadros em −0,20…+0,07 s, um atraso de ~0,1–0,3 s esconde o gesto. Antes de
 outro preditor: medir o **alinhamento temporal** (energia de movimento quadro a quadro no
 painel × tempos das notas) para saber se o gesto aparece e com que atraso.
+
+## Adendo — alinhamento temporal (`tab/maos_direita_tempo.py`)
+
+Energia de movimento quadro a quadro no painel da direita (29,97 fps, sem detector) × tempos
+das notas, 3 trechos de 20 s por vídeo. Pico da correlação cruzada em **+0,10 a +0,23 s**
+(11 de 12 trechos com atraso ≥ 0; r 0,11–0,23; percentil contra embaralhamento 60–100). A
+média sincronizada tem pico claro em +0,13 s no lacrimosa e no glimpse, +0,23 s no noturno e
+platô +0,1…+0,2 s no retrato (`data/saida/maos/m7/tempo.png`).
+
+**O gesto vem ~0,1–0,2 s DEPOIS do `t_ini` da tablatura.** A janela da fase B (−0,20 … +0,07)
+olhava quase toda ANTES do gesto — isso explica, ao menos em parte, a falta de sinal. Refazer a
+fase B com a janela deslocada para depois do `t_ini`.
