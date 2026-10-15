@@ -36,6 +36,7 @@ import argparse
 import datetime
 import http.server
 import json
+import math
 import os
 import random
 import re
@@ -1145,6 +1146,25 @@ def painel_com_caixas(
     return max(0, x0), max(0, y0), min(forma[1], x1), min(forma[0], y1)
 
 
+#: Folga, em passos, ACIMA da corda 1 no recorte da tela. Os arcos de ligadura da corda 1
+#: sobem acima da linha e sumiam do recorte (``painel_com_caixas`` só olha as caixas).
+FOLGA_ACIMA_PASSOS = 1.5
+
+
+def folga_acima_da_corda1(rect: Retangulo, passo: float) -> Retangulo:
+    """Sobe o topo do painel ``FOLGA_ACIMA_PASSOS`` passos, para caber o arco da corda 1.
+
+    Args:
+        rect: painel no quadro, ``(x0, y0, x1, y1)``.
+        passo: distância entre cordas, em px.
+
+    Returns:
+        O mesmo painel com ``y0`` menor em ``ceil(1,5 * passo)`` px, nunca abaixo de 0.
+    """
+    x0, y0, x1, y1 = rect
+    return x0, max(0, y0 - math.ceil(FOLGA_ACIMA_PASSOS * passo)), x1, y1
+
+
 def ler_notas(cand: Candidato, modelo, rotulos, dev, discriminador) -> dict:
     """Pré-leitura de uma tela: algarismos viram nota, o resto vira ``nao_nota``.
 
@@ -1262,6 +1282,7 @@ def preparar(
         )
         caixas = [n["caixa"] for n in pre["notas"] + pre["nao_nota"]]
         rect = painel_com_caixas(rect, caixas, forma)
+        rect = folga_acima_da_corda1(rect, pre["passo"])
         miolo = recortar(tela.melhor_quadro, rect)
         ampliada = cv2.resize(
             miolo, None, fx=ESCALA_TELA, fy=ESCALA_TELA, interpolation=cv2.INTER_CUBIC
@@ -1564,6 +1585,7 @@ def completar(
     for p in paginas:
         caixas = [n["caixa"] for n in p["notas"] + p["nao_nota"]] + caixas_v1[p["id"]]
         rect = painel_com_caixas(p["painel"], caixas, quadros[p["id"]].shape)
+        rect = folga_acima_da_corda1(rect, p["passo"])
         miolo = recortar(quadros[p["id"]], rect)
         ampliada = cv2.resize(
             miolo, None, fx=ESCALA_TELA, fy=ESCALA_TELA, interpolation=cv2.INTER_CUBIC
@@ -1915,6 +1937,16 @@ function marcarTecnica(el, n) {  /* técnicas marcadas pelo dono, em roxo, depoi
   if (n.tecnica && n.tecnica.length) el.append(h("sup", {class: "tec"}, " " + n.tecnica.join(" ")));
 }
 function estiloCaixa(r) { return `left:${r.left}%;top:${r.top}%;width:${r.width}%;height:${r.height}%`; }
+/* Largura/altura naturais no atributo: sem isso a moldura tem 2 px até a PNG decodificar
+   (imagem de 3504 px) e o editor, em % dela, aparece na borda esquerda, longe do clique. */
+function imagemTela(tp) {
+  return h("img", {src: "/" + tp.arquivo, width: (tp.painel[2] - tp.painel[0]) * tp.escala, height: (tp.painel[3] - tp.painel[1]) * tp.escala, draggable: "false"});
+}
+function imagemInstante(ip) {  /* o recorte de instante já está na escala 1 do quadro */
+  return h("img", {src: "/" + ip.arquivo, width: ip.recorte[2] - ip.recorte[0], height: ip.recorte[3] - ip.recorte[1], draggable: "false"});
+}
+/* Editor preso à área da moldura: não sai pela direita (nem pela esquerda). */
+function posicaoEditor(r) { return `left:max(0px,min(${r.left}%,calc(100% - min(560px,90vw))));`; }
 
 let EDITAR = null;  /* id da nota com o editor aberto sobre a imagem */
 let IGNORAR_CLIQUE = false;  /* o clique que fechou o editor não acrescenta nota */
@@ -1953,7 +1985,7 @@ function abrirEditor(mold, tp, te, n, r) {
       const el = document.querySelector(`[data-rotulo="${n.id}"]`); if (el) pintarRotulo(el, tp, n);
       campo.focus();
     }}, k));
-  const ed = h("div", {class: "editor", style: `left:${r.left}%;top:calc(${r.top + r.height}% + 8px)`},
+  const ed = h("div", {class: "editor", style: `${posicaoEditor(r)}top:calc(${r.top + r.height}% + 8px)`},
     h("span", {class: "suave"}, "corda " + n.corda), campo, acao, h("span", {class: "suave"}, "técnica:"), tecs);
   mold.append(ed);
   campo.focus(); campo.select();
@@ -1982,7 +2014,7 @@ function abrirEditorRegiao(mold, tp, te, r) {
   const obs = h("input", {value: r.obs || "", placeholder: "observação", style: "width:10em", oninput: ev => { r.obs = ev.target.value; atualizar(); },
     onkeydown: ev => { if (ev.key === "Enter" || ev.key === "Escape") fecharEditor(); }});
   const apagar = h("button", {onclick: () => { te.regioes.splice(te.regioes.indexOf(r), 1); mudou(); fecharEditor(); }}, "apagar região");
-  mold.append(h("div", {class: "editor", style: `left:${p.left}%;top:calc(${p.top + p.height}% + 8px)`},
+  mold.append(h("div", {class: "editor", style: `${posicaoEditor(p)}top:calc(${p.top + p.height}% + 8px)`},
     h("span", {class: "suave"}, `cordas ${Math.min(r.corda_ini, r.corda_fim)}–${Math.max(r.corda_ini, r.corda_fim)}`), tecs, obs, apagar));
 }
 
@@ -1990,10 +2022,10 @@ function desenharTela() {
   const c = document.getElementById("conteudo"); c.replaceChildren();
   if (E.tela_atual === null) { c.append("Sem telas."); return; }
   const tp = telaPre(E.tela_atual), te = telaEst(E.tela_atual);
-  const mold = h("div", {class: "moldura"}, h("img", {src: "/" + tp.arquivo, draggable: "false"}));
+  const mold = h("div", {class: "moldura"}, imagemTela(tp));
   tp.nao_nota.forEach(n => { const r = caixaDe(tp, n); mold.append(h("div", {class: "caixa nao", style: estiloCaixa(r), title: "não é nota: " + n.casa})); });
   /* cópia logo abaixo, alinhada: a mesma faixa apagada com a leitura em cima de cada nota */
-  const copia = h("div", {class: "moldura copia"}, h("img", {src: "/" + tp.arquivo, draggable: "false"}));
+  const copia = h("div", {class: "moldura copia"}, imagemTela(tp));
   if (!te.regioes) te.regioes = [];
   if (MODO_REGIAO) mold.classList.add("modo-regiao");
   te.regioes.forEach(rg => {
@@ -2006,7 +2038,7 @@ function desenharTela() {
   mold.addEventListener("mousedown", ev => {  /* modo região: arrastar desenha o retângulo */
     if (!MODO_REGIAO || ev.button !== 0 || ev.target.closest(".editor, .regiao")) return;
     ev.preventDefault();
-    const rc = mold.getBoundingClientRect();
+    const rc = mold.querySelector("img").getBoundingClientRect();
     if (rc.width < 50) return;
     const fr = e => [Math.min(1, Math.max(0, (e.clientX - rc.left) / rc.width)), Math.min(1, Math.max(0, (e.clientY - rc.top) / rc.height))];
     const [ax, ay] = fr(ev);
@@ -2037,7 +2069,7 @@ function desenharTela() {
     if (IGNORAR_CLIQUE) { IGNORAR_CLIQUE = false; return; }
     if (MODO_REGIAO) return;
     if (ev.target.closest(".editor")) return;
-    const rc = mold.getBoundingClientRect();
+    const rc = mold.querySelector("img").getBoundingClientRect();
     if (rc.width < 50) return;  /* imagem ainda não carregou */
     const fx = (ev.clientX - rc.left) / rc.width, fy = (ev.clientY - rc.top) / rc.height;
     const xImg = fx * (tp.painel[2] - tp.painel[0]) * tp.escala, yImg = fy * (tp.painel[3] - tp.painel[1]) * tp.escala;
@@ -2087,14 +2119,14 @@ function desenharInstante() {
   const k = E.inst_atual, ie = E.instantes[k], ip = PRE.instantes[k];
   if (!ie) { c.append("Sem instantes."); return; }
   const v2 = ie.tela_confirmada !== undefined;
-  const mold = h("div", {class: "moldura"}, h("img", {src: "/" + ip.arquivo, draggable: "false"}));
+  const mold = h("div", {class: "moldura"}, imagemInstante(ip));
   const w = ip.recorte[2] - ip.recorte[0];
   if (ie.estado === "coluna") mold.append(h("div", {class: "coluna", style: `left:${(ie.coluna_x_quadro - ip.recorte[0]) / w * 100}%`}));
   const avancar = () => { OUTRA = false; if (E.inst_atual < E.instantes.length - 1) E.inst_atual++; desenhar(); };
   mold.addEventListener("click", ev => {
     if (IGNORAR_CLIQUE) { IGNORAR_CLIQUE = false; return; }
     if (ev.target.closest(".editor")) return;
-    const rc = mold.getBoundingClientRect(); if (rc.width < 50) return;
+    const rc = mold.querySelector("img").getBoundingClientRect(); if (rc.width < 50) return;
     const fx = (ev.clientX - rc.left) / rc.width;
     ie.estado = "coluna"; ie.coluna_x_quadro = Math.round(cliqueParaQuadro(fx * w * ip.escala, ip.escala, ip.recorte[0]) * 10) / 10;
     if (ie.tela == null) ie.tela = ip.tela_sugerida;
@@ -2121,7 +2153,7 @@ function desenharInstante() {
   if (ie.estado === "sem_tablatura") {
     lado.append(h("div", {class: "suave"}, "sem tablatura: não há página a confirmar."));
   } else if (tp) {
-    const mp = h("div", {class: "moldura", style: "cursor:default"}, h("img", {src: "/" + tp.arquivo, draggable: "false"}));
+    const mp = h("div", {class: "moldura", style: "cursor:default"}, imagemTela(tp));
     if (ie.estado === "coluna") mp.append(h("div", {class: "coluna", style: `left:${(ie.coluna_x_quadro - tp.painel[0]) / (tp.painel[2] - tp.painel[0]) * 100}%`}));
     lado.append(h("div", {class: "linha"}, h("b", {}, "Página " + tp.id), h("span", {class: "suave"}, "exibições: " + tp.exibicoes.map(e => Math.round(e[0]) + "-" + Math.round(e[1])).join(", ")),
       h("span", {class: ie.tela_confirmada ? "ok-txt" : "ruim-txt"}, ie.tela_confirmada ? "confirmada" : "a confirmar")), mp);
