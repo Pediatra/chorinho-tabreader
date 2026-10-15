@@ -54,3 +54,22 @@ platô +0,1…+0,2 s no retrato (`data/saida/maos/m7/tempo.png`).
 **O gesto vem ~0,1–0,2 s DEPOIS do `t_ini` da tablatura.** A janela da fase B (−0,20 … +0,07)
 olhava quase toda ANTES do gesto — isso explica, ao menos em parte, a falta de sinal. Refazer a
 fase B com a janela deslocada para depois do `t_ini`.
+
+## Adendo — fase B refeita com a janela depois do `t_ini`
+
+Mesmos 30 ataques + 30 controles por vídeo, só a janela muda: quadros em
+t + {0; 0,07; 0,13; 0,20; 0,27; 0,33} s. Saídas `*_depois*` em `data/saida/maos/m7/`.
+
+| vídeo | AUC máx. antes → depois | preditor antes → depois | base |
+| --- | --- | --- | --- |
+| retrato | 0,49 → 0,80 | 15 → 16 | 6 |
+| noturno | 0,36 → 0,60 | 7 → 16 | 9 |
+| lacrimosa | 0,66 → 0,74 | 9 → 14 | 8 |
+| glimpse | 0,70 → 0,72 | 16 → 17 | 17 |
+| total | — | 47 → **63/120** | 40/120 |
+
+O sinal de movimento aparece nos 4 vídeos; o preditor simples passa a base em 3 de 4
+(empata no glimpse). Ressalvas: 30 ataques por vídeo (intervalo largo); "acerto" = a corda
+prevista está entre as cordas do ataque (acorde conta como alvo largo, a base também); o
+controle (≥0,30 s de qualquer nota) mede em parte "tocando × parado"; cordas 5–6 do noturno e
+do glimpse ainda mal posicionadas no cavalete.

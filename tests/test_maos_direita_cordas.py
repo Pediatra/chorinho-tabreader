@@ -8,6 +8,8 @@ import pytest
 
 from tab.maos_direita_cordas import (
     CORES_PONTAS,
+    JANELA_AMPLA,
+    JANELA_CURTA,
     N_CORDAS,
     _filtro_de_linha,
     _picos_do_perfil,
@@ -23,6 +25,7 @@ from tab.maos_direita_cordas import (
     cresta_da_reta,
     desenhar_folha,
     deslocamento_entre_quadros,
+    deslocamentos_pares,
     deslocamentos_pontas,
     espessura_corda,
     instantes_de_controle,
@@ -420,3 +423,28 @@ def test_corda_mais_frequente_ignora_instantes_excluidos():
         {"corda": 1, "t_ini": 4.0},
     ]
     assert corda_mais_frequente(notas, [2.0, 3.0]) == 1
+
+
+def test_pares_consecutivos_pegam_o_maior_salto_e_o_quadro_anterior():
+    """O maior deslocamento sai do par (0,13 -> 0,20) e o quadro anterior é 0,13."""
+
+    def quadro(delta, x):
+        pts = [[0.0, 0.0] for _ in range(21)]
+        pts[8] = [x, 100.0]
+        return {"delta": delta, "direita": {"pts": pts}}
+
+    ataque = {
+        "t_ini": 1.0,
+        "cordas_tab": [],
+        "quadros": [
+            quadro(0.00, 10.0),
+            quadro(0.07, 11.0),
+            quadro(0.13, 12.0),
+            quadro(0.20, 40.0),
+            quadro(0.27, 41.0),
+        ],
+    }
+    pares = deslocamentos_pares(ataque, JANELA_AMPLA)
+    assert pares[8] == (28.0, pytest.approx(0.13))
+    curta = deslocamentos_pares(ataque, JANELA_CURTA)
+    assert curta[8] == (28.0, pytest.approx(0.13))

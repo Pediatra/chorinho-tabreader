@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import json
 import random
+from itertools import pairwise
 from pathlib import Path
 from typing import Any
 
@@ -1413,6 +1414,195 @@ def polegar_diagnostico(
         quadro = _quadro_do_delta(ataque, -0.07)
         if quadro is None or quadro["direita"] is None:
             continue
+        x, y = quadro["direita"]["pts"][4]
+        avaliados += 1
+        acertos += corda_mais_proxima((x, y), cordas) in tab
+    return {"avaliados": avaliados, "acertos": acertos}
+
+
+# ---------------------------------------------------------------------------------
+# Janela deslocada para depois do t_ini (fase B, rodada "depois")
+# ---------------------------------------------------------------------------------
+
+#: Quadros da janela deslocada, em segundos a partir do ``t_ini`` (o gesto vem depois).
+DELTAS_DEPOIS = (0.0, 0.07, 0.13, 0.20, 0.27, 0.33)
+
+#: Janela ampla (0,00 a 0,33 s) e curta (0,00 a 0,20 s) para os pares consecutivos.
+JANELA_AMPLA = (0.0, 0.33)
+JANELA_CURTA = (0.0, 0.20)
+
+
+def _quadros_na_janela(
+    ataque: dict[str, Any], janela: tuple[float, float]
+) -> list[dict[str, Any]]:
+    """Quadros de um ataque dentro da janela, em ordem de ``delta``.
+
+    Args:
+        ataque: ataque de ``registrar_ataque``.
+        janela: ``(inicio, fim)`` em segundos.
+
+    Returns:
+        Quadros com ``janela[0] <= delta <= janela[1]``, ordenados.
+    """
+    qs = [
+        q
+        for q in ataque["quadros"]
+        if janela[0] - 1e-9 <= q["delta"] <= janela[1] + 1e-9
+    ]
+    return sorted(qs, key=lambda q: q["delta"])
+
+
+def deslocamentos_pares(
+    ataque: dict[str, Any], janela: tuple[float, float] = JANELA_AMPLA
+) -> dict[int, tuple[float, float] | None]:
+    """Maior deslocamento de cada ponta entre pares de quadros consecutivos da janela.
+
+    Args:
+        ataque: ataque de ``registrar_ataque`` (quadros com ``delta`` e ``direita``).
+        janela: ``(inicio, fim)`` em segundos.
+
+    Returns:
+        ``ponto -> (deslocamento_px, delta_do_quadro_anterior)``, ou None se nenhum par
+        tem a mão direita nos dois quadros.
+    """
+    qs = _quadros_na_janela(ataque, janela)
+    saida: dict[int, tuple[float, float] | None] = dict.fromkeys(CORES_PONTAS)
+    for a, b in pairwise(qs):
+        if a["direita"] is None or b["direita"] is None:
+            continue
+        for ponto in CORES_PONTAS:
+            pa = np.array(a["direita"]["pts"][ponto], dtype=float)
+            pb = np.array(b["direita"]["pts"][ponto], dtype=float)
+            dist = round(float(np.hypot(*(pa - pb))), 1)
+            atual = saida[ponto]
+            if atual is None or dist > atual[0]:
+                saida[ponto] = (dist, a["delta"])
+    return saida
+
+
+def _maximos_pares(
+    eventos: list[dict[str, Any]], janela: tuple[float, float]
+) -> list[float]:
+    """Maior deslocamento entre as quatro pontas de cada evento, na janela."""
+    saida = []
+    for ev in eventos:
+        valores = [
+            v[0] for v in deslocamentos_pares(ev, janela).values() if v is not None
+        ]
+        if valores:
+            saida.append(max(valores))
+    return saida
+
+
+def sinal_ruido_pares(
+    ataques: list[dict[str, Any]],
+    controles: list[dict[str, Any]],
+    janela: tuple[float, float] = JANELA_AMPLA,
+) -> dict[str, Any]:
+    """Sinal x ruído com o deslocamento máximo por par de quadros consecutivos.
+
+    Args:
+        ataques: ataques de ``registrar_ataque`` na janela deslocada.
+        controles: controles de ``registrar_ataque`` na mesma janela.
+        janela: ``(inicio, fim)`` em segundos.
+
+    Returns:
+        ``{por_dedo, maximo}`` com ``ataque``, ``controle`` e ``auc`` em cada um.
+    """
+    por_dedo: dict[str, Any] = {}
+    for ponto in CORES_PONTAS:
+        a = [
+            d[ponto][0]
+            for d in (deslocamentos_pares(x, janela) for x in ataques)
+            if d[ponto]
+        ]
+        c = [
+            d[ponto][0]
+            for d in (deslocamentos_pares(x, janela) for x in controles)
+            if d[ponto]
+        ]
+        por_dedo[str(ponto)] = {
+            "ataque": _estatisticas(a),
+            "controle": _estatisticas(c),
+            "auc": auc(a, c),
+        }
+    ma = _maximos_pares(ataques, janela)
+    mc = _maximos_pares(controles, janela)
+    return {
+        "janela": list(janela),
+        "por_dedo": por_dedo,
+        "maximo": {
+            "ataque": _estatisticas(ma),
+            "controle": _estatisticas(mc),
+            "auc": auc(ma, mc),
+        },
+    }
+
+
+def preditor_ataque_pares(
+    ataque: dict[str, Any],
+    cordas: list[dict[str, Any]],
+    janela: tuple[float, float] = JANELA_AMPLA,
+) -> dict[str, Any] | None:
+    """Corda prevista: a ponta que mais se move, no quadro anterior ao maior salto.
+
+    Args:
+        ataque: ataque de ``registrar_ataque`` na janela deslocada.
+        cordas: cordas numeradas, no quadro inteiro (``a``, ``b``, ``c``).
+        janela: ``(inicio, fim)`` em segundos.
+
+    Returns:
+        ``{t_ini, dedo, delta_antes, corda_prevista, cordas_tab, acerto}``, ou None se
+        nenhum par tem a mão.
+    """
+    pares = deslocamentos_pares(ataque, janela)
+    validos = {k: v for k, v in pares.items() if v is not None}
+    if not validos:
+        return None
+    dedo = max(validos, key=lambda k: validos[k][0])
+    delta_antes = validos[dedo][1]
+    quadro = next(q for q in ataque["quadros"] if abs(q["delta"] - delta_antes) < 1e-9)
+    x, y = quadro["direita"]["pts"][dedo]
+    prevista = corda_mais_proxima((x, y), cordas)
+    tab = sorted({c["corda"] for c in ataque["cordas_tab"]})
+    return {
+        "t_ini": ataque["t_ini"],
+        "dedo": dedo,
+        "delta_antes": delta_antes,
+        "corda_prevista": prevista,
+        "cordas_tab": tab,
+        "acerto": prevista in tab,
+    }
+
+
+def polegar_pares(
+    ataques: list[dict[str, Any]],
+    cordas: list[dict[str, Any]],
+    janela: tuple[float, float] = JANELA_AMPLA,
+) -> dict[str, int]:
+    """Diagnóstico do polegar na janela deslocada.
+
+    Posição do polegar (ponta 4) no quadro anterior ao maior salto do próprio polegar; a
+    corda mais próxima acerta se está entre as cordas da tablatura. Só entram os ataques
+    com nota nas cordas 4, 5 ou 6.
+
+    Args:
+        ataques: ataques de ``registrar_ataque`` na janela deslocada.
+        cordas: cordas numeradas (``a``, ``b``, ``c``).
+        janela: ``(inicio, fim)`` em segundos.
+
+    Returns:
+        ``{avaliados, acertos}``.
+    """
+    avaliados = acertos = 0
+    for ataque in ataques:
+        tab = {c["corda"] for c in ataque["cordas_tab"]}
+        if not tab & {4, 5, 6}:
+            continue
+        par = deslocamentos_pares(ataque, janela)[4]
+        if par is None:
+            continue
+        quadro = next(q for q in ataque["quadros"] if abs(q["delta"] - par[1]) < 1e-9)
         x, y = quadro["direita"]["pts"][4]
         avaliados += 1
         acertos += corda_mais_proxima((x, y), cordas) in tab

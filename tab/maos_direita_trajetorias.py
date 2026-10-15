@@ -26,7 +26,10 @@ import numpy as np
 from .caminhos import MAOS_M7, acervo
 from .maos_detector import DetectorMaos
 from .maos_direita_cordas import (
+    DELTAS_DEPOIS,
     DELTAS_S,
+    JANELA_AMPLA,
+    JANELA_CURTA,
     N_ATAQUES,
     N_FOLHA,
     N_QUADROS_CORDAS,
@@ -50,11 +53,14 @@ from .maos_direita_cordas import (
     mao_direita_no_painel,
     mascara_de_caixas,
     polegar_diagnostico,
+    polegar_pares,
     preditor_ataque,
+    preditor_ataque_pares,
     refinar_cordas,
     resumo_deslocamentos,
     rotulo_ataque,
     sinal_ruido,
+    sinal_ruido_pares,
     texto_deslocamentos,
 )
 from .maos_padroes_preparar import VIDEOS
@@ -68,6 +74,7 @@ def registrar_ataque(
     t: float,
     notas: list[dict[str, Any]],
     painel: tuple[int, int, int, int],
+    deltas: tuple[float, ...] = DELTAS_S,
 ) -> dict[str, Any]:
     """Roda o detector nos quadros em volta de um ataque e guarda a mão direita.
 
@@ -83,7 +90,7 @@ def registrar_ataque(
         ``maos`` (todas, sem filtro) e ``direita`` (a mão no painel, ou None).
     """
     quadros = []
-    for delta in DELTAS_S:
+    for delta in deltas:
         t_quadro = round(max(t + delta, 0.0), 3)
         achado = det.detectar(quadro_bgr(video, t_quadro), None)
         maos = [mao_para_registro(m) for m in achado["maos"]]
@@ -412,6 +419,149 @@ def etapa_preditor(nome: str) -> dict[str, Any]:
     return resultado
 
 
+def etapa_depois(dispositivo: str, n: int) -> dict[str, Any]:
+    """Janela deslocada (GPU): ataques e controles nos mesmos instantes da fase B.
+
+    Grava ``trajetorias_depois_<nome>.json`` e ``trajetorias_controle_depois_<nome>.json``
+    para os quatro vídeos, numa só execução do detector.
+
+    Args:
+        dispositivo: ``cuda`` ou ``cpu``.
+        n: quantos ataques e quantos controles por vídeo.
+
+    Returns:
+        ``{video: {ataques, controles}}`` com os quadros de ``DELTAS_DEPOIS``.
+    """
+    det = DetectorMaos(dispositivo)
+    saida: dict[str, Any] = {}
+    for nome in NOMES_VIDEOS:
+        cordas_json = json.loads(
+            (MAOS_M7 / f"cordas_{nome}.json").read_text(encoding="utf-8")
+        )
+        painel = tuple(cordas_json["painel"])
+        video, produto = _entrada_do_video(nome)
+        notas = json.loads(produto.read_text(encoding="utf-8"))["notas"]
+        instantes = instantes_distintos(notas)
+        ataques_t = ataques_sorteados(instantes, n, SEMENTE)
+        controles_t = instantes_de_controle(
+            instantes, instantes[0], instantes[-1], n, SEMENTE
+        )
+        ataques, controles = [], []
+        for i, t in enumerate(ataques_t, start=1):
+            ataques.append(
+                registrar_ataque(det, video, t, notas, painel, DELTAS_DEPOIS)
+            )
+            print(f"{nome}: ataque depois {i}/{len(ataques_t)}", flush=True)
+        for i, t in enumerate(controles_t, start=1):
+            controles.append(
+                registrar_ataque(det, video, t, notas, painel, DELTAS_DEPOIS)
+            )
+            print(f"{nome}: controle depois {i}/{len(controles_t)}", flush=True)
+        _gravar(
+            MAOS_M7 / f"trajetorias_depois_{nome}.json",
+            {
+                "video": nome,
+                "semente": SEMENTE,
+                "deltas": list(DELTAS_DEPOIS),
+                "painel": list(painel),
+                "cordas": cordas_json["cordas"],
+                "ataques": ataques,
+            },
+        )
+        _gravar(
+            MAOS_M7 / f"trajetorias_controle_depois_{nome}.json",
+            {
+                "video": nome,
+                "semente": SEMENTE,
+                "deltas": list(DELTAS_DEPOIS),
+                "painel": list(painel),
+                "controles": controles,
+            },
+        )
+        saida[nome] = {"ataques": ataques, "controles": controles}
+    return saida
+
+
+def etapa_sinal_depois() -> dict[str, Any]:
+    """Sinal x ruído na janela deslocada, nas duas janelas, grava ``sinal_ruido_depois``.
+
+    Returns:
+        ``{video: {ampla, curta}}`` (ampla = 0,00..0,33 s; curta = 0,00..0,20 s).
+    """
+    saida = {}
+    for nome in NOMES_VIDEOS:
+        traj = json.loads(
+            (MAOS_M7 / f"trajetorias_depois_{nome}.json").read_text(encoding="utf-8")
+        )
+        ctrl = json.loads(
+            (MAOS_M7 / f"trajetorias_controle_depois_{nome}.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        saida[nome] = {
+            "ampla": sinal_ruido_pares(
+                traj["ataques"], ctrl["controles"], JANELA_AMPLA
+            ),
+            "curta": sinal_ruido_pares(
+                traj["ataques"], ctrl["controles"], JANELA_CURTA
+            ),
+        }
+        for rot, r in saida[nome].items():
+            m = r["maximo"]
+            print(
+                f"{nome} {rot} maximo AUC={m['auc']} ataque={m['ataque']} controle={m['controle']}",
+                flush=True,
+            )
+            for dedo, v in r["por_dedo"].items():
+                print(f"   {dedo}: AUC={v['auc']}", flush=True)
+    _gravar(MAOS_M7 / "sinal_ruido_depois.json", saida)
+    return saida
+
+
+def etapa_preditor_depois(nome: str) -> dict[str, Any]:
+    """Preditor e base na janela deslocada, nas duas janelas, por vídeo.
+
+    Args:
+        nome: chave do vídeo.
+
+    Returns:
+        Resultado gravado em ``preditor_depois_<nome>.json``.
+    """
+    cordas_json = json.loads(
+        (MAOS_M7 / f"cordas_{nome}.json").read_text(encoding="utf-8")
+    )
+    traj = json.loads(
+        (MAOS_M7 / f"trajetorias_depois_{nome}.json").read_text(encoding="utf-8")
+    )
+    _, produto = _entrada_do_video(nome)
+    notas = json.loads(produto.read_text(encoding="utf-8"))["notas"]
+    cordas = cordas_json["cordas"]
+    ataques = traj["ataques"]
+    base = corda_mais_frequente(notas, [a["t_ini"] for a in ataques])
+    resultado: dict[str, Any] = {"video": nome, "base_corda": base}
+    for rot, janela in (("ampla", JANELA_AMPLA), ("curta", JANELA_CURTA)):
+        previsoes = [
+            p
+            for p in (preditor_ataque_pares(a, cordas, janela) for a in ataques)
+            if p is not None
+        ]
+        resultado[rot] = {
+            "avaliados": len(previsoes),
+            "acertos_preditor": sum(p["acerto"] for p in previsoes),
+            "acertos_base": sum(base in p["cordas_tab"] for p in previsoes),
+            "polegar": polegar_pares(ataques, cordas, janela),
+            "previsoes": previsoes,
+        }
+        r = resultado[rot]
+        print(
+            f"{nome} {rot}: avaliados={r['avaliados']} preditor={r['acertos_preditor']} "
+            f"base={r['acertos_base']} (corda {base}) polegar={r['polegar']}",
+            flush=True,
+        )
+    _gravar(MAOS_M7 / f"preditor_depois_{nome}.json", resultado)
+    return resultado
+
+
 def main() -> None:
     """Roda as etapas do M7 e grava as saídas em ``MAOS_M7``."""
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
@@ -426,6 +576,9 @@ def main() -> None:
             "preditor",
             "folha",
             "tudo",
+            "depois",
+            "sinal_depois",
+            "preditor_depois",
         ],
         default="tudo",
     )
@@ -436,6 +589,12 @@ def main() -> None:
     nomes = args.video or list(NOMES_VIDEOS)
     if args.etapa == "sinal":
         etapa_sinal()
+        return
+    if args.etapa == "depois":
+        etapa_depois(args.dispositivo, args.ataques)
+        return
+    if args.etapa == "sinal_depois":
+        etapa_sinal_depois()
         return
     for nome in nomes:
         if args.etapa in ("cordas", "tudo"):
@@ -454,6 +613,8 @@ def main() -> None:
             etapa_controle(nome, args.dispositivo, args.ataques)
         if args.etapa == "preditor":
             etapa_preditor(nome)
+        if args.etapa == "preditor_depois":
+            etapa_preditor_depois(nome)
         if args.etapa in ("folha", "tudo"):
             etapa_folha(nome)
 
