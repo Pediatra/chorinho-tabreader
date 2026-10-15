@@ -502,7 +502,11 @@ def medir_trecho(
 
 
 def desenhar_grafico(
-    curvas: dict[str, np.ndarray], lags_s: np.ndarray, caminho: Path
+    curvas: dict[str, np.ndarray],
+    lags_s: np.ndarray,
+    caminho: Path,
+    titulo: str = "media sincronizada, painel inteiro (+-0.5 s), por video",
+    eixo_x: str = "atraso do movimento em relacao ao t_ini (s)",
 ) -> None:
     """Gráfico das médias sincronizadas, uma curva por vídeo, com linha em 0 s.
 
@@ -510,6 +514,8 @@ def desenhar_grafico(
         curvas: média sincronizada por nome de vídeo, do mesmo tamanho de ``lags_s``.
         lags_s: atrasos, em segundos, no eixo x.
         caminho: arquivo PNG de saída.
+        titulo: texto do alto do gráfico (ASCII, a fonte do OpenCV não tem acento).
+        eixo_x: texto do eixo x (ASCII).
     """
     largura, altura = 1000, 600
     esq, dir_, topo, base = 90, 260, 50, 70
@@ -542,7 +548,7 @@ def desenhar_grafico(
     cv2.line(img, (px(0.0), topo), (px(0.0), altura - base), (0, 0, 0), 2)
     cv2.putText(
         img,
-        "atraso do movimento em relacao ao t_ini (s)",
+        eixo_x,
         (esq + 120, altura - 20),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.6,
@@ -560,7 +566,7 @@ def desenhar_grafico(
     )
     cv2.putText(
         img,
-        "media sincronizada, painel inteiro (+-0.5 s), por video",
+        titulo,
         (esq, 30),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.6,
