@@ -132,6 +132,32 @@ def test_conjunto_de_barras_grossas_nao_limita_o_recorte() -> None:
     assert acima == Vizinha(60.0, False)
 
 
+def test_candidatos_ignoram_estrutura_de_baixa_cobertura() -> None:
+    """Fileira de vigas (cobertura 0,3) acima da pauta não limita; com cobertura 0,95, sim."""
+    viga = Estrutura(y=30.0, x0=200, x1=1000, cobertura=0.3)
+    acima, _ = candidatos_verticais(_pauta(), [viga], None)
+    assert acima is None
+    linha = Estrutura(y=30.0, x0=200, x1=1000, cobertura=0.95)
+    acima, _ = candidatos_verticais(_pauta(), [linha], None)
+    assert acima == Vizinha(30.0, False)
+
+
+def test_estruturas_horizontais_mede_cobertura() -> None:
+    """Linha contínua sai com cobertura > 0,9; quatro segmentos de 100 px separados por
+    buracos de 300 px (cobertura ~0,31), como uma fileira de vigas, saem abaixo de 0,6."""
+    quadro = np.full((ALTURA, LARGURA), 255, np.uint8)
+    cv2.line(quadro, (200, 200), (1700, 200), 0, 2)
+    for x in (200, 600, 1000, 1400):
+        cv2.line(quadro, (x, 600), (x + 99, 600), 0, 2)
+    estruturas = estruturas_horizontais(quadro)
+    continua = [e for e in estruturas if abs(e.y - 200) <= 2]
+    assert len(continua) == 1
+    assert continua[0].cobertura > 0.9
+    segmentos = [e for e in estruturas if abs(e.y - 600) <= 2]
+    assert len(segmentos) == 1
+    assert segmentos[0].cobertura < 0.6
+
+
 def test_candidatos_marcam_linha_de_outra_pauta() -> None:
     """A linha de cima da pauta de baixo (200) é marcada como pauta, não como tablatura."""
     estruturas = _faixas_longas(

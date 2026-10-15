@@ -5279,6 +5279,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - O `<stem>.partitura.json` ganha `fifths`, `fifths_origem` e `compassos` por pauta, e `metodo` (`altura` ou `x`) em cada par. Quando o x desmente o par pela altura, o evento pega a coluna livre mais próxima a até uma entrelinha: Gym tela 10 vai de 0 para 10 de 14 pares conferidos; total 433 de 438. Notas certas iguais (723/767). Gym tela 12 tem `fifths` 1, provavelmente errado; `fracao` só na primeira pauta de cada vídeo.
 
+## Partitura — 2026-10-15 — fileira de vigas não corta mais o topo do recorte (rodada 3022)
+
+- Estrutura horizontal só limita o recorte se cobrir pelo menos 60% da sua extensão (`COBERTURA_MIN_VIZINHA`). Vigas cobrem 24–32%, linha de pestana ~55%, linha de verdade 94–100%. Caixas mudam em 40/162 recortes sem produto, 0/19 de produto e 1/21 do gabarito (R16, que não foi refeito). Nos 40 recortes, os eventos foram de 668 para 742, com o mesmo Audiveris ok (30). Ver `docs/rodadas/3022-viga-nao-corta-o-recorte.md`.
+
 ## Partitura — 2026-10-15 — piloto sem produto: 11 vídeos lidos (rodada 3021)
 
 - `ler --pasta` nos 11 vídeos do piloto: Audiveris ok em **143/162** recortes, 3.641 eventos. As 19 falhas são "No system found". A faixa amarela do cursor explica a maioria: com faixa, 12/36 falham (33%); sem faixa, 7/126 (6%). O mela concentra 16 falhas. A regra de armadura da 3020 não mudou nada nos 8 novos. Ver `docs/rodadas/3021-piloto-sem-produto-11-videos.md`.

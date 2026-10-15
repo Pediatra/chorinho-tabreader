@@ -102,6 +102,12 @@ FOLGA_MIN_PX = 3.0
 #: pauta. Linha de tablatura e de outra pauta passam; barra de nota e linha suplementar não.
 FRACAO_ESTRUTURA_VIZINHA = 0.5
 
+#: Estrutura horizontal só limita o recorte se tem tinta em pelo menos esta fração das
+#: colunas da sua extensão. Linha de tablatura e borda de painel cobrem 94–100%; uma
+#: fileira de vigas de colcheia separadas cobre 24–32% e a linha de pestana ("III ——")
+#: cerca de 55%, e não podem cortar o topo da pauta (rodada 3022).
+COBERTURA_MIN_VIZINHA = 0.6
+
 #: Estrutura mais grossa que isto (em entrelinhas) não é linha: é um conjunto de barras de
 #: grupo de notas, que sobe da pauta e não pode cortar o recorte. Linha de pauta ou de
 #: tablatura tem 2 a 3 px; a barra da R21 do guitarous tem 23 px com entrelinha de 9,75.
@@ -398,12 +404,15 @@ class Estrutura:
         x1: última coluna com tinta da faixa.
         altura: número de linhas de pixel da faixa (linha de pauta ou tablatura tem poucos
             px; um conjunto de barras de grupo de notas tem muitos).
+        cobertura: fração das colunas entre ``x0`` e ``x1`` (inclusive) que têm tinta na
+            faixa (linha contínua perto de 1; fileira de vigas separadas, bem abaixo).
     """
 
     y: float
     x0: int
     x1: int
     altura: int = 1
+    cobertura: float = 1.0
 
 
 def _cinza(quadro: np.ndarray) -> np.ndarray:
@@ -453,13 +462,16 @@ def estruturas_horizontais(quadro: np.ndarray) -> list[Estrutura]:
     contagem = np.count_nonzero(aberta, axis=1)
     estruturas: list[Estrutura] = []
     for inicio, fim in _sequencias(np.flatnonzero(contagem >= FRAC_FRACA * largura)):
-        colunas = np.flatnonzero(aberta[inicio : fim + 1].any(axis=0))
+        tinta = aberta[inicio : fim + 1].any(axis=0)
+        colunas = np.flatnonzero(tinta)
+        cobertura = colunas.size / (colunas[-1] - colunas[0] + 1)
         estruturas.append(
             Estrutura(
                 y=(inicio + fim) / 2,
                 x0=int(colunas[0]),
                 x1=int(colunas[-1]),
                 altura=fim - inicio + 1,
+                cobertura=float(cobertura),
             )
         )
     return estruturas
@@ -597,9 +609,11 @@ def candidatos_verticais(
     ``FRACAO_ESTRUTURA_VIZINHA`` da extensão da pauta e no máximo
     ``FATOR_ESPESSURA_VIZINHA`` entrelinhas de espessura: barra de nota, linha suplementar,
     texto curto e conjunto de barras grossas não limitam o recorte; linha de tablatura e de
-    outra pauta, sim. O retângulo da tablatura do censo, quando existe, entra como uma
-    estrutura a mais (a base dele acima, o topo dele abaixo). Cada vizinha diz se é linha de outra pauta
-    (``de_pauta``), porque a regra de corte é diferente para cada caso.
+    outra pauta, sim. Estrutura com cobertura abaixo de ``COBERTURA_MIN_VIZINHA`` (fileira
+    de vigas, linha de pestana) também não limita. O retângulo da tablatura do censo,
+    quando existe, entra como uma estrutura a mais (a base dele acima, o topo dele abaixo).
+    Cada vizinha diz se é linha de outra pauta (``de_pauta``), porque a regra de corte é
+    diferente para cada caso.
 
     Args:
         pauta: a pauta do recorte.
@@ -616,7 +630,11 @@ def candidatos_verticais(
     minimo = FRACAO_ESTRUTURA_VIZINHA * (pauta.x1 - pauta.x0)
     grossura_maxima = FATOR_ESPESSURA_VIZINHA * pauta.entrelinha
     longas = [
-        e.y for e in estruturas if e.x1 - e.x0 >= minimo and e.altura <= grossura_maxima
+        e.y
+        for e in estruturas
+        if e.x1 - e.x0 >= minimo
+        and e.altura <= grossura_maxima
+        and e.cobertura >= COBERTURA_MIN_VIZINHA
     ]
     acima = [y for y in longas if y < pauta.ys[0] - folga]
     abaixo = [y for y in longas if y > pauta.ys[4] + folga]
