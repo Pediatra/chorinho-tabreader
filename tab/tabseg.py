@@ -333,6 +333,12 @@ ALTURA_MIN_PASSOS = 0.20
 MARGEM_SISTEMA_PASSOS = 1.0
 
 
+#: Fundo local mínimo (cinza 0–255) para o contraste local contar linha em
+#: ``extensao_das_linhas``. Papel e faixa amarela de destaque ficam acima de 200; o
+#: vídeo escuro em volta do papel da Gymnopédie fica abaixo de 100.
+FUNDO_CLARO_MINIMO = 150
+
+
 def extensao_das_linhas(
     roi: np.ndarray, linhas_y: list[int], espessura: int = 2, minimo: int = 4
 ) -> tuple[int, int]:
@@ -355,6 +361,16 @@ def extensao_das_linhas(
     O que separa é exigir que **quase todas** as cordas estejam presentes na mesma
     coluna — na tablatura as 6 linhas são contínuas, no braço não.
 
+    A linha conta se aparece no Otsu global **ou** no contraste local
+    (``_contraste_local``). Medido no kenneth acoustic (End of Beginning, t=52 s): a
+    faixa amarela que destaca o compasso tocado apaga as cordas no Otsu, o trecho se
+    partia nela e o painel começava em x=1011, onde a tablatura começa em x≈12 (100 de
+    303 notas do ouro perdidas). O contraste local só vale onde o fundo local é claro
+    (``FUNDO_CLARO_MINIMO``): na Gymnopédie (robert lunn, t=163 s) o papel branco fica
+    sobre o vídeo escuro, o contraste local achava "linha" no vídeo, o painel crescia
+    para fora do papel e, em alguns quadros, a escolha caía no braço do violão ou em
+    nada.
+
     Args:
         roi: recorte da faixa.
         linhas_y: y das linhas detectadas (relativas ao recorte).
@@ -368,12 +384,18 @@ def extensao_das_linhas(
     _, tinta = cv2.threshold(cinza, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     if tinta.mean() > 127:  # fundo claro: a linha é escura
         tinta = 255 - tinta
+    fechado = cv2.morphologyEx(
+        cinza, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (21, 21))
+    )
+    local = _contraste_local(cinza) & (fechado >= FUNDO_CLARO_MINIMO)
     contagem = np.zeros(roi.shape[1], dtype=np.int16)
+    contagem_local = np.zeros(roi.shape[1], dtype=np.int16)
     for ly in linhas_y:
         a, b = max(0, ly - espessura), min(tinta.shape[0], ly + espessura + 1)
         if b > a:
             contagem += (tinta[a:b, :] > 127).any(axis=0).astype(np.int16)
-    ativo = contagem >= minimo
+            contagem_local += local[a:b, :].any(axis=0).astype(np.int16)
+    ativo = (contagem >= minimo) | (contagem_local >= minimo)
     if not ativo.any():
         return 0, roi.shape[1]
     # maior trecho contíguo, tolerando buracos de até 2% da largura

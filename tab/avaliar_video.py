@@ -523,7 +523,9 @@ def avaliar(
         Notas e tempo saem com ``avaliavel: false`` e ``motivo`` quando a predição não
         tem ``x_quadro`` ou ``passo`` suficientes.
     """
+    original = ouro
     ouro = so_conferidas(ouro)
+    recortado = ouro is not original
     telas_ouro = ouro.get("telas", [])
     instantes = ouro.get("instantes", [])
     ids_ouro = [int(tela["id"]) for tela in telas_ouro]
@@ -542,7 +544,7 @@ def avaliar(
     total_pred = sum(len(t.notas) for t in predicao.telas)
     motivo = _motivo_nao_avaliavel(predicao)
     if motivo is None:
-        notas = _avaliar_notas(telas_ouro, mapa, predicao.telas)
+        notas = _avaliar_notas(telas_ouro, mapa, predicao.telas, recortado)
         tempo = _avaliar_tempo(instantes, mapa, predicao.telas, fps, telas_ouro)
     else:
         notas = {"avaliavel": False, "motivo": motivo}
@@ -994,17 +996,23 @@ def notas_distintas(notas: list[NotaPrevista]) -> list[NotaPrevista]:
 
 
 def _avaliar_notas(
-    telas_ouro: list[dict], mapa: dict[int, int | None], telas: list[TelaPrevista]
+    telas_ouro: list[dict],
+    mapa: dict[int, int | None],
+    telas: list[TelaPrevista],
+    recortado: bool = False,
 ) -> dict:
     """Mede casa e corda, por par de telas e no total.
 
     As notas entregues são contadas por nota distinta (``notas_distintas``), não por
-    entrada do JSON.
+    entrada do JSON. Com o ouro recortado às páginas conferidas (``so_conferidas``), a
+    tela prevista sem par pode ser uma página que o dono ainda não rotulou: as notas dela
+    saem do total (não são "inventadas") e ficam em ``entregues_fora_do_recorte``.
 
     Args:
         telas_ouro: telas do ouro (cada uma com ``id`` e ``notas``).
         mapa: resultado de ``casar_telas``.
         telas: telas da predição.
+        recortado: se o ouro foi recortado às páginas conferidas.
 
     Returns:
         Dicionário com ``por_tela``, ``previsoes_sem_par`` e ``total``.
@@ -1032,7 +1040,14 @@ def _avaliar_notas(
         for tid, previstas in previstas_por_id.items()
         if tid not in casadas_previstas and previstas
     ]
-    total = _somar_notas(por_tela, sem_par, telas_ouro, previstas_por_id)
+    if recortado:
+        fora = sum(p["entregues"] for p in sem_par)
+        dentro = {k: v for k, v in previstas_por_id.items() if k in casadas_previstas}
+        total = _somar_notas(por_tela, [], telas_ouro, dentro)
+    else:
+        fora = 0
+        total = _somar_notas(por_tela, sem_par, telas_ouro, previstas_por_id)
+    total["entregues_fora_do_recorte"] = fora
     return {
         "avaliavel": True,
         "motivo": None,
@@ -1259,7 +1274,14 @@ def _linhas_notas(notas: dict) -> list[str]:
         f"  perdidas {t['perdidas']} de {t['notas_ouro']} do ouro",
         f"  acerto de casa {t['casa_certa']} de {t['casadas']} casadas"
         f" = {_fmt_razao(t['acerto_casa'])}",
-    ]
+    ] + (
+        [
+            f"  ouro parcial: {t['entregues_fora_do_recorte']} notas entregues em telas"
+            " sem página conferida ficaram FORA da conta"
+        ]
+        if t.get("entregues_fora_do_recorte")
+        else []
+    )
 
 
 def _linhas_tempo(tempo: dict) -> list[str]:

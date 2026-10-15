@@ -13,6 +13,8 @@ import pytest
 
 from tab.avaliar_video import (
     NotaPrevista,
+    TelaPrevista,
+    _avaliar_notas,
     avaliar,
     casar_legado,
     casar_notas,
@@ -758,6 +760,20 @@ def test_so_conferidas_descarta_pagina_nao_conferida_e_seus_instantes():
     assert [t["id"] for t in recortado["telas"]] == [1]
     assert [i["t"] for i in recortado["instantes"]] == [0, 9]
     assert len(ouro["telas"]) == 2
+
+
+def test_ouro_parcial_nao_conta_tela_sem_par_como_inventada():
+    """Ouro recortado: notas de tela prevista sem página conferida ficam fora da conta."""
+    telas_ouro = [{"id": 1, "notas": [{"corda": 1, "casa": 3, "x_centro_quadro": 100}]}]
+    telas = [
+        TelaPrevista(1, 16.0, [(0.0, 5.0)], False, [NotaPrevista(1, 3, 100.0, None)]),
+        TelaPrevista(2, 16.0, [(5.0, 9.0)], False, [NotaPrevista(2, 5, 50.0, None)]),
+    ]
+    inteiro = _avaliar_notas(telas_ouro, {1: 1}, telas)["total"]
+    parcial = _avaliar_notas(telas_ouro, {1: 1}, telas, recortado=True)["total"]
+    assert (inteiro["entregues"], inteiro["inventadas"]) == (2, 1)
+    assert (parcial["entregues"], parcial["inventadas"]) == (1, 0)
+    assert parcial["entregues_fora_do_recorte"] == 1
 
 
 def test_so_conferidas_mantem_ouro_v1_sem_marca():

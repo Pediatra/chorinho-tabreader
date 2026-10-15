@@ -5490,3 +5490,41 @@ Scripts e tabelas: `data/saida/n3/`, `data/saida/n4/`.
   - `tecnica` da nota vem preenchida pela rede, **sem validação**;
   - o leitor `rede` não grava `simbolo_cru`. É dívida: quem precisar do recorte cru usa
     `--leitor glifos`.
+
+## Tablatura — 2026-10-15 — fase 8: linhas sob faixa de destaque, e régua com ouro parcial
+
+- **Linhas sob a faixa amarela** (`tabseg.extensao_das_linhas`). No End of Beginning (kenneth
+  acoustic, t=52 s) a faixa amarela do compasso tocado apagava as cordas no Otsu. O painel
+  começava em x=1011, e a tablatura começa em x≈12. Agora a linha conta também pelo contraste
+  local, mas **só onde o fundo local é claro** (`FUNDO_CLARO_MINIMO = 150`).
+  - A primeira versão, sem a exigência de fundo claro, piorou a Gymnopédie. O papel fica
+    sobre vídeo escuro, o painel crescia para fora do papel e, em 163,4–163,6 s, a escolha caía
+    no braço ou em nada. A tela 13 ficava sem passo, e a régua recusava o vídeo inteiro.
+  - Fundo medido na linha da corda: papel 255, faixa amarela 241, vídeo escuro ≤ 75.
+  - 2 testes sintéticos. Cada um falha na versão que não tem o seu conserto (controle negativo
+    feito).
+- **Régua com ouro parcial** (`tab.avaliar_video`). Em EOB e Room 335 o ouro confere só
+  algumas páginas. As notas entregues em tela sem página conferida contavam como
+  "inventadas" (464 e 900). Agora ficam fora da conta, e o relatório diz quantas.
+- **8 ouros, leitor `rede`, modelo da dobra que não viu o vídeo** (`data/saida/fase8/linhas2/`):
+
+  | vídeo | precisão | revocação | casa | antes (revocação) |
+  | --- | --- | --- | --- | --- |
+  | retrato | 0,998 | 0,994 | 0,996 | igual |
+  | La Vie | 1,000 | 0,995 | 0,998 | igual |
+  | Greensleeves | 1,000 | 1,000 | 1,000 | igual |
+  | Gymnopédie | 0,951 | 0,931 | 0,932 | 0,934 (1 nota) |
+  | South American | 1,000 | 1,000 | 1,000 | igual |
+  | From This Place | 0,979 | 0,990 | 0,995 | igual |
+  | End of Beginning | 0,981 | **1,000** | 0,997 | **0,670** |
+  | Room 335 | 0,922 | 0,991 | 0,991 | igual |
+
+  - Esquema: 0 erros nos 8.
+  - CA-8: 66/71/68 de 72, sem mudança.
+  - O tempo do EOB continua 0/12 ("json sem tempo"): o marcador do kenneth não é lido. Pendente.
+- **Inventadas de Room 335 e From This Place, olhadas uma a uma**:
+  - Room 335: 25 de 27 são leitura errada (pausa com forma de "7", rótulo "TAB", setas de
+    palheta). 1 é nota que falta no ouro (tela 4, corda 3, um "1"), para o dono decidir.
+  - From This Place: 4 são a fórmula de compasso 3/4 em cinza. As outras ficam em volta de
+    algarismos pequenos de ligado ("h") e de "harm. 12".
+  - O gerador não tem essa pausa nem o 3/4 cinza. É lacuna de cobertura (regra 6).
