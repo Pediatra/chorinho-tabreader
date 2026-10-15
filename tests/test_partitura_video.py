@@ -4,13 +4,19 @@ import copy
 import json
 from pathlib import Path
 
+import cv2
+import numpy as np
 import pytest
 
 from tab import partitura_video
 from tab.musicxml import midi_da_corda
 from tab.partitura_avaliar import SEMITONS_ESCRITA
 from tab.partitura_pareamento import EventoPartitura, EventoTab, parear
+from tab.partitura_pauta import Pauta
 from tab.partitura_video import (
+    agrupar_paginas,
+    assinatura,
+    diferenca,
     eventos_do_produto,
     instante_da_tela,
     ler,
@@ -324,3 +330,99 @@ def test_reparear_nao_altera_as_entradas():
     assert novos is not pares
     assert (partitura, tab, pares) == antes
     assert novos[0]["par_tab"] == 1
+
+
+def _bits(*valores: int) -> np.ndarray:
+    """Assinatura de teste: vetor booleano com os bits dados."""
+    return np.array(valores, dtype=bool)
+
+
+_A = _bits(1, 1, 0, 0, 0, 0, 0, 0)
+_B = _bits(0, 0, 0, 0, 1, 1, 0, 0)
+_X = _bits(0, 0, 0, 0, 0, 0, 1, 1)
+
+
+def _amostras(
+    sequencia: list[np.ndarray | None],
+) -> list[tuple[float, np.ndarray | None]]:
+    """Amostras em t = 0, 1, 2... para uma sequência de assinaturas (``None`` vale)."""
+    return [(float(t), sinal) for t, sinal in enumerate(sequencia)]
+
+
+def test_diferenca_de_identicas_e_disjuntas():
+    """Iguais dão 0; disjuntas com tinta dão 1; duas vazias dão 0, sem divisão por zero."""
+    assert diferenca(_A, _A.copy()) == 0.0
+    assert diferenca(_A, _B) == 1.0
+    assert diferenca(np.zeros(8, bool), np.zeros(8, bool)) == 0.0
+
+
+def test_agrupar_paginas_com_repeticao():
+    """A A A B B A A: duas páginas; a primeira tem duas exibições, a segunda uma."""
+    paginas = agrupar_paginas(_amostras([_A, _A, _A, _B, _B, _A, _A]))
+    assert [p["pagina"] for p in paginas] == [1, 2]
+    assert paginas[0]["exibicoes"] == [{"t0": 0.0, "t1": 2.0}, {"t0": 5.0, "t1": 6.0}]
+    assert paginas[1]["exibicoes"] == [{"t0": 3.0, "t1": 4.0}]
+
+
+def test_agrupar_paginas_descarta_quadro_isolado():
+    """A A X A A: o X sozinho é um corte e some; as duas exibições de A ficam."""
+    paginas = agrupar_paginas(_amostras([_A, _A, _X, _A, _A]))
+    assert len(paginas) == 1
+    assert paginas[0]["exibicoes"] == [{"t0": 0.0, "t1": 1.0}, {"t0": 3.0, "t1": 4.0}]
+
+
+def test_agrupar_paginas_none_no_meio_separa_sequencias():
+    """Sem pauta (None) no meio, A A None A A vira duas exibições da mesma página."""
+    paginas = agrupar_paginas(_amostras([_A, _A, None, _A, _A]))
+    assert len(paginas) == 1
+    assert paginas[0]["exibicoes"] == [{"t0": 0.0, "t1": 1.0}, {"t0": 3.0, "t1": 4.0}]
+
+
+def test_agrupar_paginas_t_e_o_meio_da_exibicao_mais_longa():
+    """Com exibições de 2 s e 5 s da mesma página, ``t`` é o meio da de 5 s."""
+    sequencia = [_A, _A, _A, _B, _B, _A, _A, _A, _A, _A, _A]
+    paginas = agrupar_paginas(_amostras(sequencia))
+    assert paginas[0]["t"] == 7.5
+    assert paginas[1]["t"] == 3.5
+
+
+def test_agrupar_paginas_sem_amostras_validas():
+    """Vazio, ou só com ``None``, não tem página."""
+    assert agrupar_paginas([]) == []
+    assert agrupar_paginas(_amostras([None, None, None])) == []
+
+
+def _quadro_claro(largura: int = 400, altura: int = 300) -> np.ndarray:
+    """Quadro BGR branco com 5 linhas de pauta e um bloco preto (uma nota)."""
+    quadro = np.full((altura, largura, 3), 255, np.uint8)
+    for y in (100, 110, 120, 130, 140):
+        cv2.line(quadro, (50, y), (350, y), (0, 0, 0), 1)
+    cv2.rectangle(quadro, (200, 112), (212, 128), (0, 0, 0), -1)
+    return quadro
+
+
+_PAUTA_DE_TESTE = Pauta(ys=(100, 110, 120, 130, 140), entrelinha=10.0, x0=50, x1=350)
+
+
+def test_assinatura_sem_pauta_devolve_none():
+    """Sem pauta não há região a assinar."""
+    assert assinatura(_quadro_claro(), []) is None
+
+
+def test_assinatura_tem_forma_fixa_e_tinta():
+    """A assinatura tem 64 x 256 e marca a tinta (a nota) como verdadeira."""
+    sig = assinatura(_quadro_claro(), [_PAUTA_DE_TESTE])
+    assert sig is not None
+    assert sig.shape == (64, 256)
+    assert sig.dtype == bool
+    assert sig.any()
+
+
+def test_assinatura_fundo_escuro_igual_ao_claro_invertido():
+    """O mesmo conteúdo com fundo escuro dá a mesma assinatura (polaridade invertida)."""
+    claro = _quadro_claro()
+    escuro = 255 - claro
+    sig_claro = assinatura(claro, [_PAUTA_DE_TESTE])
+    sig_escuro = assinatura(escuro, [_PAUTA_DE_TESTE])
+    assert sig_claro is not None and sig_escuro is not None
+    assert np.array_equal(sig_claro, sig_escuro)

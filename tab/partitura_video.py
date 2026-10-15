@@ -32,10 +32,19 @@ e os eventos. Cada evento tem o par na tab (ou None) com ``metodo``: ``altura`` 
 pareamento por sequência de alturas vale, ``x`` quando a posição no quadro trocou o par
 (``reparear_por_x``).
 
+Etapa ``paginar``, para vídeos **sem** produto de tablatura: varre o vídeo inteiro a
+``QPS_PAGINAS``, reduz cada quadro a uma assinatura binária da região das pautas
+(``assinatura``) e agrupa os quadros estáveis em páginas (``agrupar_paginas``). Uma página
+é um trecho que fica parado e volta a aparecer nas repetições. Para cada página, lê o
+quadro no ponto médio da exibição mais longa e recorta todas as pautas dele. Saída, em
+``PASTA_SEM_PRODUTO / <slug>/recortes/``: ``P{pagina}{letra}.png`` por pauta (``P01a``,
+``P01b``...), ``contexto_PNN.jpg`` por página e ``indice.json``. Não grava produto nem as outras pastas.
+
 Uso:
     python -m tab.partitura_video recortar --produto CAMINHO [--produto CAMINHO ...]
     python -m tab.partitura_video ler --produto CAMINHO [--produto CAMINHO ...] [--ids T01,T02]
     python -m tab.partitura_video parear --produto CAMINHO [--produto CAMINHO ...]
+    python -m tab.partitura_video paginar --video CAMINHO [--video CAMINHO ...] [--pasta PASTA]
 
 A etapa ``ler`` roda dentro da imagem ``chorinho-partitura:dev``, em CPU, com
 ``--security-opt label=disable`` (obrigatório no host deste projeto):
@@ -49,12 +58,15 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import time
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import cv2
+import numpy as np
 
-from tab.caminhos import RAIZ, SAIDA
+from tab.caminhos import RAIZ, SAIDA, acervo
+from tab.leitor import info, quadro_em, quadros
 from tab.musicxml import midi_da_corda
 from tab.partitura_avaliar import SEMITONS_ESCRITA
 from tab.partitura_gabarito import ler_partitura
@@ -68,15 +80,22 @@ from tab.partitura_pareamento import (
     parear,
     x_dos_compassos,
 )
+from tab.partitura_pauta import Pauta, achar_pautas
 from tab.partitura_recortes import (
     FonteQuadro,
+    _tinta_escura,
     folha_contexto,
     ler_fonte,
     processar_quadro,
 )
+from tab.video import _slug
 
 #: Pasta de saída da etapa de recorte, uma subpasta por produto.
 PASTA_VIDEO = SAIDA / "partitura" / "video"
+
+#: Pasta da etapa ``paginar`` (vídeo sem produto). Fica separada de ``PASTA_VIDEO`` para
+#: o slug de um vídeo nunca cair na pasta de um produto e apagar os recortes dele.
+PASTA_SEM_PRODUTO = SAIDA / "partitura" / "sem_produto"
 
 #: Margem (em entrelinhas) acima e abaixo da pauta no recorte (condição x2_margem, 3003).
 MARGEM_ENTRELINHAS = 7.0
@@ -95,6 +114,31 @@ ESQUEMA_PARTITURA = "chorinho/partitura@1"
 
 #: Fator da imagem ampliada (condição ``x2``) em relação ao quadro, para o x do ``.omr``.
 ESCALA_X2 = 2.0
+
+#: Quadros por segundo da varredura de páginas (``paginar``). Um quadro por segundo basta:
+#: a tela fica parada por vários segundos entre uma página e a seguinte.
+QPS_PAGINAS = 1.0
+
+#: Distância máxima entre duas assinaturas para serem a mesma página, como fração dos
+#: pixels que diferem (``diferenca``). Uma sequência que sai desse limiar começa outra.
+LIMIAR_PAGINA = 0.25
+
+#: Amostras mínimas de uma sequência estável para contar como exibição de página. Corta
+#: viradas, fades e quadros isolados.
+MINIMO_AMOSTRAS = 2
+
+#: Largura, em px, da assinatura da região das pautas.
+LARGURA_ASSINATURA = 256
+
+#: Altura, em px, da assinatura da região das pautas.
+ALTURA_ASSINATURA = 64
+
+#: Quanto mais escuro que a mediana da sua linha um pixel precisa estar para ser tinta
+#: na assinatura (tons de cinza, 0 a 255).
+DIFERENCA_TINTA = 40
+
+#: Folga (em entrelinhas) acima da 1ª linha e abaixo da 5ª da última pauta na assinatura.
+MARGEM_ASSINATURA_ENTRELINHAS = 4.0
 
 
 def instante_da_tela(tela: dict) -> float | None:
@@ -779,6 +823,291 @@ def parear_produto(produto: Path) -> dict:
     return documento
 
 
+def assinatura(quadro: np.ndarray, pautas: list[Pauta]) -> np.ndarray | None:
+    """Imagem binária de tinta da região das pautas, para comparar quadros.
+
+    A região vai da linha de cima da primeira pauta à linha de baixo da última, com
+    ``MARGEM_ASSINATURA_ENTRELINHAS`` entrelinhas de folga de cada lado, e tem a largura
+    toda do quadro. Ela vira cinza, passa a ``LARGURA_ASSINATURA`` por
+    ``ALTURA_ASSINATURA`` com ``cv2.INTER_AREA`` e, se o quadro é de fundo escuro (pela
+    mesma regra de ``_tinta_escura``), é invertida. Tinta é o pixel mais escuro que a
+    mediana da sua linha menos ``DIFERENCA_TINTA``.
+
+    Args:
+        quadro: quadro BGR (ou cinza), ``uint8``.
+        pautas: pautas do quadro, como devolve ``achar_pautas``.
+
+    Returns:
+        Matriz booleana de forma ``(ALTURA_ASSINATURA, LARGURA_ASSINATURA)``, ou ``None``
+        se o quadro não tem pauta ou a região sai vazia depois de cortada no quadro.
+    """
+    if not pautas:
+        return None
+    cinza = quadro if quadro.ndim == 2 else cv2.cvtColor(quadro, cv2.COLOR_BGR2GRAY)
+    primeira = min(pautas, key=lambda pauta: pauta.ys[0])
+    ultima = max(pautas, key=lambda pauta: pauta.ys[4])
+    y0 = max(
+        0,
+        int(primeira.ys[0] - MARGEM_ASSINATURA_ENTRELINHAS * primeira.entrelinha),
+    )
+    y1 = min(
+        cinza.shape[0],
+        int(ultima.ys[4] + MARGEM_ASSINATURA_ENTRELINHAS * ultima.entrelinha) + 1,
+    )
+    if y1 <= y0:
+        return None
+    pequena = cv2.resize(
+        cinza[y0:y1],
+        (LARGURA_ASSINATURA, ALTURA_ASSINATURA),
+        interpolation=cv2.INTER_AREA,
+    )
+    if not _tinta_escura(cinza):
+        pequena = 255 - pequena
+    mediana = np.median(pequena, axis=1, keepdims=True)
+    return pequena < mediana - DIFERENCA_TINTA
+
+
+def diferenca(a: np.ndarray, b: np.ndarray) -> float:
+    """Fração de pixels que diferem entre duas assinaturas.
+
+    Calcula ``|a XOR b| / max(1, |a OR b|)``. Assinaturas iguais dão 0; sem nenhum pixel
+    em comum (e ambas com tinta) dão 1.
+
+    Args:
+        a: assinatura booleana.
+        b: assinatura booleana, da mesma forma que ``a``.
+
+    Returns:
+        A diferença, entre 0 e 1.
+    """
+    uniao = int(np.count_nonzero(a | b))
+    return float(np.count_nonzero(a ^ b)) / max(1, uniao)
+
+
+def _sequencias_estaveis(
+    amostras: list[tuple[float, np.ndarray | None]], limiar: float
+) -> list[list[tuple[float, np.ndarray]]]:
+    """Quebra as amostras em sequências em que cada assinatura está perto da primeira.
+
+    Uma amostra sem assinatura (``None``) encerra a sequência corrente. Uma amostra
+    que passa de ``limiar`` em relação à primeira da sequência encerra a corrente e
+    abre outra com ela.
+
+    Args:
+        amostras: pares ``(t, assinatura)`` em ordem de tempo.
+        limiar: diferença máxima, em relação à primeira amostra da sequência.
+
+    Returns:
+        As sequências, na ordem em que aparecem; cada uma é uma lista de ``(t, assinatura)``.
+    """
+    sequencias: list[list[tuple[float, np.ndarray]]] = []
+    atual: list[tuple[float, np.ndarray]] = []
+    for t, assinatura_atual in amostras:
+        if assinatura_atual is None:
+            if atual:
+                sequencias.append(atual)
+            atual = []
+            continue
+        if atual and diferenca(atual[0][1], assinatura_atual) > limiar:
+            sequencias.append(atual)
+            atual = []
+        atual.append((t, assinatura_atual))
+    if atual:
+        sequencias.append(atual)
+    return sequencias
+
+
+def agrupar_paginas(
+    amostras: list[tuple[float, np.ndarray | None]],
+    limiar: float = LIMIAR_PAGINA,
+    minimo: int = MINIMO_AMOSTRAS,
+) -> list[dict]:
+    """Agrupa as amostras de um vídeo em páginas, com as exibições de cada uma.
+
+    Uma sequência estável (``_sequencias_estaveis``) com menos de ``minimo`` amostras é
+    descartada. Cada sequência que sobra é comparada com a primeira amostra de cada
+    página já achada. Se alguma está a até ``limiar``, a sequência é uma nova exibição
+    dessa página (a mais parecida, se são várias); senão começa uma página nova.
+
+    Args:
+        amostras: pares ``(t, assinatura)`` em ordem de tempo; ``None`` onde não há pauta.
+        limiar: diferença máxima para duas assinaturas serem a mesma página.
+        minimo: amostras mínimas de uma sequência para contar como exibição.
+
+    Returns:
+        Uma entrada por página, na ordem da primeira aparição, com ``pagina`` (1 a n),
+        ``exibicoes`` (lista de ``{"t0", "t1"}``, a primeira e a última amostra de cada
+        exibição) e ``t`` (o ponto médio da exibição mais longa).
+    """
+    paginas: list[dict] = []
+    for sequencia in _sequencias_estaveis(amostras, limiar):
+        if len(sequencia) < minimo:
+            continue
+        exibicao = {"t0": sequencia[0][0], "t1": sequencia[-1][0]}
+        referencia = sequencia[0][1]
+        candidatas = [
+            (diferenca(pagina["assinatura"], referencia), pagina) for pagina in paginas
+        ]
+        proxima = min(candidatas, key=lambda par: par[0], default=None)
+        if proxima is not None and proxima[0] <= limiar:
+            proxima[1]["exibicoes"].append(exibicao)
+        else:
+            paginas.append({"assinatura": referencia, "exibicoes": [exibicao]})
+    resultado = []
+    for numero, pagina in enumerate(paginas, start=1):
+        mais_longa = max(pagina["exibicoes"], key=lambda e: e["t1"] - e["t0"])
+        resultado.append(
+            {
+                "pagina": numero,
+                "exibicoes": pagina["exibicoes"],
+                "t": (mais_longa["t0"] + mais_longa["t1"]) / 2,
+            }
+        )
+    return resultado
+
+
+def _limpar_paginas(pasta_recortes: Path) -> None:
+    """Apaga os arquivos de uma execução anterior de ``paginar``.
+
+    Remove ``P*.png``, ``contexto_*.jpg`` e ``indice.json``; outros arquivos ficam.
+
+    Args:
+        pasta_recortes: pasta ``recortes/`` do vídeo (criada se faltar).
+    """
+    pasta_recortes.mkdir(parents=True, exist_ok=True)
+    for padrao in ("P*.png", "contexto_*.jpg", "indice.json"):
+        for arquivo in pasta_recortes.glob(padrao):
+            arquivo.unlink()
+
+
+def _paginar(video: str, pasta: Path | None) -> tuple[list[dict], int, int]:
+    """Varre um vídeo, acha as páginas e grava os recortes de todas as pautas.
+
+    Ver ``paginar``. Devolve também o número de amostras e de recortes gravados, para a
+    linha da CLI.
+
+    Args:
+        video: caminho do vídeo, relativo ao acervo.
+        pasta: pasta do vídeo (dentro dela vai ``recortes/``); ``None`` usa
+            ``PASTA_SEM_PRODUTO / _slug(video)``.
+
+    Returns:
+        ``(paginas, amostras, recortes)``: as páginas (como ``paginar``), o número de
+        quadros amostrados e o de recortes de pauta gravados.
+    """
+    caminho = str(acervo() / video)
+    duracao = float(info(caminho)["duracao_s"])
+    amostras: list[tuple[float, np.ndarray | None]] = []
+    for t, quadro in quadros(caminho, 0.0, duracao, QPS_PAGINAS):
+        amostras.append((t, assinatura(quadro, achar_pautas(quadro))))
+    paginas = agrupar_paginas(amostras)
+
+    pasta_video = pasta if pasta is not None else PASTA_SEM_PRODUTO / _slug(video)
+    pasta_recortes = pasta_video / "recortes"
+    _limpar_paginas(pasta_recortes)
+    canal = Path(video).parts[0]
+    indice: list[dict] = []
+    total_recortes = 0
+    for pagina in paginas:
+        numero = pagina["pagina"]
+        t = pagina["t"]
+        exibicoes = pagina["exibicoes"]
+        quadro = quadro_em(caminho, t)
+        if quadro is None:
+            pagina["pautas"] = 0
+            indice.append(
+                {
+                    "tela": numero,
+                    "sem_pauta": True,
+                    "motivo": "ffmpeg não leu o quadro",
+                    "t": t,
+                    "pagina": numero,
+                    "exibicoes": exibicoes,
+                }
+            )
+            continue
+        fonte = FonteQuadro(origem="video", canal=canal, video=video, t=t)
+        entradas, recortes, celula = processar_quadro(
+            fonte,
+            quadro,
+            "video",
+            primeiro_numero=1,
+            margem_cima=MARGEM_ENTRELINHAS,
+            margem_baixo=MARGEM_ENTRELINHAS,
+        )
+        com_pauta = [entrada for entrada in entradas if not entrada["sem_pauta"]]
+        pagina["pautas"] = len(com_pauta)
+        if not com_pauta:
+            indice.append(
+                {
+                    "tela": numero,
+                    "sem_pauta": True,
+                    "motivo": "sem pauta no quadro",
+                    "t": t,
+                    "pagina": numero,
+                    "exibicoes": exibicoes,
+                }
+            )
+        for k, (entrada, recorte) in enumerate(zip(com_pauta, recortes, strict=True)):
+            letra = chr(ord("a") + k)
+            identificador = f"P{numero:02d}{letra}"
+            cv2.imwrite(str(pasta_recortes / f"{identificador}.png"), recorte.imagem)
+            indice.append(
+                {
+                    "id": identificador,
+                    "tela": numero,
+                    "video": video,
+                    "t": t,
+                    "painel": None,
+                    "sem_pauta": False,
+                    "ys": entrada["ys"],
+                    "entrelinha": entrada["entrelinha"],
+                    "caixa_recorte": entrada["caixa_recorte"],
+                    "largura": entrada["largura"],
+                    "altura": entrada["altura"],
+                    "pagina": numero,
+                    "letra": letra,
+                    "exibicoes": exibicoes,
+                }
+            )
+            total_recortes += 1
+        # folha_contexto numera pela ordem das células; com uma célula sai contexto_01.jpg,
+        # que é renomeado para a página.
+        folha_contexto([celula], pasta_recortes)
+        (pasta_recortes / "contexto_01.jpg").replace(
+            pasta_recortes / f"contexto_P{numero:02d}.jpg"
+        )
+    (pasta_recortes / "indice.json").write_text(
+        json.dumps(indice, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    return paginas, len(amostras), total_recortes
+
+
+def paginar(video: str, pasta: Path | None = None) -> list[dict]:
+    """Acha as páginas distintas de um vídeo com pauta, sem produto, e grava os recortes.
+
+    Varre o vídeo inteiro a ``QPS_PAGINAS`` (uma passada de ``quadros``), guarda só a
+    assinatura de cada quadro (``assinatura``) e agrupa as estáveis em páginas
+    (``agrupar_paginas``). Para cada página, lê o quadro em ``t`` com ``quadro_em`` e
+    recorta todas as pautas dele, com ``processar_quadro`` e as margens da etapa
+    ``recortar``. Cada pauta vira ``P{pagina:02d}{letra}.png``, de cima para baixo.
+
+    Gera ``recortes/indice.json`` com uma entrada por pauta e uma por página sem pauta
+    (``sem_pauta``, com ``motivo``), e ``contexto_PNN.jpg`` por página. Apaga antes as
+    saídas anteriores desse tipo. Não lê nem grava produto.
+
+    Args:
+        video: caminho do vídeo, relativo ao acervo.
+        pasta: pasta do vídeo, onde fica ``recortes/``. ``None`` usa
+            ``PASTA_SEM_PRODUTO / _slug(video)``, separado das pastas de produto.
+
+    Returns:
+        Uma entrada por página, na ordem da primeira aparição: ``pagina``, ``exibicoes``,
+        ``t`` e ``pautas`` (quantas pautas o quadro tem).
+    """
+    return _paginar(video, pasta)[0]
+
+
 def main(argv: list[str] | None = None) -> int:
     """Ponto de entrada da linha de comando.
 
@@ -790,6 +1119,10 @@ def main(argv: list[str] | None = None) -> int:
 
     Subcomando ``parear --produto CAMINHO`` (repetível). Para cada produto, imprime uma
     linha por pauta com as contagens, uma linha de total e o caminho gravado.
+
+    Subcomando ``paginar --video CAMINHO [--pasta PASTA]`` (repetível; ``--pasta`` só com
+    um vídeo). Para cada vídeo, imprime uma linha com páginas, recortes, amostras e
+    segundos, e uma linha por página com as exibições e o número de pautas.
 
     Args:
         argv: argumentos (sem o nome do programa). ``None`` usa ``sys.argv``.
@@ -836,6 +1169,21 @@ def main(argv: list[str] | None = None) -> int:
         required=True,
         type=Path,
         help="JSON de produto (pode repetir)",
+    )
+    parser_paginar = subparsers.add_parser(
+        "paginar", help="acha as páginas de um vídeo sem produto e recorta as pautas"
+    )
+    parser_paginar.add_argument(
+        "--video",
+        action="append",
+        required=True,
+        help="caminho do vídeo, relativo ao acervo (pode repetir)",
+    )
+    parser_paginar.add_argument(
+        "--pasta",
+        default=None,
+        type=Path,
+        help="pasta do vídeo, onde fica recortes/ (só com um --video)",
     )
     args = parser.parse_args(argv)
 
@@ -897,6 +1245,25 @@ def main(argv: list[str] | None = None) -> int:
                 f" homr {r['notas_homr']}, trocadas {r['trocadas']}"
             )
             print(f"gravado em {caminho_do_parear(produto)}")
+    elif args.comando == "paginar":
+        if args.pasta is not None and len(args.video) > 1:
+            parser.error("--pasta só vale com um --video")
+        for video in args.video:
+            inicio = time.monotonic()
+            paginas, amostras, recortes = _paginar(video, args.pasta)
+            segundos = time.monotonic() - inicio
+            print(
+                f"{_slug(video)}: paginas {len(paginas)}, recortes {recortes},"
+                f" amostras {amostras}, segundos {segundos:.1f}"
+            )
+            for pagina in paginas:
+                exibicoes = ", ".join(
+                    f"({e['t0']:.2f},{e['t1']:.2f})" for e in pagina["exibicoes"]
+                )
+                print(
+                    f"P{pagina['pagina']:02d} exibicoes [{exibicoes}]"
+                    f" pautas {pagina['pautas']}"
+                )
     return 0
 
 

@@ -5279,6 +5279,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - O `<stem>.partitura.json` ganha `fifths`, `fifths_origem` e `compassos` por pauta, e `metodo` (`altura` ou `x`) em cada par. Quando o x desmente o par pela altura, o evento pega a coluna livre mais próxima a até uma entrelinha: Gym tela 10 vai de 0 para 10 de 14 pares conferidos; total 433 de 438. Notas certas iguais (723/767). Gym tela 12 tem `fifths` 1, provavelmente errado; `fracao` só na primeira pauta de cada vídeo.
 
+## Partitura — 2026-10-15 — páginas de pauta sem o produto da tab (rodada 3016)
+
+- `python -m tab.partitura_video paginar --video` acha as páginas de pauta direto do vídeo (1 quadro/s, assinatura da região das pautas, trechos estáveis, repetições juntadas). Nos 3 vídeos com produto: **19 de 19 telas** achadas, caixas idênticas às do produto, sem página sobrando, ~25 s por vídeo. Saída em `data/saida/partitura/sem_produto/`.
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do
