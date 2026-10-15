@@ -18,7 +18,7 @@ import argparse
 import json
 import xml.etree.ElementTree as ET
 import zipfile
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from fractions import Fraction
 from pathlib import Path
 
@@ -62,6 +62,8 @@ class EventoPartitura:
         x_quadro: posição x no quadro, ou None se o slot do ``.omr`` não foi achado.
         midis: alturas escritas (MIDI) das notas do evento.
         simbolos: símbolos de ``ler_partitura`` que compõem o evento.
+        trocadas: notas do Audiveris tiradas do evento porque a tab as desmente e
+            confirma a nota do homr no lugar (guardadas, não apagadas).
     """
 
     indice: int
@@ -71,6 +73,7 @@ class EventoPartitura:
     x_quadro: float | None
     midis: frozenset[int]
     simbolos: list[dict]
+    trocadas: list[dict] = field(default_factory=list)
 
 
 @dataclass
@@ -308,6 +311,10 @@ def completar_com_homr(
     ``origem`` (``audiveris`` ou ``homr``). Nota que a tab não confirma não entra, então
     a junção não inventa nota.
 
+    Quando o homr completa um evento, as notas do Audiveris desse evento que a coluna
+    da tab não tem saem para ``trocadas`` (rodada 3012): a tab desmente a altura lida e
+    confirma a do homr no mesmo instante.
+
     Args:
         partitura: eventos da leitura principal (Audiveris), em ordem.
         homr: eventos da leitura do homr, em ordem (sem x).
@@ -354,8 +361,13 @@ def completar_com_homr(
         acrescimos += len(extras)
         midis = frozenset(s["midi"] for s in extras)
         if i is not None:
-            novos[i].simbolos.extend(extras)
-            novos[i].midis = novos[i].midis | midis
+            evento = novos[i]
+            evento.trocadas = [
+                s for s in evento.simbolos if s["midi"] not in coluna.midis
+            ]
+            evento.simbolos = [s for s in evento.simbolos if s["midi"] in coluna.midis]
+            evento.simbolos.extend(extras)
+            evento.midis = frozenset(s["midi"] for s in evento.simbolos)
         else:
             criados.append(
                 (
@@ -448,6 +460,7 @@ def _parear_recorte(entrada: dict, ouro: dict[str, list[dict]]) -> dict:
                 "x_quadro": e.x_quadro,
                 "midis": sorted(e.midis),
                 "simbolos": e.simbolos,
+                "trocadas": e.trocadas,
             }
             for e in partitura
         ],
@@ -470,6 +483,7 @@ def _parear_recorte(entrada: dict, ouro: dict[str, list[dict]]) -> dict:
                 round(distancias[len(distancias) // 2], 2) if distancias else None
             ),
             "acrescimos_homr": acrescimos,
+            "trocadas_pela_tab": sum(len(e.trocadas) for e in partitura),
             "tab_antes": antes,
             "tab_depois": depois,
         },
@@ -514,7 +528,7 @@ def main(argv: list[str] | None = None) -> int:
         entradas = [por_id[rid] for rid in pedidos]
     ouro = _carregar_ouro()
     PASTA_PAREAMENTO.mkdir(parents=True, exist_ok=True)
-    total = {"pares": 0, "com_x": 0, "acrescimos_homr": 0}
+    total = {"pares": 0, "com_x": 0, "acrescimos_homr": 0, "trocadas": 0}
     tab_antes: dict[str, int] = {}
     tab_depois: dict[str, int] = {}
     for entrada in entradas:
@@ -527,6 +541,7 @@ def main(argv: list[str] | None = None) -> int:
         total["pares"] += resumo["pares"]
         total["com_x"] += resumo["com_x_conferido"]
         total["acrescimos_homr"] += resumo["acrescimos_homr"]
+        total["trocadas"] += resumo["trocadas_pela_tab"]
         for chave, valor in resumo["tab_antes"].items():
             tab_antes[chave] = tab_antes.get(chave, 0) + valor
         for chave, valor in resumo["tab_depois"].items():
@@ -540,7 +555,8 @@ def main(argv: list[str] | None = None) -> int:
         )
     print(
         f"total: pares {total['pares']}, com x conferido {total['com_x']}, "
-        f"notas do homr {total['acrescimos_homr']}"
+        f"notas do homr {total['acrescimos_homr']}, "
+        f"trocadas pela tab {total['trocadas']}"
     )
     print(f"tab antes:  {tab_antes}")
     print(f"tab depois: {tab_depois}")

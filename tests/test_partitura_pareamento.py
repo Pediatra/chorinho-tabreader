@@ -209,3 +209,26 @@ def test_completar_com_homr_sem_confirmacao_nao_muda_nada() -> None:
     eventos, acrescimos = completar_com_homr(partitura, homr, tab)
     assert acrescimos == 0
     assert eventos[0].midis == frozenset({60})
+
+
+def test_completar_com_homr_troca_nota_que_a_tab_desmente() -> None:
+    """Com a nota do homr confirmada, a do Audiveris que a tab não tem sai do evento."""
+    tab = [_evento_tab(0, 100.0, {60, 64}, [])]
+    partitura = [_com_simbolos(_evento_partitura(0, 100.0, {60, 65}))]
+    homr = [_com_simbolos(_evento_partitura(0, None, {60, 64}))]
+    eventos, acrescimos = completar_com_homr(partitura, homr, tab)
+    assert acrescimos == 1
+    assert eventos[0].midis == frozenset({60, 64})
+    assert [s["midi"] for s in eventos[0].trocadas] == [65]
+    assert eventos[0].trocadas[0]["origem"] == "audiveris"
+
+
+def test_completar_com_homr_sem_acrescimo_nao_troca() -> None:
+    """Sem nota do homr confirmada, a nota que a tab desmente fica (sem troca)."""
+    tab = [_evento_tab(0, 100.0, {60, 64}, [])]
+    partitura = [_com_simbolos(_evento_partitura(0, 100.0, {60, 65}))]
+    homr = [_com_simbolos(_evento_partitura(0, None, {60, 65}))]
+    eventos, acrescimos = completar_com_homr(partitura, homr, tab)
+    assert acrescimos == 0
+    assert eventos[0].midis == frozenset({60, 65})
+    assert eventos[0].trocadas == []

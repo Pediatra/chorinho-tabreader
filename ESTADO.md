@@ -5263,6 +5263,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - `python -m tab.partitura_pareamento` agora faz leitura com armadura do vídeo + notas do homr confirmadas pela tab + pareamento. R01–R12: **526/546 certas (96,3 %)**. As notas erradas continuam 14 (as inventadas sobem de 3 para 8 só por troca de categoria). São 336 de 337 pares no mesmo x.
 
+## Partitura — 2026-10-15 — troca de altura desmentida pela tab (rodada 3012)
+
+- Quando o homr completa um evento com nota que a tab confirma, a nota do Audiveris que a tab desmente sai para `trocadas`. R01–R12: certas seguem **526/546**, notas erradas caem de **14 para 8** (inventadas 8 → 3). 5 das 6 trocas são os bemóis inventados do R06.
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do
