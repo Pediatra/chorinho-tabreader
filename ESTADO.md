@@ -5279,6 +5279,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - O `<stem>.partitura.json` ganha `fifths`, `fifths_origem` e `compassos` por pauta, e `metodo` (`altura` ou `x`) em cada par. Quando o x desmente o par pela altura, o evento pega a coluna livre mais próxima a até uma entrelinha: Gym tela 10 vai de 0 para 10 de 14 pares conferidos; total 433 de 438. Notas certas iguais (723/767). Gym tela 12 tem `fifths` 1, provavelmente errado; `fracao` só na primeira pauta de cada vídeo.
 
+## Partitura — 2026-10-15 — piloto sem produto: 11 vídeos lidos (rodada 3021)
+
+- `ler --pasta` nos 11 vídeos do piloto: Audiveris ok em **143/162** recortes, 3.641 eventos. As 19 falhas são "No system found". A faixa amarela do cursor explica a maioria: com faixa, 12/36 falham (33%); sem faixa, 7/126 (6%). O mela concentra 16 falhas. A regra de armadura da 3020 não mudou nada nos 8 novos. Ver `docs/rodadas/3021-piloto-sem-produto-11-videos.md`.
+
 ## Partitura — 2026-10-15 — armadura do vídeo também para leitura com clave e sem armadura (rodada 3020)
 
 - `herdar_condicao` aplica a armadura do vídeo quando a leitura não tem clave **ou** não tem `<key>`. Gabarito R01–R21 idêntico; 3 produtos sem mudança; canon P06a None→2 (5 notas F→F#). Ver `docs/rodadas/3020-armadura-herdada-com-clave.md`.
