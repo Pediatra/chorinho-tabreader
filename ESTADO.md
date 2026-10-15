@@ -5279,6 +5279,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - O `<stem>.partitura.json` ganha `fifths`, `fifths_origem` e `compassos` por pauta, e `metodo` (`altura` ou `x`) em cada par. Quando o x desmente o par pela altura, o evento pega a coluna livre mais próxima a até uma entrelinha: Gym tela 10 vai de 0 para 10 de 14 pares conferidos; total 433 de 438. Notas certas iguais (723/767). Gym tela 12 tem `fifths` 1, provavelmente errado; `fracao` só na primeira pauta de cada vídeo.
 
+## Partitura — 2026-10-15 — gabarito do dono sem produto: Audiveris em 3 recortes (rodada 3023)
+
+- Dos símbolos lidos, **98,9%** estão certos (176/178): 0 altura errada, 0 figura errada, 2 inexistentes. A cobertura é **81,5%** (40 notas faltando, 31 delas no athletic P01a, onde o Audiveris descartou a voz de cima dos compassos 3–4). Clave e armadura certas nos 3. A ferramenta agora grava o `--itens` servido em `fonte_itens`. Ver `docs/rodadas/3023-gabarito-sem-produto.md`.
+
 ## Partitura — 2026-10-15 — fileira de vigas não corta mais o topo do recorte (rodada 3022)
 
 - Estrutura horizontal só limita o recorte se cobrir pelo menos 60% da sua extensão (`COBERTURA_MIN_VIZINHA`). Vigas cobrem 24–32%, linha de pestana ~55%, linha de verdade 94–100%. Caixas mudam em 40/162 recortes sem produto, 0/19 de produto e 1/21 do gabarito (R16, que não foi refeito). Nos 40 recortes, os eventos foram de 668 para 742, com o mesmo Audiveris ok (30). Ver `docs/rodadas/3022-viga-nao-corta-o-recorte.md`.

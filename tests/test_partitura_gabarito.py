@@ -477,6 +477,14 @@ def test_carregar_gabarito_formato_1_e_2_e_erro(tmp_path: Path) -> None:
     assert carregar_gabarito(tmp_path / "nao_existe.json") == gabarito_vazio()
 
 
+def test_gabarito_novo_grava_os_itens_servidos(tmp_path: Path) -> None:
+    """Um gabarito novo aponta para o itens.json servido, não para o da P1."""
+    itens = tmp_path / "itens.json"
+    novo = carregar_gabarito(tmp_path / "nao_existe.json", itens)
+    assert novo["fonte_itens"] == str(itens.resolve())
+    assert novo["recortes"] == {}
+
+
 def _item_com_notacoes() -> dict:
     """Item de R01 em que o primeiro símbolo tem fermata e dois pontos."""
     item = _item("R01")

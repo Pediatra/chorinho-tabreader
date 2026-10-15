@@ -1,0 +1,4475 @@
+{
+ "formato": 3,
+ "fonte_itens": "data/saida/partitura/p1/conferencia/itens.json",
+ "recortes": {
+  "agua_de_beber_a._P01a": {
+   "fonte": "audiveris/x2_margem_herdada",
+   "clave_certa": true,
+   "armadura_certa": true,
+   "simbolos": [
+    {
+     "idx": 0,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.0,
+      "t_global": 0.0,
+      "pausa": false,
+      "midi": 57,
+      "nome": "A3",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 1,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.0,
+      "t_global": 0.0,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 2,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 1.0,
+      "t_global": 1.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 3,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 2.0,
+      "t_global": 2.0,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 4,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 2.0,
+      "t_global": 2.0,
+      "pausa": true,
+      "midi": null,
+      "nome": null,
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 5,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 3.0,
+      "t_global": 3.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": true,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "tie-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-start": "certo"
+     }
+    },
+    {
+     "idx": 6,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 4.0,
+      "t_global": 4.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": true,
+      "graca": false,
+      "notacoes": [
+       "tie-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-stop": "certo"
+     }
+    },
+    {
+     "idx": 7,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 4.0,
+      "t_global": 4.0,
+      "pausa": false,
+      "midi": 52,
+      "nome": "E3",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "3",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 8,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 0.0,
+      "t_global": 4.5,
+      "pausa": false,
+      "midi": 74,
+      "nome": "D5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 9,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 0.25,
+      "t_global": 4.75,
+      "pausa": false,
+      "midi": 75,
+      "nome": "Eb5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "acidente:flat",
+       "staccatissimo"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "acidente:flat": "inventado",
+      "staccatissimo": "inventado"
+     }
+    },
+    {
+     "idx": 10,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 0.5,
+      "t_global": 5.0,
+      "pausa": false,
+      "midi": 74,
+      "nome": "D5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 11,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 1.0,
+      "t_global": 5.5,
+      "pausa": false,
+      "midi": 74,
+      "nome": "D5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 12,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 1.5,
+      "t_global": 6.0,
+      "pausa": false,
+      "midi": 75,
+      "nome": "Eb5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "breath-mark"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "breath-mark": "certo"
+     }
+    },
+    {
+     "idx": 13,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.0,
+      "t_global": 6.5,
+      "pausa": false,
+      "midi": 74,
+      "nome": "D5",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 14,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.0,
+      "t_global": 6.5,
+      "pausa": false,
+      "midi": 52,
+      "nome": "E3",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 15,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.0,
+      "t_global": 6.5,
+      "pausa": false,
+      "midi": 62,
+      "nome": "D4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 16,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.0,
+      "t_global": 6.5,
+      "pausa": false,
+      "midi": 68,
+      "nome": "G#4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "acidente:sharp"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "acidente:sharp": "certo"
+     }
+    },
+    {
+     "idx": 17,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.0,
+      "t_global": 7.5,
+      "pausa": false,
+      "midi": 72,
+      "nome": "C5",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 18,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.0,
+      "t_global": 7.5,
+      "pausa": true,
+      "midi": null,
+      "nome": null,
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 19,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 0.0,
+      "t_global": 8.5,
+      "pausa": false,
+      "midi": 72,
+      "nome": "C5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-start": "certo"
+     }
+    },
+    {
+     "idx": 20,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 0.0,
+      "t_global": 8.5,
+      "pausa": false,
+      "midi": 57,
+      "nome": "A3",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 21,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 0.0,
+      "t_global": 8.5,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 22,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 0.5,
+      "t_global": 9.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-stop": "certo"
+     }
+    },
+    {
+     "idx": 23,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 1.0,
+      "t_global": 9.5,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 24,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 1.0,
+      "t_global": 9.5,
+      "pausa": true,
+      "midi": null,
+      "nome": null,
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 25,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 1.5,
+      "t_global": 10.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": true,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "tie-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-start": "certo"
+     }
+    },
+    {
+     "idx": 26,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 2.0,
+      "t_global": 10.5,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": true,
+      "graca": false,
+      "notacoes": [
+       "tie-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-stop": "certo"
+     }
+    },
+    {
+     "idx": 27,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 2.0,
+      "t_global": 10.5,
+      "pausa": false,
+      "midi": 52,
+      "nome": "E3",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 28,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 2.5,
+      "t_global": 11.0,
+      "pausa": true,
+      "midi": null,
+      "nome": null,
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 29,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 2.5,
+      "t_global": 11.0,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 30,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 2.5,
+      "t_global": 11.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 31,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 3.0,
+      "t_global": 11.5,
+      "pausa": true,
+      "midi": null,
+      "nome": null,
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 32,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 3.5,
+      "t_global": 12.0,
+      "pausa": false,
+      "midi": 72,
+      "nome": "C5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 33,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 3.5,
+      "t_global": 12.0,
+      "pausa": true,
+      "midi": null,
+      "nome": null,
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 34,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 0.0,
+      "t_global": 12.5,
+      "pausa": false,
+      "midi": 74,
+      "nome": "D5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-start": "certo"
+     }
+    },
+    {
+     "idx": 35,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 0.0,
+      "t_global": 12.5,
+      "pausa": false,
+      "midi": 59,
+      "nome": "B3",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 36,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 0.0,
+      "t_global": 12.5,
+      "pausa": false,
+      "midi": 66,
+      "nome": "F#4",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "acidente:sharp"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "acidente:sharp": "certo"
+     }
+    },
+    {
+     "idx": 37,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 0.0,
+      "t_global": 12.5,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 38,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 0.25,
+      "t_global": 12.75,
+      "pausa": false,
+      "midi": 75,
+      "nome": "Eb5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "acidente:flat"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "acidente:flat": "certo"
+     }
+    },
+    {
+     "idx": 39,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 0.5,
+      "t_global": 13.0,
+      "pausa": false,
+      "midi": 74,
+      "nome": "D5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-stop": "certo"
+     }
+    },
+    {
+     "idx": 40,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 1.0,
+      "t_global": 13.5,
+      "pausa": false,
+      "midi": 74,
+      "nome": "D5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 41,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 1.5,
+      "t_global": 14.0,
+      "pausa": false,
+      "midi": 75,
+      "nome": "Eb5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 42,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 2.0,
+      "t_global": 14.5,
+      "pausa": false,
+      "midi": 74,
+      "nome": "D5",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 43,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 2.0,
+      "t_global": 14.5,
+      "pausa": false,
+      "midi": 52,
+      "nome": "E3",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 44,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 2.0,
+      "t_global": 14.5,
+      "pausa": false,
+      "midi": 62,
+      "nome": "D4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 45,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 2.0,
+      "t_global": 14.5,
+      "pausa": false,
+      "midi": 68,
+      "nome": "G#4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "acidente:sharp"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "acidente:sharp": "certo"
+     }
+    },
+    {
+     "idx": 46,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 3.0,
+      "t_global": 15.5,
+      "pausa": false,
+      "midi": 72,
+      "nome": "C5",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 47,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 3.0,
+      "t_global": 15.5,
+      "pausa": true,
+      "midi": null,
+      "nome": null,
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 48,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 0.0,
+      "t_global": 16.5,
+      "pausa": false,
+      "midi": 72,
+      "nome": "C5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-start": "certo"
+     }
+    },
+    {
+     "idx": 49,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 0.0,
+      "t_global": 16.5,
+      "pausa": false,
+      "midi": 57,
+      "nome": "A3",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 50,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 0.0,
+      "t_global": 16.5,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 51,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 0.5,
+      "t_global": 17.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-stop": "certo"
+     }
+    },
+    {
+     "idx": 52,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 1.0,
+      "t_global": 17.5,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 53,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 1.0,
+      "t_global": 17.5,
+      "pausa": true,
+      "midi": null,
+      "nome": null,
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 54,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 1.5,
+      "t_global": 18.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": true,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "tie-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-start": "certo"
+     }
+    },
+    {
+     "idx": 55,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 2.0,
+      "t_global": 18.5,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": true,
+      "graca": false,
+      "notacoes": [
+       "tie-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-stop": "certo"
+     }
+    },
+    {
+     "idx": 56,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 2.0,
+      "t_global": 18.5,
+      "pausa": false,
+      "midi": 52,
+      "nome": "E3",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 57,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 2.5,
+      "t_global": 19.0,
+      "pausa": true,
+      "midi": null,
+      "nome": null,
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 58,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 2.5,
+      "t_global": 19.0,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 59,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 2.5,
+      "t_global": 19.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 60,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 3.0,
+      "t_global": 19.5,
+      "pausa": true,
+      "midi": null,
+      "nome": null,
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 61,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 3.5,
+      "t_global": 20.0,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 62,
+     "compasso": "5",
+     "palpite": {
+      "compasso": "5",
+      "t": 3.5,
+      "t_global": 20.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 63,
+     "compasso": "6",
+     "palpite": {
+      "compasso": "6",
+      "t": 0.0,
+      "t_global": 20.5,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-start": "certo"
+     }
+    },
+    {
+     "idx": 64,
+     "compasso": "6",
+     "palpite": {
+      "compasso": "6",
+      "t": 0.0,
+      "t_global": 20.5,
+      "pausa": false,
+      "midi": 53,
+      "nome": "F3",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 65,
+     "compasso": "6",
+     "palpite": {
+      "compasso": "6",
+      "t": 0.0,
+      "t_global": 20.5,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 66,
+     "compasso": "6",
+     "palpite": {
+      "compasso": "6",
+      "t": 0.5,
+      "t_global": 21.0,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-stop": "certo"
+     }
+    },
+    {
+     "idx": 67,
+     "compasso": "6",
+     "palpite": {
+      "compasso": "6",
+      "t": 1.0,
+      "t_global": 21.5,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "half",
+      "pontuada": true,
+      "duracao": 3.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "ponto"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "ponto": "certo"
+     }
+    },
+    {
+     "idx": 68,
+     "compasso": "6",
+     "palpite": {
+      "compasso": "6",
+      "t": 2.0,
+      "t_global": 22.5,
+      "pausa": false,
+      "midi": 60,
+      "nome": "C4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 69,
+     "compasso": "6",
+     "palpite": {
+      "compasso": "6",
+      "t": 2.5,
+      "t_global": 23.0,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 70,
+     "compasso": "6",
+     "palpite": {
+      "compasso": "6",
+      "t": 2.5,
+      "t_global": 23.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 71,
+     "compasso": "6",
+     "palpite": {
+      "compasso": "6",
+      "t": 3.5,
+      "t_global": 24.0,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 72,
+     "compasso": "6",
+     "palpite": {
+      "compasso": "6",
+      "t": 3.5,
+      "t_global": 24.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 73,
+     "compasso": "7",
+     "palpite": {
+      "compasso": "7",
+      "t": 0.0,
+      "t_global": 24.5,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-start": "certo"
+     }
+    },
+    {
+     "idx": 74,
+     "compasso": "7",
+     "palpite": {
+      "compasso": "7",
+      "t": 0.0,
+      "t_global": 24.5,
+      "pausa": false,
+      "midi": 57,
+      "nome": "A3",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 75,
+     "compasso": "7",
+     "palpite": {
+      "compasso": "7",
+      "t": 0.0,
+      "t_global": 24.5,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 76,
+     "compasso": "7",
+     "palpite": {
+      "compasso": "7",
+      "t": 0.5,
+      "t_global": 25.0,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-stop": "certo"
+     }
+    },
+    {
+     "idx": 77,
+     "compasso": "7",
+     "palpite": {
+      "compasso": "7",
+      "t": 1.0,
+      "t_global": 25.5,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "half",
+      "pontuada": true,
+      "duracao": 3.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "ponto"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "ponto": "certo"
+     }
+    }
+   ],
+   "faltando": [
+    {
+     "x": 152.8,
+     "y": 101.4
+    },
+    {
+     "x": 317.6,
+     "y": 78.1
+    },
+    {
+     "x": 353.9,
+     "y": 76.1
+    },
+    {
+     "x": 387.3,
+     "y": 102.4
+    },
+    {
+     "x": 384.3,
+     "y": 132.7
+    },
+    {
+     "x": 442.9,
+     "y": 127.7
+    },
+    {
+     "x": 462.1,
+     "y": 112.5
+    },
+    {
+     "x": 461.1,
+     "y": 125.6
+    },
+    {
+     "x": 462.1,
+     "y": 157.0
+    }
+   ],
+   "largura_png": 1920,
+   "altura_png": 234,
+   "obs": "",
+   "confirmado": true,
+   "respondido_em": "2026-10-15T19:27:36"
+  },
+  "athletic_theme_f_P01a": {
+   "fonte": "audiveris/x2_margem_herdada",
+   "clave_certa": true,
+   "armadura_certa": true,
+   "simbolos": [
+    {
+     "idx": 0,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.0,
+      "t_global": 0.0,
+      "pausa": false,
+      "midi": 78,
+      "nome": "F#5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-start": "certo"
+     }
+    },
+    {
+     "idx": 1,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.0,
+      "t_global": 0.0,
+      "pausa": false,
+      "midi": 60,
+      "nome": "C4",
+      "figura": "eighth",
+      "pontuada": true,
+      "duracao": 0.75,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "ponto"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "ponto": "certo"
+     }
+    },
+    {
+     "idx": 2,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.0,
+      "t_global": 0.0,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "eighth",
+      "pontuada": true,
+      "duracao": 0.75,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "ponto"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "ponto": "certo"
+     }
+    },
+    {
+     "idx": 3,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.25,
+      "t_global": 0.25,
+      "pausa": false,
+      "midi": 76,
+      "nome": "E5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-stop": "certo"
+     }
+    },
+    {
+     "idx": 4,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.5,
+      "t_global": 0.5,
+      "pausa": false,
+      "midi": 72,
+      "nome": "C5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "staccatissimo"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "staccatissimo": "certo"
+     }
+    },
+    {
+     "idx": 5,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.75,
+      "t_global": 0.75,
+      "pausa": false,
+      "midi": 78,
+      "nome": "F#5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": true,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "tie-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-start": "certo"
+     }
+    },
+    {
+     "idx": 6,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.75,
+      "t_global": 0.75,
+      "pausa": false,
+      "midi": 60,
+      "nome": "C4",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": true,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "tie-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-start": "certo"
+     }
+    },
+    {
+     "idx": 7,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.75,
+      "t_global": 0.75,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": true,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "tie-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-start": "certo"
+     }
+    },
+    {
+     "idx": 8,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 1.0,
+      "t_global": 1.0,
+      "pausa": false,
+      "midi": 78,
+      "nome": "F#5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": true,
+      "graca": false,
+      "notacoes": [
+       "tie-stop",
+       "slur-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-stop": "certo",
+      "slur-start": "certo"
+     }
+    },
+    {
+     "idx": 9,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 1.0,
+      "t_global": 1.0,
+      "pausa": false,
+      "midi": 60,
+      "nome": "C4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": true,
+      "graca": false,
+      "notacoes": [
+       "tie-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-stop": "certo"
+     }
+    },
+    {
+     "idx": 10,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 1.0,
+      "t_global": 1.0,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": true,
+      "graca": false,
+      "notacoes": [
+       "tie-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-stop": "certo"
+     }
+    },
+    {
+     "idx": 11,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 1.5,
+      "t_global": 1.5,
+      "pausa": false,
+      "midi": 76,
+      "nome": "E5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-stop": "certo"
+     }
+    },
+    {
+     "idx": 12,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 1.75,
+      "t_global": 1.75,
+      "pausa": false,
+      "midi": 72,
+      "nome": "C5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 13,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 2.0,
+      "t_global": 2.0,
+      "pausa": false,
+      "midi": 59,
+      "nome": "B3",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 14,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 2.0,
+      "t_global": 2.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 15,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 2.0,
+      "t_global": 2.0,
+      "pausa": false,
+      "midi": 71,
+      "nome": "B4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 16,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 2.5,
+      "t_global": 2.5,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "nao_existe",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 17,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 2.5,
+      "t_global": 2.5,
+      "pausa": false,
+      "midi": 78,
+      "nome": "F#5",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 18,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 2.5,
+      "t_global": 2.5,
+      "pausa": false,
+      "midi": 83,
+      "nome": "B5",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 19,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 3.5,
+      "t_global": 3.5,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "nao_existe",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 20,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 3.5,
+      "t_global": 3.5,
+      "pausa": false,
+      "midi": 78,
+      "nome": "F#5",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 21,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 3.5,
+      "t_global": 3.5,
+      "pausa": false,
+      "midi": 83,
+      "nome": "B5",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": true,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 22,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 0.0,
+      "t_global": 4.5,
+      "pausa": false,
+      "midi": 52,
+      "nome": "E3",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 23,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 1.0,
+      "t_global": 5.5,
+      "pausa": false,
+      "midi": 71,
+      "nome": "B4",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 24,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 1.25,
+      "t_global": 5.75,
+      "pausa": false,
+      "midi": 68,
+      "nome": "G#4",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "acidente:sharp"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "acidente:sharp": "certo"
+     }
+    },
+    {
+     "idx": 25,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 1.25,
+      "t_global": 5.75,
+      "pausa": false,
+      "midi": 76,
+      "nome": "E5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": true,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 26,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 1.5,
+      "t_global": 6.0,
+      "pausa": false,
+      "midi": 71,
+      "nome": "B4",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 27,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 1.75,
+      "t_global": 6.25,
+      "pausa": false,
+      "midi": 74,
+      "nome": "D5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 28,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 1.75,
+      "t_global": 6.25,
+      "pausa": false,
+      "midi": 59,
+      "nome": "B3",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 29,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.0,
+      "t_global": 6.5,
+      "pausa": false,
+      "midi": 76,
+      "nome": "E5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": true,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "tie-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-start": "certo"
+     }
+    },
+    {
+     "idx": 30,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.25,
+      "t_global": 6.75,
+      "pausa": false,
+      "midi": 76,
+      "nome": "E5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": true,
+      "graca": false,
+      "notacoes": [
+       "tie-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-stop": "certo"
+     }
+    },
+    {
+     "idx": 31,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.25,
+      "t_global": 6.75,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 32,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.5,
+      "t_global": 7.0,
+      "pausa": false,
+      "midi": 71,
+      "nome": "B4",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 33,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.75,
+      "t_global": 7.25,
+      "pausa": false,
+      "midi": 76,
+      "nome": "E5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 34,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.75,
+      "t_global": 7.25,
+      "pausa": false,
+      "midi": 52,
+      "nome": "E3",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 35,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.0,
+      "t_global": 7.5,
+      "pausa": false,
+      "midi": 68,
+      "nome": "G#4",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 36,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.25,
+      "t_global": 7.75,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 37,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.25,
+      "t_global": 7.75,
+      "pausa": false,
+      "midi": 71,
+      "nome": "B4",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": true,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 38,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.5,
+      "t_global": 8.0,
+      "pausa": false,
+      "midi": 68,
+      "nome": "G#4",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": true,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "tie-start",
+       "arpeggiate"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-start": "certo",
+      "arpeggiate": "certo"
+     }
+    },
+    {
+     "idx": 39,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.5,
+      "t_global": 8.0,
+      "pausa": false,
+      "midi": 71,
+      "nome": "B4",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": true,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 40,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.5,
+      "t_global": 8.0,
+      "pausa": false,
+      "midi": 76,
+      "nome": "E5",
+      "figura": "16th",
+      "pontuada": false,
+      "duracao": 0.25,
+      "acorde": true,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 41,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.75,
+      "t_global": 8.25,
+      "pausa": false,
+      "midi": 68,
+      "nome": "G#4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": true,
+      "graca": false,
+      "notacoes": [
+       "tie-stop"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "tie-stop": "certo"
+     }
+    },
+    {
+     "idx": 42,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.75,
+      "t_global": 8.25,
+      "pausa": false,
+      "midi": 71,
+      "nome": "B4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": true,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 43,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.75,
+      "t_global": 8.25,
+      "pausa": false,
+      "midi": 76,
+      "nome": "E5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": true,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 44,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.75,
+      "t_global": 8.25,
+      "pausa": false,
+      "midi": 59,
+      "nome": "B3",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "3",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 45,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 4.25,
+      "t_global": 8.75,
+      "pausa": false,
+      "midi": 68,
+      "nome": "G#4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 46,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 4.25,
+      "t_global": 8.75,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "3",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 47,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 0.0,
+      "t_global": 9.25,
+      "pausa": false,
+      "midi": 57,
+      "nome": "A3",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 48,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 0.5,
+      "t_global": 9.75,
+      "pausa": false,
+      "midi": 60,
+      "nome": "C4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 49,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 1.0,
+      "t_global": 10.25,
+      "pausa": false,
+      "midi": 52,
+      "nome": "E3",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 50,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 2.0,
+      "t_global": 11.25,
+      "pausa": false,
+      "midi": 60,
+      "nome": "C4",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 51,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 3.0,
+      "t_global": 12.25,
+      "pausa": false,
+      "midi": 57,
+      "nome": "A3",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 52,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 3.5,
+      "t_global": 12.75,
+      "pausa": false,
+      "midi": 60,
+      "nome": "C4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 53,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 0.0,
+      "t_global": 13.25,
+      "pausa": false,
+      "midi": 54,
+      "nome": "F#3",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 54,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 0.5,
+      "t_global": 13.75,
+      "pausa": false,
+      "midi": 62,
+      "nome": "D4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 55,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 1.0,
+      "t_global": 14.25,
+      "pausa": false,
+      "midi": 57,
+      "nome": "A3",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 56,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 1.5,
+      "t_global": 14.75,
+      "pausa": false,
+      "midi": 54,
+      "nome": "F#3",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 57,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 2.0,
+      "t_global": 15.25,
+      "pausa": false,
+      "midi": 62,
+      "nome": "D4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": [
+       "slur-start"
+      ]
+     },
+     "dono": "certo",
+     "notacoes_dono": {
+      "slur-start": "certo"
+     }
+    },
+    {
+     "idx": 58,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 2.5,
+      "t_global": 15.75,
+      "pausa": false,
+      "midi": 54,
+      "nome": "F#3",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 59,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 3.0,
+      "t_global": 16.25,
+      "pausa": false,
+      "midi": 57,
+      "nome": "A3",
+      "figura": "quarter",
+      "pontuada": false,
+      "duracao": 1.0,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    }
+   ],
+   "faltando": [
+    {
+     "x": 544.4,
+     "y": 94.3
+    },
+    {
+     "x": 1037.5,
+     "y": 94.3
+    },
+    {
+     "x": 1065.1,
+     "y": 94.3
+    },
+    {
+     "x": 1085.8,
+     "y": 87.4
+    },
+    {
+     "x": 1085.8,
+     "y": 73.6
+    },
+    {
+     "x": 1132.8,
+     "y": 95.7
+    },
+    {
+     "x": 1156.3,
+     "y": 87.4
+    },
+    {
+     "x": 1154.9,
+     "y": 75.0
+    },
+    {
+     "x": 1182.5,
+     "y": 76.4
+    },
+    {
+     "x": 1175.6,
+     "y": 90.2
+    },
+    {
+     "x": 1199.1,
+     "y": 95.7
+    },
+    {
+     "x": 1223.9,
+     "y": 87.4
+    },
+    {
+     "x": 1225.3,
+     "y": 73.6
+    },
+    {
+     "x": 1272.3,
+     "y": 95.7
+    },
+    {
+     "x": 1293.0,
+     "y": 87.4
+    },
+    {
+     "x": 1291.6,
+     "y": 73.6
+    },
+    {
+     "x": 1317.9,
+     "y": 87.4
+    },
+    {
+     "x": 1317.9,
+     "y": 73.6
+    },
+    {
+     "x": 1442.2,
+     "y": 97.1
+    },
+    {
+     "x": 1467.0,
+     "y": 95.7
+    },
+    {
+     "x": 1491.9,
+     "y": 81.9
+    },
+    {
+     "x": 1512.6,
+     "y": 98.5
+    },
+    {
+     "x": 1534.7,
+     "y": 90.2
+    },
+    {
+     "x": 1560.9,
+     "y": 81.9
+    },
+    {
+     "x": 1581.7,
+     "y": 81.9
+    },
+    {
+     "x": 1603.7,
+     "y": 92.9
+    },
+    {
+     "x": 1627.2,
+     "y": 80.5
+    },
+    {
+     "x": 1652.1,
+     "y": 101.2
+    },
+    {
+     "x": 1671.4,
+     "y": 94.3
+    },
+    {
+     "x": 1697.7,
+     "y": 79.1
+    },
+    {
+     "x": 1725.3,
+     "y": 81.9
+    }
+   ],
+   "largura_png": 1749,
+   "altura_png": 180,
+   "obs": "perdeu uma parte grande da 2 metade de cima",
+   "confirmado": true,
+   "respondido_em": "2026-10-15T19:30:54"
+  },
+  "canon_de_pachelb_P06a": {
+   "fonte": "audiveris/x2_margem_herdada",
+   "clave_certa": true,
+   "armadura_certa": true,
+   "simbolos": [
+    {
+     "idx": 0,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.0,
+      "t_global": 0.0,
+      "pausa": false,
+      "midi": 62,
+      "nome": "D4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 1,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.0,
+      "t_global": 0.0,
+      "pausa": false,
+      "midi": 50,
+      "nome": "D3",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 2,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 0.5,
+      "t_global": 0.5,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 3,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 1.0,
+      "t_global": 1.0,
+      "pausa": false,
+      "midi": 66,
+      "nome": "F#4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 4,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 1.5,
+      "t_global": 1.5,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 5,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 2.0,
+      "t_global": 2.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 6,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 2.0,
+      "t_global": 2.0,
+      "pausa": false,
+      "midi": 57,
+      "nome": "A3",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 7,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 2.5,
+      "t_global": 2.5,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 8,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 3.0,
+      "t_global": 3.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 9,
+     "compasso": "1",
+     "palpite": {
+      "compasso": "1",
+      "t": 3.5,
+      "t_global": 3.5,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 10,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 0.0,
+      "t_global": 4.0,
+      "pausa": false,
+      "midi": 66,
+      "nome": "F#4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 11,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 0.0,
+      "t_global": 4.0,
+      "pausa": false,
+      "midi": 59,
+      "nome": "B3",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 12,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 0.5,
+      "t_global": 4.5,
+      "pausa": false,
+      "midi": 71,
+      "nome": "B4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 13,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 1.0,
+      "t_global": 5.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 14,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 1.5,
+      "t_global": 5.5,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 15,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.0,
+      "t_global": 6.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 16,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.0,
+      "t_global": 6.0,
+      "pausa": false,
+      "midi": 54,
+      "nome": "F#3",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 17,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 2.5,
+      "t_global": 6.5,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 18,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.0,
+      "t_global": 7.0,
+      "pausa": false,
+      "midi": 66,
+      "nome": "F#4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 19,
+     "compasso": "2",
+     "palpite": {
+      "compasso": "2",
+      "t": 3.5,
+      "t_global": 7.5,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 20,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 0.0,
+      "t_global": 8.0,
+      "pausa": false,
+      "midi": 62,
+      "nome": "D4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 21,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 0.0,
+      "t_global": 8.0,
+      "pausa": false,
+      "midi": 55,
+      "nome": "G3",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 22,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 0.5,
+      "t_global": 8.5,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 23,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 1.0,
+      "t_global": 9.0,
+      "pausa": false,
+      "midi": 71,
+      "nome": "B4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 24,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 1.5,
+      "t_global": 9.5,
+      "pausa": false,
+      "midi": 73,
+      "nome": "C#5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 25,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 2.0,
+      "t_global": 10.0,
+      "pausa": false,
+      "midi": 74,
+      "nome": "D5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 26,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 2.0,
+      "t_global": 10.0,
+      "pausa": false,
+      "midi": 50,
+      "nome": "D3",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 27,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 2.5,
+      "t_global": 10.5,
+      "pausa": false,
+      "midi": 73,
+      "nome": "C#5",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 28,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 3.0,
+      "t_global": 11.0,
+      "pausa": false,
+      "midi": 71,
+      "nome": "B4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 29,
+     "compasso": "3",
+     "palpite": {
+      "compasso": "3",
+      "t": 3.5,
+      "t_global": 11.5,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 30,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 0.0,
+      "t_global": 12.0,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 31,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 0.0,
+      "t_global": 12.0,
+      "pausa": false,
+      "midi": 55,
+      "nome": "G3",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 32,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 0.5,
+      "t_global": 12.5,
+      "pausa": false,
+      "midi": 66,
+      "nome": "F#4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 33,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 1.0,
+      "t_global": 13.0,
+      "pausa": false,
+      "midi": 64,
+      "nome": "E4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 34,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 1.5,
+      "t_global": 13.5,
+      "pausa": false,
+      "midi": 71,
+      "nome": "B4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 35,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 2.0,
+      "t_global": 14.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 36,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 2.0,
+      "t_global": 14.0,
+      "pausa": false,
+      "midi": 57,
+      "nome": "A3",
+      "figura": "half",
+      "pontuada": false,
+      "duracao": 2.0,
+      "acorde": false,
+      "voz": "2",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 37,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 2.5,
+      "t_global": 14.5,
+      "pausa": false,
+      "midi": 71,
+      "nome": "B4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 38,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 3.0,
+      "t_global": 15.0,
+      "pausa": false,
+      "midi": 69,
+      "nome": "A4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    },
+    {
+     "idx": 39,
+     "compasso": "4",
+     "palpite": {
+      "compasso": "4",
+      "t": 3.5,
+      "t_global": 15.5,
+      "pausa": false,
+      "midi": 67,
+      "nome": "G4",
+      "figura": "eighth",
+      "pontuada": false,
+      "duracao": 0.5,
+      "acorde": false,
+      "voz": "1",
+      "ligadura_inicio": false,
+      "ligadura_fim": false,
+      "graca": false,
+      "notacoes": []
+     },
+     "dono": "certo",
+     "notacoes_dono": {}
+    }
+   ],
+   "faltando": [],
+   "largura_png": 1792,
+   "altura_png": 294,
+   "obs": "",
+   "confirmado": true,
+   "respondido_em": "2026-10-15T19:30:19"
+  }
+ }
+}

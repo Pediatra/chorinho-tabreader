@@ -949,24 +949,29 @@ def _tabela(itens: list[dict]) -> str:
 # ---------------------------------------------------------------------------------
 
 
-def gabarito_vazio() -> dict:
+def gabarito_vazio(itens: Path = ITENS) -> dict:
     """Gabarito sem nenhuma resposta (formato 3).
+
+    Args:
+        itens: ``itens.json`` servido na conferência, gravado em ``fonte_itens``
+            (relativo à raiz do projeto quando está dentro dela).
 
     Returns:
         Dicionário com ``formato``, ``fonte_itens`` e ``recortes`` vazio.
     """
     return {
         "formato": FORMATO_GABARITO,
-        "fonte_itens": str(ITENS.relative_to(RAIZ)),
+        "fonte_itens": _relativo_a_raiz(itens.resolve()),
         "recortes": {},
     }
 
 
-def carregar_gabarito(caminho: Path) -> dict:
+def carregar_gabarito(caminho: Path, itens: Path = ITENS) -> dict:
     """Lê o gabarito do disco, ou devolve um vazio se o arquivo não existe.
 
     Args:
         caminho: arquivo de gabarito (``--ouro``).
+        itens: ``itens.json`` servido, para o ``fonte_itens`` de um gabarito novo.
 
     Returns:
         Gabarito formato 3.
@@ -976,7 +981,7 @@ def carregar_gabarito(caminho: Path) -> dict:
             gabarito do formato 1 ou 2, que este código não converte).
     """
     if not caminho.exists():
-        return gabarito_vazio()
+        return gabarito_vazio(itens)
     dados = json.loads(caminho.read_text(encoding="utf-8"))
     if dados.get("formato") != FORMATO_GABARITO:
         raise ValueError(
@@ -1343,7 +1348,7 @@ def criar_servidor(
     itens_todos = json.loads(itens_caminho.read_text(encoding="utf-8"))["itens"]
     ordem = sorted(itens_todos, key=lambda it: (-it["discordancias"], it["id"]))
     por_id = {it["id"]: it for it in ordem}
-    gabarito = carregar_gabarito(ouro)
+    gabarito = carregar_gabarito(ouro, itens_caminho)
     trava = threading.Lock()
 
     class Manipulador(http.server.BaseHTTPRequestHandler):
