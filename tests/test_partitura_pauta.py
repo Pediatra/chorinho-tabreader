@@ -256,3 +256,59 @@ def test_barra_de_colcheias_acima_nao_derruba_pauta() -> None:
         img[300 + 18 * k : 302 + 18 * k, 200:1700] = 0
     img[279:285, 900:1300] = 0
     assert len(achar_pautas(img)) == 1
+
+
+def _linha_fina_com_buracos(img: np.ndarray, y: int, x0: int, x1: int) -> None:
+    """Linha de 1 px com um buraco de 1 px a cada 20 px.
+
+    A abertura horizontal apaga esse traço (nenhum trecho chega ao comprimento mínimo),
+    como faz com a linha cinza borrada do acervo: a linha some da lista de linhas fortes.
+
+    Args:
+        img: imagem onde desenhar (alterada no lugar).
+        y: linha de pixel da linha.
+        x0: início horizontal.
+        x1: fim horizontal.
+    """
+    for x in range(x0, x1 + 1):
+        if x % 20 != 0:
+            img[y, x] = 0
+
+
+def test_pauta_com_segunda_linha_apagada_e_completada() -> None:
+    """Pauta de 5 com a 2ª linha só como traço picotado: acha 1 pauta, ys ±1 px."""
+    img = _quadro_branco()
+    _desenhar_linhas(img, 300, 20, n=1)
+    _linha_fina_com_buracos(img, 320, 200, 1700)
+    _desenhar_linhas(img, 340, 20, n=3)
+    pautas = achar_pautas(img)
+    assert len(pautas) == 1
+    for medido, esperado in zip(pautas[0].ys, [300, 320, 340, 360, 380], strict=True):
+        assert abs(medido - esperado) <= 1
+
+
+def test_pauta_com_primeira_linha_apagada_e_completada() -> None:
+    """Pauta de 5 com a 1ª linha (borda) só como traço picotado: acha 1 pauta."""
+    img = _quadro_branco()
+    _linha_fina_com_buracos(img, 300, 200, 1700)
+    _desenhar_linhas(img, 320, 20, n=4)
+    pautas = achar_pautas(img)
+    assert len(pautas) == 1
+    for medido, esperado in zip(pautas[0].ys, [300, 320, 340, 360, 380], strict=True):
+        assert abs(medido - esperado) <= 1
+
+
+def test_tab_de_seis_com_linha_do_meio_apagada_nao_vira_pauta() -> None:
+    """Tablatura de 6 com a linha do meio (320) só picotada: nenhuma pauta."""
+    img = _quadro_branco()
+    _desenhar_linhas(img, 300, 20, n=1)
+    _linha_fina_com_buracos(img, 320, 200, 1700)
+    _desenhar_linhas(img, 340, 20, n=4)
+    assert achar_pautas(img) == []
+
+
+def test_quatro_linhas_sem_quinta_nao_sao_pauta() -> None:
+    """Quatro linhas soltas, fundo liso no lugar da 5ª: nenhuma pauta."""
+    img = _quadro_branco()
+    _desenhar_linhas(img, 300, 20, n=4)
+    assert achar_pautas(img) == []

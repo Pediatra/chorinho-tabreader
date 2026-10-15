@@ -5279,6 +5279,13 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - O `<stem>.partitura.json` ganha `fifths`, `fifths_origem` e `compassos` por pauta, e `metodo` (`altura` ou `x`) em cada par. Quando o x desmente o par pela altura, o evento pega a coluna livre mais próxima a até uma entrelinha: Gym tela 10 vai de 0 para 10 de 14 pares conferidos; total 433 de 438. Notas certas iguais (723/767). Gym tela 12 tem `fifths` 1, provavelmente errado; `fracao` só na primeira pauta de cada vídeo.
 
+## Partitura — 2026-10-15 — pauta com uma linha apagada ganha a 5ª linha (rodada 3018)
+
+- Linha cinza e borrada some na abertura e sobram 4. O detector agora completa a 5ª linha no meio ou na borda, se ela for crista no cinza; 6 linhas = tablatura, descartada.
+- Censo (436 vídeos, mesma amostra da 3001): **18 quadros ganharam pauta, 0 perderam**, 9 ganharam mais uma pauta. Dos 27, 25 são pautas reais, 1 é tablatura que o `paginar` descarta, 1 é falso (leonardo ramos).
+- Validação 4/4, 3/3, 12/12, caixas idênticas. Piloto: mela 30→41 recortes; free tab 14→12 páginas (sem página partida), 23 recortes.
+- O `paginar` também passa a ler o quadro com mais pautas de cada página. Ver `docs/rodadas/3018-quinta-linha-que-falta.md`.
+
 ## Partitura — 2026-10-15 — paginar resiste a destaque colorido e tira a tablatura (rodada 3017)
 
 - Tinta passou a ser contraste com o fundo local (top-hat). Quando só o destaque amarelo ou rosa anda, a diferença caiu de até 0,74 para ≤ 0,06; troca real de página fica em 0,49–0,55.

@@ -1153,6 +1153,33 @@ def agrupar_paginas(
     return resultado
 
 
+def escolher_instante(pagina: dict, contagens: list[tuple[float, int]]) -> float:
+    """Escolhe o instante do quadro em que a página é recortada.
+
+    Um destaque (ex.: amarelo) pode cobrir a pauta num quadro, e ``achar_pautas`` a perde
+    ali; em outro instante da mesma exibição, com o destaque em outro lugar, ela costuma
+    aparecer. Por isso, entre as amostras que caem numa exibição da página, usa-se a que
+    achou mais pautas; em empate, a mais perto de ``pagina["t"]``. Se nenhuma amostra cai
+    numa exibição, fica o ``t`` original.
+
+    Args:
+        pagina: entrada de ``agrupar_paginas``, com ``exibicoes`` e ``t``.
+        contagens: pares ``(t, n)`` de cada quadro amostrado, com ``n`` pautas achadas.
+
+    Returns:
+        O instante escolhido, em segundos.
+    """
+    candidatas = [
+        (t, n)
+        for t, n in contagens
+        if any(e["t0"] <= t <= e["t1"] for e in pagina["exibicoes"])
+    ]
+    if not candidatas:
+        return pagina["t"]
+    melhor = min(candidatas, key=lambda par: (-par[1], abs(par[0] - pagina["t"])))
+    return melhor[0]
+
+
 def _limpar_paginas(pasta_recortes: Path) -> None:
     """Apaga os arquivos de uma execução anterior de ``paginar``.
 
@@ -1219,8 +1246,11 @@ def _paginar(video: str, pasta: Path | None) -> tuple[list[dict], int, int, int]
     caminho = str(acervo() / video)
     duracao = float(info(caminho)["duracao_s"])
     amostras: list[tuple[float, np.ndarray | None]] = []
+    contagens: list[tuple[float, int]] = []
     for t, quadro in quadros(caminho, 0.0, duracao, QPS_PAGINAS):
-        amostras.append((t, assinatura(quadro, achar_pautas(quadro))))
+        pautas = achar_pautas(quadro)
+        amostras.append((t, assinatura(quadro, pautas)))
+        contagens.append((t, len(pautas)))
     paginas = agrupar_paginas(amostras)
 
     pasta_video = pasta if pasta is not None else PASTA_SEM_PRODUTO / _slug(video)
@@ -1231,6 +1261,7 @@ def _paginar(video: str, pasta: Path | None) -> tuple[list[dict], int, int, int]
     total_recortes = 0
     total_descartadas = 0
     for pagina in paginas:
+        pagina["t"] = escolher_instante(pagina, contagens)
         numero = pagina["pagina"]
         t = pagina["t"]
         exibicoes = pagina["exibicoes"]

@@ -393,6 +393,51 @@ def test_agrupar_paginas_sem_amostras_validas():
     assert agrupar_paginas(_amostras([None, None, None])) == []
 
 
+def _pagina_de_teste(t: float, *exibicoes: tuple[float, float]) -> dict:
+    """Página de teste com ``t`` e as exibições ``(t0, t1)`` dadas."""
+    return {
+        "pagina": 1,
+        "t": t,
+        "exibicoes": [{"t0": a, "t1": b} for a, b in exibicoes],
+    }
+
+
+def test_escolher_instante_maior_contagem_ganha():
+    """Entre as amostras dentro da exibição, a de mais pautas vence, mesmo longe de t."""
+    pagina = _pagina_de_teste(5.0, (0.0, 10.0))
+    contagens = [(1.0, 1), (4.0, 1), (5.0, 1), (9.0, 2)]
+    assert partitura_video.escolher_instante(pagina, contagens) == 9.0
+
+
+def test_escolher_instante_empate_fica_com_o_mais_perto_de_t():
+    """Duas amostras com a mesma contagem: a mais perto do ``t`` original vence."""
+    pagina = _pagina_de_teste(5.0, (0.0, 10.0))
+    contagens = [(2.0, 2), (6.0, 2), (9.0, 2)]
+    assert partitura_video.escolher_instante(pagina, contagens) == 6.0
+
+
+def test_escolher_instante_ignora_amostra_fora_das_exibicoes():
+    """Uma amostra com mais pautas, mas fora de qualquer exibição, não conta."""
+    pagina = _pagina_de_teste(5.0, (0.0, 3.0), (7.0, 8.0))
+    contagens = [(1.0, 1), (5.0, 4), (7.5, 2)]
+    assert partitura_video.escolher_instante(pagina, contagens) == 7.5
+
+
+def test_escolher_instante_sem_amostra_dentro_devolve_t_original():
+    """Sem nenhuma amostra nas exibições, devolve o ``t`` da página."""
+    pagina = _pagina_de_teste(5.0, (0.0, 3.0))
+    contagens = [(4.0, 3), (9.0, 3)]
+    assert partitura_video.escolher_instante(pagina, contagens) == 5.0
+    assert partitura_video.escolher_instante(pagina, []) == 5.0
+
+
+def test_escolher_instante_limites_da_exibicao_contam():
+    """``t0`` e ``t1`` são inclusivos: amostras nas bordas entram na escolha."""
+    pagina = _pagina_de_teste(5.0, (2.0, 4.0))
+    contagens = [(2.0, 1), (4.0, 3)]
+    assert partitura_video.escolher_instante(pagina, contagens) == 4.0
+
+
 def _quadro_claro(largura: int = 400, altura: int = 300) -> np.ndarray:
     """Quadro BGR branco com 5 linhas de pauta e um bloco preto (uma nota)."""
     quadro = np.full((altura, largura, 3), 255, np.uint8)

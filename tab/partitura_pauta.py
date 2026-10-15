@@ -12,6 +12,9 @@ Passos (ver ``achar_pautas``):
 2. abertura morfológica horizontal, que apaga cabeças de nota, hastes, texto e diagonais;
 3. perfil de linhas de pixel: linhas fortes (muita tinta) e fracas (tinta média);
 4. grupos de 5 linhas fortes consecutivas com espaçamento regular;
+   depois, grupos de 4 linhas fortes livres em que a 5ª, faltante (linha dividida
+   entre duas linhas de pixel e apagada pela abertura, ou na borda), é completada por
+   espaçamento e tem de passar no teste de crista (``_completar_grupos_de_quatro``);
 5. teste de crista no cinza: cada linha tem de ser mais escura (ou mais clara, na
    polaridade clara) que as linhas vizinhas a ``ceil(espessura / 2) + CRISTA_FOLGA``
    px. Fundo branco entre duas linhas escuras não é crista;
@@ -324,6 +327,10 @@ def _grupos_de_cinco(
 ) -> list[Pauta]:
     """Procura pautas entre as linhas fortes de uma polaridade, pulando as já usadas.
 
+    Primeiro passada de grupos de 5 linhas fortes consecutivas; depois, passada de
+    grupos de 4 com a 5ª linha completada (``_completar_grupos_de_quatro``), só entre as
+    linhas fortes que a primeira passada não usou.
+
     A checagem da 6ª linha usa só a polaridade do grupo: a 6ª linha de uma tablatura escura
     é tinta escura. A faixa que o limiar adaptativo desenha nos espaços entre linhas juntas,
     na máscara da polaridade oposta, geraria rejeições falsas de pautas reais.
@@ -356,7 +363,133 @@ def _grupos_de_cinco(
             i += N_LINHAS
         else:
             i += 1
-    return pautas
+    novas = _completar_grupos_de_quatro(linhas, aberta, cinza, largura, pautas)
+    return sorted([*pautas, *novas], key=lambda pauta: pauta.ys[0])
+
+
+def _completar_grupos_de_quatro(
+    linhas: list[_Linha],
+    aberta: np.ndarray,
+    cinza: np.ndarray,
+    largura: int,
+    pautas_aceitas: list[Pauta],
+) -> list[Pauta]:
+    """Completa pautas de 4 linhas fortes achadas, com a 5ª linha faltante.
+
+    Considera só as linhas fortes que nenhuma pauta de ``pautas_aceitas`` usou. Anda por
+    janelas de 4 linhas livres consecutivas (em ordem de y); numa janela aceita, pula as 4
+    linhas inteiras. Uma janela é aceita quando ``_completar_janela`` acha a pauta.
+
+    Args:
+        linhas: linhas fortes e fracas da polaridade em análise, de cima para baixo.
+        aberta: máscara aberta da mesma polaridade (para a janela da 6ª linha).
+        cinza: quadro em tons de cinza (para o teste de crista).
+        largura: largura do quadro, em px.
+        pautas_aceitas: pautas já aceitas pela passada de 5 linhas nesta polaridade.
+
+    Returns:
+        As pautas completadas, de cima para baixo.
+    """
+    usadas = {y for pauta in pautas_aceitas for y in pauta.ys}
+    livres = [linha for linha in linhas if linha.forte and round(linha.y) not in usadas]
+    novas: list[Pauta] = []
+    i = 0
+    while i + N_LINHAS - 1 <= len(livres):
+        pauta = _completar_janela(
+            livres[i : i + N_LINHAS - 1], linhas, aberta, cinza, largura
+        )
+        if pauta is not None:
+            novas.append(pauta)
+            i += N_LINHAS - 1
+        else:
+            i += 1
+    return novas
+
+
+def _completar_janela(
+    janela: list[_Linha],
+    linhas: list[_Linha],
+    aberta: np.ndarray,
+    cinza: np.ndarray,
+    largura: int,
+) -> Pauta | None:
+    """Tenta completar uma janela de 4 linhas fortes numa pauta de 5.
+
+    A 5ª linha vem de ``_linhas_faltantes``. Só é candidata a que, com as 4, forma uma
+    pauta geometricamente válida e passa no teste de crista. Exatamente uma candidata
+    tem de passar; depois disso valem os mesmos testes do laço de 5 linhas
+    (``_pauta_do_grupo``, espessura, crista, 6ª linha).
+
+    Args:
+        janela: as 4 linhas fortes livres, de cima para baixo.
+        linhas: linhas fortes e fracas da polaridade (para a 6ª linha).
+        aberta: máscara aberta da mesma polaridade.
+        cinza: quadro em tons de cinza.
+        largura: largura do quadro, em px.
+
+    Returns:
+        A pauta de 5 linhas, ou ``None`` se a janela não vira pauta.
+    """
+    escura = janela[0].escura
+    espessura = round(float(np.median([linha.espessura for linha in janela])))
+    x0 = max(linha.x0 for linha in janela)
+    x1 = min(linha.x1 for linha in janela)
+    passam: list[tuple[list[_Linha], Pauta]] = []
+    for y in _linhas_faltantes([linha.y for linha in janela]):
+        nova = _Linha(y=y, x0=x0, x1=x1, forte=True, escura=escura, espessura=espessura)
+        grupo = sorted([*janela, nova], key=lambda linha: linha.y)
+        pauta = _pauta_do_grupo(grupo, largura)
+        if pauta is not None and _linha_e_crista(nova, pauta, cinza):
+            passam.append((grupo, pauta))
+    if len(passam) != 1:
+        return None
+    grupo, pauta = passam[0]
+    espessuras = [linha.espessura for linha in grupo]
+    mediana = round(float(np.median(espessuras)))
+    if max(espessuras) > _espessura_limite(mediana):
+        return None
+    if not _linhas_sao_crista(grupo, pauta, cinza):
+        return None
+    if _ha_sexta_linha(pauta, linhas, largura, mediana):
+        return None
+    if _ha_sexta_na_janela(pauta, aberta):
+        return None
+    return pauta
+
+
+def _linhas_faltantes(ys: list[float]) -> list[float]:
+    """Candidatas a 5ª linha de um grupo de 4 linhas, pelo espaçamento.
+
+    Com os três intervalos ``d`` do grupo:
+
+    - caso borda: os três estão a até ``tol`` da mediana ``e``; candidatas
+      ``ys[0] - e`` (acima) e ``ys[3] + e`` (abaixo);
+    - caso meio: exatamente um intervalo está a até ``2 * tol`` de ``2e`` e os outros dois
+      a até ``tol`` de ``e`` (``e`` é a média dos dois simples); candidata única, o ponto
+      médio do intervalo duplo.
+
+    Fora desses casos não há candidata. ``tol = max(TOL_ABS, TOL_REL * e)``.
+
+    Args:
+        ys: as 4 posições verticais, de cima para baixo.
+
+    Returns:
+        As candidatas a y da 5ª linha (lista vazia se o espaçamento não basta).
+    """
+    d = [ys[1] - ys[0], ys[2] - ys[1], ys[3] - ys[2]]
+    e = float(np.median(d))
+    if all(abs(x - e) <= max(TOL_ABS, TOL_REL * e) for x in d):
+        return [ys[0] - e, ys[3] + e]
+    meios: list[float] = []
+    for k in range(3):
+        simples = [d[j] for j in range(3) if j != k]
+        e_simples = (simples[0] + simples[1]) / 2
+        tol = max(TOL_ABS, TOL_REL * e_simples)
+        if all(abs(s - e_simples) <= tol for s in simples) and (
+            abs(d[k] - 2 * e_simples) <= 2 * tol
+        ):
+            meios.append((ys[k] + ys[k + 1]) / 2)
+    return meios if len(meios) == 1 else []
 
 
 def _espessura_limite(espessura: int) -> int:
