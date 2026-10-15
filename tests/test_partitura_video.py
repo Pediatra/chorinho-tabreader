@@ -637,14 +637,17 @@ def _rodar_um_falso(ok: bool, chamadas: list[tuple[str, str, str]]):
     return falso
 
 
-def test_ler_pasta_roda_so_audiveris_uma_vez_por_recorte_com_pauta(
+def test_ler_pasta_roda_audiveris_e_depois_homr_por_recorte(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """Só a biblioteca Audiveris roda, uma vez por recorte com pauta; homr nunca."""
+    """Todo o Audiveris roda antes; depois todo o homr, uma vez por recorte com pauta."""
     chamadas: list[tuple[str, str, str]] = []
     monkeypatch.setattr(partitura_video, "rodar_um", _rodar_um_falso(False, chamadas))
     ler_pasta(_pasta_sem_produto(tmp_path))
-    assert chamadas == [("audiveris", "x2_margem", "T01")]
+    assert chamadas == [
+        ("audiveris", "x2_margem", "T01"),
+        ("homr", "nativo", "T01"),
+    ]
 
 
 def test_ler_pasta_id_desconhecido_levanta_antes_de_rodar(
@@ -736,12 +739,17 @@ def test_ler_pasta_documento_sem_tab_com_eventos(
 
     documento = ler_pasta(pasta)
 
-    assert chamadas == [("audiveris", "x2_margem", "T01")]
+    assert chamadas == [
+        ("audiveris", "x2_margem", "T01"),
+        ("homr", "nativo", "T01"),
+    ]
     assert documento["produto"] is None
     assert documento["produto_sha256"] is None
     assert documento["esquema"] == partitura_video.ESQUEMA_PARTITURA
     assert documento["video"] == "canal/v.mp4"
-    assert documento["gerado_por"]["completar"] is None
+    assert documento["gerado_por"]["completar"] == (
+        "homr nativo no compasso com >= 2x as notas do Audiveris (sem confirmação)"
+    )
     assert len(documento["pautas"]) == 1
     pauta = documento["pautas"][0]
     assert pauta["fifths"] == 2
@@ -758,9 +766,101 @@ def test_ler_pasta_documento_sem_tab_com_eventos(
         "eventos": 1,
         "com_erro": 0,
         "paginas": 1,
+        "compassos_homr": 0,
+        "notas_homr": 0,
     }
     gravado = json.loads(caminho_da_pasta(pasta).read_text(encoding="utf-8"))
     assert gravado == documento
+
+
+def _simbolo_de_teste(midi: int) -> dict:
+    """Símbolo mínimo, com os campos que ``_simbolo_do_documento`` lê."""
+    return {
+        "nome": f"m{midi}",
+        "midi": midi,
+        "figura": "q",
+        "pontuada": False,
+        "voz": 1,
+        "ligadura_inicio": False,
+        "ligadura_fim": False,
+        "notacoes": [],
+    }
+
+
+def _evento_de_teste(compasso: int, midis: list[int]) -> EventoPartitura:
+    """Evento de partitura com um símbolo por altura, no compasso dado."""
+    return EventoPartitura(
+        indice=0,
+        compasso=compasso,
+        t=0.0,
+        t_global=0.0,
+        x_quadro=None,
+        midis=frozenset(midis),
+        simbolos=[_simbolo_de_teste(m) for m in midis],
+    )
+
+
+def _pauta_com_homr(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, homr_existe: bool
+) -> dict:
+    """Roda ``_pauta_sem_produto`` com Audiveris de 1 nota e homr de 2 no compasso 1."""
+    pasta = tmp_path / "omr"
+    herdada = pasta / "audiveris" / "x2_margem_herdada" / "T01"
+    herdada.mkdir(parents=True)
+    (herdada / "saida.musicxml").write_text("<x/>", encoding="utf-8")
+    entrada_omr = pasta / "audiveris" / "x2_margem" / "T01"
+    entrada_omr.mkdir(parents=True)
+    (entrada_omr / "entrada.omr").write_bytes(b"")
+    if homr_existe:
+        homr_dir = pasta / "homr" / "nativo" / "T01"
+        homr_dir.mkdir(parents=True)
+        (homr_dir / "saida.musicxml").write_text("<y/>", encoding="utf-8")
+
+    def ler_falso(caminho: Path) -> dict:
+        """Compasso 1 para ambas as leituras (o homr é distinguido em ``eventos``)."""
+        return {"armadura": 0, "compassos": [{"numero": 1}], "compasso_formula": None}
+
+    def eventos_falsos(musicxml: Path, omr, x0, escala=2.0) -> list[EventoPartitura]:
+        """Audiveris: 1 nota no compasso 1; homr: 2 notas no compasso 1."""
+        if "homr" in musicxml.parts:
+            return [_evento_de_teste(1, [64, 67])]
+        return [_evento_de_teste(1, [60])]
+
+    monkeypatch.setattr(partitura_video, "ler_partitura", ler_falso)
+    monkeypatch.setattr(partitura_video, "eventos_da_partitura", eventos_falsos)
+    monkeypatch.setattr(
+        partitura_video,
+        "_compassos_do_recorte",
+        lambda leitura, entrada_omr, x0: [
+            {"numero": 1, "fracao": None, "x_quadro": None}
+        ],
+    )
+    return partitura_video._pauta_sem_produto(_entrada_pauta("T01"), pasta)
+
+
+def test_pauta_sem_produto_troca_compasso_quando_homr_tem_o_dobro(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Homr com 2 notas onde o Audiveris tem 1: compasso trocado, notas sem confirmação."""
+    pauta = _pauta_com_homr(tmp_path, monkeypatch, homr_existe=True)
+    assert "erro" not in pauta
+    assert pauta["compassos_homr"] == [1]
+    assert len(pauta["eventos"]) == 1
+    simbolos = pauta["eventos"][0]["simbolos"]
+    assert [s["origem"] for s in simbolos] == ["homr_sem_confirmacao"] * 2
+    assert [s["midi_escrito"] for s in simbolos] == [64, 67]
+    assert pauta["eventos"][0]["x_quadro"] is None
+
+
+def test_pauta_sem_produto_sem_homr_xml_segue_so_com_audiveris(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Sem ``saida.musicxml`` do homr: ``compassos_homr`` vazio, sem ``erro``."""
+    pauta = _pauta_com_homr(tmp_path, monkeypatch, homr_existe=False)
+    assert "erro" not in pauta
+    assert pauta["compassos_homr"] == []
+    assert len(pauta["eventos"]) == 1
+    assert pauta["eventos"][0]["simbolos"][0]["origem"] == "audiveris"
 
 
 def test_caminho_da_pasta_usa_o_nome_da_pasta(tmp_path: Path) -> None:

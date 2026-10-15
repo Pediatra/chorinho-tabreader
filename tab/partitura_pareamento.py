@@ -18,7 +18,7 @@ import argparse
 import json
 import xml.etree.ElementTree as ET
 import zipfile
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from fractions import Fraction
 from pathlib import Path
 
@@ -48,6 +48,10 @@ PASTA_PAREAMENTO = SAIDA / "partitura" / "p3" / "pareamento"
 
 #: Leitura do homr usada para completar as notas que o Audiveris perdeu.
 CONDICAO_HOMR = "nativo"
+
+#: Troca o compasso do Audiveris pelo do homr quando o homr tem pelo menos esse
+#: múltiplo das notas (rodada 3024: recupera 25/40 notas com 8 inventadas).
+RAZAO_TROCA_HOMR = 2.0
 
 
 @dataclass
@@ -397,6 +401,95 @@ def completar_com_homr(
     for indice, evento in enumerate(eventos):
         evento.indice = indice
     return eventos, acrescimos
+
+
+def _posicoes(numeros: list[int]) -> dict[int, int]:
+    """Posição de cada número de compasso na lista (a primeira, se repetido).
+
+    Args:
+        numeros: números dos compassos de uma leitura, na ordem.
+
+    Returns:
+        Mapa número do compasso -> posição k.
+    """
+    posicao: dict[int, int] = {}
+    for k, numero in enumerate(numeros):
+        posicao.setdefault(numero, k)
+    return posicao
+
+
+def trocar_compassos_pelo_homr(
+    audiveris: list[EventoPartitura],
+    numeros_audiveris: list[int],
+    homr: list[EventoPartitura],
+    numeros_homr: list[int],
+    razao: float = RAZAO_TROCA_HOMR,
+) -> tuple[list[EventoPartitura], list[int]]:
+    """Troca o compasso do Audiveris pelo do homr quando o homr lê bem mais notas.
+
+    Regra da rodada 3024. Para cada posição ``k``, conta-se os símbolos do Audiveris no
+    compasso ``numeros_audiveris[k]`` e os do homr no compasso ``numeros_homr[k]``. Se o
+    homr tem mais símbolos e pelo menos ``razao`` vezes os do Audiveris, o compasso do
+    Audiveris sai e entra o do homr, renumerado para ``numeros_audiveris[k]``. Sem
+    tablatura a nota do homr não tem confirmação, por isso essas notas saem com
+    ``origem`` ``homr_sem_confirmacao``. O x fica None, porque o homr não tem ``.omr``.
+    Evento do Audiveris cujo compasso não está em ``numeros_audiveris`` vai para o fim.
+
+    Com contagens de compassos diferentes entre as duas leituras, nada é trocado e a
+    lista de entrada volta intacta. Nenhum objeto de entrada é alterado.
+
+    Args:
+        audiveris: eventos do Audiveris, em ordem.
+        numeros_audiveris: número de cada compasso do Audiveris, na ordem (com os vazios).
+        homr: eventos do homr, em ordem.
+        numeros_homr: número de cada compasso do homr, na ordem (com os vazios).
+        razao: múltiplo mínimo de notas do homr sobre as do Audiveris para trocar.
+
+    Returns:
+        ``(eventos, trocados)``: os eventos em ordem de (posição do compasso, ``t``), com
+        ``indice`` de 0 a n-1, e os números dos compassos do Audiveris trocados, em ordem.
+    """
+    if len(numeros_audiveris) != len(numeros_homr):
+        return audiveris, []
+    posicao_aud = _posicoes(numeros_audiveris)
+    posicao_homr = _posicoes(numeros_homr)
+    na = [0] * len(numeros_audiveris)
+    nh = [0] * len(numeros_audiveris)
+    for evento in audiveris:
+        k = posicao_aud.get(evento.compasso)
+        if k is not None:
+            na[k] += len(evento.simbolos)
+    for evento in homr:
+        k = posicao_homr.get(evento.compasso)
+        if k is not None:
+            nh[k] += len(evento.simbolos)
+    trocar = {k for k in range(len(na)) if nh[k] > na[k] and nh[k] >= razao * na[k]}
+    fora = len(numeros_audiveris)
+    saida: list[tuple[int, float, EventoPartitura]] = []
+    for evento in audiveris:
+        k = posicao_aud.get(evento.compasso, fora)
+        if k not in trocar:
+            saida.append((k, evento.t, evento))
+    for evento in homr:
+        k = posicao_homr.get(evento.compasso)
+        if k is None or k not in trocar:
+            continue
+        compasso = numeros_audiveris[k]
+        copia = replace(
+            evento,
+            compasso=compasso,
+            x_quadro=None,
+            trocadas=[],
+            simbolos=[
+                {**s, "compasso": compasso, "origem": "homr_sem_confirmacao"}
+                for s in evento.simbolos
+            ],
+        )
+        saida.append((k, evento.t, copia))
+    saida.sort(key=lambda item: (item[0], item[1]))
+    eventos = [replace(evento, indice=i) for i, (_, _, evento) in enumerate(saida)]
+    trocados = [numeros_audiveris[k] for k in sorted(trocar)]
+    return eventos, trocados
 
 
 def _desmentida(midi: int, coluna_midis: frozenset[int]) -> bool:

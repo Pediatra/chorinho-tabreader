@@ -41,10 +41,12 @@ quadro no ponto médio da exibição mais longa, descarta as pautas que são tab
 ``PASTA_SEM_PRODUTO / <slug>/recortes/``: ``P{pagina}{letra}.png`` por pauta (``P01a``,
 ``P01b``...), ``contexto_PNN.jpg`` por página e ``indice.json``. Não grava produto nem as outras pastas.
 
-Para vídeo **sem** produto, ``ler --pasta PASTA`` roda só o Audiveris nos recortes de
-``paginar`` (sem homr, porque não há tablatura para confirmar a nota) e grava
-``PASTA / <nome>.partitura.json`` (ver ``ler_pasta``). Esse documento não tem tempo nem
-par na tab: o tempo só vem do pareamento com a tablatura.
+Para vídeo **sem** produto, ``ler --pasta PASTA`` roda o Audiveris e depois o homr nos
+recortes de ``paginar``, e grava ``PASTA / <nome>.partitura.json`` (ver ``ler_pasta``).
+Sem tablatura a nota do homr não tem confirmação: o homr só troca o compasso do Audiveris
+quando lê pelo menos o dobro das notas (``trocar_compassos_pelo_homr``), e essas notas
+saem com ``origem`` ``homr_sem_confirmacao``. Esse documento não tem tempo nem par na tab:
+o tempo só vem do pareamento com a tablatura.
 
 Uso:
     python -m tab.partitura_video recortar --produto CAMINHO [--produto CAMINHO ...]
@@ -89,6 +91,7 @@ from tab.partitura_pareamento import (
     completar_com_homr,
     eventos_da_partitura,
     parear,
+    trocar_compassos_pelo_homr,
     x_dos_compassos,
 )
 from tab.partitura_pauta import Pauta, achar_pautas
@@ -468,15 +471,18 @@ def caminho_da_pasta(pasta: Path) -> Path:
 
 
 def ler_pasta(pasta: Path, ids: list[str] | None = None) -> dict:
-    """Roda só o Audiveris nos recortes de uma pasta sem produto e monta o documento.
+    """Roda Audiveris e homr nos recortes de uma pasta sem produto e monta o documento.
 
     Lê ``recortes/indice.json`` e fica com as entradas com pauta. Com ``ids``, roda só
     essas; um id que não é recorte com pauta levanta ``ValueError`` antes de qualquer
-    leitor rodar. Não roda homr: sem tablatura não há como confirmar a nota do homr.
-    Grava ``omr/audiveris/<CONDICAO_AUDIVERIS>/`` com ``execucao.json`` e a armadura
-    do vídeo aplicada em ``omr/audiveris/<CONDICAO_AUDIVERIS>_herdada/`` (como ``ler``).
-    Ao fim, grava o documento em ``caminho_da_pasta(pasta)``, com uma pauta por recorte
-    com pauta (ver ``_pauta_sem_produto``). Não há tempo nem par na tab.
+    leitor rodar. Todo o Audiveris roda primeiro (``omr/audiveris/<CONDICAO_AUDIVERIS>/``,
+    com ``execucao.json``), depois todo o homr (``omr/homr/<CONDICAO_HOMR>/``, também com
+    ``execucao.json``). A armadura do vídeo é aplicada em
+    ``omr/audiveris/<CONDICAO_AUDIVERIS>_herdada/``, como em ``ler``. Ao fim, grava o
+    documento em ``caminho_da_pasta(pasta)``, com uma pauta por recorte com pauta (ver
+    ``_pauta_sem_produto``): nela, o homr troca o compasso do Audiveris pela regra de
+    ``trocar_compassos_pelo_homr``, e as notas trocadas saem ``homr_sem_confirmacao``.
+    Não há tempo nem par na tab.
 
     Args:
         pasta: pasta do vídeo sem produto, com ``recortes/``.
@@ -514,6 +520,26 @@ def ler_pasta(pasta: Path, ids: list[str] | None = None) -> dict:
         )
     _gravar_execucao(pasta_base, do_lote)
 
+    pasta_homr = pasta / "omr" / "homr" / CONDICAO_HOMR
+    pasta_homr.mkdir(parents=True, exist_ok=True)
+    do_lote_homr: list[dict] = []
+    for entrada in escolhidas:
+        registro = rodar_um(
+            "homr",
+            CONDICAO_HOMR,
+            entrada,
+            pasta_homr,
+            origem=pasta_recortes / f"{entrada['id']}.png",
+        )
+        do_lote_homr.append(registro)
+        estado = "ok" if registro["ok"] else "FALHA"
+        detalhe = f" ({registro['motivo']})" if registro["motivo"] else ""
+        print(
+            f"homr {entrada['id']}: {estado} {registro['segundos']} s{detalhe}",
+            flush=True,
+        )
+    _gravar_execucao(pasta_homr, do_lote_homr)
+
     execucoes = json.loads((pasta_base / "execucao.json").read_text(encoding="utf-8"))
     no_execucao = {registro["id"] for registro in execucoes}
     do_video = [entrada for entrada in com_pauta if entrada["id"] in no_execucao]
@@ -534,7 +560,10 @@ def ler_pasta(pasta: Path, ids: list[str] | None = None) -> dict:
         "video": indice[0]["video"],
         "gerado_por": {
             "leitor": "audiveris x2_margem + armadura do vídeo",
-            "completar": None,
+            "completar": (
+                "homr nativo no compasso com >= 2x as notas do Audiveris"
+                " (sem confirmação)"
+            ),
         },
         "pautas": pautas,
         "resumo": {
@@ -542,6 +571,13 @@ def ler_pasta(pasta: Path, ids: list[str] | None = None) -> dict:
             "eventos": eventos,
             "com_erro": sum("erro" in pauta for pauta in pautas),
             "paginas": len({pauta["pagina"] for pauta in pautas}),
+            "compassos_homr": sum(len(pauta["compassos_homr"]) for pauta in pautas),
+            "notas_homr": sum(
+                s["origem"] == "homr_sem_confirmacao"
+                for pauta in pautas
+                for evento in pauta["eventos"]
+                for s in evento["simbolos"]
+            ),
         },
     }
     destino = caminho_da_pasta(pasta)
@@ -755,9 +791,13 @@ def _compassos_do_recorte(leitura: dict, entrada_omr: Path, x0: float) -> list[d
 def _simbolo_do_documento(simbolo: dict) -> dict:
     """Símbolo no formato do documento ``chorinho/partitura@1``.
 
+    ``origem`` é ``audiveris``, ``homr`` (nota do homr que a tab confirmou, por
+    ``completar_com_homr``) ou ``homr_sem_confirmacao`` (nota do homr de um compasso
+    trocado por ``trocar_compassos_pelo_homr``, sem tablatura para confirmar).
+
     Args:
         simbolo: símbolo de ``ler_partitura``, com ``origem`` acrescentada por
-            ``completar_com_homr``.
+            ``completar_com_homr`` ou ``trocar_compassos_pelo_homr``.
 
     Returns:
         Dicionário com ``nome``, ``midi_escrito``, ``figura``, ``pontuada``, ``voz``,
@@ -861,9 +901,15 @@ def _pauta_do_recorte(entrada: dict, notas: list[dict], omr: Path) -> dict:
 def _pauta_sem_produto(entrada: dict, omr: Path) -> dict:
     """Pauta de um recorte de vídeo sem produto: armadura, compassos e eventos, sem tab.
 
-    Espelho de ``_pauta_do_recorte`` sem a tablatura e sem homr. Cada evento sai com
-    ``par`` None e ``trocadas`` vazio. O ``t`` é a posição em semínimas no compasso, não
-    o tempo do vídeo: o tempo só vem do pareamento com a tablatura.
+    Espelho de ``_pauta_do_recorte`` sem a tablatura. Cada evento sai com ``par`` None e
+    ``trocadas`` vazio. O ``t`` é a posição em semínimas no compasso, não o tempo do
+    vídeo: o tempo só vem do pareamento com a tablatura.
+
+    Se o homr tem ``saida.musicxml`` e ele lê, ``trocar_compassos_pelo_homr`` troca os
+    compassos em que o homr lê pelo menos o dobro das notas do Audiveris; os números
+    trocados vão para ``compassos_homr``, e as notas trocadas saem com ``origem``
+    ``homr_sem_confirmacao``. Sem o arquivo, ou se o homr não abre, segue só com o
+    Audiveris e ``compassos_homr`` fica vazio, sem ``erro``.
 
     Se falta a leitura herdada ou o ``.omr``, ou se a leitura levanta ``ValueError`` ou
     ``ET.ParseError``, a pauta sai com ``eventos`` e ``compassos`` vazios, ``fifths`` None
@@ -875,8 +921,8 @@ def _pauta_sem_produto(entrada: dict, omr: Path) -> dict:
 
     Returns:
         ``{"pagina", "letra", "recorte", "exibicoes", "caixa_quadro", "entrelinha",
-        "fifths", "fifths_origem", "compassos", "eventos"}``, com ``erro`` quando a
-        leitura não pôde ser feita.
+        "fifths", "fifths_origem", "compassos", "compassos_homr", "eventos"}``, com
+        ``erro`` quando a leitura não pôde ser feita.
     """
     rid = entrada["id"]
     x0 = entrada["caixa_recorte"][0]
@@ -890,6 +936,7 @@ def _pauta_sem_produto(entrada: dict, omr: Path) -> dict:
         "fifths": None,
         "fifths_origem": None,
         "compassos": [],
+        "compassos_homr": [],
     }
     herdada = (
         omr / "audiveris" / f"{CONDICAO_AUDIVERIS}_herdada" / rid / "saida.musicxml"
@@ -904,6 +951,22 @@ def _pauta_sem_produto(entrada: dict, omr: Path) -> dict:
         compassos = _compassos_do_recorte(leitura, entrada_omr, x0)
     except (ValueError, ET.ParseError) as falha:
         return {**pauta, "eventos": [], "erro": f"leitura: {falha}"}
+    trocados: list[int] = []
+    homr_xml = omr / "homr" / CONDICAO_HOMR / rid / "saida.musicxml"
+    if homr_xml.exists():
+        try:
+            leitura_homr = ler_partitura(homr_xml)
+            homr = eventos_da_partitura(homr_xml, None, x0)
+        except ValueError, ET.ParseError:
+            leitura_homr = None
+        if leitura_homr is not None:
+            partitura, trocados = trocar_compassos_pelo_homr(
+                partitura,
+                [medida["numero"] for medida in leitura["compassos"]],
+                homr,
+                [medida["numero"] for medida in leitura_homr["compassos"]],
+            )
+    pauta["compassos_homr"] = trocados
     eventos = [
         {
             "compasso": evento.compasso,
@@ -1585,6 +1648,13 @@ def _imprimir_ler_pasta(pasta: Path, documento: dict) -> None:
         (pasta_base / CONDICAO_AUDIVERIS / "execucao.json").read_text(encoding="utf-8")
     )
     deste = [r for r in execucoes if r["id"] in ids_do_documento]
+    caminho_homr = pasta / "omr" / "homr" / CONDICAO_HOMR / "execucao.json"
+    execucoes_homr = (
+        json.loads(caminho_homr.read_text(encoding="utf-8"))
+        if caminho_homr.exists()
+        else []
+    )
+    deste_homr = [r for r in execucoes_homr if r["id"] in ids_do_documento]
     herdada = json.loads(
         (pasta_base / f"{CONDICAO_AUDIVERIS}_herdada" / "herdada.json").read_text(
             encoding="utf-8"
@@ -1597,16 +1667,23 @@ def _imprimir_ler_pasta(pasta: Path, documento: dict) -> None:
     )
     for pauta in documento["pautas"]:
         aviso = f" (erro: {pauta['erro']})" if "erro" in pauta else ""
+        homr = (
+            f", homr nos compassos {pauta['compassos_homr']}"
+            if pauta["compassos_homr"]
+            else ""
+        )
         print(
             f"{pauta['recorte']} pagina {pauta['pagina']}: eventos"
             f" {len(pauta['eventos'])}, compassos {len(pauta['compassos'])},"
-            f" fifths {pauta['fifths']}{aviso}"
+            f" fifths {pauta['fifths']}{homr}{aviso}"
         )
     r = documento["resumo"]
     print(
         f"{pasta.name}: audiveris ok {sum(x['ok'] for x in deste)}/{len(deste)},"
+        f" homr ok {sum(x['ok'] for x in deste_homr)}/{len(deste_homr)},"
         f" armadura herdada em {aplicadas}, pautas {r['pautas']},"
-        f" eventos {r['eventos']}, com erro {r['com_erro']}"
+        f" eventos {r['eventos']}, com erro {r['com_erro']},"
+        f" compassos do homr {r['compassos_homr']}"
     )
     print(f"gravado em {caminho_da_pasta(pasta)}")
 

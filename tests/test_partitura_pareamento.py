@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import zipfile
 from fractions import Fraction
 from pathlib import Path
@@ -12,6 +13,7 @@ from tab.partitura_pareamento import (
     completar_com_homr,
     eventos_da_tab,
     parear,
+    trocar_compassos_pelo_homr,
     x_dos_compassos,
 )
 
@@ -243,3 +245,133 @@ def test_completar_com_homr_nao_troca_nota_na_oitava_da_tab() -> None:
     assert acrescimos == 1
     assert eventos[0].midis == frozenset({57, 80})
     assert eventos[0].trocadas == []
+
+
+def _simbolo_mini(midi: int, compasso: int, t: float) -> dict:
+    """Símbolo mínimo, como ``ler_partitura`` devolve (só o que a troca usa)."""
+    return {"midi": midi, "nome": f"m{midi}", "compasso": compasso, "t": t}
+
+
+def _evento_compasso(
+    compasso: int, t: float, midis: set[int], x: float | None = None
+) -> EventoPartitura:
+    """Evento de partitura com um símbolo por altura, no compasso e tempo dados."""
+    return EventoPartitura(
+        indice=0,
+        compasso=compasso,
+        t=t,
+        t_global=t,
+        x_quadro=x,
+        midis=frozenset(midis),
+        simbolos=[_simbolo_mini(m, compasso, t) for m in sorted(midis)],
+    )
+
+
+def test_trocar_troca_compasso_quando_homr_tem_o_dobro() -> None:
+    """Homr com 2 notas onde o Audiveris tem 1: o compasso sai do homr, renumerado."""
+    audiveris = [
+        _evento_compasso(5, 0.0, {60}, x=10.0),
+        _evento_compasso(6, 0.0, {62}, x=20.0),
+        _evento_compasso(7, 0.0, {65}, x=30.0),
+    ]
+    homr = [
+        _evento_compasso(1, 0.0, {70}),
+        _evento_compasso(2, 0.0, {64}),
+        _evento_compasso(2, 1.0, {67}),
+        _evento_compasso(3, 0.0, {72}),
+    ]
+    eventos, trocados = trocar_compassos_pelo_homr(
+        audiveris, [5, 6, 7], homr, [1, 2, 3]
+    )
+    assert trocados == [6]
+    assert [e.compasso for e in eventos] == [5, 6, 6, 7]
+    assert [e.midis for e in eventos] == [
+        frozenset({60}),
+        frozenset({64}),
+        frozenset({67}),
+        frozenset({65}),
+    ]
+    assert [e.indice for e in eventos] == [0, 1, 2, 3]
+    for copia in eventos[1:3]:
+        assert copia.x_quadro is None
+        assert copia.trocadas == []
+        assert all(s["compasso"] == 6 for s in copia.simbolos)
+        assert all(s["origem"] == "homr_sem_confirmacao" for s in copia.simbolos)
+    assert eventos[1].t == 0.0
+    assert eventos[2].t == 1.0
+    assert eventos[0].x_quadro == 10.0
+
+
+def test_trocar_nao_troca_com_uma_vez_e_meia() -> None:
+    """Homr com 3 notas e Audiveris com 2 (1,5x): não chega ao dobro, nada muda."""
+    audiveris = [_evento_compasso(1, 0.0, {60, 64})]
+    homr = [_evento_compasso(1, 0.0, {60, 64, 67})]
+    eventos, trocados = trocar_compassos_pelo_homr(audiveris, [1], homr, [1])
+    assert trocados == []
+    assert [e.midis for e in eventos] == [frozenset({60, 64})]
+    assert all("origem" not in s for s in eventos[0].simbolos)
+
+
+def test_trocar_compasso_vazio_no_audiveris_com_nota_no_homr_e_trocado() -> None:
+    """Compasso sem nenhuma nota do Audiveris e com nota do homr: troca."""
+    audiveris = [_evento_compasso(1, 0.0, {60})]
+    homr = [_evento_compasso(1, 0.0, {60}), _evento_compasso(2, 0.0, {64})]
+    eventos, trocados = trocar_compassos_pelo_homr(audiveris, [1, 2], homr, [1, 2])
+    assert trocados == [2]
+    assert [e.compasso for e in eventos] == [1, 2]
+    assert eventos[1].midis == frozenset({64})
+    assert eventos[1].simbolos[0]["origem"] == "homr_sem_confirmacao"
+
+
+def test_trocar_compasso_vazio_nos_dois_nao_e_trocado() -> None:
+    """Compasso sem nota nas duas leituras: não há o que trocar."""
+    audiveris = [_evento_compasso(1, 0.0, {60})]
+    homr = [_evento_compasso(1, 0.0, {60})]
+    eventos, trocados = trocar_compassos_pelo_homr(audiveris, [1, 2], homr, [1, 2])
+    assert trocados == []
+    assert [e.compasso for e in eventos] == [1]
+
+
+def test_trocar_contagens_de_compassos_diferentes_devolve_a_entrada() -> None:
+    """Com números de compasso de tamanhos diferentes: a mesma lista, nada trocado."""
+    audiveris = [_evento_compasso(1, 0.0, {60})]
+    homr = [_evento_compasso(1, 0.0, {60, 64, 67})]
+    eventos, trocados = trocar_compassos_pelo_homr(audiveris, [1], homr, [1, 2])
+    assert trocados == []
+    assert eventos is audiveris
+
+
+def test_trocar_nao_muda_as_entradas() -> None:
+    """Os objetos de entrada mantêm ``indice`` e ``simbolos`` depois da troca."""
+    audiveris = [_evento_compasso(1, 0.0, {60}), _evento_compasso(2, 0.0, {62})]
+    homr = [_evento_compasso(2, 0.0, {64, 67})]
+    antes = [(e.indice, copy.deepcopy(e.simbolos)) for e in audiveris]
+    homr_antes = [(e.indice, copy.deepcopy(e.simbolos)) for e in homr]
+    eventos, trocados = trocar_compassos_pelo_homr(audiveris, [1, 2], homr, [1, 2])
+    assert trocados == [2]
+    assert [(e.indice, e.simbolos) for e in audiveris] == antes
+    assert [(e.indice, e.simbolos) for e in homr] == homr_antes
+    assert eventos[-1].simbolos[0]["origem"] == "homr_sem_confirmacao"
+    assert "origem" not in audiveris[0].simbolos[0]
+
+
+def test_trocar_renumera_indice_e_ordena_por_compasso_e_t() -> None:
+    """Saída em ordem de (compasso, t), com ``indice`` de 0 a n-1."""
+    audiveris = [
+        _evento_compasso(2, 1.0, {60}),
+        _evento_compasso(1, 2.0, {62}),
+        _evento_compasso(1, 0.0, {64}),
+    ]
+    homr = [
+        _evento_compasso(1, 0.0, {64}),
+        _evento_compasso(1, 2.0, {62}),
+        _evento_compasso(2, 1.0, {60}),
+    ]
+    eventos, trocados = trocar_compassos_pelo_homr(audiveris, [1, 2], homr, [1, 2])
+    assert trocados == []
+    assert [e.midis for e in eventos] == [
+        frozenset({64}),
+        frozenset({62}),
+        frozenset({60}),
+    ]
+    assert [e.indice for e in eventos] == [0, 1, 2]
