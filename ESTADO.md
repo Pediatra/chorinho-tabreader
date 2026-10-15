@@ -5279,6 +5279,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - O `<stem>.partitura.json` ganha `fifths`, `fifths_origem` e `compassos` por pauta, e `metodo` (`altura` ou `x`) em cada par. Quando o x desmente o par pela altura, o evento pega a coluna livre mais próxima a até uma entrelinha: Gym tela 10 vai de 0 para 10 de 14 pares conferidos; total 433 de 438. Notas certas iguais (723/767). Gym tela 12 tem `fifths` 1, provavelmente errado; `fracao` só na primeira pauta de cada vídeo.
 
+## Partitura — 2026-10-15 — o homr nas notas que faltam, sem tablatura (rodada 3024)
+
+- Regra por compasso: aceitar o homr onde ele tem pelo menos 2× as notas do Audiveris. Resultado: 25/40 recuperadas e 8 inventadas sem produto; 5/50 e 2 no gabarito antigo (14 recortes comparáveis). É o caso de voz inteira perdida (athletic, R08, R19). Nota solta em acorde não se resolve assim. Proposta para o dono: trocar o compasso, marcando a nota como "sem confirmação". Ver `docs/rodadas/3024-homr-nas-notas-que-faltam.md`.
+
 ## Partitura — 2026-10-15 — gabarito do dono sem produto: Audiveris em 3 recortes (rodada 3023)
 
 - Dos símbolos lidos, **98,9%** estão certos (176/178): 0 altura errada, 0 figura errada, 2 inexistentes. A cobertura é **81,5%** (40 notas faltando, 31 delas no athletic P01a, onde o Audiveris descartou a voz de cima dos compassos 3–4). Clave e armadura certas nos 3. A ferramenta agora grava o `--itens` servido em `fonte_itens`. Ver `docs/rodadas/3023-gabarito-sem-produto.md`.
