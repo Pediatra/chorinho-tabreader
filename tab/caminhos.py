@@ -87,6 +87,15 @@ MAOS_FRENTE_B = SAIDA / "maos" / "frentes" / "fb_esquerda"
 MAOS_FRENTE_C = SAIDA / "maos" / "frentes" / "fc_audio"
 MAOS_FRENTE_D = SAIDA / "maos" / "frentes" / "fd_ligados"
 
+#: Frentes de teste da pesquisa da tablatura (``docs/pesquisa/tablatura-frentes.md``): uma
+#: pasta de saída por frente (os pesos treinados por elas ficam em ``TAB_FRENTES_PESOS``).
+TAB_FRENTE_0 = SAIDA / "tab_frentes" / "f0_tecnica"
+TAB_FRENTE_A = SAIDA / "tab_frentes" / "fa_arco"
+TAB_FRENTE_B = SAIDA / "tab_frentes" / "fb_gerador"
+TAB_FRENTE_C = SAIDA / "tab_frentes" / "fc_rolagem"
+TAB_FRENTE_D = SAIDA / "tab_frentes" / "fd_som"
+TAB_FRENTE_E = SAIDA / "tab_frentes" / "fe_sondas"
+
 #: Perfil dos canais (o que foi medido, e quais canais estão fora do rollout).
 CANAIS = RAIZ / "configs" / "canais.yaml"
 
@@ -133,6 +142,9 @@ MODELO_PADRAO = ARTEFATOS / "oficial_3" / "glifo_sint.pt"
 # sementes, a precisão passou de 0,970-0,977 para 0,978-0,981; nas 35 telas da T8.2 (fora do
 # treino) ficou igual ao anterior (casa 0,996, revocação 0,990). Ver ESTADO.md, fase 8.
 DETECTOR_PADRAO = ARTEFATOS / "detector_tab_final_s1_ger" / "modelo.pt"
+
+#: Pesos treinados pelas frentes da pesquisa da tablatura, uma pasta por frente.
+TAB_FRENTES_PESOS = ARTEFATOS / "tab_frentes"
 
 
 def acervo() -> Path:

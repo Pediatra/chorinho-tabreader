@@ -20,7 +20,7 @@ que as frentes entregarem. **Para quem**: agentes que vão testar as ideias em w
 7. As frentes: Frente 0 e Frentes A a E
 8. Pegadinhas que valem para todas as frentes
 9. O que cada frente entrega
-10. Decisões do dono (pendentes)
+10. Decisões do dono
 
 ---
 
@@ -194,7 +194,7 @@ erros da casa** nos nossos vídeos, com as dependências que temos ou que o dono
 | trocar o leitor pelo `guitar-tab-omr` | o README dele mede **76,5 %** de sistemas exatos no próprio dado limpo; o nosso dá 0,996 de casa em vídeo |
 | YOLOv8-OBB (Ultralytics) | licença **AGPL-3.0**; se a A2 for necessária, usar a geometria do nosso gerador e uma cabeça própria |
 | copiar código do `score_capture` | **GPL-3.0**; aproveitar só a ideia (barras como âncora) |
-| leitor ASCII (§5) | fora pela decisão 0009. A ideia fica registrada: fechar os hífens e fazer um estilo monoespaçado no gerador. Só volta se o dono reabrir |
+| leitor ASCII (§5) | fora pela decisão 0009, confirmada pelo dono em 2026-10-15 ("por enquanto"). A ideia fica registrada: fechar os hífens e fazer um estilo monoespaçado no gerador |
 | GAPS e TapToTab como dado de tela | os vídeos filmam o violonista, sem tablatura na tela; servem à trilha das mãos e à D2, não ao leitor |
 | `guitar-pro-youtube-sync` (Songsterr) | depende de baixar tablatura de serviço de terceiros; termos de uso |
 | LilyPond, VexTab, Crisp Notation, MuseScore como renderizadores | um renderizador novo por vez. Só se a B mostrar que o AlphaTab ajuda e falta estilo |
@@ -316,8 +316,10 @@ foi substituído pelo `_v2`):
 1. marcas do dono;
 2. **achadas**: alguma técnica prevista na região;
 3. **certas**: a classe prevista é a do dono;
-4. **técnicas previstas fora de qualquer região**: só nas telas onde as marcas forem completas
-   (seção 10, item 4); nas outras, olhe uma amostra de 20 e diga quantas são símbolo de verdade.
+4. **técnicas previstas fora de qualquer região** (técnica inventada): só nas fontes com marcas
+   completas (seção 10, item 4): End of Beginning, La Vie en Rose, From This Place, Room 335
+   (páginas conferidas) e as 35 telas da T8.2. Nos outros 4 ouros não há marca: não conte técnica
+   inventada neles.
 
 Classe com menos de 10 marcas (harmônico 4, bend 5, mordente 9) é reportada, mas **não decide**
 aceite.
@@ -411,10 +413,8 @@ host-spawn -no-pty -cwd "$WT" podman run --rm --security-opt label=disable \
 
 As portas 8098 e 8099 são das ferramentas do dono, e as de 8101 a 8104 são das frentes das mãos.
 
-**A fazer pela sessão principal antes de abrir as worktrees:**
-
-- criar as constantes `TAB_FRENTE_*` em `tab/caminhos.py`;
-- criar as pastas em `data/saida/tab_frentes/` e `artefatos/tab_frentes/`.
+As pastas já existem na cópia principal (`data/saida/tab_frentes/` e `artefatos/tab_frentes/`),
+e as constantes `TAB_FRENTE_*` e `TAB_FRENTES_PESOS` já estão em `tab/caminhos.py`.
 
 ### 6.3 O que é proibido
 
@@ -492,8 +492,10 @@ possível, a regra de casamento não serve. Pare e descreva.
 
 **Pegadinhas e falsos positivos.**
 
-- **Marca não é exaustiva.** Ausência de marca não prova ausência de símbolo. As técnicas
-  previstas fora de região só contam onde o dono disser que marcou tudo (seção 10, item 4).
+- **Onde a marca é completa.** O dono marcou **todos** os símbolos que viu desde que a ferramenta
+  ganhou a seleção de região (commit `3f35e6b9`, 2026-10-13 14h). Retrato, Greensleeves,
+  Gymnopédie e South American foram rotulados antes: lá, ausência de marca **não** prova ausência
+  de símbolo (seção 10, item 4).
 - **O dono marca o arco; a rede marca uma nota.** Um par certo pode cair "fora" por causa de uma
   folga mal escolhida. Escolha a folga nos ouros, declare-a e aplique-a igual na T8.2.
 - **Abafada (`x`) não é técnica.** São 124 das 415. Se entrar na conta de técnica, ela infla o
@@ -657,8 +659,8 @@ condições valer:
 - **Como.** Misture sistemas do AlphaTab ao sintético atual, numa fração declarada antes (por
   exemplo 20 %). Depois faça o ajuste fino das dobras 2–4 × 3 sementes, como em
   `data/saida/fase8/ger/` (regua_ger.py, tabela.py), mas com o seu destino.
-- **Fonte de música:** DadaGP ou arquivos próprios, conforme o dono decidir (seção 10). Para
-  injetar técnica com PyGuitarPro (§3), a dependência é do dono.
+- **Fonte de música:** arquivos próprios (decisão do dono, seção 10); nada de DadaGP nem de
+  música de terceiros. Para injetar técnica com PyGuitarPro (§3), a dependência é do dono.
 - **Aceite.**
   - CA2 (casa não piora), CA6 (3 sementes).
   - Em técnica: ganho maior que a amplitude das sementes em pelo menos 2 classes com 10 marcas ou
@@ -670,8 +672,8 @@ condições valer:
 - **Distribuição das casas.** Música real tem poucas casas altas, e o nosso gerador sorteia cerca
   de 33 % de dois algarismos de propósito. Misturar música real pode **diminuir** os dois
   algarismos no treino e piorar justamente o resíduo da casa. Meça a fração antes e depois.
-- **Licença do corpus.** O DadaGP é para pesquisa, com acesso pedido, e os arquivos Guitar Pro
-  têm direitos das músicas. Decisão do dono.
+- **Corpus próprio é pequeno.** Com arquivos próprios, poucas músicas podem se repetir muito no
+  treino. Declare quantos arquivos e quantos sistemas distintos entraram.
 - **Tempo de GPU.** São 9 treinos de cerca de 20 min, com a GPU dividida com outros agentes.
   Respeite a trava.
 
@@ -898,27 +900,32 @@ A sessão principal remede o número antes de integrar e consolida o `ESTADO.md`
 
 ---
 
-## 10. Decisões do dono (pendentes)
+## 10. Decisões do dono (2026-10-15)
 
-1. **Dependências novas.** Recomendação: liberar só o que a sonda precisa e decidir o resto pelo
-   resultado.
+1. **Dependências: recomendação aceita.**
 
-| dependência | frente | licença | recomendação |
+| dependência | frente | licença | decisão |
 | --- | --- | --- | --- |
-| Node.js + `alphaTab` | B1, B2 | MPL-2.0 | liberar para a B1 (sonda) |
+| Node.js + `alphaTab` | B1, B2 | MPL-2.0 | **liberada** para a B1 (sonda); a B2 volta ao dono com o resultado |
 | `PyGuitarPro` | B2 | LGPL-3.0 | só se a B2 abrir |
 | pesos do `guitar-tab-omr` | E1 | não declarada | só com licença clara |
 | modelo do GAPS ou FretNet | D2 | a conferir | só se a D1 pedir |
-| Ultralytics (YOLO) | — | AGPL-3.0 | não usar |
+| Ultralytics (YOLO) | — | AGPL-3.0 | **não usar** |
 
-2. **Música para o gerador (B2).** DadaGP (o dono pede o acesso; já aprovado como fonte na
-   trilha das mãos) ou arquivos próprios?
-3. **Gabarito de 1 vídeo rolante (C1).** Cerca de 30–60 min do dono, na ferramenta do ouro. A
-   frente escolhe o vídeo e prepara o material.
-4. **As marcas de símbolo estão completas?**
-   - Nas 24 telas da T8.2 e nas páginas conferidas dos 4 ouros, o dono marcou **todos** os
-     símbolos ou só alguns?
-   - Sem marcas completas, não dá para medir técnica inventada (seção 5.2, métrica 4).
-5. **ASCII continua fora** (decisão 0009)?
-6. **Critérios de aceite.** Os da seção 5.3 e os de cada frente ficam **congelados** depois de
-   aprovados. Mudar um limiar depois de ver o resultado invalida a frente.
+   A dependência entra na imagem só no branch da frente. Quem muda o `Dockerfile` no `main` é a
+   sessão principal, depois de remedir.
+2. **Música para o gerador (B2): arquivos próprios.** Nada de DadaGP nem de música de terceiros
+   baixada. A B1 já usa trechos escritos à mão em AlphaTex.
+3. **Gabarito de 1 vídeo rolante (C1): sim.** A frente escolhe o vídeo, prepara o material na
+   ferramenta do ouro (testada numa cópia) e a sessão principal leva ao dono.
+4. **Marcas de símbolo: completas** desde que a ferramenta ganhou a seleção de região (commit
+   `3f35e6b9`, 2026-10-13 14h). Valem como completas:
+   - End of Beginning, La Vie en Rose, From This Place e Room 335 (rotulados depois, nas páginas
+     conferidas);
+   - as 35 telas da T8.2. Das 35, 24 têm marca: nas outras 11 o dono não viu símbolo.
+
+   Retrato, Greensleeves, Gymnopédie e South American foram rotulados **antes** e não têm marca.
+   Eles não entram na conta de técnica inventada.
+5. **ASCII continua fora por enquanto** (decisão 0009).
+6. **Critérios de aceite**: aguardando a aprovação do dono. Depois de aprovados, ficam
+   **congelados**: mudar um limiar depois de ver o resultado invalida a frente.
