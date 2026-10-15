@@ -36,7 +36,8 @@ Etapa ``paginar``, para vídeos **sem** produto de tablatura: varre o vídeo int
 ``QPS_PAGINAS``, reduz cada quadro a uma assinatura binária da região das pautas
 (``assinatura``) e agrupa os quadros estáveis em páginas (``agrupar_paginas``). Uma página
 é um trecho que fica parado e volta a aparecer nas repetições. Para cada página, lê o
-quadro no ponto médio da exibição mais longa e recorta todas as pautas dele. Saída, em
+quadro no ponto médio da exibição mais longa, descarta as pautas que são tablatura
+(``e_tablatura``: 6 linhas em vez de 5) e recorta as demais. Saída, em
 ``PASTA_SEM_PRODUTO / <slug>/recortes/``: ``P{pagina}{letra}.png`` por pauta (``P01a``,
 ``P01b``...), ``contexto_PNN.jpg`` por página e ``indice.json``. Não grava produto nem as outras pastas.
 
@@ -57,8 +58,10 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import itertools
 import json
 import time
+import unicodedata
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -82,8 +85,13 @@ from tab.partitura_pareamento import (
 )
 from tab.partitura_pauta import Pauta, achar_pautas
 from tab.partitura_recortes import (
+    CRISTA_DELTA_EXT,
+    Celula,
     FonteQuadro,
+    Recorte,
+    _cinza,
     _tinta_escura,
+    canal_ascii,
     folha_contexto,
     ler_fonte,
     processar_quadro,
@@ -133,9 +141,27 @@ LARGURA_ASSINATURA = 256
 #: Altura, em px, da assinatura da região das pautas.
 ALTURA_ASSINATURA = 64
 
-#: Quanto mais escuro que a mediana da sua linha um pixel precisa estar para ser tinta
-#: na assinatura (tons de cinza, 0 a 255).
-DIFERENCA_TINTA = 40
+#: Contraste mínimo, em V (escala do OpenCV, 0 a 255), entre o traço e o fundo local para
+#: o pixel ser tinta. O fundo local vem de um top-hat com elemento de lado ~1 entrelinha.
+#: Compressão do vídeo tinge o traço preto de cor e destaque amarelo ou rosa dá saturação
+#: alta; medir só a saturação deixava linhas e notas de fora, por isso se usa o contraste.
+DELTA_TINTA = 60
+
+#: Fração de um bloco da assinatura que precisa ser tinta para o bloco contar como tinta
+#: (a assinatura é a média da máscara de tinta em cada bloco, depois limiarizada).
+FRACAO_TINTA = 0.25
+
+#: Número de trechos em que a largura da pauta é dividida para medir a força de uma linha
+#: (``_forca_por_trechos``). Viga de semicolcheia cobre só alguns trechos; a linha, todos.
+TRECHOS_TABLATURA = 10
+
+#: Razão mínima entre a força da 6ª linha (fora da pauta) e a mediana das 5 linhas para o
+#: trecho ser tablatura (``e_tablatura``).
+LIMIAR_TABLATURA = 0.75
+
+#: Tolerância, em px, da posição da 6ª linha em torno de ``ys[4] + entrelinha`` (ou
+#: ``ys[0] - entrelinha``).
+TOLERANCIA_SEXTA_LINHA = 2
 
 #: Folga (em entrelinhas) acima da 1ª linha e abaixo da 5ª da última pauta na assinatura.
 MARGEM_ASSINATURA_ENTRELINHAS = 4.0
@@ -828,10 +854,12 @@ def assinatura(quadro: np.ndarray, pautas: list[Pauta]) -> np.ndarray | None:
 
     A região vai da linha de cima da primeira pauta à linha de baixo da última, com
     ``MARGEM_ASSINATURA_ENTRELINHAS`` entrelinhas de folga de cada lado, e tem a largura
-    toda do quadro. Ela vira cinza, passa a ``LARGURA_ASSINATURA`` por
-    ``ALTURA_ASSINATURA`` com ``cv2.INTER_AREA`` e, se o quadro é de fundo escuro (pela
-    mesma regra de ``_tinta_escura``), é invertida. Tinta é o pixel mais escuro que a
-    mediana da sua linha menos ``DIFERENCA_TINTA``.
+    toda do quadro. Tinta é o pixel escuro (ou claro, em fundo escuro, pela regra de
+    ``_tinta_escura``) e com contraste sobre o fundo local (top-hat): ver ``_tinta``. A
+    máscara de tinta é reduzida a ``LARGURA_ASSINATURA`` por ``ALTURA_ASSINATURA`` com
+    ``cv2.INTER_AREA`` (cada bloco vira a fração de tinta dele) e limiarizada em
+    ``FRACAO_TINTA``. Assim o destaque colorido atrás da nota, o cursor vermelho e a cor
+    da compressão não mudam a assinatura da mesma página.
 
     Args:
         quadro: quadro BGR (ou cinza), ``uint8``.
@@ -843,7 +871,7 @@ def assinatura(quadro: np.ndarray, pautas: list[Pauta]) -> np.ndarray | None:
     """
     if not pautas:
         return None
-    cinza = quadro if quadro.ndim == 2 else cv2.cvtColor(quadro, cv2.COLOR_BGR2GRAY)
+    cinza = _cinza(quadro)
     primeira = min(pautas, key=lambda pauta: pauta.ys[0])
     ultima = max(pautas, key=lambda pauta: pauta.ys[4])
     y0 = max(
@@ -856,15 +884,174 @@ def assinatura(quadro: np.ndarray, pautas: list[Pauta]) -> np.ndarray | None:
     )
     if y1 <= y0:
         return None
-    pequena = cv2.resize(
-        cinza[y0:y1],
+    entrelinha = float(np.median([pauta.entrelinha for pauta in pautas]))
+    tinta = _tinta(quadro, cinza, entrelinha)[y0:y1].astype(np.float32)
+    fracao = cv2.resize(
+        tinta,
         (LARGURA_ASSINATURA, ALTURA_ASSINATURA),
         interpolation=cv2.INTER_AREA,
     )
-    if not _tinta_escura(cinza):
-        pequena = 255 - pequena
-    mediana = np.median(pequena, axis=1, keepdims=True)
-    return pequena < mediana - DIFERENCA_TINTA
+    return fracao >= FRACAO_TINTA
+
+
+def _tinta(quadro: np.ndarray, cinza: np.ndarray, entrelinha: float) -> np.ndarray:
+    """Máscara booleana de tinta do quadro inteiro, por contraste local no canal V.
+
+    Usa o top-hat do V com elemento quadrado de lado ``2 * round(entrelinha) + 1``: em
+    fundo claro, o black-hat (o que é mais escuro que o fundo local); em fundo escuro, o
+    top-hat (o que é mais claro). A polaridade vem de ``_tinta_escura``. Tinta é o pixel
+    cujo contraste passa de ``DELTA_TINTA``. Assim o traço preto tingido pela compressão
+    e o destaque colorido, que mudam a saturação mas não o contraste, não somem da máscara.
+    Quadro cinza usa o próprio quadro como V.
+
+    Args:
+        quadro: quadro BGR ou cinza, ``uint8``.
+        cinza: o mesmo quadro em tons de cinza (``_cinza``).
+        entrelinha: entrelinha mediana das pautas do quadro, em px.
+
+    Returns:
+        Matriz booleana do tamanho do quadro.
+    """
+    valor = (
+        quadro if quadro.ndim == 2 else cv2.cvtColor(quadro, cv2.COLOR_BGR2HSV)[:, :, 2]
+    )
+    lado = 2 * round(entrelinha) + 1
+    elemento = cv2.getStructuringElement(cv2.MORPH_RECT, (lado, lado))
+    if _tinta_escura(cinza):
+        contraste = cv2.morphologyEx(valor, cv2.MORPH_BLACKHAT, elemento)
+    else:
+        contraste = cv2.morphologyEx(valor, cv2.MORPH_TOPHAT, elemento)
+    return contraste > DELTA_TINTA
+
+
+def _forca_de_linha(
+    cinza: np.ndarray, y: float, entrelinha: float, x0: int, x1: int
+) -> float:
+    """Fração das colunas de ``[x0, x1)`` em que há uma linha horizontal em ``y``.
+
+    Regra de ``partitura_recortes._colunas_com_linhas`` (a coluna tem linha se o mínimo do
+    cinza é ``<= ref - CRISTA_DELTA_EXT``, com ``ref`` a média do cinza nas linhas
+    ``y - e/2`` e ``y + e/2``), mas com a faixa de ``y-2`` a ``y+2`` pedida para a 6ª linha.
+    Uma faixa de linhas de tinta grossa (viga de colcheias, haste) também passa nesse teste:
+    ver ``diag/razoes_tab.txt``.
+
+    Args:
+        cinza: quadro em tons de cinza.
+        y: linha candidata, em px.
+        entrelinha: entrelinha da pauta, em px.
+        x0: início horizontal (inclusive).
+        x1: fim horizontal (exclusivo).
+
+    Returns:
+        A fração, entre 0 e 1 (0 se o intervalo horizontal está vazio).
+    """
+    altura = cinza.shape[0]
+    largura = x1 - x0
+    if largura <= 0:
+        return 0.0
+    yc = round(y)
+    meia = round(entrelinha / 2)
+    ya = min(max(yc - meia, 0), altura - 1)
+    yb = min(max(yc + meia, 0), altura - 1)
+    faixa = cinza[max(yc - 2, 0) : min(yc + 3, altura), x0:x1].astype(np.int32)
+    ref = (cinza[ya, x0:x1].astype(np.int32) + cinza[yb, x0:x1].astype(np.int32)) / 2
+    presente = faixa.min(axis=0) <= ref - CRISTA_DELTA_EXT
+    return float(np.count_nonzero(presente)) / largura
+
+
+def _forca_por_trechos(
+    cinza: np.ndarray, y: float, entrelinha: float, x0: int, x1: int
+) -> float:
+    """Força de uma linha pelo 2º menor valor entre ``TRECHOS_TABLATURA`` trechos.
+
+    Divide ``[x0, x1)`` em ``TRECHOS_TABLATURA`` trechos de largura igual, mede
+    ``_forca_de_linha`` em cada um, ordena e devolve o 2º menor valor (índice 1). Uma linha
+    de tablatura atravessa a largura toda e dá força alta em quase todos os trechos. Uma
+    viga de semicolcheia, acima da pauta, cobre só alguns trechos e fica no mínimo, ou
+    perto dele, e por isso não é confundida com a 6ª linha.
+
+    Args:
+        cinza: quadro em tons de cinza.
+        y: linha candidata, em px.
+        entrelinha: entrelinha da pauta, em px.
+        x0: início horizontal (inclusive).
+        x1: fim horizontal (exclusivo).
+
+    Returns:
+        A força, entre 0 e 1.
+    """
+    bordas = np.linspace(x0, x1, TRECHOS_TABLATURA + 1).round().astype(int)
+    forcas = sorted(
+        _forca_de_linha(cinza, y, entrelinha, int(a), int(b))
+        for a, b in itertools.pairwise(bordas)
+    )
+    return forcas[1]
+
+
+def razoes_de_tablatura(
+    cinza: np.ndarray, ys: list[float], entrelinha: float, x0: int, x1: int
+) -> tuple[float, float, float]:
+    """Força da 6ª linha, abaixo e acima da pauta, em relação à das 5 linhas.
+
+    A força de cada uma das 5 linhas é ``_forca_por_trechos``; a mediana delas é a
+    referência. Para cada lado, a 6ª linha é procurada em ``ys[4] + entrelinha`` (abaixo)
+    e em ``ys[0] - entrelinha`` (acima), com ``TOLERANCIA_SEXTA_LINHA`` px de folga para
+    cada lado (vale a maior força nessa faixa). A razão é essa força dividida pela mediana.
+
+    Args:
+        cinza: quadro em tons de cinza.
+        ys: as 5 linhas da pauta, de cima para baixo, em px.
+        entrelinha: entrelinha da pauta, em px.
+        x0: início horizontal do trecho (inclusive).
+        x1: fim horizontal do trecho (exclusivo).
+
+    Returns:
+        ``(razao_abaixo, razao_acima, mediana)``. Razões são 0 se a mediana é 0 (sem
+        linhas detectáveis no trecho).
+    """
+    mediana = float(
+        np.median([_forca_por_trechos(cinza, y, entrelinha, x0, x1) for y in ys])
+    )
+
+    def razao(centro: float) -> float:
+        forca = max(
+            _forca_por_trechos(cinza, centro + d, entrelinha, x0, x1)
+            for d in range(-TOLERANCIA_SEXTA_LINHA, TOLERANCIA_SEXTA_LINHA + 1)
+        )
+        return forca / mediana if mediana > 0 else 0.0
+
+    return (
+        razao(ys[4] + entrelinha),
+        razao(ys[0] - entrelinha),
+        mediana,
+    )
+
+
+def e_tablatura(
+    cinza: np.ndarray, ys: list[float], entrelinha: float, x0: int, x1: int
+) -> bool:
+    """Diz se uma pauta achada é, na verdade, uma tablatura de 6 linhas.
+
+    A tablatura tem 6 cordas e o detector de pauta acha 5 delas. Então é tablatura se a
+    6ª linha aparece abaixo (``ys[4] + entrelinha``) ou acima (``ys[0] - entrelinha``) com
+    força ``>= LIMIAR_TABLATURA`` vezes a das 5 linhas (``razoes_de_tablatura``). A força
+    é medida em trechos (``_forca_por_trechos``): a linha da tablatura atravessa a largura
+    toda, mas uma viga de semicolcheia acima da pauta cobre só parte dela e não passa do
+    limiar. Numa pauta de 5 linhas, esses lugares são vão claro, salvo uma viga, que tem
+    força muito menor que a das linhas inteiras.
+
+    Args:
+        cinza: quadro em tons de cinza.
+        ys: as 5 linhas da pauta, de cima para baixo, em px.
+        entrelinha: entrelinha da pauta, em px.
+        x0: início horizontal do trecho (inclusive).
+        x1: fim horizontal do trecho (exclusivo).
+
+    Returns:
+        True se a pauta é tablatura, False se é pauta de 5 linhas.
+    """
+    abaixo, acima, _ = razoes_de_tablatura(cinza, ys, entrelinha, x0, x1)
+    return max(abaixo, acima) >= LIMIAR_TABLATURA
 
 
 def diferenca(a: np.ndarray, b: np.ndarray) -> float:
@@ -980,11 +1167,39 @@ def _limpar_paginas(pasta_recortes: Path) -> None:
             arquivo.unlink()
 
 
-def _paginar(video: str, pasta: Path | None) -> tuple[list[dict], int, int]:
+def _verificar_video(arquivo: Path) -> None:
+    """Confere que o vídeo existe e tem duração, antes de varrer.
+
+    Sem essa conferência, um nome que não bate com o disco (ex.: ``ó`` em NFC no lugar de
+    NFD) fazia ``info`` devolver duração 0 e a varredura gravava 0 páginas em silêncio.
+    Quando o nome difere só na forma Unicode, a mensagem diz qual é o nome no disco.
+
+    Args:
+        arquivo: caminho completo do vídeo (``acervo() / video``).
+
+    Raises:
+        FileNotFoundError: o arquivo não existe; a mensagem traz o nome no disco, se a
+            diferença for só de normalização Unicode.
+        RuntimeError: o ``ffprobe`` não leu a duração do arquivo.
+    """
+    if not arquivo.is_file():
+        dica = ""
+        if arquivo.parent.is_dir():
+            alvo = unicodedata.normalize("NFC", arquivo.name)
+            for irmao in arquivo.parent.iterdir():
+                if unicodedata.normalize("NFC", irmao.name) == alvo:
+                    dica = f"; no disco o nome é {irmao.name!r} (NFC/NFD diferem)"
+                    break
+        raise FileNotFoundError(f"vídeo não encontrado no acervo: {arquivo}{dica}")
+    if float(info(str(arquivo))["duracao_s"]) <= 0:
+        raise RuntimeError(f"ffprobe não leu a duração de {arquivo}")
+
+
+def _paginar(video: str, pasta: Path | None) -> tuple[list[dict], int, int, int]:
     """Varre um vídeo, acha as páginas e grava os recortes de todas as pautas.
 
-    Ver ``paginar``. Devolve também o número de amostras e de recortes gravados, para a
-    linha da CLI.
+    Ver ``paginar``. Devolve também o número de amostras, de recortes gravados e de pautas
+    descartadas por serem tablatura (``e_tablatura``), para a linha da CLI.
 
     Args:
         video: caminho do vídeo, relativo ao acervo.
@@ -992,9 +1207,15 @@ def _paginar(video: str, pasta: Path | None) -> tuple[list[dict], int, int]:
             ``PASTA_SEM_PRODUTO / _slug(video)``.
 
     Returns:
-        ``(paginas, amostras, recortes)``: as páginas (como ``paginar``), o número de
-        quadros amostrados e o de recortes de pauta gravados.
+        ``(paginas, amostras, recortes, descartadas)``: as páginas (como ``paginar``), o
+        número de quadros amostrados, o de recortes de pauta gravados e o de pautas
+        descartadas por serem tablatura.
+
+    Raises:
+        FileNotFoundError: o vídeo não está no acervo (ver ``_verificar_video``).
+        RuntimeError: o ``ffprobe`` não leu a duração do vídeo.
     """
+    _verificar_video(acervo() / video)
     caminho = str(acervo() / video)
     duracao = float(info(caminho)["duracao_s"])
     amostras: list[tuple[float, np.ndarray | None]] = []
@@ -1008,6 +1229,7 @@ def _paginar(video: str, pasta: Path | None) -> tuple[list[dict], int, int]:
     canal = Path(video).parts[0]
     indice: list[dict] = []
     total_recortes = 0
+    total_descartadas = 0
     for pagina in paginas:
         numero = pagina["pagina"]
         t = pagina["t"]
@@ -1035,20 +1257,33 @@ def _paginar(video: str, pasta: Path | None) -> tuple[list[dict], int, int]:
             margem_cima=MARGEM_ENTRELINHAS,
             margem_baixo=MARGEM_ENTRELINHAS,
         )
+        cinza = _cinza(quadro)
         com_pauta = [entrada for entrada in entradas if not entrada["sem_pauta"]]
-        pagina["pautas"] = len(com_pauta)
-        if not com_pauta:
+        mantidas: list[tuple[dict, Recorte, tuple[int, int, int, int]]] = []
+        descartadas = 0
+        for entrada, recorte, caixa in zip(
+            com_pauta, recortes, celula.caixas, strict=True
+        ):
+            x0, x1 = entrada["caixa_recorte"][0], entrada["caixa_recorte"][2]
+            if e_tablatura(cinza, entrada["ys"], entrada["entrelinha"], x0, x1):
+                descartadas += 1
+                continue
+            mantidas.append((entrada, recorte, caixa))
+        total_descartadas += descartadas
+        pagina["pautas"] = len(mantidas)
+        if not mantidas:
+            motivo = "só tablatura no quadro" if descartadas else "sem pauta no quadro"
             indice.append(
                 {
                     "tela": numero,
                     "sem_pauta": True,
-                    "motivo": "sem pauta no quadro",
+                    "motivo": motivo,
                     "t": t,
                     "pagina": numero,
                     "exibicoes": exibicoes,
                 }
             )
-        for k, (entrada, recorte) in enumerate(zip(com_pauta, recortes, strict=True)):
+        for k, (entrada, recorte, _) in enumerate(mantidas):
             letra = chr(ord("a") + k)
             identificador = f"P{numero:02d}{letra}"
             cv2.imwrite(str(pasta_recortes / f"{identificador}.png"), recorte.imagem)
@@ -1071,6 +1306,15 @@ def _paginar(video: str, pasta: Path | None) -> tuple[list[dict], int, int]:
                 }
             )
             total_recortes += 1
+        # A célula de contexto mostra só as pautas mantidas, com os ids que sobraram.
+        ids = [f"P{numero:02d}{chr(ord('a') + k)}" for k in range(len(mantidas))]
+        celula = Celula(
+            legenda=(
+                f"{' '.join(ids) or 'SEM PAUTA'} | {canal_ascii(canal)} | t={t:.2f}s"
+            ),
+            imagem=quadro,
+            caixas=[caixa for _, _, caixa in mantidas],
+        )
         # folha_contexto numera pela ordem das células; com uma célula sai contexto_01.jpg,
         # que é renomeado para a página.
         folha_contexto([celula], pasta_recortes)
@@ -1080,7 +1324,7 @@ def _paginar(video: str, pasta: Path | None) -> tuple[list[dict], int, int]:
     (pasta_recortes / "indice.json").write_text(
         json.dumps(indice, ensure_ascii=False, indent=2), encoding="utf-8"
     )
-    return paginas, len(amostras), total_recortes
+    return paginas, len(amostras), total_recortes, total_descartadas
 
 
 def paginar(video: str, pasta: Path | None = None) -> list[dict]:
@@ -1089,8 +1333,9 @@ def paginar(video: str, pasta: Path | None = None) -> list[dict]:
     Varre o vídeo inteiro a ``QPS_PAGINAS`` (uma passada de ``quadros``), guarda só a
     assinatura de cada quadro (``assinatura``) e agrupa as estáveis em páginas
     (``agrupar_paginas``). Para cada página, lê o quadro em ``t`` com ``quadro_em`` e
-    recorta todas as pautas dele, com ``processar_quadro`` e as margens da etapa
-    ``recortar``. Cada pauta vira ``P{pagina:02d}{letra}.png``, de cima para baixo.
+    recorta as pautas dele, com ``processar_quadro`` e as margens da etapa ``recortar``.
+    Pauta que é tablatura de 6 linhas (``e_tablatura``) é descartada antes do recorte.
+    Cada pauta mantida vira ``P{pagina:02d}{letra}.png``, de cima para baixo.
 
     Gera ``recortes/indice.json`` com uma entrada por pauta e uma por página sem pauta
     (``sem_pauta``, com ``motivo``), e ``contexto_PNN.jpg`` por página. Apaga antes as
@@ -1121,8 +1366,8 @@ def main(argv: list[str] | None = None) -> int:
     linha por pauta com as contagens, uma linha de total e o caminho gravado.
 
     Subcomando ``paginar --video CAMINHO [--pasta PASTA]`` (repetível; ``--pasta`` só com
-    um vídeo). Para cada vídeo, imprime uma linha com páginas, recortes, amostras e
-    segundos, e uma linha por página com as exibições e o número de pautas.
+    um vídeo). Para cada vídeo, imprime uma linha com páginas, recortes, tabs descartadas,
+    amostras e segundos, e uma linha por página com as exibições e o número de pautas.
 
     Args:
         argv: argumentos (sem o nome do programa). ``None`` usa ``sys.argv``.
@@ -1250,10 +1495,11 @@ def main(argv: list[str] | None = None) -> int:
             parser.error("--pasta só vale com um --video")
         for video in args.video:
             inicio = time.monotonic()
-            paginas, amostras, recortes = _paginar(video, args.pasta)
+            paginas, amostras, recortes, descartadas = _paginar(video, args.pasta)
             segundos = time.monotonic() - inicio
             print(
                 f"{_slug(video)}: paginas {len(paginas)}, recortes {recortes},"
+                f" tabs descartadas {descartadas},"
                 f" amostras {amostras}, segundos {segundos:.1f}"
             )
             for pagina in paginas:

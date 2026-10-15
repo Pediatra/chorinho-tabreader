@@ -17,6 +17,7 @@ from tab.partitura_video import (
     agrupar_paginas,
     assinatura,
     diferenca,
+    e_tablatura,
     eventos_do_produto,
     instante_da_tela,
     ler,
@@ -426,3 +427,119 @@ def test_assinatura_fundo_escuro_igual_ao_claro_invertido():
     sig_escuro = assinatura(escuro, [_PAUTA_DE_TESTE])
     assert sig_claro is not None and sig_escuro is not None
     assert np.array_equal(sig_claro, sig_escuro)
+
+
+def _quadro_com_destaque(
+    cor: tuple[int, int, int] | None, cursor: bool = False
+) -> np.ndarray:
+    """Quadro BGR com a pauta e duas notas pretas; ``cor`` vai atrás das notas e linhas.
+
+    ``cursor`` põe uma barra vertical vermelha por cima das linhas, como o cursor de
+    reprodução do vídeo.
+    """
+    quadro = np.full((300, 400, 3), 255, np.uint8)
+    if cor is not None:
+        cv2.rectangle(quadro, (190, 95), (230, 150), cor, -1)
+    for y in (100, 110, 120, 130, 140):
+        cv2.line(quadro, (50, y), (350, y), (0, 0, 0), 1)
+    cv2.rectangle(quadro, (200, 112), (212, 128), (0, 0, 0), -1)
+    cv2.rectangle(quadro, (222, 108), (226, 132), (0, 0, 0), -1)
+    if cursor:
+        cv2.rectangle(quadro, (300, 90), (301, 160), (0, 0, 255), -1)
+    return quadro
+
+
+@pytest.mark.parametrize(
+    "cor",
+    [(0, 255, 255), (203, 192, 255)],
+    ids=["amarelo", "rosa"],
+)
+def test_assinatura_destaque_claro_atras_das_notas_nao_muda(cor):
+    """Destaque amarelo ou rosa atrás das notas não entra na assinatura."""
+    sem = assinatura(_quadro_com_destaque(None), [_PAUTA_DE_TESTE])
+    com = assinatura(_quadro_com_destaque(cor), [_PAUTA_DE_TESTE])
+    assert sem is not None and com is not None
+    assert diferenca(sem, com) < 0.02
+
+
+def test_assinatura_cursor_vermelho_nao_muda():
+    """A barra vermelha do cursor, por cima das linhas, muda a assinatura só um pouco."""
+    sem = assinatura(_quadro_com_destaque(None), [_PAUTA_DE_TESTE])
+    com = assinatura(_quadro_com_destaque(None, cursor=True), [_PAUTA_DE_TESTE])
+    assert sem is not None and com is not None
+    assert diferenca(sem, com) < 0.02
+
+
+def _quadro_de_linhas(linhas: list[int]) -> np.ndarray:
+    """Cinza branco com linhas horizontais pretas de x 50 a 350, nas alturas dadas."""
+    cinza = np.full((300, 400), 255, np.uint8)
+    for y in linhas:
+        cv2.line(cinza, (50, y), (350, y), 0, 1)
+    return cinza
+
+
+_YS_DE_TESTE = [100.0, 110.0, 120.0, 130.0, 140.0]
+
+
+def test_e_tablatura_pauta_de_cinco_linhas_e_falso():
+    """Cinco linhas, sem nada além delas, não é tablatura."""
+    cinza = _quadro_de_linhas([100, 110, 120, 130, 140])
+    assert e_tablatura(cinza, _YS_DE_TESTE, 10.0, 50, 350) is False
+
+
+def test_e_tablatura_sexta_linha_embaixo_e_verdadeira():
+    """Uma 6ª linha a uma entrelinha abaixo da 5ª faz da pauta uma tablatura."""
+    cinza = _quadro_de_linhas([100, 110, 120, 130, 140, 150])
+    assert e_tablatura(cinza, _YS_DE_TESTE, 10.0, 50, 350) is True
+
+
+def test_e_tablatura_sexta_linha_em_cima_e_verdadeira():
+    """Uma 6ª linha a uma entrelinha acima da 1ª também faz da pauta uma tablatura."""
+    cinza = _quadro_de_linhas([90, 100, 110, 120, 130, 140])
+    assert e_tablatura(cinza, _YS_DE_TESTE, 10.0, 50, 350) is True
+
+
+def _quadro_tingido(destaque: bool) -> np.ndarray:
+    """Quadro BGR com traços pretos tingidos de cor (compressão) e destaque amarelo opcional.
+
+    Os traços têm BGR (0, 90, 110): saturação alta, o que a regra antiga de HSV barrava.
+    """
+    cor_traco = (0, 90, 110)
+    quadro = np.full((300, 400, 3), 255, np.uint8)
+    if destaque:
+        cv2.rectangle(quadro, (190, 95), (230, 150), (0, 255, 255), -1)
+    for y in (100, 110, 120, 130, 140):
+        cv2.line(quadro, (50, y), (350, y), cor_traco, 1)
+    cv2.rectangle(quadro, (200, 112), (212, 128), cor_traco, -1)
+    cv2.rectangle(quadro, (222, 108), (226, 132), cor_traco, -1)
+    return quadro
+
+
+def test_assinatura_traco_tingido_sobre_destaque_continua_tinta():
+    """Traço tingido de cor sobre destaque amarelo dá a mesma assinatura que sem destaque."""
+    sem = assinatura(_quadro_tingido(False), [_PAUTA_DE_TESTE])
+    com = assinatura(_quadro_tingido(True), [_PAUTA_DE_TESTE])
+    assert sem is not None and com is not None
+    assert sem.any()
+    assert diferenca(sem, com) <= 0.05
+
+
+def test_e_tablatura_viga_de_semicolcheia_acima_da_pauta_e_falso():
+    """Viga de 0,4 entrelinha em 3 blocos, sobre 60% da largura, não faz tablatura."""
+    cinza = _quadro_de_linhas([100, 110, 120, 130, 140])
+    for x0, x1 in ((140, 200), (210, 270), (280, 340)):
+        cv2.rectangle(cinza, (x0, 88), (x1, 91), 0, -1)
+    assert e_tablatura(cinza, _YS_DE_TESTE, 10.0, 50, 350) is False
+
+
+def test_e_tablatura_sexta_linha_interrompida_por_algarismos_e_verdadeira():
+    """6ª linha cortada por "algarismos" a cada 3 entrelinhas ainda conta como linha.
+
+    Como no vídeo (diag/razoes_trechos.txt), o algarismo é escuro e abre só uma folga
+    branca estreita na linha de cada lado; a coluna do algarismo continua escura.
+    """
+    cinza = _quadro_de_linhas([100, 110, 120, 130, 140, 150])
+    for x in range(80, 350, 30):
+        cinza[145:156, x : x + 10] = 255
+        cinza[146:155, x + 2 : x + 8] = 0
+    assert e_tablatura(cinza, _YS_DE_TESTE, 10.0, 50, 350) is True

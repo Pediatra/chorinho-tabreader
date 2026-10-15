@@ -5279,6 +5279,14 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - O `<stem>.partitura.json` ganha `fifths`, `fifths_origem` e `compassos` por pauta, e `metodo` (`altura` ou `x`) em cada par. Quando o x desmente o par pela altura, o evento pega a coluna livre mais próxima a até uma entrelinha: Gym tela 10 vai de 0 para 10 de 14 pares conferidos; total 433 de 438. Notas certas iguais (723/767). Gym tela 12 tem `fifths` 1, provavelmente errado; `fracao` só na primeira pauta de cada vídeo.
 
+## Partitura — 2026-10-15 — paginar resiste a destaque colorido e tira a tablatura (rodada 3017)
+
+- Tinta passou a ser contraste com o fundo local (top-hat). Quando só o destaque amarelo ou rosa anda, a diferença caiu de até 0,74 para ≤ 0,06; troca real de página fica em 0,49–0,55.
+- A tablatura confundida com pauta é descartada pela 6ª linha, medida no 2º pior de 10 trechos da largura: tablaturas ≥ 0,88, pautas reais ≤ 0,65 (antes as vigas tiravam 7 pautas reais).
+- Validação: 4/4, 3/3 e 12/12, caixas idênticas às do produto.
+- Piloto de 11 vídeos: canon 16→6 e beam 21→6 páginas em relação à 1ª tentativa; nenhuma pauta real descartada.
+- **Ainda perde pauta sob destaque em página corrida** (mela, free tab): é o próximo passo. Faixa que rola fica como limite. Ver `docs/rodadas/3017-paginas-com-destaque-e-tab.md`.
+
 ## Partitura — 2026-10-15 — páginas de pauta sem o produto da tab (rodada 3016)
 
 - `python -m tab.partitura_video paginar --video` acha as páginas de pauta direto do vídeo (1 quadro/s, assinatura da região das pautas, trechos estáveis, repetições juntadas). Nos 3 vídeos com produto: **19 de 19 telas** achadas, caixas idênticas às do produto, sem página sobrando, ~25 s por vídeo. Saída em `data/saida/partitura/sem_produto/`.
