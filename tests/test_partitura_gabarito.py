@@ -19,7 +19,10 @@ from tab.partitura_gabarito import (
     eventos_da_leitura,
     gabarito_vazio,
     ler_partitura,
+    main,
     marcar_concordancia,
+    preparar,
+    preparar_sem_produto,
     progresso,
     proximo_pendente_recorte,
     validar_faltando,
@@ -705,6 +708,261 @@ def test_servidor_grava_notacoes_e_recusa_chave_errada(tmp_path: Path) -> None:
             status, _ = _pedido(porta, "POST", "/salvar", corpo)
             assert status == 400
         assert ouro.read_text(encoding="utf-8") == antes
+    finally:
+        srv.shutdown()
+        srv.server_close()
+
+
+# ---------------------------------------------------------------------------------
+# Vídeos sem produto (preparar --sem-produto, PNG e servidor)
+# ---------------------------------------------------------------------------------
+
+SLUG_SEM_PRODUTO = "meu_video_de_teste_longo"
+
+
+def _png_do_tamanho(caminho: Path, largura: int, altura: int) -> Path:
+    """Grava só o cabeçalho de um PNG com o tamanho pedido (basta para ``_tamanho_png``)."""
+    caminho.parent.mkdir(parents=True, exist_ok=True)
+    caminho.write_bytes(
+        b"\x89PNG\r\n\x1a\n"
+        + b"\x00\x00\x00\x0dIHDR"
+        + struct.pack(">II", largura, altura)
+        + b"\x00" * 10
+    )
+    return caminho
+
+
+@pytest.fixture
+def sem_produto(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    """Uma pasta de vídeo sem produto, com um recorte (P01a) e a leitura herdada.
+
+    Devolve a pasta do vídeo; ``PASTA_SEM_PRODUTO`` aponta para o pai dela.
+    """
+    monkeypatch.setattr(
+        "tab.partitura_gabarito.PASTA_SEM_PRODUTO", tmp_path / "sem_produto"
+    )
+    pasta = tmp_path / "sem_produto" / SLUG_SEM_PRODUTO
+    indice = [
+        {
+            "id": "P01a",
+            "video": "canal teste/aula.mp4",
+            "pagina": 2,
+            "largura": 200,
+            "altura": 100,
+        }
+    ]
+    (pasta / "recortes").mkdir(parents=True)
+    (pasta / "recortes" / "indice.json").write_text(
+        json.dumps(indice), encoding="utf-8"
+    )
+    _png_do_tamanho(pasta / "recortes" / "P01a.png", 200, 100)
+    _gravar(_pasta_leitura_herdada(pasta, "P01a") / "saida.musicxml", MUSICXML_BASE)
+    return pasta
+
+
+def _pasta_leitura_herdada(pasta: Path, id_: str) -> Path:
+    """Pasta da leitura herdada de um recorte sem produto (criada se faltar)."""
+    alvo = pasta / "omr" / "audiveris" / "x2_margem_herdada" / id_
+    alvo.mkdir(parents=True, exist_ok=True)
+    return alvo
+
+
+def test_preparar_sem_produto_item_com_id_png_fonte_e_concordancias_none(
+    sem_produto: Path, tmp_path: Path
+) -> None:
+    saida = tmp_path / "itens.json"
+    itens = preparar_sem_produto([(SLUG_SEM_PRODUTO, "P01a")], saida)
+
+    assert len(itens) == 1
+    item = itens[0]
+    # SLUG[:16] + "_" + ID: "meu_video_de_tes" tem 16 caracteres.
+    assert item["id"] == "meu_video_de_tes_P01a"
+    assert item["origem"] == "sem_produto"
+    assert item["canal"] == "canal teste"
+    assert item["video"] == "canal teste/aula.mp4"
+    assert item["tela"] == 2
+    assert item["fonte"] == "audiveris/x2_margem_herdada"
+    assert item["recorte"] == "P01a"
+    # Fora da RAIZ (tmp_path), o caminho sai absoluto; dentro, sai relativo.
+    assert item["pasta"] == str(sem_produto)
+    assert item["png"] == str(sem_produto / "recortes" / "P01a.png")
+    assert (item["largura_png"], item["altura_png"]) == (200, 100)
+    assert item["clave"]["sign"] == "G"
+    assert item["armadura"] == 1
+    assert item["n_compassos"] == 2
+
+    simbolos = [s for c in item["compassos"] for s in c["simbolos"]]
+    assert simbolos
+    assert all(s["homr_concorda"] is None for s in simbolos)
+    assert all(s["tab_concorda"] is None for s in simbolos)
+    assert item["discordancias"] == 0
+
+    gravado = json.loads(saida.read_text(encoding="utf-8"))
+    assert gravado["itens"][0]["id"] == "meu_video_de_tes_P01a"
+
+
+def test_cli_preparar_sem_produto_grava_no_saida_informado(
+    sem_produto: Path, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    saida = tmp_path / "diag" / "itens.json"
+    codigo = main(
+        ["preparar", "--saida", str(saida), "--sem-produto", f"{SLUG_SEM_PRODUTO}:P01a"]
+    )
+    assert codigo == 0
+    assert json.loads(saida.read_text(encoding="utf-8"))["itens"][0]["fonte"] == (
+        "audiveris/x2_margem_herdada"
+    )
+    saiu = capsys.readouterr().out
+    assert "meu_video_de_tes_P01a" in saiu
+    assert f"gravado: {saida}" in saiu
+
+
+def test_cli_sem_produto_exige_slug_e_id() -> None:
+    with pytest.raises(SystemExit):
+        main(["preparar", "--sem-produto", "so_o_slug"])
+
+
+def test_preparar_sem_produto_sem_leitura_herdada_e_erro(
+    sem_produto: Path, tmp_path: Path
+) -> None:
+    (
+        sem_produto
+        / "omr"
+        / "audiveris"
+        / "x2_margem_herdada"
+        / "P01a"
+        / "saida.musicxml"
+    ).unlink()
+    saida = tmp_path / "itens.json"
+    with pytest.raises(FileNotFoundError, match="sem leitura herdada"):
+        preparar_sem_produto([(SLUG_SEM_PRODUTO, "P01a")], saida)
+    assert not saida.exists()
+
+
+def test_preparar_sem_produto_recorte_fora_do_indice_e_erro(
+    sem_produto: Path, tmp_path: Path
+) -> None:
+    with pytest.raises(ValueError, match=r"não está em recortes/indice\.json"):
+        preparar_sem_produto([(SLUG_SEM_PRODUTO, "P09a")], tmp_path / "itens.json")
+
+
+def test_preparar_sem_produto_png_de_tamanho_errado_e_erro(
+    sem_produto: Path, tmp_path: Path
+) -> None:
+    _png_do_tamanho(sem_produto / "recortes" / "P01a.png", 150, 100)
+    with pytest.raises(ValueError, match="!= índice"):
+        preparar_sem_produto([(SLUG_SEM_PRODUTO, "P01a")], tmp_path / "itens.json")
+
+
+def test_preparar_sem_a_opcao_continua_igual_para_a_p1(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    recortes = tmp_path / "recortes"
+    omr = tmp_path / "omr"
+    monkeypatch.setattr("tab.partitura_gabarito.PASTA_RECORTES", recortes)
+    monkeypatch.setattr("tab.partitura_gabarito.PASTA_OMR", omr)
+    _png_do_tamanho(recortes / "R01.png", 200, 100)
+    for pasta in (
+        omr / "audiveris" / "x2_margem" / "R01",
+        omr / "homr" / "nativo" / "R01",
+    ):
+        pasta.mkdir(parents=True)
+        _gravar(pasta / "saida.musicxml", MUSICXML_BASE)
+    indice = tmp_path / "indice.json"
+    indice.write_text(
+        json.dumps(
+            [
+                {
+                    "id": "R01",
+                    "origem": "p1",
+                    "canal": "canal p1",
+                    "video": "canal p1/v.mp4",
+                    "tela": 1,
+                    "largura": 200,
+                    "altura": 100,
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    itens = preparar(indice=indice, saida=tmp_path / "itens.json")
+    item = itens[0]
+    assert item["id"] == "R01"
+    assert item["fonte"] == "audiveris/x2_margem"
+    assert "pasta" not in item and "recorte" not in item
+    assert item["png"] == str(recortes / "R01.png")
+    simbolos = [s for c in item["compassos"] for s in c["simbolos"]]
+    # homr idêntico ao Audiveris: concorda em todas as notas; tab fica None (origem p1).
+    notas = [s for s in simbolos if not s["pausa"] and not s["graca"]]
+    assert notas and all(s["homr_concorda"] is True for s in notas)
+    assert all(s["tab_concorda"] is None for s in simbolos)
+
+
+def test_servidor_entrega_png_da_p1_e_do_sem_produto_e_recusa_o_resto(
+    sem_produto: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    recortes_p1 = tmp_path / "p1" / "recortes_margem"
+    monkeypatch.setattr("tab.partitura_gabarito.PASTA_RECORTES", recortes_p1)
+    _png_do_tamanho(recortes_p1 / "R01.png", 200, 100)
+    fora = _png_do_tamanho(tmp_path / "fora" / "F01.png", 200, 100)
+
+    sem = preparar_sem_produto([(SLUG_SEM_PRODUTO, "P01a")], tmp_path / "sem.json")[0]
+    da_p1 = _item("R01")
+    da_p1["png"] = str(recortes_p1 / "R01.png")
+    intruso = _item("F01")
+    intruso["png"] = str(fora)
+    itens_path = tmp_path / "itens.json"
+    itens_path.write_text(
+        json.dumps({"formato": 1, "itens": [da_p1, sem, intruso]}), encoding="utf-8"
+    )
+
+    srv = criar_servidor(itens_path, tmp_path / "gabarito.json", porta=0)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    porta = srv.server_address[1]
+    try:
+        for id_ in ("R01", "meu_video_de_tes_P01a"):
+            status, dados = _pedido(porta, "GET", f"/recorte/{id_}.png")
+            assert status == 200, id_
+            assert dados.startswith(b"\x89PNG\r\n\x1a\n")
+        status, _ = _pedido(porta, "GET", "/recorte/F01.png")
+        assert status == 404
+        status, _ = _pedido(porta, "GET", "/recorte/nao_existe.png")
+        assert status == 404
+    finally:
+        srv.shutdown()
+        srv.server_close()
+
+
+def test_servidor_confere_recorte_sem_produto_com_id_com_sublinhado(
+    sem_produto: Path, tmp_path: Path
+) -> None:
+    sem = preparar_sem_produto([(SLUG_SEM_PRODUTO, "P01a")], tmp_path / "sem.json")[0]
+    itens_path = tmp_path / "itens.json"
+    itens_path.write_text(json.dumps({"formato": 1, "itens": [sem]}), encoding="utf-8")
+    ouro = tmp_path / "gabarito.json"
+    srv = criar_servidor(itens_path, ouro, porta=0)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    porta = srv.server_address[1]
+    try:
+        status, dados = _pedido(porta, "GET", "/itens")
+        assert status == 200
+        corpo = json.loads(dados)
+        assert corpo["itens"][0]["origem"] == "sem_produto"
+        assert corpo["progresso"]["total"] == 1
+
+        simbolos = [s for c in sem["compassos"] for s in c["simbolos"]]
+        status, _ = _pedido(
+            porta,
+            "POST",
+            "/salvar",
+            _corpo(sem["id"], [(s["idx"], "certo") for s in simbolos]),
+        )
+        assert status == 200
+        gravado = json.loads(ouro.read_text(encoding="utf-8"))
+        registro = gravado["recortes"][sem["id"]]
+        assert registro["confirmado"] is True
+        assert registro["fonte"] == "audiveris/x2_margem_herdada"
+        assert all("homr_concorda" not in s["palpite"] for s in registro["simbolos"])
     finally:
         srv.shutdown()
         srv.server_close()

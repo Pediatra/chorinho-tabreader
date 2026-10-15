@@ -15,9 +15,13 @@ Não usa GPU nem roda as bibliotecas de OMR. O gabarito real (``data/gold``) só
 quando o dono confirma pela página; o servidor exige ``--ouro`` explícito. Os testes
 usam ``tmp_path``.
 
+``preparar --sem-produto SLUG:ID`` (repetível) faz o mesmo para recortes de vídeos sem
+produto de tablatura (``PASTA_SEM_PRODUTO``), com a leitura herdada do Audiveris.
+
 Uso::
 
     python -m tab.partitura_gabarito preparar
+    python -m tab.partitura_gabarito preparar --saida CAMINHO --sem-produto SLUG:ID
     python -m tab.partitura_gabarito servir --ouro CAMINHO --porta 8098 --host 127.0.0.1
 """
 
@@ -63,6 +67,15 @@ FONTE_AUDIVERIS = f"audiveris/{CONDICAO_AUDIVERIS}"
 
 #: Itens da conferência, gerados por ``preparar``.
 ITENS = PASTA_CONFERENCIA / "itens.json"
+
+#: Vídeos SEM produto de tablatura: uma pasta por vídeo, com ``recortes/indice.json``,
+#: ``recortes/<id>.png`` e a leitura herdada do Audiveris (armadura do vídeo aplicada) em
+#: ``omr/audiveris/x2_margem_herdada/<id>/saida.musicxml``.
+PASTA_SEM_PRODUTO = SAIDA / "partitura" / "sem_produto"
+
+#: Condição da leitura herdada dos vídeos sem produto, e o nome da fonte no item.
+CONDICAO_HERDADA = "x2_margem_herdada"
+FONTE_HERDADA = f"audiveris/{CONDICAO_HERDADA}"
 
 #: Formato do arquivo de gabarito (``--ouro``): uma entrada por recorte, e cada
 #: símbolo com ``notacoes_dono`` (formato 3).
@@ -615,8 +628,137 @@ def _tamanho_png(caminho: Path) -> tuple[int, int]:
     return largura, altura
 
 
+def _relativo_a_raiz(caminho: Path) -> str:
+    """Caminho em texto, relativo à raiz do projeto (absoluto se estiver fora dela).
+
+    Args:
+        caminho: arquivo ou pasta.
+
+    Returns:
+        ``caminho`` relativo a ``RAIZ``, ou ``str(caminho)`` se não está dentro dela
+        (o que acontece nos testes, com ``tmp_path``).
+    """
+    try:
+        return str(caminho.relative_to(RAIZ))
+    except ValueError:
+        return str(caminho)
+
+
+def _conferir_png(png: Path, entrada: dict) -> tuple[int, int]:
+    """Confere que o PNG tem o tamanho que o índice diz, e devolve esse tamanho.
+
+    Args:
+        png: PNG do recorte.
+        entrada: entrada do ``indice.json`` (com ``id``, ``largura`` e ``altura``).
+
+    Returns:
+        ``(largura, altura)`` do PNG, em pixels.
+
+    Raises:
+        ValueError: se o PNG não bate com ``largura``/``altura`` do índice.
+    """
+    largura, altura = _tamanho_png(png)
+    if (largura, altura) != (entrada["largura"], entrada["altura"]):
+        raise ValueError(f"{entrada['id']}: PNG {largura}x{altura} != índice")
+    return largura, altura
+
+
+def _eventos_do_homr(id_: str) -> list[frozenset]:
+    """Eventos do homr nativo de um recorte, para a concordância entre leituras.
+
+    Args:
+        id_: id do recorte (``R01``).
+
+    Returns:
+        Eventos de ``eventos_da_leitura`` da leitura do homr.
+    """
+    homr = ler_partitura(PASTA_OMR / "homr" / "nativo" / id_ / "saida.musicxml")
+    return eventos_da_leitura(_todos(homr["compassos"]))
+
+
+def _montar_item(
+    *,
+    id_: str,
+    origem: str,
+    canal: str,
+    video: str,
+    tela: int | None,
+    fonte: str,
+    caminho: Path,
+    png: Path,
+    largura: int,
+    altura: int,
+    eventos_homr: list[frozenset] | None,
+    referencia: list[frozenset] | None,
+) -> dict:
+    """Monta o item de conferência a partir do MusicXML de uma leitura.
+
+    Comum a ``preparar`` (recortes da P1) e a ``preparar --sem-produto``. Cada símbolo
+    recebe ``homr_concorda`` e ``tab_concorda``; vale ``None`` quando a leitura de
+    comparação não existe (sem homr, sem tablatura de referência).
+
+    Args:
+        id_: id do item, único no ``itens.json``.
+        origem: ``ouro``, ``p1`` ou ``sem_produto``.
+        canal: canal do vídeo.
+        video: nome do vídeo.
+        tela: tela (ou página) do recorte, ou ``None``.
+        fonte: nome da leitura (``audiveris/x2_margem``...).
+        caminho: MusicXML da leitura conferida.
+        png: PNG original do recorte.
+        largura: largura do PNG, em pixels.
+        altura: altura do PNG, em pixels.
+        eventos_homr: eventos do homr, ou ``None`` se não há leitura do homr.
+        referencia: eventos da tablatura de referência, ou ``None``.
+
+    Returns:
+        Item com a leitura conferida (símbolos e concordâncias), a clave, a armadura e
+        os contadores.
+
+    Raises:
+        ValueError: se a leitura tem dois compassos com o mesmo número.
+    """
+    leitura = ler_partitura(caminho)
+    numeros = [c["numero"] for c in leitura["compassos"]]
+    if len(set(numeros)) != len(numeros):
+        raise ValueError(f"{id_}: número de compasso repetido na leitura")
+    lista: list[dict] = []
+    for compasso in leitura["compassos"]:
+        for simbolo in compasso["simbolos"]:
+            simbolo["idx"] = len(lista)
+            lista.append(simbolo)
+    marcar_concordancia(lista, eventos_homr, "homr_concorda")
+    marcar_concordancia(lista, referencia, "tab_concorda")
+    discordancias = sum(
+        1 for s in lista if s["homr_concorda"] is False or s["tab_concorda"] is False
+    )
+    return {
+        "id": id_,
+        "origem": origem,
+        "canal": canal,
+        "video": video,
+        "tela": tela,
+        "fonte": fonte,
+        "png": _relativo_a_raiz(png),
+        "largura_png": largura,
+        "altura_png": altura,
+        "musicxml": caminho.read_bytes().decode("utf-8"),
+        "clave": leitura["clave"],
+        "armadura": leitura["armadura"],
+        "compasso_formula": leitura["compasso_formula"],
+        "compassos": [
+            {"numero": c["numero"], "duracao": c["duracao"], "simbolos": c["simbolos"]}
+            for c in leitura["compassos"]
+        ],
+        "n_compassos": len(leitura["compassos"]),
+        "n_notas": sum(1 for s in lista if not s["pausa"]),
+        "n_pausas": sum(1 for s in lista if s["pausa"]),
+        "discordancias": discordancias,
+    }
+
+
 def _item(entrada: dict, execucao: dict[str, bool], ouro: dict) -> dict:
-    """Monta o item de conferência de um recorte.
+    """Monta o item de conferência de um recorte da P1.
 
     Args:
         entrada: entrada do ``indice.json``.
@@ -634,55 +776,76 @@ def _item(entrada: dict, execucao: dict[str, bool], ouro: dict) -> dict:
     id_ = entrada["id"]
     fonte, caminho = _fonte_da_leitura(id_, execucao)
     png = PASTA_RECORTES / f"{id_}.png"
-    largura, altura = _tamanho_png(png)
-    if (largura, altura) != (entrada["largura"], entrada["altura"]):
-        raise ValueError(f"{id_}: PNG {largura}x{altura} != índice")
-    leitura = ler_partitura(caminho)
-    numeros = [c["numero"] for c in leitura["compassos"]]
-    if len(set(numeros)) != len(numeros):
-        raise ValueError(f"{id_}: número de compasso repetido na leitura")
-    lista: list[dict] = []
-    for compasso in leitura["compassos"]:
-        for simbolo in compasso["simbolos"]:
-            simbolo["idx"] = len(lista)
-            lista.append(simbolo)
-    if fonte == FONTE_AUDIVERIS:
-        homr = ler_partitura(PASTA_OMR / "homr" / "nativo" / id_ / "saida.musicxml")
-        marcar_concordancia(
-            lista, eventos_da_leitura(_todos(homr["compassos"])), "homr_concorda"
-        )
-    else:
-        marcar_concordancia(lista, None, "homr_concorda")
-    if entrada["origem"] == "ouro":
-        marcar_concordancia(lista, _referencia_do_item(entrada, ouro), "tab_concorda")
-    else:
-        marcar_concordancia(lista, None, "tab_concorda")
-    discordancias = sum(
-        1 for s in lista if s["homr_concorda"] is False or s["tab_concorda"] is False
+    largura, altura = _conferir_png(png, entrada)
+    eventos_homr = _eventos_do_homr(id_) if fonte == FONTE_AUDIVERIS else None
+    referencia = (
+        _referencia_do_item(entrada, ouro) if entrada["origem"] == "ouro" else None
     )
-    return {
-        "id": id_,
-        "origem": entrada["origem"],
-        "canal": entrada["canal"],
-        "video": entrada["video"],
-        "tela": entrada.get("tela"),
-        "fonte": fonte,
-        "png": str(png.relative_to(RAIZ)),
-        "largura_png": largura,
-        "altura_png": altura,
-        "musicxml": caminho.read_bytes().decode("utf-8"),
-        "clave": leitura["clave"],
-        "armadura": leitura["armadura"],
-        "compasso_formula": leitura["compasso_formula"],
-        "compassos": [
-            {"numero": c["numero"], "duracao": c["duracao"], "simbolos": c["simbolos"]}
-            for c in leitura["compassos"]
-        ],
-        "n_compassos": len(leitura["compassos"]),
-        "n_notas": sum(1 for s in lista if not s["pausa"]),
-        "n_pausas": sum(1 for s in lista if s["pausa"]),
-        "discordancias": discordancias,
-    }
+    return _montar_item(
+        id_=id_,
+        origem=entrada["origem"],
+        canal=entrada["canal"],
+        video=entrada["video"],
+        tela=entrada.get("tela"),
+        fonte=fonte,
+        caminho=caminho,
+        png=png,
+        largura=largura,
+        altura=altura,
+        eventos_homr=eventos_homr,
+        referencia=referencia,
+    )
+
+
+def _item_sem_produto(slug: str, id_: str) -> dict:
+    """Item de conferência de um recorte de vídeo sem produto de tablatura.
+
+    A leitura é a herdada do Audiveris (``x2_margem_herdada``, com a armadura do vídeo
+    aplicada). Não há homr nem tablatura nessas pastas, então as concordâncias ficam
+    ``None``. O id é ``SLUG[:16]_ID``, estável e único entre os itens da execução.
+
+    Args:
+        slug: nome da pasta do vídeo em ``PASTA_SEM_PRODUTO``.
+        id_: id do recorte no índice (``P01a``).
+
+    Returns:
+        Item no formato de ``_item``, com ``pasta`` (relativa à raiz) e ``recorte``.
+
+    Raises:
+        ValueError: se o recorte não está no índice, ou o PNG não bate com ele.
+        FileNotFoundError: se o recorte não tem leitura herdada do Audiveris.
+    """
+    pasta = PASTA_SEM_PRODUTO / slug
+    indice = json.loads(
+        (pasta / "recortes" / "indice.json").read_text(encoding="utf-8")
+    )
+    casam = [e for e in indice if e["id"] == id_]
+    if not casam:
+        raise ValueError(f"{slug}: recorte {id_} não está em recortes/indice.json")
+    entrada = casam[0]
+    caminho = pasta / "omr" / "audiveris" / CONDICAO_HERDADA / id_ / "saida.musicxml"
+    if not caminho.exists():
+        raise FileNotFoundError(f"{slug}:{id_}: sem leitura herdada em {caminho}")
+    png = pasta / "recortes" / f"{id_}.png"
+    largura, altura = _conferir_png(png, entrada)
+    video = entrada["video"]
+    item = _montar_item(
+        id_=f"{slug[:16]}_{id_}",
+        origem="sem_produto",
+        canal=video.split("/", 1)[0],
+        video=video,
+        tela=entrada["pagina"],
+        fonte=FONTE_HERDADA,
+        caminho=caminho,
+        png=png,
+        largura=largura,
+        altura=altura,
+        eventos_homr=None,
+        referencia=None,
+    )
+    item["pasta"] = _relativo_a_raiz(pasta)
+    item["recorte"] = id_
+    return item
 
 
 def _todos(compassos: list[dict]) -> list[dict]:
@@ -722,8 +885,41 @@ def preparar(indice: Path = INDICE_RECORTES, saida: Path = ITENS) -> list[dict]:
     return itens
 
 
+def preparar_sem_produto(
+    pares: list[tuple[str, str]], saida: Path = ITENS
+) -> list[dict]:
+    """Gera ``itens.json`` só com os recortes pedidos de vídeos sem produto.
+
+    Args:
+        pares: ``(slug, id)`` de cada recorte, na ordem desejada.
+        saida: onde gravar ``itens.json``.
+
+    Returns:
+        Os itens gerados, na ordem dos pares.
+
+    Raises:
+        ValueError: se dois itens ganham o mesmo id (slugs com o mesmo prefixo).
+    """
+    itens = [_item_sem_produto(slug, id_) for slug, id_ in pares]
+    ids = [it["id"] for it in itens]
+    if len(set(ids)) != len(ids):
+        raise ValueError(f"ids repetidos entre os recortes pedidos: {ids}")
+    _gravar_atomico(
+        saida,
+        {
+            "formato": 1,
+            "gerado_por": "tab.partitura_gabarito preparar --sem-produto",
+            "itens": itens,
+        },
+    )
+    return itens
+
+
 def _tabela(itens: list[dict]) -> str:
     """Tabela de uma linha por recorte, para o terminal.
+
+    A largura das colunas ``recorte`` e ``fonte`` acompanha o maior valor, para que
+    os ids longos (com ``_``) e a fonte herdada não desalinhem a tabela.
 
     Args:
         itens: itens de ``preparar``.
@@ -731,13 +927,15 @@ def _tabela(itens: list[dict]) -> str:
     Returns:
         Texto da tabela.
     """
+    w_id = max([len("recorte")] + [len(it["id"]) for it in itens]) + 2
+    w_fonte = max([len("fonte")] + [len(it["fonte"]) for it in itens]) + 2
     linhas = [
-        f"{'recorte':<8}{'fonte':<14}{'compassos':>10}{'notas':>8}"
+        f"{'recorte':<{w_id}}{'fonte':<{w_fonte}}{'compassos':>10}{'notas':>8}"
         f"{'pausas':>8}{'discord.':>10}  canal"
     ]
     for it in itens:
         linhas.append(
-            f"{it['id']:<8}{it['fonte']:<14}{it['n_compassos']:>10}"
+            f"{it['id']:<{w_id}}{it['fonte']:<{w_fonte}}{it['n_compassos']:>10}"
             f"{it['n_notas']:>8}{it['n_pausas']:>8}{it['discordancias']:>10}  "
             f"{it['canal']}"
         )
@@ -1185,11 +1383,15 @@ def criar_servidor(
         def _png(self, recorte_id: str) -> None:
             """Entrega o PNG original de um recorte.
 
+            Só entrega arquivo dentro de ``PASTA_RECORTES`` (P1) ou de
+            ``PASTA_SEM_PRODUTO``; qualquer outro caminho vira 404.
+
             Args:
                 recorte_id: id do recorte (já conferido contra os itens).
             """
             alvo = (RAIZ / por_id[recorte_id]["png"]).resolve()
-            if not alvo.is_relative_to(PASTA_RECORTES.resolve()) or not alvo.is_file():
+            pastas = (PASTA_RECORTES.resolve(), PASTA_SEM_PRODUTO.resolve())
+            if not any(alvo.is_relative_to(p) for p in pastas) or not alvo.is_file():
                 self._json(404, {"ok": False, "erro": "não encontrado"})
                 return
             corpo = alvo.read_bytes()
@@ -1223,7 +1425,7 @@ def criar_servidor(
                     {"itens": ordem, "gabarito": estado, "progresso": prog},
                 )
                 return
-            casa = re.fullmatch(r"/recorte/(R\d+)\.png", caminho)
+            casa = re.fullmatch(r"/recorte/([^/]+)\.png", caminho)
             if casa and casa.group(1) in por_id:
                 self._png(casa.group(1))
                 return
@@ -2313,6 +2515,24 @@ def servir(itens: Path, ouro: Path, porta: int, host: str) -> int:
     return 0
 
 
+def _par_sem_produto(texto: str) -> tuple[str, str]:
+    """Lê ``SLUG:ID`` de ``--sem-produto``; o id é o que vem depois do último ``:``.
+
+    Args:
+        texto: valor do argumento.
+
+    Returns:
+        ``(slug, id)``.
+
+    Raises:
+        argparse.ArgumentTypeError: se falta o slug ou o id.
+    """
+    slug, sep, id_ = texto.rpartition(":")
+    if not sep or not slug or not id_:
+        raise argparse.ArgumentTypeError(f"esperado SLUG:ID, veio {texto!r}")
+    return slug, id_
+
+
 def main(argv: list[str] | None = None) -> int:
     """Ponto de entrada do CLI: ``preparar`` ou ``servir``.
 
@@ -2324,7 +2544,15 @@ def main(argv: list[str] | None = None) -> int:
     """
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = parser.add_subparsers(dest="comando", required=True)
-    sub.add_parser("preparar", help="gera itens.json com as leituras")
+    preparar_p = sub.add_parser("preparar", help="gera itens.json com as leituras")
+    preparar_p.add_argument("--saida", type=Path, default=ITENS)
+    preparar_p.add_argument(
+        "--sem-produto",
+        type=_par_sem_produto,
+        action="append",
+        metavar="SLUG:ID",
+        help="recorte de vídeo sem produto (repetível); sem ele, são os da P1",
+    )
     servidor = sub.add_parser("servir", help="servidor da conferência")
     servidor.add_argument("--ouro", type=Path, required=True)
     servidor.add_argument("--itens", type=Path, default=ITENS)
@@ -2332,9 +2560,12 @@ def main(argv: list[str] | None = None) -> int:
     servidor.add_argument("--host", default="127.0.0.1")
     args = parser.parse_args(argv)
     if args.comando == "preparar":
-        itens = preparar()
+        if args.sem_produto:
+            itens = preparar_sem_produto(args.sem_produto, args.saida)
+        else:
+            itens = preparar(saida=args.saida)
         print(_tabela(itens))
-        print(f"gravado: {ITENS}")
+        print(f"gravado: {args.saida}")
         return 0
     return servir(args.itens, args.ouro, args.porta, args.host)
 
