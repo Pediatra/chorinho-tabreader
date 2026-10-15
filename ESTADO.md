@@ -5271,6 +5271,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - A troca do R11 (3012) era um harmônico artificial: a pauta desenha a nota presa e a tab escreve o som, uma oitava acima. Nota igual à da tab em outra oitava não é mais trocada. R01–R12: **526/546 certas**, 9 notas erradas (uma é o próprio harmônico), 5 trocas (os bemóis do R06).
 
+## Partitura — 2026-10-15 — pareada com o produto, em todas as telas (rodada 3014)
+
+- `tab.partitura_video` (`recortar`, `ler`, `parear`) gera `<stem>.partitura.json` (`chorinho/partitura@1`) para cada produto: 19/19 telas com pauta nos 3 vídeos. Nas 12 telas da P1, pareada com o produto: **527/546** (era 526 com o gabarito). Nas 7 telas novas do gymnopédie: 196/221. Gym tela 10: a tab do produto tem as cordas deslocadas de uma e o x denuncia (0 de 14 conferidos), um erro da trilha tablatura.
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do
