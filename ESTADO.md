@@ -5564,3 +5564,17 @@ Scripts e tabelas: `data/saida/n3/`, `data/saida/n4/`.
   - 2 testes sintéticos; o controle negativo, com a largura cheia, falha.
   - A régua completa dos 8 ouros não foi rodada de novo: o ramo só age em faixa escura, e os
     painéis dos ouros saíram idênticos.
+- **Braço do violão contra a TAB escura** (`painel.escolher_ou_mascara`). Em 3 de 14 quadros de
+  cifra club, `escolher` aceitava o braço: as cordas dele passam no teste de linhas contínuas.
+  O que separa é a **deriva** das cordas, isto é, quanto sobem ou descem de uma borda à outra,
+  em passos:
+  - TAB: 0,003–0,060 em 97 telas (63 dos ouros, 20 claras, 6 de cifra club);
+  - braço: 0,104, 0,336 e 0,389.
+  - Com deriva acima de `DERIVA_BRACO_PASSOS = 0,08`, a escolha procura antes uma TAB escura,
+    já recortada pelo tracejado (`candidatos_escuros_estreitos`). Se não achar, fica com a
+    escolha antiga. A margem é estreita (0,060 contra 0,104).
+  - Cifra club: caixa certa em 14 de 14 quadros (antes, 11). As outras 94 telas ficaram
+    idênticas.
+  - Lidos pela rede, os 3 quadros trocados têm 60 notas reais: 59 certas, 1 perdida (o
+    primeiro 7 de um "7/9"), 0 falsas.
+  - 2 testes; o controle negativo falha.

@@ -837,9 +837,36 @@ def escolher_ou_mascara(frame: np.ndarray) -> Candidato | None:
         O candidato, ou None.
     """
     esc = escolher(frame)
-    if esc is not None:
+    if esc is not None and not _cordas_convergem(esc):
         return esc
+    if esc is not None:
+        # o escolhido é o BRAÇO (cordas convergentes): a TAB escura tem prioridade, se achada
+        achados = sorted(candidatos_escuros_estreitos(frame), key=lambda t: -t[0])
+        alternativa = _primeira_tablatura([[c for _u, c in achados]])
+        return esc if alternativa is None else alternativa
     return _primeira_tablatura([_por_mascara(frame)])
+
+
+#: Deriva máxima das cordas do candidato escolhido, em fração do passo, para ele NÃO ser o
+#: braço. Medido nos 97 quadros de `haiku_braco/feat.json`: as cordas de TAB (63 ouros, 20
+#: claras, 6 cifra club que já acertavam) ficam em 0,003 a 0,031; os braços escolhidos em
+#: 0,336, 0,389 e 0,104 (`grande família` t=52, `acenda o farol` t=43, `além do rio azul`
+#: t=48). Entre 0,06 (maior TAB) e 0,104 (menor braço): 0,08 fica no meio do vão.
+DERIVA_BRACO_PASSOS = 0.08
+
+
+def _cordas_convergem(c: Candidato) -> bool:
+    """As cordas do candidato sobem ou descem além de ``DERIVA_BRACO_PASSOS`` do passo?
+
+    Args:
+        c: candidato já refinado.
+
+    Returns:
+        True se a deriva (em passos) passa do limite: é o braço do violão, não TAB.
+    """
+    tinta = _uniao_mascaras(c.roi).astype(np.uint8)
+    deriva = deriva_das_cordas(tinta, list(c.grade.linhas_y), c.passo)
+    return deriva / c.passo > DERIVA_BRACO_PASSOS
 
 
 def escolher(frame: np.ndarray, min_glifos: int = MIN_GLIFOS) -> Candidato | None:
@@ -974,6 +1001,61 @@ FUNDO_ESCURO_MAXIMO = 50.0
 CONTRASTE_LINHA_MINIMO = 12.0
 
 
+def _picos_da_mascara_clara(frame: np.ndarray) -> list[int]:
+    """Picos de linha (0,30 e 0,15) da máscara `contraste_claro`, em ordem de y.
+
+    Args:
+        frame: quadro inteiro (BGR).
+
+    Returns:
+        Os y dos picos, sem duplicar linhas a menos de 2 px.
+    """
+    mascara = dict(mascaras_candidatas(frame))[NOME_MASCARA_CLARA]
+    picos: list[int] = []
+    for fracao in (0.30, 0.15):
+        for _v, y in picos_de_linha(mascara, fracao_min=fracao):
+            y = int(y)
+            if not picos or all(abs(y - p) > 2 for p in picos):
+                picos.append(y)
+    picos.sort()
+    return picos
+
+
+def candidatos_escuros_estreitos(frame: np.ndarray) -> list[tuple[float, Candidato]]:
+    """Mesmos grupos escuros de `candidatos_claros_escuros`, com x ESTREITADO ao tracejado.
+
+    Usa `_candidato_do_grupo` (o ramo escuro dele estreita x com
+    `extensao_das_linhas_claras`, sem as bolinhas nem o diagrama de acorde). Só o caminho
+    do braço usa esta função; `candidatos_claros_escuros` continua como estava para quem
+    chama (telas.py).
+
+    Args:
+        frame: quadro inteiro (BGR).
+
+    Returns:
+        ``(uniformidade, candidato)`` de cada grupo escuro aceito, já estreitado em x.
+    """
+    cinza = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.float32)
+    picos = _picos_da_mascara_clara(frame)
+    achados: list[tuple[float, Candidato]] = []
+    for nome, passo, y0, y1, cordas in _grupos_regulares(
+        picos,
+        frame.shape[0],
+        PASSO_MINIMO_PX,
+        PASSO_MAXIMO_PX,
+        TOLERANCIA_ESPACAMENTO,
+        NOME_MASCARA_CLARA,
+    ):
+        if float(np.median(cinza[y0:y1, :])) > FUNDO_ESCURO_MAXIMO:
+            continue
+        if _contraste_das_cordas(cinza, cordas, y0) < CONTRASTE_LINHA_MINIMO:
+            continue
+        c = _candidato_do_grupo(frame, nome, y0, y1, cordas, passo, MIN_GLIFOS_MASCARA)
+        if c is not None:
+            achados.append((c.uniformidade, c))
+    return achados
+
+
 def candidatos_claros_escuros(frame: np.ndarray) -> list[tuple[float, Candidato]]:
     """Grupos de 6 cordas claras sobre fundo ESCURO, achados SÓ na máscara `contraste_claro`.
 
@@ -989,14 +1071,7 @@ def candidatos_claros_escuros(frame: np.ndarray) -> list[tuple[float, Candidato]
         ``(uniformidade, candidato)`` de cada grupo escuro que `criar` aceita.
     """
     cinza = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.float32)
-    mascara = dict(mascaras_candidatas(frame))[NOME_MASCARA_CLARA]
-    picos: list[int] = []
-    for fracao in (0.30, 0.15):
-        for _v, y in picos_de_linha(mascara, fracao_min=fracao):
-            y = int(y)
-            if not picos or all(abs(y - p) > 2 for p in picos):
-                picos.append(y)
-    picos.sort()
+    picos = _picos_da_mascara_clara(frame)
     achados: list[tuple[float, Candidato]] = []
     for nome, passo, y0, y1, cordas in _grupos_regulares(
         picos,
