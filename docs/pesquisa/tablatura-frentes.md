@@ -249,6 +249,14 @@ As frentes podem rodar em paralelo, cada uma na sua worktree. A ordem acima é d
 5. **A B custa GPU e dependência nova.** Só vale depois de a Frente 0 mostrar que falta estilo ou
    classe no gerador.
 
+**Ondas de execução** (quantas worktrees ao mesmo tempo):
+
+| onda | frentes | começa quando | observação |
+| --- | --- | --- | --- |
+| 1 | F0 (F0.1 + F0.2), C1, D1 | já | nenhuma usa GPU; a C1 lê vídeo denso: 1 vídeo por vez |
+| 2 | A1, B1, E1 + E2 | A1: régua da F0.1 commitada no branch dela e remedida na `main`; B1 e E: quando abrir vaga | 3 worktrees por vez, para a revisão acompanhar |
+| 3 | A2, B2, D2 | só se a condição da seção 7 valer | A2 e B2 usam GPU: respeitar a trava |
+
 **Revisão da ordem.** A Frente 0 pode mudar a ordem. Por exemplo, se a rede achar menos da metade
 dos arcos, a A1 sozinha não basta e a A2 ou a B sobem.
 
@@ -927,5 +935,5 @@ A sessão principal remede o número antes de integrar e consolida o `ESTADO.md`
    Retrato, Greensleeves, Gymnopédie e South American foram rotulados **antes** e não têm marca.
    Eles não entram na conta de técnica inventada.
 5. **ASCII continua fora por enquanto** (decisão 0009).
-6. **Critérios de aceite**: aguardando a aprovação do dono. Depois de aprovados, ficam
-   **congelados**: mudar um limiar depois de ver o resultado invalida a frente.
+6. **Critérios de aceite: aprovados como estão e congelados** (seção 5.3 e os de cada frente na
+   seção 7). Mudar um limiar depois de ver o resultado invalida a frente.
