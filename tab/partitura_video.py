@@ -25,7 +25,12 @@ Saída de ``ler``, na pasta ``PASTA_VIDEO / <stem>/omr/``: ``audiveris/x2_margem
 ``audiveris/x2_margem_herdada/``, com a armadura do vídeo aplicada e ``herdada.json``.
 
 Saída de ``parear``, em ``PASTA_VIDEO / <stem>/``: ``<stem>.partitura.json``, com uma
-pauta por recorte com pauta, cada uma com seus eventos e o par na tab.
+pauta por recorte com pauta. Cada pauta traz ``fifths`` (armadura lida na leitura
+herdada, em sustenidos + ou bemóis −), ``fifths_origem`` (``video`` se a armadura do vídeo
+foi aplicada, ``leitura`` se não), ``compassos`` (número, fórmula e x de cada compasso),
+e os eventos. Cada evento tem o par na tab (ou None) com ``metodo``: ``altura`` quando o
+pareamento por sequência de alturas vale, ``x`` quando a posição no quadro trocou o par
+(``reparear_por_x``).
 
 Uso:
     python -m tab.partitura_video recortar --produto CAMINHO [--produto CAMINHO ...]
@@ -52,12 +57,16 @@ import cv2
 from tab.caminhos import RAIZ, SAIDA
 from tab.musicxml import midi_da_corda
 from tab.partitura_avaliar import SEMITONS_ESCRITA
+from tab.partitura_gabarito import ler_partitura
 from tab.partitura_omr import _gravar_execucao, herdar_condicao, rodar_um
 from tab.partitura_pareamento import (
+    EventoPartitura,
     EventoTab,
+    _t_inis,
     completar_com_homr,
     eventos_da_partitura,
     parear,
+    x_dos_compassos,
 )
 from tab.partitura_recortes import (
     FonteQuadro,
@@ -83,6 +92,9 @@ CONDICAO_HOMR = "nativo"
 
 #: Esquema do documento gravado por ``parear``.
 ESQUEMA_PARTITURA = "chorinho/partitura@1"
+
+#: Fator da imagem ampliada (condição ``x2``) em relação ao quadro, para o x do ``.omr``.
+ESCALA_X2 = 2.0
 
 
 def instante_da_tela(tela: dict) -> float | None:
@@ -403,6 +415,154 @@ def eventos_do_produto(
     return eventos
 
 
+def reparear_por_x(
+    partitura: list[EventoPartitura],
+    tab: list[EventoTab],
+    pares: list[dict],
+    tolerancia_px: float,
+) -> list[dict]:
+    """Troca o par por altura quando a posição no quadro o contradiz.
+
+    Candidato é o evento com x no quadro cujo par por altura é None ou tem
+    ``confere_x`` falso. Os candidatos são vistos em ordem. Cada um pega a coluna da tab
+    livre mais próxima em x, se a distância for até ``tolerancia_px``; senão fica com o
+    par que tinha (ou sem par).
+
+    Uma coluna está livre para um candidato quando nenhuma outra linha a segura: segura
+    é o par de uma linha com ``confere_x`` diferente de falso, ou o par de uma linha já
+    decidida (um candidato anterior, ou um evento que não é candidato). O par de um
+    candidato ainda não decidido não segura a coluna. Se o candidato pega essa coluna, o
+    candidato ainda não decidido perde o par e segue como candidato, sem par, quando
+    chegar a vez dele.
+
+    ``metodo`` é ``"x"`` na linha cujo par veio desta função e ``"altura"`` nas demais,
+    inclusive as sem par. As entradas não são alteradas: a função devolve linhas novas.
+
+    Args:
+        partitura: eventos da partitura, na mesma ordem de ``pares``.
+        tab: eventos da tab, em ordem.
+        pares: linhas de ``parear``, uma por evento da partitura.
+        tolerancia_px: distância máxima em x para trocar o par (a entrelinha da pauta).
+
+    Returns:
+        Uma linha por evento da partitura, com as mesmas chaves de ``parear`` mais
+        ``metodo``.
+    """
+    atuais = [{**par, "metodo": "altura"} for par in pares]
+    decididos: set[int] = set()
+    for i, evento in enumerate(partitura):
+        linha = atuais[i]
+        candidato = evento.x_quadro is not None and (
+            linha["par_tab"] is None or linha["confere_x"] is False
+        )
+        if candidato:
+            livres = [
+                j
+                for j in range(len(tab))
+                if not _coluna_segura(atuais, decididos, j, i)
+            ]
+            mais_perto: tuple[float, int] | None = None
+            for j in livres:
+                distancia = abs(evento.x_quadro - tab[j].x_quadro)
+                if mais_perto is None or distancia < mais_perto[0]:
+                    mais_perto = (distancia, j)
+            if mais_perto is not None and mais_perto[0] <= tolerancia_px:
+                distancia, j = mais_perto
+                for k, outra in enumerate(atuais):
+                    if k != i and k not in decididos and outra["par_tab"] == j:
+                        atuais[k] = {
+                            **outra,
+                            "par_tab": None,
+                            "x_tab": None,
+                            "distancia_x": None,
+                            "confere_x": None,
+                            "t_ini": [],
+                        }
+                atuais[i] = {
+                    **linha,
+                    "par_tab": j,
+                    "x_tab": tab[j].x_quadro,
+                    "distancia_x": distancia,
+                    "confere_x": True,
+                    "t_ini": _t_inis(tab[j].notas),
+                    "metodo": "x",
+                }
+        decididos.add(i)
+    return atuais
+
+
+def _coluna_segura(
+    atuais: list[dict], decididos: set[int], coluna: int, quem: int
+) -> bool:
+    """Diz se uma coluna da tab está segurada por outra linha de ``reparear_por_x``.
+
+    Args:
+        atuais: linhas correntes do pareamento.
+        decididos: índices das linhas já decididas.
+        coluna: índice da coluna da tab.
+        quem: índice da linha que quer a coluna (ela mesma não conta).
+
+    Returns:
+        True se outra linha tem a coluna como par e não é um candidato ainda não decidido
+        com ``confere_x`` falso.
+    """
+    return any(
+        k != quem
+        and linha["par_tab"] == coluna
+        and (linha["confere_x"] is not False or k in decididos)
+        for k, linha in enumerate(atuais)
+    )
+
+
+def _fifths_origem(omr: Path, rid: str) -> str:
+    """De onde veio a armadura da pauta: do vídeo, se foi aplicada, ou da leitura.
+
+    Lê ``herdada.json`` em ``omr/audiveris/<CONDICAO_AUDIVERIS>_herdada``. Sem o arquivo,
+    ou sem o registro do recorte, a origem é ``leitura``.
+
+    Args:
+        omr: pasta ``omr`` do produto (``pasta_omr``).
+        rid: id do recorte.
+
+    Returns:
+        ``"video"`` se ``fifths_aplicado`` do registro não é None, senão ``"leitura"``.
+    """
+    caminho = omr / "audiveris" / f"{CONDICAO_AUDIVERIS}_herdada" / "herdada.json"
+    if not caminho.exists():
+        return "leitura"
+    registros = json.loads(caminho.read_text(encoding="utf-8"))
+    for registro in registros:
+        if registro["id"] == rid:
+            return "video" if registro["fifths_aplicado"] is not None else "leitura"
+    return "leitura"
+
+
+def _compassos_do_recorte(leitura: dict, entrada_omr: Path, x0: float) -> list[dict]:
+    """Número, fórmula e x no quadro de cada compasso de uma leitura.
+
+    O x do compasso ``k`` é ``x0 + left / ESCALA_X2``, com ``left`` do ``.omr`` (o mesmo
+    cálculo de ``_x_do_simbolo``). Compasso além dos do ``.omr`` fica com x None.
+
+    Args:
+        leitura: resultado de ``ler_partitura`` da leitura herdada.
+        entrada_omr: ``.omr`` da mesma imagem.
+        x0: início da janela horizontal do recorte (``caixa_recorte[0]``).
+
+    Returns:
+        Uma entrada ``{"numero", "fracao", "x_quadro"}`` por compasso, na ordem.
+    """
+    pilhas = x_dos_compassos(entrada_omr)
+    formula = leitura["compasso_formula"]
+    fracao = None
+    if formula and formula["beats"] is not None and formula["beat_type"] is not None:
+        fracao = f"{formula['beats']}/{formula['beat_type']}"
+    compassos = []
+    for k, medida in enumerate(leitura["compassos"]):
+        x = x0 + pilhas[k][0] / ESCALA_X2 if k < len(pilhas) else None
+        compassos.append({"numero": medida["numero"], "fracao": fracao, "x_quadro": x})
+    return compassos
+
+
 def _simbolo_do_documento(simbolo: dict) -> dict:
     """Símbolo no formato do documento ``chorinho/partitura@1``.
 
@@ -428,10 +588,14 @@ def _simbolo_do_documento(simbolo: dict) -> dict:
 
 
 def _pauta_do_recorte(entrada: dict, notas: list[dict], omr: Path) -> dict:
-    """Pauta de um recorte: eventos da partitura, cada um com o par na tab.
+    """Pauta de um recorte: armadura, compassos e eventos, cada evento com o par na tab.
+
+    Os pares vêm de ``parear`` e passam por ``reparear_por_x``, que troca o par quando a
+    posição no quadro o contradiz. Cada par traz ``metodo`` (``altura`` ou ``x``).
 
     Se falta algum dos três arquivos de leitura (ou algum não abre), a pauta sai com
-    ``eventos`` vazio e a chave ``erro``, e o processamento segue para as outras.
+    ``eventos`` vazio, ``compassos`` vazio, ``fifths`` None e a chave ``erro``, e o
+    processamento segue para as outras.
 
     Args:
         entrada: entrada do ``indice.json`` com ``sem_pauta`` falso.
@@ -439,8 +603,8 @@ def _pauta_do_recorte(entrada: dict, notas: list[dict], omr: Path) -> dict:
         omr: pasta ``omr`` do produto (``pasta_omr``).
 
     Returns:
-        ``{"tela", "recorte", "caixa_quadro", "entrelinha", "eventos"}``, com ``erro``
-        quando a leitura não pôde ser feita.
+        ``{"tela", "recorte", "caixa_quadro", "entrelinha", "fifths", "fifths_origem",
+        "compassos", "eventos"}``, com ``erro`` quando a leitura não pôde ser feita.
     """
     rid = entrada["id"]
     tela = int(entrada["tela"])
@@ -450,6 +614,9 @@ def _pauta_do_recorte(entrada: dict, notas: list[dict], omr: Path) -> dict:
         "recorte": rid,
         "caixa_quadro": entrada["caixa_recorte"],
         "entrelinha": float(entrada["entrelinha"]),
+        "fifths": None,
+        "fifths_origem": None,
+        "compassos": [],
     }
     herdada = (
         omr / "audiveris" / f"{CONDICAO_AUDIVERIS}_herdada" / rid / "saida.musicxml"
@@ -460,13 +627,23 @@ def _pauta_do_recorte(entrada: dict, notas: list[dict], omr: Path) -> dict:
     if faltando:
         return {**pauta, "eventos": [], "erro": f"faltando: {', '.join(faltando)}"}
     try:
-        partitura = eventos_da_partitura(herdada, entrada_omr, x0)
+        leitura = ler_partitura(herdada)
+        partitura = eventos_da_partitura(herdada, entrada_omr, x0, ESCALA_X2)
         homr = eventos_da_partitura(homr_xml, None, x0)
+        compassos = _compassos_do_recorte(leitura, entrada_omr, x0)
     except (ValueError, ET.ParseError) as falha:
         return {**pauta, "eventos": [], "erro": f"leitura: {falha}"}
+    pauta["fifths"] = leitura["armadura"]
+    pauta["fifths_origem"] = _fifths_origem(omr, rid)
+    pauta["compassos"] = compassos
     tab = eventos_do_produto(notas, tela, x0, x1)
     partitura, _ = completar_com_homr(partitura, homr, tab)
-    pares = parear(partitura, tab, pauta["entrelinha"])
+    pares = reparear_por_x(
+        partitura,
+        tab,
+        parear(partitura, tab, pauta["entrelinha"]),
+        pauta["entrelinha"],
+    )
     eventos = []
     for evento, linha in zip(partitura, pares, strict=True):
         j = linha["par_tab"]
@@ -477,6 +654,7 @@ def _pauta_do_recorte(entrada: dict, notas: list[dict], omr: Path) -> dict:
                 "coluna": tab[j].notas[0]["coluna"],
                 "distancia_x": linha["distancia_x"],
                 "confere_x": linha["confere_x"],
+                "metodo": linha["metodo"],
             }
         eventos.append(
             {
@@ -499,8 +677,9 @@ def _contagens_da_pauta(pauta: dict, notas: list[dict]) -> dict[str, int]:
         notas: lista ``notas`` do produto (para contar as colunas da tab da janela).
 
     Returns:
-        ``eventos``, ``com_par``, ``com_x_conferido``, ``colunas_tab`` (eventos da tab na
-        janela da pauta), ``notas_homr`` (símbolos com ``origem`` homr) e ``trocadas``.
+        ``eventos``, ``com_par``, ``com_x_conferido``, ``par_por_x`` (pares com
+        ``metodo`` ``x``), ``colunas_tab`` (eventos da tab na janela da pauta),
+        ``notas_homr`` (símbolos com ``origem`` homr) e ``trocadas``.
     """
     eventos = pauta["eventos"]
     x0, x1 = pauta["caixa_quadro"][0], pauta["caixa_quadro"][2]
@@ -509,6 +688,9 @@ def _contagens_da_pauta(pauta: dict, notas: list[dict]) -> dict[str, int]:
         "com_par": sum(e["par"] is not None for e in eventos),
         "com_x_conferido": sum(
             e["par"] is not None and e["par"]["confere_x"] is True for e in eventos
+        ),
+        "par_por_x": sum(
+            e["par"] is not None and e["par"]["metodo"] == "x" for e in eventos
         ),
         "colunas_tab": len(eventos_do_produto(notas, pauta["tela"], x0, x1)),
         "notas_homr": sum(
@@ -562,6 +744,7 @@ def parear_produto(produto: Path) -> dict:
             "eventos",
             "com_par",
             "com_x_conferido",
+            "par_por_x",
             "notas_homr",
             "trocadas",
             "colunas_tab",
@@ -701,6 +884,7 @@ def main(argv: list[str] | None = None) -> int:
                     f"{pauta['recorte']} tela {pauta['tela']}:"
                     f" eventos {c['eventos']}, com par {c['com_par']},"
                     f" x conferido {c['com_x_conferido']},"
+                    f" par por x {c['par_por_x']},"
                     f" colunas tab {c['colunas_tab']},"
                     f" homr {c['notas_homr']}, trocadas {c['trocadas']}{aviso}"
                 )

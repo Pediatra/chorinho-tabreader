@@ -1,5 +1,6 @@
 """Funções puras da etapa de recorte por vídeo (sem vídeo e sem acervo)."""
 
+import copy
 import json
 from pathlib import Path
 
@@ -8,12 +9,14 @@ import pytest
 from tab import partitura_video
 from tab.musicxml import midi_da_corda
 from tab.partitura_avaliar import SEMITONS_ESCRITA
+from tab.partitura_pareamento import EventoPartitura, EventoTab, parear
 from tab.partitura_video import (
     eventos_do_produto,
     instante_da_tela,
     ler,
     pasta_omr,
     pauta_acima_da_tab,
+    reparear_por_x,
 )
 
 
@@ -208,3 +211,116 @@ def test_eventos_do_produto_x_e_a_media_dos_x_do_grupo():
     assert len(eventos) == 1
     assert eventos[0].x_quadro == 105.0
     assert eventos[0].midis == frozenset({_altura_escrita(1, 0), _altura_escrita(2, 0)})
+
+
+def _evento_partitura(indice: int, x: float | None, midis: set[int]) -> EventoPartitura:
+    """Evento da partitura com x e alturas dados (sem símbolos)."""
+    return EventoPartitura(
+        indice=indice,
+        compasso=1,
+        t=float(indice),
+        t_global=float(indice),
+        x_quadro=x,
+        midis=frozenset(midis),
+        simbolos=[],
+    )
+
+
+def _evento_tab(indice: int, x: float, midis: set[int], t_ini: float) -> EventoTab:
+    """Evento da tab com x e alturas dados; a nota leva o ``t_ini`` dado."""
+    nota = {"coluna": indice + 1, "t_ini": t_ini}
+    return EventoTab(indice=indice, x_quadro=x, midis=frozenset(midis), notas=[nota])
+
+
+def test_reparear_troca_para_coluna_proxima_em_x():
+    """Par por altura contradito por x (200 px) troca para a coluna a 3 px."""
+    partitura = [_evento_partitura(0, 100.0, {60})]
+    tab = [
+        _evento_tab(0, 300.0, {60}, 1.0),
+        _evento_tab(1, 103.0, {72}, 2.0),
+    ]
+    pares = parear(partitura, tab, 19.0)
+    assert pares[0]["par_tab"] == 0
+    assert pares[0]["confere_x"] is False
+    novos = reparear_por_x(partitura, tab, pares, 19.0)
+    assert novos[0]["par_tab"] == 1
+    assert novos[0]["confere_x"] is True
+    assert novos[0]["distancia_x"] == 3.0
+    assert novos[0]["t_ini"] == [2.0]
+    assert novos[0]["metodo"] == "x"
+
+
+def test_reparear_mantem_par_quando_coluna_mais_proxima_passa_da_tolerancia():
+    """Coluna livre mais próxima a 50 px, com tolerância 19: fica o par por altura."""
+    partitura = [_evento_partitura(0, 100.0, {60})]
+    tab = [
+        _evento_tab(0, 300.0, {60}, 1.0),
+        _evento_tab(1, 150.0, {72}, 2.0),
+    ]
+    pares = parear(partitura, tab, 19.0)
+    novos = reparear_por_x(partitura, tab, pares, 19.0)
+    assert novos[0]["par_tab"] == 0
+    assert novos[0]["confere_x"] is False
+    assert novos[0]["metodo"] == "altura"
+
+
+def test_reparear_nunca_pega_coluna_de_par_confirmado():
+    """Coluna já segurada por par confirmado não é tomada, mesmo sendo a mais próxima."""
+    partitura = [
+        _evento_partitura(0, 100.0, {60}),
+        _evento_partitura(1, 300.0, {62}),
+        _evento_partitura(2, 101.0, {66}),
+    ]
+    tab = [
+        _evento_tab(0, 101.0, {60}, 1.0),
+        _evento_tab(1, 300.0, {62}, 2.0),
+        _evento_tab(2, 102.0, {64}, 3.0),
+        _evento_tab(3, 500.0, {66}, 4.0),
+    ]
+    pares = parear(partitura, tab, 19.0)
+    assert [p["par_tab"] for p in pares] == [0, 1, 3]
+    assert pares[2]["confere_x"] is False
+    novos = reparear_por_x(partitura, tab, pares, 19.0)
+    assert [p["par_tab"] for p in novos] == [0, 1, 2]
+    assert novos[0]["metodo"] == "altura"
+    assert novos[2]["metodo"] == "x"
+    assert novos[2]["distancia_x"] == 1.0
+
+
+def test_reparear_dois_candidatos_disputam_uma_coluna_vence_o_primeiro():
+    """Dois candidatos querem a mesma coluna livre: o primeiro na ordem leva."""
+    partitura = [
+        _evento_partitura(0, 100.0, {60}),
+        _evento_partitura(1, 105.0, {62}),
+    ]
+    tab = [
+        _evento_tab(0, 102.0, {70}, 1.0),
+        _evento_tab(1, 300.0, {60}, 2.0),
+        _evento_tab(2, 400.0, {62}, 3.0),
+    ]
+    pares = parear(partitura, tab, 19.0)
+    assert [p["par_tab"] for p in pares] == [1, 2]
+    assert [p["confere_x"] for p in pares] == [False, False]
+    novos = reparear_por_x(partitura, tab, pares, 19.0)
+    assert [p["par_tab"] for p in novos] == [0, 2]
+    assert novos[0]["metodo"] == "x"
+    assert novos[1]["metodo"] == "altura"
+    assert novos[1]["confere_x"] is False
+
+
+def test_reparear_nao_altera_as_entradas():
+    """A função devolve linhas novas: pares, partitura e tab ficam como estavam."""
+    partitura = [
+        _evento_partitura(0, 100.0, {60}),
+        _evento_partitura(1, 200.0, {62}),
+    ]
+    tab = [
+        _evento_tab(0, 300.0, {60}, 1.0),
+        _evento_tab(1, 103.0, {72}, 2.0),
+    ]
+    pares = parear(partitura, tab, 19.0)
+    antes = (copy.deepcopy(partitura), copy.deepcopy(tab), copy.deepcopy(pares))
+    novos = reparear_por_x(partitura, tab, pares, 19.0)
+    assert novos is not pares
+    assert (partitura, tab, pares) == antes
+    assert novos[0]["par_tab"] == 1

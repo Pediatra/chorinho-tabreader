@@ -5275,6 +5275,10 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - `tab.partitura_video` (`recortar`, `ler`, `parear`) gera `<stem>.partitura.json` (`chorinho/partitura@1`) para cada produto: 19/19 telas com pauta nos 3 vídeos. Nas 12 telas da P1, pareada com o produto: **527/546** (era 526 com o gabarito). Nas 7 telas novas do gymnopédie: 196/221. Gym tela 10: a tab do produto tem as cordas deslocadas de uma e o x denuncia (0 de 14 conferidos), um erro da trilha tablatura.
 
+## Partitura — 2026-10-15 — armadura, compassos e x de reserva (rodada 3015)
+
+- O `<stem>.partitura.json` ganha `fifths`, `fifths_origem` e `compassos` por pauta, e `metodo` (`altura` ou `x`) em cada par. Quando o x desmente o par pela altura, o evento pega a coluna livre mais próxima a até uma entrelinha: Gym tela 10 vai de 0 para 10 de 14 pares conferidos; total 433 de 438. Notas certas iguais (723/767). Gym tela 12 tem `fifths` 1, provavelmente errado; `fracao` só na primeira pauta de cada vídeo.
+
 ## Tablatura — 2026-10-13 — painel: o braço do violão deixa de ganhar da TAB
 
 Defeito: no `south american music` (guitar dell'arte) o `escolher` devolvia a faixa fixa do
