@@ -5638,3 +5638,20 @@ Scripts e tabelas: `data/saida/n3/`, `data/saida/n4/`.
     de casas com dois algarismos (`P_CASA_ALTA = 0,15` para 13–24, mais 10–12 entre 0–12).
     A causa está no aspecto (espaço entre os algarismos, fonte, corda tocando o número), e
     ainda não foi medida. O "1" de perna comprida é outra fonte que o gerador não tem.
+
+## 2026-10-15 — Mãos — M8: corda sem a mão direita (rodada 1013)
+
+Rodada: [`docs/rodadas/1013-m8-corda-sem-a-mao-direita.md`](docs/rodadas/1013-m8-corda-sem-a-mao-direita.md). Código `tab/maos_corda_sem_direita.py`; saída `data/saida/maos/m8/`. 4 vídeos do sky guitar, 2.437 notas (2.280 ambíguas pela altura), altura e gabarito tirados da tablatura do produto.
+
+| degrau | acurácia de corda | erros |
+| --- | --- | --- |
+| D0 casa mais baixa | 0,860 | 341 |
+| D1 decodificador (polifonia + continuidade, Viterbi), sem câmera | 0,883 | 285 |
+| D2 + janela da mão esquerda pela câmera (só gabarito do braço) | 0,883 | 285 |
+| D3 + janela dos vizinhos ± 2 (teto otimista, sem vazar) | 0,912 | 214 |
+
+- Corda solta 690/690 em todos os degraus. Deixando um vídeo de fora: D1 0,888, D2 0,891, D3 0,915.
+- D2 = D1 porque a câmera casa com o quadro do gabarito em 96/1.470 ataques com nota presa (6,5 %): a mão dentro do modelo derruba o NCC, e a câmera muda de plano. Onde existe, a janela contém a casa certa (93–100 %), mas tem 4,3–5,8 casas.
+- D3: 130 erros com a casa certa dentro da janela (ambiguidade dentro da região da mão) e 66 de posição.
+- Próximo: frentes de pesquisa em [`docs/pesquisa/maos-frentes.md`](docs/pesquisa/maos-frentes.md) (rastreio do braço, janela por dedo, timbre, custo aprendido).
+- **Não repetir**: casar a câmera pelo braço com a mão dentro do modelo; janela da mão inteira [floor(min) − 1, ceil(max) + 1] para desempatar corda.

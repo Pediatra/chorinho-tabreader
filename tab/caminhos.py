@@ -75,6 +75,18 @@ MAOS_M5_REGRA_V2 = SAIDA / "maos" / "m5" / "regra_v2_medicao.json"
 #: trajetórias e as folhas de conferência.
 MAOS_M7 = SAIDA / "maos" / "m7"
 
+#: Corda sem a mão direita (M8): decodificador por ataque com polifonia e continuidade,
+#: janela da mão esquerda pela câmera do braço (``tab.maos_corda_sem_direita``).
+MAOS_M8 = SAIDA / "maos" / "m8"
+
+#: Frentes de teste da pesquisa das mãos (``docs/pesquisa/maos-frentes.md``): uma pasta
+#: por frente, para as worktrees paralelas não escreverem no mesmo lugar.
+MAOS_FRENTE_0 = SAIDA / "maos" / "frentes" / "f0_residuo"
+MAOS_FRENTE_A = SAIDA / "maos" / "frentes" / "fa_decodificador"
+MAOS_FRENTE_B = SAIDA / "maos" / "frentes" / "fb_esquerda"
+MAOS_FRENTE_C = SAIDA / "maos" / "frentes" / "fc_audio"
+MAOS_FRENTE_D = SAIDA / "maos" / "frentes" / "fd_ligados"
+
 #: Perfil dos canais (o que foi medido, e quais canais estão fora do rollout).
 CANAIS = RAIZ / "configs" / "canais.yaml"
 
