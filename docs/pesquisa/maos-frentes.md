@@ -144,7 +144,7 @@ quase sempre no `sky guitar`.
 | ideia | motivo |
 | --- | --- |
 | TART inteiro (transcritor de piano + Transformer) | exige treino e um transcritor que não temos; a parte útil (técnica como classe própria) está na frente D |
-| *probabilistic fretboard* treinado no DadaGP; LSTM, Bi-LSTM, Transformer, ShredGP | corpus externo (dependência e licença: perguntar ao dono) e treino. Só faz sentido se o custo aprendido da A3 saturar |
+| *probabilistic fretboard* treinado no DadaGP; LSTM, Bi-LSTM, Transformer, ShredGP | corpus externo **descartado pelo dono** (2026-10-15) |
 | HandSkeletonNet / PianoVAM | piano e treino com muitos rótulos. É o tipo de modelo que o dataset deste projeto vai alimentar **no futuro**. Ideias aproveitadas: "piso de peso" na fusão (C2) e divisão sem repetir composição entre partes (seção 5) |
 | Burns e Wanderley (câmera na cabeça do violão) | outro tipo de gravação |
 | marcas circulares do braço + 12-TET (§5.1, baixo) | violão clássico quase nunca tem marcas na escala; a projetiva pelo gabarito do dono já dá 96 % |
@@ -476,29 +476,10 @@ nesse caso, o ganho é ajuste, não regra.
   errada tem a altura errada, e os candidatos ficam errados. Relate a medida também só com
   casa ≤ 7.
 
-#### A3b — Custo aprendido também no DadaGP (aprovado pelo dono, só depois da A3)
+#### A3b — DadaGP: descartada pelo dono (2026-10-15)
 
-**Contexto.** O dono aprovou em 2026-10-15 usar um corpus externo de tablatura. O DadaGP tem
-26.181 músicas em Guitar Pro (Sarmento et al., ISMIR 2021). Os arquivos completos são
-distribuídos **sob pedido** aos autores. O registro no Zenodo é o do artigo, e o canal do pedido
-não ficou claro na busca.
-
-**Quando.** Só se a A3 passar e a curva "tablaturas de treino × acurácia" ainda subir no fim. Se
-a curva já estiver plana com as nossas tablaturas, mais dado não muda nada.
-
-**Pré-requisitos (não são da frente).**
-
-- **O pedido de acesso é feito pelo dono.** Agente não aceita termos de uso.
-- **A biblioteca que lê Guitar Pro** é dependência nova. A instalação passa pela sessão principal,
-  numa imagem derivada.
-
-**Pegadinhas.**
-
-- O DadaGP é de **739 gêneros**, quase todo rock e metal em guitarra elétrica. Afinação, capotraste
-  e convenções diferem do violão clássico e fingerstyle. Treine só com faixas de violão ou guitarra
-  em afinação padrão, e meça com e sem o filtro.
-- Algumas músicas do DadaGP podem ser as mesmas dos nossos vídeos. Tire do treino as que tiverem o
-  mesmo título de um vídeo de teste.
+O dono aprovou e depois descartou o corpus externo de tablatura (DadaGP). **Não use** corpus
+externo de tablatura em nenhuma frente. O custo aprendido da A3 usa só as nossas tablaturas.
 
 #### A1 — Transições de Hori e Sagayama
 
@@ -1019,6 +1000,7 @@ A sessão principal remede o número antes de integrar e consolida o `ESTADO.md`
      não há ponto fixo na tela, porque violão e violonista se mexem; o braço tem de ser analisado
      quadro a quadro. Medido nas marcas: o deslocamento é quase todo perpendicular ao braço (até
      2,4 cordas), e ao longo do braço a grade fixa erra ≤ 0,16 casa (tabela na B3).
-2. **Corpus externo (DadaGP): sim**, como A3b, só depois da A3 (seção 7).
+2. **Corpus externo (DadaGP): descartado.** Aprovado e depois retirado pelo dono no mesmo dia.
+   Nenhuma frente usa tablatura externa (seção 7, A3b).
 3. **Critérios de aceite: confirmados como estão.** Estão **congelados**: mudar um limiar depois
    de ver o resultado invalida a frente.
