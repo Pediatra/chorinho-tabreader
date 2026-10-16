@@ -29,6 +29,39 @@ CORDAS = range(1, 7)
 #: Algarismos que o leitor pode devolver: ``tab.reconhecer.ALGARISMOS`` (0 a 24).
 CASAS = range(0, 25)
 
+#: Valores de ``ataque`` (rótulo opcional por nota; plano-rotulo-tablatura, seção 3).
+ATAQUES = ("sim", "nao", "nao_sei")
+
+#: Valores de ``ataque_motivo`` (rótulo opcional por nota).
+ATAQUE_MOTIVOS = (
+    "normal",
+    "h",
+    "p",
+    "mordente",
+    "prolongamento",
+    "slide_ligado",
+    "slide_entrada",
+    "x",
+    "harmonico",
+    "arco_sem_par",
+    "tinta_sem_explicacao",
+)
+
+#: Motivos que só existem com ``ataque`` "nao".
+MOTIVOS_SEM_ATAQUE = ("h", "p", "mordente", "prolongamento", "slide_ligado")
+
+#: Motivos que só existem com ``ataque`` "sim".
+MOTIVOS_COM_ATAQUE = ("normal", "slide_entrada", "x", "harmonico")
+
+#: Motivos que só existem com ``ataque`` "nao_sei" (sem par claro ou sem explicação).
+MOTIVOS_SEM_PAR = ("arco_sem_par", "tinta_sem_explicacao")
+
+#: Valores de ``nivel_rotulo``: ouro, prata ou recusado.
+NIVEIS_ROTULO = ("ouro", "prata", "recusado")
+
+#: Classe de ``nao_notas`` para o arco, que exige ``x_ini``, ``x_fim`` e ``confianca``.
+CLASSE_ARCO = "arco"
+
 #: Tolerância para comparar instantes reescritos em JSON (3 casas decimais).
 _EPS = 1e-6
 
@@ -213,6 +246,64 @@ def _telas(telas: list) -> tuple[list[str], dict[int, dict], dict[tuple, float]]
     return erros, por_id, onsets
 
 
+def _coerencia_motivo(motivo: str, ataque: str, onde: str) -> list[str]:
+    """Confere se ``ataque_motivo`` combina com ``ataque`` (plano, seção 3).
+
+    Args:
+        motivo: um valor de ``ATAQUE_MOTIVOS``.
+        ataque: um valor de ``ATAQUES``.
+        onde: texto para localizar o erro.
+
+    Returns:
+        Lista com um erro se o par é incoerente; vazia se combina.
+    """
+    if motivo in MOTIVOS_SEM_ATAQUE:
+        exigido = "nao"
+    elif motivo in MOTIVOS_COM_ATAQUE:
+        exigido = "sim"
+    else:
+        exigido = "nao_sei"
+    if ataque == exigido:
+        return []
+    return [
+        f"{onde}: ataque_motivo {motivo!r} exige ataque {exigido!r}, não {ataque!r}"
+    ]
+
+
+def _rotulo(n: dict, onde: str) -> list[str]:
+    """Checa os campos opcionais de rótulo de uma nota.
+
+    ``ataque``, ``ataque_motivo`` e ``nivel_rotulo`` são opcionais: nota sem eles é
+    válida e nada muda. Quando presentes, valem as regras de coerência do plano.
+
+    Args:
+        n: entrada de ``notas`` já com os campos básicos checados.
+        onde: texto para localizar o erro.
+
+    Returns:
+        Lista de erros do rótulo; vazia se ele está bem formado ou ausente.
+    """
+    erros: list[str] = []
+    ataque = n.get("ataque")
+    if "ataque" in n and ataque not in ATAQUES:
+        erros.append(f"{onde}: ataque {ataque!r} desconhecido")
+    if "ataque_motivo" in n:
+        motivo = n["ataque_motivo"]
+        if motivo not in ATAQUE_MOTIVOS:
+            erros.append(f"{onde}: ataque_motivo {motivo!r} desconhecido")
+        elif "ataque" not in n:
+            erros.append(f"{onde}: ataque_motivo sem ataque")
+        elif ataque in ATAQUES:
+            erros += _coerencia_motivo(motivo, ataque, onde)
+    if "nivel_rotulo" in n:
+        nivel = n["nivel_rotulo"]
+        if nivel not in NIVEIS_ROTULO:
+            erros.append(f"{onde}: nivel_rotulo {nivel!r} desconhecido")
+        elif nivel == "ouro" and ataque == "nao_sei":
+            erros.append(f"{onde}: nivel_rotulo 'ouro' com ataque 'nao_sei'")
+    return erros
+
+
 def _nota(n: object, onde: str, telas: dict[int, dict], onsets: dict) -> list[str]:
     """Checa uma nota e a sua consistência com as passagens da tela.
 
@@ -249,6 +340,7 @@ def _nota(n: object, onde: str, telas: dict[int, dict], onsets: dict) -> list[st
         erros.append(f"{onde}: casa {casa!r} fora de 0 a 24")
     if n.get("tecnica") is not None and not isinstance(n.get("tecnica"), str):
         erros.append(f"{onde}: tecnica deve ser nula ou texto")
+    erros += _rotulo(n, onde)
     confianca = n.get("confianca")
     if not (_numero(confianca) and 0 <= confianca <= 1):
         erros.append(f"{onde}: confianca fora de [0, 1]")
@@ -301,6 +393,31 @@ def _notas(notas: list, telas: dict[int, dict], onsets: dict) -> list[str]:
     return erros
 
 
+def _arco(m: dict, onde: str) -> list[str]:
+    """Checa a classe ``arco`` de ``nao_notas``: corda, ``x_ini``, ``x_fim``, confiança.
+
+    Args:
+        m: entrada de ``nao_notas`` com ``classe`` igual a ``CLASSE_ARCO``.
+        onde: texto para localizar o erro.
+
+    Returns:
+        Lista de erros do arco; vazia se ele está bem formado.
+    """
+    erros: list[str] = []
+    corda = m.get("corda")
+    if not (_inteiro(corda) and corda in CORDAS):
+        erros.append(f"{onde}: arco com corda {corda!r} fora de inteiro 1 a 6")
+    x_ini, x_fim = m.get("x_ini"), m.get("x_fim")
+    if not (_numero(x_ini) and _numero(x_fim)):
+        erros.append(f"{onde}: arco sem x_ini/x_fim numéricos")
+    elif x_ini > x_fim:
+        erros.append(f"{onde}: arco com x_ini {x_ini} maior que x_fim {x_fim}")
+    confianca = m.get("confianca")
+    if _numero(confianca) and not 0 <= confianca <= 1:
+        erros.append(f"{onde}: arco com confianca {confianca} fora de [0, 1]")
+    return erros
+
+
 def _nao_nota(m: object, onde: str, telas: dict[int, dict]) -> list[str]:
     """Checa uma não-nota (símbolo, harmônico, técnica): nada se descarta.
 
@@ -326,6 +443,8 @@ def _nao_nota(m: object, onde: str, telas: dict[int, dict]) -> list[str]:
             erros.append(f"{onde}: {campo} ausente")
     if not isinstance(m.get("classe"), str) or not m["classe"]:
         erros.append(f"{onde}: classe ausente")
+    if m.get("classe") == CLASSE_ARCO:
+        erros += _arco(m, onde)
     if "simbolo_cru" in m and not isinstance(m["simbolo_cru"], dict | str):
         erros.append(f"{onde}: simbolo_cru deve ser objeto ou texto")
     if "casa_recuperada" in m and not isinstance(m["casa_recuperada"], str):

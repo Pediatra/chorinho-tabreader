@@ -300,3 +300,102 @@ def test_saida_real_do_motor_valida() -> None:
     dados = json.loads(_REAL.read_text(encoding="utf-8"))
     assert dados["esquema"] == ESQUEMA
     assert validar(dados) == []
+
+
+def _com_rotulo(**campos) -> dict:
+    """Um vídeo válido cuja primeira nota recebe os campos de rótulo dados."""
+    dados = _caminho_posicao()
+    dados["notas"][0].update(campos)
+    return dados
+
+
+def _com_arco(**campos) -> dict:
+    """Um vídeo válido com um arco em ``nao_notas`` (campos dados sobrepõem o padrão)."""
+    dados = _caminho_posicao()
+    arco = {
+        "tela": 1,
+        "coluna": 1,
+        "corda": 2,
+        "x_quadro": 250,
+        "x_centro_quadro": 256.0,
+        "classe": "arco",
+        "x_ini": 240.0,
+        "x_fim": 300.0,
+        "confianca": 0.8,
+    }
+    arco.update(campos)
+    dados["nao_notas"].append(arco)
+    dados["resumo"]["nao_notas"] = len(dados["nao_notas"])
+    return dados
+
+
+def test_rotulo_valido_passa() -> None:
+    """Rótulo com ataque, motivo e nível coerentes passa sem erro."""
+    dados = _com_rotulo(ataque="sim", ataque_motivo="normal", nivel_rotulo="ouro")
+    assert validar(dados) == []
+
+
+def test_rotulo_sem_campos_novos_continua_valido() -> None:
+    """JSON antigo, sem nenhum campo de rótulo, continua com 0 erros."""
+    dados = _caminho_posicao()
+    assert not any(
+        c in n
+        for n in dados["notas"]
+        for c in ("ataque", "ataque_motivo", "nivel_rotulo")
+    )
+    assert validar(dados) == []
+
+
+def test_valor_de_rotulo_desconhecido_e_recusado() -> None:
+    dados = _com_rotulo(ataque="talvez", ataque_motivo="zzz", nivel_rotulo="bronze")
+    erros = validar(dados)
+    assert any("ataque 'talvez' desconhecido" in e for e in erros)
+    assert any("ataque_motivo 'zzz' desconhecido" in e for e in erros)
+    assert any("nivel_rotulo 'bronze' desconhecido" in e for e in erros)
+
+
+def test_ataque_motivo_sem_ataque_e_recusado() -> None:
+    dados = _com_rotulo(ataque_motivo="normal")
+    assert any("ataque_motivo sem ataque" in e for e in validar(dados))
+
+
+def test_motivo_que_exige_ataque_nao_e_recusado_com_sim() -> None:
+    dados = _com_rotulo(ataque="sim", ataque_motivo="h")
+    assert any("exige ataque 'nao'" in e for e in validar(dados))
+
+
+def test_motivo_que_exige_ataque_sim_e_recusado_com_nao() -> None:
+    dados = _com_rotulo(ataque="nao", ataque_motivo="normal")
+    assert any("exige ataque 'sim'" in e for e in validar(dados))
+
+
+def test_motivo_que_exige_nao_sei_e_recusado_com_sim() -> None:
+    dados = _com_rotulo(ataque="sim", ataque_motivo="arco_sem_par")
+    assert any("exige ataque 'nao_sei'" in e for e in validar(dados))
+
+
+def test_nivel_ouro_com_nao_sei_e_recusado() -> None:
+    dados = _com_rotulo(ataque="nao_sei", nivel_rotulo="ouro")
+    assert any("'ouro' com ataque 'nao_sei'" in e for e in validar(dados))
+
+
+def test_arco_valido_passa() -> None:
+    assert validar(_com_arco()) == []
+
+
+def test_arco_sem_x_fim_e_recusado() -> None:
+    dados = _com_arco()
+    del dados["nao_notas"][-1]["x_fim"]
+    assert any("sem x_ini/x_fim" in e for e in validar(dados))
+
+
+def test_arco_com_x_ini_maior_que_x_fim_e_recusado() -> None:
+    assert any(
+        "maior que x_fim" in e for e in validar(_com_arco(x_ini=310.0, x_fim=300.0))
+    )
+
+
+def test_arco_com_corda_ou_confianca_invalidas_e_recusado() -> None:
+    erros = validar(_com_arco(corda=7, confianca=1.5))
+    assert any("arco com corda 7" in e for e in erros)
+    assert any("arco com confianca 1.5" in e for e in erros)
