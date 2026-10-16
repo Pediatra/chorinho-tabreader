@@ -211,3 +211,83 @@ Entregue: d1.json, a rodada 0170 com 10 casos olhados (recorte da tela + espectr
 commit no branch, resumo curto em português com a tabela por vídeo (notas, sinalizadas, erros
 de verdade entre elas, erros não sinalizados).
 ```
+
+---
+
+## Briefing — C1, retomada (rolagem em saltos)
+
+A primeira passada da C1 (rodada 0150, ainda não commitada na worktree) concluiu que os rolantes
+do censo não rolam. A sessão principal olhou as folhas que a própria rodada gerou e a conclusão
+está errada: **os vídeos rolam em saltos**. A linha de tablatura fica parada alguns segundos e
+depois anda de uma vez, em 1 ou 2 passos de animação, e parte do que estava na tela continua
+visível depois do salto. A triagem chamou de "troca de página" todo passo acima de 40 px, e esse
+foi o erro. Os exemplos:
+
+- `rodada0150/olho/mrtabs_norain_60/folha.png` (mr. tabs, "no rain", 60 a 64 s): os compassos 37
+  a 41 ficam parados; depois a linha anda cerca de 675 px, e o compasso 41 aparece antes e
+  depois do salto.
+- `rodada0150/olho/kenneth_location_182/folha.png` (kenneth acoustic, "location", 182 a 186 s):
+  o compasso 60 aparece dos dois lados; dois saltos com 0,5 s de intervalo, cerca de 470 px e
+  110 px.
+
+O caminho paginado do produto lê a tela antes e a tela depois do salto e provavelmente entrega
+duas vezes o trecho repetido. Isso ainda não foi medido. Os critérios de aceite da C1 não mudam.
+
+```text
+Você retoma a frente C1 da tablatura do projeto chorinho, na worktree ../chorinho-wt-tab-c1
+(branch tab/c1-rolagem). Leia inteiro antes de rodar qualquer coisa: AGENTS.md;
+docs/pesquisa/tablatura-onda1-briefings.md (regras comuns, o briefing da C1 e esta retomada);
+a sua rodada docs/rodadas/0150-rolagem-censo-nao-rola.md.
+
+0. Traga a worktree para a main atual: git merge --ff-only main (os seus arquivos novos não
+   estão versionados e não conflitam). O CA1 que você fez na 0150 vale; não precisa refazer.
+
+1. Corrija a 0150 antes de medir qualquer coisa nova. Não apague o que você escreveu: mude o
+   título para "0150 — Rolagem (C1): triagem do censo; os rolantes andam em saltos", mantenha a
+   triagem e a checagem como "primeira leitura", e acrescente uma seção "Correção" com os dois
+   exemplos acima (compasso 41 no mr. tabs, compasso 60 no kenneth, nas suas próprias folhas).
+   O item de "não repetir" fica: salto > 40 px não é troca de página sem conferir se o conteúdo
+   de antes continua na tela. Commite a 0150 e os módulos que já existem, com gate verde.
+
+2. Rodada 0151. Escreva no documento, ANTES de medir, as definições e os limiares:
+   - passo parado, passo de animação, salto (soma dos passos de animação seguidos) e troca de
+     página;
+   - salto com sobreposição: depois do salto, ao menos uma barra de compasso de antes reaparece
+     deslocada pelo mesmo valor (tolerância em px escrita antes);
+   - troca de página: nenhuma barra de antes reaparece.
+   Mascare o cursor e o destaque de compasso antes de qualquer correlação (faixa vertical fina
+   e o retângulo colorido); a triagem da 0150 seguia o cursor.
+
+3. Três vídeos: "no rain" (mr. tabs), "location" (kenneth acoustic) e um terceiro de outro
+   canal. O leonardo ramos não está confirmado (a folha dele tem quadros a cada 4 s): olhe-o a
+   10 quadros por segundo em volta de duas mudanças; se for troca de página sem sobreposição,
+   registre e escolha outro canal entre os 66 do censo, conferido no olho do mesmo jeito. Se
+   nenhum outro canal tiver salto com sobreposição, use um segundo vídeo do mr. tabs ou do
+   kenneth e registre isso.
+
+4. Deslocamento por salto, a ≥ 10 quadros por segundo em volta de cada salto (o salto dura
+   ~0,5 s), por dois caminhos: phaseCorrelate na parte que continua visível (cursor mascarado)
+   e ancorado nas barras de compasso. Contra 20 saltos medidos à mão por vídeo: a mesma barra
+   marcada no quadro antes e no quadro depois. Aceite congelado: erro mediano ≤ 1 px nos 3
+   vídeos. Os números de compasso impressos na tela são a conferência de continuidade: em
+   cada salto, o compasso que sai e o que entra têm de bater com o deslocamento.
+
+5. Só depois do 4 passar: panorama por vídeo, mapa x_partitura → t (monotônico, com degraus
+   nas pausas), leitura em janelas, junção pelo x_partitura sem duplicar o trecho repetido.
+   Panorama olhado, com a folha: números de compasso consecutivos, nenhum duplicado ou faltando.
+
+6. Medida extra (informativa): quantas notas o caminho paginado atual entrega duas vezes
+   nesses vídeos, no trecho que se repete depois do salto. Use CPU; se precisar de GPU,
+   espere o data/saida/gpu.lock sumir (a sessão principal está treinando).
+
+7. Gabarito do dono, critérios de aceite, território (tab/rolagem_*.py, tests/test_rolagem_*.py,
+   fc_rolagem/, rodadas 0150–0169, porta 8111) e proibições: como no briefing da C1.
+
+Pare e relate, com os quadros antes e depois e os números de compasso, se com o cursor
+mascarado os 3 vídeos não mostrarem salto com sobreposição, ou se o deslocamento não chegar a
+1 px nem ancorado nas barras.
+
+Entregue: a 0150 corrigida e a 0151 (e seguintes), o deslocamento por salto e o mapa por vídeo
+(JSON), as folhas, o material do gabarito testado numa cópia, gate verde, commit no branch,
+resumo curto em português com quantos saltos mediu à mão e quantos tinham sobreposição.
+```
