@@ -33,6 +33,7 @@ Uso:
 from __future__ import annotations
 
 import argparse
+import copy
 import datetime
 import http.server
 import json
@@ -55,6 +56,7 @@ from . import leitor
 from . import telas as segmentacao
 from .caminhos import MODELO_PADRAO, RAIZ, SAIDA, acervo
 from .digito import carregar
+from .esquema import MOTIVOS_COM_ATAQUE, MOTIVOS_SEM_ATAQUE, MOTIVOS_SEM_PAR
 from .painel import PASSO_MAXIMO_PX, PASSO_MINIMO_PX, Candidato, escolher
 from .reconhecer import ALGARISMOS, carregar_modelo, reconhecer_linha
 from .tabseg import segmentar
@@ -1779,10 +1781,246 @@ def _como_foi_rotulado_gravado(ouro: Path) -> str | None:
     return json.loads(ouro.read_text(encoding="utf-8")).get("como_foi_rotulado") or None
 
 
+#: Letra da marca quando ``ataque`` é "nao", por motivo (o que a mão direita não faz).
+LETRA_SEM_ATAQUE = {
+    "h": "h",
+    "p": "p",
+    "mordente": "m",
+    "prolongamento": "l",
+    "slide_ligado": "s",
+}
+
+#: Marca quando ``ataque`` é "sim" e o motivo não é o normal.
+MARCA_COM_ATAQUE = {"x": "x", "harmonico": "◇", "slide_entrada": "e"}
+
+#: Motivos do seletor do modo ataque, na ordem em que aparecem.
+MOTIVOS_SELETOR = (
+    "normal",
+    "h",
+    "p",
+    "mordente",
+    "prolongamento",
+    "slide_ligado",
+    "slide_entrada",
+    "x",
+    "harmonico",
+    "nao_sei",
+)
+
+
+def ataque_do_motivo(motivo: str) -> tuple[str, str]:
+    """Traduz o motivo do seletor no par ``(ataque, ataque_motivo)`` gravado.
+
+    Args:
+        motivo: um valor de ``MOTIVOS_SELETOR``.
+
+    Returns:
+        O par, coerente com a tabela da seção 3 do plano.
+
+    Raises:
+        ValueError: se o motivo não está no seletor.
+    """
+    if motivo == "nao_sei":
+        return "nao_sei", "tinta_sem_explicacao"
+    if motivo in MOTIVOS_SEM_ATAQUE:
+        return "nao", motivo
+    if motivo in MOTIVOS_COM_ATAQUE:
+        return "sim", motivo
+    raise ValueError(f"motivo fora do seletor: {motivo!r}")
+
+
+def coerente(ataque: str, motivo: str) -> bool:
+    """Diz se ``ataque`` e ``ataque_motivo`` combinam (plano, seção 3).
+
+    Args:
+        ataque: "sim", "nao" ou "nao_sei".
+        motivo: um valor de ``ATAQUE_MOTIVOS``.
+
+    Returns:
+        True se o par é coerente.
+    """
+    if motivo in MOTIVOS_SEM_ATAQUE:
+        return ataque == "nao"
+    if motivo in MOTIVOS_COM_ATAQUE:
+        return ataque == "sim"
+    return motivo in MOTIVOS_SEM_PAR and ataque == "nao_sei"
+
+
+def rotulo_do_ataque(nota: dict | None, ambigua: bool) -> tuple[str, str]:
+    """Marca e classe que a página mostra sobre uma nota no modo ataque.
+
+    Args:
+        nota: a entrada da nota no arquivo do ataque, ou None se ela não está nele.
+        ambigua: True se a nota veio de um ambíguo (a região do dono).
+
+    Returns:
+        ``(texto, classe)``. Classe "nao" (letra forte), "sim" (x, harmônico, slide
+        de entrada) ou "duvida" (? amarelo). ``("", "")`` quando não há marca.
+    """
+    if ambigua:
+        return "?", "duvida"
+    if nota is None:
+        return "", ""
+    ataque, motivo = nota.get("ataque"), nota.get("motivo")
+    if ataque == "nao":
+        letra = LETRA_SEM_ATAQUE.get(motivo)
+        return (letra, "nao") if letra else ("?", "duvida")
+    if ataque == "sim" and motivo in MARCA_COM_ATAQUE:
+        return MARCA_COM_ATAQUE[motivo], "sim"
+    if ataque == "nao_sei":
+        return "?", "duvida"
+    return "", ""
+
+
+def rotulos_do_ataque(doc: dict, ambiguos: list[dict]) -> dict[str, list[str]]:
+    """Marca de cada nota do ataque, pela chave ``t<tela>-n<k>``.
+
+    Args:
+        doc: o arquivo do ataque (lista ``notas``).
+        ambiguos: os ambíguos da fonte (cada um com ``notas``, pode ser vazia).
+
+    Returns:
+        Mapa chave -> ``[texto, classe]``. Ambíguo sem decisão do dono ganha "?"; com
+        decisão do dono (``fonte`` "dono"), vale a marca da entrada. Nota fora do
+        arquivo e fora dos ambíguos não aparece.
+    """
+    decididas = {n["nota"] for n in doc.get("notas", []) if n.get("fonte") == "dono"}
+    ambiguas = {chave for a in ambiguos for chave in a.get("notas", [])} - decididas
+    rotulos = {
+        n["nota"]: list(rotulo_do_ataque(n, n["nota"] in ambiguas))
+        for n in doc.get("notas", [])
+    }
+    for chave in ambiguas:
+        rotulos[chave] = list(rotulo_do_ataque(None, True))
+    return rotulos
+
+
+def visao_do_ataque(doc: dict, ambiguos: list[dict]) -> dict:
+    """O que a página recebe: o arquivo, os ambíguos e a marca de cada nota.
+
+    Args:
+        doc: o arquivo do ataque.
+        ambiguos: os ambíguos da fonte.
+
+    Returns:
+        Cópia rasa do arquivo com ``ambiguos`` e ``rotulos``.
+    """
+    return {**doc, "ambiguos": ambiguos, "rotulos": rotulos_do_ataque(doc, ambiguos)}
+
+
+def carregar_ataque(caminho: Path) -> tuple[dict, list[dict]]:
+    """Lê o arquivo do ataque e os ambíguos da fonte.
+
+    Os ambíguos vêm da chave ``ambiguos`` do próprio arquivo, se houver; senão, de
+    ``fontes[<fonte>].ambiguos`` do ``resumo.json`` na mesma pasta (é onde o
+    ``converter.py`` os grava).
+
+    Args:
+        caminho: o ``ataque_<fonte>.json``.
+
+    Returns:
+        ``(arquivo, ambiguos)``.
+
+    Raises:
+        ValueError: se o arquivo não tem a lista ``notas``.
+    """
+    doc = json.loads(caminho.read_text(encoding="utf-8"))
+    if not isinstance(doc.get("notas"), list):
+        raise ValueError(f"{caminho}: sem a lista 'notas'")
+    if "ambiguos" in doc:
+        return doc, doc["ambiguos"]
+    resumo = caminho.with_name("resumo.json")
+    if not resumo.exists():
+        return doc, []
+    dados = json.loads(resumo.read_text(encoding="utf-8"))
+    fonte = dados.get("fontes", {}).get(doc.get("fonte"), {})
+    return doc, fonte.get("ambiguos", [])
+
+
+def aplicar_escolha(
+    doc: dict,
+    tela: int,
+    nota: str,
+    motivo: str,
+    corda: int,
+    casa: object,
+    x_centro_quadro: float | None,
+) -> dict:
+    """Devolve uma cópia do arquivo do ataque com a escolha do dono numa nota.
+
+    A nota é trocada se já está no arquivo, ou acrescentada se não está. Os campos
+    ``regiao`` e os demais da nota existente são mantidos. ``fonte`` da nota vira
+    "dono". O original não é alterado, e o ouro não entra aqui.
+
+    Args:
+        doc: o arquivo do ataque.
+        tela: id da tela (inteiro).
+        nota: chave ``t<tela>-n<k>``; tem de ser da tela ``tela``.
+        motivo: um valor de ``MOTIVOS_SELETOR``.
+        corda: corda (1 a 6).
+        casa: casa digitada (número ou "x").
+        x_centro_quadro: x do centro da nota no quadro, ou None.
+
+    Returns:
+        O arquivo novo.
+
+    Raises:
+        ValueError: motivo fora do seletor, chave de outra tela, ou nota sem casa.
+    """
+    if not isinstance(tela, int) or not re.fullmatch(rf"t{tela}-n\d+", str(nota)):
+        raise ValueError(f"nota {nota!r} não é da tela {tela!r}")
+    ataque, motivo_gravado = ataque_do_motivo(motivo)
+    casa_lida = _casa(casa)
+    if casa_lida is None:
+        raise ValueError(f"nota {nota} sem casa")
+    novo = copy.deepcopy(doc)
+    notas = novo.setdefault("notas", [])
+    entrada = next((n for n in notas if n.get("nota") == nota), None)
+    if entrada is None:
+        entrada = {"nota": nota, "tela": tela, "regiao": None}
+        notas.append(entrada)
+    entrada.update(
+        {
+            "corda": int(corda),
+            "casa": casa_lida,
+            "x_centro_quadro": None
+            if x_centro_quadro is None
+            else round(float(x_centro_quadro), 1),
+            "ataque": ataque,
+            "motivo": motivo_gravado,
+            "fonte": "dono",
+        }
+    )
+    return novo
+
+
+def aplicar_conferencia(doc: dict, tela: int, valor: bool) -> dict:
+    """Devolve uma cópia do arquivo do ataque com a tela marcada (ou desmarcada).
+
+    Args:
+        doc: o arquivo do ataque.
+        tela: id da tela.
+        valor: True para "tela de ataque conferida".
+
+    Returns:
+        O arquivo novo, com ``telas_conferidas``.
+    """
+    novo = copy.deepcopy(doc)
+    novo.setdefault("telas_conferidas", {})[str(int(tela))] = bool(valor)
+    return novo
+
+
 def criar_servidor(
-    pasta: Path, ouro: Path, porta: int = 8099, host: str = "127.0.0.1"
+    pasta: Path,
+    ouro: Path,
+    porta: int = 8099,
+    host: str = "127.0.0.1",
+    ataque: Path | None = None,
 ) -> http.server.ThreadingHTTPServer:
     """Cria o servidor (não o inicia). Escuta em 127.0.0.1 (ou ``host``).
+
+    Sem ``ataque``, o servidor é o de sempre. Com ele, expõe ``GET /ataque.json`` e
+    ``POST /salvar_ataque``, que gravam SÓ nesse arquivo (nunca no ouro).
 
     Args:
         pasta: pasta do ``preparar`` (``pre.json``, ``telas/``, ``instantes/``).
@@ -1790,6 +2028,7 @@ def criar_servidor(
         porta: porta TCP (0 = uma livre).
         host: endereço de escuta; ``0.0.0.0`` só dentro de container, com a porta
             publicada em 127.0.0.1 do host (o cabeçalho Host continua checado).
+        ataque: ``ataque_<fonte>.json`` do ``converter.py`` (opcional).
 
     Returns:
         O servidor; ``servidor.server_address[1]`` é a porta real.
@@ -1847,16 +2086,52 @@ def criar_servidor(
                 else:
                     self._json(200, {})
                 return
+            if caminho == "/ataque.json" and ataque is not None:
+                doc, ambiguos = carregar_ataque(ataque)
+                self._json(200, visao_do_ataque(doc, ambiguos))
+                return
             alvo = (pasta / caminho.lstrip("/")).resolve()
             if alvo.suffix in _TIPOS and alvo.is_relative_to(pasta) and alvo.is_file():
                 self._responder(200, _TIPOS[alvo.suffix], alvo.read_bytes())
                 return
             self._json(404, {"ok": False, "erro": "não encontrado"})
 
+        def _salvar_ataque(self) -> None:
+            """``/salvar_ataque``: grava a escolha ou a conferência SÓ no arquivo do ataque."""
+            try:
+                tamanho = int(self.headers.get("Content-Length") or 0)
+                if not 0 < tamanho <= 16_000_000:
+                    raise ValueError("corpo ausente ou grande demais")
+                pedido = json.loads(self.rfile.read(tamanho))
+                with trava:
+                    doc, ambiguos = carregar_ataque(ataque)
+                    if pedido["acao"] == "conferida":
+                        novo = aplicar_conferencia(doc, pedido["tela"], pedido["valor"])
+                    elif pedido["acao"] == "escolha":
+                        novo = aplicar_escolha(
+                            doc,
+                            pedido["tela"],
+                            pedido["nota"],
+                            pedido["motivo"],
+                            pedido["corda"],
+                            pedido["casa"],
+                            pedido.get("x_centro_quadro"),
+                        )
+                    else:
+                        raise ValueError(f"ação desconhecida: {pedido['acao']!r}")
+                    gravar_atomico(ataque, novo)
+            except (ValueError, KeyError, TypeError) as erro:
+                self._json(400, {"ok": False, "erro": f"{type(erro).__name__}: {erro}"})
+                return
+            self._json(200, {"ok": True, **visao_do_ataque(novo, ambiguos)})
+
         def do_POST(self) -> None:
             """``/salvar``: monta, valida e grava o ouro de forma atômica."""
             if not self._host_ok():
                 self._json(403, {"ok": False, "erro": "host recusado"})
+                return
+            if self.path == "/salvar_ataque" and ataque is not None:
+                self._salvar_ataque()
                 return
             if self.path != "/salvar":
                 self._json(404, {"ok": False, "erro": "não encontrado"})
@@ -1932,6 +2207,9 @@ td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.rem
 #lista button.herdada{border-left:5px solid var(--ok)}#lista button.rotular{border-left:5px solid var(--ruim)}
 .par{display:flex;gap:12px;align-items:flex-start;flex-wrap:nowrap}.par>div{min-width:0}.par.vertical{flex-direction:column}
 .ok-txt{color:var(--ok);font-weight:600}.ruim-txt{color:var(--ruim);font-weight:600}
+.ataque-marca{position:absolute;transform:translate(-50%,-50%);font:700 13px/1 system-ui,sans-serif;padding:2px 4px;border-radius:4px;pointer-events:none;white-space:nowrap;z-index:3}
+.ataque-marca.nao{background:#d84315;color:#fff}.ataque-marca.sim{background:#1565c0;color:#fff}.ataque-marca.duvida{background:#ffeb3b;color:#000}
+.ataque-regiao{position:absolute;border:1px solid #f9a825;background:rgba(249,168,37,.10);pointer-events:none;z-index:2}
 @media (max-width:700px){main{flex-direction:column}#lista{flex:none;flex-direction:row;max-height:none}}
 </style></head><body>
 <header>
@@ -1946,6 +2224,7 @@ td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.rem
 const TECNICAS = __TECNICAS__;
 const TECNICAS_REGIAO = __TECNICAS_REGIAO__;
 let MODO_REGIAO = false;  /* arrastar na página desenha uma região de técnica */
+let ATAQUE = null, MODO_ATAQUE = false, ESCOLHA = null, BOTAO_ATAQUE = null, CONTADOR_ATAQUE = null;
 let PRE = null, E = null, SO_ROTULAR = false, EMPILHAR = false, OUTRA = false, ABA = "telas", sujo = false, versao = 0, ultimoOuro = null, temporizador = null;
 
 function h(tag, attrs, ...filhos) {
@@ -2021,7 +2300,7 @@ function listaTelas() {
     const n = t.notas.filter(x => !x.removida).length;
     const rot = String(t.id).padStart(3, "0") + (herdada(t) ? " ★" : "") + (t.conferida ? " ✓" : "") + (t.junta_em ? " = " + t.junta_em : "") + " · " + n;
     const cls = (t.id === E.tela_atual ? "on " : "") + (herdada(t) ? "herdada" : t.origem ? "rotular" : "");
-    l.append(h("button", {class: cls, title: t.origem || "", onclick: () => { E.tela_atual = t.id; desenhar(); }}, rot));
+    l.append(h("button", {class: cls, title: t.origem || "", onclick: () => { ESCOLHA = null; E.tela_atual = t.id; desenhar(); }}, rot));
   }
 }
 function listaInstantes() {
@@ -2175,14 +2454,15 @@ function desenharTela() {
     const r = caixaDe(tp, n);
     mold.append(h("div", {class: "caixa" + (n.removida ? " removida" : "") + (n.origem === "dono" ? " dono" : ""), style: estiloCaixa(r),
       title: "#" + (i + 1) + " — clique para corrigir", "data-caixa": n.id,
-      onclick: ev => { ev.stopPropagation(); EDITAR = n.id; desenhar(); }}));
+      onclick: ev => { ev.stopPropagation(); if (MODO_ATAQUE && ATAQUE) { ESCOLHA = mapaChaves(te).has(n.id) ? n.id : null; EDITAR = null; } else EDITAR = n.id; desenhar(); }}));
     const rotulo = h("span", {"data-rotulo": n.id, title: "#" + (i + 1), style: `left:${r.left + r.width / 2}%;top:${r.top + r.height / 2}%`});
     pintarRotulo(rotulo, tp, n);
     copia.append(rotulo);
   });
+  if (ATAQUE && MODO_ATAQUE) desenharAtaque(mold, tp, te);
   mold.addEventListener("click", ev => {
     if (IGNORAR_CLIQUE) { IGNORAR_CLIQUE = false; return; }
-    if (MODO_REGIAO) return;
+    if (MODO_REGIAO || (ATAQUE && MODO_ATAQUE)) return;
     if (ev.target.closest(".editor")) return;
     const rc = mold.querySelector("img").getBoundingClientRect();
     if (rc.width < 50) return;  /* imagem ainda não carregou */
@@ -2219,14 +2499,105 @@ function desenharTela() {
       sel,
       h("button", {onclick: () => { const p = E.telas.find(t => !t.conferida && !t.junta_em && t.id !== te.id); if (p) { E.tela_atual = p.id; desenhar(); } }}, "próxima não conferida"),
       h("button", {class: MODO_REGIAO ? "regiao-ligado" : "", title: "arraste um retângulo sobre as cordas/colunas que a técnica cobre",
-        onclick: () => { MODO_REGIAO = !MODO_REGIAO; desenhar(); }}, MODO_REGIAO ? "▭ modo região LIGADO (clique para sair)" : "▭ marcar região de técnica")),
+        onclick: () => { MODO_REGIAO = !MODO_REGIAO; desenhar(); }}, MODO_REGIAO ? "▭ modo região LIGADO (clique para sair)" : "▭ marcar região de técnica"),
+      ATAQUE && MODO_ATAQUE ? h("button", {class: ataqueConferida(te.id) ? "ok" : "", onclick: () => marcarTelaAtaque(te.id, !ataqueConferida(te.id))},
+        ataqueConferida(te.id) ? "✓ tela de ataque conferida" : "tela de ataque conferida") : null),
     h("div", {class: "suave"}, "Clique numa caixa vermelha para corrigir a casa (Enter ou clique fora fecha). Técnica (opcional, em roxo): h, p, slide e ligada vão na nota de CHEGADA, a que não é atacada de novo; marque o que está desenhado. Técnica que cobre várias cordas ou colunas (arpejo, pestana, rasgueado, let ring...): ligue ▭ marcar região de técnica e arraste um retângulo. Clique fora das caixas para acrescentar uma nota que faltou (a corda sai da linha mais próxima)."),
     mold, copia, sem ? h("div", {class: "linha", style: "color:var(--ruim)"}, sem + " nota(s) sem casa não serão gravadas") : "", tabela);
+  if (ESCOLHA !== null && ATAQUE && MODO_ATAQUE) {
+    const n = te.notas.find(x => x.id === ESCOLHA), chave = n && mapaChaves(te).get(n.id);
+    if (n && chave) abrirSeletorAtaque(mold, tp, te, n, chave);
+    else ESCOLHA = null;
+  }
   const editando = te.notas.find(n => n.id === EDITAR), regiao = te.regioes.find(r => r.id === EDITAR);
   if (editando) abrirEditor(mold, tp, te, editando, caixaDe(tp, editando));
   else if (regiao) abrirEditorRegiao(mold, tp, te, regiao);
   else EDITAR = null;
 }
+
+/* ---- modo ATAQUE: o ataque de cada nota (só o arquivo do --ataque; nunca o ouro) ---- */
+const ROTULO_MOTIVO = {normal: "normal", h: "h", p: "p", mordente: "mordente", prolongamento: "prolongamento", slide_ligado: "slide ligado", slide_entrada: "slide de entrada", x: "X", harmonico: "harmônico", nao_sei: "não sei"};
+const MOTIVOS_SELETOR = __MOTIVOS_SELETOR__;
+function ataqueConferida(id) { return !!(ATAQUE && ATAQUE.telas_conferidas && ATAQUE.telas_conferidas[String(id)]); }
+/* Espelho de montar_ouro(): a nota de índice k no ouro da tela é "t<id>-n<k>" (sem removidas
+   e sem casa vazia; ordenadas por x_quadro arredondado a 0,1 e depois pela corda). */
+function mapaChaves(te) {
+  const vivas = [];
+  te.notas.forEach((n, i) => { if (!n.removida && String(n.casa ?? "").trim() !== "") vivas.push({n, i, x: Math.round(Number(n.x_quadro) * 10) / 10}); });
+  vivas.sort((a, b) => (a.x - b.x) || (Number(a.n.corda) - Number(b.n.corda)) || (a.i - b.i));
+  const mapa = new Map();
+  vivas.forEach((v, k) => mapa.set(v.n.id, "t" + te.id + "-n" + k));
+  return mapa;
+}
+async function enviarAtaque(corpo) {
+  try {
+    const r = await fetch("/salvar_ataque", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(corpo)});
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.erro);
+    ATAQUE = j;
+    setStatus("ataque gravado no arquivo do ataque (o ouro não mudou)", "ok");
+  } catch (e) {
+    setStatus("ATAQUE NÃO GRAVADO (" + e.message + ")", "ruim");
+  }
+  desenhar();
+}
+function regiaoDoAmbiguo(tp, a) {  /* região do dono (x_quadro e cordas) em % da imagem: retângulo fino */
+  const c0 = Math.min(...a.cordas), c1 = Math.max(...a.cordas);
+  return pctRegiao(tp, {x0: a.x_quadro[0], x1: a.x_quadro[1], y0: tp.linhas_y[c0 - 1] - tp.passo / 2, y1: tp.linhas_y[c1 - 1] + tp.passo / 2});
+}
+function desenharAtaque(mold, tp, te) {  /* marcas do ataque sobre a imagem (só no modo ataque) */
+  ATAQUE.ambiguos.filter(a => a.tela === te.id).forEach(a => {
+    mold.append(h("div", {class: "ataque-regiao", style: estiloCaixa(regiaoDoAmbiguo(tp, a)), title: a.tipo + " · " + a.regiao}));
+  });
+  const mapa = mapaChaves(te);
+  te.notas.forEach(n => {
+    const chave = mapa.get(n.id), rot = chave && ATAQUE.rotulos[chave];
+    if (!rot || !rot[0]) return;
+    const r = caixaDe(tp, n);
+    mold.append(h("span", {class: "ataque-marca " + rot[1], style: `left:${r.left + r.width}%;top:${r.top}%`, title: chave}, rot[0]));
+  });
+}
+function abrirSeletorAtaque(mold, tp, te, n, chave) {  /* seletor pequeno: escolhe o motivo da nota */
+  const atual = ATAQUE.notas.find(x => x.nota === chave);
+  const botoes = MOTIVOS_SELETOR.map(m => {
+    const marcado = !!atual && (m === "nao_sei" ? atual.ataque === "nao_sei" : atual.motivo === m);
+    return h("button", {class: marcado ? "on" : "", onclick: () => { ESCOLHA = null; enviarAtaque({acao: "escolha", tela: te.id, nota: chave, motivo: m, corda: n.corda, casa: n.casa, x_centro_quadro: n.x_centro_quadro ?? n.x_quadro}); }}, ROTULO_MOTIVO[m]);
+  });
+  const r = caixaDe(tp, n);
+  mold.append(h("div", {class: "editor", style: `${posicaoEditor(r)}top:calc(${r.top + r.height}% + 8px)`},
+    h("span", {class: "suave"}, chave + " · corda " + n.corda + " · casa " + n.casa), botoes,
+    h("button", {onclick: () => { ESCOLHA = null; desenhar(); }}, "fechar")));
+}
+function alternarAtaque() {
+  MODO_ATAQUE = !MODO_ATAQUE; ESCOLHA = null; EDITAR = null;
+  desenhar();
+}
+function marcarTelaAtaque(id, valor) {
+  ESCOLHA = null;
+  enviarAtaque({acao: "conferida", tela: id, valor: valor});
+}
+function atualizarAtaque() {  /* botão e contador do modo ataque no topo */
+  if (!ATAQUE) return;
+  BOTAO_ATAQUE.className = MODO_ATAQUE ? "on" : "";
+  const nao = ATAQUE.notas.filter(n => n.ataque === "nao").length;
+  const duvidas = Object.values(ATAQUE.rotulos).filter(r => r[1] === "duvida").length;
+  const conferidas = Object.values(ATAQUE.telas_conferidas || {}).filter(Boolean).length;
+  CONTADOR_ATAQUE.textContent = "nao " + nao + " · ? " + duvidas + " · telas de ataque conferidas " + conferidas + "/" + PRE.telas.length;
+}
+async function carregarAtaque() {  /* sem --ataque o servidor responde 404 e nada aparece */
+  const r = await fetch("/ataque.json");
+  if (!r.ok) return;
+  ATAQUE = await r.json();
+  const cab = document.querySelector("header"), status = document.getElementById("status");
+  BOTAO_ATAQUE = h("button", {onclick: alternarAtaque}, "modo ataque (A)");
+  CONTADOR_ATAQUE = h("span", {class: "suave"});
+  cab.insertBefore(BOTAO_ATAQUE, status);
+  cab.insertBefore(CONTADOR_ATAQUE, status);
+}
+document.addEventListener("keydown", ev => {
+  if (!ATAQUE || ABA !== "telas" || ev.target.tagName === "INPUT" || ev.target.tagName === "SELECT") return;
+  if (ev.key.toLowerCase() === "a") alternarAtaque();
+});
 
 /* ---- aba INSTANTES ---- */
 function desenharInstante() {
@@ -2299,6 +2670,7 @@ document.addEventListener("keydown", ev => {
 function desenhar(focarUltima) {
   document.getElementById("aba-telas").className = ABA === "telas" ? "on" : "";
   document.getElementById("aba-inst").className = ABA === "instantes" ? "on" : "";
+  atualizarAtaque();
   try {
     if (ABA === "telas") { listaTelas(); desenharTela(); if (focarUltima) { const campos = document.querySelectorAll("td input"); const u = campos[campos.length - 1]; if (u && !u.value) u.focus(); } }
     else { listaInstantes(); desenharInstante(); }
@@ -2316,18 +2688,29 @@ document.getElementById("aba-inst").addEventListener("click", () => irParaAba("i
   const salvo = await (await fetch("/ouro.json")).json();
   E = salvo.ferramenta && salvo.ferramenta.telas ? salvo.ferramenta : estadoInicial();
   if (salvo.ferramenta) ultimoOuro = salvo;
+  await carregarAtaque();
   document.getElementById("video").textContent = PRE.video;
   setStatus(salvo.ferramenta ? "trabalho anterior retomado" : "novo (nada salvo ainda)", "ok");
   desenhar();
 })();
 </script></body></html>
 """
-PAGINA = PAGINA.replace(
-    "__TECNICAS__", json.dumps(TECNICAS, ensure_ascii=False)
-).replace("__TECNICAS_REGIAO__", json.dumps(TECNICAS_REGIAO, ensure_ascii=False))
+PAGINA = (
+    PAGINA.replace("__TECNICAS__", json.dumps(TECNICAS, ensure_ascii=False))
+    .replace("__TECNICAS_REGIAO__", json.dumps(TECNICAS_REGIAO, ensure_ascii=False))
+    .replace(
+        "__MOTIVOS_SELETOR__", json.dumps(list(MOTIVOS_SELETOR), ensure_ascii=False)
+    )
+)
 
 
-def servir(pasta: Path, ouro: Path, porta: int, host: str = "127.0.0.1") -> int:
+def servir(
+    pasta: Path,
+    ouro: Path,
+    porta: int,
+    host: str = "127.0.0.1",
+    ataque: Path | None = None,
+) -> int:
     """Sobe o servidor e fica nele até Ctrl+C.
 
     Antes de subir, confere o ouro gravado com o estado da ferramenta
@@ -2338,12 +2721,18 @@ def servir(pasta: Path, ouro: Path, porta: int, host: str = "127.0.0.1") -> int:
         ouro: arquivo do ouro.
         porta: porta TCP.
         host: endereço de escuta (``0.0.0.0`` só dentro de container).
+        ataque: ``ataque_<fonte>.json`` para conferir o ataque (opcional). Só esse
+            arquivo é gravado pelo modo ataque.
 
     Returns:
-        Código de saída: 0 normal, 2 sem ``pre.json``, 3 ouro divergente do estado.
+        Código de saída: 0 normal, 2 sem ``pre.json`` ou sem o arquivo do ataque,
+        3 ouro divergente do estado.
     """
     if not (pasta / "pre.json").exists():
         print(f"sem pre.json em {pasta}; rode `preparar` antes", file=sys.stderr)
+        return 2
+    if ataque is not None and not ataque.exists():
+        print(f"sem o arquivo do ataque {ataque}", file=sys.stderr)
         return 2
     if ouro.exists():
         pre = json.loads((pasta / "pre.json").read_text(encoding="utf-8"))
@@ -2359,9 +2748,11 @@ def servir(pasta: Path, ouro: Path, porta: int, host: str = "127.0.0.1") -> int:
             for linha in divergencias:
                 print(f"  - {linha}", file=sys.stderr)
             return 3
-    servidor = criar_servidor(pasta, ouro, porta, host)
+    servidor = criar_servidor(pasta, ouro, porta, host, ataque)
     print(f"ferramenta do ouro: http://127.0.0.1:{servidor.server_address[1]}/")
     print(f"o ouro é gravado a cada alteração em: {ouro}")
+    if ataque is not None:
+        print(f"modo ataque (tecla A) grava SÓ em: {ataque}")
     print(
         "ATENÇÃO: rode isto como JOB DE FUNDO GERENCIADO (processo solto morre com "
         "o shell e o trabalho para de ser gravado).",
@@ -2419,6 +2810,12 @@ def main() -> int:
     s.add_argument("--ouro", type=Path, required=True)
     s.add_argument("--porta", type=int, default=8099)
     s.add_argument("--host", default="127.0.0.1", help="0.0.0.0 só dentro de container")
+    s.add_argument(
+        "--ataque",
+        type=Path,
+        default=None,
+        help="ataque_<fonte>.json: liga o modo ataque (só esse arquivo é gravado)",
+    )
     args = ap.parse_args()
     if args.comando == "completar":
         pre = completar(
@@ -2447,7 +2844,7 @@ def main() -> int:
             modelo_caminho=args.modelo,
         )
         return 0
-    return servir(args.pasta, args.ouro, args.porta, args.host)
+    return servir(args.pasta, args.ouro, args.porta, args.host, args.ataque)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 """Fase 2 / T2.1+T2.2: funções puras e o servidor da ferramenta do ouro de vídeo."""
 
+import copy
 import http.client
 import json
 import re
@@ -10,13 +11,20 @@ import numpy as np
 import pytest
 
 from tab import ouro_video
+from tab.esquema import ATAQUE_MOTIVOS
 from tab.ouro_video import (
+    MOTIVOS_SELETOR,
     PAGINA,
     TECNICAS,
     TECNICAS_REGIAO,
     Agrupador,
     agrupar_telas,
+    aplicar_conferencia,
+    aplicar_escolha,
+    ataque_do_motivo,
+    carregar_ataque,
     clique_para_quadro,
+    coerente,
     comparar_notas,
     corda_mais_proxima,
     criar_servidor,
@@ -30,6 +38,8 @@ from tab.ouro_video import (
     montar_ouro,
     pagina_em,
     painel_com_caixas,
+    rotulo_do_ataque,
+    rotulos_do_ataque,
     servir,
     sortear_instantes,
     texto_sem_v1,
@@ -688,3 +698,267 @@ def test_servidor_preserva_como_foi_rotulado_do_arquivo(tmp_path: Path) -> None:
     finally:
         servidor.shutdown()
         servidor.server_close()
+
+
+def _doc_ataque() -> dict:
+    """Arquivo do ataque mínimo: duas notas da tela 1, uma com ataque sim e outra nao."""
+    return {
+        "campo_x": "x_centro_quadro",
+        "fonte": "teste",
+        "notas": [
+            {
+                "ataque": "sim",
+                "casa": 0,
+                "corda": 6,
+                "motivo": "normal",
+                "nota": "t1-n0",
+                "regiao": None,
+                "tela": 1,
+                "x_centro_quadro": 798.0,
+            },
+            {
+                "ataque": "nao",
+                "casa": 1,
+                "corda": 2,
+                "motivo": "h",
+                "nota": "t1-n1",
+                "regiao": "t1-r11",
+                "tela": 1,
+                "x_centro_quadro": 965.5,
+            },
+        ],
+    }
+
+
+def _ambiguo() -> dict:
+    """Ambíguo que cobre a nota t1-n3 (sem ataque no arquivo) e a região do dono."""
+    return {
+        "cordas": [2, 2],
+        "notas": ["t1-n3"],
+        "obs": None,
+        "regiao": "t1-r9",
+        "tecnica": ["h"],
+        "tela": 1,
+        "tipo": "legato_uma_nota",
+        "x_quadro": [1200.0, 1250.5],
+    }
+
+
+def test_motivo_do_seletor_combina_com_o_esquema() -> None:
+    """Cada motivo do seletor grava um par coerente; motivo fora dele é recusado."""
+    for motivo in MOTIVOS_SELETOR:
+        ataque, motivo_gravado = ataque_do_motivo(motivo)
+        assert motivo_gravado in ATAQUE_MOTIVOS, motivo
+        assert coerente(ataque, motivo_gravado), motivo
+    assert ataque_do_motivo("h") == ("nao", "h")
+    assert ataque_do_motivo("harmonico") == ("sim", "harmonico")
+    assert ataque_do_motivo("nao_sei") == ("nao_sei", "tinta_sem_explicacao")
+    assert not coerente("sim", "h") and not coerente("nao", "normal")
+    with pytest.raises(ValueError):
+        ataque_do_motivo("arco_sem_par")
+
+
+def test_rotulo_do_ataque_marca_so_o_que_muda_o_ataque() -> None:
+    """Sim/normal e nota fora do arquivo não têm marca; nao usa letra; ambíguo é ?."""
+    assert rotulo_do_ataque({"ataque": "sim", "motivo": "normal"}, False) == ("", "")
+    assert rotulo_do_ataque(None, False) == ("", "")
+    assert rotulo_do_ataque({"ataque": "nao", "motivo": "mordente"}, False) == (
+        "m",
+        "nao",
+    )
+    assert rotulo_do_ataque({"ataque": "nao", "motivo": "prolongamento"}, False) == (
+        "l",
+        "nao",
+    )
+    assert rotulo_do_ataque({"ataque": "nao", "motivo": "slide_ligado"}, False) == (
+        "s",
+        "nao",
+    )
+    assert rotulo_do_ataque({"ataque": "sim", "motivo": "x"}, False) == ("x", "sim")
+    assert rotulo_do_ataque({"ataque": "sim", "motivo": "harmonico"}, False) == (
+        "◇",
+        "sim",
+    )
+    assert rotulo_do_ataque({"ataque": "sim", "motivo": "slide_entrada"}, False) == (
+        "e",
+        "sim",
+    )
+    assert rotulo_do_ataque(
+        {"ataque": "nao_sei", "motivo": "tinta_sem_explicacao"}, False
+    ) == (
+        "?",
+        "duvida",
+    )
+    assert rotulo_do_ataque(None, True) == ("?", "duvida")
+    assert rotulo_do_ataque({"ataque": "sim", "motivo": "normal"}, True) == (
+        "?",
+        "duvida",
+    )
+
+
+def test_rotulos_do_ataque_ambiguo_vence_e_nota_fora_nao_entra() -> None:
+    """O mapa de marcas tem as notas do arquivo e as ambíguas; o resto fica de fora."""
+    doc = _doc_ataque()
+    doc["notas"][0]["nota"] = "t1-n0"
+    rotulos = rotulos_do_ataque(doc, [_ambiguo()])
+    assert rotulos["t1-n0"] == ["", ""]
+    assert rotulos["t1-n1"] == ["h", "nao"]
+    assert rotulos["t1-n3"] == ["?", "duvida"]
+    assert "t1-n9" not in rotulos
+
+
+def test_escolha_do_dono_tira_o_interrogacao_do_ambiguo() -> None:
+    """Ambíguo sem decisão mostra "?"; depois que o dono escolhe, vale a escolha."""
+    doc = aplicar_escolha(_doc_ataque(), 1, "t1-n3", "normal", 2, "0", None)
+    assert rotulos_do_ataque(_doc_ataque(), [_ambiguo()])["t1-n3"] == ["?", "duvida"]
+    assert rotulos_do_ataque(doc, [_ambiguo()])["t1-n3"] == ["", ""]
+
+
+def test_aplicar_escolha_grava_par_coerente_sem_mexer_no_original() -> None:
+    """A escolha troca a nota existente (fonte dono), mantém a região e não altera o doc."""
+    doc = _doc_ataque()
+    original = copy.deepcopy(doc)
+    novo = aplicar_escolha(doc, 1, "t1-n0", "h", 6, "0", 798.0)
+    assert doc == original
+    nota = novo["notas"][0]
+    assert (nota["ataque"], nota["motivo"], nota["fonte"]) == ("nao", "h", "dono")
+    assert nota["casa"] == 0 and nota["x_centro_quadro"] == 798.0
+    assert coerente(nota["ataque"], nota["motivo"])
+    assert novo["notas"][1] == original["notas"][1]
+    novo = aplicar_escolha(novo, 1, "t1-n5", "x", 2, "x", None)
+    nova = novo["notas"][2]
+    assert (nova["ataque"], nova["motivo"], nova["casa"]) == ("sim", "x", "x")
+    assert nova["regiao"] is None and nova["fonte"] == "dono"
+
+
+def test_aplicar_escolha_recusa_entrada_ruim() -> None:
+    """Motivo fora do seletor, nota de outra tela e casa vazia são recusados."""
+    doc = _doc_ataque()
+    with pytest.raises(ValueError):
+        aplicar_escolha(doc, 1, "t1-n0", "arco_sem_par", 6, "0", None)
+    with pytest.raises(ValueError):
+        aplicar_escolha(doc, 1, "t2-n0", "h", 6, "0", None)
+    with pytest.raises(ValueError):
+        aplicar_escolha(doc, 1, "t1-n0", "h", 6, "  ", None)
+
+
+def test_aplicar_conferencia_marca_so_a_tela() -> None:
+    """A conferência é por tela e fica no arquivo do ataque."""
+    doc = _doc_ataque()
+    novo = aplicar_conferencia(doc, 1, True)
+    assert novo["telas_conferidas"] == {"1": True}
+    assert "telas_conferidas" not in doc
+
+
+def test_carregar_ataque_le_ambiguos_do_resumo_ao_lado(tmp_path: Path) -> None:
+    """Sem a chave ``ambiguos``, os ambíguos vêm do resumo.json da mesma pasta."""
+    arquivo = tmp_path / "ataque_teste.json"
+    arquivo.write_text(json.dumps(_doc_ataque()), encoding="utf-8")
+    resumo = {"fontes": {"teste": {"ambiguos": [_ambiguo()]}}}
+    (tmp_path / "resumo.json").write_text(json.dumps(resumo), encoding="utf-8")
+    doc, ambiguos = carregar_ataque(arquivo)
+    assert doc["fonte"] == "teste" and ambiguos == [_ambiguo()]
+    (tmp_path / "resumo.json").unlink()
+    assert carregar_ataque(arquivo)[1] == []
+
+
+def test_sem_ataque_o_servidor_responde_como_antes(tmp_path: Path) -> None:
+    """Sem --ataque: a página é a mesma, /ataque.json é 404 e POST /salvar_ataque não existe."""
+    pasta = tmp_path / "pasta"
+    (pasta / "telas").mkdir(parents=True)
+    (pasta / "pre.json").write_text(json.dumps(PRE), encoding="utf-8")
+    servidor = criar_servidor(pasta, tmp_path / "v.json", 0)
+    porta = servidor.server_address[1]
+    fio = threading.Thread(target=servidor.serve_forever, daemon=True)
+    fio.start()
+    try:
+        assert _pedir(porta, "GET", "/") == (200, PAGINA.encode())
+        assert _pedir(porta, "GET", "/ataque.json") == _pedir(
+            porta, "GET", "/nada.json"
+        )
+        assert _pedir(porta, "GET", "/ataque.json")[0] == 404
+        assert _pedir(porta, "POST", "/salvar_ataque", b"{}")[0] == 404
+        assert _pedir(porta, "POST", "/salvar", b"{nao json")[0] == 400
+    finally:
+        servidor.shutdown()
+        servidor.server_close()
+
+
+def test_escolha_no_modo_ataque_nao_altera_o_ouro(tmp_path: Path) -> None:
+    """Com --ataque: escolha e conferência gravam SÓ no arquivo do ataque; o ouro fica igual."""
+    pasta = tmp_path / "pasta"
+    (pasta / "telas").mkdir(parents=True)
+    (pasta / "pre.json").write_text(json.dumps(PRE), encoding="utf-8")
+    ouro = tmp_path / "ouro.json"
+    ouro.write_bytes(b'{"sentinela": 1}')
+    ataque = tmp_path / "ataque_teste.json"
+    ataque.write_text(json.dumps(_doc_ataque()), encoding="utf-8")
+    (tmp_path / "resumo.json").write_text(
+        json.dumps({"fontes": {"teste": {"ambiguos": [_ambiguo()]}}}), encoding="utf-8"
+    )
+    antes_ouro = ouro.read_bytes()
+    servidor = criar_servidor(pasta, ouro, 0, ataque=ataque)
+    porta = servidor.server_address[1]
+    fio = threading.Thread(target=servidor.serve_forever, daemon=True)
+    fio.start()
+    try:
+        status, dados = _pedir(porta, "GET", "/ataque.json")
+        visao = json.loads(dados)
+        assert status == 200 and visao["rotulos"]["t1-n3"] == ["?", "duvida"]
+        escolha = {
+            "acao": "escolha",
+            "tela": 1,
+            "nota": "t1-n0",
+            "motivo": "h",
+            "corda": 6,
+            "casa": "0",
+            "x_centro_quadro": 798.0,
+        }
+        status, dados = _pedir(
+            porta, "POST", "/salvar_ataque", json.dumps(escolha).encode()
+        )
+        assert status == 200 and json.loads(dados)["rotulos"]["t1-n0"] == ["h", "nao"]
+        status, dados = _pedir(
+            porta,
+            "POST",
+            "/salvar_ataque",
+            json.dumps({"acao": "conferida", "tela": 1, "valor": True}).encode(),
+        )
+        assert status == 200 and json.loads(dados)["telas_conferidas"] == {"1": True}
+        ruim = {
+            "acao": "escolha",
+            "tela": 1,
+            "nota": "t1-n0",
+            "motivo": "arco_sem_par",
+            "corda": 6,
+            "casa": "0",
+            "x_centro_quadro": None,
+        }
+        assert (
+            _pedir(porta, "POST", "/salvar_ataque", json.dumps(ruim).encode())[0] == 400
+        )
+    finally:
+        servidor.shutdown()
+        servidor.server_close()
+    assert ouro.read_bytes() == antes_ouro
+    gravado = json.loads(ataque.read_text(encoding="utf-8"))
+    assert gravado["notas"][0]["fonte"] == "dono"
+    assert gravado["notas"][0]["motivo"] == "h"
+    assert gravado["telas_conferidas"] == {"1": True}
+
+
+def test_pagina_do_ataque_so_usa_rotas_que_existem() -> None:
+    """A página fala com /ataque.json e /salvar_ataque, e o marcador de motivo entra."""
+    assert '"/ataque.json"' in PAGINA and '"/salvar_ataque"' in PAGINA
+    assert "__MOTIVOS_SELETOR__" not in PAGINA
+    assert '"h", "p", "mordente"' in PAGINA
+
+
+def _pedir(porta: int, metodo: str, caminho: str, corpo: bytes | None = None):
+    """Faz uma requisição ao servidor de teste e devolve (status, corpo)."""
+    con = http.client.HTTPConnection("127.0.0.1", porta, timeout=5)
+    con.request(metodo, caminho, corpo, {"Host": f"127.0.0.1:{porta}"})
+    r = con.getresponse()
+    dados = r.read()
+    con.close()
+    return r.status, dados
