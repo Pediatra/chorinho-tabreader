@@ -5683,3 +5683,33 @@ Rodada: [`docs/rodadas/1013-m8-corda-sem-a-mao-direita.md`](docs/rodadas/1013-m8
 - D3: 130 erros com a casa certa dentro da janela (ambiguidade dentro da região da mão) e 66 de posição.
 - Próximo: frentes de pesquisa em [`docs/pesquisa/maos-frentes.md`](docs/pesquisa/maos-frentes.md) (rastreio do braço, janela por dedo, timbre, custo aprendido).
 - **Não repetir**: casar a câmera pelo braço com a mão dentro do modelo; janela da mão inteira [floor(min) − 1, ceil(max) + 1] para desempatar corda.
+
+## 2026-10-16 — Mãos — Frentes da pesquisa: ondas 1 e 2 (rodadas 1101–1170)
+
+Plano: [`docs/pesquisa/maos-frentes.md`](docs/pesquisa/maos-frentes.md) (seções 4.1 e 4.2). Cada frente rodou numa worktree com critérios congelados (CA1–CA7) e regras escritas antes da medida. **Nenhuma passou.** Os documentos das rodadas estão em `docs/rodadas/`. O código das frentes ficou só nos branches `maos/f0-residuo`, `maos/a3-custo-aprendido`, `maos/b1-janela-dedo`, `maos/c1-inarmonicidade` e `maos/d1-ligados`.
+
+| rodada | frente | resultado contra o D1 do M8 (285 erros; ambíguas 1.995/2.280) |
+| --- | --- | --- |
+| 1101 | 0 — resíduo | "outros" 97/285 (34 %), acima do limite de 30 % |
+| 1110 | A3 — custo aprendido (perceptron) | ambíguas −1,36 pp, 0 consertadas, 31 quebradas |
+| 1111 | A1 — transição com `dt` | consertadas 9, quebradas 22 |
+| 1112 | A2 — Minimax / L_p | consertadas 7, quebradas 40 |
+| 1130 | B1 — janela por célula do dedo | contém 92,3 % e 94,1 % (piso 95 %) |
+| 1131 | B1b — D2 com grade fixa, pontas no som | 243 erros (+1,84 pp, saldo 42); reprova no CA3: lacrimosa −0,72 pp |
+| 1150 | C1 — β separa cordas | inconclusiva: 0 pares com 8 notas por lado; inclinação log β × casa 0,94 do esperado |
+| 1151 | C1b — β com máscara de parciais | parou no controle sintético sobreposto (161 kb/s: 99/117) |
+| 1170 | D1 — ligados na mesma corda | sem efeito: só 0,6 % dos intervalos ≤ 0,5 s |
+
+- **Único sinal positivo: a janela da mão esquerda com a grade fixa do quadro do dono, sem o teste de câmera.** Diagnóstico do revisor (`data/saida/maos/m8/d2_fixo.py`): 285 → 242 erros, cobertura 99 %, +1,9 pp nas ambíguas, saldo 43. Com as pontas no som (1131), 243. Reprova no CA3 nas duas versões, cada vez por um vídeo diferente: glimpse −0,63 pp com as pontas no `t_ini`, lacrimosa −0,72 pp com as pontas no som (3 a 4 notas). Próximo passo: confirmação fora da amostra (rodada 1014), em vídeos novos do sky guitar com o mesmo método e os mesmos limiares.
+- Corrige o "não repetir" da 1013: a janela da mão inteira **desempata**, desde que cubra o vídeo (grade fixa). O problema da 1013 era a cobertura de 6,5 %. O que sobra são 207 erros com a casa certa dentro da janela.
+- Frentes fechadas: A (o decodificador só com a sequência de notas não melhora), D (sem nota onde atuar) e C (sem amostra nos 4 vídeos).
+- **Não repetir** (detalhes nas rodadas):
+  - perceptron com φ somado por sequência e η = 0,1;
+  - Minimax como estimador do que foi tocado;
+  - escolher `p` ou a escala de `dt` com 3 vídeos de treino;
+  - célula de 10–20 % do vão do traste como janela;
+  - excluir a nota inteira por "ainda soa" de 2 s (derruba ~95 % das medidas);
+  - "ainda soa" com o `t_ini` de ataques seguidos e janela de 0,5 s;
+  - ligado restrito à corda anterior sem limite de casa;
+  - "sem ataque no áudio" como rótulo de ligado (0/8);
+  - trocar `t_ini` por `t_audio` sem separar os 170 ataques sem casamento.
