@@ -1,10 +1,11 @@
 # 1014 — M9: confirmação fora da amostra da janela da mão esquerda com grade fixa
 
-**Data**: 2026-10-16. **Estado**: regras a priori. Este documento ganha commit **antes** de
+**Data**: 2026-10-16. **Estado**: medida feita — **reprovou** (CA2 e CA3). As regras abaixo ganharam commit
+**antes** de qualquer medida (1083062e, CA3 em 22d49b5c); o resultado está no fim. Antes de
 qualquer medida da janela nos vídeos novos. A medida só roda depois de duas coisas:
 
 - o dono marcar os quadros do braço q32–q36;
-- o dono decidir o CA3 dos vídeos pequenos (seção "Pendente").
+- o dono decidir o CA3 dos vídeos pequenos (decidido: opção (b)).
 
 ## Pergunta
 
@@ -88,3 +89,51 @@ de qualquer medida nos vídeos novos):
 - A decomposição dos erros (janela errada, janela certa, sem janela) e a cobertura por vídeo.
 - O no surprises tem uma casa 21 (leitura errada, descartada como fora do domínio) e um quadro
   do braço com ajuste instável na rodada 1008. Relate esse vídeo também à parte.
+
+## Resultado (2026-10-16)
+
+Medido com `data/saida/maos/m9/confirmar.py` (saída `m9/confirmacao.json`), exatamente o método
+acima. Quadros q32–q36 marcados pelo dono (f9ae6c1a).
+
+| vídeo | cobertura | erros D1 → D2 fixo | ambíguas (pp) | consertadas | quebradas |
+| --- | --- | --- | --- | --- | --- |
+| take five | 77/84 | 16 → 16 | +0,00 | 0 | 0 |
+| spanish tango | 123/124 | 14 → 11 | +1,38 | 4 | 1 |
+| für elise | 101/104 | 19 → 15 | +2,67 | 4 | 0 |
+| ghostbusters | 58/58 | 1 → 1 | +0,00 | 0 | 0 |
+| annie laurie | 72/72 | 1 → 1 | +0,00 | 0 | 0 |
+| no surprises | 384/384 | 102 → 102 | +0,00 | 0 | 0 |
+| **6 novos** | | **153 → 146** | **+0,57** | **8** | **1** |
+| 4 de trabalho | | 285 → 242 | +1,89 | 60 | 17 |
+| **10 juntos** | | **438 → 388** | | 68 | 18 |
+
+- **CA1** passou: D1 285 e D2 fixo 242 reproduzidos nos 4 vídeos de trabalho.
+- **CA2 reprovou**: +0,57 pp (mínimo +1,0) e saldo 7 (mínimo 20).
+- **CA3 (b) reprovou**: ganho em 2 dos 4 vídeos grandes (spanish tango, für elise); take five e
+  no surprises ficaram iguais. Os dois pequenos passam (saldo 0).
+- **CA5** passou: duas execuções com as mesmas predições (hash por vídeo).
+- **CA6** não foi feito: só há 9 casos mudados (8 consertados, 1 quebrado) e a reprovação já
+  está decidida pelo CA2. **CA7**: gate verde no commit.
+
+**Veredito: a janela fixa não entra no produto.** O ganho de 15 % nos vídeos de trabalho não se
+repetiu (5 % nos novos, e concentrado em 2 vídeos).
+
+### Por que não se repetiu (diagnóstico, não aceite)
+
+A janela estreita bem: a candidata única dentro dela vale para 88–100 % das notas ambíguas presas
+em todo vídeo. Mas o erro que sobra é de outro tipo. Classificando os erros do D2 fixo:
+
+| erro | 4 de trabalho | 6 novos |
+| --- | --- | --- |
+| previu **corda solta** onde a nota é presa (mesma altura) | 118 / 242 | 122 / 146 |
+| previu casa fora da janela | 59 | 10 |
+| previu casa dentro da janela | 58 | 12 |
+| sem janela / verdade solta | 7 | 1 |
+
+- No no surprises, **101 dos 102** erros são "previu a corda solta". A janela não atua aí: corda
+  solta não depende da posição da mão, e o M8 sempre a admite.
+- No für elise, 8 erros são casas 15–19 com a janela em 1–5: a mão está em posição alta, além
+  dos trastes marcados no quadro.
+- **Hipótese nova (pós-hoc, não testada):** penalizar a corda solta quando a janela contém a
+  alternativa presa de mesma altura. Ela nasceu olhando estes vídeos, então só vale com regras
+  novas a priori e vídeos que ninguém olhou.

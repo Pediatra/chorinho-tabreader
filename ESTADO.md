@@ -5713,3 +5713,12 @@ Plano: [`docs/pesquisa/maos-frentes.md`](docs/pesquisa/maos-frentes.md) (seçõe
   - ligado restrito à corda anterior sem limite de casa;
   - "sem ataque no áudio" como rótulo de ligado (0/8);
   - trocar `t_ini` por `t_audio` sem separar os 170 ataques sem casamento.
+
+## 2026-10-16 — Mãos — M9: confirmação fora da amostra da janela fixa (rodada 1014)
+
+[`docs/rodadas/1014-m9-confirmacao-janela-fixa.md`](docs/rodadas/1014-m9-confirmacao-janela-fixa.md). Regras e CA3 (opção b, do dono) gravados antes da medida; quadros q32–q36 marcados pelo dono.
+
+- **Reprovou.** 6 vídeos novos do sky guitar: 153 → 146 erros, +0,57 pp nas ambíguas (mínimo +1,0), saldo 7 (mínimo 20); ganho só em 2 dos 4 vídeos grandes. Nos 4 de trabalho o ganho segue 285 → 242. **A janela fixa não entra no produto; a referência continua o D1 do M8.**
+- Diagnóstico: o erro que sobra é quase todo **"previu corda solta onde a nota é presa"** (118/242 nos de trabalho, 122/146 nos novos; 101/102 no no surprises). A janela da mão esquerda não atua nesse erro porque a corda solta não depende da posição da mão.
+- Hipótese pós-hoc, não testada: penalizar a solta quando a janela contém a alternativa presa. Só com regras novas e vídeos não olhados.
+- **Não repetir**: tratar o ganho da janela fixa nos 4 vídeos de trabalho como efeito geral (não se repetiu fora da amostra).
