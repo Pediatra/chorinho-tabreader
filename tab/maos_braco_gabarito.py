@@ -75,7 +75,33 @@ CANAL_MVP = "sky guitar"
 BRACOS = ("sim", "parcial", "nao", "?")
 
 #: Modos de clique da página (a tecla ``f`` do nut fora não é um modo de clique).
-MODOS_CLIQUE = ("corda1", "corda6", "nut", "trastes")
+MODOS_CLIQUE = (
+    "corda1",
+    "corda6",
+    "nut",
+    "trastes",
+    "saddle1",
+    "saddle6",
+    "cavalete",
+    "boca",
+    "divisao",
+)
+
+#: Partes do violão além do braço. Cada uma começa ``None`` (= não respondida).
+CAMPOS_PARTES = ("saddle1", "saddle6", "cavalete", "boca", "divisao")
+
+#: Valor que cada parte aceita além dos pontos (mudança de campo, não clique).
+VALORES_PARTE = {
+    "saddle1": "oculto",
+    "saddle6": "oculto",
+    "cavalete": "oculto",
+    "boca": "oculto",
+    "divisao": "nao",
+}
+
+#: Pontos da boca: ``[3, 8]`` quando é lista. Mais que 8 é recusado no clique.
+BOCA_MINIMA = 3
+BOCA_MAXIMA = 8
 
 #: Campos de resposta do quadro (o que o desfazer restaura e o gabarito guarda).
 CAMPOS_RESPOSTA = (
@@ -85,13 +111,23 @@ CAMPOS_RESPOSTA = (
     "nut",
     "trastes",
     "traste_referencia",
+    *CAMPOS_PARTES,
     "obs",
 )
 
 #: Campos que o desfazer restaura (a observação fica de fora de propósito).
-CAMPOS_DESFAZER = ("braco", "corda1", "corda6", "nut", "trastes", "traste_referencia")
+CAMPOS_DESFAZER = (
+    "braco",
+    "corda1",
+    "corda6",
+    "nut",
+    "trastes",
+    "traste_referencia",
+    *CAMPOS_PARTES,
+)
 
-#: Campos de geometria: some quando o braço é "nao" ou "?".
+#: Campos de geometria: some quando o braço é "nao" ou "?". As partes do corpo
+#: (saddle, cavalete, boca, divisão) NÃO entram aqui: não somem com o braço.
 CAMPOS_GEOMETRIA = ("corda1", "corda6", "nut", "trastes", "traste_referencia")
 
 #: Raio do clique de REMOVER traste (botão direito), como fração da largura do quadro.
@@ -350,6 +386,35 @@ def aplicar_traste(
     return atuais
 
 
+def aplicar_boca(pontos: list[Ponto] | None, ponto: Ponto, raio: float) -> list[Ponto]:
+    """Acrescenta um ponto da borda da boca, ou remove o mais perto se o clique cair nele.
+
+    Diferente do traste (que só remove com o botão direito), na boca o clique perto de
+    um ponto marcado o tira. Com ``BOCA_MAXIMA`` pontos, um clique que acrescentaria
+    outro é recusado.
+
+    Args:
+        pontos: pontos já marcados ou ``None``.
+        ponto: o clique novo.
+        raio: distância (no quadro) até onde o clique alcança um ponto marcado.
+
+    Returns:
+        A nova lista de pontos.
+
+    Raises:
+        ValueError: se o clique acrescentaria o ponto ``BOCA_MAXIMA + 1``.
+    """
+    atuais = [list(p) for p in (pontos or [])]
+    perto = [i for i, p in enumerate(atuais) if math.dist(p, ponto) <= raio]
+    if perto:
+        mais_perto = min(perto, key=lambda i: math.dist(atuais[i], ponto))
+        del atuais[mais_perto]
+        return atuais
+    if len(atuais) >= BOCA_MAXIMA:
+        raise ValueError(f"a boca aceita no máximo {BOCA_MAXIMA} pontos")
+    return [*atuais, ponto]
+
+
 def _direcao_principal(pontos: list[Ponto]) -> tuple[float, float]:
     """Direção do eixo principal de uma nuvem de pontos (PCA em 2D).
 
@@ -459,10 +524,30 @@ def registro_em_branco(chave: str) -> dict:
         "nut": None,
         "trastes": None,
         "traste_referencia": None,
+        "saddle1": None,
+        "saddle6": None,
+        "cavalete": None,
+        "boca": None,
+        "divisao": None,
         "obs": None,
         "respondido_em": None,
         "historico": [],
     }
+
+
+def completar_campos(registro: dict) -> None:
+    """Acrescenta as chaves das partes do violão que o registro não tem, com ``None``.
+
+    Registros gravados antes das partes não têm essas chaves. Só as chaves de
+    ``CAMPOS_PARTES`` são acrescentadas; nenhum valor existente muda, e o histórico
+    fica como estava.
+
+    Args:
+        registro: resposta de um quadro, alterada em lugar.
+    """
+    for campo in CAMPOS_PARTES:
+        if campo not in registro:
+            registro[campo] = None
 
 
 def gabarito_novo(indice: list[dict], semente: int) -> dict:
@@ -541,6 +626,77 @@ def registro_completo(registro: dict) -> bool:
     return nut_ok and len(registro.get("trastes") or []) >= 2
 
 
+def _ponto_valido(valor: object) -> bool:
+    """Se o valor é um ponto ``[x, y]`` válido (números finitos).
+
+    Args:
+        valor: o campo da parte.
+
+    Returns:
+        True se for um ponto válido.
+    """
+    try:
+        _ponto_numerico(valor)
+    except ValueError:
+        return False
+    return True
+
+
+def _parte_respondida(campo: str, valor: object) -> bool:
+    """Se uma parte do violão está respondida (pontos válidos, ``oculto`` ou ``nao``).
+
+    Args:
+        campo: nome da parte (um de ``CAMPOS_PARTES``).
+        valor: o valor guardado no registro.
+
+    Returns:
+        True se a parte está respondida.
+    """
+    if valor == VALORES_PARTE[campo]:
+        return True
+    if campo in ("saddle1", "saddle6"):
+        return _ponto_valido(valor)
+    if not isinstance(valor, list):
+        return False
+    if campo == "boca":
+        quantos_ok = BOCA_MINIMA <= len(valor) <= BOCA_MAXIMA
+    else:
+        quantos_ok = len(valor) == 2
+    return quantos_ok and all(_ponto_valido(p) for p in valor)
+
+
+def partes_faltando(registro: dict) -> list[str]:
+    """Partes do violão que ainda não foram respondidas neste quadro.
+
+    Args:
+        registro: resposta de um quadro (campos de ``CAMPOS_PARTES`` podem faltar).
+
+    Returns:
+        Nomes das partes sem resposta, na ordem de ``CAMPOS_PARTES``.
+    """
+    return [
+        campo
+        for campo in CAMPOS_PARTES
+        if not _parte_respondida(campo, registro.get(campo))
+    ]
+
+
+def partes_completas(registro: dict) -> bool:
+    """Se as 5 partes do violão estão respondidas.
+
+    Cada parte precisa de ``oculto`` (ou ``nao``, para a divisão) ou de pontos válidos:
+    saddle 1 e 6 com um ponto; cavalete e divisão com 2; boca com 3 a 8. Isto não
+    muda ``registro_completo``: o gabarito do braço segue igual.
+
+    Args:
+        registro: resposta de um quadro.
+
+    Returns:
+        True quando nenhuma parte falta.
+    """
+    return not partes_faltando(registro)
+
+
 def completos(gabarito: dict) -> list[str]:
     """Ids dos quadros completos, na ordem do gabarito.
 
@@ -578,6 +734,9 @@ def mesclar_gabarito(novo: dict, existente: dict | None) -> dict:
             f"gabarito existente tem formato {existente.get('formato')}, "
             f"esperado {FORMATO_GABARITO}"
         )
+    existente = copy.deepcopy(existente)
+    for antigo in existente.get("quadros", {}).values():
+        completar_campos(antigo)
     for id_q, antigo in existente.get("quadros", {}).items():
         if not tem_resposta(antigo):
             continue
@@ -609,6 +768,8 @@ def visao_quadro(gabarito: dict, id_quadro: str) -> dict:
         "registro": registro,
         "numeracao": numerar_trastes(reg),
         "completo": registro_completo(reg),
+        "partes_faltando": partes_faltando(reg),
+        "partes_completas": partes_completas(reg),
     }
 
 
@@ -620,14 +781,18 @@ def resumo(gabarito: dict, indice: list[dict]) -> dict:
         indice: itens da amostra, na ordem de exibição.
 
     Returns:
-        ``quadros`` (id -> visão), ``completos`` (ids), ``concluidos`` e ``total``.
+        ``quadros`` (id -> visão), ``completos`` (ids do braço), ``concluidos``,
+        ``partes`` (ids com as 5 partes respondidas), ``partes_concluidas`` e ``total``.
     """
     visoes = {q["id"]: visao_quadro(gabarito, q["id"]) for q in indice}
     feitos = [q["id"] for q in indice if visoes[q["id"]]["completo"]]
+    partes = [q["id"] for q in indice if visoes[q["id"]]["partes_completas"]]
     return {
         "quadros": visoes,
         "completos": feitos,
         "concluidos": len(feitos),
+        "partes": partes,
+        "partes_concluidas": len(partes),
         "total": len(indice),
     }
 
@@ -688,7 +853,7 @@ def _validar_referencia(valor: object, registro: dict) -> dict:
 def _clicar(
     registro: dict, dados: dict, dimensoes: tuple[int, int], agora: str
 ) -> None:
-    """Aplica um clique no modo pedido (corda 1, corda 6, nut ou traste).
+    """Aplica um clique no modo pedido (cordas, nut, trastes, saddles, cavalete, boca).
 
     Args:
         registro: resposta do quadro, alterada em lugar.
@@ -705,13 +870,25 @@ def _clicar(
         raise ValueError(f"modo de clique desconhecido: {modo}")
     ponto = converter_clique(dados.get("ponto_img"), dados.get("escala"))
     validar_no_quadro(ponto, dimensoes)
+    raio = FRACAO_RAIO_TRASTE * dimensoes[0]
+    # A boca é calculada antes do histórico: se recusar (9º ponto), nada muda.
+    nova_boca = (
+        aplicar_boca(_lista_ou_none(registro.get("boca")), ponto, raio)
+        if modo == "boca"
+        else None
+    )
     _empilhar(registro)
     if modo in ("corda1", "corda6"):
         registro[modo] = aplicar_par(registro[modo], ponto)
     elif modo == "nut":
         registro["nut"] = ponto
+    elif modo in ("saddle1", "saddle6"):
+        registro[modo] = ponto
+    elif modo in ("cavalete", "divisao"):
+        registro[modo] = aplicar_par(_lista_ou_none(registro.get(modo)), ponto)
+    elif modo == "boca":
+        registro["boca"] = nova_boca
     else:
-        raio = FRACAO_RAIO_TRASTE * dimensoes[0]
         remover = dados.get("remover", False) is True
         registro["trastes"] = aplicar_traste(
             registro["trastes"], ponto, raio, remover=remover
@@ -720,8 +897,20 @@ def _clicar(
     registro["respondido_em"] = agora
 
 
+def _lista_ou_none(valor: object) -> list[Ponto] | None:
+    """Os pontos de uma parte, ou ``None`` se ela estiver ``oculto``/``nao``/vazia.
+
+    Args:
+        valor: o campo da parte no registro.
+
+    Returns:
+        A lista de pontos, ou ``None``.
+    """
+    return valor if isinstance(valor, list) else None
+
+
 def _mudar_campo(registro: dict, dados: dict, agora: str) -> None:
-    """Muda um campo de resposta (braço, nut, referência ou observação).
+    """Muda um campo de resposta (braço, nut, referência, partes ou observação).
 
     Args:
         registro: resposta do quadro, alterada em lugar.
@@ -750,6 +939,14 @@ def _mudar_campo(registro: dict, dados: dict, agora: str) -> None:
         ref = None if valor is None else _validar_referencia(valor, registro)
         _empilhar(registro)
         registro["traste_referencia"] = ref
+    elif campo in CAMPOS_PARTES:
+        if valor is not None and valor != VALORES_PARTE[campo]:
+            raise ValueError(
+                f"{campo} aceita '{VALORES_PARTE[campo]}' ou null (os pontos vêm do "
+                "clique)"
+            )
+        _empilhar(registro)
+        registro[campo] = valor
     elif campo == "obs":
         if valor is not None and not isinstance(valor, str):
             raise ValueError("obs deve ser texto")
@@ -789,8 +986,9 @@ def aplicar_acao(
         if not registro.get("historico"):
             raise ValueError("nada para desfazer neste quadro")
         foto = registro["historico"][-1]
+        # ``get``: fotos gravadas antes das partes não têm essas chaves (eram None).
         for c in CAMPOS_DESFAZER:
-            registro[c] = copy.deepcopy(foto[c])
+            registro[c] = copy.deepcopy(foto.get(c))
         registro["historico"] = registro["historico"][:-1]
         registro["respondido_em"] = agora
     elif acao == "clique":
@@ -892,6 +1090,8 @@ def criar_servidor(
     itens = indice["quadros"]
     dimensoes = {q["id"]: (q["largura"], q["altura"]) for q in itens}
     estado = json.loads(ouro.read_text(encoding="utf-8"))
+    for registro in estado["quadros"].values():
+        completar_campos(registro)
     trava = threading.Lock()
 
     class Manipulador(http.server.BaseHTTPRequestHandler):
@@ -1026,6 +1226,12 @@ input[type=text], input[type=number], select { background: #111; color: #eee;
 input[type=text] { width: 100%; max-width: 560px; box-sizing: border-box; }
 input[type=number] { width: 72px; }
 .trastes li { margin: 2px 0; font-variant-numeric: tabular-nums; }
+.lista button.partes { border-style: dashed; border-color: #f0abfc; }
+.lista button.partes::before { content: "\25C6 "; color: #f0abfc; }
+.legenda { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; margin-top: 6px; }
+.partes-lista li { margin: 2px 0; }
+.partes-lista .faltando { color: #ffb86b; }
+.partes-lista .respondido { color: #9fe3b8; }
 </style>
 </head>
 <body>
@@ -1037,6 +1243,12 @@ input[type=number] { width: 72px; }
     <b>t</b> trastes (um clique no meio de cada traste visível; botão DIREITO em cima
     de um marcado o remove); <b>f</b> nut fora da imagem. Braço: sim, parcial, não, ?.
     Setas &larr; &rarr; trocam de quadro. Nada avança sozinho.
+    <br>Partes (opcionais): <b>s</b> saddle da corda 1 (1 clique no rastilho);
+    <b>d</b> saddle da corda 6 (idem); <b>c</b> cavalete (2 cliques: ponta do lado da
+    corda 6, depois ponta do lado da corda 1); <b>b</b> boca (3 a 8 cliques na borda do
+    buraco; clique perto de um ponto marcado o remove); <b>v</b> divisão (2 cliques
+    sobre a linha que separa os painéis). Botão <b>oculto</b> quando a parte não aparece
+    neste quadro; <b>não dividida</b> quando a tela não tem dois painéis.
   </div>
   <div class="barra">
     <button id="ant">&larr; anterior</button>
@@ -1057,11 +1269,35 @@ input[type=number] { width: 72px; }
     <button data-braco="?">?</button>
     <span class="msg" id="msg"></span>
   </div>
+  <div class="barra">
+    partes:
+    <button data-modo="saddle1">s saddle corda 1</button>
+    <button data-modo="saddle6">d saddle corda 6</button>
+    <button data-modo="cavalete">c cavalete</button>
+    <button data-modo="boca">b boca</button>
+    <button data-modo="divisao">v divisão</button>
+    <button data-campo="saddle1" data-valor="oculto">saddle 1 oculto</button>
+    <button data-campo="saddle6" data-valor="oculto">saddle 6 oculto</button>
+    <button data-campo="cavalete" data-valor="oculto">cavalete oculto</button>
+    <button data-campo="boca" data-valor="oculto">boca oculta</button>
+    <button data-campo="divisao" data-valor="nao">não dividida</button>
+  </div>
 </header>
 <main>
   <div class="lista" id="lista"></div>
   <div class="quadro" id="quadro"><img id="img" alt="quadro"><svg id="svg"></svg></div>
+  <div class="legenda">
+    <span style="color:#ff4fa3">&#9679; S1 saddle corda 1</span>
+    <span style="color:#a78bfa">&#9679; S6 saddle corda 6</span>
+    <span style="color:#38bdf8">&#9679; cavalete</span>
+    <span style="color:#f87171">&#9679; boca</span>
+    <span style="color:#e5e7eb">- - divisão</span>
+    <span style="color:#ffe066">&#9679; trastes</span>
+    <span style="color:#2ecc71">&#9679; corda 1</span>
+    <span style="color:#ff8c1a">&#9679; corda 6</span>
+  </div>
   <div class="grupo" id="bloco-trastes"></div>
+  <div class="grupo" id="bloco-partes"></div>
   <div class="grupo">
     <label>observação<br><input type="text" id="obs" maxlength="500"></label>
   </div>
@@ -1104,6 +1340,8 @@ async function enviar(corpo) {
     estado.quadros = d.quadros;
     estado.completos = d.completos;
     estado.concluidos = d.concluidos;
+    estado.partes = d.partes;
+    estado.partes_concluidas = d.partes_concluidas;
     msg("gravado às " + d.salvo_em, false);
     render();
   } catch (e) {
@@ -1177,6 +1415,90 @@ function desenhar() {
   } else if (r.nut === "fora") {
     svg.appendChild(texto(w * 0.01, w * 0.03, "nut fora", fonte, "#ffffff"));
   }
+  desenharPartes(svg, r, w, raio, espessura, fonte);
+}
+
+// Cores das partes (distintas das do braço); a legenda da página mostra as mesmas.
+const COR_PARTE = {
+  saddle1: "#ff4fa3", saddle6: "#a78bfa", cavalete: "#38bdf8",
+  boca: "#f87171", divisao: "#e5e7eb",
+};
+// Teclas das partes (s, d, c, b, v): livres no resto da página.
+const TECLAS_PARTE = new Map([
+  ["s", "saddle1"], ["d", "saddle6"], ["c", "cavalete"], ["b", "boca"], ["v", "divisao"],
+]);
+const NOME_PARTE = {
+  saddle1: "saddle 1", saddle6: "saddle 6", cavalete: "cavalete",
+  boca: "boca", divisao: "divisão",
+};
+
+function desenharPartes(svg, r, w, raio, espessura, fonte) {
+  ["saddle1", "saddle6"].forEach((campo) => {
+    const p = r[campo];
+    if (!Array.isArray(p)) return;
+    svg.appendChild(ponto(p[0], p[1], raio * 1.3, COR_PARTE[campo], "#000"));
+    svg.appendChild(texto(p[0] + raio * 2, p[1] + raio * 2, campo === "saddle1" ? "S1" : "S6", fonte, COR_PARTE[campo]));
+  });
+  if (Array.isArray(r.cavalete)) {
+    const c = r.cavalete;
+    if (c.length === 2) svg.appendChild(linha(c[0][0], c[0][1], c[1][0], c[1][1], COR_PARTE.cavalete, espessura));
+    c.forEach((p) => svg.appendChild(ponto(p[0], p[1], raio, COR_PARTE.cavalete, "#000")));
+    if (c.length) svg.appendChild(texto(c[0][0], c[0][1] - raio * 2, "cavalete", fonte, COR_PARTE.cavalete));
+  }
+  if (Array.isArray(r.boca) && r.boca.length) {
+    const b = r.boca;
+    if (b.length >= 2) {
+      const poli = document.createElementNS(NS, "polygon");
+      poli.setAttribute("points", b.map((p) => p[0] + "," + p[1]).join(" "));
+      poli.setAttribute("fill", "none");
+      poli.setAttribute("stroke", COR_PARTE.boca);
+      poli.setAttribute("stroke-width", espessura);
+      svg.appendChild(poli);
+    }
+    b.forEach((p) => svg.appendChild(ponto(p[0], p[1], raio, COR_PARTE.boca, "#000")));
+    svg.appendChild(texto(b[0][0], b[0][1] - raio * 2, "boca", fonte, COR_PARTE.boca));
+  }
+  if (Array.isArray(r.divisao) && r.divisao.length === 2) {
+    // A divisão é uma linha: o trecho marcado é estendido para as bordas (o svg corta).
+    const [a, b] = r.divisao;
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    const k = 50;
+    const l = linha(a[0] - dx * k, a[1] - dy * k, b[0] + dx * k, b[1] + dy * k, COR_PARTE.divisao, espessura * 0.8);
+    l.setAttribute("stroke-dasharray", (espessura * 4) + " " + (espessura * 3));
+    svg.appendChild(l);
+    svg.appendChild(ponto(a[0], a[1], raio, COR_PARTE.divisao, "#000"));
+    svg.appendChild(ponto(b[0], b[1], raio, COR_PARTE.divisao, "#000"));
+    svg.appendChild(texto(a[0], a[1] - raio * 2, "divisão", fonte, COR_PARTE.divisao));
+  }
+}
+
+function blocoPartes() {
+  const box = $("bloco-partes");
+  box.innerHTML = "";
+  const v = visao();
+  const r = v.registro;
+  const faltam = new Set(v.partes_faltando);
+  const p = document.createElement("p");
+  p.textContent = v.partes_completas
+    ? "partes: todas respondidas neste quadro"
+    : "partes: faltam " + v.partes_faltando.length + " de 5";
+  box.appendChild(p);
+  const lista = document.createElement("ul");
+  lista.className = "partes-lista";
+  Object.keys(NOME_PARTE).forEach((campo) => {
+    const valor = r[campo];
+    let descricao;
+    if (valor === "oculto") descricao = "oculto neste quadro";
+    else if (valor === "nao") descricao = "não dividida";
+    else if (Array.isArray(valor)) descricao = valor.length + " ponto(s)";
+    else descricao = "sem resposta";
+    const li = document.createElement("li");
+    const estado = faltam.has(campo) ? "faltando" : "respondido";
+    li.className = estado;
+    li.textContent = NOME_PARTE[campo] + ": " + estado + " (" + descricao + ")";
+    lista.appendChild(li);
+  });
+  box.appendChild(lista);
 }
 
 function blocoTrastes() {
@@ -1234,7 +1556,7 @@ function render() {
   if (!estado || !estado.indice.length) return;
   const q = atual();
   $("pos").textContent = (idx + 1) + "/" + estado.indice.length + " (" + q.id + ", " + q.canal + ")";
-  $("prog").textContent = estado.concluidos + "/" + estado.total + " completos";
+  $("prog").textContent = estado.concluidos + "/" + estado.total + " braço completos · partes " + estado.partes_concluidas + "/" + estado.total;
   const img = $("img");
   const destino = "/" + q.png;
   if (img.getAttribute("src") !== destino) {
@@ -1249,6 +1571,10 @@ function render() {
     const b = document.createElement("button");
     b.textContent = item.id;
     if (estado.completos.indexOf(item.id) >= 0) b.classList.add("feito");
+    if (estado.partes.indexOf(item.id) >= 0) {
+      b.classList.add("partes");
+      b.title = "partes do violão respondidas";
+    }
     if (k === idx) b.classList.add("ativo");
     b.addEventListener("click", () => { idx = k; render(); });
     lista.appendChild(b);
@@ -1267,6 +1593,7 @@ function render() {
   if (document.activeElement !== obs) obs.value = r.obs || "";
   desenhar();
   blocoTrastes();
+  blocoPartes();
 }
 
 function trocar(delta) {
@@ -1295,7 +1622,7 @@ $("img").addEventListener("click", (ev) => {
   const x = ev.clientX - bb.left;
   const y = ev.clientY - bb.top;
   if (x < 0 || y < 0 || x > bb.width || y > bb.height) return;
-  if (!modo) { msg("escolha um modo (1, 6, n ou t) antes de clicar", true); return; }
+  if (!modo) { msg("escolha um modo (1, 6, n, t, s, d, c, b ou v) antes de clicar", true); return; }
   const escala = bb.width / img.naturalWidth;
   enviar({ quadro: atual().id, acao: "clique", modo: modo, ponto_img: [x, y], escala: escala });
 });
@@ -1322,6 +1649,12 @@ document.querySelectorAll("[data-braco]").forEach((b) => {
     enviar({ quadro: atual().id, campo: "braco", valor: b.dataset.braco });
   });
 });
+// Botões "oculto" e "não dividida": campo de parte com o valor fixo do botão.
+document.querySelectorAll("[data-campo]").forEach((b) => {
+  b.addEventListener("click", () => {
+    enviar({ quadro: atual().id, campo: b.dataset.campo, valor: b.dataset.valor });
+  });
+});
 $("fora").addEventListener("click", () => {
   enviar({ quadro: atual().id, campo: "nut", valor: "fora" });
 });
@@ -1344,6 +1677,7 @@ document.addEventListener("keydown", (ev) => {
   else if (ev.key === "n") definirModo("nut");
   else if (ev.key === "t") definirModo("trastes");
   else if (ev.key === "f") enviar({ quadro: atual().id, campo: "nut", valor: "fora" });
+  else if (TECLAS_PARTE.has(ev.key) && !ev.ctrlKey && !ev.metaKey && !ev.altKey) definirModo(TECLAS_PARTE.get(ev.key));
 });
 
 carregar();
@@ -1685,6 +2019,8 @@ def acrescentar(
     gabarito = json.loads(ouro.read_text(encoding="utf-8"))
     if gabarito.get("formato") != FORMATO_GABARITO:
         raise ValueError(f"gabarito fora do formato {FORMATO_GABARITO}")
+    for registro in gabarito["quadros"].values():
+        completar_campos(registro)
 
     planos = []
     for item in itens:

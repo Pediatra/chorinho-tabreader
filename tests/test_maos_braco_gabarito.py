@@ -19,12 +19,14 @@ from tab.cache import ModoCache, caminho_do_quadro, pasta_do_video
 from tab.caminhos import CENSO_MAOS
 from tab.maos_braco_gabarito import (
     ARQUIVO_MVP,
+    CAMPOS_PARTES,
     CANAL_MVP,
     acrescentar,
     acrescentar_gabarito,
     acrescentar_indice,
     amostrar_quadros,
     aplicar_acao,
+    completar_campos,
     completos,
     converter_clique,
     criar_servidor,
@@ -34,6 +36,8 @@ from tab.maos_braco_gabarito import (
     mesclar_gabarito,
     numerar_trastes,
     ordenar_trastes,
+    partes_completas,
+    partes_faltando,
     preparar,
     proximo_id,
     registro_completo,
@@ -864,3 +868,285 @@ def test_acrescentar_recusa_video_fora_do_acervo(tmp_path: Path) -> None:
             ouro,
         )
     assert not list((pasta / "quadros").iterdir())
+
+
+# ---------------------------------------------------------------------------------
+# Partes do violão (saddle, cavalete, boca, divisão): campos opcionais
+# ---------------------------------------------------------------------------------
+
+
+def _clicar_parte(gabarito: dict, id_q: str, modo: str, x: float, y: float) -> None:
+    """Clique de um modo de parte, em coordenadas do quadro (escala 1).
+
+    Args:
+        gabarito: gabarito, alterado em lugar.
+        id_q: id do quadro.
+        modo: modo de clique.
+        x: coordenada x no quadro.
+        y: coordenada y no quadro.
+    """
+    dados = {"acao": "clique", "modo": modo, "ponto_img": [x, y], "escala": 1.0}
+    aplicar_acao(gabarito, id_q, dados, DIMENSOES, "t")
+
+
+def _partes_todas_respondidas() -> dict:
+    """Registro com as 5 partes respondidas (pontos válidos ou oculto/nao).
+
+    Returns:
+        Registro em branco com ``saddle``, ``cavalete``, ``boca`` e ``divisao`` prontos.
+    """
+    registro = registro_em_branco("c")
+    registro["saddle1"] = [10.0, 10.0]
+    registro["saddle6"] = "oculto"
+    registro["cavalete"] = [[20.0, 20.0], [30.0, 30.0]]
+    registro["boca"] = [[100.0, 100.0], [200.0, 100.0], [150.0, 200.0]]
+    registro["divisao"] = "nao"
+    return registro
+
+
+def test_registro_antigo_ganha_as_partes_com_none_sem_mudar_o_resto() -> None:
+    """Registro sem as chaves novas: completar_campos põe None e não mexe no resto."""
+    antigo = registro_em_branco("c")
+    antigo["braco"] = "sim"
+    antigo["corda1"] = [[1.0, 2.0], [3.0, 4.0]]
+    antigo["historico"] = [{"braco": None, "corda1": None}]
+    for campo in CAMPOS_PARTES:
+        del antigo[campo]
+    original = copy.deepcopy(antigo)
+    completar_campos(antigo)
+    assert {c: antigo[c] for c in CAMPOS_PARTES} == dict.fromkeys(CAMPOS_PARTES)
+    for campo in CAMPOS_PARTES:
+        del antigo[campo]
+    assert antigo == original
+
+
+def test_completar_campos_nao_sobrescreve_partes_respondidas() -> None:
+    """Chave que já existe com valor fica como está."""
+    registro = registro_em_branco("c") | {"saddle1": [5.0, 6.0]}
+    completar_campos(registro)
+    assert registro["saddle1"] == [5.0, 6.0]
+
+
+def test_registro_em_branco_tem_as_partes_em_none() -> None:
+    """Registro novo já nasce com as 5 partes em None."""
+    registro = registro_em_branco("c")
+    assert all(registro[c] is None for c in CAMPOS_PARTES)
+
+
+def test_saddles_e_divisao_gravam_pontos_e_respondem_oculto() -> None:
+    """Cada clique de saddle grava um ponto; 'oculto' e 'nao' são mudanças de campo."""
+    gabarito = _gabarito_com(["q01"])
+    _clicar_parte(gabarito, "q01", "saddle1", 100, 200)
+    assert gabarito["quadros"]["q01"]["saddle1"] == [100.0, 200.0]
+    _clicar_parte(gabarito, "q01", "saddle1", 110, 210)
+    assert gabarito["quadros"]["q01"]["saddle1"] == [110.0, 210.0]
+    _clicar_parte(gabarito, "q01", "saddle6", 300, 400)
+    assert gabarito["quadros"]["q01"]["saddle6"] == [300.0, 400.0]
+    aplicar_acao(
+        gabarito, "q01", {"campo": "saddle6", "valor": "oculto"}, DIMENSOES, "t"
+    )
+    assert gabarito["quadros"]["q01"]["saddle6"] == "oculto"
+    aplicar_acao(gabarito, "q01", {"campo": "divisao", "valor": "nao"}, DIMENSOES, "t")
+    assert gabarito["quadros"]["q01"]["divisao"] == "nao"
+    aplicar_acao(gabarito, "q01", {"campo": "divisao", "valor": None}, DIMENSOES, "t")
+    assert gabarito["quadros"]["q01"]["divisao"] is None
+
+
+def test_cavalete_e_divisao_seguem_a_logica_do_par_da_corda() -> None:
+    """Dois cliques formam o par; o terceiro começa outro (como corda1)."""
+    gabarito = _gabarito_com(["q01"])
+    for modo in ("cavalete", "divisao"):
+        _clicar_parte(gabarito, "q01", modo, 100, 100)
+        _clicar_parte(gabarito, "q01", modo, 1800, 900)
+        assert gabarito["quadros"]["q01"][modo] == [[100.0, 100.0], [1800.0, 900.0]]
+        _clicar_parte(gabarito, "q01", modo, 500, 500)
+        assert gabarito["quadros"]["q01"][modo] == [[500.0, 500.0]]
+
+
+def test_cavalete_nao_mistura_com_valor_oculto_ao_clicar() -> None:
+    """Um cavalete 'oculto' não vira ponto de lista quando o clique chega."""
+    gabarito = _gabarito_com(["q01"])
+    aplicar_acao(
+        gabarito, "q01", {"campo": "cavalete", "valor": "oculto"}, DIMENSOES, "t"
+    )
+    _clicar_parte(gabarito, "q01", "cavalete", 100, 100)
+    assert gabarito["quadros"]["q01"]["cavalete"] == [[100.0, 100.0]]
+
+
+def test_boca_acrescenta_e_remove_o_ponto_perto_do_clique() -> None:
+    """Clique longe acrescenta; clique dentro do raio do traste remove o mais perto."""
+    gabarito = _gabarito_com(["q01"])
+    _clicar_parte(gabarito, "q01", "boca", 100, 100)
+    _clicar_parte(gabarito, "q01", "boca", 300, 100)
+    _clicar_parte(gabarito, "q01", "boca", 200, 300)
+    assert len(gabarito["quadros"]["q01"]["boca"]) == 3
+    _clicar_parte(gabarito, "q01", "boca", 105, 103)
+    assert gabarito["quadros"]["q01"]["boca"] == [[300.0, 100.0], [200.0, 300.0]]
+
+
+def test_boca_recusa_nono_ponto_sem_mudar_o_quadro() -> None:
+    """Com 8 pontos, o 9º clique (longe de todos) é recusado e nada muda."""
+    gabarito = _gabarito_com(["q01"])
+    for k in range(8):
+        _clicar_parte(gabarito, "q01", "boca", 100 + 200 * k, 100)
+    antes = copy.deepcopy(gabarito["quadros"]["q01"])
+    with pytest.raises(ValueError, match="máximo 8"):
+        _clicar_parte(gabarito, "q01", "boca", 100, 900)
+    assert gabarito["quadros"]["q01"] == antes
+
+
+def test_partes_completas_exige_as_cinco_partes_e_boca_com_tres_pontos() -> None:
+    """partes_completas: 5 partes respondidas; boca com 2 pontos ainda falta."""
+    registro = _partes_todas_respondidas()
+    assert partes_completas(registro)
+    assert partes_faltando(registro) == []
+    registro["boca"] = [[1.0, 1.0], [2.0, 2.0]]
+    assert not partes_completas(registro)
+    assert partes_faltando(registro) == ["boca"]
+    registro["boca"] = "oculto"
+    assert partes_completas(registro)
+    assert not partes_completas(registro_em_branco("c"))
+    assert partes_faltando(registro_em_branco("c")) == list(CAMPOS_PARTES)
+
+
+def test_braco_nao_nao_apaga_as_partes() -> None:
+    """Mudar braco para 'nao' limpa a geometria, mas saddle e boca ficam."""
+    gabarito = _gabarito_com(["q01"])
+    _clicar_parte(gabarito, "q01", "saddle1", 50, 60)
+    _clicar_parte(gabarito, "q01", "boca", 100, 100)
+    aplicar_acao(gabarito, "q01", {"campo": "braco", "valor": "nao"}, DIMENSOES, "t")
+    registro = gabarito["quadros"]["q01"]
+    assert registro["saddle1"] == [50.0, 60.0]
+    assert registro["boca"] == [[100.0, 100.0]]
+
+
+def test_registro_completo_nao_muda_com_as_partes() -> None:
+    """registro_completo dá o mesmo resultado com e sem as partes respondidas."""
+    sem = _completo("sim")
+    com = _completo("sim") | {c: _partes_todas_respondidas()[c] for c in CAMPOS_PARTES}
+    assert registro_completo(sem) is True
+    assert registro_completo(com) is True
+    vazio = _completo("sim") | dict.fromkeys(CAMPOS_PARTES)
+    assert registro_completo(vazio) is True
+    assert registro_completo(_completo("nao") | {"saddle1": None}) is True
+
+
+def test_valores_invalidos_das_partes_dao_valueerror() -> None:
+    """'oculto' em divisão, 'nao' em saddle, lista em valor de campo e ponto ruim."""
+    gabarito = _gabarito_com(["q01"])
+    casos = [
+        {"campo": "divisao", "valor": "oculto"},
+        {"campo": "saddle1", "valor": "nao"},
+        {"campo": "cavalete", "valor": [[1, 2], [3, 4]]},
+        {"campo": "boca", "valor": "sim"},
+    ]
+    for dados in casos:
+        with pytest.raises(ValueError):
+            aplicar_acao(gabarito, "q01", dados, DIMENSOES, "t")
+    with pytest.raises(ValueError):
+        _clicar_parte_bruta(gabarito, "q01", "saddle1", [1])
+    with pytest.raises(ValueError):
+        _clicar_parte(gabarito, "q01", "saddle1", 5000, 10)
+    assert gabarito["quadros"]["q01"]["saddle1"] is None
+    assert gabarito["quadros"]["q01"]["divisao"] is None
+
+
+def _clicar_parte_bruta(
+    gabarito: dict, id_q: str, modo: str, ponto_img: list[float]
+) -> None:
+    """Clique de parte com ``ponto_img`` cru (para testar ponto mal formado).
+
+    Args:
+        gabarito: gabarito, alterado em lugar.
+        id_q: id do quadro.
+        modo: modo de clique.
+        ponto_img: o ponto como chegou (pode estar errado de propósito).
+    """
+    dados = {"acao": "clique", "modo": modo, "ponto_img": ponto_img, "escala": 1.0}
+    aplicar_acao(gabarito, id_q, dados, DIMENSOES, "t")
+
+
+def test_desfazer_volta_a_parte_anterior() -> None:
+    """Desfazer restaura saddle e a lista do cavalete como estavam antes."""
+    gabarito = _gabarito_com(["q01"])
+    _clicar_parte(gabarito, "q01", "saddle1", 10, 10)
+    _clicar_parte(gabarito, "q01", "saddle1", 20, 20)
+    aplicar_acao(gabarito, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert gabarito["quadros"]["q01"]["saddle1"] == [10.0, 10.0]
+    aplicar_acao(gabarito, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert gabarito["quadros"]["q01"]["saddle1"] is None
+    _clicar_parte(gabarito, "q01", "cavalete", 1, 1)
+    _clicar_parte(gabarito, "q01", "cavalete", 2, 2)
+    aplicar_acao(gabarito, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert gabarito["quadros"]["q01"]["cavalete"] == [[1.0, 1.0]]
+
+
+def test_desfazer_de_historico_antigo_sem_as_partes_nao_quebra() -> None:
+    """Foto gravada antes das partes (sem as chaves): desfazer põe None, sem erro."""
+    gabarito = _gabarito_com(["q01"])
+    registro = gabarito["quadros"]["q01"]
+    antiga = dict.fromkeys(
+        ("braco", "corda1", "corda6", "nut", "trastes", "traste_referencia")
+    )
+    registro["braco"] = "sim"
+    registro["historico"] = [antiga]
+    aplicar_acao(gabarito, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert registro["braco"] is None
+    assert registro["saddle1"] is None
+
+
+def test_resumo_conta_quadros_com_as_partes() -> None:
+    """resumo: 'partes' lista os quadros com as 5 partes; 'partes_concluidas' conta."""
+    gabarito = _gabarito_com(["q01", "q02"])
+    gabarito["quadros"]["q01"] = _partes_todas_respondidas()
+    dados = {"partes": ["q01"], "partes_concluidas": 1, "total": 2}
+    resultado = resumo(gabarito, [{"id": "q01"}, {"id": "q02"}])
+    assert {k: resultado[k] for k in dados} == dados
+    assert resultado["quadros"]["q02"]["partes_faltando"] == list(CAMPOS_PARTES)
+    assert resultado["quadros"]["q01"]["partes_completas"] is True
+
+
+def test_mesclar_mantem_as_partes_do_disco() -> None:
+    """Mesclagem copia as partes respondidas e aceita registro antigo sem elas."""
+    novo = _gabarito_com(["q01"])
+    existente = _gabarito_com(["q01"])
+    registro = existente["quadros"]["q01"]
+    registro["respondido_em"] = "2026-10-16T10:00:00"
+    registro["saddle1"] = [7.0, 8.0]
+    for c in ("saddle6", "cavalete", "boca", "divisao"):
+        del registro[c]
+    mesclado = mesclar_gabarito(novo, existente)
+    assert mesclado["quadros"]["q01"]["saddle1"] == [7.0, 8.0]
+    assert mesclado["quadros"]["q01"]["divisao"] is None
+
+
+def test_servidor_completa_partes_de_gabarito_antigo(tmp_path: Path) -> None:
+    """Servidor carrega gabarito sem as partes: estado mostra 0 e a gravação funciona."""
+    arq, raiz = _cache_e_censo(tmp_path, _censo_sintetico())
+    pasta = tmp_path / "m3b"
+    ouro = tmp_path / "braco.json"
+    preparar(arq, raiz, pasta, ouro, semente=5)
+    dados = json.loads(ouro.read_text(encoding="utf-8"))
+    for reg in dados["quadros"].values():
+        for c in CAMPOS_PARTES:
+            del reg[c]
+    ouro.write_text(json.dumps(dados), encoding="utf-8")
+    servidor = criar_servidor(pasta, ouro, porta=0, host="127.0.0.1")
+    porta = servidor.server_address[1]
+    thread = threading.Thread(target=servidor.serve_forever, daemon=True)
+    thread.start()
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{porta}/estado.json") as r:
+            estado = json.loads(r.read())
+        assert estado["partes_concluidas"] == 0
+        codigo, resposta = _post(
+            porta, {"quadro": "q01", "campo": "divisao", "valor": "nao"}
+        )
+        assert codigo == 200
+        assert resposta["quadros"]["q01"]["registro"]["divisao"] == "nao"
+        gravado = json.loads(ouro.read_text(encoding="utf-8"))["quadros"]["q01"]
+        assert gravado["divisao"] == "nao"
+        assert gravado["saddle1"] is None
+    finally:
+        servidor.shutdown()
+        servidor.server_close()
