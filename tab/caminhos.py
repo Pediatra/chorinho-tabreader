@@ -79,6 +79,10 @@ MAOS_M7 = SAIDA / "maos" / "m7"
 #: janela da mão esquerda pela câmera do braço (``tab.maos_corda_sem_direita``).
 MAOS_M8 = SAIDA / "maos" / "m8"
 
+#: Braço quadro a quadro (M11): erros da grade levada do quadro-chave ao alvo
+#: (``tab.maos_braco_tempo``).
+MAOS_M11 = SAIDA / "maos" / "m11"
+
 #: Frentes de teste da pesquisa das mãos (``docs/pesquisa/maos-frentes.md``): uma pasta
 #: por frente, para as worktrees paralelas não escreverem no mesmo lugar.
 MAOS_FRENTE_0 = SAIDA / "maos" / "frentes" / "f0_residuo"

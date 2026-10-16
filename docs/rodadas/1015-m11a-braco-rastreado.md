@@ -84,3 +84,28 @@ Cada quadro alvo é classificado assim:
 **Pare se**, no desenvolvimento, o rastreador não bater a linha de base no erro
 perpendicular nos quadros que se mexem (q26, q27 e q28). Nesse caso, olhe os casamentos
 desenhados antes de mexer em limiar.
+
+## Linha de base no desenvolvimento (CA1), medida antes do teste
+
+`python -m tab.maos_braco_tempo base` (duas execuções, arquivo idêntico;
+`data/saida/maos/m11/base_dev.json`):
+
+| par | pestana (casas) | pior traste (casas) | ⊥ nas cordas (vãos) | B3 (deslocamento do nut) | classe |
+| --- | --- | --- | --- | --- | --- |
+| q02→q24 | 0,08 | 0,11 | 0,17 | +7 px | certo |
+| q02→q25 | 0,02 | 0,03 | 0,13 | +13 px | certo |
+| q16→q26 | 0,07 | 0,14 | 1,34 | −26 px | falso |
+| q16→q27 | 0,09 | 0,16 | 2,40 | −51 px | falso |
+| q21→q28 | 0,05 | 0,07 | 1,98 | +64 px | falso |
+| q21→q29 | 0,04 | 0,10 | 0,23 | 0 px | certo |
+| q23→q30 | 0,15 | 0,08 | 0,41 | +4 px | impreciso |
+| q23→q31 | 0,03 | 0,06 | 0,15 | −4 px | certo |
+
+- **Casas**: reproduz a B3 com diferença de no máximo 0,03 casa.
+- **Perpendicular**: a coluna da B3 era o deslocamento **vertical do nut**. Conferi:
+  7,1 / 13,2 / −26,5 / −51,2 / 63,7 / 0,0 / 4,2 / −3,8 px. Ela não media as cordas. A
+  métrica desta rodada é a que está escrita acima (pior extremo das cordas 1 e 6, em vãos).
+  Ela dá números diferentes, mas a conclusão é a mesma: os quadros que se mexem (q26, q27 e
+  q28) erram de 1,3 a 2,4 vãos, e os outros ficam abaixo de 0,5.
+- **CA1 está cumprido** nas casas e na conclusão. A linha de base do CA5 é esta coluna, e
+  não a da B3. Os critérios não mudam.
