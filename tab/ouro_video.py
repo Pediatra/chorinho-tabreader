@@ -510,7 +510,12 @@ def _confirmacao(instante: dict) -> dict:
     return campos
 
 
-def montar_ouro(pre: dict, estado: dict, agora: str | None = None) -> dict:
+def montar_ouro(
+    pre: dict,
+    estado: dict,
+    agora: str | None = None,
+    como_foi_rotulado: str | None = None,
+) -> dict:
     """Monta o JSON do ouro (formato do plano) a partir do estado da ferramenta.
 
     Notas removidas ("não é nota") e notas SEM casa não entram. Telas marcadas "igual a
@@ -522,6 +527,8 @@ def montar_ouro(pre: dict, estado: dict, agora: str | None = None) -> dict:
         pre: o ``pre.json`` da pasta.
         estado: o estado da página (``telas``, ``instantes``, ...).
         agora: carimbo de tempo (para teste); padrão, agora.
+        como_foi_rotulado: texto a manter (ex.: o do ouro gravado, com acréscimos do
+            dono); padrão, o do ``pre.json``.
 
     Returns:
         O dicionário do ouro, já validado.
@@ -620,7 +627,8 @@ def montar_ouro(pre: dict, estado: dict, agora: str | None = None) -> dict:
     instantes.sort(key=lambda i: i["t"])
     ouro = {
         "video": pre["video"],
-        "como_foi_rotulado": pre.get("como_foi_rotulado")
+        "como_foi_rotulado": como_foi_rotulado
+        or pre.get("como_foi_rotulado")
         or (
             f"pre-preenchido pelo modelo {pre['modelo']}; conferido e corrigido "
             "pelo dono por leitura visual"
@@ -651,6 +659,95 @@ def gravar_atomico(destino: Path, conteudo: dict) -> None:
         f.flush()
         os.fsync(f.fileno())
     os.replace(tmp, destino)
+
+
+def _notas_sem_par(a: list[dict], b: list[dict]) -> list[dict]:
+    """Notas de ``a`` que não têm uma igual em ``b`` (contando repetições).
+
+    Args:
+        a: notas a percorrer.
+        b: notas em que procurar o par.
+
+    Returns:
+        As notas de ``a`` sem par, na ordem de ``a``.
+    """
+    restantes = [json.dumps(n, sort_keys=True) for n in b]
+    sem_par = []
+    for n in a:
+        chave = json.dumps(n, sort_keys=True)
+        if chave in restantes:
+            restantes.remove(chave)
+        else:
+            sem_par.append(n)
+    return sem_par
+
+
+def _rotulo_nota(nota: dict) -> str:
+    """Nota como ``(corda, casa, x_centro_quadro)`` (ou ``x_quadro`` se não há centro)."""
+    x = nota.get("x_centro_quadro", nota.get("x_quadro"))
+    return f"({nota['corda']}, {nota['casa']}, {x})"
+
+
+def divergencias_do_estado(pre: dict, ouro: dict) -> list[str]:
+    """Diferenças entre o ouro gravado e o que a ferramenta remontaria a partir do estado.
+
+    O ouro é refeito com ``montar_ouro`` a partir de ``ouro["ferramenta"]``; se as telas,
+    os instantes ou as juntadas do arquivo não baterem com isso, a primeira gravação da
+    ferramenta desfaria as edições feitas fora dela. ``como_foi_rotulado`` não entra na
+    comparação.
+
+    Args:
+        pre: o ``pre.json`` da pasta.
+        ouro: o ouro gravado em disco.
+
+    Returns:
+        Uma linha por diferença (id da tela e o que difere); lista vazia = coerente, ou
+        sem bloco ``ferramenta`` para comparar.
+    """
+    if "ferramenta" not in ouro:
+        return []
+    try:
+        montado = montar_ouro(pre, ouro["ferramenta"], agora=ouro.get("rotulado_em"))
+    except ValueError as erro:
+        return [f"o estado da ferramenta não monta um ouro válido: {erro}"]
+    linhas: list[str] = []
+    telas_ouro = {t["id"]: t for t in ouro.get("telas") or []}
+    telas_estado = {t["id"]: t for t in montado["telas"]}
+    for id_ in sorted(set(telas_ouro) | set(telas_estado)):
+        if id_ not in telas_estado:
+            linhas.append(f"tela {id_}: existe só no ouro gravado")
+            continue
+        if id_ not in telas_ouro:
+            linhas.append(f"tela {id_}: existe só no estado da ferramenta")
+            continue
+        a, b = telas_ouro[id_], telas_estado[id_]
+        if bool(a.get("conferida")) != bool(b.get("conferida")):
+            linhas.append(
+                f"tela {id_}: conferida difere (ouro={a.get('conferida')}, "
+                f"estado={b.get('conferida')})"
+            )
+        for nota in _notas_sem_par(a.get("notas") or [], b["notas"]):
+            linhas.append(f"tela {id_}: nota a mais no ouro {_rotulo_nota(nota)}")
+        for nota in _notas_sem_par(b["notas"], a.get("notas") or []):
+            linhas.append(f"tela {id_}: nota a menos no ouro {_rotulo_nota(nota)}")
+        for campo in sorted((set(a) | set(b)) - {"id", "conferida", "notas"}):
+            if a.get(campo) != b.get(campo):
+                linhas.append(f"tela {id_}: campo '{campo}' difere do estado")
+    instantes_ouro = {i["t"]: i for i in ouro.get("instantes") or []}
+    instantes_estado = {i["t"]: i for i in montado["instantes"]}
+    for t in sorted(set(instantes_ouro) | set(instantes_estado)):
+        if t not in instantes_estado:
+            linhas.append(f"instante t={t}: existe só no ouro gravado")
+        elif t not in instantes_ouro:
+            linhas.append(f"instante t={t}: existe só no estado da ferramenta")
+        elif instantes_ouro[t] != instantes_estado[t]:
+            linhas.append(f"instante t={t}: difere do estado da ferramenta")
+    if (ouro.get("juntadas") or {}) != montado["juntadas"]:
+        linhas.append(
+            f"juntadas diferem (ouro={ouro.get('juntadas')}, "
+            f"estado={montado['juntadas']})"
+        )
+    return linhas
 
 
 # ---------------------------------------------------------------------------------
@@ -1668,6 +1765,20 @@ def completar(
 # ---------------------------------------------------------------------------------
 
 
+def _como_foi_rotulado_gravado(ouro: Path) -> str | None:
+    """``como_foi_rotulado`` do ouro já gravado em disco, se houver (senão ``None``).
+
+    Args:
+        ouro: arquivo do ouro.
+
+    Returns:
+        O texto gravado, para o servidor não apagar o que o dono acrescentou.
+    """
+    if not ouro.exists():
+        return None
+    return json.loads(ouro.read_text(encoding="utf-8")).get("como_foi_rotulado") or None
+
+
 def criar_servidor(
     pasta: Path, ouro: Path, porta: int = 8099, host: str = "127.0.0.1"
 ) -> http.server.ThreadingHTTPServer:
@@ -1755,8 +1866,12 @@ def criar_servidor(
                 if not 0 < tamanho <= 16_000_000:
                     raise ValueError("corpo ausente ou grande demais")
                 estado = json.loads(self.rfile.read(tamanho))
-                documento = montar_ouro(pre, estado)
                 with trava:
+                    documento = montar_ouro(
+                        pre,
+                        estado,
+                        como_foi_rotulado=_como_foi_rotulado_gravado(ouro),
+                    )
                     gravar_atomico(ouro, documento)
             except (ValueError, KeyError, TypeError) as erro:
                 self._json(400, {"ok": False, "erro": f"{type(erro).__name__}: {erro}"})
@@ -2215,6 +2330,9 @@ PAGINA = PAGINA.replace(
 def servir(pasta: Path, ouro: Path, porta: int, host: str = "127.0.0.1") -> int:
     """Sobe o servidor e fica nele até Ctrl+C.
 
+    Antes de subir, confere o ouro gravado com o estado da ferramenta
+    (``divergencias_do_estado``): se diferirem, não sobe e sai com código 3.
+
     Args:
         pasta: pasta do ``preparar``.
         ouro: arquivo do ouro.
@@ -2222,11 +2340,25 @@ def servir(pasta: Path, ouro: Path, porta: int, host: str = "127.0.0.1") -> int:
         host: endereço de escuta (``0.0.0.0`` só dentro de container).
 
     Returns:
-        Código de saída.
+        Código de saída: 0 normal, 2 sem ``pre.json``, 3 ouro divergente do estado.
     """
     if not (pasta / "pre.json").exists():
         print(f"sem pre.json em {pasta}; rode `preparar` antes", file=sys.stderr)
         return 2
+    if ouro.exists():
+        pre = json.loads((pasta / "pre.json").read_text(encoding="utf-8"))
+        atual = json.loads(ouro.read_text(encoding="utf-8"))
+        divergencias = divergencias_do_estado(pre, atual)
+        if divergencias:
+            print(
+                f"o ouro {ouro} não bate com o estado da ferramenta; o servidor NÃO "
+                "subiu, porque a primeira gravação desfaria essas edições feitas fora "
+                "da ferramenta:",
+                file=sys.stderr,
+            )
+            for linha in divergencias:
+                print(f"  - {linha}", file=sys.stderr)
+            return 3
     servidor = criar_servidor(pasta, ouro, porta, host)
     print(f"ferramenta do ouro: http://127.0.0.1:{servidor.server_address[1]}/")
     print(f"o ouro é gravado a cada alteração em: {ouro}")

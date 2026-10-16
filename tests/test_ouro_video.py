@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from tab import ouro_video
 from tab.ouro_video import (
     PAGINA,
     TECNICAS,
@@ -20,6 +21,7 @@ from tab.ouro_video import (
     corda_mais_proxima,
     criar_servidor,
     diferenca_cinza,
+    divergencias_do_estado,
     fazer_slug,
     fundir_ouro,
     fundir_sem_v1,
@@ -28,6 +30,7 @@ from tab.ouro_video import (
     montar_ouro,
     pagina_em,
     painel_com_caixas,
+    servir,
     sortear_instantes,
     texto_sem_v1,
     validar_ouro,
@@ -600,3 +603,88 @@ def test_textos_da_pagina_nao_tem_aspas_duplas_soltas() -> None:
     for linha in js.splitlines():
         for texto in re.findall(r'h\("div", \{class: "suave"\}, "(.*)"\),$', linha):
             assert '"' not in texto, texto[:80]
+
+
+def test_divergencias_estado_coerente_fica_vazia() -> None:
+    """Ouro recém-montado a partir do próprio estado não tem divergência."""
+    ouro = montar_ouro(PRE, estado(), agora="2026-10-10T12:00:00")
+    assert divergencias_do_estado(PRE, ouro) == []
+
+
+def test_divergencias_aponta_tela_conferida_so_no_topo() -> None:
+    """Tela conferida no topo e não-conferida no bloco ferramenta: aponta a tela 1."""
+    est = estado()
+    est["telas"][0]["conferida"] = False
+    ouro = montar_ouro(PRE, est, agora="2026-10-10T12:00:00")
+    ouro["telas"][0]["conferida"] = True  # edição fora da ferramenta
+    linhas = divergencias_do_estado(PRE, ouro)
+    assert any(ln.startswith("tela 1") and "conferida" in ln for ln in linhas)
+    assert not any(ln.startswith("tela 3") for ln in linhas)
+
+
+def test_divergencias_aponta_nota_que_o_estado_removeu() -> None:
+    """Nota no topo que o estado marca removida: aponta a nota a mais no ouro."""
+    ouro = montar_ouro(PRE, estado(), agora="2026-10-10T12:00:00")
+    ouro["telas"][0]["notas"].append({"corda": 1, "casa": 9, "x_quadro": 300.0})
+    linhas = divergencias_do_estado(PRE, ouro)
+    assert linhas == ["tela 1: nota a mais no ouro (1, 9, 300.0)"]
+
+
+def test_servir_com_ouro_divergente_nao_abre_porta(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture
+) -> None:
+    """Ouro divergente: servir devolve 3, imprime as telas e não cria o servidor."""
+    pasta = tmp_path / "pasta"
+    pasta.mkdir()
+    (pasta / "pre.json").write_text(json.dumps(PRE), encoding="utf-8")
+    ouro = tmp_path / "v.json"
+    doc = montar_ouro(PRE, estado(), agora="2026-10-10T12:00:00")
+    doc["telas"][0]["conferida"] = not doc["telas"][0]["conferida"]
+    ouro.write_text(json.dumps(doc), encoding="utf-8")
+
+    def nao_deve_chamar(*_args, **_kwargs):
+        raise AssertionError("o servidor não podia ter sido criado")
+
+    monkeypatch.setattr(ouro_video, "criar_servidor", nao_deve_chamar)
+    assert servir(pasta, ouro, 0) == 3
+    erro = capsys.readouterr().err
+    assert "tela 1" in erro and "conferida" in erro
+
+
+def test_montar_ouro_preserva_como_foi_rotulado_dado() -> None:
+    """Texto dado em ``como_foi_rotulado`` vence o do pre.json."""
+    ouro = montar_ouro(
+        PRE, estado(), agora="2026-10-10T12:00:00", como_foi_rotulado="meu acréscimo"
+    )
+    assert ouro["como_foi_rotulado"] == "meu acréscimo"
+
+
+def test_servidor_preserva_como_foi_rotulado_do_arquivo(tmp_path: Path) -> None:
+    """POST /salvar mantém o ``como_foi_rotulado`` que já estava gravado no ouro."""
+    pasta = tmp_path / "pasta"
+    pasta.mkdir()
+    (pasta / "pre.json").write_text(json.dumps(PRE), encoding="utf-8")
+    ouro = tmp_path / "v.json"
+    ouro.write_text(
+        json.dumps({"como_foi_rotulado": "texto do dono", "telas": []}),
+        encoding="utf-8",
+    )
+    servidor = criar_servidor(pasta, ouro, 0)
+    porta = servidor.server_address[1]
+    fio = threading.Thread(target=servidor.serve_forever, daemon=True)
+    fio.start()
+    try:
+        con = http.client.HTTPConnection("127.0.0.1", porta, timeout=5)
+        con.request(
+            "POST",
+            "/salvar",
+            json.dumps(estado()).encode(),
+            {"Host": f"127.0.0.1:{porta}"},
+        )
+        assert con.getresponse().status == 200
+        con.close()
+        salvo = json.loads(ouro.read_text(encoding="utf-8"))
+        assert salvo["como_foi_rotulado"] == "texto do dono"
+    finally:
+        servidor.shutdown()
+        servidor.server_close()
