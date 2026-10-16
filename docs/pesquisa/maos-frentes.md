@@ -198,6 +198,36 @@ as outras da frente B.
 **Revisão da ordem.** A Frente 0 pode mudar a ordem. Se, por exemplo, menos de 10 % do resíduo
 atravessar a fronteira entre corda encapada e lisa, a C3 perde o sentido (seção 7, Frente C).
 
+### 4.1 Ondas (decisão do dono, 2026-10-16)
+
+As frentes rodam em **ondas**. Dentro de uma onda, todas partem da mesma referência e são
+medidas **sozinhas** contra ela. Entre as ondas, a sessão principal integra.
+
+| onda | frentes | entra quando |
+| --- | --- | --- |
+| **1** | 0, A3, B1, C1, D1 | já (5 worktrees em paralelo) |
+| **2** | C2; B3 (eixo das cordas); A1/A2 | C2 se a C1 passar; B3 se a B1 precisar da ponta → corda; A1/A2 se a A3 reprovar ou estagnar (se a A3 passar, entram só como comparação) |
+| **3** | B2; B4 | B2 se a B1 falhar pela ponta; B4 se a B3 precisar de linha por quadro |
+| — | E (dedilhado) | só com o dono |
+
+Briefings da onda 1, prontos para colar: [`maos-onda1-briefings.md`](maos-onda1-briefings.md).
+
+**Por que a B1 está na onda 1.** Ela não espera a B3: a grade fixa do quadro do dono já erra
+≤ 0,16 casa ao longo do braço nos q24–q31 (tabela na B3), e a janela da B1 usa só esse eixo.
+
+**Integração entre ondas (sessão principal).**
+
+1. Remedir cada frente aprovada na `main`, com o código do branch.
+2. Medir as aprovadas **juntas**. Os ganhos não se somam: A3 e D1, por exemplo, podem consertar
+   as mesmas notas. Relatar consertadas e quebradas da combinação e de cada uma.
+3. A combinação aprovada vira a **referência R1** da onda 2, com os números por vídeo registrados
+   numa rodada da sessão principal **antes** de a onda 2 começar.
+4. A Frente 0 pode mudar a composição da onda 2.
+
+**Referência móvel.** Na onda 2, os critérios CA1–CA7 são os mesmos, com os mesmos limiares,
+mas a referência passa a ser a R1, não o D1 do M8. O CA1 passa a ser reproduzir a R1. Assim uma
+frente da onda 2 não passa só por repetir o ganho da onda 1. Na onda 3, a referência é a R2.
+
 ---
 
 ## 5. Régua comum (vale para todas as frentes)
@@ -578,13 +608,13 @@ e deixa só 1 candidata muito mais vezes.
 
 **Como.**
 
-1. Para cada nota presa e ambígua, nos ataques em que a câmera casa com o quadro do gabarito,
-   calcule:
+1. Para cada nota presa e ambígua, calcule:
    - (i) janela do M8;
    - (ii) união das células das pontas com folga de 10 %;
    - (iii) a mesma com 20 %.
-   - Meça com o limiar da câmera em 0,8 (o do M8) e em 0,6 e 0,7, para ter mais ataques. Até a
-     B3 existir, a cobertura é pequena: relate os denominadores.
+   - **Grade fixa em todos os ataques** (a do quadro do dono, sem o teste de câmera). É o
+     cenário principal: ao longo do braço ela erra ≤ 0,16 casa (tabela na B3). Relate à parte o
+     subconjunto em que a câmera casa (limiar 0,8 do M8), para comparar com a 1013.
 2. Para cada janela, meça:
    - contém a casa verdadeira? (%);
    - largura média, em casas;
@@ -604,7 +634,7 @@ e deixa só 1 candidata muito mais vezes.
 
 **Saída.** `MAOS_FRENTE_B/b1_janela.json`; rodada 1130.
 
-**Aceite (a priori; o dono pode ajustar).** Nos ataques cobertos:
+**Aceite (congelado pelo dono).** Nos ataques cobertos:
 
 - contém a casa certa em **≥ 95 %**;
 - sobra 1 candidata em **≥ 70 %** das notas ambíguas presas;
@@ -977,7 +1007,7 @@ A sessão principal remede o número antes de integrar e consolida o `ESTADO.md`
 
 ---
 
-## 10. Decisões do dono (2026-10-15)
+## 10. Decisões do dono (2026-10-15 e 2026-10-16)
 
 1. **Quadros extras do braço (B3): sim.** Foram acrescentados **q24–q31** ao gabarito do braço,
    2 por vídeo, longe do quadro já marcado:
@@ -1004,3 +1034,9 @@ A sessão principal remede o número antes de integrar e consolida o `ESTADO.md`
    Nenhuma frente usa tablatura externa (seção 7, A3b).
 3. **Critérios de aceite: confirmados como estão.** Estão **congelados**: mudar um limiar depois
    de ver o resultado invalida a frente.
+
+### 2026-10-16
+
+4. **Ondas: sim** (seção 4.1). Onda 1 = 0, A3, B1, C1, D1.
+5. **Referência móvel: sim.** Na onda 2 os critérios e limiares são os mesmos, medidos contra a
+   combinação integrada da onda 1 (R1), não contra o D1 do M8.
