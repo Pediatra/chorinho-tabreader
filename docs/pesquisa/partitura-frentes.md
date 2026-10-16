@@ -20,7 +20,7 @@ que as frentes entregarem. **Para quem**: agentes que vão testar as ideias em w
 7. As frentes: Frente 0 e Frentes A a E
 8. Pegadinhas que valem para todas as frentes
 9. O que cada frente entrega
-10. Decisões do dono
+10. Decisões do dono (2026-10-16)
 
 ---
 
@@ -331,6 +331,14 @@ As frentes podem rodar em paralelo, cada uma na sua worktree. A ordem acima é d
 6. **A C1 custa GPU, dado de treino e dependência.** Só vale se o que sobrar depois de A, B e E
    for polifonia.
 
+**Ondas de execução** (no máximo 3 worktrees ao mesmo tempo, para a revisão acompanhar):
+
+| onda | frentes | começa quando | observação |
+| --- | --- | --- | --- |
+| 1 | F0 (F0.1 + F0.2 + F0.3), D1, E1; A1 na primeira vaga | já | nenhuma usa GPU. Só a D1 lê vídeo (o `paginar`, 1 vídeo por vez); a A1 também lê, por isso entra quando o `paginar` da D1 terminar ou quando abrir vaga |
+| 2 | B1, B2 | régua da F0.1 (e, para a B1, a F0.2) commitada no branch dela e **remedida na `main`** | o teste final da B2 usa o gabarito da D1 rotulado pelo dono |
+| 3 | C1 | só se a condição da seção 7 valer e o dono aprovar | usa GPU: só com a trava `data/saida/gpu.lock` |
+
 **Revisão da ordem.** A Frente 0 pode mudar a ordem. Por exemplo, se a F0.1 mostrar que menos da
 metade dos compassos com nota faltando tem a fórmula de compasso conhecida, a B1 tem pouco a ganhar
 e a E1 e a B2 sobem.
@@ -355,8 +363,8 @@ e a E1 e a B2 sobem.
   cliques `{x, y}` **sem figura**. Pausas entram.
 - Cada item servido diz a leitura de origem no campo `fonte` (por exemplo
   `audiveris/x2_margem_herdada`). Use essa leitura, não outra.
-- O `fonte_itens` do `leitura_sem_produto.json` aponta errado para `p1/conferencia/itens.json`.
-  Os itens certos são os da tabela.
+- O `fonte_itens` do `leitura_sem_produto.json` apontava para `p1/conferencia/itens.json`; foi
+  corrigido em 2026-10-16 (seção 10). Numa worktree criada antes disso, use os itens da tabela.
 
 **Gabarito de tab** (`data/gold/ouro_video/`, só leitura): greensleeves, south_american e
 gymnopedie. A conversão em altura escrita é `tab.partitura_avaliar.referencia_do_recorte`; a
@@ -464,7 +472,7 @@ Uma variante só é "aprovada" se cumprir **todos**:
     da rodada. Por padrão: escolha no gabarito de tab (R01–R12 e as 7 telas novas da Gymnopédie)
     e meça no gabarito do dono (R13–R21 e os 3 sem produto) e, quando existir, na amostra D1.
   - Nunca se ajusta olhando o conjunto de teste.
-  - Os critérios desta seção estão congelados depois que o dono aprovar.
+  - Os critérios desta seção foram **aprovados pelo dono e congelados em 2026-10-16** (seção 10).
 - **CA6 — determinismo.**
   - Antes de comparar variantes, confira que o Audiveris e o homr dão saída idêntica em duas
     execuções do mesmo recorte. Se não derem, meça a amplitude e exija ganho maior que ela.
@@ -1176,28 +1184,28 @@ A sessão principal remede o número antes de integrar e consolida o `ESTADO.md`
 
 ---
 
-## 10. Decisões do dono (pendentes)
+## 10. Decisões do dono (2026-10-16)
 
-Cada item traz a minha recomendação. Nada abaixo vale antes da resposta do dono.
+1. **Dependências: recomendação aceita.**
 
-1. **Dependências.**
-
-| dependência | frente | licença | recomendação |
+| dependência | frente | licença | decisão |
 | --- | --- | --- | --- |
-| `musicdiff` (e `music21` no venv principal) | B2 | MIT / BSD-3 | **não agora**: a B2 começa com as marcas do Audiveris e a concordância com o homr contadas por nós |
-| `homr[cuda]` (homr na GPU) | — | AGPL-3.0 | **não agora**: em CPU já dá 7 a 9 s por recorte, e a GPU é disputada |
-| MV2H | — | MIT (Java) | **não**: pede a partitura de referência inteira, que não temos |
-| Verovio | C1 | LGPL-3.0 | **só se a C1 abrir** |
-| treino do SMT | C1 | MIT | já está na imagem `chorinho-partitura:smt`; **treinar só se a C1 abrir**, com GPU e trava |
-| LEGATO | — | código MIT; codificador Llama 3.2 Vision, de acesso fechado | **não** |
+| `musicdiff` (e `music21` no venv principal) | B2 | MIT / BSD-3 | **não agora**: a B2 usa as marcas do Audiveris e a concordância com o homr contadas por nós |
+| `homr[cuda]` (homr na GPU) | — | AGPL-3.0 | **não agora** |
+| MV2H | — | MIT (Java) | **não** |
+| Verovio | C1 | LGPL-3.0 | só se a C1 abrir |
+| treino do SMT | C1 | MIT | já está na imagem `chorinho-partitura:smt`; treinar só se a C1 abrir, com GPU e trava |
+| LEGATO | — | código MIT; codificador de acesso fechado | **não** |
 | Ultralytics (YOLO) | — | AGPL-3.0 | **não usar** |
 
    A dependência entra na imagem só no branch da frente. Quem muda o `Dockerfile.partitura` no
    `main` é a sessão principal, depois de remedir.
-2. **Música para treinar a C1.** Recomendo **arquivos próprios**: nada de PDMX, DadaGP ou
-   GrandStaff (licença por arquivo, domínio de piano, e o DadaGP já foi descartado nas outras
-   trilhas).
-3. **Gabarito novo que o dono rotularia** (em sessões separadas, cerca de 3,5 h no total):
+2. **Música para treinar a C1: arquivos próprios.** Nada de PDMX, DadaGP nem GrandStaff.
+3. **Gabarito novo: sim**, nas quantidades da tabela abaixo, em sessões separadas (cerca de 3,5 h
+   no total). A frente prepara o material na ferramenta de conferência (testada numa cópia) e a
+   sessão principal leva ao dono. O dono **remarca** os recortes incompletos: agua P10a (o desenho
+   falhou), athletic P01a (incompleto) e o faltando do R20. Daqui em diante, faltando se marca **no
+   recorte inteiro**.
 
 | o quê | frente | quanto | tempo estimado |
 | --- | --- | --- | --- |
@@ -1205,17 +1213,16 @@ Cada item traz a minha recomendação. Nada abaixo vale antes da resposta do don
 | figura das notas completadas e das 32 do homr | E1 | cerca de 30 a 80 notas | cerca de 45 min |
 | recortes recuperados pela imagem limpa | A1 | até 6 recortes | cerca de 20 min |
 | símbolos do homr que entraram pela fusão | B1 | até 60 símbolos | cerca de 20 min |
-| refazer agua P10a (desenho falhou) e athletic P01a (incompleto) | — | 2 recortes | cerca de 10 min |
+| remarcar agua P10a, athletic P01a e o faltando do R20 | sessão principal | 3 recortes | cerca de 15 min |
 
-   Recomendo que o dono marque faltando **no recorte inteiro**, sempre (a lição do R20).
-4. **Quais gabaritos valem como completos.** Recomendo:
-   - `leitura_p1.json`: completo, menos o faltando do R20;
-   - `leitura_sem_produto.json`: completo. Posso corrigir o campo `fonte_itens`, que aponta para os
-     itens errados? Mexer em `data/gold/` só com a sua autorização;
-   - `compassos_homr.json`: **incompleto** (só 2 de 4 valem). Não usar como régua, e não commitar
-     até refazer. Os 13 itens que faltam esperam a F0.2.
-5. **A regra 3025 no produto.** Recomendo **manter**, com as notas marcadas `homr_sem_confirmacao`,
-   até a F0.2 medir. Se quebradas + inventadas passarem das consertadas, desligar.
-6. **O que fica fora.** Recomendo aceitar a lista da seção 3.3 como está.
-7. **Critérios de aceite.** Recomendo aprovar e congelar os da seção 5.3 e os de cada frente na
-   seção 7. Mudar um limiar depois de ver o resultado invalida a frente.
+4. **Gabaritos que valem como completos:**
+   - `leitura_p1.json`: completo, menos o faltando do R20 (até o dono remarcar);
+   - `leitura_sem_produto.json`: completo. O campo `fonte_itens` foi corrigido para
+     `data/saida/partitura/diag/conferencia_sem_produto/itens.json`, com autorização do dono;
+   - `compassos_homr.json`: **incompleto**. Não serve de régua e fica fora do git até ser refeito.
+5. **A regra 3025 fica no produto** até a F0.2 medir, com as notas marcadas
+   `homr_sem_confirmacao`. Se quebradas + inventadas passarem das consertadas, a sessão principal
+   propõe desligar.
+6. **O que fica fora: a lista da seção 3.3, como está.**
+7. **Critérios de aceite: aprovados como estão e congelados** (seção 5.3 e os de cada frente na
+   seção 7). Mudar um limiar depois de ver o resultado invalida a frente.

@@ -1,6 +1,6 @@
 {
  "formato": 3,
- "fonte_itens": "data/saida/partitura/p1/conferencia/itens.json",
+ "fonte_itens": "data/saida/partitura/diag/conferencia_sem_produto/itens.json",
  "recortes": {
   "agua_de_beber_a._P01a": {
    "fonte": "audiveris/x2_margem_herdada",
