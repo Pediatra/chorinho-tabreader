@@ -2076,6 +2076,11 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | `--escala larga` (algarismo de 1,0 a 1,4 passo em metade das linhas do gerador) para o `0` perdido nas cordas internas | **0,940** (64/68/71 = 203/216), contra 0,949 dos `oficial_*`: semente 1 cai 2, semente 2 cai 3. Altura ficou mais perto do real (mediana 0,75 contra 0,93), mas dobrou os glifos partidos em 2 componentes (0,30 contra 0,00 no real). Não adotado (ver `docs/rodadas/0009-zero-nas-cordas-internas.md`) |
 | `_glifos_por_faixa` só descartar componente em coluna de barline se for fino (w <= 0,25 passo), para recuperar os algarismos que o sakura perde em barline falsa | **pior em tudo**: inventadas MVP 0 → 113, South American 1 → 133, EOB 471 → 588; métrica oficial quebra (contagem muda). Pedaços de barline real passam a virar `1`/`0` (revertida; `data/saida/barline_fina/`) |
 | separar barline real × falsa por geometria da coluna (cobertura, trecho contínuo, tinta acima/abaixo do sistema) | **não separa**: 14 falsas × 335 reais em 41 quadros; a melhor regra (abaixo > 0,4 passo ou cobre < 0,85) pega as 14 mas marca **36 reais** como falsas; barline real do retrato desce ~0,46 passo. Falsas concentradas no sakura (8 de 11 colunas); nos ouros, 6 de 338 (`data/saida/barline_coluna/`) |
+| salto > 40 px tratado como troca de página, sem conferir sobreposição (C1, rodada 0150) | **errado**: `mr. tabs` e `kenneth` rolam em saltos com sobreposição; a triagem contou 66 rolantes como "não rola" (correção na 0150) |
+| mediana do erro como critério de aceite da rolagem (C1, rodada 0153) | **esconde erro grosso**: mediana 0,32 px passa, mas 6 de 13 definidos erram mais de 5 px. Exigir pior caso |
+| medir o salto só entre quadros parados (C1, rodadas 0152 e 0153) | **perde a animação** e cria aliasing de período: erros de 690, 779 e 1557 px no `mr. tabs` (compassos alternados de ~340 e 439 px) |
+| ajuste fino que trata tudo que não é nota do ouro como fundo (integração, n4 `treinar_ft.py`) | **apaga o X**: no End of Beginning o produto dá ~1 X para 76 regiões marcadas; o modelo da dobra que não viu o vídeo dava 93 |
+| abrir a ferramenta do ouro (`tab.ouro_video servir`) com estado desatualizado | **desfaz edições feitas fora dela**: sobe por cima do estado. Corrigido em `bc431c0f`: não sobe se o ouro diverge |
 
 ## Lições metodológicas (custaram rodadas)
 
@@ -5722,3 +5727,48 @@ Plano: [`docs/pesquisa/maos-frentes.md`](docs/pesquisa/maos-frentes.md) (seçõe
 - Diagnóstico: o erro que sobra é quase todo **"previu corda solta onde a nota é presa"** (118/242 nos de trabalho, 122/146 nos novos; 101/102 no no surprises). A janela da mão esquerda não atua nesse erro porque a corda solta não depende da posição da mão.
 - Hipótese pós-hoc, não testada: penalizar a solta quando a janela contém a alternativa presa. Só com regras novas e vídeos não olhados.
 - **Não repetir**: tratar o ganho da janela fixa nos 4 vídeos de trabalho como efeito geral (não se repetiu fora da amostra).
+
+## Tablatura — 2026-10-16 — onda 1 das frentes (F0, C1, D1)
+
+Três frentes fechadas nesta onda. O aceite de nenhuma foi atingido: A1 não abre, C1 sai, D2 não abre.
+
+### F0 — régua de técnica (rodadas 0101–0104)
+
+- **Folga 0,5**, fixa, como manda o plano (§5.2). A medida com 1,0 foi descartada por contradizer o plano; continua registrada na 0101 só para comparação.
+- [`0101`](docs/rodadas/0101-regua-de-tecnica.md): o legato (h, p, mordente, prolongamento; 139 marcas) é achado em **25 de 139**, com classe certa em **4**. Slide: 20 de 46 certas. Harmônico: 4 de 4 (não decide, menos de 10 marcas). Arpejo (0 de 21) e rasgueado (0 de 15) não têm saída na rede. Das perdas, **179 de 201** são "nada marcado".
+- [`0102`](docs/rodadas/0102-topo-cortado.md) (F0.2, topo cortado): **não conclusiva**. A medida conta texto acima da tab (10 de 12 folhas legíveis eram letra ou nome de acorde) e erra a polaridade em fundo escuro. Não há limiar novo; a frente fecha assim.
+- [`0103`](docs/rodadas/0103-cabeca-do-ligado.md) (F0.3, cabeça do ligado): o ajuste fino **não apagou o ligado**. Com escore ≥ 0,5 nas 139 regiões, v3_s1 marca 14 e o produto 13. O escore existe, mas é fraco (mediana 0,1 nos dois modelos).
+- [`0104`](docs/rodadas/0104-corda-vizinha-e-sementes.md) (corda vizinha, variante de diagnóstico): nas 229 marcas, +4 certas, todas de slide (28 → 32). No legato continuam 4 certas de 139. A variante não entra na régua oficial.
+- **Conclusão.** A rede não acha o ligado, e não é por limiar nem por ajuste fino. **A1 não abre.** O caminho é A2 (detector de arco) ou B (estilo do arco no gerador). **B1 abre primeiro**: o dono aprovou a dependência do AlphaTab em 2026-10-16.
+
+### C1 — rolagem (rodadas 0150–0153)
+
+- [`0150`](docs/rodadas/0150-rolagem-censo-nao-rola.md): a primeira leitura, "não rolam", estava errada. Os rolantes do censo rolam **em saltos com sobreposição**. A triagem chamou de troca de página todo passo acima de 40 px, e isso foi o erro.
+- [`0151`](docs/rodadas/0151-rolagem-saltos-definicoes.md): definições, máscaras e limiares dos saltos, antes da medida.
+- [`0152`](docs/rodadas/0152-rolagem-consenso-e-remedida.md):
+  - **kenneth "location" passou**: 19 válidos de 20 (1 indefinido); erro mediano do consenso 0,06 px, máximo 0,26 px; nenhum salto válido com erro > 5 px.
+  - **mr. tabs "no rain" falhou**: 3 de 20 com erro > 5 px (690, 779 e 1557 px). É alias de período de dois compassos (~779 px), e a regra de consenso não pega, porque os dois métodos erram igual.
+- [`0153`](docs/rodadas/0153-rolagem-palpite-pelo-cursor.md): nem o palpite pelo cursor resolveu. Mediana 0,32 px passa, mas 6 de 13 definidos erram mais de 5 px. A premissa de que o compasso do cursor vai ao início da linha não vale: em 155,9 s ele fica em 1061,5 px. A rodada parou no mr. tabs; kenneth e leonardo não foram medidos.
+- **C1 sai desta onda.** Ideia anotada para depois: verificar se o salto é animado e somar os passos quadro a quadro (não medido).
+
+### D1 — som confere a casa (rodada 0170)
+
+- [`0170`](docs/rodadas/0170-som-confere-a-casa.md): **parada**. Precisão nos 4 ouros em L\* = 1,25 dB: **1/9 = 0,111** (abaixo de 0,3). Revocação dos erros medidos: 1/4.
+- **80 de 84** erros de casa + inventadas não têm instante de som. São colunas sem alinhamento, já cobertas pelo alarme por exibição da rodada 2011. A falha é de cobertura e de baseline, não de resolução de altura: **D2 não abre**.
+- Dois casos levados ao dono:
+  - Retrato v2, tela 11, corda 6: era erro do ouro (0 → 2), corrigido.
+  - Room 335, tela 27: o ouro estava certo (5 ligado ao 9 na corda 5). O arco desenhado sobre a corda 6 faz o produto errar a corda.
+
+### Integração: o ajuste fino apagava o X
+
+- O ajuste fino (`data/saida/n4/treinar_ft.py`) ensinava o detector a apagar o X abafado: tudo que não é nota do ouro virava fundo. No End of Beginning o produto dava ~1 X para 76 regiões marcadas; o modelo da dobra que não viu o vídeo dava 93.
+- **Conserto parcial** com `--ignorar-x` (região de X não conta como fundo): **38 de 76** no EOB e **5 de 9** regiões no kenneth (T8.2). Notas sem piora: dobras, casa certa 1745 contra 1744 na semente 1, 1737 contra 1738 na semente 2.
+- **Próximo passo:** ensinar o X como nota, a partir de palpites conferidos pelo dono. O produto (`DETECTOR_PADRAO`) não mudou.
+
+### Ouro
+
+- Correções do dono no Retrato v2 e Room 335 (commit `3e7d4d74`). CA1 das dobras passou a ouro 1771, entregues 1799, casadas 1761, casa 1744, 38 inventadas, 10 perdidas. A 0170 tinha 1774 / 1799 / 1764 / 1747 / 35 / 10 antes dessa correção.
+- `tab.ouro_video servir` desfazia edições feitas fora dela. Agora não sobe se o ouro diverge do estado (commit `bc431c0f`).
+- **Gymnopédie diverge** (10 linhas): precisa de acerto antes de ser aberto.
+
+Tabela "não repetir" atualizada acima (5 linhas novas).
