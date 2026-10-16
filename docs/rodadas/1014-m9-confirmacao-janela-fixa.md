@@ -50,7 +50,7 @@ usados para escolher nada?
 - **CA1**: reproduzir D0 e D1 do M8 e o diagnóstico de 242 erros nos 4 vídeos de trabalho.
 - **CA2**: somando os 6 vídeos novos, nas ambíguas, ganho ≥ +1,0 pp **e** consertadas −
   quebradas ≥ 20.
-- **CA3**: ver "Pendente".
+- **CA3**: opção (b), decidida pelo dono em 2026-10-16 antes da medida (ver abaixo).
 - **CA5**: execução determinística (duas execuções idênticas).
 - **CA6**: 10 casos olhados (5 consertados, 5 quebrados), com recorte.
 - **CA7**: gate verde.
@@ -64,7 +64,7 @@ usados para escolher nada?
 - Ou seja: o teste pode reprovar com o efeito sendo real. Ele não foi desenhado para passar
   com folga.
 
-## Pendente: CA3 nos vídeos pequenos (decisão do dono antes da medida)
+## CA3 nos vídeos pequenos (decidido pelo dono antes da medida: opção (b))
 
 O CA3 foi escrito para 4 vídeos de 400–750 notas: ganho em ≥ 3 de 4 vídeos, nenhum perdendo
 mais de 0,5 pp. Nos vídeos novos ele fica impossível de cumprir:
@@ -73,7 +73,8 @@ mais de 0,5 pp. Nos vídeos novos ele fica impossível de cumprir:
 - nesses dois vídeos, "ganhar" exige consertar exatamente essa nota, e quebrar 1 nota já passa
   de 0,5 pp.
 
-Opções, a decidir antes de rodar:
+Opções, decididas antes de rodar (o dono escolheu a **(b)**, depois de marcar q32–q36 e antes
+de qualquer medida nos vídeos novos):
 
 - **(a) Literal.** Ganho em ≥ 5 de 6 vídeos (a proporção de 3 de 4), nenhum pior que 0,5 pp. É
   quase certo reprovar por causa dos dois vídeos com 1 erro, com qualquer efeito.
