@@ -1,7 +1,7 @@
 # Plano — a tablatura como rótulo da base (o ataque de cada nota)
 
-**Data**: 2026-10-16. **Trilha**: tablatura. **Estado**: proposta. Os critérios marcados como
-"proposta" são congelados com o dono **antes** de cada medida. Decisão:
+**Data**: 2026-10-16. **Trilha**: tablatura. **Estado**: aprovado pelo dono em 2026-10-16, com os critérios "proposta" e o
+piloto de marcar arcos em 3 a 5 vídeos do sky guitar. Decisão:
 [`0011`](../decisoes/0011-tablatura-vira-rotulo-da-base.md). Plano irmão:
 [`plano-dataset-maos.md`](plano-dataset-maos.md).
 
@@ -81,7 +81,7 @@
 Os campos são novos e opcionais em cada nota, sem mudar o que já existe:
 
 - `ataque`: `"sim"` | `"nao"` | `"nao_sei"`;
-- `ataque_motivo`: `normal` | `h` | `p` | `mordente` | `prolongamento` | `slide_ligado` | `x` |
+- `ataque_motivo`: `normal` | `h` | `p` | `mordente` | `prolongamento` | `slide_ligado` | `slide_entrada` | `x` |
   `harmonico` | `arco_sem_par` | `tinta_sem_explicacao`;
 - `nivel_rotulo`: `ouro` | `prata` | `recusado`.
 
@@ -96,8 +96,9 @@ O arco entra em `nao_notas` como classe `arco`, com corda, `x_ini`, `x_fim` e co
 | fim de arco, mesmo número (ou nada do outro lado) | nao | prolongamento |
 | dentro de um arco de 3 ou mais números, depois do primeiro | nao | mordente |
 | letra `h` ou `p` entre os números (canal que escreve em vez de desenhar) | nao | h / p |
-| destino de slide **com** arco | nao | slide_ligado |
-| destino de slide **sem** arco | **dono decide**: sim, ou não sei | — |
+| destino de slide, com ou sem arco (o arco é só estilo de canal; dono, 2026-10-16) | nao | slide_ligado |
+| slide que **começa sem nota** (entra deslizando de fora) | sim, com o ataque no começo do deslize | slide_entrada |
+| slide que **termina sem nota** (sai deslizando) | a nota de origem é sim; não há destino | normal |
 | X | sim | x |
 | harmônico (`<7>` ou losango) | sim | harmonico |
 | arco achado sem um par claro de números | nao_sei | arco_sem_par |
@@ -114,7 +115,7 @@ O arco entra em `nao_notas` como classe `arco`, com corda, `x_ini`, `x_fim` e co
 - **Áudio**: uma coluna só com notas `nao` não precisa de ataque próprio no alinhador (2002).
 
 **Aceite do R1:**
-- o dono aprova os campos e decide o caso do slide sem arco;
+- o dono aprova os campos (o slide sem arco já está decidido: é igual ao com arco);
 - o validador em `tab/esquema.py` aceita os campos novos, com testes no gate;
 - a decisão diz se os campos ficam no `chorinho/video@1` (opcionais) ou se o esquema sobe para
   `@2`.
@@ -234,7 +235,7 @@ no gerador.
 
 | quando | o quê | tempo |
 | --- | --- | --- |
-| agora | aprovar este plano e os critérios "proposta"; decidir o slide sem arco | — |
+| feito (2026-10-16) | aprovou o plano, os critérios e o piloto; decidiu o slide | — |
 | R1 | aprovar o formato | 10 min |
 | R2 | conferir o ataque nos ouros já marcados; "não há arco" nos 4 ouros sem marca; marcar arcos em 3–5 vídeos do sky guitar | a medir no R2; estimativa de 1–2 h |
 | R5 | a folha de X (já aberta) | ~30 min |
