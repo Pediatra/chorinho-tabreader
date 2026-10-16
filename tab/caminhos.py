@@ -54,6 +54,8 @@ GABARITO_BRACO = RAIZ / "data" / "gold" / "maos" / "braco.json"
 #: Material da ferramenta do braço (quadros da amostra e ``indice.json``), gerado por
 #: ``tab.maos_braco_gabarito preparar``.
 MAOS_M3B = SAIDA / "maos" / "m3b"
+#: Imagens dos quadros da amostra da ferramenta do braço (coordenadas do gabarito).
+MAOS_M3B_QUADROS = MAOS_M3B / "quadros"
 
 #: Fontes do M5 (padrões da mão direita): produtos completos e pontas das mãos, gerados
 #: antes pelas trilhas M3c (retrato brasileiro) e M3d (noturno, lacrimosa, glimpse).

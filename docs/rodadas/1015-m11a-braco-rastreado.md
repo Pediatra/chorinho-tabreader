@@ -109,3 +109,41 @@ desenhados antes de mexer em limiar.
   q28) erram de 1,3 a 2,4 vãos, e os outros ficam abaixo de 0,5.
 - **CA1 está cumprido** nas casas e na conclusão. A linha de base do CA5 é esta coluna, e
   não a da B3. Os critérios não mudam.
+
+## Rastreador congelado (desenvolvimento)
+
+`python -m tab.maos_braco_rastreio dev` (`tab/maos_braco_rastreio.py`).
+
+- **Detector**: ORB. O AKAZE não existe no OpenCV 5.0.0 da imagem; não instalei nada.
+- **Parâmetros congelados**:
+  - `n_orb` = 5000;
+  - Lowe = 0,8;
+  - `min_inliers` = 15;
+  - reprojeção mediana ≤ 3 px;
+  - RANSAC com limiar de 3 px e semente 0;
+  - determinante do bloco 2×2 entre 0,5 e 2.
+- **Busca no quadro alvo**: no quadro inteiro.
+- **Varredura** (80 combinações, só nos pares de desenvolvimento):
+  - com 500 a 2000 pontos, q27 ou q28 caem em "não achou";
+  - com Lowe 0,85, aparece 1 falso;
+  - com 5000 pontos e Lowe de 0,70 a 0,80, os três pares que se mexem ficam abaixo da linha
+    de base.
+
+| par | inliers | pestana | pior traste | ⊥ (vãos) | base ⊥ | classe |
+| --- | --- | --- | --- | --- | --- | --- |
+| q02→q24 | 100 | 0,01 | 0,04 | 0,15 | 0,17 | certo |
+| q02→q25 | 113 | 0,02 | 0,03 | 0,09 | 0,13 | certo |
+| q16→q26 | 141 | 0,01 | 0,02 | 0,14 | 1,34 | certo |
+| q16→q27 | 127 | 0,08 | 0,08 | 0,13 | 2,40 | certo |
+| q21→q28 | 89 | 0,01 | 0,04 | 0,14 | 1,98 | certo |
+| q21→q29 | 111 | 0,03 | 0,03 | 0,07 | 0,23 | certo |
+| q23→q30 | 126 | 0,03 | 0,06 | 0,08 | 0,41 | certo |
+| q23→q31 | 102 | 0,02 | 0,05 | 0,17 | 0,15 | certo |
+
+- Os parâmetros foram escolhidos nestes 8 pares, então a medida é dentro da amostra e **não
+  valida nada**. A regra de parada não disparou.
+- Conferi a olho os desenhos dos três pares que se mexem (`data/saida/maos/m11/desenhos/`):
+  - as cordas previstas caem sobre as do dono;
+  - os casamentos ficam no braço e se movem de forma coerente.
+- Duas execuções deram o mesmo JSON (sha256 `27ab99b5…`).
+- O teste (q37–q66) roda **uma vez**, com estes parâmetros, quando o dono terminar as marcas.
