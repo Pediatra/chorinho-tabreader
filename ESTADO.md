@@ -5772,3 +5772,12 @@ Três frentes fechadas nesta onda. O aceite de nenhuma foi atingido: A1 não abr
 - **Gymnopédie diverge** (10 linhas): precisa de acerto antes de ser aberto.
 
 Tabela "não repetir" atualizada acima (5 linhas novas).
+
+## 2026-10-16 — Mãos — nova direção: base de treino das mãos (decisão 1006)
+
+Decisão do dono: a trilha das mãos **grava as mãos de cada nota** (base de treino) e não tenta mais adivinhar a corda pela mão. A tablatura da tela é o rótulo; as mãos, o braço e o som são a entrada. Plano: [`docs/guias/plano-dataset-maos.md`](docs/guias/plano-dataset-maos.md); decisão: [`1006`](docs/decisoes/1006-maos-viram-base-de-treino.md).
+
+- Fases: M10 esquema e regras → M11 braço quadro a quadro (a peça que falta) → M12 mãos quadro a quadro → M13 tempo do som (trilha do áudio) → M14 associação e auditoria do dono (≤ 2 associações falsas em 100 eventos ouro, proposta) → M15 piloto de 20 vídeos do sky guitar e rollout → M16 modelo, depois.
+- Regras centrais: nada da entrada é calculado com o gabarito; associação pelo `t_audio`, não pelo marcador (o som vem 165–275 ms depois); caixa da tablatura guardada para mascarar; cru + confiança + nível (ouro/prata/recusado), nunca exclusão calada.
+- O D1 do M8 (88 % da corda do professor) fica como linha de base do modelo futuro.
+- **Não repetir**: reabrir as ondas de regra para adivinhar a corda pela mão.
