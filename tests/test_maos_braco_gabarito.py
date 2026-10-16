@@ -899,7 +899,13 @@ def _partes_todas_respondidas() -> dict:
     registro["saddle1"] = [10.0, 10.0]
     registro["saddle6"] = "oculto"
     registro["cavalete"] = [[20.0, 20.0], [30.0, 30.0]]
-    registro["boca"] = [[100.0, 100.0], [200.0, 100.0], [150.0, 200.0]]
+    registro["boca"] = [
+        [100.0, 100.0],
+        [200.0, 100.0],
+        [250.0, 150.0],
+        [200.0, 200.0],
+        [100.0, 200.0],
+    ]
     registro["divisao"] = "nao"
     return registro
 
@@ -995,12 +1001,12 @@ def test_boca_recusa_nono_ponto_sem_mudar_o_quadro() -> None:
     assert gabarito["quadros"]["q01"] == antes
 
 
-def test_partes_completas_exige_as_cinco_partes_e_boca_com_tres_pontos() -> None:
-    """partes_completas: 5 partes respondidas; boca com 2 pontos ainda falta."""
+def test_partes_completas_exige_as_cinco_partes_e_boca_com_cinco_pontos() -> None:
+    """partes_completas: 5 partes respondidas; boca com 4 pontos ainda falta."""
     registro = _partes_todas_respondidas()
     assert partes_completas(registro)
     assert partes_faltando(registro) == []
-    registro["boca"] = [[1.0, 1.0], [2.0, 2.0]]
+    registro["boca"] = [[1.0, 1.0], [2.0, 2.0], [3.0, 1.0], [2.0, 0.0]]
     assert not partes_completas(registro)
     assert partes_faltando(registro) == ["boca"]
     registro["boca"] = "oculto"

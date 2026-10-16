@@ -99,8 +99,9 @@ VALORES_PARTE = {
     "divisao": "nao",
 }
 
-#: Pontos da boca: ``[3, 8]`` quando é lista. Mais que 8 é recusado no clique.
-BOCA_MINIMA = 3
+#: Pontos da boca: ``[5, 8]`` quando é lista (5 definem a elipse da boca vista em
+#: perspectiva). Mais que 8 é recusado no clique.
+BOCA_MINIMA = 5
 BOCA_MAXIMA = 8
 
 #: Campos de resposta do quadro (o que o desfazer restaura e o gabarito guarda).
@@ -685,7 +686,7 @@ def partes_completas(registro: dict) -> bool:
     """Se as 5 partes do violão estão respondidas.
 
     Cada parte precisa de ``oculto`` (ou ``nao``, para a divisão) ou de pontos válidos:
-    saddle 1 e 6 com um ponto; cavalete e divisão com 2; boca com 3 a 8. Isto não
+    saddle 1 e 6 com um ponto; cavalete e divisão com 2; boca com 5 a 8. Isto não
     muda ``registro_completo``: o gabarito do braço segue igual.
 
     Args:
@@ -1245,7 +1246,7 @@ input[type=number] { width: 72px; }
     Setas &larr; &rarr; trocam de quadro. Nada avança sozinho.
     <br>Partes (opcionais): <b>s</b> saddle da corda 1 (1 clique no rastilho);
     <b>d</b> saddle da corda 6 (idem); <b>c</b> cavalete (2 cliques: ponta do lado da
-    corda 6, depois ponta do lado da corda 1); <b>b</b> boca (3 a 8 cliques na borda do
+    corda 6, depois ponta do lado da corda 1); <b>b</b> boca (5 a 8 cliques espalhados na borda do
     buraco; clique perto de um ponto marcado o remove); <b>v</b> divisão (2 cliques
     sobre a linha que separa os painéis). Botão <b>oculto</b> quando a parte não aparece
     neste quadro; <b>não dividida</b> quando a tela não tem dois painéis.
@@ -1449,7 +1450,11 @@ function desenharPartes(svg, r, w, raio, espessura, fonte) {
     const b = r.boca;
     if (b.length >= 2) {
       const poli = document.createElementNS(NS, "polygon");
-      poli.setAttribute("points", b.map((p) => p[0] + "," + p[1]).join(" "));
+      // Ordena pelo ângulo em volta do centro: o contorno não depende da ordem dos cliques.
+      const cx = b.reduce((s, p) => s + p[0], 0) / b.length;
+      const cy = b.reduce((s, p) => s + p[1], 0) / b.length;
+      const volta = [...b].sort((p, q) => Math.atan2(p[1] - cy, p[0] - cx) - Math.atan2(q[1] - cy, q[0] - cx));
+      poli.setAttribute("points", volta.map((p) => p[0] + "," + p[1]).join(" "));
       poli.setAttribute("fill", "none");
       poli.setAttribute("stroke", COR_PARTE.boca);
       poli.setAttribute("stroke-width", espessura);
