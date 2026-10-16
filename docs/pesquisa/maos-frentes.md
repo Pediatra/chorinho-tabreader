@@ -228,6 +228,47 @@ Briefings da onda 1, prontos para colar: [`maos-onda1-briefings.md`](maos-onda1-
 mas a referência passa a ser a R1, não o D1 do M8. O CA1 passa a ser reproduzir a R1. Assim uma
 frente da onda 2 não passa só por repetir o ganho da onda 1. Na onda 3, a referência é a R2.
 
+### 4.2 Resultado da onda 1 e onda 2 revisada (2026-10-16)
+
+**Nenhuma frente da onda 1 passou.** Logo a **R1 é o próprio D1 do M8** (285 erros; ambíguas
+1.995/2.280).
+
+| frente | resultado | leitura do revisor |
+| --- | --- | --- |
+| 0 | parou: "outros" 97/285 (34 %) | recomendação condicional: A 278, B 97, C 41, D 0 |
+| A3 | reprovada: ambíguas 0,875 → 0,861, 0 consertadas e 31 quebradas | 0 consertadas em 4 vídeos sugere aprendizado fraco (perceptron sobre a sequência inteira, 5 épocas), não prova contra a ideia |
+| B1 | sem aceite: células contêm 92,3 % e 94,1 % (piso 95 %) | não rodou o decodificador; ver diagnóstico abaixo |
+| C1 | inconclusiva: 0 pares com 8 notas por lado | inclinação log β × casa = 0,94 do esperado: o β **é** mensurável no áudio do YouTube; faltou amostra (a regra de "ainda soa" de 2 s descartava a nota inteira) |
+| D1 | sem efeito | só 0,6 % dos intervalos entre ataques ≤ 0,5 s; a restrição quase nunca atua, e a Frente 0 conta 0 erros para a D. **Frente D fechada** |
+
+**Diagnóstico do revisor: D2 com grade fixa** (`data/saida/maos/m8/d2_fixo.py` e `.json`). A
+janela da mão inteira do M8, com a grade do quadro do dono sem deslocamento e **sem** o teste de
+câmera, pesos a priori do M8, pontas no `t_ini`:
+
+| vídeo | cobertura | erros D1 → D2 fixo | consertadas / quebradas (ambíguas) |
+| --- | --- | --- | --- |
+| retrato | 469/473 | 50 → 36 | 14 / 0 |
+| noturno | 392/394 | 129 → 104 | 28 / 3 |
+| lacrimosa | 251/256 | 60 → 52 | 10 / 2 |
+| glimpse | 337/347 | 46 → **50** | 8 / 12 |
+| **total** | 99 % | **285 → 242** | **60 / 17** |
+
+Passa no CA2 (+1,9 pp, saldo 43) e **reprova no CA3** (glimpse −0,63 pp; limite 0,5). O glimpse
+tem 15 erros de "janela errada" (os outros, 2–5). Suspeita: as pontas são do `t_ini`, que vem
+antes do som, e a mão ainda está na posição anterior. Não é aprovação: é a linha de base da B1b.
+
+**Onda 2 (aprovada pelo dono em 2026-10-16).** Briefings:
+[`maos-onda2-briefings.md`](maos-onda2-briefings.md).
+
+| frente | o que testa | worktree |
+| --- | --- | --- |
+| **B1b** | D2 com grade fixa e pontas **no instante do som** | a da B1 |
+| **C1b** | separabilidade pelo β com máscara de parciais (não de notas) e β normalizado pela casa | a da C1 |
+| **A1/A2** | transição com `dt` (Hori e Sagayama); Minimax e L_p | a da A3 |
+
+Fora da onda 2: C2 (a C1 não passou), B3 (a B1 não precisa da corda da ponta), Frente D
+(fechada).
+
 ---
 
 ## 5. Régua comum (vale para todas as frentes)
