@@ -1,7 +1,7 @@
 {
  "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
- "como_foi_rotulado": "v2 = fusão do retrato_brasileiro.json (rotulado pelo dono olhando o quadro_ref_s de cada tela, agrupadas por diferença média em cinza, que juntou páginas diferentes de mesmo leiaute) com as páginas do tab.telas (1 - IoU da tinta, limiar 0,3). 9 páginas herdam as notas do dono (tela v1 com quadro_ref_s dentro da exibição; origem 'ouro_v1 (dono)'); 4 vêm pré-preenchidas pelo modelo e esperam o dono (origem 'modelo — a rotular'). Instantes: t, coluna e obs são do dono; a página foi reatribuída pelo tempo (tela_confirmada=false até o dono confirmar). Páginas 2, 7, 8 e 10 marcadas conferidas pelo coordenador em 2026-10-10 por declaração escrita do dono ('conferi tudo minuciosamente'); nenhuma nota alterada. Tela 10: removidas 2 notas da corda 1 (7 e 2, x≈503/543) que eram o arco de ligadura; autorizado pelo dono em 2026-10-10 ('em baixo do arco estava 1 e 0').",
- "rotulado_em": "2026-10-10T16:27:33",
+ "como_foi_rotulado": "v2 = fusão do retrato_brasileiro.json (rotulado pelo dono olhando o quadro_ref_s de cada tela, agrupadas por diferença média em cinza, que juntou páginas diferentes de mesmo leiaute) com as páginas do tab.telas (1 - IoU da tinta, limiar 0,3). 9 páginas herdam as notas do dono (tela v1 com quadro_ref_s dentro da exibição; origem 'ouro_v1 (dono)'); 4 vêm pré-preenchidas pelo modelo e esperam o dono (origem 'modelo — a rotular'). Instantes: t, coluna e obs são do dono; a página foi reatribuída pelo tempo (tela_confirmada=false até o dono confirmar). Páginas 2, 7, 8 e 10 marcadas conferidas pelo coordenador em 2026-10-10 por declaração escrita do dono ('conferi tudo minuciosamente'); nenhuma nota alterada. Tela 10: removidas 2 notas da corda 1 (7 e 2, x≈503/543) que eram o arco de ligadura; autorizado pelo dono em 2026-10-10 ('em baixo do arco estava 1 e 0'). Tela 11: corda 6 em x≈440 corrigida de 0 para 2 pelo dono em 2026-10-16 (caso da frente D1).",
+ "rotulado_em": "2026-10-16T14:45:49",
  "telas": [
   {
    "id": 1,
@@ -2448,7 +2448,7 @@
     },
     {
      "corda": 6,
-     "casa": 0,
+     "casa": 2,
      "x_quadro": 433.0,
      "x_centro_quadro": 439.5
     },
@@ -3372,7 +3372,7 @@
  "juntadas": {},
  "ferramenta": {
   "proximo": 7,
-  "tela_atual": 13,
+  "tela_atual": 11,
   "inst_atual": 39,
   "telas": [
    {
@@ -3914,7 +3914,7 @@
    },
    {
     "id": 2,
-    "conferida": false,
+    "conferida": true,
     "junta_em": null,
     "origem": "modelo — a rotular",
     "v1_telas": [],
@@ -6798,7 +6798,7 @@
    },
    {
     "id": 7,
-    "conferida": false,
+    "conferida": true,
     "junta_em": null,
     "origem": "modelo — a rotular",
     "v1_telas": [],
@@ -7422,7 +7422,7 @@
    },
    {
     "id": 8,
-    "conferida": false,
+    "conferida": true,
     "junta_em": null,
     "origem": "modelo — a rotular",
     "v1_telas": [],
@@ -8647,7 +8647,7 @@
    },
    {
     "id": 10,
-    "conferida": false,
+    "conferida": true,
     "junta_em": null,
     "origem": "modelo — a rotular",
     "v1_telas": [],
@@ -8764,7 +8764,7 @@
       "x_quadro": 497,
       "x_centro_quadro": 503.5,
       "origem": "modelo",
-      "removida": false,
+      "removida": true,
       "caixa": [
        497,
        319,
@@ -8794,7 +8794,7 @@
       "x_quadro": 536,
       "x_centro_quadro": 543,
       "origem": "modelo",
-      "removida": false,
+      "removida": true,
       "caixa": [
        536,
        319,
@@ -9402,7 +9402,7 @@
      {
       "id": "h11_8",
       "corda": 6,
-      "casa": "0",
+      "casa": "2",
       "x_quadro": 433,
       "x_centro_quadro": 439.5,
       "origem": "modelo",
@@ -9879,7 +9879,8 @@
        328
       ]
      }
-    ]
+    ],
+    "regioes": []
    },
    {
     "id": 12,
@@ -10941,7 +10942,8 @@
        457
       ]
      }
-    ]
+    ],
+    "regioes": []
    }
   ],
   "instantes": [

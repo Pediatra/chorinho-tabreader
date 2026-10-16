@@ -1,7 +1,7 @@
 {
  "video": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
  "como_foi_rotulado": "v2 sem v1: páginas do tab.telas (1 - IoU da tinta, limiar 0,3), todas com as notas do modelo, a rotular (origem 'modelo — a rotular', conferida=false). 40 instantes sorteados dentro da presença de tablatura (semente 0, grade de 2.0 s); a página de cada um foi SUGERIDA pelo tempo (pagina_sugerida=true, tela_confirmada=false até o dono confirmar): há viés de confirmação. A coluna acesa é do dono.",
- "rotulado_em": "2026-10-13T23:17:51",
+ "rotulado_em": "2026-10-16T14:46:42",
  "telas": [
   {
    "id": 1,
@@ -1421,12 +1421,6 @@
     {
      "corda": 2,
      "casa": 2,
-     "x_quadro": 1260.0,
-     "x_centro_quadro": 1266.5
-    },
-    {
-     "corda": 3,
-     "casa": 1,
      "x_quadro": 1260.0,
      "x_centro_quadro": 1266.5
     },
@@ -6504,18 +6498,6 @@
      "casa": 3,
      "x_quadro": 604.0,
      "x_centro_quadro": 610.0
-    },
-    {
-     "corda": 3,
-     "casa": 5,
-     "x_quadro": 704.0,
-     "x_centro_quadro": 714.0
-    },
-    {
-     "corda": 4,
-     "casa": 7,
-     "x_quadro": 705.0,
-     "x_centro_quadro": 711.0
     },
     {
      "corda": 2,
@@ -22967,7 +22949,7 @@
       "x_quadro": 704,
       "x_centro_quadro": 714,
       "origem": "modelo",
-      "removida": false,
+      "removida": true,
       "caixa": [
        704,
        906,
@@ -22982,7 +22964,7 @@
       "x_quadro": 705,
       "x_centro_quadro": 711,
       "origem": "modelo",
-      "removida": false,
+      "removida": true,
       "caixa": [
        705,
        927,

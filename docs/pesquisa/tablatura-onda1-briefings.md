@@ -40,9 +40,10 @@ Estão no `tablatura-frentes.md` e valem inteiras. As que mais pegam:
     1573, entregues 1566, casadas 1557, casa 1551/1557, inventadas 9, perdidas 16.
   - **Dobras**: para cada um dos 6 vídeos, rode `python -m tab.avaliar_video --ouro
     data/gold/ouro_video/<slug>.json --pred data/saida/fase8/ger/ger/<slug>.json --json
-    <pasta da frente>/ca1/<slug>.json` e some `notas.total`: ouro 1774, entregues 1799, casadas
-    1764, casa certa 1747, inventadas 35, perdidas 10. Isto reavalia as leituras gravadas; não
-    releia os vídeos.
+    <pasta da frente>/ca1/<slug>.json` e some `notas.total`: ouro 1771, entregues 1799, casadas
+    1761, casa certa 1744, inventadas 38, perdidas 10. Isto reavalia as leituras gravadas; não
+    releia os vídeos. (Até 2026-10-16 eram 1774/1799/1764/1747/35/10; o dono tirou 3 notas
+    erradas do ouro do Room 335 e as 3 leituras do produto passaram a contar como inventadas.)
   - Se não bater, pare e relate.
 - **Critérios congelados** (seção 5.3 e seção 10, item 6): limiares e folgas escritos no documento
   da rodada **antes** da medida. Mudar depois de ver o resultado invalida a frente.
