@@ -107,11 +107,22 @@ def test_montar_folha_grava_png_com_o_indice(
 
 
 def test_gold_do_portao_mantem_formato_e_rotulos() -> None:
-    """Todo caso tem as mesmas chaves, rótulo válido e PNG próprio no disco."""
+    """Todo caso tem as mesmas chaves e rótulo válido (o gabarito está no git)."""
     gold = json.loads(GOLD_PORTAO.read_text(encoding="utf-8"))
     assert set(gold.keys()) == {"como_foi_rotulado", "folhas", "casos"}
     assert gold["casos"], "o gabarito do portão não pode ficar vazio"
     for caso in gold["casos"]:
         assert tuple(caso.keys()) == CHAVES_CASO
         assert caso["rotulo"] in ROTULOS
+
+
+@pytest.mark.integration
+def test_gold_do_portao_tem_png_de_cada_caso() -> None:
+    """Todo caso tem PNG próprio em ``data/saida/portao_casos``.
+
+    Fica fora do gate: só os 121 primeiros PNGs estão no git (os outros, cerca de 70 MB,
+    ficam só na cópia principal), e uma worktree nova não tem ``data/saida``.
+    """
+    gold = json.loads(GOLD_PORTAO.read_text(encoding="utf-8"))
+    for caso in gold["casos"]:
         assert (CASOS_PORTAO / str(caso["arquivo"])).exists()
