@@ -96,6 +96,15 @@ TAB_FRENTE_C = SAIDA / "tab_frentes" / "fc_rolagem"
 TAB_FRENTE_D = SAIDA / "tab_frentes" / "fd_som"
 TAB_FRENTE_E = SAIDA / "tab_frentes" / "fe_sondas"
 
+#: Frentes de teste da pesquisa da partitura (``docs/pesquisa/partitura-frentes.md``): uma
+#: pasta de saída por frente (os pesos treinados por elas ficam em ``PART_FRENTES_PESOS``).
+PART_FRENTE_0 = SAIDA / "part_frentes" / "f0_regua"
+PART_FRENTE_A = SAIDA / "part_frentes" / "fa_imagem"
+PART_FRENTE_B = SAIDA / "part_frentes" / "fb_fusao"
+PART_FRENTE_C = SAIDA / "part_frentes" / "fc_polifonico"
+PART_FRENTE_D = SAIDA / "part_frentes" / "fd_gabarito"
+PART_FRENTE_E = SAIDA / "part_frentes" / "fe_completar"
+
 #: Perfil dos canais (o que foi medido, e quais canais estão fora do rollout).
 CANAIS = RAIZ / "configs" / "canais.yaml"
 
@@ -145,6 +154,9 @@ DETECTOR_PADRAO = ARTEFATOS / "detector_tab_final_s1_ger" / "modelo.pt"
 
 #: Pesos treinados pelas frentes da pesquisa da tablatura, uma pasta por frente.
 TAB_FRENTES_PESOS = ARTEFATOS / "tab_frentes"
+
+#: Pesos treinados pelas frentes da pesquisa da partitura, uma pasta por frente.
+PART_FRENTES_PESOS = ARTEFATOS / "part_frentes"
 
 
 def acervo() -> Path:
