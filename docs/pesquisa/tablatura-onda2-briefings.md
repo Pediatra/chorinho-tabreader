@@ -1,5 +1,9 @@
 # Onda 2 das frentes da tablatura — briefings
 
+> **Suspensa em 2026-10-16** pela decisão [`0011`](../decisoes/0011-tablatura-vira-rotulo-da-base.md):
+> a trilha passa a seguir o [`plano-rotulo-tablatura.md`](../guias/plano-rotulo-tablatura.md).
+> A B1 só volta como R4c, se o detector de arco precisar de outro estilo.
+
 **Data**: 2026-10-16. **Plano**: [`tablatura-frentes.md`](tablatura-frentes.md), seções 4 e 7.
 **Antes**: a onda 1 ([`tablatura-onda1-briefings.md`](tablatura-onda1-briefings.md)) fechou. O
 resumo está no `ESTADO.md`, seção "Tablatura — 2026-10-16 — onda 1 das frentes".
