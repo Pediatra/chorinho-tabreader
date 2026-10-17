@@ -1791,7 +1791,13 @@ LETRA_SEM_ATAQUE = {
 }
 
 #: Marca quando ``ataque`` é "sim" e o motivo não é o normal.
-MARCA_COM_ATAQUE = {"x": "x", "harmonico": "◇", "slide_entrada": "e"}
+MARCA_COM_ATAQUE = {
+    "x": "x",
+    "harmonico": "◇",
+    "slide_entrada": "e",
+    "rasgueado": "r",
+    "arpejo": "a",
+}
 
 #: Motivos do seletor do modo ataque, na ordem em que aparecem.
 MOTIVOS_SELETOR = (
