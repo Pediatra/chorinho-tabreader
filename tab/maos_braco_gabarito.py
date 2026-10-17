@@ -1366,7 +1366,7 @@ input[type=number] { width: 72px; }
     Lado a lado: 2 caixas. Janela por cima da tela grande: 1 caixa para a tela grande e
     1 para a janela. Quando duas caixas se sobrepõem, vale a <b>menor</b> (a janela por
     cima). Máximo 3 caixas. Botão <b>uma câmera só</b> (<b>v</b>) quando a tela tem uma câmera;
-    <b>limpar painéis</b> apaga as caixas. Botão <b>oculto</b> quando a parte não aparece
+    <b>limpar painéis</b> apaga as caixas. Botão <b>oculto</b> (ou <b>Shift</b> + a tecla da parte, ex.: Shift+s) quando a parte não aparece
     neste quadro.
     <br><b>Divisão antiga</b> (a linha de antes, em cinza): refaça o quadro com as caixas.
   </div>
@@ -1848,6 +1848,14 @@ document.addEventListener("keydown", (ev) => {
   else if (ev.key === "x") enviar({ quadro: atual().id, campo: "braco", valor: "sim" });
   else if (ev.key === "v") enviar({ quadro: atual().id, campo: "paineis", valor: "nao" });
   else if (ev.key === "f") enviar({ quadro: atual().id, campo: "nut", valor: "fora" });
+  else if (
+    ev.shiftKey && TECLAS_PARTE.has(ev.key.toLowerCase())
+    && TECLAS_PARTE.get(ev.key.toLowerCase()) !== "paineis"
+    && !ev.ctrlKey && !ev.metaKey && !ev.altKey
+  ) {
+    const campo = TECLAS_PARTE.get(ev.key.toLowerCase());
+    enviar({ quadro: atual().id, campo: campo, valor: "oculto" });
+  }
   else if (TECLAS_PARTE.has(ev.key) && !ev.ctrlKey && !ev.metaKey && !ev.altKey) definirModo(TECLAS_PARTE.get(ev.key));
 });
 
