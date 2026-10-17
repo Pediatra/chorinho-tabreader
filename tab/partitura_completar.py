@@ -108,11 +108,12 @@ def _normalizar(simbolos: list[dict]) -> list[dict]:
     return saida
 
 
-def _e_harmonico(midi: int, x: float | None, eventos: list[dict]) -> bool:
-    """Diz se a nota da tab é um harmônico: a pauta tem a mesma nota uma oitava acima.
+def _candidato_oitava(midi: int, x: float | None, eventos: list[dict]) -> bool:
+    """Diz se a pauta tem a nota uma oitava acima, no mesmo x (candidato a harmônico).
 
-    Regra da rodada 3013: a tab escreve o som e a pauta escreve a nota presa. Sem a nota
-    uma oitava acima no mesmo x, não é harmônico.
+    Só diagnóstico: a regra da 3013 (a pauta tem a nota uma oitava acima no mesmo x).
+    O harmônico de verdade vem da tab (símbolo), não daqui; a decisão do dono (3170) tirou
+    esta regra da conta.
 
     Args:
         midi: altura escrita da nota da tab que falta na pauta.
@@ -265,7 +266,8 @@ def _completar(
                         "pontuada": primeiro["pontuada"] if primeiro else False,
                         "voz": voz,
                         "x": tab["x"],
-                        "harmonico": _e_harmonico(midi, tab["x"], eventos),
+                        "harmonico": bool(tab.get("harmonico_tab")),
+                        "candidato_oitava": _candidato_oitava(midi, tab["x"], eventos),
                     }
                 )
         else:
@@ -290,7 +292,8 @@ def _completar(
                         "pontuada": pontuada,
                         "voz": "1",
                         "x": tab["x"],
-                        "harmonico": _e_harmonico(midi, tab["x"], eventos),
+                        "harmonico": bool(tab.get("harmonico_tab")),
+                        "candidato_oitava": _candidato_oitava(midi, tab["x"], eventos),
                         "deficit": deficit,
                     }
                 )
@@ -357,7 +360,12 @@ def _grupo_produtos() -> list[dict]:
                         cordas.setdefault(som + 12, int(nota["corda"]))
                 coluna = evento.notas[0]["coluna"]
                 notas_tab.append(
-                    {"x": evento.x_quadro, "midis": set(evento.midis), "cordas": cordas}
+                    {
+                        "x": evento.x_quadro,
+                        "midis": set(evento.midis),
+                        "cordas": cordas,
+                        "harmonico_tab": any(n.get("harmonico") for n in evento.notas),
+                    }
                 )
                 if coluna in colunas_pareadas:
                     pares[j] = colunas_pareadas[coluna]
@@ -411,7 +419,12 @@ def _grupo_r01_r12() -> list[dict]:
                 if som is not None:
                     cordas.setdefault(som + 12, int(nota["corda"]))
             notas_tab.append(
-                {"x": e["x_quadro"], "midis": set(e["midis"]), "cordas": cordas}
+                {
+                    "x": e["x_quadro"],
+                    "midis": set(e["midis"]),
+                    "cordas": cordas,
+                    "harmonico_tab": any(n.get("harmonico") for n in e["notas"]),
+                }
             )
         pares = {
             p["par_tab"]: p["indice"]
@@ -502,6 +515,9 @@ def medir() -> dict:
     a_parte = {
         "harmonico": sum(1 for n in todas if n["harmonico"]),
         "tela_10_gym": sum(1 for n in todas if n["tela_10_gym"] and not n["harmonico"]),
+        "harmonico_nao_detectado_candidatos_oitava": sum(
+            1 for n in contadas if n["candidato_oitava"]
+        ),
         "nota_ligada": "não detectável: tecnica é None no produto",
     }
     contagens: dict[str, dict] = {}

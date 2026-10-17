@@ -152,3 +152,31 @@ checagem de pausa no código ainda.
 - Conferência do dono (`servir` na porta 8122): não montada. O item precisa de um adaptador
   para a ferramenta de conferência, que hoje é por símbolo de MusicXML.
 - Os 10 casos completos (faltam 4, com pelo menos 1 isolado a mais).
+
+
+## Revisão 2 (2026-10-17): decisão do dono sobre harmônico
+
+Decisão do dono: harmônico vem **só da tab** (símbolo de harmônico guardado na tab) e conta à
+parte. Nada de detector de imagem. Se a tab não tiver o símbolo, conta como "harmônico não
+detectado".
+
+O que a tab tem: o ouro de tab (`data/gold/ouro_video`) guarda só `corda`, `casa`,
+`x_quadro` e `x_centro_quadro`; o produto tem `tecnica` `None` em quase tudo (uma nota com
+`enfeite`). **Não há símbolo de harmônico em nenhuma das duas fontes.** Por isso:
+
+- **Harmônico (da tab): 0 detectado.**
+- **Harmônico não detectado, candidatos pela regra de oitava** (diagnóstico, na 3013): 7.
+  Esses 7 continuam contados como completados, porque a regra de oitava saiu da conta.
+- **Tela 10 da Gymnopédie**: 29 à parte (antes 28, porque um dos casos saiu como harmônico
+  pela regra antiga).
+- **Nota ligada**: não detectável (tecnica `None`). Declarado, com 0.
+
+Contagem nova: **contadas 56** (produtos 37: 30 acorde com figura e 7 isolado sem figura;
+R01–R12 19: 12 acorde e 7 isolado sem figura).
+
+**Herda erro da tab** (produtos, pelo código): **14 de 37**. Nas R01–R12 a altura é circular.
+
+Caso R09 c3 midi 87 (losango e "A.H." na imagem, visto antes): continua como completado, porque
+a tab não tem o símbolo. Esse caso é a falha que o dono precisa ver na conferência.
+
+Não feito: conferência do dono (porta 8122, itens) — ver o ponto de conferência acima.
