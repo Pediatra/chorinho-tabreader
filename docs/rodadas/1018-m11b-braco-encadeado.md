@@ -184,3 +184,19 @@ da amostra caiu para 9 de 16.
 **Consequência para a 1021**: os rótulos R do piloto vêm deste rastreador. Fora da amostra, o
 erro deles nas cordas costuma ficar entre 0,25 e 0,36 vão. O A1 (só sintético) e o A2 (só R)
 separam esse efeito, e o critério da 1021 não muda.
+
+### Diagnóstico depois do veredito: repetibilidade do dono (remarcação cega)
+
+O dono remarcou às cegas 10 alvos do teste, com ids embaralhados e renomeados (r01–r10), numa
+cópia em `data/saida/maos/m11b/remarca/`. O alvo original dele é a referência.
+
+| | cordas (vão) | nut (casa) | pior traste (casa) |
+| --- | --- | --- | --- |
+| dono contra dono | mediana **0,14**, máximo 0,21 | ≤ 0,03 | ≤ 0,11 |
+| rastreador contra dono, nos 6 imprecisos | 0,25–0,36 | — | — |
+
+- **Os 10 de 10 dão "certo"** quando o dono é comparado com ele mesmo.
+- **A régua de 1/4 de vão está acima do ruído do gabarito.** A diferença entre as duas
+  marcações do dono é de 0,14 vão, o que dá ~0,1 vão de ruído por marcação.
+- **Os imprecisos do rastreador são erro real dele**, cerca de 2 vezes o ruído do dono. Não
+  são efeito da régua. O veredito fica como está.
