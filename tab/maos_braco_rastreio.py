@@ -8,7 +8,9 @@ tablatura e nada do gabarito do alvo entra no rastreio: o gabarito do alvo só s
 medir.
 
 A CLI ``python -m tab.maos_braco_rastreio dev`` roda o rastreio nos pares de
-desenvolvimento e grava ``rastreio_dev_<detector>.json`` em ``MAOS_M11``.
+desenvolvimento e grava ``rastreio_dev_<detector>.json`` em ``MAOS_M11``. Com ``teste``,
+roda os pares de teste da rodada 1015 (uma medida só, parâmetros congelados) e grava
+``rastreio_teste_<detector>.json``.
 """
 
 from __future__ import annotations
@@ -25,6 +27,7 @@ from .caminhos import GABARITO_BRACO, MAOS_M3B_QUADROS, MAOS_M11
 from .maos_braco_geometria import eixo_do_braco
 from .maos_braco_tempo import (
     PARES_DESENVOLVIMENTO,
+    PARES_TESTE,
     Marcas,
     classificar,
     erros,
@@ -493,10 +496,17 @@ def _gravar_desenhos(
     cv2.imwrite(str(pasta / f"{detector}_{chave}_{alvo}_casamentos.png"), casados)
 
 
-def _rodar_dev(params: Parametros, desenhar: bool) -> int:
-    """Roda o rastreio nos pares de desenvolvimento e imprime a tabela.
+def _rodar(
+    pares: tuple[tuple[str, str], ...],
+    rotulo: str,
+    params: Parametros,
+    desenhar: bool,
+) -> int:
+    """Roda o rastreio nos pares dados e imprime a tabela.
 
     Args:
+        pares: pares (quadro-chave, alvo).
+        rotulo: ``dev`` ou ``teste`` (vai no nome do arquivo de saída).
         params: parâmetros do rastreio.
         desenhar: se grava os desenhos em ``MAOS_M11 / "desenhos"``.
 
@@ -505,15 +515,14 @@ def _rodar_dev(params: Parametros, desenhar: bool) -> int:
     """
     gabarito = json.loads(GABARITO_BRACO.read_text(encoding="utf-8"))["quadros"]
     base = {
-        (item["chave"], item["alvo"]): item
-        for item in linha_de_base(PARES_DESENVOLVIMENTO, gabarito)
+        (item["chave"], item["alvo"]): item for item in linha_de_base(pares, gabarito)
     }
     entradas = []
     print(
         f"{'par':<12}{'achou':>6}{'inl':>5}{'reproj':>8}{'nut':>7}{'pior':>7}"
         f"{'perp':>8}  {'classe':<10}{'base perp':>10}"
     )
-    for chave, alvo in PARES_DESENVOLVIMENTO:
+    for chave, alvo in pares:
         marcas_chave = marcas_do_registro(gabarito[chave])
         marcas_alvo = marcas_do_registro(gabarito[alvo])
         if marcas_chave is None:
@@ -563,7 +572,7 @@ def _rodar_dev(params: Parametros, desenhar: bool) -> int:
         )
 
     MAOS_M11.mkdir(parents=True, exist_ok=True)
-    saida = MAOS_M11 / f"rastreio_dev_{params.detector}.json"
+    saida = MAOS_M11 / f"rastreio_{rotulo}_{params.detector}.json"
     saida.write_text(
         json.dumps(
             {"parametros": dataclasses.asdict(params), "pares": entradas},
@@ -583,7 +592,11 @@ def main() -> int:
         0 ao terminar.
     """
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("comando", choices=["dev"])
+    parser.add_argument(
+        "comando",
+        choices=["dev", "teste"],
+        help="teste: uma medida só, com os parâmetros congelados (rodada 1015)",
+    )
     parser.add_argument("--detector", choices=["akaze", "orb"], default="orb")
     parser.add_argument(
         "--desenhar",
@@ -592,7 +605,8 @@ def main() -> int:
     )
     args = parser.parse_args()
     params = dataclasses.replace(PARAMETROS_PADRAO, detector=args.detector)
-    return _rodar_dev(params, args.desenhar)
+    pares = PARES_TESTE if args.comando == "teste" else PARES_DESENVOLVIMENTO
+    return _rodar(pares, args.comando, params, args.desenhar)
 
 
 if __name__ == "__main__":
