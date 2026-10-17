@@ -146,3 +146,41 @@ rodada.
 - **Desenvolvimento e teste diferem.** O desenvolvimento tem sky guitar, cifra club e outros
   canais vistos. O teste tem só canais novos, o que é proposital: mede se o método passa para
   outros canais.
+
+## Resultado no teste (2026-10-17, cfg2 congelada, commit 1bcb9b35; emenda 3)
+
+```
+python -m tab.maos_braco_cadeia pares --indice data/saida/maos/m11b/indice.json \
+  --ouro data/gold/maos/braco_m11b.json --pares data/saida/maos/m11b/pares_teste_emenda3.json \
+  --pasta-quadros data/saida/maos/m11b/quadros --saida data/saida/maos/m11b/teste_cadeia_a.json
+```
+
+| canal | alvos | certo | impreciso | falso | não achou |
+| --- | --- | --- | --- | --- | --- |
+| pablo romé | 4 | 3 | 1 | 0 | 0 |
+| mr. tabs | 4 | 1 | 3 | 0 | 0 |
+| lonelypicker | 4 | 1 | 0 | 0 | 3 |
+| tv on guitar | 4 | 1 | 1 | **1** | 1 |
+| paolo d'angelo | 1 | 1 | 0 | 0 | 0 |
+| transcriptor | 1 | 1 | 0 | 0 | 0 |
+| kimny's guitar | 1 | 0 | 1 | 0 | 0 |
+| vvxofingerstyletab | 1 + 1 sem braço | 1 | 0 | 0 | 1 (o q77, sem braço: correto) |
+| **total** | **21** | **9** | **6** | **1** | **5** |
+
+| | critério | medido | |
+| --- | --- | --- | --- |
+| CA1 | certos ≥ 95 % dos "achei" | 9/16 = **56 %** | **reprova** |
+| CA2 | 0 falsos nos 21 | **1** (q58: pior traste 1,44 casa, cordas 0,65 vão) | **reprova** |
+| CA3 | certos ≥ 50 % dos 20 com braço | 9/20 = **45 %** | **reprova** |
+| CA5 | duas execuções idênticas | `cmp` idêntico | passa |
+| CA6 | gate verde | sim | passa |
+
+**Veredito: reprova.** No desenvolvimento, o rastreador deu 26 certos de 27 achados, mas fora
+da amostra caiu para 9 de 16.
+- **Imprecisos**: os 6 ficam nas cordas, entre 0,25 e 0,36 vão; os trastes ficam
+  ≤ 0,14 casa. É o caso que esta rodada declarou de antemão: reprova assim mesmo.
+- **Falso**: o do q58 é de trastes, depois de 67 passos com 13 perdidos.
+
+**Consequência para a 1021**: os rótulos R do piloto vêm deste rastreador. Fora da amostra, o
+erro deles nas cordas costuma ficar entre 0,25 e 0,36 vão. O A1 (só sintético) e o A2 (só R)
+separam esse efeito, e o critério da 1021 não muda.
