@@ -135,3 +135,32 @@ usam só S, R e o próprio pós-processamento.
    forma da curva; a decisão usa a média das sementes do A3 com 100 %.
 
 A regra da curva continua a mesma: certos com 100 % ≥ certos com 25 % + 10 pontos.
+
+## Emenda 2 (2026-10-17, depois do V1 e antes de qualquer treino)
+
+**Resultado do V1:** 58 de 64 certos (90,6 %), reprovado. G tem 64 quadros e não 66, porque
+q09 e q63 estão com nut `fora` no gabarito e não formam faixa.
+
+**Causa:** 6 falsos, todos por numeração deslocada em um traste. O pós-processamento numerava
+os trastes pelo melhor ajuste das 12 notas. Mas nesses quadros os trastes do dono não são
+projetivos dentro de 3 px:
+- a distância do nut ao traste 1 vai de 1,3 a 1,8 vezes o espaço seguinte (no q06, 140 px
+  contra 79 px);
+- há espaços irregulares sob a mão.
+
+Isso é propriedade do gabarito: o dono estima os trastes sob a mão. Não é defeito do gabarito.
+No q50, a perturbação ainda empurrou o nut para fora da faixa (x = −2,8).
+
+**Mudanças**, todas antes de qualquer modelo treinado. O critério do V1 (≥ 95 %) não muda.
+
+1. **Margem da faixa**: 0,12·L antes do nut, em vez de 0,05·L, para que a perturbação nunca
+   corte o nut. O G é regenerado.
+2. **Canal próprio para o nut**: 4 mapas em vez de 3. O nut é visualmente distinto (osso
+   claro, fim da escala).
+3. **Numeração por ordem, não por ajuste**:
+   - o nut vem do canal próprio;
+   - os picos do canal de trastes, da esquerda para a direita a partir do nut, são os
+     trastes 1, 2, 3 e assim por diante;
+   - um intervalo maior que 1,6 vezes o espaço esperado (pela razão 2^(−1/12) entre os vizinhos
+     detectados) conta como traste escondido, e o número pula;
+   - o ajuste das 12 notas só preenche os trastes escondidos e estende até o último.
