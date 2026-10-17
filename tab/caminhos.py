@@ -85,6 +85,12 @@ MAOS_M8 = SAIDA / "maos" / "m8"
 #: (``tab.maos_braco_tempo``).
 MAOS_M11 = SAIDA / "maos" / "m11"
 
+#: Teste do braço encadeado (M11b, rodada 1018): sorteio, lista e material dos 8 vídeos
+#: novos (``tab.maos_braco_m11b``), fora dos canais do gabarito do braço.
+MAOS_M11B = SAIDA / "maos" / "m11b"
+#: Gabarito do teste M11b, rotulado pelo dono com ``tab.maos_braco_gabarito servir``.
+GABARITO_BRACO_M11B = RAIZ / "data" / "gold" / "maos" / "braco_m11b.json"
+
 #: Frentes de teste da pesquisa das mãos (``docs/pesquisa/maos-frentes.md``): uma pasta
 #: por frente, para as worktrees paralelas não escreverem no mesmo lugar.
 MAOS_FRENTE_0 = SAIDA / "maos" / "frentes" / "f0_residuo"

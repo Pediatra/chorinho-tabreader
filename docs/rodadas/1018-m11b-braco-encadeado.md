@@ -36,18 +36,29 @@ braço ao longo do vídeo, inclusive em câmera aberta e depois de trocas de pla
   já foram vistos.
 - **Teste**: 8 vídeos novos, de 8 canais que **não** estão no gabarito do braço. Por vídeo,
   são 1 quadro-chave e 4 alvos, 40 marcas no total, num gabarito separado
-  (`data/gold/maos/braco_m11b.json`, ids t01–t40).
+  (`data/gold/maos/braco_m11b.json`). Os ids desse arquivo são q01, q02… da
+  ferramenta de marcação; não se confundem com os q01–q66 do desenvolvimento porque o arquivo
+  é outro.
   - **Sorteio** (semente 20261018), feito por código e antes de qualquer marca:
     - canais do censo das mãos fora do gabarito do braço;
     - 1 vídeo por canal;
     - 8 canais.
   - **Quadro-chave**: o primeiro instante sorteado (a partir de 10 % da duração) em que o
-    dono vê o braço. Se o braço não aparece, passa-se ao próximo instante da lista sorteada.
-    O dono não escolhe a dedo.
+    dono vê o braço (`sim` ou `parcial`). Se o braço não aparece, passa-se ao próximo instante
+    da lista sorteada. O dono não escolhe a dedo.
   - **Alvos**: 4 instantes sorteados uniformemente entre o quadro-chave + 5 s e o fim do vídeo.
     Eles **não** são trocados se o braço sumir: um alvo sem braço vale como teste do
     "não achei".
 - O teste roda **uma vez**, com tudo congelado.
+
+## Sorteio feito (2026-10-17, antes de qualquer marca)
+
+`python -m tab.maos_braco_m11b etapa1` → `data/saida/maos/m11b/` (`sorteio.json`, 40 quadros
+candidatos, 5 por vídeo, q01–q40 na ordem do sorteio). Vídeos: pablo romé (vals de fortea),
+serge kottelat (love of my life), lonelypicker (it's a heartache), tv on guitar (mario wonder),
+paolo d'angelo (dust in the wind), transcriptor (tárrega, estudo em mi menor), kimny's guitar
+(valsa sem nome), vvxofingerstyletab (resister). Os alvos só são sorteados depois que o dono
+marca os candidatos (`etapa2`).
 
 ## Métricas
 
