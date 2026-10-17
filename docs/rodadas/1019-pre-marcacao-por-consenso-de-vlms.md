@@ -96,9 +96,14 @@ São as da 1015, com `tab.maos_braco_tempo.erros` e `classificar`:
 **Consenso**, por quadro:
 - **Entrada**: entram as respostas que passaram no filtro, e é preciso ter **≥ 3**.
 - **Ponto de consenso**: a mediana, coordenada a coordenada, de cada um dos 7 pontos.
-- **Dispersão**: para cada modelo, a maior distância de um ponto dele ao ponto de consenso,
+- **Dispersão**: para cada modelo, a maior distância entre as dele e as do consenso,
   dividida pelo vão do consenso (distância entre as cordas 1 e 6 ÷ 5, no meio do braço). A
   dispersão do quadro é a **mediana** desses valores entre os modelos.
+  - Para nut, traste 5 e traste 12, a distância é entre o ponto do modelo e o do consenso.
+  - Para as cordas, é a maior distância perpendicular dos 2 pontos do modelo à reta de
+    consenso daquela corda. As pontas de corda podem cair em qualquer lugar ao longo dela,
+    e por isso a distância entre pontas não mede concordância. (Ajuste feito antes da
+    coleta, no mesmo dia do pré-registro.)
 - **Aceito**: ≥ 3 respostas válidas e dispersão ≤ L.
 - **Escolha de L**: o maior limiar da lista {0,25; 0,5; 0,75; 1,0; 1,5} que, no
   desenvolvimento, dá 0 falsos e ≥ 90 % de certos entre os aceitos.
