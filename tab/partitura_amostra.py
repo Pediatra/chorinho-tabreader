@@ -153,13 +153,14 @@ def sortear(resumo: dict) -> dict:
     semente = resumo["semente"]
     pesos = _pesos(resumo)
     fortes = [c for c, p in pesos.items() if p >= LIMIAR_FORTE]
-    fracos = {c: p for c, p in pesos.items() if 0 < p < LIMIAR_FORTE}
+    com_pauta = {c: p for c, p in pesos.items() if p > 0}
     acervo_canais = sorted(p.name for p in acervo().iterdir() if p.is_dir())
     fora_do_p0 = [c for c in acervo_canais if c not in pesos]
-    populacao = _populacao(fortes + list(fracos), _excluidos())
-    capacidade = {c: len(populacao[c]) for c in populacao}
-    cota = dict.fromkeys(fortes, 1)
-    cota.update(_alocar_com_capacidade(TOTAL_PROPORCIONAL, fracos, capacidade))
+    populacao = _populacao(sorted(com_pauta), _excluidos())
+    fixa = dict.fromkeys(fortes, 1)
+    capacidade = {c: len(populacao[c]) - fixa.get(c, 0) for c in populacao}
+    proporcional = _alocar_com_capacidade(TOTAL_PROPORCIONAL, com_pauta, capacidade)
+    cota = {c: fixa.get(c, 0) + proporcional.get(c, 0) for c in com_pauta}
     escolhidos: dict[str, list[str]] = {}
     reservas: dict[str, list[str]] = {}
     faltou: dict[str, int] = {}
@@ -177,7 +178,7 @@ def sortear(resumo: dict) -> dict:
         "semente": semente,
         "estratos": {
             "fortes": {c: cota[c] for c in fortes},
-            "proporcionais": {c: cota[c] for c in sorted(fracos)},
+            "proporcionais": {c: proporcional[c] for c in sorted(com_pauta)},
             "pesos": pesos,
         },
         "populacao": {c: len(v) for c, v in populacao.items()},
