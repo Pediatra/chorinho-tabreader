@@ -76,3 +76,25 @@ Valem as da 1019: o mesmo filtro e `tab.maos_braco_tempo.erros` / `classificar`.
 
 **Custo previsto**: cerca de 140 pedidos, menos de US$ 1 nos preços de hoje (US$ 0,15 por
 milhão de tokens de entrada e US$ 0,60 de saída, fora do pico).
+
+## Resultado (2026-10-17) — reprovado; rodada encerrada pelo dono
+
+| | n | certo | falso | não achou | cordas, mediana (vãos) | pior traste, mediana (casas) | nut, mediana (casas) | custo |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| E1 sem raciocínio | 33 | 0 | 30 | 3 | 5,91 | 2,64 | 0,19 | US$ 0,007 |
+| E2 com raciocínio | 10 (interrompido) | 0 | 10 | — | 2,33 | 1,12 | 0,30 | US$ 0,19 |
+
+- **E0** (sonda sintética): o modelo localiza linhas desenhadas. Com espaçamento de 20 px ou
+  mais, o erro fica abaixo de 0,25 espaçamento; com 14 px, fica no limite; com 8 px, erra.
+  Custo: US$ 0,001.
+- **E1**: sem raciocínio, as respostas são degeneradas. No q01, as duas cordas saem no mesmo
+  ponto.
+- **E2**: com raciocínio, cada pedido leva cerca de 145 s e 32 mil tokens de saída por
+  quadro. Isso é mais caro e mais lento do que o dono marcar.
+- **E3** não foi rodado. Mesmo que o recorte cortasse pela metade o erro das cordas do E2
+  (2,3 vãos), o resultado ficaria em cerca de 1,2 vão, ainda "falso". Assim, nenhuma linha do
+  critério de decisão fica ao alcance.
+- **Veredito**: o DeepSeek não marca o braço. Encerrada a pré-marcação do braço por modelo de
+  linguagem (somando a 1016, a 1019 e esta). O dono encerrou com cerca de US$ 0,20 gastos.
+- **Lição para "não repetir"**: o modelo localiza linhas sintéticas limpas, mas falha nas
+  cordas reais. A resolução sozinha não explica o erro: o E2 erra 2,3 vãos onde o E0 acerta.

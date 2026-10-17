@@ -95,6 +95,10 @@ GABARITO_BRACO_M11B = RAIZ / "data" / "gold" / "maos" / "braco_m11b.json"
 #: por modelo, resultado e tabelas (``tab.maos_braco_vlm``).
 MAOS_M19 = SAIDA / "maos" / "m19"
 
+#: Harness do DeepSeek direto (rodada 1020): sondas, respostas brutas por experimento e
+#: ``resultado.json`` (``tab.maos_braco_deepseek``).
+MAOS_M20 = SAIDA / "maos" / "m20"
+
 #: Frentes de teste da pesquisa das mãos (``docs/pesquisa/maos-frentes.md``): uma pasta
 #: por frente, para as worktrees paralelas não escreverem no mesmo lugar.
 MAOS_FRENTE_0 = SAIDA / "maos" / "frentes" / "f0_residuo"
