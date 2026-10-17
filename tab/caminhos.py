@@ -108,6 +108,13 @@ TAB_FRENTE_C = SAIDA / "tab_frentes" / "fc_rolagem"
 TAB_FRENTE_D = SAIDA / "tab_frentes" / "fd_som"
 TAB_FRENTE_E = SAIDA / "tab_frentes" / "fe_sondas"
 
+#: Rótulo do ataque da tablatura (``docs/guias/plano-rotulo-tablatura.md``): o gabarito
+#: conferido pelo dono (R2, em ``r2/conferir``) e as medições contra ele.
+TAB_ROTULO = SAIDA / "tab_rotulo"
+
+#: Saída do produto nos ouros, cada vídeo lido pela dobra que não o viu (fase 8).
+FASE8_GER = SAIDA / "fase8" / "ger" / "ger"
+
 #: Frentes de teste da pesquisa da partitura (``docs/pesquisa/partitura-frentes.md``): uma
 #: pasta de saída por frente (os pesos treinados por elas ficam em ``PART_FRENTES_PESOS``).
 PART_FRENTE_0 = SAIDA / "part_frentes" / "f0_regua"
