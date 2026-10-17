@@ -64,7 +64,7 @@ chegou no meio da marcação. Ele traz só estatísticas por canal, sem coordena
   shin izumi):
   - nut e trastes muito bons, pior traste ≤ 0,18 casa;
   - zero erros de casa vizinha.
-  - As cordas são o ponto fraco. O erro perpendicular vai de 0,04 a 0,55 vão, e 9 de 17 ficaram
+  - As cordas são o ponto fraco. O erro perpendicular vai de 0,04 a 0,55 vão, e 10 de 17 ficaram
     acima de 0,25.
 - **3 quadros de braço diagonal** (guitar dell'arte: q63, q64, q66): falso grosseiro.
   - Pior traste de 1,2 a 2,9 casas.
