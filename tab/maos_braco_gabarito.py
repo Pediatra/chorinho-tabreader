@@ -1353,36 +1353,37 @@ input[type=number] { width: 72px; }
   <div class="instr">
     Modo: <b>1</b> corda 1 (2 cliques nas pontas do trecho visível <i>no braço</i>, o mais
     afastado possível; não no cavalete);
-    <b>6</b> corda 6 (idem); <b>n</b> nut (1 clique no centro da pestana);
-    <b>t</b> trastes (um clique no meio de cada traste visível; botão DIREITO em cima
-    de um marcado o remove); <b>f</b> nut fora da imagem. Braço: sim, parcial, não, ?.
-    Setas &larr; &rarr; trocam de quadro. Nada avança sozinho.
+    <b>2</b> corda 6 (idem); <b>3</b> nut (1 clique no centro da pestana);
+    <b>4</b> trastes (um clique no meio de cada traste visível; botão DIREITO em cima
+    de um marcado o remove); <b>f</b> nut fora da imagem. Braço: sim (<b>x</b>), parcial, não, ?.
+    <b>Tab</b> (ou &rarr;) vai ao próximo quadro; Shift+Tab (ou &larr;) volta. Nada avança
+    sozinho.
     <br>Partes (opcionais): <b>s</b> saddle da corda 1 (1 clique no rastilho);
     <b>d</b> saddle da corda 6 (idem); <b>c</b> cavalete (2 cliques: ponta do lado da
     corda 6, depois ponta do lado da corda 1); <b>b</b> boca (5 a 8 cliques espalhados na borda do
-    buraco; clique perto de um ponto marcado o remove); <b>v</b> painéis: uma caixa em
+    buraco; clique perto de um ponto marcado o remove); <b>p</b> painéis: uma caixa em
     volta de <b>cada</b> câmera visível, 2 cliques nos cantos opostos (2 ou 3 caixas).
     Lado a lado: 2 caixas. Janela por cima da tela grande: 1 caixa para a tela grande e
     1 para a janela. Quando duas caixas se sobrepõem, vale a <b>menor</b> (a janela por
-    cima). Máximo 3 caixas. Botão <b>uma câmera só</b> quando a tela tem uma câmera;
+    cima). Máximo 3 caixas. Botão <b>uma câmera só</b> (<b>v</b>) quando a tela tem uma câmera;
     <b>limpar painéis</b> apaga as caixas. Botão <b>oculto</b> quando a parte não aparece
     neste quadro.
     <br><b>Divisão antiga</b> (a linha de antes, em cinza): refaça o quadro com as caixas.
   </div>
   <div class="barra">
     <button id="ant">&larr; anterior</button>
-    <button id="prox">próximo &rarr;</button>
+    <button id="prox">próximo &rarr; (tab)</button>
     <button data-modo="corda1">1 corda 1</button>
-    <button data-modo="corda6">6 corda 6</button>
-    <button data-modo="nut">n nut</button>
-    <button data-modo="trastes">t trastes</button>
+    <button data-modo="corda6">2 corda 6</button>
+    <button data-modo="nut">3 nut</button>
+    <button data-modo="trastes">4 trastes</button>
     <button id="fora">f nut fora</button>
     <button id="desfazer">desfazer último clique</button>
     <span class="prog" id="prog"></span>
   </div>
   <div class="barra">
     braço:
-    <button data-braco="sim">sim</button>
+    <button data-braco="sim">x sim</button>
     <button data-braco="parcial">parcial</button>
     <button data-braco="nao">não</button>
     <button data-braco="?">?</button>
@@ -1394,12 +1395,12 @@ input[type=number] { width: 72px; }
     <button data-modo="saddle6">d saddle corda 6</button>
     <button data-modo="cavalete">c cavalete</button>
     <button data-modo="boca">b boca</button>
-    <button data-modo="paineis">v painéis</button>
+    <button data-modo="paineis">p painéis</button>
     <button data-campo="saddle1" data-valor="oculto">saddle 1 oculto</button>
     <button data-campo="saddle6" data-valor="oculto">saddle 6 oculto</button>
     <button data-campo="cavalete" data-valor="oculto">cavalete oculto</button>
     <button data-campo="boca" data-valor="oculto">boca oculta</button>
-    <button data-campo="paineis" data-valor="nao">uma câmera só</button>
+    <button data-campo="paineis" data-valor="nao">v uma câmera só</button>
     <button id="limpar-paineis">limpar painéis</button>
   </div>
 </header>
@@ -1547,7 +1548,7 @@ const COR_PARTE = {
 };
 // Teclas das partes (s, d, c, b, v): livres no resto da página.
 const TECLAS_PARTE = new Map([
-  ["s", "saddle1"], ["d", "saddle6"], ["c", "cavalete"], ["b", "boca"], ["v", "paineis"],
+  ["s", "saddle1"], ["d", "saddle6"], ["c", "cavalete"], ["b", "boca"], ["p", "paineis"],
 ]);
 const NOME_PARTE = {
   saddle1: "saddle 1", saddle6: "saddle 6", cavalete: "cavalete",
@@ -1834,12 +1835,18 @@ $("obs").addEventListener("change", (ev) => {
 document.addEventListener("keydown", (ev) => {
   const alvo = ev.target.tagName;
   if (alvo === "INPUT" || alvo === "SELECT" || alvo === "TEXTAREA") return;
-  if (ev.key === "ArrowLeft") trocar(-1);
+  if (ev.key === "Tab") {
+    ev.preventDefault();
+    trocar(ev.shiftKey ? -1 : 1);
+  }
+  else if (ev.key === "ArrowLeft") trocar(-1);
   else if (ev.key === "ArrowRight") trocar(1);
   else if (ev.key === "1") definirModo("corda1");
-  else if (ev.key === "6") definirModo("corda6");
-  else if (ev.key === "n") definirModo("nut");
-  else if (ev.key === "t") definirModo("trastes");
+  else if (ev.key === "2") definirModo("corda6");
+  else if (ev.key === "3") definirModo("nut");
+  else if (ev.key === "4") definirModo("trastes");
+  else if (ev.key === "x") enviar({ quadro: atual().id, campo: "braco", valor: "sim" });
+  else if (ev.key === "v") enviar({ quadro: atual().id, campo: "paineis", valor: "nao" });
   else if (ev.key === "f") enviar({ quadro: atual().id, campo: "nut", valor: "fora" });
   else if (TECLAS_PARTE.has(ev.key) && !ev.ctrlKey && !ev.metaKey && !ev.altKey) definirModo(TECLAS_PARTE.get(ev.key));
 });
