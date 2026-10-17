@@ -2207,7 +2207,9 @@ td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.rem
 #lista button.herdada{border-left:5px solid var(--ok)}#lista button.rotular{border-left:5px solid var(--ruim)}
 .par{display:flex;gap:12px;align-items:flex-start;flex-wrap:nowrap}.par>div{min-width:0}.par.vertical{flex-direction:column}
 .ok-txt{color:var(--ok);font-weight:600}.ruim-txt{color:var(--ruim);font-weight:600}
-.ataque-marca{position:absolute;transform:translate(-50%,-50%);font:700 13px/1 system-ui,sans-serif;padding:2px 4px;border-radius:4px;pointer-events:none;white-space:nowrap;z-index:3}
+.ataque-nota{position:absolute;border:2px solid;border-radius:3px;pointer-events:none;z-index:3}
+.ataque-nota.nao{border-color:#d84315}.ataque-nota.sim{border-color:#1565c0}.ataque-nota.duvida{border-color:#f9a825}
+.ataque-marca{position:absolute;transform:translate(-50%,-100%);font:700 11px/1 system-ui,sans-serif;padding:1px 3px;border-radius:3px;pointer-events:none;white-space:nowrap;z-index:3}
 .ataque-marca.nao{background:#d84315;color:#fff}.ataque-marca.sim{background:#1565c0;color:#fff}.ataque-marca.duvida{background:#ffeb3b;color:#000}
 .ataque-regiao{position:absolute;border:1px solid #f9a825;background:rgba(249,168,37,.10);pointer-events:none;z-index:2}
 @media (max-width:700px){main{flex-direction:column}#lista{flex:none;flex-direction:row;max-height:none}}
@@ -2554,7 +2556,8 @@ function desenharAtaque(mold, tp, te) {  /* marcas do ataque sobre a imagem (só
     const chave = mapa.get(n.id), rot = chave && ATAQUE.rotulos[chave];
     if (!rot || !rot[0]) return;
     const r = caixaDe(tp, n);
-    mold.append(h("span", {class: "ataque-marca " + rot[1], style: `left:${r.left + r.width}%;top:${r.top}%`, title: chave}, rot[0]));
+    mold.append(h("div", {class: "ataque-nota " + rot[1], style: estiloCaixa(r), title: chave}));  /* contorno em cima do número */
+    mold.append(h("span", {class: "ataque-marca " + rot[1], style: `left:${r.left + r.width / 2}%;top:${r.top}%`, title: chave}, rot[0]));
   });
 }
 function abrirSeletorAtaque(mold, tp, te, n, chave) {  /* seletor pequeno: escolhe o motivo da nota */
