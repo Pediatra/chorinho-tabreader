@@ -1,0 +1,289 @@
+"""R4a: o arco real no ajuste fino (rodada 0202) — alvos de técnica e medida.
+
+Duas partes:
+
+- **alvos**: a técnica que cada nota real do cache do ajuste fino
+  (``data/saida/n4/cache``) ensina, tirada do gabarito de ataque do R2;
+- **medida**: lê as telas conferidas com o modelo da dobra que não viu o vídeo (a T8.2 com
+  a dobra 0) e monta a matriz ouro × previsto do ataque e o acerto da casa.
+
+Uso::
+
+    python -m tab.ataque_r4 medir --versao atq --semente 1
+"""
+
+import argparse
+import json
+from collections import Counter
+from collections.abc import Sequence
+from pathlib import Path
+
+from tab import caminhos, detector_tab, leitor, painel
+from tab.ataque_base import ataque_previsto, parear, taxas
+
+#: Técnicas do modelo que tiram o ataque: só elas são supervisionadas nas telas reais.
+TECNICAS_SUPERVISIONADAS = ("h", "p", "/", "\\", "lig", "orn", "enfeite")
+
+#: Motivo do dono (nota "nao") -> técnica do modelo na nota de chegada. Slide à parte.
+TECNICA_DO_MOTIVO = {"h": "h", "p": "p", "prolongamento": "lig", "mordente": "orn"}
+
+#: Vídeos fora do treino de cada dobra (igual a ``DOBRAS`` de ``n4/treinar_ft.py``).
+DOBRAS = {
+    1: ("retrato_brasileiro_v2", "la_vie_en_rose_edith_piaf_tab"),
+    2: (
+        "greensleeves_guia_de_estudio_partitura_tab_pdf",
+        "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar",
+    ),
+    3: (
+        "south_american_music_easy_guitar_tutorial_with_sheet_and_tab",
+        "tab_from_this_place_pat_metheny_fingerstyle_guitar_cover",
+    ),
+    4: (
+        "end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics",
+        "tabroom_335_larry_carlton_fingerstyle_guitar",
+    ),
+}
+
+#: Slug do ouro -> (subpasta de ``TAB_ROTULO/r2``, fonte do arquivo ``ataque_<fonte>``).
+GABARITOS = {
+    "end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics": (
+        "conferir",
+        "end_of_beginning",
+    ),
+    "tabroom_335_larry_carlton_fingerstyle_guitar": ("conferir", "tabroom_335"),
+    "tab_from_this_place_pat_metheny_fingerstyle_guitar_cover": (
+        "conferir",
+        "pat_metheny",
+    ),
+    "la_vie_en_rose_edith_piaf_tab": ("conferir", "la_vie_en_rose"),
+    "greensleeves_guia_de_estudio_partitura_tab_pdf": (
+        "conferir_novos",
+        "greensleeves",
+    ),
+    "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar": (
+        "conferir_novos",
+        "gymnopedie",
+    ),
+    "south_american_music_easy_guitar_tutorial_with_sheet_and_tab": (
+        "conferir_novos",
+        "south_american",
+    ),
+    "retrato_brasileiro_v2": ("conferir_novos", "retrato"),
+}
+
+#: Folga do casamento nota do cache × nota do gabarito, em passos.
+FOLGA = 0.5
+
+
+def tecnica_alvo(nota: dict) -> str | None:
+    """Técnica que a nota do gabarito ensina ao modelo (na nota de chegada).
+
+    Args:
+        nota: nota do arquivo de ataque, com ``ataque``, ``motivo``, ``casa`` e
+            ``casa_vizinha_esq``.
+
+    Returns:
+        A técnica do modelo, ou None se a nota é atacada (nenhuma das supervisionadas).
+    """
+    if nota["ataque"] != "nao":
+        return None
+    if nota["motivo"] == "slide_ligado":
+        try:
+            desce = int(nota["casa"]) < int(nota["casa_vizinha_esq"])
+        except TypeError, ValueError:
+            desce = False
+        return "\\" if desce else "/"
+    return TECNICA_DO_MOTIVO.get(nota["motivo"])
+
+
+def gabarito_por_tela(arquivo: Path) -> dict[int, list[dict]]:
+    """Notas do gabarito de ataque, só das telas conferidas, agrupadas por tela.
+
+    Args:
+        arquivo: ``ataque_<fonte>.json``.
+
+    Returns:
+        Mapa tela -> notas.
+    """
+    doc = json.loads(arquivo.read_text(encoding="utf-8"))
+    conferidas = {int(k) for k, v in (doc.get("telas_conferidas") or {}).items() if v}
+    saida: dict[int, list[dict]] = {}
+    for n in doc["notas"]:
+        if int(n["tela"]) in conferidas:
+            saida.setdefault(int(n["tela"]), []).append(n)
+    return saida
+
+
+def alvos_da_tela(
+    notas_cache: Sequence[dict], x0: float, passo: float, gabarito: Sequence[dict]
+) -> list[tuple[bool, str | None]]:
+    """Alvo de técnica de cada nota do cache, casada com o gabarito.
+
+    Casa por corda igual e ``|x_roi + x0 − x_centro_quadro| ≤ FOLGA·passo``, guloso pela
+    menor distância.
+
+    Args:
+        notas_cache: notas da tela no cache (``corda``, ``x_roi``).
+        x0: deslocamento do roi no quadro.
+        passo: passo da tela.
+        gabarito: notas do gabarito da mesma tela (vazio se a tela não foi conferida).
+
+    Returns:
+        Por nota do cache, ``(supervisionada, técnica)``. Sem par no gabarito:
+        ``(False, None)``.
+    """
+    quadro = [{**n, "x_centro_quadro": float(n["x_roi"]) + x0} for n in notas_cache]
+    pares = parear(quadro, gabarito, passo) if gabarito else {}
+    return [
+        (True, tecnica_alvo(gabarito[pares[i]])) if i in pares else (False, None)
+        for i in range(len(notas_cache))
+    ]
+
+
+def modelo_da_dobra(versao: str, dobra: int, semente: int) -> Path:
+    """Caminho dos pesos de uma versão, dobra e semente.
+
+    Args:
+        versao: "ger" (o ajuste fino de hoje) ou "atq" (com o arco real).
+        dobra: 0 (os 8 ouros no treino) a 4.
+        semente: 1, 2 ou 3.
+
+    Returns:
+        O ``modelo.pt``.
+    """
+    if versao == "atq":
+        nome = (
+            f"detector_tab_final_atq_s{semente}"
+            if dobra == 0
+            else f"detector_tab_v3ft_d{dobra}_atq_s{semente}"
+        )
+    elif dobra == 0:
+        nome = f"detector_tab_final_s{semente}_ger"
+    else:
+        nome = f"detector_tab_v3ft_d{dobra}_ger" + (
+            "" if semente == 1 else f"_s{semente}"
+        )
+    return caminhos.ARTEFATOS / nome / "modelo.pt"
+
+
+def ler_tela(modelo: detector_tab.DetectorTab, video: Path, t_s: float) -> tuple:
+    """Lê uma tela: quadro, painel do produto e detector.
+
+    Args:
+        modelo: detector carregado.
+        video: caminho do vídeo.
+        t_s: instante do quadro.
+
+    Returns:
+        ``(notas previstas com x_centro_quadro, passo)`` ou ``([], 0.0)`` sem painel.
+    """
+    quadro = leitor.quadro_em(str(video), t_s)
+    c = painel.escolher_ou_mascara(quadro) if quadro is not None else None
+    if c is None:
+        return [], 0.0
+    pred = [
+        {
+            "corda": int(d["corda"]),
+            "casa": str(d["rotulo"]),
+            "tecnica": d["tecnica"],
+            "x_centro_quadro": float(d["x"]) + c.x0,
+        }
+        for d in detector_tab.detectar(modelo, c.roi, c.grade.linhas_y, c.passo)
+    ]
+    return pred, float(c.passo)
+
+
+def contar(gabarito: Sequence[dict], pred: Sequence[dict], passo: float) -> Counter:
+    """Matriz do ataque e acerto da casa de uma tela.
+
+    Args:
+        gabarito: notas do arquivo de ataque da tela.
+        pred: notas previstas.
+        passo: passo da tela.
+
+    Returns:
+        Contagem ``"<ouro>|<previsto>"`` mais ``casa_certa`` e ``casadas``.
+    """
+    pares = parear(gabarito, pred, passo)
+    c: Counter = Counter()
+    for i, n in enumerate(gabarito):
+        if i not in pares:
+            c[f"{n['ataque']}|nao_lida"] += 1
+            continue
+        p = pred[pares[i]]
+        c[f"{n['ataque']}|{ataque_previsto(p['tecnica'])}"] += 1
+        c["casadas"] += 1
+        c["casa_certa"] += int(str(n["casa"]) == p["casa"])
+    return c
+
+
+def medir(versao: str, semente: int) -> dict:
+    """Mede uma versão e semente nos 8 ouros (dobra fora) e na T8.2 (dobra 0).
+
+    Args:
+        versao: "ger" ou "atq".
+        semente: 1, 2 ou 3.
+
+    Returns:
+        Dict fonte -> matriz e taxas, mais ``ouros`` (soma dos 8) e ``t82``.
+    """
+    r2 = caminhos.TAB_ROTULO / "r2"
+    dobra_de = {slug: d for d, slugs in DOBRAS.items() for slug in slugs}
+    saida: dict = {}
+    soma: Counter = Counter()
+    for slug, (sub, fonte) in GABARITOS.items():
+        modelo = detector_tab.carregar(modelo_da_dobra(versao, dobra_de[slug], semente))
+        ouro = json.loads((r2 / sub / f"{slug}.json").read_text(encoding="utf-8"))
+        video = caminhos.acervo() / ouro["video"]
+        quadro = {int(t["id"]): float(t["quadro_ref_s"]) for t in ouro["telas"]}
+        c: Counter = Counter()
+        for tela, notas in sorted(
+            gabarito_por_tela(r2 / sub / f"ataque_{fonte}.json").items()
+        ):
+            pred, passo = ler_tela(modelo, video, quadro[tela])
+            c += contar(notas, pred, passo)
+        saida[fonte] = {"matriz": dict(c), "taxas": taxas(c)}
+        soma += c
+        print(versao, semente, fonte, dict(c), flush=True)
+    saida["ouros"] = {"matriz": dict(soma), "taxas": taxas(soma)}
+    ferr = caminhos.SAIDA / "t82" / "ferramenta"
+    indice = {
+        int(r["id"]): r
+        for r in json.loads((ferr / "indice.json").read_text(encoding="utf-8"))
+    }
+    modelo = detector_tab.carregar(modelo_da_dobra(versao, 0, semente))
+    c = Counter()
+    gab = gabarito_por_tela(r2 / "conferir_novos" / "ataque_t82.json")
+    for tela, notas in sorted(gab.items()):
+        r = indice[tela]
+        pred, passo = ler_tela(modelo, caminhos.acervo() / r["video"], float(r["t"]))
+        c += contar(notas, pred, passo)
+    saida["t82"] = {"matriz": dict(c), "taxas": taxas(c)}
+    print(versao, semente, "t82", dict(c), flush=True)
+    return saida
+
+
+def main() -> int:
+    """Grava ``TAB_ROTULO/r4a/medida_<versao>_s<semente>.json``.
+
+    Returns:
+        0.
+    """
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    sub = ap.add_subparsers(dest="comando", required=True)
+    m = sub.add_parser("medir", help="mede uma versão e semente")
+    m.add_argument("--versao", choices=("ger", "atq"), required=True)
+    m.add_argument("--semente", type=int, required=True)
+    args = ap.parse_args()
+    resultado = medir(args.versao, args.semente)
+    pasta = caminhos.TAB_ROTULO / "r4a"
+    pasta.mkdir(parents=True, exist_ok=True)
+    (pasta / f"medida_{args.versao}_s{args.semente}.json").write_text(
+        json.dumps(resultado, ensure_ascii=False, indent=1, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
