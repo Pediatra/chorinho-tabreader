@@ -81,7 +81,7 @@ piloto de marcar arcos em 3 a 5 vídeos do sky guitar. Decisão:
 Os campos são novos e opcionais em cada nota, sem mudar o que já existe:
 
 - `ataque`: `"sim"` | `"nao"` | `"nao_sei"`;
-- `ataque_motivo`: `normal` | `h` | `p` | `mordente` | `prolongamento` | `slide_ligado` | `slide_entrada` | `x` | `rasgueado` | `arpejo` |
+- `ataque_motivo`: `normal` | `h` | `p` | `mordente` | `prolongamento` | `slide_ligado` | `slide_entrada` | `x` | `rasgueado` | `arpejo` | `sustentada` |
   `harmonico` | `arco_sem_par` | `tinta_sem_explicacao`;
 - `nivel_rotulo`: `ouro` | `prata` | `recusado`.
 
@@ -93,7 +93,9 @@ O arco entra em `nao_notas` como classe `arco`, com corda, `x_ini`, `x_fim` e co
 | começo de um arco | sim | normal |
 | fim de arco, número maior que o anterior | nao | h |
 | fim de arco, número menor | nao | p |
-| fim de arco, mesmo número (ou nada do outro lado) | nao | prolongamento |
+| fim de arco, mesmo número | nao | prolongamento |
+| arco que sai da nota e termina no vazio (deixar soar; dono, 2026-10-17) | sim | sustentada |
+| arco que vem do vazio e termina na nota (continuação) | nao | prolongamento |
 | dentro de um arco de 3 ou mais números, depois do primeiro | nao | mordente |
 | letra `h` ou `p` entre os números (canal que escreve em vez de desenhar) | nao | h / p |
 | destino de slide, com ou sem arco (o arco é só estilo de canal; dono, 2026-10-16) | nao | slide_ligado |

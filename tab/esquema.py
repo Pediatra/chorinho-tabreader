@@ -45,6 +45,7 @@ ATAQUE_MOTIVOS = (
     "harmonico",
     "rasgueado",
     "arpejo",
+    "sustentada",
     "arco_sem_par",
     "tinta_sem_explicacao",
 )
@@ -60,6 +61,7 @@ MOTIVOS_COM_ATAQUE = (
     "harmonico",
     "rasgueado",
     "arpejo",
+    "sustentada",
 )
 
 #: Motivos que só existem com ``ataque`` "nao_sei" (sem par claro ou sem explicação).

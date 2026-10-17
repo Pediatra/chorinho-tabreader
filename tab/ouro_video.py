@@ -1797,6 +1797,7 @@ MARCA_COM_ATAQUE = {
     "slide_entrada": "e",
     "rasgueado": "r",
     "arpejo": "a",
+    "sustentada": "~",
 }
 
 #: Motivos do seletor do modo ataque, na ordem em que aparecem.
@@ -1812,6 +1813,7 @@ MOTIVOS_SELETOR = (
     "harmonico",
     "rasgueado",
     "arpejo",
+    "sustentada",
     "nao_sei",
 )
 
