@@ -164,3 +164,30 @@ No q50, a perturbação ainda empurrou o nut para fora da faixa (x = −2,8).
    - um intervalo maior que 1,6 vezes o espaço esperado (pela razão 2^(−1/12) entre os vizinhos
      detectados) conta como traste escondido, e o número pula;
    - o ajuste das 12 notas só preenche os trastes escondidos e estende até o último.
+
+## Emenda 3 (2026-10-17, depois do V1 e do V2, antes de qualquer medida de modelo em G)
+
+**V1 com a Emenda 2: 62 de 64 certos (96,9 %), passou.** Os 2 falsos (q06 e q56) têm o
+intervalo nut → traste 1 do rótulo em cerca de 1,7 vez a escala. A regra pula um número ali.
+
+**V2 reprovou (perda 0,92 → 0,51; 0 de 32 certos), com dois defeitos de protocolo:**
+- **Aquecimento**: 200 passos de aquecimento em 300 deixam só 100 passos de treino de verdade,
+  já em queda pelo cosseno.
+- **Piso da perda**: com alvo gaussiano suave, a BCE tem um piso positivo (a entropia do
+  alvo). "Cair 10 vezes" pode ser impossível mesmo para um modelo perfeito.
+
+**Tempo:** 1,3 s por passo, medido com a máquina saturada (carga 59 em 12 núcleos: o R sendo
+gerado, o treino de outra trilha na GPU e um processo da partitura; GPU a 4 %). O tempo só é
+medido de novo com o R terminado.
+
+**Mudanças, só no portão V2** (ele é teste de sanidade, não experimento):
+- 1.000 passos, taxa constante (3e-4 no decodificador e 1e-4 no codificador), sem aquecimento
+  e sem aumento de dados.
+- Critério de perda: **(perda − piso) cai pelo menos 10 vezes**. O piso é a BCE do alvo
+  contra ele mesmo, com o mesmo `pos_weight`.
+- O critério de ≥ 90 % de certos nas 32 amostras não muda.
+- Também é gravada uma folha com entrada, alvo e saída de 4 amostras, para conferir o
+  alinhamento a olho.
+
+O cronograma dos experimentos (A1, A2 e A3) não muda aqui. Os passos são decididos no V4, com
+a máquina livre.
