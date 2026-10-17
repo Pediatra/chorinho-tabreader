@@ -100,3 +100,55 @@ Rodado de novo no container, na `main`: a saída deu igual byte a byte à da có
 
 - **Base de R01–R12.** `_parear_recorte` já roda `completar_com_homr`. Então as 19 notas que faltam são as da leitura com o homr confirmado pela tab (linha A do CA1: 14 faltando e 4 de altura errada), e não as 41 da leitura só com o Audiveris.
 - **39 de 66 nos produtos.** A conta foi feita fora do módulo e não está no `e1.json`. É compatível com a linha B do CA1: a tab do produto tem 21 alturas erradas e 17 inventadas, 38 no total. Leitura provável: nos produtos, a maior parte do que "falta" na partitura é erro da tab, e não da pauta. Completar pela tab do produto tem de esperar a régua da tab, ou a conferência do dono.
+
+
+## Revisão (2026-10-17): contas feitas pelo código, harmônico e tela 10 à parte
+
+O módulo agora faz as contas (`tab/partitura_completar.py`). A conta antiga de 39 de 66 foi
+feita fora do módulo e não vale mais.
+
+- **Contadas** (fora harmônico e tela 10): produtos 32 (25 acorde com figura, 7 isolado sem
+  figura); R01–R12 17 (10 acorde, 7 isolado sem figura).
+- **Harmônico** (regra da 3013: a pauta tem a nota uma oitava acima no mesmo x): 8, à parte.
+- **Tela 10 da Gymnopédie** (rodada 3014): 28, à parte.
+- **Nota ligada**: **não detectável** no produto (`tecnica` é `None` em quase todas as notas;
+  só uma tem `enfeite`). Contagem 0, e isso é ausência de detecção, não medida.
+- **Herda erro da tab** (altura que não existe no gabarito de tab no mesmo x, tolerância 6 px):
+  **13 de 32** nos produtos (10 acorde, 3 isolado). Nas R01–R12 a altura é circular por
+  construção, então não entra.
+
+## Casos olhados (acumulado: 6)
+
+Recortes em `data/saida/part_frentes/fe_completar/casos/` (ampliados 3×).
+
+- **Acorde, south american T01 c1 midi 60**: inconclusivo na altura (escala pequena).
+- **Acorde, gymnopédie T10 c1 midi 57 (meia pontuada, voz 2)**: certo na figura.
+- **Acorde, gymnopédie T03 c5 midi 85 (meia pontuada, voz 1)**: certo na figura. A nota de 76
+  (meia sem ponto, voz 2) fica inconclusiva.
+- **Acorde, R07 c10 midi 52 e 59 (meia, voz 2)**: certo na figura.
+- **Isolado, greensleeves T03 c8 midi 73**: **suspeito**. Na pauta, na posição x dessa coluna,
+  há uma pausa, não uma nota. A tab não tem pausa (plano, pegadinha da E1). Esse completamento
+  pode ser falso.
+- **Acorde, R09 c3 midi 87**: **erro**. A imagem tem um losango (harmônico) e a marca "A.H.".
+  A regra da oitava não pegou, porque a pauta não lê o losango como nota. A nota completada
+  deveria estar à parte.
+
+Pelo critério do briefing (pelo menos 2 isolados e 2 de R01–R12), **ainda falta**: só 1 isolado
+foi olhado, e ele é suspeito. Os casos isolados seguem sem a conta fechada.
+
+## Falha achada: harmônico com losango não é detectado
+
+O caso R09 c3 (midi 87) mostra que a detecção de harmônico só pela oitava na pauta não basta:
+o losango não vira nota no `.omr`/MusicXML. Isso precisa de outra fonte (a tab, o "A.H." da
+imagem ou uma lista de casas harmônicas). Não corrigido nesta rodada.
+
+## Pausa no mesmo x (suspeita)
+
+O caso greensleeves T03 c8 mostra o risco: completar nota onde a pauta tem pausa. Não há
+checagem de pausa no código ainda.
+
+## Não feito nesta revisão
+
+- Conferência do dono (`servir` na porta 8122): não montada. O item precisa de um adaptador
+  para a ferramenta de conferência, que hoje é por símbolo de MusicXML.
+- Os 10 casos completos (faltam 4, com pelo menos 1 isolado a mais).
