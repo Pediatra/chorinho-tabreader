@@ -48,6 +48,7 @@ import numpy as np
 from .cache import ModoCache, caminho_do_quadro, pasta_do_video
 from .caminhos import CENSO_MAOS, GABARITO_BRACO, MAOS_M3B, acervo, cache_quadros
 from .censo import chave_do_arquivo
+from .maos_braco_regra import N_MAXIMO, prever_trastes
 from .maos_gabarito import gravar_atomico
 
 #: Ponto ``[x, y]`` no espaço do quadro original.
@@ -119,6 +120,7 @@ CAMPOS_RESPOSTA = (
     "corda6",
     "nut",
     "trastes",
+    "trastes_previstos",
     "traste_referencia",
     *CAMPOS_PARTES,
     "divisao",
@@ -133,13 +135,21 @@ CAMPOS_DESFAZER = (
     "corda6",
     "nut",
     "trastes",
+    "trastes_previstos",
     "traste_referencia",
     *CAMPOS_PARTES,
 )
 
 #: Campos de geometria: some quando o braço é "nao" ou "?". As partes do corpo
 #: (saddle, cavalete, boca, divisão) NÃO entram aqui: não somem com o braço.
-CAMPOS_GEOMETRIA = ("corda1", "corda6", "nut", "trastes", "traste_referencia")
+CAMPOS_GEOMETRIA = (
+    "corda1",
+    "corda6",
+    "nut",
+    "trastes",
+    "trastes_previstos",
+    "traste_referencia",
+)
 
 #: Raio do clique de REMOVER traste (botão direito), como fração da largura do quadro.
 FRACAO_RAIO_TRASTE = 0.012
@@ -572,6 +582,7 @@ def registro_em_branco(chave: str) -> dict:
         "corda6": None,
         "nut": None,
         "trastes": None,
+        "trastes_previstos": None,
         "traste_referencia": None,
         "saddle1": None,
         "saddle6": None,
@@ -614,6 +625,9 @@ def completar_campos(registro: dict) -> None:
     Isso é de propósito: o botão "limpar painéis" grava ``None``, e uma migração a cada
     carregamento faria o ``"nao"`` antigo voltar sozinho.
 
+    ``trastes_previstos`` também ganha ``None`` quando falta (registro antes da regra
+    das 12 notas).
+
     Args:
         registro: resposta de um quadro, alterada em lugar.
     """
@@ -622,6 +636,8 @@ def completar_campos(registro: dict) -> None:
     for campo in CAMPOS_PARTES:
         if campo not in registro:
             registro[campo] = None
+    if "trastes_previstos" not in registro:
+        registro["trastes_previstos"] = None
 
 
 def gabarito_novo(indice: list[dict], semente: int) -> dict:
@@ -924,6 +940,23 @@ def _limpar_referencia_orfa(registro: dict) -> None:
         registro["traste_referencia"] = None
 
 
+def _limpar_previstos_orfaos(registro: dict) -> None:
+    """Tira de ``trastes_previstos`` os pontos que já não estão em ``trastes``.
+
+    Um traste previsto que o dono removeu (ou que foi substituído) deixa de ser
+    previsto; o que sobrou continua laranja na página.
+
+    Args:
+        registro: resposta do quadro, alterada em lugar.
+    """
+    previstos = registro.get("trastes_previstos")
+    if previstos is None:
+        return
+    marcados = registro.get("trastes") or []
+    restantes = [p for p in previstos if p in marcados]
+    registro["trastes_previstos"] = restantes or None
+
+
 def _validar_referencia(valor: object, registro: dict) -> dict:
     """Valida ``{"ponto", "numero"}`` da referência de traste.
 
@@ -1003,6 +1036,7 @@ def _clicar(
             registro["trastes"], ponto, raio, remover=remover
         )
         _limpar_referencia_orfa(registro)
+        _limpar_previstos_orfaos(registro)
     registro["respondido_em"] = agora
 
 
@@ -1068,6 +1102,75 @@ def _mudar_campo(registro: dict, dados: dict, agora: str) -> None:
     registro["respondido_em"] = agora
 
 
+def _prever_trastes(
+    registro: dict, dados: dict, dimensoes: tuple[int, int], agora: str
+) -> None:
+    """Prevê os trastes 1..N a partir das 2 âncoras marcadas (``prever_trastes``).
+
+    As âncoras são os 2 trastes já marcados. O mais perto do nut recebe o menor dos dois
+    números pedidos. A lista de trastes fica com 1..N em ordem (as âncoras com o clique
+    do dono) e ``trastes_previstos`` guarda só os previstos. Para no primeiro traste
+    que sai do quadro, para a numeração continuar consecutiva. Se recusar, nada muda.
+
+    Args:
+        registro: resposta do quadro, alterada em lugar.
+        dados: ``numeros`` (dois inteiros distintos de 1 a ``N_MAXIMO``; padrão 5 e 12).
+        dimensoes: ``(largura, altura)`` do quadro original.
+        agora: carimbo de data/hora da resposta.
+
+    Raises:
+        ValueError: se os números não forem dois inteiros distintos, se não houver
+            exatamente 2 trastes marcados, se a regra recusar (ver
+            ``tab.maos_braco_regra.prever_trastes``), ou se a ordem dos previstos não
+            bater com a do nut.
+    """
+    numeros = dados.get("numeros", [5, 12])
+    if (
+        not isinstance(numeros, list)
+        or len(numeros) != 2
+        or any(isinstance(n, bool) or not isinstance(n, int) for n in numeros)
+    ):
+        raise ValueError("numeros deve ser uma lista com 2 inteiros")
+    if numeros[0] == numeros[1]:
+        raise ValueError("as duas âncoras têm o mesmo número")
+    marcados = [list(p) for p in (registro.get("trastes") or [])]
+    if len(marcados) != 2:
+        raise ValueError("marque exatamente 2 trastes (as âncoras) antes de prever")
+    nut = registro.get("nut")
+    if not isinstance(nut, list):
+        raise ValueError("a pestana (nut) precisa estar marcada")
+    mais_perto, mais_longe = sorted(marcados, key=lambda p: math.dist(p, nut))
+    menor, maior = sorted(numeros)
+    previsao = prever_trastes(
+        nut,
+        registro.get("corda1"),
+        registro.get("corda6"),
+        {menor: mais_perto, maior: mais_longe},
+        dimensoes,
+        N_MAXIMO,
+    )
+    sequencia: list[int] = []
+    for n in range(1, N_MAXIMO + 1):
+        if n not in previsao:
+            break
+        sequencia.append(n)
+    if maior not in sequencia:
+        raise ValueError(
+            f"o traste {maior} fica fora do quadro antes de todos os trastes anteriores"
+        )
+    novos = [previsao[n] for n in sequencia]
+    numerados = numerar_trastes({"nut": nut, "trastes": novos})
+    if [item["ponto"] for item in numerados] != novos:
+        raise ValueError("a ordem dos trastes previstos não bate com a do nut")
+    _empilhar(registro)
+    registro["trastes"] = novos
+    registro["trastes_previstos"] = [
+        previsao[n] for n in sequencia if n not in (menor, maior)
+    ] or None
+    _limpar_referencia_orfa(registro)
+    registro["respondido_em"] = agora
+
+
 def aplicar_acao(
     gabarito: dict,
     id_quadro: str,
@@ -1075,13 +1178,14 @@ def aplicar_acao(
     dimensoes: tuple[int, int],
     agora: str,
 ) -> None:
-    """Aplica uma ação da página a um quadro: clique, mudança de campo ou desfazer.
+    """Aplica uma ação da página a um quadro: clique, previsão, mudança de campo ou
+    desfazer.
 
     Args:
         gabarito: gabarito, alterado em lugar.
         id_quadro: id do quadro (``qNN``).
-        dados: ``acao`` (``clique`` ou ``desfazer``) com ``modo``/``ponto_img``/``escala``,
-            ou ``campo``/``valor``.
+        dados: ``acao`` (``clique``, ``desfazer`` ou ``prever_trastes``) com
+            ``modo``/``ponto_img``/``escala`` ou ``numeros``, ou ``campo``/``valor``.
         dimensoes: ``(largura, altura)`` do quadro original.
         agora: carimbo de data/hora da resposta.
 
@@ -1105,10 +1209,14 @@ def aplicar_acao(
         registro["respondido_em"] = agora
     elif acao == "clique":
         _clicar(registro, dados, dimensoes, agora)
+    elif acao == "prever_trastes":
+        _prever_trastes(registro, dados, dimensoes, agora)
     elif "campo" in dados:
         _mudar_campo(registro, dados, agora)
     else:
-        raise ValueError("ação desconhecida (use clique, desfazer ou campo)")
+        raise ValueError(
+            "ação desconhecida (use clique, desfazer, prever_trastes ou campo)"
+        )
 
 
 # ---------------------------------------------------------------------------------
@@ -1338,6 +1446,7 @@ input[type=text], input[type=number], select { background: #111; color: #eee;
 input[type=text] { width: 100%; max-width: 560px; box-sizing: border-box; }
 input[type=number] { width: 72px; }
 .trastes li { margin: 2px 0; font-variant-numeric: tabular-nums; }
+.num { width: 4em; }
 .lista button.partes { border-style: dashed; border-color: #f0abfc; }
 .lista button.partes::before { content: "\25C6 "; color: #f0abfc; }
 .legenda { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; margin-top: 6px; }
@@ -1369,6 +1478,8 @@ input[type=number] { width: 72px; }
     <b>limpar painéis</b> apaga as caixas. Botão <b>oculto</b> (ou <b>Shift</b> + a tecla da parte, ex.: Shift+s) quando a parte não aparece
     neste quadro.
     <br><b>Divisão antiga</b> (a linha de antes, em cinza): refaça o quadro com as caixas.
+    <br><b>r</b>: com a pestana, as cordas e 2 trastes clicados (padrão 5 e 12), prevê os
+    outros; confira e corrija os laranja (botão direito em cima de um remove).
   </div>
   <div class="barra">
     <button id="ant">&larr; anterior</button>
@@ -1380,6 +1491,11 @@ input[type=number] { width: 72px; }
     <button id="fora">f nut fora</button>
     <button id="desfazer">desfazer último clique</button>
     <span class="prog" id="prog"></span>
+  </div>
+  <div class="barra">
+    trastes previstos: âncoras <input type="number" id="na" min="1" max="19" value="5"
+    class="num"> e <input type="number" id="nb" min="1" max="19" value="12" class="num">
+    <button id="prever">r prever trastes</button>
   </div>
   <div class="barra">
     braço:
@@ -1415,6 +1531,7 @@ input[type=number] { width: 72px; }
     <span style="color:#60a5fa">&#9645; painel (caixa tracejada)</span>
     <span style="color:#e5e7eb">- - divisão antiga (refazer como painéis)</span>
     <span style="color:#ffe066">&#9679; trastes</span>
+    <span style="color:#ff9f1c">&#9679; trastes previstos (conferir)</span>
     <span style="color:#2ecc71">&#9679; corda 1</span>
     <span style="color:#ff8c1a">&#9679; corda 6</span>
   </div>
@@ -1497,6 +1614,12 @@ function texto(x, y, conteudo, tamanho, cor) {
   return t;
 }
 
+// Traste previsto pela regra (laranja): o ponto está em trastes_previstos.
+function ehPrevisto(p) {
+  const lista = visao().registro.trastes_previstos || [];
+  return lista.some((q) => q[0] === p[0] && q[1] === p[1]);
+}
+
 function desenhar() {
   const q = atual();
   const r = visao().registro;
@@ -1523,12 +1646,13 @@ function desenhar() {
   const meio = w * 0.03;
   visao().numeracao.forEach((item) => {
     const [x, y] = item.ponto;
+    const cor = ehPrevisto(item.ponto) ? "#ff9f1c" : "#ffe066";
     if (c1.length === 2) {
-      svg.appendChild(linha(x + px * meio, y + py * meio, x - px * meio, y - py * meio, "#ffe066", espessura * 0.7));
+      svg.appendChild(linha(x + px * meio, y + py * meio, x - px * meio, y - py * meio, cor, espessura * 0.7));
     }
-    svg.appendChild(ponto(x, y, raio * 0.6, "#ffe066", "#000"));
+    svg.appendChild(ponto(x, y, raio * 0.6, cor, "#000"));
     const rotulo = item.numero === null ? "?" : String(item.numero);
-    svg.appendChild(texto(x + meio * 0.5, y - meio * 0.5, rotulo, fonte, "#ffe066"));
+    svg.appendChild(texto(x + meio * 0.5, y - meio * 0.5, rotulo, fonte, cor));
   });
   if (Array.isArray(r.nut)) {
     const [x, y] = r.nut;
@@ -1673,7 +1797,8 @@ function blocoTrastes() {
   v.numeracao.forEach((item) => {
     const li = document.createElement("li");
     const n = item.numero === null ? "sem número" : "traste " + item.numero;
-    li.textContent = n + " em (" + item.ponto[0] + ", " + item.ponto[1] + ")";
+    li.textContent = n + " em (" + item.ponto[0] + ", " + item.ponto[1] + ")"
+      + (ehPrevisto(item.ponto) ? " (previsto)" : "");
     lista.appendChild(li);
   });
   box.appendChild(lista);
@@ -1803,6 +1928,18 @@ $("img").addEventListener("contextmenu", (ev) => {
   });
 });
 
+// Prevê os outros trastes a partir da pestana, das cordas e das 2 âncoras marcadas.
+function prever() {
+  const na = Number($("na").value);
+  const nb = Number($("nb").value);
+  if (!Number.isInteger(na) || !Number.isInteger(nb)) {
+    msg("as âncoras precisam ser números inteiros", true);
+    return;
+  }
+  enviar({ quadro: atual().id, acao: "prever_trastes", numeros: [na, nb] });
+}
+$("prever").addEventListener("click", prever);
+
 document.querySelectorAll("[data-modo]").forEach((b) => {
   b.addEventListener("click", () => definirModo(b.dataset.modo));
 });
@@ -1848,6 +1985,7 @@ document.addEventListener("keydown", (ev) => {
   else if (ev.key === "x") enviar({ quadro: atual().id, campo: "braco", valor: "sim" });
   else if (ev.key === "v") enviar({ quadro: atual().id, campo: "paineis", valor: "nao" });
   else if (ev.key === "f") enviar({ quadro: atual().id, campo: "nut", valor: "fora" });
+  else if (ev.key === "r") prever();
   else if (
     ev.shiftKey && TECLAS_PARTE.has(ev.key.toLowerCase())
     && TECLAS_PARTE.get(ev.key.toLowerCase()) !== "paineis"

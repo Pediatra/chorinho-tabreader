@@ -21,6 +21,7 @@ from tab.maos_braco_gabarito import (
     ARQUIVO_MVP,
     CAMPOS_PARTES,
     CANAL_MVP,
+    PAGINA,
     acrescentar,
     acrescentar_gabarito,
     acrescentar_indice,
@@ -45,6 +46,7 @@ from tab.maos_braco_gabarito import (
     resumo,
     validar_no_quadro,
 )
+from tab.maos_braco_regra import s_do_traste
 
 DIMENSOES = (1920, 1080)
 
@@ -1326,3 +1328,157 @@ def test_servidor_completa_partes_de_gabarito_antigo(tmp_path: Path) -> None:
     finally:
         servidor.shutdown()
         servidor.server_close()
+
+
+def _clique_sintetico(n: int) -> list[float]:
+    """Clique sintético do traste ``n`` sobre o eixo do braço de teste (y = 150).
+
+    Args:
+        n: número do traste.
+
+    Returns:
+        ``[x, y]`` arredondado a 1 casa, como um clique da página.
+    """
+    s = s_do_traste(n)
+    t = (1200.0 * s - 400.0) / (0.3 * s + 1.0)
+    return [round(500.0 + t, 1), 150.0]
+
+
+def _registro_com_ancoras() -> dict:
+    """Registro de braço com pestana, cordas e 2 trastes âncora (5 e 12).
+
+    Returns:
+        Registro pronto para ``prever_trastes``; as âncoras vêm na ordem 12, 5.
+    """
+    reg = registro_em_branco("chave")
+    reg["braco"] = "sim"
+    reg["corda1"] = [[0.0, 100.0], [1000.0, 100.0]]
+    reg["corda6"] = [[0.0, 200.0], [1000.0, 200.0]]
+    reg["nut"] = [100.0, 150.0]
+    reg["trastes"] = [_clique_sintetico(12), _clique_sintetico(5)]
+    return reg
+
+
+def test_registro_em_branco_tem_trastes_previstos_none() -> None:
+    """Registro novo começa sem previstos."""
+    assert registro_em_branco("c")["trastes_previstos"] is None
+
+
+def test_completar_campos_acrescenta_trastes_previstos() -> None:
+    """Registro antigo sem a chave ganha None; um valor existente fica como está."""
+    antigo = registro_em_branco("c")
+    del antigo["trastes_previstos"]
+    completar_campos(antigo)
+    assert antigo["trastes_previstos"] is None
+    com_valor = registro_em_branco("c")
+    com_valor["trastes_previstos"] = [[1.0, 2.0]]
+    completar_campos(com_valor)
+    assert com_valor["trastes_previstos"] == [[1.0, 2.0]]
+
+
+def test_prever_trastes_numera_1_a_19_e_marca_os_previstos() -> None:
+    """Depois da ação: 1..19 em ordem, âncoras com o clique, previstos sem as âncoras."""
+    reg = _registro_com_ancoras()
+    gabarito = {"quadros": {"q01": reg}}
+    aplicar_acao(gabarito, "q01", {"acao": "prever_trastes"}, DIMENSOES, "t1")
+    numeracao = numerar_trastes(reg)
+    assert [item["numero"] for item in numeracao] == list(range(1, 20))
+    por_numero = {item["numero"]: item["ponto"] for item in numeracao}
+    assert por_numero[5] == _clique_sintetico(5)
+    assert por_numero[12] == _clique_sintetico(12)
+    ancoras = [_clique_sintetico(5), _clique_sintetico(12)]
+    assert len(reg["trastes_previstos"]) == 17
+    assert all(p not in ancoras for p in reg["trastes_previstos"])
+    assert reg["respondido_em"] == "t1"
+    assert len(reg["historico"]) == 1
+
+
+def test_prever_trastes_recusa_sem_duas_ancoras_sem_mudar_nada() -> None:
+    """Com um traste só marcado a ação recusa, e o registro fica como estava."""
+    reg = _registro_com_ancoras()
+    reg["trastes"] = [_clique_sintetico(12)]
+    gabarito = {"quadros": {"q01": reg}}
+    antes = copy.deepcopy(reg)
+    with pytest.raises(ValueError, match="exatamente 2 trastes"):
+        aplicar_acao(gabarito, "q01", {"acao": "prever_trastes"}, DIMENSOES, "t")
+    assert reg == antes
+
+
+def test_prever_trastes_recusa_numeros_iguais_e_invalidos() -> None:
+    """Números repetidos ou que não são inteiros não passam."""
+    gabarito = {"quadros": {"q01": _registro_com_ancoras()}}
+    for numeros in ([5, 5], [5, "12"], [5]):
+        with pytest.raises(ValueError):
+            aplicar_acao(
+                gabarito,
+                "q01",
+                {"acao": "prever_trastes", "numeros": numeros},
+                DIMENSOES,
+                "t",
+            )
+    assert gabarito["quadros"]["q01"]["historico"] == []
+
+
+def test_prever_trastes_desfazer_volta_as_duas_ancoras() -> None:
+    """Desfazer depois da previsão devolve as 2 âncoras e tira os previstos."""
+    reg = _registro_com_ancoras()
+    antes = list(reg["trastes"])
+    gabarito = {"quadros": {"q01": reg}}
+    aplicar_acao(gabarito, "q01", {"acao": "prever_trastes"}, DIMENSOES, "t")
+    aplicar_acao(gabarito, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert reg["trastes"] == antes
+    assert reg["trastes_previstos"] is None
+
+
+def test_remover_traste_previsto_o_tira_da_lista() -> None:
+    """Botão direito num laranja remove o traste e o tira de ``trastes_previstos``."""
+    reg = _registro_com_ancoras()
+    gabarito = {"quadros": {"q01": reg}}
+    aplicar_acao(gabarito, "q01", {"acao": "prever_trastes"}, DIMENSOES, "t")
+    alvo = _clique_sintetico(8)
+    assert alvo in reg["trastes_previstos"]
+    aplicar_acao(
+        gabarito,
+        "q01",
+        {
+            "acao": "clique",
+            "modo": "trastes",
+            "remover": True,
+            "ponto_img": alvo,
+            "escala": 1.0,
+        },
+        DIMENSOES,
+        "t",
+    )
+    assert alvo not in reg["trastes"]
+    assert alvo not in reg["trastes_previstos"]
+    assert len(reg["trastes_previstos"]) == 16
+
+
+def test_clique_novo_nao_muda_os_previstos() -> None:
+    """Acrescentar um traste clicado deixa os previstos como estão."""
+    reg = _registro_com_ancoras()
+    gabarito = {"quadros": {"q01": reg}}
+    aplicar_acao(gabarito, "q01", {"acao": "prever_trastes"}, DIMENSOES, "t")
+    previstos = copy.deepcopy(reg["trastes_previstos"])
+    aplicar_acao(
+        gabarito,
+        "q01",
+        {
+            "acao": "clique",
+            "modo": "trastes",
+            "ponto_img": [1500.0, 150.0],
+            "escala": 1.0,
+        },
+        DIMENSOES,
+        "t",
+    )
+    assert reg["trastes_previstos"] == previstos
+    assert [1500.0, 150.0] in reg["trastes"]
+
+
+def test_pagina_tem_a_tecla_r_e_a_acao_de_prever() -> None:
+    """A página chama ``prever_trastes`` pela tecla r e mostra os previstos em laranja."""
+    assert 'ev.key === "r"' in PAGINA
+    assert 'acao: "prever_trastes"' in PAGINA
+    assert "#ff9f1c" in PAGINA
