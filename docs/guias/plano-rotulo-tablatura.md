@@ -81,7 +81,7 @@ piloto de marcar arcos em 3 a 5 vídeos do sky guitar. Decisão:
 Os campos são novos e opcionais em cada nota, sem mudar o que já existe:
 
 - `ataque`: `"sim"` | `"nao"` | `"nao_sei"`;
-- `ataque_motivo`: `normal` | `h` | `p` | `mordente` | `prolongamento` | `slide_ligado` | `slide_entrada` | `x` |
+- `ataque_motivo`: `normal` | `h` | `p` | `mordente` | `prolongamento` | `slide_ligado` | `slide_entrada` | `x` | `rasgueado` | `arpejo` |
   `harmonico` | `arco_sem_par` | `tinta_sem_explicacao`;
 - `nivel_rotulo`: `ouro` | `prata` | `recusado`.
 
@@ -223,8 +223,12 @@ no gerador.
 
 ## 5. O que fica fora agora (com o motivo)
 
-- **Bend, vibrato, rasgueado, arpejo e setas de palhetada**: a nota é atacada do mesmo jeito.
-  Fica o glifo cru, como hoje.
+- **Bend, vibrato e setas de palhetada**: a nota é atacada do mesmo jeito. Fica o glifo cru,
+  como hoje.
+- **Rasgueado e arpejo** entram como **informação**, não como pergunta (dono, 2026-10-17): a
+  nota é `sim`, com motivo `rasgueado` ou `arpejo`, porque o movimento da mão e o tempo do som
+  mudam. Sai das regiões que o dono já marcou (a coluna logo à direita do símbolo), sem
+  conferência a mais.
 - **Figuras de ritmo, compasso e ritornelo**: não são da nota.
 - **Tablatura que rola (C1)**: a base começa sem esses 16 %, como no piloto das mãos.
 - **Sondas de modelos prontos (E1, E2) e o som conferindo a casa (D2)**: a casa já está em

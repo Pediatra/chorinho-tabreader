@@ -1804,6 +1804,8 @@ MOTIVOS_SELETOR = (
     "slide_entrada",
     "x",
     "harmonico",
+    "rasgueado",
+    "arpejo",
     "nao_sei",
 )
 

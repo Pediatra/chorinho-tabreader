@@ -43,6 +43,8 @@ ATAQUE_MOTIVOS = (
     "slide_entrada",
     "x",
     "harmonico",
+    "rasgueado",
+    "arpejo",
     "arco_sem_par",
     "tinta_sem_explicacao",
 )
@@ -51,7 +53,14 @@ ATAQUE_MOTIVOS = (
 MOTIVOS_SEM_ATAQUE = ("h", "p", "mordente", "prolongamento", "slide_ligado")
 
 #: Motivos que só existem com ``ataque`` "sim".
-MOTIVOS_COM_ATAQUE = ("normal", "slide_entrada", "x", "harmonico")
+MOTIVOS_COM_ATAQUE = (
+    "normal",
+    "slide_entrada",
+    "x",
+    "harmonico",
+    "rasgueado",
+    "arpejo",
+)
 
 #: Motivos que só existem com ``ataque`` "nao_sei" (sem par claro ou sem explicação).
 MOTIVOS_SEM_PAR = ("arco_sem_par", "tinta_sem_explicacao")
