@@ -57,6 +57,20 @@ completo, antes mesmo de tentar a página.
 - Itens da conferência do dono e servidor na porta 8121: não montados.
 - Commit do `amostra.json` antes da leitura: sem git.
 
+
+## Tentativa de paginar (2026-10-17)
+
+`python -m tab.partitura_video paginar --video "kimny's guitar/[ tab ] libertango ...mp4"` (um
+dos 25 legíveis pelo `cv2`) falha antes de ler qualquer quadro: `_verificar_video` chama
+`ffprobe` para a duração e levanta `RuntimeError: ffprobe não leu a duração`.
+
+O mesmo vale para o caminho de leitura inteiro: `tab.leitor.quadro_em` e `quadros` usam `ffmpeg`
+em software (o docstring diz que lê 100 % do acervo). Só `quadros_cv2` não depende de `ffmpeg`,
+e ele não lê AV1. Trocar o leitor por `cv2` mudaria a medida (a regra 9 do AGENTS.md diz que a
+leitura é parte da medida). Por isso a D1 não foi continuada.
+
+**Bloqueio real: sem `ffmpeg` e `ffprobe`, o `paginar` não roda em nenhum vídeo da amostra.**
+
 ## Revisão da sessão principal (2026-10-17)
 
 Rodado de novo no container, na `main`: a saída deu igual byte a byte à da cópia (`cmp`).

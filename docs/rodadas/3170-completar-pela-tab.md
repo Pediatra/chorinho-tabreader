@@ -70,6 +70,30 @@ Duas execuções dão o mesmo `e1.json` (`cmp`). Lint: `ruff check` e `ruff form
   função de item do gabarito, que não foi copiada.
 - **Commit**: sem git nesta máquina.
 
+
+## Casos olhados (2026-10-17)
+
+Recortes em `data/saida/part_frentes/fe_completar/casos/` (ampliados 3×, com 50 px de cada lado
+do x da nota):
+
+1. **south american T01, compasso 1, midi 60 (acorde, colcheia, voz 1)**: a imagem não deixa ler a
+   altura com segurança nesta escala. O grupo de colcheias com feixe está no meio do recorte.
+   Inconclusivo.
+2. **gymnopédie T10, compasso 1, midi 57 (acorde, meia pontuada, voz 2)**: a meia pontuada na
+   pauta inferior bate com a figura registrada. A figura veio do evento pareado no mesmo x (E5
+   meia pontuada). Certo na figura.
+3. **gymnopédie T03, compasso 5, midi 85 (acorde, meia pontuada, voz 1)**: a meia pontuada do
+   pentagrama superior bate com a figura. A nota de 76 (meia sem ponto, voz 2) não tem altura
+   identificável nesta imagem; a figura dela fica inconclusiva.
+4. **R05, compasso 1, midi 60**: recorte salvo, não olhado.
+5. **R07, compasso 10, midi 52 e 59 (acorde, meia, voz 2)**: acorde de semínimas brancas com 6
+   cabeças na haste; as duas completadas estão dentro dele. A figura bate. Certo na figura.
+
+Até aqui: **4 de 10 casos olhados** (1, 2, 3 e 5), com a altura inconclusiva no 1 e a figura
+inconclusiva na segunda nota do 3. Os 6 restantes (4, e os de outros compassos) não foram olhados.
+
+A conferência do dono não foi montada nem servida.
+
 ## Revisão da sessão principal (2026-10-17)
 
 Rodado de novo no container, na `main`: a saída deu igual byte a byte à da cópia (`cmp`).

@@ -73,7 +73,7 @@ Nos 49 compassos com clique:
 - `abnormal` pega 11;
 - déficit (A) pega 3 dos 25 que têm duração esperada;
 - excesso (A) pega 5;
-- alguma das três pega **15 de 49 (31 %)**.
+- alguma das três pega **14 de 49 (29 %)** (com a tolerância corrigida; antes da correção dava 15).
 
 Ou seja: o Audiveris, pelas marcas que este módulo lê, avisa em menos de um terço dos
 compassos com nota faltando. Isso é o número de referência da B1 e da B2.
@@ -115,12 +115,39 @@ Veredito de cada caso olhado:
   E5, G#5, da tab) que o Audiveris não leu; o homr leu.
 - **Abnormal, R05 k0: erro real, marca certa.** Há um marcador azul do vídeo sobre a primeira
   nota, e o Audiveris perdeu essa nota.
-- **Excesso, R13 k2 (soma 4,5 contra 4): não explicado.** A imagem tem marcadores azul e verde
-  sobre notas e dígitos de digitação. A origem do excesso não ficou clara; pendente.
+- **Excesso, R13 k2 (soma 4,5 contra 4): explicado, e é artefato do `.omr`.** O `stack` de
+  R13 k2 tem `expected="1"` (semibreve, 4 semínimas), mas o atributo `duration` e a fórmula
+  do compasso são 9/8 (4,5 semínimas). A leitura está certa; a fonte A é que está errada.
 
 **Não olhados:** déficit R13 k0 e k1, R16 k0 e k2; excesso R18 k2 e os sem produto; `sem_A` não é
 marca de erro. Por isso o CA7 (5 casos por marca) não está fechado: são 2 de 5 em déficit,
 2 de 5 em abnormal e 1 de 5 em excesso.
+
+
+## Revisão (2026-10-17): o `expected="1"` do Audiveris é padrão, não duração
+
+O atributo `expected="1"` (semibreve, 4 semínimas) aparece quando o Audiveris não sabe a
+fórmula do compasso. Em 9 de 60 stacks, o `expected` diverge do `duration`. Isso contamina a
+fonte A da tabela congelada: os déficits e excessos de R13 k0–k2, R16 k1 e k3, R19 k4 e os
+sem produto em k0–k1 vêm desse padrão.
+
+Efeito nas marcas de duração (fonte A), com e sem `expected="1"`:
+
+| marca | congelada: acusa / com erro / falsos | sem `expected="1"`: acusa / com erro / falsos |
+| --- | ---: | ---: |
+| déficit (A) | 6 / 4 / 2 | 1 / 0 / 1 |
+| excesso (A) | 5 / 5 / 0 | 1 / 1 / 0 |
+
+Cobertura nos 49 compassos com nota faltando: a congelada pega **14**; sem o padrão pega **11**
+(só o `abnormal`). Ou seja, as marcas de duração quase não acrescentam nada, e o número
+honesto de cobertura do Audiveris, por estas marcas, é entre 11 e 14 de 49 (22 a 29 %).
+
+Esta revisão não troca a tabela acima: ela é o registro do que a fonte A faz. A variante sem o
+padrão é a recomendada para a B1 e a B2, mas precisa ser decidida pelo dono, porque muda a
+regra que estava congelada.
+
+O R01 k0 (anacruse) não é padrão: `expected="3/4"` e `duration="1/4"`, então é um alarme
+verdadeiro da anacruse, como já estava registrado.
 
 ## Revisão da sessão principal (2026-10-17)
 
