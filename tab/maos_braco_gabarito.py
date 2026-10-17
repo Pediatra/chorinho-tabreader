@@ -1351,7 +1351,8 @@ input[type=number] { width: 72px; }
 <header>
   <h1>Gabarito do braço do violão (M3b): quadro <span id="pos"></span></h1>
   <div class="instr">
-    Modo: <b>1</b> corda 1 (2 cliques, um em cada extremo, o mais afastado possível);
+    Modo: <b>1</b> corda 1 (2 cliques nas pontas do trecho visível <i>no braço</i>, o mais
+    afastado possível; não no cavalete);
     <b>6</b> corda 6 (idem); <b>n</b> nut (1 clique no centro da pestana);
     <b>t</b> trastes (um clique no meio de cada traste visível; botão DIREITO em cima
     de um marcado o remove); <b>f</b> nut fora da imagem. Braço: sim, parcial, não, ?.

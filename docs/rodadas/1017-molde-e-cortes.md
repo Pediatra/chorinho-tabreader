@@ -32,7 +32,8 @@ nos trastes tem mediana de 2 a 4 px. O máximo é 28 px em q56 e 24 px em q06, a
 trastes 1 e 2.
 
 **Leitura:**
-1. **A corda é reta da pestana ao saddle.**
+1. **A corda é reta da pestana ao saddle.** As marcas de corda do dono ficam só no braço, e a
+   reta delas é **prolongada** até o saddle. Por isso a retidão mede o erro dessa extrapolação.
    - O saddle cai a 0,07–0,39 vão da corda prolongada, na mediana por canal.
    - Dois quadros passam de 0,5 vão: q59 (1,02) e q61 (0,56). Olhei o desenho de q59: as
      retas cruzam o rastilho de forma visualmente correta, mas o rastilho aparece pequeno

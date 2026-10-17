@@ -62,6 +62,12 @@ marca os candidatos (`etapa2`).
 
 ## Métricas
 
+**Como o dono marca as cordas** (esclarecido pelo dono em 2026-10-17): os 2 pontos das cordas
+1 e 6 ficam no **braço**, da pestana até onde o braço é visível, e não vão até o cavalete. Vale
+para os 66 quadros do desenvolvimento e para este teste. Por isso o erro perpendicular só é
+conferido no braço, que é onde está a mão esquerda. O trecho até o rastilho é uma
+extrapolação; a 1017 mediu que ela erra de 0,07 a 0,39 vão (mediana por canal).
+
 São as mesmas da 1015: pestana e pior traste em casas, cordas 1 e 6 na perpendicular em vãos.
 - **certo**: tudo < 1/4.
 - **falso**: algo > 1/2, ou "achei" onde o dono marcou braço `nao`.
