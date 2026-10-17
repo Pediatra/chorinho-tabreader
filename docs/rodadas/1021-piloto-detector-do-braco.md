@@ -47,8 +47,10 @@ simulada com erro.
     `classificar`, como em todas as rodadas do braço.
 - **Rede**: uma U-Net pequena, em torch e torchvision, já instalados e com licença BSD.
   - Sem ultralytics e sem dependência nova.
-  - Pesos iniciais aleatórios. Pesos pré-treinados só com aprovação do dono, porque
-    exigem download.
+  - Codificador ResNet18 com os pesos ImageNet do torchvision (`IMAGENET1K_V1`). O dono
+    aprovou o download em 2026-10-17, antes de qualquer treino.
+  - Arquivo: `artefatos/torch/hub/checkpoints/resnet18-f37072fd.pth`, com sha256
+    `f37072fd…560e07ec`. Para usar, exporte `TORCH_HOME=/app/artefatos/torch`.
 - **Determinismo**: `tab.sintetico.fixar_semente`. São **3 sementes por configuração**, com
   média e amplitude reportadas.
 - **GPU**: trava própria `data/saida/gpu.lock.maos`, com pelo menos 3 GB livres.
