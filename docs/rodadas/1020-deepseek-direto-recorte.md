@@ -98,3 +98,18 @@ milhão de tokens de entrada e US$ 0,60 de saída, fora do pico).
   linguagem (somando a 1016, a 1019 e esta). O dono encerrou com cerca de US$ 0,20 gastos.
 - **Lição para "não repetir"**: o modelo localiza linhas sintéticas limpas, mas falha nas
   cordas reais. A resolução sozinha não explica o erro: o E2 erra 2,3 vãos onde o E0 acerta.
+
+### Adendo: E3 sem raciocínio (rodado a pedido do dono, US$ 0,01)
+
+| | n | certo | falso | não achou | cordas, mediana (vãos) | pior traste, mediana (casas) | nut, mediana (casas) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| E3 recorte, sem raciocínio | 33 | 0 | 20 | 13 | 5,54 | 1,93 | **0,06** |
+
+- **O recorte não muda as cordas** (5,9 → 5,5 vãos). Ele melhora o nut: de 0,19 para 0,06 casa.
+- **Sem raciocínio, o modelo preenche um molde em vez de olhar.**
+  - A corda 1 e a corda 6 saem no mesmo lugar em 16 de 33 respostas no E1 e em 11 de 33 no
+    E3.
+  - A corda começa exatamente no ponto do nut.
+  - Os mesmos números se repetem em quadros diferentes: `[744, 168]` aparece no q01 e no q12.
+- **Conclusão**: cortes e setores não corrigem um modelo que não olha as cordas. Só o nut sai
+  bom, e o nut é a marca mais barata para o dono (1 clique). Encerrada.
