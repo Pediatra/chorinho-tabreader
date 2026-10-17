@@ -110,3 +110,28 @@ O A1 e o A2 não decidem nada sozinhos. Eles explicam de onde vem o resultado do
   A fase B mede o conjunto.
 - **Nenhum quadro G entra no treino da sua dobra.** Mas os quadros R do mesmo canal entram em
   outras dobras, e por isso a separação é por canal.
+
+## Emenda 1 (2026-10-17, antes de qualquer treino): portões de validação e ordem
+
+O dono pediu para validar tudo antes da corrida longa. Nenhum portão olha os quadros G: eles
+usam só S, R e o próprio pós-processamento.
+
+| portão | teste | passa se |
+| --- | --- | --- |
+| V1 oráculo | Mapas de calor **perfeitos**, desenhados a partir do rótulo G, passam pelo pós-processamento e pela medida. Valida a cadeia de geometria e de métrica sem modelo nenhum. | ≥ 95 % "certo" nos 66 |
+| V2 sobreajuste | 300 passos em 32 amostras S. | a perda cai pelo menos 10 vezes, e ≥ 90 % "certo" nessas 32 amostras |
+| V3 validação S | Um treino A1 completo (semente 1), medido em 500 amostras S **fora do treino**. | só registro: se der < 50 % certo, o modelo nem aprende o sintético; investigar antes de seguir |
+| V4 tempo | Tempo de um treino completo. | total previsto ≤ 10 h. Se passar disso, reduzir os passos **antes** de qualquer medida em G, igual para todos |
+
+- No V1, o rótulo G é usado como entrada do oráculo, não como medida do modelo. Ele só
+  confirma que a cadeia não perde precisão.
+
+**Redução e ordem**, para a decisão sair primeiro:
+1. **A3 com 100 %**: 8 dobras × 3 sementes. É a linha que decide; resultado parcial no
+   critério.
+2. **A1**: 3 sementes, sem dobra, porque S não usa rótulo de canal.
+3. **A2 com 100 %**: 8 dobras × 3 sementes.
+4. **A2 e A3 com 25 % e 50 %**: 8 dobras × **1 semente**. Essas frações servem só para a
+   forma da curva; a decisão usa a média das sementes do A3 com 100 %.
+
+A regra da curva continua a mesma: certos com 100 % ≥ certos com 25 % + 10 pontos.
