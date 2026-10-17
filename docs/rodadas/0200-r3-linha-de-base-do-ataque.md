@@ -82,3 +82,27 @@ do gabarito casaram com uma tela do produto.
   vira `nao_sei`) não foi medida nesta rodada.
 - O Greensleeves, a Gymnopédie, o South American, o Retrato e a T8.2 entram quando o dono
   terminar a conferência deles.
+
+## Adendo (2026-10-17): fontes novas e correções do dono
+
+O dono conferiu Greensleeves, Gymnopédie e South American, e revisou 3 notas suspeitas:
+
+- End of Beginning t6-n24 virou "não" (h);
+- Room 335 t5-n24 ficou "sim": é a primeira nota do hammer-on;
+- From This Place t5-n22 ficou "sim": o 12 não tem técnica.
+
+Essas 3 fontes novas têm leitura gravada. O gabarito delas está em
+`r2/conferir_novos/`. Retrato e T8.2 não têm leitura gravada e ficam de fora.
+
+| fonte | "sim" falso | "não" falso |
+| --- | --- | --- |
+| End of Beginning | 16 / 18 | 0 / 285 |
+| Room 335 | 22 / 29 | 8 / 288 |
+| From This Place | 7 / 13 | 1 / 362 |
+| Greensleeves | 0 / 0 | 0 / 106 |
+| Gymnopédie | 0 / 0 | 0 / 391 |
+| South American | 0 / 0 | 0 / 269 |
+| **total** | **45 / 60 (75,0 %)** | **9 / 1701 (0,5 %)** |
+
+As três fontes novas não têm nenhuma nota "não". Elas só medem o "não" falso, que ficou em
+zero nelas. **A régua do R4 passa a ser esta:** "sim" falso 45/60 e "não" falso 9/1701.

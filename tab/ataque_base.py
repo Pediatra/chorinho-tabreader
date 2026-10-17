@@ -16,11 +16,30 @@ from pathlib import Path
 
 from tab import caminhos
 
-#: Fonte do gabarito -> slug do ouro (a leitura gravada tem o mesmo nome).
+#: Fonte do gabarito -> (slug do ouro, pasta do gabarito dentro de ``TAB_ROTULO/r2``).
+#: A leitura gravada tem o nome do slug. Só entram fontes com leitura gravada.
 FONTES = {
-    "end_of_beginning": "end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics",
-    "tabroom_335": "tabroom_335_larry_carlton_fingerstyle_guitar",
-    "pat_metheny": "tab_from_this_place_pat_metheny_fingerstyle_guitar_cover",
+    "end_of_beginning": (
+        "end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics",
+        "conferir",
+    ),
+    "tabroom_335": ("tabroom_335_larry_carlton_fingerstyle_guitar", "conferir"),
+    "pat_metheny": (
+        "tab_from_this_place_pat_metheny_fingerstyle_guitar_cover",
+        "conferir",
+    ),
+    "greensleeves": (
+        "greensleeves_guia_de_estudio_partitura_tab_pdf",
+        "conferir_novos",
+    ),
+    "gymnopedie": (
+        "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar",
+        "conferir_novos",
+    ),
+    "south_american": (
+        "south_american_music_easy_guitar_tutorial_with_sheet_and_tab",
+        "conferir_novos",
+    ),
 }
 
 #: Técnicas do modelo que dizem "a nota chega sem ataque" (a técnica fica na chegada).
@@ -175,14 +194,17 @@ def main() -> int:
     """
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument(
-        "--ataque", type=Path, default=caminhos.TAB_ROTULO / "r2" / "conferir"
+        "--ataque",
+        type=Path,
+        default=caminhos.TAB_ROTULO / "r2",
+        help="pasta com as subpastas do gabarito (conferir, conferir_novos)",
     )
     ap.add_argument("--saida", type=Path, default=caminhos.TAB_ROTULO / "r3")
     args = ap.parse_args()
     resultado: dict = {"fontes": {}}
     total: Counter = Counter()
-    for fonte, slug in FONTES.items():
-        r = medir_fonte(fonte, slug, args.ataque)
+    for fonte, (slug, pasta) in FONTES.items():
+        r = medir_fonte(fonte, slug, args.ataque / pasta)
         r["taxas"] = taxas(r["matriz"])
         resultado["fontes"][fonte] = r
         total.update(r["matriz"])
