@@ -91,6 +91,10 @@ MAOS_M11B = SAIDA / "maos" / "m11b"
 #: Gabarito do teste M11b, rotulado pelo dono com ``tab.maos_braco_gabarito servir``.
 GABARITO_BRACO_M11B = RAIZ / "data" / "gold" / "maos" / "braco_m11b.json"
 
+#: Pré-marcação do braço por consenso de modelos de visão (rodada 1019): respostas brutas
+#: por modelo, resultado e tabelas (``tab.maos_braco_vlm``).
+MAOS_M19 = SAIDA / "maos" / "m19"
+
 #: Frentes de teste da pesquisa das mãos (``docs/pesquisa/maos-frentes.md``): uma pasta
 #: por frente, para as worktrees paralelas não escreverem no mesmo lugar.
 MAOS_FRENTE_0 = SAIDA / "maos" / "frentes" / "f0_residuo"

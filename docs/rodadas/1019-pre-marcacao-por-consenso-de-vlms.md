@@ -131,3 +131,15 @@ revisão do dono com cronômetro. Limiar mudado depois da medida invalida a roda
   para a data da coleta, e as respostas brutas ficam gravadas.
 - **Concordância não prova acerto.** Se os modelos erram do mesmo jeito (por exemplo,
   trocando as cordas 1 e 6), o consenso erra junto. É exatamente o que P1 e P2 medem.
+
+## Execução (2026-10-17, registro operacional; nada do teste foi visto)
+
+- **Redução do quadro**: largura 1280 mantendo a proporção. Os 58 quadros 1920×1080 ficam em
+  1280×720, como previsto. Os 8 quadros 2220×1080 ficam em 1280×622, não esticados.
+- **Coleta interrompida**: das 15:56 às 16:44, só 13 respostas chegaram com conteúdo, entre
+  23 s e 1330 s por pedido. Depois disso o proxy caiu: 368 pedidos deram `Connection
+  refused`, e conexão recusada não está no retry. A coleta é retomável, e refaz só os
+  pedidos com erro.
+- **Sem resultado**: com 13 respostas não há consenso, e `avaliar` não foi rodado.
+- **Espiada no desenvolvimento** (q01 e q02): das 8 respostas válidas, as 8 são "falso". O nut
+  fica bom (< 0,4 casa), mas as cordas erram de 0,8 a 20 vãos.
