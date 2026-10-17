@@ -152,3 +152,16 @@ revisão do dono com cronômetro. Limiar mudado depois da medida invalida a roda
     isso o quadro nem seria aceito.
 - **Estado**: incompleta. A medição dos 66 quadros depende de o proxy voltar (`coletar` é
   retomável). O veredito parcial, junto com a 1020, é "não vale a pena".
+
+## Encerramento (2026-10-17, decisão do dono)
+
+O dono encerrou a 1019 sem esperar o proxy ("esquece esse proxy"). A medição cruzada dos
+66 quadros não será feita.
+
+**Veredito final: não vale a pena.** Ele é parcial e se apoia em três medições:
+- o consenso calculável dos 6 modelos (q01) teve dispersão de 21,2 vãos e deu falso;
+- todas as respostas individuais avaliadas no desenvolvimento deram falso;
+- na 1020, o DeepSeek direto deu 0 de 33 certos nas três variantes.
+
+A pré-marcação do braço por modelo de linguagem está encerrada. O modelo de linguagem só pode
+voltar como triagem: a caixa do braço contém todos os pontos do dono em 27 de 33 quadros.
