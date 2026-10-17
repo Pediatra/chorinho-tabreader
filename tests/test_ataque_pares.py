@@ -27,7 +27,8 @@ def _tela_com_arco(arco: bool) -> np.ndarray:
 def test_tinta_ve_o_arco_e_ignora_corda_e_barra() -> None:
     notas = [_nota(1, 140), _nota(1, 260)]
     args = (notas, 0, 1, 100.0, 40.0, (0.0, 0.0), 1.0)
-    com = tinta_entre(mascara_de_tinta(_tela_com_arco(True)), *args)
-    sem = tinta_entre(mascara_de_tinta(_tela_com_arco(False)), *args)
+    com, ext_com = tinta_entre(mascara_de_tinta(_tela_com_arco(True)), *args)
+    sem, _ = tinta_entre(mascara_de_tinta(_tela_com_arco(False)), *args)
     assert com > 0.05
+    assert ext_com > 0.6
     assert sem == 0.0

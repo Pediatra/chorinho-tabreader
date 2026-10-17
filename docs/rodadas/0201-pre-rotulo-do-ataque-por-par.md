@@ -65,11 +65,29 @@ fica embaixo dele (From This Place t3-n38, La Vie t8-n50).
   ruído de troca, mas fica abaixo do critério com folga.
 - Regra **ou** modelo: 62 / 64 e 30 / 136. O modelo não acrescenta nada à regra.
 
+### Segunda versão da regra: a extensão do traço (2026-10-17, depois da queixa do dono)
+
+Com 22 % de alarmes, a T8.2 ficou cheia de `?` em notas sem técnica, e o dono reclamou. A regra
+ganhou uma segunda medida: a **extensão**, a largura do maior componente que sobrou dividida pelo
+vão entre as duas notas (até 1). Um arco vai de uma nota à outra; uma pausa, uma barra ou um
+parêntese não. O par é apontado com tinta ≥ 0,05 **e** extensão ≥ 0,3.
+
+| conjunto | ligados achados | alarmes |
+| --- | --- | --- |
+| 4 ouros (ajuste) | 62 / 64 | 41 / 785 (5 %) |
+| T8.2, 24 telas com marca | 30 / 30 | 48 / 604 (8 %) |
+
+O limiar 0,3 foi escolhido olhando estes mesmos pares. Parte dos 48 alarmes da T8.2 são arcos
+de verdade que as regiões do dono não marcavam.
+
+`?` nas páginas a conferir, com a regra nova: Greensleeves 1, Gymnopédie 0, South American 25,
+Retrato 41, T8.2 83 (eram 221).
+
 ### Decisão
 
 - A regra passa no critério (95 % ou mais, até 30 % de alarmes), inclusive fora do ajuste.
 - O modelo de linguagem não passa: perde 1 ligado em cada 4.
-- A regra vira o pré-rótulo: nas telas a conferir, só a nota da direita de um par apontado
+- A regra (com a extensão) vira o pré-rótulo: nas telas a conferir, só a nota da direita de um par apontado
   aparece como dúvida (`?`, tipo `regra_tinta`). O dono decide essas, e o resto fica "sim".
 
 ### Achados de passagem (folhas `suspeitos_*.png`, 134 pares soltos com tinta)

@@ -111,8 +111,8 @@ def tinta_entre(
     passo: float,
     origem: tuple[float, float],
     escala: float,
-) -> float:
-    """Tinta entre as notas ``a`` e ``b``, fora das caixas de nota, em passos².
+) -> tuple[float, float]:
+    """Tinta entre as notas ``a`` e ``b``, fora das caixas de nota.
 
     A janela vai do centro de ``a`` ao centro de ``b`` (o arco passa por cima delas), de 1,6 passo acima
     da corda até 1,2 passo abaixo (o arco fica em cima ou embaixo, conforme o canal; o
@@ -130,12 +130,14 @@ def tinta_entre(
         escala: ampliação da imagem.
 
     Returns:
-        Área de tinta na janela, em passos².
+        ``(área, extensão)``: a área de tinta na janela, em passos², e a largura do maior
+        componente sobre o vão entre as caixas das duas notas (0 a 1). Arco e slide vão
+        de uma nota à outra; pausa, barra e texto ficam no meio.
     """
     na, nb = notas[a], notas[b]
     x0, x1 = na["x_centro_quadro"], nb["x_centro_quadro"]
     if x1 <= x0:
-        return 0.0
+        return 0.0, 0.0
     y0, y1 = y_corda - 1.6 * passo, y_corda + 1.2 * passo
 
     def img(x: float, y: float) -> tuple[int, int]:
@@ -146,7 +148,7 @@ def tinta_entre(
     h, w = tinta.shape
     r0, r1, c0, c1 = max(0, r0), min(h, r1), max(0, c0), min(w, c1)
     if r1 <= r0 or c1 <= c0:
-        return 0.0
+        return 0.0, 0.0
     janela = tinta[r0:r1, c0:c1].copy()
     for n in notas:
         mx = meia_largura(n["casa"], passo)
@@ -164,12 +166,18 @@ def tinta_entre(
     )
     janela &= ~vertical.astype(bool)
     n, _, stats, _ = cv2.connectedComponentsWithStats(janela.astype(np.uint8), 8)
-    area = 0
+    vao = max(
+        0.3 * px,
+        (x1 - x0 - meia_largura(na["casa"], passo) - meia_largura(nb["casa"], passo))
+        * escala,
+    )
+    area, maior = 0, 0
     for k in range(1, n):
         largura, altura = stats[k, cv2.CC_STAT_WIDTH], stats[k, cv2.CC_STAT_HEIGHT]
         if largura >= LARGURA_MIN * px and altura <= ALTURA_MAX * px:
             area += int(stats[k, cv2.CC_STAT_AREA])
-    return area / px**2
+            maior = max(maior, int(largura))
+    return area / px**2, min(1.0, maior / vao)
 
 
 def y_da_corda_de(nota: dict, y_corda: float, passo: float) -> float:
@@ -264,6 +272,7 @@ def processar(fonte: str, pasta: Path, pasta_ataque: Path, saida: Path) -> list[
             for n in notas:
                 n["_corda_par"] = corda
             y = float(tp["linhas_y"][corda - 1])
+            area, extensao = tinta_entre(tinta, notas, a, b, y, passo, origem, escala)
             nome = f"{fonte}_t{tid}_{notas[a]['nota']}_{notas[b]['nota']}.png"
             cv2.imwrite(
                 str(saida / "recortes" / nome),
@@ -279,9 +288,8 @@ def processar(fonte: str, pasta: Path, pasta_ataque: Path, saida: Path) -> list[
                     "casas": [notas[a]["casa"], notas[b]["casa"]],
                     "ligado": notas[b]["ataque"] == "nao",
                     "motivo_b": notas[b]["motivo"],
-                    "tinta": round(
-                        tinta_entre(tinta, notas, a, b, y, passo, origem, escala), 4
-                    ),
+                    "tinta": round(area, 4),
+                    "extensao": round(extensao, 3),
                     "recorte": f"recortes/{nome}",
                 }
             )
