@@ -5781,3 +5781,16 @@ Decisão do dono: a trilha das mãos **grava as mãos de cada nota** (base de tr
 - Regras centrais: nada da entrada é calculado com o gabarito; associação pelo `t_audio`, não pelo marcador (o som vem 165–275 ms depois); caixa da tablatura guardada para mascarar; cru + confiança + nível (ouro/prata/recusado), nunca exclusão calada.
 - O D1 do M8 (88 % da corda do professor) fica como linha de base do modelo futuro.
 - **Não repetir**: reabrir as ondas de regra para adivinhar a corda pela mão.
+
+## 2026-10-17 — Mãos — M11a: braço rastreado do quadro-chave (rodada 1015): reprova no CA2
+
+- O dono marcou q37–q66 (teste, 6 canais) e as partes do violão em todos os 66 quadros (decisão [1008](docs/decisoes/1008-partes-do-violao-no-gabarito-do-braco.md)).
+- O rastreador (`tab.maos_braco_rastreio`: ORB 5000, Lowe 0,8, RANSAC, "não achei" por inliers, reprojeção e determinante) foi congelado no sky guitar e medido uma vez:
+  - **0 falsos em 30** (a grade fixa tem 18);
+  - ⊥ mediano de **0,17 vão** contra 1,10 da grade fixa;
+  - mas só **8 de 11 "achei" certos** (CA2 pede 95 %) e cobertura de **11/30**.
+- Causa da cobertura zero em kenneth, shin izumi e iwaki (câmera aberta): os 5000 pontos do alvo vão para a tablatura. No braço caem 0, 19 e 1 pontos; buscando só no braço, são 2919, 3472 e 1654.
+- Próximo:
+  - nova rodada com a busca restrita a uma região e quadros de teste novos;
+  - medir a variação do próprio dono ao remarcar, porque os imprecisos ficaram em 0,27–0,35 vão, perto do limite de 0,25.
+- **Não repetir**: ajustar o rastreador num canal só, com o braço em close, e esperar que ele passe em câmera aberta.

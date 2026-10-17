@@ -147,3 +147,76 @@ desenhados antes de mexer em limiar.
   - os casamentos ficam no braço e se movem de forma coerente.
 - Duas execuções deram o mesmo JSON (sha256 `27ab99b5…`).
 - O teste (q37–q66) roda **uma vez**, com estes parâmetros, quando o dono terminar as marcas.
+
+## Resultado do teste (uma medida, 2026-10-17)
+
+Os dados do teste:
+- **Gabarito**: commit `3344910b`, com q37–q66 marcados pelo dono, todos com braço "sim".
+  - O q53 tinha ficado sem resposta no campo do braço. O dono respondeu "sim" antes do teste.
+- **Comandos**: `python -m tab.maos_braco_rastreio teste` (commit `af0fd992`, parâmetros
+  congelados) e `python -m tab.maos_braco_tempo base --teste`.
+
+| par | achou | inliers | pestana | pior traste | ⊥ (vãos) | classe | base ⊥ |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| q01→q37 | sim | 207 | 0,02 | 0,07 | 0,21 | certo | 1,07 |
+| q01→q38 | sim | 193 | 0,03 | 0,05 | 0,10 | certo | 2,18 |
+| q01→q39 | não (degenerada) | 58 | — | — | — | não achou | 7,63 |
+| q01→q40 / q41 | não | 4 / 5 | — | — | — | não achou | 3,14 / 3,54 |
+| q04→q42–q46 | não | 5–34 | — | — | — | não achou ×5 | 0,11–3,38 |
+| q05→q47–q51 | não | 6–10 | — | — | — | não achou ×5 | 0,14–1,24 |
+| q06→q52 | sim | 68 | 0,17 | 0,30 | 0,35 | impreciso | 2,75 |
+| q06→q53 | sim | 169 | 0,03 | 0,18 | 0,16 | certo | 1,33 |
+| q06→q54 | sim | 151 | 0,03 | 0,23 | 0,06 | certo | 1,10 |
+| q06→q55 | não (degenerada) | 105 | — | — | — | não achou | 0,49 |
+| q06→q56 | sim | 135 | 0,01 | 0,21 | 0,17 | certo | 0,35 |
+| q08→q57–q61 | não | 3–7 | — | — | — | não achou ×5 | 0,25–2,96 |
+| q13→q62 | sim | 61 | 0,17 | 0,13 | 0,22 | certo | 4,72 |
+| q13→q63 | sim | 67 | — (fora) | 0,06 | 0,10 | certo | 3,29 |
+| q13→q64 | sim | 139 | 0,01 | 0,07 | 0,12 | certo | 0,46 |
+| q13→q65 | sim | 85 | 0,03 | 0,07 | 0,35 | impreciso | 0,56 |
+| q13→q66 | sim | 108 | 0,04 | 0,08 | 0,27 | impreciso | 0,68 |
+
+| | critério | resultado | |
+| --- | --- | --- | --- |
+| CA1 | linha de base reproduz a B3 | casas ≤ 0,03 de diferença (ver acima) | **passa** |
+| CA2 | certos ≥ 95 % dos "achei" | 8 de 11 = **72,7 %** (3 imprecisos: 0,27–0,35 vão) | **reprova** |
+| CA3 | falsos ≤ 2 % | **0 de 30** | **passa** |
+| CA4 | cobertura por canal | cifra club 2/5, kenneth 0/5, shin izumi 0/5, leonardo ramos 4/5, iwaki 0/5, guitar dell'arte 5/5; total **11/30** | relatado |
+| CA5 | ⊥ mediano < linha de base nos "achei" | **0,17** contra 1,10 | **passa** |
+| CA6 | duas execuções idênticas | `cmp` idêntico | **passa** |
+| CA7 | gate | verde | **passa** |
+
+**Veredito: reprova (CA2).** O rastreador não entra no rollout como está.
+
+O que o teste mostra:
+- **Ele nunca disse "achei" errado.** Em 30 quadros houve 0 falsos, enquanto a grade fixa faz
+  18 falsos, 10 imprecisos e 2 certos. Quando achou, errou 0,17 vão no mediano, contra 1,10 da
+  grade fixa nos mesmos quadros.
+- **Os imprecisos ficam perto do limite de 1/4 de vão, a 0,27–0,35 vão** (5–8 px num vão de
+  cerca de 20 px). Não sabemos quanto o próprio clique do dono varia. Sem essa medida, não dá
+  para dizer se 1/4 de vão está acima do ruído do gabarito.
+- **A cobertura caiu a zero em 3 canais**: kenneth, shin izumi e iwaki, todos com câmera aberta.
+  Os pontos da tela levaram a cota de pontos. Diagnóstico feito **depois** do teste, sem mudar
+  nada:
+
+  | quadro | área do braço | pontos ORB no braço (5000 no quadro inteiro) | pontos ORB buscando só no braço |
+  | --- | --- | --- | --- |
+  | q24 (sky, dev) | 9,3 % | 506 | 4169 |
+  | q27 (sky, dev) | 9,4 % | 1100 | 4364 |
+  | q37 (cifra club) | 5,0 % | 1227 | 3528 |
+  | q42 (kenneth) | 5,2 % | **0** | 2919 |
+  | q48 (shin izumi) | 3,2 % | **19** | 3472 |
+  | q57 (iwaki) | 2,7 % | **1** | 1654 |
+
+  - Os 5000 pontos do quadro alvo ficam quase todos na tablatura e no texto, que têm alto
+    contraste.
+  - O braço tem textura de sobra quando buscado sozinho.
+  - Nos 8 pares do desenvolvimento (sky guitar, braço em close), isso não aparecia. Era o risco
+    declarado: todo o desenvolvimento num canal só.
+
+**Próximo (nova rodada, com critérios escritos antes e quadros de teste novos).** Os 30 quadros
+deste teste já foram vistos e não servem mais de teste. Duas mudanças a medir:
+1. Buscar os pontos do alvo só numa região: o quadro sem a caixa da tablatura, ou o braço do
+   quadro-chave alargado.
+2. Medir quanto o dono varia ao remarcar os mesmos quadros sem ver a marca antiga, para saber
+   se o limite de 1/4 de vão está acima do ruído do gabarito.
