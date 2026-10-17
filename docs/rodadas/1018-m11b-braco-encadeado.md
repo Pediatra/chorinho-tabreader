@@ -92,6 +92,21 @@ marca os candidatos (`etapa2`).
   termina logo depois do quadro-chave, então ficam como teste do "não achei".
 - **Regra para os próximos sorteios:** alvos com distância mínima desde o início.
 
+**Emenda 3 (2026-10-17, antes de qualquer execução do rastreador no teste):**
+- O dono achou que marcar os 4 alvos de cada um dos 4 vídeos restantes não acrescentava
+  informação: são alvos do mesmo vídeo, a 10–20 s um do outro.
+- Ficou 1 alvo por vídeo, o mais afastado do quadro-chave (o caso mais difícil):
+  - **q65**: paolo d'angelo, +63,6 s;
+  - **q69**: transcriptor, +41,2 s;
+  - **q73**: kimny's guitar, +87,5 s;
+  - **q74**: vvxofingerstyletab. É o único com violão nesse vídeo.
+- Mais **q77**, com braço `nao`, para testar o "não achei".
+- Os outros 11 (q62–q64, q66–q68, q70–q72, q75 e q76) ficam **fora do teste**, sem marca.
+- O teste passa a ter **20 alvos com braço**, 16 dos 4 vídeos já marcados e 4 dos outros,
+  **mais 1 sem braço**. Os 8 canais seguem cobertos.
+- O CA2 passa a ser "0 falsos nos 21 alvos". Com 0 falsos em ~19 alvos independentes, o
+  limite superior de 95 % da taxa de falsos fica em cerca de 15 %. Os limiares não mudam.
+
 ## Métricas
 
 **Como o dono marca as cordas** (esclarecido pelo dono em 2026-10-17): os 2 pontos das cordas
@@ -110,7 +125,7 @@ São as mesmas da 1015: pestana e pior traste em casas, cordas 1 e 6 na perpendi
 | | critério |
 | --- | --- |
 | CA1 | certos ≥ 95 % dos "achei" |
-| CA2 | **0 falsos** nos 32 alvos |
+| CA2 | **0 falsos** nos 21 alvos (emenda 3; eram 32) |
 | CA3 | **cobertura**: certos ≥ 50 % dos alvos com braço `sim` (decisão do dono, 2026-10-17) |
 | CA4 | cobertura e falsos relatados por canal, com denominador; alvos `parcial` só aqui |
 | CA5 | duas execuções idênticas (`cmp`) |
