@@ -871,7 +871,7 @@ def test_acrescentar_recusa_video_fora_do_acervo(tmp_path: Path) -> None:
 
 
 # ---------------------------------------------------------------------------------
-# Partes do violão (saddle, cavalete, boca, divisão): campos opcionais
+# Partes do violão e painéis (saddle, cavalete, boca, paineis): campos opcionais
 # ---------------------------------------------------------------------------------
 
 
@@ -893,7 +893,7 @@ def _partes_todas_respondidas() -> dict:
     """Registro com as 5 partes respondidas (pontos válidos ou oculto/nao).
 
     Returns:
-        Registro em branco com ``saddle``, ``cavalete``, ``boca`` e ``divisao`` prontos.
+        Registro em branco com ``saddle``, ``cavalete``, ``boca`` e ``paineis`` prontos.
     """
     registro = registro_em_branco("c")
     registro["saddle1"] = [10.0, 10.0]
@@ -906,7 +906,7 @@ def _partes_todas_respondidas() -> dict:
         [200.0, 200.0],
         [100.0, 200.0],
     ]
-    registro["divisao"] = "nao"
+    registro["paineis"] = "nao"
     return registro
 
 
@@ -939,8 +939,8 @@ def test_registro_em_branco_tem_as_partes_em_none() -> None:
     assert all(registro[c] is None for c in CAMPOS_PARTES)
 
 
-def test_saddles_e_divisao_gravam_pontos_e_respondem_oculto() -> None:
-    """Cada clique de saddle grava um ponto; 'oculto' e 'nao' são mudanças de campo."""
+def test_saddles_gravam_pontos_e_respondem_oculto() -> None:
+    """Cada clique de saddle grava um ponto; 'oculto' é mudança de campo."""
     gabarito = _gabarito_com(["q01"])
     _clicar_parte(gabarito, "q01", "saddle1", 100, 200)
     assert gabarito["quadros"]["q01"]["saddle1"] == [100.0, 200.0]
@@ -952,21 +952,174 @@ def test_saddles_e_divisao_gravam_pontos_e_respondem_oculto() -> None:
         gabarito, "q01", {"campo": "saddle6", "valor": "oculto"}, DIMENSOES, "t"
     )
     assert gabarito["quadros"]["q01"]["saddle6"] == "oculto"
-    aplicar_acao(gabarito, "q01", {"campo": "divisao", "valor": "nao"}, DIMENSOES, "t")
-    assert gabarito["quadros"]["q01"]["divisao"] == "nao"
-    aplicar_acao(gabarito, "q01", {"campo": "divisao", "valor": None}, DIMENSOES, "t")
-    assert gabarito["quadros"]["q01"]["divisao"] is None
 
 
-def test_cavalete_e_divisao_seguem_a_logica_do_par_da_corda() -> None:
+def test_cavalete_segue_a_logica_do_par_da_corda() -> None:
     """Dois cliques formam o par; o terceiro começa outro (como corda1)."""
     gabarito = _gabarito_com(["q01"])
-    for modo in ("cavalete", "divisao"):
-        _clicar_parte(gabarito, "q01", modo, 100, 100)
-        _clicar_parte(gabarito, "q01", modo, 1800, 900)
-        assert gabarito["quadros"]["q01"][modo] == [[100.0, 100.0], [1800.0, 900.0]]
-        _clicar_parte(gabarito, "q01", modo, 500, 500)
-        assert gabarito["quadros"]["q01"][modo] == [[500.0, 500.0]]
+    _clicar_parte(gabarito, "q01", "cavalete", 100, 100)
+    _clicar_parte(gabarito, "q01", "cavalete", 1800, 900)
+    assert gabarito["quadros"]["q01"]["cavalete"] == [[100.0, 100.0], [1800.0, 900.0]]
+    _clicar_parte(gabarito, "q01", "cavalete", 500, 500)
+    assert gabarito["quadros"]["q01"]["cavalete"] == [[500.0, 500.0]]
+
+
+def test_paineis_duas_caixas_por_quatro_cliques() -> None:
+    """Dois cliques por caixa; a segunda caixa começa depois do 2º canto da primeira."""
+    gabarito = _gabarito_com(["q01"])
+    for x, y in ((100, 100), (500, 400), (600, 100), (900, 400)):
+        _clicar_parte(gabarito, "q01", "paineis", x, y)
+    assert gabarito["quadros"]["q01"]["paineis"] == [
+        [[100.0, 100.0], [500.0, 400.0]],
+        [[600.0, 100.0], [900.0, 400.0]],
+    ]
+    assert partes_faltando(gabarito["quadros"]["q01"]) == [
+        "saddle1",
+        "saddle6",
+        "cavalete",
+        "boca",
+    ]
+
+
+def test_quarta_caixa_recusada_sem_mudar_o_registro() -> None:
+    """Com 3 caixas, o clique que abriria a 4ª dá ValueError e nada muda."""
+    gabarito = _gabarito_com(["q01"])
+    for x in (100, 300, 500):
+        _clicar_parte(gabarito, "q01", "paineis", x, 100)
+        _clicar_parte(gabarito, "q01", "paineis", x + 50, 200)
+    antes = copy.deepcopy(gabarito["quadros"]["q01"])
+    with pytest.raises(ValueError, match="no máximo 3"):
+        _clicar_parte(gabarito, "q01", "paineis", 700, 100)
+    assert gabarito["quadros"]["q01"] == antes
+
+
+def test_caixa_sem_area_e_recusada() -> None:
+    """Dois cantos com o mesmo x ou o mesmo y não formam caixa: recusa, sem mudança."""
+    gabarito = _gabarito_com(["q01"])
+    _clicar_parte(gabarito, "q01", "paineis", 100, 100)
+    antes = copy.deepcopy(gabarito["quadros"]["q01"])
+    with pytest.raises(ValueError, match="sem área"):
+        _clicar_parte(gabarito, "q01", "paineis", 100, 300)
+    with pytest.raises(ValueError, match="sem área"):
+        _clicar_parte(gabarito, "q01", "paineis", 300, 100)
+    assert gabarito["quadros"]["q01"] == antes
+
+
+def test_paineis_so_respondem_com_duas_ou_tres_caixas_completas() -> None:
+    """Caixa incompleta não conta; 1 caixa completa não conta; 2 ou 3 contam; 'nao' conta."""
+    base = registro_em_branco("c")
+    caixa = [[1.0, 2.0], [30.0, 40.0]]
+    incompleta = [[5.0, 6.0]]
+    casos = {
+        "uma completa": [caixa],
+        "completa e em construcao": [caixa, incompleta],
+        "duas completas": [caixa, [[50.0, 60.0], [70.0, 80.0]]],
+        "tres completas": [caixa, caixa, caixa],
+    }
+    esperado = {
+        "uma completa": False,
+        "completa e em construcao": False,
+        "duas completas": True,
+        "tres completas": True,
+    }
+    for nome, valor in casos.items():
+        assert ("paineis" not in partes_faltando(base | {"paineis": valor})) is (
+            esperado[nome]
+        ), nome
+    assert "paineis" not in partes_faltando(base | {"paineis": "nao"})
+    assert "paineis" in partes_faltando(base | {"paineis": None})
+
+
+def test_completar_campos_migra_divisao_nao_para_paineis_nao() -> None:
+    """Registro com divisao 'nao' e sem a chave paineis ganha paineis 'nao'."""
+    registro = registro_em_branco("c")
+    del registro["paineis"]
+    registro["divisao"] = "nao"
+    completar_campos(registro)
+    assert registro["paineis"] == "nao"
+    assert registro["divisao"] == "nao"
+
+
+def test_completar_campos_divisao_com_pontos_vira_paineis_none() -> None:
+    """Divisão com pontos não vira painel: paineis None e a divisão fica igual."""
+    registro = registro_em_branco("c")
+    del registro["paineis"]
+    registro["divisao"] = [[1.0, 2.0], [3.0, 4.0]]
+    completar_campos(registro)
+    assert registro["paineis"] is None
+    assert registro["divisao"] == [[1.0, 2.0], [3.0, 4.0]]
+
+
+def test_completar_campos_nao_mexe_em_paineis_ja_existentes() -> None:
+    """Chave paineis presente (com caixas ou com None após 'limpar') não é tocada.
+
+    Se o None do 'limpar painéis' voltasse a 'nao' no carregamento, o dono perderia a
+    limpeza a cada reinício; por isso a migração só roda quando a chave falta.
+    """
+    com_caixas = registro_em_branco("c") | {
+        "divisao": "nao",
+        "paineis": [[[1.0, 2.0], [3.0, 4.0]], [[5.0, 6.0], [7.0, 8.0]]],
+    }
+    completar_campos(com_caixas)
+    assert com_caixas["paineis"] == [
+        [[1.0, 2.0], [3.0, 4.0]],
+        [[5.0, 6.0], [7.0, 8.0]],
+    ]
+    limpo = registro_em_branco("c") | {"divisao": "nao", "paineis": None}
+    completar_campos(limpo)
+    assert limpo["paineis"] is None
+
+
+def test_desfazer_volta_o_clique_de_painel() -> None:
+    """Cada desfazer volta um clique: caixa fechada, depois só o 1º canto, depois vazio."""
+    gabarito = _gabarito_com(["q01"])
+    _clicar_parte(gabarito, "q01", "paineis", 100, 100)
+    _clicar_parte(gabarito, "q01", "paineis", 500, 400)
+    _clicar_parte(gabarito, "q01", "paineis", 600, 100)
+    aplicar_acao(gabarito, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert gabarito["quadros"]["q01"]["paineis"] == [[[100.0, 100.0], [500.0, 400.0]]]
+    aplicar_acao(gabarito, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert gabarito["quadros"]["q01"]["paineis"] == [[[100.0, 100.0]]]
+    aplicar_acao(gabarito, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert gabarito["quadros"]["q01"]["paineis"] is None
+
+
+def test_desfazer_de_foto_sem_paineis_restaura_o_que_a_migracao_daria() -> None:
+    """Foto de antes dos painéis com divisão 'nao': desfazer põe paineis 'nao'."""
+    gabarito = _gabarito_com(["q01"])
+    registro = gabarito["quadros"]["q01"]
+    registro["divisao"] = "nao"
+    registro["paineis"] = [[[1.0, 2.0], [3.0, 4.0]]]
+    registro["historico"] = [{"braco": None, "corda1": None}]
+    aplicar_acao(gabarito, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert registro["paineis"] == "nao"
+
+
+def test_braco_nao_nao_apaga_os_paineis() -> None:
+    """Braço 'nao' limpa a geometria, mas as caixas de painel ficam."""
+    gabarito = _gabarito_com(["q01"])
+    aplicar_acao(gabarito, "q01", {"campo": "paineis", "valor": "nao"}, DIMENSOES, "t")
+    aplicar_acao(gabarito, "q01", {"campo": "braco", "valor": "nao"}, DIMENSOES, "t")
+    assert gabarito["quadros"]["q01"]["paineis"] == "nao"
+
+
+def test_divisao_antiga_nao_muda_com_os_cliques_e_o_desfazer() -> None:
+    """O rótulo antigo 'divisao' é só guardado: nenhum clique ou desfazer o toca."""
+    gabarito = _gabarito_com(["q01"])
+    registro = gabarito["quadros"]["q01"]
+    registro["divisao"] = [[1.0, 2.0], [3.0, 4.0]]
+    _clicar_parte(gabarito, "q01", "paineis", 100, 100)
+    _clicar_parte(gabarito, "q01", "paineis", 500, 400)
+    aplicar_acao(gabarito, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    aplicar_acao(gabarito, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert registro["divisao"] == [[1.0, 2.0], [3.0, 4.0]]
+
+
+def test_registro_novo_nao_tem_divisao() -> None:
+    """Registro em branco não traz a chave antiga 'divisao', mas traz 'paineis'."""
+    registro = registro_em_branco("c")
+    assert "divisao" not in registro
+    assert registro["paineis"] is None
 
 
 def test_cavalete_nao_mistura_com_valor_oculto_ao_clicar() -> None:
@@ -1038,10 +1191,12 @@ def test_registro_completo_nao_muda_com_as_partes() -> None:
 
 
 def test_valores_invalidos_das_partes_dao_valueerror() -> None:
-    """'oculto' em divisão, 'nao' em saddle, lista em valor de campo e ponto ruim."""
+    """'oculto' em painéis, 'nao' em saddle, lista em valor de campo, 'divisao' e ponto ruim."""
     gabarito = _gabarito_com(["q01"])
     casos = [
-        {"campo": "divisao", "valor": "oculto"},
+        {"campo": "paineis", "valor": "oculto"},
+        {"campo": "paineis", "valor": [[[1, 2], [3, 4]]]},
+        {"campo": "divisao", "valor": "nao"},
         {"campo": "saddle1", "valor": "nao"},
         {"campo": "cavalete", "valor": [[1, 2], [3, 4]]},
         {"campo": "boca", "valor": "sim"},
@@ -1054,7 +1209,7 @@ def test_valores_invalidos_das_partes_dao_valueerror() -> None:
     with pytest.raises(ValueError):
         _clicar_parte(gabarito, "q01", "saddle1", 5000, 10)
     assert gabarito["quadros"]["q01"]["saddle1"] is None
-    assert gabarito["quadros"]["q01"]["divisao"] is None
+    assert gabarito["quadros"]["q01"]["paineis"] is None
 
 
 def _clicar_parte_bruta(
@@ -1119,11 +1274,26 @@ def test_mesclar_mantem_as_partes_do_disco() -> None:
     registro = existente["quadros"]["q01"]
     registro["respondido_em"] = "2026-10-16T10:00:00"
     registro["saddle1"] = [7.0, 8.0]
-    for c in ("saddle6", "cavalete", "boca", "divisao"):
+    registro["divisao"] = [[1.0, 2.0], [3.0, 4.0]]
+    for c in ("saddle6", "cavalete", "boca", "paineis"):
         del registro[c]
     mesclado = mesclar_gabarito(novo, existente)
     assert mesclado["quadros"]["q01"]["saddle1"] == [7.0, 8.0]
-    assert mesclado["quadros"]["q01"]["divisao"] is None
+    assert mesclado["quadros"]["q01"]["paineis"] is None
+    assert mesclado["quadros"]["q01"]["divisao"] == [[1.0, 2.0], [3.0, 4.0]]
+
+
+def test_mesclar_migra_divisao_nao_do_disco_para_paineis() -> None:
+    """Quadro respondido com divisão 'nao' no disco entra como paineis 'nao'."""
+    novo = _gabarito_com(["q01"])
+    existente = _gabarito_com(["q01"])
+    registro = existente["quadros"]["q01"]
+    registro["respondido_em"] = "2026-10-16T10:00:00"
+    registro["divisao"] = "nao"
+    del registro["paineis"]
+    mesclado = mesclar_gabarito(novo, existente)
+    assert mesclado["quadros"]["q01"]["paineis"] == "nao"
+    assert mesclado["quadros"]["q01"]["divisao"] == "nao"
 
 
 def test_servidor_completa_partes_de_gabarito_antigo(tmp_path: Path) -> None:
@@ -1146,12 +1316,12 @@ def test_servidor_completa_partes_de_gabarito_antigo(tmp_path: Path) -> None:
             estado = json.loads(r.read())
         assert estado["partes_concluidas"] == 0
         codigo, resposta = _post(
-            porta, {"quadro": "q01", "campo": "divisao", "valor": "nao"}
+            porta, {"quadro": "q01", "campo": "paineis", "valor": "nao"}
         )
         assert codigo == 200
-        assert resposta["quadros"]["q01"]["registro"]["divisao"] == "nao"
+        assert resposta["quadros"]["q01"]["registro"]["paineis"] == "nao"
         gravado = json.loads(ouro.read_text(encoding="utf-8"))["quadros"]["q01"]
-        assert gravado["divisao"] == "nao"
+        assert gravado["paineis"] == "nao"
         assert gravado["saddle1"] is None
     finally:
         servidor.shutdown()

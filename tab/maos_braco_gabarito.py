@@ -84,11 +84,12 @@ MODOS_CLIQUE = (
     "saddle6",
     "cavalete",
     "boca",
-    "divisao",
+    "paineis",
 )
 
-#: Partes do violão além do braço. Cada uma começa ``None`` (= não respondida).
-CAMPOS_PARTES = ("saddle1", "saddle6", "cavalete", "boca", "divisao")
+#: Partes do violão e da tela além do braço. Cada uma começa ``None`` (= não respondida).
+#: ``paineis`` são as caixas em volta das câmeras (ver ``aplicar_painel``).
+CAMPOS_PARTES = ("saddle1", "saddle6", "cavalete", "boca", "paineis")
 
 #: Valor que cada parte aceita além dos pontos (mudança de campo, não clique).
 VALORES_PARTE = {
@@ -96,8 +97,13 @@ VALORES_PARTE = {
     "saddle6": "oculto",
     "cavalete": "oculto",
     "boca": "oculto",
-    "divisao": "nao",
+    "paineis": "nao",
 }
+
+#: Caixas de painel por quadro: 2 ou 3 para contar como respondido (uma por câmera
+#: visível). Com ``PAINEIS_MAXIMO`` caixas, um clique que abriria a próxima é recusado.
+PAINEIS_MINIMO = 2
+PAINEIS_MAXIMO = 3
 
 #: Pontos da boca: ``[5, 8]`` quando é lista (5 definem a elipse da boca vista em
 #: perspectiva). Mais que 8 é recusado no clique.
@@ -105,6 +111,8 @@ BOCA_MINIMA = 5
 BOCA_MAXIMA = 8
 
 #: Campos de resposta do quadro (o que o desfazer restaura e o gabarito guarda).
+#: ``divisao`` é a linha antiga (refeita como ``paineis``): não é mais editável, mas
+#: o valor de quem já a marcou continua guardado e é mesclado.
 CAMPOS_RESPOSTA = (
     "braco",
     "corda1",
@@ -113,10 +121,12 @@ CAMPOS_RESPOSTA = (
     "trastes",
     "traste_referencia",
     *CAMPOS_PARTES,
+    "divisao",
     "obs",
 )
 
-#: Campos que o desfazer restaura (a observação fica de fora de propósito).
+#: Campos que o desfazer restaura (a observação fica de fora de propósito). A
+#: ``divisao`` antiga também fica de fora: o desfazer não mexe no rótulo do dono.
 CAMPOS_DESFAZER = (
     "braco",
     "corda1",
@@ -416,6 +426,44 @@ def aplicar_boca(pontos: list[Ponto] | None, ponto: Ponto, raio: float) -> list[
     return [*atuais, ponto]
 
 
+def aplicar_painel(caixas: list[list[Ponto]] | None, ponto: Ponto) -> list[list[Ponto]]:
+    """Acrescenta um clique às caixas de painel (cada caixa tem 2 cantos opostos).
+
+    Se a última caixa tem só o 1º canto, este clique é o 2º e fecha a caixa. Senão,
+    o clique abre uma caixa nova. Uma caixa com o mesmo x ou o mesmo y nos dois cantos
+    tem largura ou altura zero e é recusada. Com ``PAINEIS_MAXIMO`` caixas, um clique
+    que abriria outra é recusado (fechar a última, ainda aberta, continua permitido).
+
+    Significado: uma caixa em volta de cada câmera visível. Lado a lado: 2 caixas.
+    Janela da câmera direita por cima da tela grande: 1 caixa para a tela grande e 1
+    para a janela. Quando duas caixas se sobrepõem, vale a menor (a janela por cima).
+
+    Args:
+        caixas: caixas já marcadas (``[[canto, canto]]`` ou ``[[canto]]`` em construção)
+            ou ``None``.
+        ponto: o clique novo.
+
+    Returns:
+        A nova lista de caixas (nova cópia; a entrada não muda).
+
+    Raises:
+        ValueError: se a caixa tiver largura ou altura zero, ou se o clique abrisse
+            caixa além de ``PAINEIS_MAXIMO``.
+    """
+    atuais = [[list(p) for p in caixa] for caixa in (caixas or [])]
+    if atuais and len(atuais[-1]) == 1:
+        primeiro = atuais[-1][0]
+        if primeiro[0] == ponto[0] or primeiro[1] == ponto[1]:
+            raise ValueError(
+                "caixa sem área: os dois cantos têm o mesmo x ou o mesmo y"
+            )
+        atuais[-1] = [primeiro, list(ponto)]
+        return atuais
+    if len(atuais) >= PAINEIS_MAXIMO:
+        raise ValueError(f"no máximo {PAINEIS_MAXIMO} caixas de painel")
+    return [*atuais, [list(ponto)]]
+
+
 def _direcao_principal(pontos: list[Ponto]) -> tuple[float, float]:
     """Direção do eixo principal de uma nuvem de pontos (PCA em 2D).
 
@@ -529,23 +577,48 @@ def registro_em_branco(chave: str) -> dict:
         "saddle6": None,
         "cavalete": None,
         "boca": None,
-        "divisao": None,
+        "paineis": None,
         "obs": None,
         "respondido_em": None,
         "historico": [],
     }
 
 
-def completar_campos(registro: dict) -> None:
-    """Acrescenta as chaves das partes do violão que o registro não tem, com ``None``.
+def _paineis_da_divisao(registro: dict) -> str | None:
+    """Valor de ``paineis`` que a resposta antiga (``divisao``) já dá.
 
-    Registros gravados antes das partes não têm essas chaves. Só as chaves de
-    ``CAMPOS_PARTES`` são acrescentadas; nenhum valor existente muda, e o histórico
-    fica como estava.
+    Só a divisão ``"nao"`` (tela de uma câmera) tem equivalente direto. A divisão com
+    pontos não é convertida: o dono refaz o quadro como caixas de painel.
+
+    Args:
+        registro: resposta do quadro, com ou sem ``divisao``.
+
+    Returns:
+        ``"nao"`` se a divisão era ``"nao"``; senão ``None``.
+    """
+    return "nao" if registro.get("divisao") == "nao" else None
+
+
+def completar_campos(registro: dict) -> None:
+    """Acrescenta as chaves das partes que o registro não tem, e migra ``divisao``.
+
+    Registros gravados antes das partes não têm essas chaves; só as de
+    ``CAMPOS_PARTES`` são acrescentadas (com ``None``). Nenhum valor existente muda.
+
+    Migração de ``divisao`` para ``paineis``: quando o registro NÃO tem a chave
+    ``paineis``, ela recebe ``"nao"`` se a ``divisao`` era ``"nao"`` (é a mesma resposta
+    do dono: tela de uma câmera), e ``None`` caso contrário. A divisão com pontos fica
+    em ``divisao`` e não vira painel: o quadro volta a ser respondido como painéis.
+
+    Quando a chave ``paineis`` já existe, mesmo com ``None``, o registro não é tocado.
+    Isso é de propósito: o botão "limpar painéis" grava ``None``, e uma migração a cada
+    carregamento faria o ``"nao"`` antigo voltar sozinho.
 
     Args:
         registro: resposta de um quadro, alterada em lugar.
     """
+    if "paineis" not in registro:
+        registro["paineis"] = _paineis_da_divisao(registro)
     for campo in CAMPOS_PARTES:
         if campo not in registro:
             registro[campo] = None
@@ -643,6 +716,29 @@ def _ponto_valido(valor: object) -> bool:
     return True
 
 
+def _paineis_respondidos(valor: object) -> bool:
+    """Se os painéis estão respondidos: 2 ou 3 caixas, todas completas (2 cantos).
+
+    Uma caixa em construção (só o 1º canto) ou uma caixa sozinha não conta.
+
+    Args:
+        valor: o campo ``paineis`` do registro.
+
+    Returns:
+        True com 2 ou 3 caixas completas e válidas.
+    """
+    if not isinstance(valor, list):
+        return False
+    if not PAINEIS_MINIMO <= len(valor) <= PAINEIS_MAXIMO:
+        return False
+    return all(
+        isinstance(caixa, list)
+        and len(caixa) == 2
+        and all(_ponto_valido(p) for p in caixa)
+        for caixa in valor
+    )
+
+
 def _parte_respondida(campo: str, valor: object) -> bool:
     """Se uma parte do violão está respondida (pontos válidos, ``oculto`` ou ``nao``).
 
@@ -655,6 +751,8 @@ def _parte_respondida(campo: str, valor: object) -> bool:
     """
     if valor == VALORES_PARTE[campo]:
         return True
+    if campo == "paineis":
+        return _paineis_respondidos(valor)
     if campo in ("saddle1", "saddle6"):
         return _ponto_valido(valor)
     if not isinstance(valor, list):
@@ -683,11 +781,12 @@ def partes_faltando(registro: dict) -> list[str]:
 
 
 def partes_completas(registro: dict) -> bool:
-    """Se as 5 partes do violão estão respondidas.
+    """Se as 5 partes (saddles, cavalete, boca e painéis) estão respondidas.
 
-    Cada parte precisa de ``oculto`` (ou ``nao``, para a divisão) ou de pontos válidos:
-    saddle 1 e 6 com um ponto; cavalete e divisão com 2; boca com 5 a 8. Isto não
-    muda ``registro_completo``: o gabarito do braço segue igual.
+    Cada parte precisa de ``oculto`` (ou ``nao``, para os painéis: uma câmera só) ou de
+    pontos válidos: saddle 1 e 6 com um ponto; cavalete com 2; boca com 5 a 8; painéis
+    com 2 ou 3 caixas completas. Isto não muda ``registro_completo``: o gabarito do
+    braço segue igual.
 
     Args:
         registro: resposta de um quadro.
@@ -747,7 +846,8 @@ def mesclar_gabarito(novo: dict, existente: dict | None) -> dict:
         if antigo.get("chave") != atual["chave"]:
             raise ValueError(f"{id_q} tem resposta de outro vídeo; não mesclou")
         for campo in (*CAMPOS_RESPOSTA, "respondido_em", "historico"):
-            atual[campo] = copy.deepcopy(antigo.get(campo, atual[campo]))
+            if campo in antigo:
+                atual[campo] = copy.deepcopy(antigo[campo])
     return novo
 
 
@@ -872,10 +972,16 @@ def _clicar(
     ponto = converter_clique(dados.get("ponto_img"), dados.get("escala"))
     validar_no_quadro(ponto, dimensoes)
     raio = FRACAO_RAIO_TRASTE * dimensoes[0]
-    # A boca é calculada antes do histórico: se recusar (9º ponto), nada muda.
+    # Boca e painéis são calculados antes do histórico: se recusarem (9º ponto, 4ª
+    # caixa, caixa sem área), nada muda.
     nova_boca = (
         aplicar_boca(_lista_ou_none(registro.get("boca")), ponto, raio)
         if modo == "boca"
+        else None
+    )
+    novos_paineis = (
+        aplicar_painel(_lista_ou_none(registro.get("paineis")), ponto)
+        if modo == "paineis"
         else None
     )
     _empilhar(registro)
@@ -885,10 +991,12 @@ def _clicar(
         registro["nut"] = ponto
     elif modo in ("saddle1", "saddle6"):
         registro[modo] = ponto
-    elif modo in ("cavalete", "divisao"):
+    elif modo == "cavalete":
         registro[modo] = aplicar_par(_lista_ou_none(registro.get(modo)), ponto)
     elif modo == "boca":
         registro["boca"] = nova_boca
+    elif modo == "paineis":
+        registro["paineis"] = novos_paineis
     else:
         remover = dados.get("remover", False) is True
         registro["trastes"] = aplicar_traste(
@@ -990,6 +1098,9 @@ def aplicar_acao(
         # ``get``: fotos gravadas antes das partes não têm essas chaves (eram None).
         for c in CAMPOS_DESFAZER:
             registro[c] = copy.deepcopy(foto.get(c))
+        if "paineis" not in foto:
+            # Foto de antes dos painéis: vale o que completar_campos daria a ela.
+            registro["paineis"] = _paineis_da_divisao(registro)
         registro["historico"] = registro["historico"][:-1]
         registro["respondido_em"] = agora
     elif acao == "clique":
@@ -1233,6 +1344,7 @@ input[type=number] { width: 72px; }
 .partes-lista li { margin: 2px 0; }
 .partes-lista .faltando { color: #ffb86b; }
 .partes-lista .respondido { color: #9fe3b8; }
+.aviso-antiga { color: #ffb86b; font-size: 13px; }
 </style>
 </head>
 <body>
@@ -1247,9 +1359,14 @@ input[type=number] { width: 72px; }
     <br>Partes (opcionais): <b>s</b> saddle da corda 1 (1 clique no rastilho);
     <b>d</b> saddle da corda 6 (idem); <b>c</b> cavalete (2 cliques: ponta do lado da
     corda 6, depois ponta do lado da corda 1); <b>b</b> boca (5 a 8 cliques espalhados na borda do
-    buraco; clique perto de um ponto marcado o remove); <b>v</b> divisão (2 cliques
-    sobre a linha que separa os painéis). Botão <b>oculto</b> quando a parte não aparece
-    neste quadro; <b>não dividida</b> quando a tela não tem dois painéis.
+    buraco; clique perto de um ponto marcado o remove); <b>v</b> painéis: uma caixa em
+    volta de <b>cada</b> câmera visível, 2 cliques nos cantos opostos (2 ou 3 caixas).
+    Lado a lado: 2 caixas. Janela por cima da tela grande: 1 caixa para a tela grande e
+    1 para a janela. Quando duas caixas se sobrepõem, vale a <b>menor</b> (a janela por
+    cima). Máximo 3 caixas. Botão <b>uma câmera só</b> quando a tela tem uma câmera;
+    <b>limpar painéis</b> apaga as caixas. Botão <b>oculto</b> quando a parte não aparece
+    neste quadro.
+    <br><b>Divisão antiga</b> (a linha de antes, em cinza): refaça o quadro com as caixas.
   </div>
   <div class="barra">
     <button id="ant">&larr; anterior</button>
@@ -1276,12 +1393,13 @@ input[type=number] { width: 72px; }
     <button data-modo="saddle6">d saddle corda 6</button>
     <button data-modo="cavalete">c cavalete</button>
     <button data-modo="boca">b boca</button>
-    <button data-modo="divisao">v divisão</button>
+    <button data-modo="paineis">v painéis</button>
     <button data-campo="saddle1" data-valor="oculto">saddle 1 oculto</button>
     <button data-campo="saddle6" data-valor="oculto">saddle 6 oculto</button>
     <button data-campo="cavalete" data-valor="oculto">cavalete oculto</button>
     <button data-campo="boca" data-valor="oculto">boca oculta</button>
-    <button data-campo="divisao" data-valor="nao">não dividida</button>
+    <button data-campo="paineis" data-valor="nao">uma câmera só</button>
+    <button id="limpar-paineis">limpar painéis</button>
   </div>
 </header>
 <main>
@@ -1292,7 +1410,8 @@ input[type=number] { width: 72px; }
     <span style="color:#a78bfa">&#9679; S6 saddle corda 6</span>
     <span style="color:#38bdf8">&#9679; cavalete</span>
     <span style="color:#f87171">&#9679; boca</span>
-    <span style="color:#e5e7eb">- - divisão</span>
+    <span style="color:#60a5fa">&#9645; painel (caixa tracejada)</span>
+    <span style="color:#e5e7eb">- - divisão antiga (refazer como painéis)</span>
     <span style="color:#ffe066">&#9679; trastes</span>
     <span style="color:#2ecc71">&#9679; corda 1</span>
     <span style="color:#ff8c1a">&#9679; corda 6</span>
@@ -1420,17 +1539,18 @@ function desenhar() {
 }
 
 // Cores das partes (distintas das do braço); a legenda da página mostra as mesmas.
+// divisao: só a linha antiga, desenhada em cinza até o dono refazer o quadro.
 const COR_PARTE = {
   saddle1: "#ff4fa3", saddle6: "#a78bfa", cavalete: "#38bdf8",
-  boca: "#f87171", divisao: "#e5e7eb",
+  boca: "#f87171", paineis: "#60a5fa", divisao: "#e5e7eb",
 };
 // Teclas das partes (s, d, c, b, v): livres no resto da página.
 const TECLAS_PARTE = new Map([
-  ["s", "saddle1"], ["d", "saddle6"], ["c", "cavalete"], ["b", "boca"], ["v", "divisao"],
+  ["s", "saddle1"], ["d", "saddle6"], ["c", "cavalete"], ["b", "boca"], ["v", "paineis"],
 ]);
 const NOME_PARTE = {
   saddle1: "saddle 1", saddle6: "saddle 6", cavalete: "cavalete",
-  boca: "boca", divisao: "divisão",
+  boca: "boca", paineis: "painéis",
 };
 
 function desenharPartes(svg, r, w, raio, espessura, fonte) {
@@ -1463,8 +1583,9 @@ function desenharPartes(svg, r, w, raio, espessura, fonte) {
     b.forEach((p) => svg.appendChild(ponto(p[0], p[1], raio, COR_PARTE.boca, "#000")));
     svg.appendChild(texto(b[0][0], b[0][1] - raio * 2, "boca", fonte, COR_PARTE.boca));
   }
+  desenharPaineis(svg, r, espessura, raio, fonte);
   if (Array.isArray(r.divisao) && r.divisao.length === 2) {
-    // A divisão é uma linha: o trecho marcado é estendido para as bordas (o svg corta).
+    // Divisão antiga (linha): o trecho marcado é estendido para as bordas (o svg corta).
     const [a, b] = r.divisao;
     const dx = b[0] - a[0], dy = b[1] - a[1];
     const k = 50;
@@ -1473,8 +1594,34 @@ function desenharPartes(svg, r, w, raio, espessura, fonte) {
     svg.appendChild(l);
     svg.appendChild(ponto(a[0], a[1], raio, COR_PARTE.divisao, "#000"));
     svg.appendChild(ponto(b[0], b[1], raio, COR_PARTE.divisao, "#000"));
-    svg.appendChild(texto(a[0], a[1] - raio * 2, "divisão", fonte, COR_PARTE.divisao));
+    svg.appendChild(texto(a[0], a[1] - raio * 2, "divisão antiga (refazer como painéis)", fonte, COR_PARTE.divisao));
   }
+}
+
+// Uma caixa por câmera visível. Com caixas sobrepostas, a menor (a janela por cima)
+// é a que vale; o desenho só mostra as caixas, sem decidir qual delas conta.
+function desenharPaineis(svg, r, espessura, raio, fonte) {
+  const caixas = Array.isArray(r.paineis) ? r.paineis : [];
+  caixas.forEach((caixa, k) => {
+    const rotulo = "painel " + (k + 1);
+    if (caixa.length === 2) {
+      const [a, b] = caixa;
+      const x0 = Math.min(a[0], b[0]), y0 = Math.min(a[1], b[1]);
+      const ret = document.createElementNS(NS, "rect");
+      ret.setAttribute("x", x0); ret.setAttribute("y", y0);
+      ret.setAttribute("width", Math.abs(b[0] - a[0]));
+      ret.setAttribute("height", Math.abs(b[1] - a[1]));
+      ret.setAttribute("fill", "none");
+      ret.setAttribute("stroke", COR_PARTE.paineis);
+      ret.setAttribute("stroke-width", espessura);
+      ret.setAttribute("stroke-dasharray", (espessura * 4) + " " + (espessura * 3));
+      svg.appendChild(ret);
+      svg.appendChild(texto(x0, y0 - raio * 2, rotulo, fonte, COR_PARTE.paineis));
+    } else if (caixa.length === 1) {
+      svg.appendChild(ponto(caixa[0][0], caixa[0][1], raio, COR_PARTE.paineis, "#000"));
+      svg.appendChild(texto(caixa[0][0], caixa[0][1] - raio * 2, rotulo + " (falta o 2º canto)", fonte, COR_PARTE.paineis));
+    }
+  });
 }
 
 function blocoPartes() {
@@ -1494,7 +1641,8 @@ function blocoPartes() {
     const valor = r[campo];
     let descricao;
     if (valor === "oculto") descricao = "oculto neste quadro";
-    else if (valor === "nao") descricao = "não dividida";
+    else if (valor === "nao") descricao = "uma câmera só";
+    else if (campo === "paineis" && Array.isArray(valor)) descricao = valor.length + " caixa(s)";
     else if (Array.isArray(valor)) descricao = valor.length + " ponto(s)";
     else descricao = "sem resposta";
     const li = document.createElement("li");
@@ -1504,6 +1652,13 @@ function blocoPartes() {
     lista.appendChild(li);
   });
   box.appendChild(lista);
+  if (Array.isArray(r.divisao) && r.divisao.length) {
+    const aviso = document.createElement("p");
+    aviso.className = "aviso-antiga";
+    aviso.textContent = "divisão antiga (refazer como painéis): " + r.divisao.length +
+      " ponto(s) marcados. Refaça este quadro com as caixas de painel.";
+    box.appendChild(aviso);
+  }
 }
 
 function blocoTrastes() {
@@ -1662,6 +1817,9 @@ document.querySelectorAll("[data-campo]").forEach((b) => {
 });
 $("fora").addEventListener("click", () => {
   enviar({ quadro: atual().id, campo: "nut", valor: "fora" });
+});
+$("limpar-paineis").addEventListener("click", () => {
+  enviar({ quadro: atual().id, campo: "paineis", valor: null });
 });
 $("desfazer").addEventListener("click", () => {
   enviar({ quadro: atual().id, acao: "desfazer" });
