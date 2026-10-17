@@ -71,6 +71,27 @@ marca os candidatos (`etapa2`).
 - O dono marcou completo os 5 candidatos de cada vídeo, e não só até o primeiro com braço.
   Os candidatos que não viram quadro-chave **não** entram nos critérios.
 
+**Emenda 2 (2026-10-17, antes de qualquer execução do rastreador no teste):**
+- O sorteio uniforme dos alvos não exigia distância entre eles, e alguns caíram colados:
+  - kimny's guitar: 151,66 e 151,71 s;
+  - pablo romé: 181,38 e 181,54 s;
+  - paolo d'angelo: 402,06 e 402,72 s.
+- A pedido do dono, os alvos dos 4 vídeos ainda não marcados foram sorteados de novo por
+  código (`python -m tab.maos_braco_m11b refazer`): paolo d'angelo, transcriptor, kimny's
+  guitar e vvxofingerstyletab.
+  - Gerador: `alvos_espacados`, com distância mínima de 10 s entre alvos. Em vídeo curto, a
+    distância cai para o intervalo dividido por 4.
+  - Os alvos antigos ficam em `refeitos` no `chaves.json`. As imagens antigas estão em
+    `data/saida/maos/m11b/descartados_alvos_colados/`, e os ids q62–q77 foram reusados.
+- Os 4 vídeos já marcados ficam como estavam: pablo romé, mr. tabs, lonelypicker e tv on
+  guitar.
+  - Dois pares seguem quase repetidos: pablo romé (0,16 s) e lonelypicker (1 s).
+  - Por isso, os 32 alvos equivalem a cerca de 30 independentes, e o limite superior da
+    taxa de falsos com 0 falsos fica um pouco acima dos 9 % escritos.
+- Os alvos do vvxofingerstyletab q75–q77 caem de novo na tela final, sem violão. O vídeo
+  termina logo depois do quadro-chave, então ficam como teste do "não achei".
+- **Regra para os próximos sorteios:** alvos com distância mínima desde o início.
+
 ## Métricas
 
 **Como o dono marca as cordas** (esclarecido pelo dono em 2026-10-17): os 2 pontos das cordas

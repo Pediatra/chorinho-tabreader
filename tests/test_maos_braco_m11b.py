@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import itertools
 import json
 import random
 from pathlib import Path
@@ -19,12 +20,15 @@ from tab.maos_braco_m11b import (
     SEMENTE,
     _quadros_gravados,
     alvos,
+    alvos_espacados,
     canais_do_gabarito,
     candidatos,
     escolher_quadro_chave,
     lista_da_etapa1,
     montar_etapa2,
     planejar_etapa1,
+    refazer_alvos,
+    remover_em_branco,
     rng_do_video,
     sortear_videos,
     substituir_video,
@@ -294,3 +298,69 @@ def test_substituir_video_recusa_canal_fora_do_sorteio() -> None:
     sorteio = planejar_etapa1(censo, set(), lambda _arquivo: 100.0)
     with pytest.raises(ValueError, match="não está no sorteio"):
         substituir_video(sorteio, "zzz", censo, lambda _a: 100.0, "x")
+
+
+def test_alvos_espacados_respeitam_a_distancia() -> None:
+    rng = random.Random(1)
+    instantes = alvos_espacados(10.0, 300.0, rng)
+    assert len(instantes) == 4
+    assert all(b - a >= 10.0 for a, b in itertools.pairwise(instantes))
+    assert instantes[0] >= 15.0
+    assert instantes[-1] <= 299.0
+
+
+def test_alvos_espacados_em_video_curto_encolhem_a_distancia() -> None:
+    instantes = alvos_espacados(85.8, 109.66, random.Random(2))
+    espaco = (109.66 - 1.0 - 90.8) / 4
+    assert all(b - a >= espaco - 1e-9 for a, b in itertools.pairwise(instantes))
+
+
+def test_refazer_alvos_so_mexe_nos_canais_pedidos() -> None:
+    chaves = {
+        "semente": 1,
+        "videos": [
+            {
+                "canal": "a",
+                "arquivo": "a/v.mp4",
+                "duracao": 300.0,
+                "t_chave": 30.0,
+                "braco_chave": "sim",
+                "alvos": [40.0, 40.1, 50.0, 60.0],
+            },
+            {
+                "canal": "b",
+                "arquivo": "b/v.mp4",
+                "duracao": 300.0,
+                "t_chave": 30.0,
+                "braco_chave": "sim",
+                "alvos": [40.0, 40.1, 50.0, 60.0],
+            },
+        ],
+    }
+    novo, lista = refazer_alvos(chaves, ["b"], "colados")
+    assert novo["videos"][0]["alvos"] == [40.0, 40.1, 50.0, 60.0]
+    assert novo["videos"][1]["alvos"] != [40.0, 40.1, 50.0, 60.0]
+    assert novo["refeitos"][0]["alvos_antigos"] == [40.0, 40.1, 50.0, 60.0]
+    assert len(lista) == 4
+    assert chaves["videos"][1]["alvos"] == [40.0, 40.1, 50.0, 60.0]
+
+
+def test_remover_em_branco_recusa_quadro_respondido() -> None:
+    indice = {
+        "quadros": [
+            {"id": "q01", "arquivo": "a", "t": 1.0},
+            {"id": "q02", "arquivo": "a", "t": 2.0},
+        ]
+    }
+    gabarito = {
+        "quadros": {
+            "q01": {"respondido_em": "2026-10-17", "trastes": []},
+            "q02": {"respondido_em": "2026-10-17", "braco": "nao"},
+        }
+    }
+    with pytest.raises(ValueError, match="q02"):
+        remover_em_branco(indice, gabarito, {("a", 1.0), ("a", 2.0)})
+    assert len(indice["quadros"]) == 2
+    assert remover_em_branco(indice, gabarito, {("a", 1.0)}) == ["q01"]
+    assert [q["id"] for q in indice["quadros"]] == ["q02"]
+    assert set(gabarito["quadros"]) == {"q02"}

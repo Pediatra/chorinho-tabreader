@@ -29,6 +29,7 @@ Uso::
 from __future__ import annotations
 
 import argparse
+import itertools
 import json
 import math
 import os
@@ -45,7 +46,7 @@ from .caminhos import (
     MAOS_M11B,
     acervo,
 )
-from .maos_braco_gabarito import gabarito_novo
+from .maos_braco_gabarito import CAMPOS_RESPOSTA, gabarito_novo
 
 #: Semente do sorteio do teste (rodada 1018).
 SEMENTE = 20261018
@@ -68,6 +69,14 @@ FOLGA_S = 5.0
 
 #: Margem, em segundos, antes do fim do vídeo: nenhum alvo cai nela.
 MARGEM_FIM_S = 1.0
+
+#: Distância mínima, em segundos, entre dois alvos do mesmo vídeo (emenda de 2026-10-17:
+#: o sorteio uniforme pôs alvos a 0,05 s um do outro). Em vídeo curto vale o
+#: comprimento do intervalo dividido por ``N_ALVOS``, se for menor.
+ESPACO_MINIMO_S = 10.0
+
+#: Tentativas do sorteio por rejeição dos alvos espaçados.
+TENTATIVAS_ESPACADOS = 100_000
 
 #: Valores de ``braco`` que contam como braço presente no quadro-chave.
 BRACOS_CHAVE = ("sim", "parcial")
@@ -450,6 +459,122 @@ def substituir_video(
     return novo, lista
 
 
+def alvos_espacados(t_chave: float, duracao: float, rng: random.Random) -> list[float]:
+    """Sorteia ``N_ALVOS`` instantes como ``alvos``, mas com distância mínima entre eles.
+
+    A distância mínima é ``ESPACO_MINIMO_S``, ou o comprimento do intervalo dividido
+    por ``N_ALVOS`` se isso for menor. O sorteio é por rejeição: sorteia os instantes
+    e só aceita se todos os vizinhos estiverem afastados.
+
+    Args:
+        t_chave: instante do quadro-chave, em segundos.
+        duracao: duração do vídeo, em segundos.
+        rng: gerador do sorteio deste vídeo.
+
+    Returns:
+        ``N_ALVOS`` instantes ordenados, em segundos, com 2 casas.
+
+    Raises:
+        ValueError: se o intervalo estiver vazio ou nenhuma tentativa der certo.
+    """
+    inicio = t_chave + FOLGA_S
+    fim = duracao - MARGEM_FIM_S
+    if fim <= inicio:
+        raise ValueError(
+            f"intervalo vazio para os alvos: [{inicio:.2f}, {fim:.2f}] "
+            f"(quadro-chave em {t_chave:.2f} s, duração {duracao:.2f} s)"
+        )
+    espaco = min(ESPACO_MINIMO_S, (fim - inicio) / N_ALVOS)
+    for _ in range(TENTATIVAS_ESPACADOS):
+        instantes = sorted(
+            _no_intervalo(rng.uniform(inicio, fim), inicio, fim) for _ in range(N_ALVOS)
+        )
+        if all(b - a >= espaco for a, b in itertools.pairwise(instantes)):
+            return instantes
+    raise ValueError(f"nenhum sorteio com alvos a {espaco:.2f} s uns dos outros")
+
+
+def refazer_alvos(
+    chaves: dict, canais: list[str], motivo: str
+) -> tuple[dict, list[dict]]:
+    """Sorteia de novo, com ``alvos_espacados``, os alvos dos vídeos pedidos.
+
+    O gerador é ``rng_do_video(arquivo, "alvos_espacados")``. Os alvos antigos ficam
+    registrados em ``refeitos``, com o motivo.
+
+    Args:
+        chaves: ``chaves.json`` da etapa 2 (não é alterado).
+        canais: canais cujos alvos são sorteados de novo.
+        motivo: por que os alvos foram refeitos.
+
+    Returns:
+        ``(chaves_novo, lista)``: as chaves com os alvos novos e a lista
+        ``[{"arquivo", "t"}]`` dos alvos novos, para o ``acrescentar``.
+
+    Raises:
+        ValueError: se algum canal não estiver nas chaves.
+    """
+    presentes = {v["canal"] for v in chaves["videos"]}
+    faltando = sorted(set(canais) - presentes)
+    if faltando:
+        raise ValueError(f"canais fora das chaves: {', '.join(faltando)}")
+    novo = json.loads(json.dumps(chaves))
+    lista: list[dict] = []
+    for video in novo["videos"]:
+        if video["canal"] not in canais:
+            continue
+        antigos = video["alvos"]
+        rng = rng_do_video(video["arquivo"], "alvos_espacados")
+        video["alvos"] = alvos_espacados(video["t_chave"], video["duracao"], rng)
+        novo.setdefault("refeitos", []).append(
+            {"canal": video["canal"], "alvos_antigos": antigos, "motivo": motivo}
+        )
+        lista.extend({"arquivo": video["arquivo"], "t": t} for t in video["alvos"])
+    return novo, lista
+
+
+def _tem_marca(registro: dict) -> bool:
+    """Se algum campo de resposta do quadro tem valor (lista vazia não conta).
+
+    Args:
+        registro: resposta de um quadro.
+
+    Returns:
+        True quando o dono deixou alguma marca no quadro.
+    """
+    return any(registro.get(campo) not in (None, []) for campo in CAMPOS_RESPOSTA)
+
+
+def remover_em_branco(
+    indice: dict, gabarito: dict, pares: set[tuple[str, float]]
+) -> list[str]:
+    """Tira do índice e do gabarito os quadros ``(arquivo, t)`` pedidos.
+
+    Só remove quadro sem nenhuma marca do dono (todos os campos de resposta vazios):
+    rótulo do dono não se apaga. Um clique que não deixou nada (``respondido_em``
+    preenchido, campos vazios) não é rótulo.
+
+    Args:
+        indice: ``indice.json`` do teste, alterado em lugar.
+        gabarito: gabarito do teste, alterado em lugar.
+        pares: ``(arquivo, t)`` dos quadros a remover.
+
+    Returns:
+        Os ids removidos, em ordem.
+
+    Raises:
+        ValueError: se algum quadro pedido já tem marca do dono (nada é removido).
+    """
+    ids = [q["id"] for q in indice["quadros"] if (q["arquivo"], q["t"]) in pares]
+    respondidos = [i for i in ids if _tem_marca(gabarito["quadros"][i])]
+    if respondidos:
+        raise ValueError(f"quadros com marca do dono: {', '.join(respondidos)}")
+    indice["quadros"] = [q for q in indice["quadros"] if q["id"] not in ids]
+    for i in ids:
+        del gabarito["quadros"][i]
+    return ids
+
+
 def _quadros_gravados(caminho: Path) -> int:
     """Quantos quadros um JSON de índice ou gabarito já tem em disco.
 
@@ -555,9 +680,31 @@ def main() -> int:
     troca = sub.add_parser("substituir", help="troca o vídeo de um canal por outro")
     troca.add_argument("--canal", required=True, help="canal do vídeo que sai")
     troca.add_argument("--motivo", required=True, help="por que o vídeo sai")
+    refazer = sub.add_parser(
+        "refazer", help="sorteia de novo, espaçados, os alvos de alguns canais"
+    )
+    refazer.add_argument("--canais", nargs="+", required=True)
+    refazer.add_argument("--motivo", required=True)
     args = ap.parse_args()
     try:
-        if args.comando == "substituir":
+        if args.comando == "refazer":
+            chaves = json.loads((MAOS_M11B / "chaves.json").read_text("utf-8"))
+            indice = json.loads((MAOS_M11B / "indice.json").read_text("utf-8"))
+            gabarito = json.loads(GABARITO_BRACO_M11B.read_text("utf-8"))
+            novo, lista = refazer_alvos(chaves, args.canais, args.motivo)
+            antigos = {
+                (v["arquivo"], t)
+                for v in chaves["videos"]
+                if v["canal"] in args.canais
+                for t in v["alvos"]
+            }
+            removidos = remover_em_branco(indice, gabarito, antigos)
+            _gravar_json(MAOS_M11B / "indice.json", indice)
+            _gravar_json(GABARITO_BRACO_M11B, gabarito)
+            _gravar_json(MAOS_M11B / "chaves.json", novo)
+            _gravar_json(MAOS_M11B / "lista_refeita.json", lista)
+            print(f"removidos {', '.join(removidos)}; {len(lista)} alvos novos")
+        elif args.comando == "substituir":
             sorteio = json.loads((MAOS_M11B / "sorteio.json").read_text("utf-8"))
             linhas = [
                 json.loads(linha)
