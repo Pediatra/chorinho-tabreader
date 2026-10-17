@@ -81,7 +81,7 @@ piloto de marcar arcos em 3 a 5 vídeos do sky guitar. Decisão:
 Os campos são novos e opcionais em cada nota, sem mudar o que já existe:
 
 - `ataque`: `"sim"` | `"nao"` | `"nao_sei"`;
-- `ataque_motivo`: `normal` | `h` | `p` | `mordente` | `prolongamento` | `slide_ligado` | `slide_entrada` | `x` | `rasgueado` | `arpejo` | `sustentada` |
+- `ataque_motivo`: `normal` | `h` | `p` | `mordente` | `prolongamento` | `slide_ligado` | `slide_entrada` | `x` | `rasgueado` | `arpejo` | `sustentada` | `mordente_simbolo` |
   `harmonico` | `arco_sem_par` | `tinta_sem_explicacao`;
 - `nivel_rotulo`: `ouro` | `prata` | `recusado`.
 
@@ -95,6 +95,7 @@ O arco entra em `nao_notas` como classe `arco`, com corda, `x_ini`, `x_fim` e co
 | fim de arco, número menor | nao | p |
 | fim de arco, mesmo número | nao | prolongamento |
 | arco que sai da nota e termina no vazio (deixar soar; dono, 2026-10-17) | sim | sustentada |
+| mordente em zigue-zague sobre uma nota só (as notas do enfeite não estão na tab; dono, 2026-10-17). Se a nota chega por h/p/ligadura, vale o h/p/ligadura | sim | mordente_simbolo |
 | arco que vem do vazio e termina na nota (continuação) | nao | prolongamento |
 | dentro de um arco de 3 ou mais números, depois do primeiro | nao | mordente |
 | letra `h` ou `p` entre os números (canal que escreve em vez de desenhar) | nao | h / p |

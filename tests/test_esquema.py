@@ -364,6 +364,16 @@ def test_motivo_que_exige_ataque_nao_e_recusado_com_sim() -> None:
     assert any("exige ataque 'nao'" in e for e in validar(dados))
 
 
+def test_mordente_de_simbolo_e_nota_atacada() -> None:
+    """O mordente em zigue-zague sobre uma nota: a nota escrita é tocada."""
+    assert not any(
+        "exige" in e
+        for e in validar(_com_rotulo(ataque="sim", ataque_motivo="mordente_simbolo"))
+    )
+    dados = _com_rotulo(ataque="nao", ataque_motivo="mordente_simbolo")
+    assert any("exige ataque 'sim'" in e for e in validar(dados))
+
+
 def test_motivo_que_exige_ataque_sim_e_recusado_com_nao() -> None:
     dados = _com_rotulo(ataque="nao", ataque_motivo="normal")
     assert any("exige ataque 'sim'" in e for e in validar(dados))

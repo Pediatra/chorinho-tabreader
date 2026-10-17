@@ -1798,6 +1798,7 @@ MARCA_COM_ATAQUE = {
     "rasgueado": "r",
     "arpejo": "a",
     "sustentada": "~",
+    "mordente_simbolo": "m~",
 }
 
 #: Motivos do seletor do modo ataque, na ordem em que aparecem.
@@ -1814,6 +1815,7 @@ MOTIVOS_SELETOR = (
     "rasgueado",
     "arpejo",
     "sustentada",
+    "mordente_simbolo",
     "nao_sei",
 )
 

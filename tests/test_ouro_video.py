@@ -789,6 +789,10 @@ def test_rotulo_do_ataque_marca_so_o_que_muda_o_ataque() -> None:
         "?",
         "duvida",
     )
+    assert rotulo_do_ataque({"ataque": "sim", "motivo": "mordente_simbolo"}, False) == (
+        "m~",
+        "sim",
+    )
     assert rotulo_do_ataque(None, True) == ("?", "duvida")
     assert rotulo_do_ataque({"ataque": "sim", "motivo": "normal"}, True) == (
         "?",
