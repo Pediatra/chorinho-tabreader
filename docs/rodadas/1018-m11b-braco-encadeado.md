@@ -60,6 +60,17 @@ paolo d'angelo (dust in the wind), transcriptor (tárrega, estudo em mi menor), 
 (valsa sem nome), vvxofingerstyletab (resister). Os alvos só são sorteados depois que o dono
 marca os candidatos (`etapa2`).
 
+**Emenda (2026-10-17, antes de qualquer execução do rastreador no teste):**
+- O vídeo do serge kottelat é Brian May na guitarra elétrica. O dono deixou os 5 candidatos
+  (q06–q10) em branco e pediu um substituto, coerente com o descarte do raman korshun.
+- O substituto foi sorteado por código: `python -m tab.maos_braco_m11b substituir`, com
+  gerador `"20261018:substituto:serge kottelat"` sobre os canais elegíveis que ainda não
+  foram usados. Saiu **mr. tabs** (guns n' roses, patience; violão acústico). Os candidatos
+  são q41–q45, e o vídeo trocado fica registrado em `substituicoes` no `sorteio.json`.
+- O teste continua com 8 vídeos e 32 alvos. Os critérios não mudam.
+- O dono marcou completo os 5 candidatos de cada vídeo, e não só até o primeiro com braço.
+  Os candidatos que não viram quadro-chave **não** entram nos critérios.
+
 ## Métricas
 
 **Como o dono marca as cordas** (esclarecido pelo dono em 2026-10-17): os 2 pontos das cordas

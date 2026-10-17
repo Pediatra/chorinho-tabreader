@@ -27,6 +27,7 @@ from tab.maos_braco_m11b import (
     planejar_etapa1,
     rng_do_video,
     sortear_videos,
+    substituir_video,
 )
 
 
@@ -266,3 +267,30 @@ def test_quadros_gravados_conta_o_que_ja_existe(tmp_path: Path) -> None:
         json.dumps({"semente": 1, "quadros": [{"id": "q01"}]}), encoding="utf-8"
     )
     assert _quadros_gravados(com_quadro) == 1
+
+
+def test_substituir_video_troca_na_mesma_posicao_e_registra() -> None:
+    censo = [
+        {"canal": c, "arquivo": f"{c}/v{k}.mp4", "chave": f"{c}{k}"}
+        for c in "abcdefghijk"
+        for k in range(3)
+    ]
+    sorteio = planejar_etapa1(censo, {"a"}, lambda _arquivo: 100.0)
+    saida = sorteio["videos"][2]["canal"]
+    novo, lista = substituir_video(
+        sorteio, saida, censo, lambda _arquivo: 100.0, "guitarra elétrica"
+    )
+    assert novo["videos"][2]["canal"] not in {v["canal"] for v in sorteio["videos"]}
+    assert novo["videos"][2]["canal"] != "a"
+    assert novo["substituicoes"][0]["saiu"]["canal"] == saida
+    assert len(lista) == 5
+    assert sorteio["videos"][2]["canal"] == saida
+    de_novo, _ = substituir_video(sorteio, saida, censo, lambda _a: 100.0, "x")
+    assert de_novo["videos"][2] == novo["videos"][2]
+
+
+def test_substituir_video_recusa_canal_fora_do_sorteio() -> None:
+    censo = [{"canal": c, "arquivo": f"{c}/v.mp4", "chave": c} for c in "abcdefghij"]
+    sorteio = planejar_etapa1(censo, set(), lambda _arquivo: 100.0)
+    with pytest.raises(ValueError, match="não está no sorteio"):
+        substituir_video(sorteio, "zzz", censo, lambda _a: 100.0, "x")

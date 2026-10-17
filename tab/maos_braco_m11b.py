@@ -384,6 +384,72 @@ def montar_etapa2(
     return {"semente": SEMENTE, "videos": videos}, lista
 
 
+def substituir_video(
+    sorteio: dict,
+    canal_saida: str,
+    censo: list[dict],
+    duracao_de: Callable[[str], float],
+    motivo: str,
+) -> tuple[dict, list[dict]]:
+    """Troca o vídeo de um canal por um sorteado de outro canal elegível.
+
+    O canal novo sai de um gerador próprio (``"{SEMENTE}:substituto:{canal_saida}"``),
+    entre os canais do censo que não estão excluídos nem já sorteados, em ordem
+    alfabética. O vídeo e os candidatos seguem as mesmas regras da etapa 1. O vídeo
+    trocado fica registrado em ``substituicoes``, com o motivo.
+
+    Args:
+        sorteio: ``sorteio.json`` da etapa 1 (não é alterado).
+        canal_saida: canal do vídeo que sai.
+        censo: linhas de ``censo_maos.jsonl``.
+        duracao_de: função que devolve a duração de um vídeo, pelo caminho relativo.
+        motivo: por que o vídeo saiu (fica no registro).
+
+    Returns:
+        ``(sorteio_novo, lista)``: o sorteio com o vídeo trocado na mesma posição e a
+        lista ``[{"arquivo", "t"}]`` dos 5 candidatos novos, para o ``acrescentar``.
+
+    Raises:
+        ValueError: se o canal não está no sorteio ou se não sobra canal elegível.
+    """
+    posicoes = [k for k, v in enumerate(sorteio["videos"]) if v["canal"] == canal_saida]
+    if not posicoes:
+        raise ValueError(f"canal {canal_saida} não está no sorteio")
+    usados = set(sorteio["canais_excluidos"])
+    usados |= {v["canal"] for v in sorteio["videos"]}
+    usados |= {s["saiu"]["canal"] for s in sorteio.get("substituicoes", [])}
+    elegiveis = sorted({linha["canal"] for linha in censo} - usados)
+    if not elegiveis:
+        raise ValueError("nenhum canal elegível sobrando para substituir")
+    rng = random.Random(f"{SEMENTE}:substituto:{canal_saida}")
+    canal = rng.choice(elegiveis)
+    videos = sorted(
+        (linha for linha in censo if linha["canal"] == canal),
+        key=lambda linha: linha["arquivo"],
+    )
+    linha = rng.choice(videos)
+    arquivo = linha["arquivo"]
+    duracao = duracao_de(arquivo)
+    cands = candidatos(duracao, rng_do_video(arquivo, "candidatos"))
+    entrou = {
+        "canal": canal,
+        "arquivo": arquivo,
+        "chave": linha["chave"],
+        "duracao": duracao,
+        "candidatos": [
+            {"ordem": ordem, "t": t} for ordem, t in enumerate(cands, start=1)
+        ],
+    }
+    novo = json.loads(json.dumps(sorteio))
+    saiu = novo["videos"][posicoes[0]]
+    novo["videos"][posicoes[0]] = entrou
+    novo.setdefault("substituicoes", []).append(
+        {"saiu": saiu, "entrou": canal, "motivo": motivo}
+    )
+    lista = [{"arquivo": arquivo, "t": c["t"]} for c in entrou["candidatos"]]
+    return novo, lista
+
+
 def _quadros_gravados(caminho: Path) -> int:
     """Quantos quadros um JSON de índice ou gabarito já tem em disco.
 
@@ -486,9 +552,28 @@ def main() -> int:
     sub = ap.add_subparsers(dest="comando", required=True)
     sub.add_parser("etapa1", help="sorteia os 8 vídeos e os 40 instantes candidatos")
     sub.add_parser("etapa2", help="escolhe os quadros-chave e sorteia os 32 alvos")
+    troca = sub.add_parser("substituir", help="troca o vídeo de um canal por outro")
+    troca.add_argument("--canal", required=True, help="canal do vídeo que sai")
+    troca.add_argument("--motivo", required=True, help="por que o vídeo sai")
     args = ap.parse_args()
     try:
-        if args.comando == "etapa1":
+        if args.comando == "substituir":
+            sorteio = json.loads((MAOS_M11B / "sorteio.json").read_text("utf-8"))
+            linhas = [
+                json.loads(linha)
+                for linha in CENSO_MAOS.read_text(encoding="utf-8").splitlines()
+                if linha.strip()
+            ]
+            novo, lista = substituir_video(
+                sorteio, args.canal, linhas, _duracao_do_acervo, args.motivo
+            )
+            _gravar_json(MAOS_M11B / "sorteio.json", novo)
+            _gravar_json(MAOS_M11B / "lista_substituto.json", lista)
+            entrou = novo["substituicoes"][-1]["entrou"]
+            print(
+                f"{args.canal} -> {entrou}: {len(lista)} candidatos em lista_substituto"
+            )
+        elif args.comando == "etapa1":
             total = etapa1(
                 CENSO_MAOS, MAOS_M3B / "indice.json", MAOS_M11B, GABARITO_BRACO_M11B
             )
