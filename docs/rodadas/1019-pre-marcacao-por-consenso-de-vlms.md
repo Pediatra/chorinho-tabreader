@@ -143,3 +143,12 @@ revisão do dono com cronômetro. Limiar mudado depois da medida invalida a roda
 - **Sem resultado**: com 13 respostas não há consenso, e `avaliar` não foi rodado.
 - **Espiada no desenvolvimento** (q01 e q02): das 8 respostas válidas, as 8 são "falso". O nut
   fica bom (< 0,4 casa), mas as cordas erram de 0,8 a 20 vãos.
+- **Único consenso calculável** (o q01, de desenvolvimento, é o único quadro com pelo menos 3
+  respostas válidas):
+  - as 6 respostas são válidas;
+  - a dispersão mediana é de **21,2 vãos**, e o maior limiar da lista é 1,5;
+  - o consenso dá **falso**.
+  - Os modelos discordam entre si por uma ordem de grandeza acima de qualquer limiar. Por
+    isso o quadro nem seria aceito.
+- **Estado**: incompleta. A medição dos 66 quadros depende de o proxy voltar (`coletar` é
+  retomável). O veredito parcial, junto com a 1020, é "não vale a pena".
