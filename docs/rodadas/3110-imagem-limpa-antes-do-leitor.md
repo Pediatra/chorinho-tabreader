@@ -104,10 +104,10 @@ porta 8123) só faz sentido se você decidir que a A1 avança. Nenhum item foi m
 
 ## Busca dos vídeos ausentes (2026-10-17, depois do encerramento)
 
-- **`lonelypicker` (11 recortes, "[free tab] (everything i do) i do it for you - bryan adams"):** o
-  canal tem hoje só 2 arquivos. O mesmo título aparece em `sky guitar/(everything i do) i do it for
-  you - fingerstyle lesson + tab.mp4`. **Candidato, não confirmado:** pode ser o mesmo vídeo, com
-  outro canal. Não usado na medida. Confirmação é do dono.
+- **`lonelypicker` (11 recortes, "[free tab] (everything i do) i do it for you - bryan adams"):**
+  o dono apagou esse vídeo do acervo (como fez com outras músicas que não se adequavam). O arquivo
+  `sky guitar/(everything i do) i do it for you - fingerstyle lesson + tab.mp4` já estava lá e não é
+  o mesmo vídeo: não há candidato. Os 11 recortes ficam sem medida.
 - **`ギタロー` / mela (19 recortes, "【無料タブ譜】mela! - 緑黄色社会"):** nenhum arquivo com "mela" ou
   "緑黄色社会" no nome. Sem candidato. Provavelmente removido do acervo.
 
