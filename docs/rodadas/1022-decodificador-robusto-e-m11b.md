@@ -92,3 +92,54 @@ Também são reportados:
   inteiro. A fase B mede o conjunto.
 - **A GPU é dividida com a trilha da tablatura.** Cada treino leva de 30 a 50 min, e o driver já
   caiu uma vez.
+
+## Desenvolvimento: resultado (2026-10-18)
+
+**Treino final**: `A3_100_todos_s1..3` em `artefatos/m21/`, 3.000 passos cada.
+- Tempos: 3.343 s, 3.693 s e 4.237 s.
+- As 3 sementes terminaram na primeira tentativa, sem queda da GPU.
+
+**D1, oráculo** (`d1_oraculo_v2.json`): a v2 deu **64/64 certos** e passou.
+- A v1 no mesmo oráculo deu 62/64, igual ao V1 da 1021.
+- Isso confirma que a refatoração não mudou a v1.
+
+**D2, R fora da dobra** (`d2_r_fora.json`): 1.052 quadros, pesos `A3_100_<k>_s1`, rótulo do
+rastreador.
+
+| canal (dobra) | quadros | certo v1 → v2 | falso v1 → v2 |
+| --- | --- | --- | --- |
+| cifra club | 125 | 34 → 35 | 14 → 7 |
+| guitar dell'arte | 125 | 99 → 115 | 25 → 8 |
+| iwaki | 92 | 49 → 58 | 17 → 3 |
+| kenneth acoustic | 90 | 7 → 81 | 82 → 6 |
+| leonardo ramos | 118 | 55 → 76 | 47 → 8 |
+| robert lunn | 53 | 16 → 24 | 13 → 0 |
+| shin izumi | 98 | 32 → 65 | 48 → 0 |
+| sky guitar | 351 | 293 → 305 | 20 → 4 |
+| **total** | **1.052** | **585 (55,6 %) → 759 (72,1 %)** | **266 (25,3 %) → 36 (3,4 %)** |
+
+- A v2 ganha nas 8 dobras.
+- O maior ganho é o kenneth (capotraste), que era a causa nomeada na 1021.
+- O rótulo R vem do rastreador, que também erra. Por isso esses números servem para comparar a
+  v1 com a v2, não como taxa absoluta.
+
+**Limiar**: `TOLERANCIA_V2 = 0,25`, **mantido e congelado**. Não houve varredura, e o D2 não deu
+motivo para mexer.
+
+Interpretações tomadas na implementação, onde o pré-registro não dizia:
+- o espaço local de n = 20 usa t(21);
+- o denominador positivo é exigido até n = 21;
+- só os picos à direita do nut entram na numeração.
+
+**D3, S de validação** (`d3_sval.json`): peso A1 do V3, 500 amostras.
+
+| | certo | impreciso | falso | não achou |
+| --- | --- | --- | --- | --- |
+| v1 | 283 | 32 | 184 | 1 |
+| v2 | **342 (68,4 %)** | 53 | **104 (20,8 %)** | 1 |
+
+- A v1 reproduz exatamente o V3 gravado (283/500), o que confere a medida.
+- Os falsos restantes do S ficam altos, porque o S é sintético e tem trastes e mãos mais
+  difíceis que o real. É só registro: o S não entra no critério.
+
+**Decodificador congelado** neste commit, antes de abrir a M11b.

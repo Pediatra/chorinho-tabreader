@@ -7,6 +7,7 @@ pesos aleatórios, só para conferir formas.
 from __future__ import annotations
 
 import random
+from contextlib import nullcontext
 
 import numpy as np
 import pytest
@@ -251,3 +252,191 @@ def test_ransac_acha_a_reta_com_outliers() -> None:
     assert mascara is not None
     assert mascara[1] and not mascara[0]
     assert int(mascara.sum()) >= 150
+
+
+def test_unidade_final_usa_r_de_todos_os_canais() -> None:
+    """A unidade final (1022) mistura S e R de todos os 8 canais, em A3 e sem dobra."""
+    pool_s = [(f"s{i}.jpg", {}) for i in range(5)]
+    canais = [f"c{k}" for k in range(8)]
+    pool_r = [
+        {"caminho": f"r_{c}_{i}.jpg", "registro": {}, "canal": c, "arquivo": f"{c}.mp4"}
+        for c in canais
+        for i in range(2)
+    ]
+    sequencia = det._itens_final(pool_s, pool_r, semente=1)
+    assert len(sequencia) == det.PASSOS * det.LOTE
+    assert det.PASSOS == 3000
+    for passo in range(det.PASSOS):
+        bloco = sequencia[passo * det.LOTE : (passo + 1) * det.LOTE]
+        assert all(item[0].startswith("s") for item in bloco[:8])
+        assert all(item[0].startswith("r_") for item in bloco[8:])
+    usados = {item[0].split("_")[1] for item in sequencia if item[0].startswith("r_")}
+    assert usados == set(canais)
+
+
+#: Braço projetivo sintético para o decodificador v2: t(n) = (a s + b) / (c s + 1).
+A_V2, B_V2, C_V2 = 900.0, 100.0, 0.15
+
+
+def _t_v2(n: int) -> float:
+    """Posição do traste ``n`` no modelo projetivo sintético da v2.
+
+    Args:
+        n: número do traste.
+
+    Returns:
+        Posição em px, com ``b`` no nut.
+    """
+    s = s_do_traste(n)
+    return (A_V2 * s + B_V2) / (C_V2 * s + 1.0)
+
+
+def test_v2_pico_espurio_entre_3_e_4_mantem_numeracao() -> None:
+    """Um pico extra entre os trastes 3 e 4 não desloca a numeração (v2)."""
+    picos = [_t_v2(n) for n in range(1, 13)] + [(_t_v2(3) + _t_v2(4)) / 2]
+    res = det._numerar_v2(sorted(picos), B_V2)
+    assert res is not None
+    assert set(res["inliers"]) == set(range(1, 13))
+    for n in range(1, 13):
+        assert res["inliers"][n] == pytest.approx(_t_v2(n), abs=1e-6)
+
+
+def test_v2_traste_faltando_continua_certo() -> None:
+    """Sem o pico do traste 2, o número 2 vem do modelo e a numeração segue certa."""
+    picos = [_t_v2(n) for n in range(1, 13) if n != 2]
+    res = det._numerar_v2(picos, B_V2)
+    assert res is not None
+    assert set(res["inliers"]) == {1} | set(range(3, 13))
+    assert res["ts"][2] == pytest.approx(_t_v2(2), abs=1e-3)
+
+
+@pytest.mark.parametrize("casa", [(1, 2), (2, 3)])
+def test_v2_pico_espurio_onde_estaria_um_capotraste(casa: tuple[int, int]) -> None:
+    """Pico no meio de uma casa (onde um capotraste marcaria) não muda a numeração.
+
+    Sem certeza sobre a convenção de "casa", cobre-se o meio do intervalo entre os
+    trastes 1 e 2 (casa 2 no sentido da fita) e entre 2 e 3.
+    """
+    meio = (_t_v2(casa[0]) + _t_v2(casa[1])) / 2
+    picos = [_t_v2(n) for n in range(1, 13)] + [meio]
+    res = det._numerar_v2(sorted(picos), B_V2)
+    assert res is not None
+    for n in range(1, 13):
+        assert res["inliers"][n] == pytest.approx(_t_v2(n), abs=1e-6)
+
+
+def test_v2_menos_de_4_picos_nao_acha() -> None:
+    """Com 3 picos há no máximo 3 inliers, e a resposta é "não achou"."""
+    picos = [_t_v2(1), _t_v2(2), _t_v2(3)]
+    assert det._numerar_v2(picos, B_V2) is None
+
+
+def test_v2_oraculo_recupera_nut_e_trastes() -> None:
+    """Mapas perfeitos passam pela v2 e voltam com o nut e os trastes 1 a 9."""
+    rotulo = _rotulo_sintetico(9)
+    dec = det.decodificar_v2(_mapas_oraculo(rotulo))
+    assert dec["achou"] is True
+    for n in range(1, 10):
+        esperado = NUT_X + ESCALA * s_do_traste(n)
+        assert dec["trastes"][n][0] == pytest.approx(esperado, abs=1.0)
+    assert max(dec["trastes"]) == 9
+    assert dec["preenchidos"] == []
+
+
+def test_decodificar_versao_escolhe_e_recusa() -> None:
+    """A versão 1 e a 2 chamam o decodificador certo, e outra versão é erro."""
+    mapas = _mapas_oraculo(_rotulo_sintetico(9))
+    assert det.decodificar_versao(mapas, 1)["achou"] is True
+    assert det.decodificar_versao(mapas, 2)["achou"] is True
+    with pytest.raises(ValueError):
+        det.decodificar_versao(mapas, 3)
+
+
+def test_quadros_da_prova_sao_28_distintos() -> None:
+    """A prova (1022) lê 8 quadros-chave e 20 alvos, sem repetir nenhum."""
+    assert len(det.QUADROS_PROVA) == 28
+    assert len(set(det.QUADROS_PROVA)) == 28
+    assert {"q01", "q36", "q46", "q61", "q65", "q74"} <= set(det.QUADROS_PROVA)
+
+
+def _marcas_sinteticas() -> Marcas:
+    """Marcas no quadro (identidade) do braço sintético de 9 trastes.
+
+    Returns:
+        ``Marcas`` com nut, trastes 1 a 9 e as duas cordas.
+    """
+    return Marcas(
+        nut=np.array([NUT_X, 96.0]),
+        trastes={
+            n: np.array([NUT_X + ESCALA * s_do_traste(n), 96.0]) for n in range(1, 10)
+        },
+        corda1=np.array(CORDA1, dtype=float),
+        corda6=np.array(CORDA6, dtype=float),
+    )
+
+
+def test_prova_com_dados_falsos_aplica_v2_e_grava_resumo(
+    monkeypatch: pytest.MonkeyPatch, tmp_path
+) -> None:
+    """Com entradas e pesos falsos, a prova roda as 3 sementes e grava o resumo.
+
+    Não toca a M11b: entradas, pesos, GPU e predição são substituídos. O mapa é o
+    oráculo do próprio braço, então todos os quadros devem sair "certo".
+    """
+    marcas = _marcas_sinteticas()
+    matriz = np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0]])
+    entradas = [
+        {
+            "id": id_quadro,
+            "canal": f"canal{i % 2}",
+            "faixa": np.zeros((192, 1024, 3), dtype=np.uint8),
+            "matriz": matriz,
+            "marcas": marcas,
+        }
+        for i, id_quadro in enumerate(det.QUADROS_PROVA)
+    ]
+    mapa = _mapas_oraculo(_rotulo_sintetico(9))
+    chamadas: list[str] = []
+
+    def pesos_falsos(nome: str, passos: int) -> tuple[None, dict]:
+        """Registra o peso pedido e devolve um modelo nulo."""
+        chamadas.append(f"{nome}:{passos}")
+        return None, {}
+
+    monkeypatch.setattr(det, "_entradas_prova", lambda: entradas)
+    monkeypatch.setattr(det, "_carregar_pesos", pesos_falsos)
+    monkeypatch.setattr(
+        det, "prever_mapas", lambda modelo, faixas: [mapa for _ in faixas]
+    )
+    monkeypatch.setattr(det, "_trava_gpu", lambda: nullcontext())
+    destino = tmp_path / "prova.json"
+    assert det.prova(destino=destino) == 0
+    assert chamadas == [f"A3_100_todos_s{s}:{det.PASSOS}" for s in (1, 2, 3)]
+    dados = det._ler_json(destino)
+    assert dados["quadros"] == 28
+    assert sorted(dados["por_semente"]) == ["1", "2", "3"]
+    assert dados["por_semente"]["1"]["certo"] == 28
+    assert dados["passou"] is True
+    assert dados["medianas"]["perp_cordas"] is not None
+
+
+def test_agregar_prova_reprova_com_mais_de_5_por_cento_de_falsos() -> None:
+    """2 falsos em 28 (7,1 %) reprovam; 0 falsos passam. Pela média das sementes."""
+
+    def quadros(falsos: int) -> list[dict]:
+        """28 quadros, com ``falsos`` deles marcados como falsos."""
+        return [
+            {
+                "id": f"q{i}",
+                "canal": "c",
+                "classe": "falso" if i < falsos else "certo",
+                "erros": None,
+            }
+            for i in range(28)
+        ]
+
+    ruim = det._agregar_prova({s: quadros(2) for s in (1, 2, 3)})
+    bom = det._agregar_prova({s: quadros(0) for s in (1, 2, 3)})
+    assert ruim["passou"] is False
+    assert bom["passou"] is True
+    assert bom["percentuais"]["certo"]["amplitude"] == 0.0

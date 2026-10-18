@@ -11,6 +11,8 @@ A2 só com R, A3 com S e R. A prova é por canal deixado de fora: na dobra k sae
 os R do canal k, e a medida é feita nos G do canal k. O G não entra em treino nenhum.
 
 CLI: ``python -m tab.maos_braco_detector {v1,v2,v3,treinar,avaliar,rodar,resumo}``.
+Rodada 1022: ``final --semente N`` (treino sem medida), ``d1``, ``d2``, ``d3`` (portões
+de desenvolvimento) e ``prova`` (M11b lacrada; só com o aval do dono).
 """
 
 from __future__ import annotations
@@ -35,7 +37,14 @@ import torchvision
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
 
-from .caminhos import ARTEFATOS, GABARITO_BRACO, MAOS_M21, SAIDA
+from .caminhos import (
+    ARTEFATOS,
+    GABARITO_BRACO,
+    GABARITO_BRACO_M11B,
+    MAOS_M11B,
+    MAOS_M21,
+    SAIDA,
+)
 from .maos_braco_faixa import (
     ALTURA_FAIXA,
     LARGURA_FAIXA,
@@ -93,6 +102,12 @@ FATOR_SALTO = 1.6
 RAZAO_ESPACO = 2.0 ** (-1.0 / 12.0)
 #: Emenda 2: com menos trastes detectados que isto, "não achou".
 MINIMO_TRASTES = 4
+#: Decodificador v2 (rodada 1022): tolerância do inlier, em fração do espaço local.
+TOLERANCIA_V2 = 0.25
+#: Decodificador v2: maior número de traste nas hipóteses.
+N_MAX_V2 = 20
+#: Decodificador v2: inliers mínimos para achar o braço.
+MIN_INLIERS_V2 = 4
 #: Oráculo (V1): logit alto na crista e baixo fora dela.
 LOGIT_CRISTA = 12.0
 LOGIT_FUNDO = -6.0
@@ -132,6 +147,34 @@ ARQUIVO_V2 = MAOS_M21 / "v2_sobreajuste.json"
 ARQUIVO_V3 = MAOS_M21 / "v3_validacao_s.json"
 ARQUIVO_V4 = MAOS_M21 / "v4_tempo.json"
 ARQUIVO_TRAVA = SAIDA / "gpu.lock.maos"
+#: Rodada 1022: portões de desenvolvimento, prova e semente da perturbação.
+ARQUIVO_D1 = MAOS_M21 / "d1_oraculo_v2.json"
+ARQUIVO_D2 = MAOS_M21 / "d2_r_fora.json"
+ARQUIVO_D3 = MAOS_M21 / "d3_sval.json"
+ARQUIVO_PROVA = MAOS_M21 / "prova_m11b.json"
+SEMENTE_D2 = "20261022:D2"
+SEMENTE_PROVA = "20261021:T"
+#: Sementes do treino final (A3 sem dobra, com todos os R).
+SEMENTES_FINAIS = (1, 2, 3)
+#: Critério da prova (pela média das sementes), em porcentagem.
+LIMITE_PROVA_CERTO = 70.0
+LIMITE_PROVA_FALSO = 5.0
+#: Quadros da prova M11b (pré-registro 1022): 8 quadros-chave e 20 alvos.
+QUADROS_PROVA = (
+    "q01",
+    "q41",
+    "q11",
+    "q16",
+    "q21",
+    "q26",
+    "q31",
+    "q36",
+    *(f"q{n}" for n in range(46, 62)),
+    "q65",
+    "q69",
+    "q73",
+    "q74",
+)
 #: Plano da rodada (Emenda 1): tamanho das misturas por passo (S, R).
 MISTURA = {"A1": (LOTE, 0), "A2": (0, LOTE), "A3": (LOTE // 2, LOTE // 2)}
 #: Frações de vídeos de R, por nome.
@@ -954,6 +997,35 @@ def decodificar(mapas: np.ndarray) -> dict:
         ``preenchidos`` (números que vieram do modelo). Sem braço: ``achou`` falso e
         ``motivo``.
     """
+    geo = _cordas_e_nut(mapas)
+    if not geo["achou"]:
+        return geo
+    x_nut = geo["x_nut"]
+    numerados = _numerar_por_ordem(geo["picos"], x_nut)
+    if len(numerados) < MINIMO_TRASTES:
+        return _nao_achou("menos de 4 trastes detectados")
+    pares = [(0, x_nut)] + [(n, x) for n, x in numerados]
+    ajuste = _refit_projetivo(pares, np.ones(len(pares), dtype=bool))
+    if ajuste is None:
+        return _nao_achou("ajuste projetivo singular")
+    maior = numerados[-1][0]
+    ts = _projetar(ajuste, list(range(maior + 1)))
+    if ts is None or np.any(np.diff(ts) <= 0.0):
+        return _nao_achou("modelo ajustado não cresce do nut para fora")
+    return _montar_saida(geo, dict(numerados), ts)
+
+
+def _cordas_e_nut(mapas: np.ndarray) -> dict:
+    """Retas das cordas, eixo médio, nut e picos dos trastes (iguais nas versões 1 e 2).
+
+    Args:
+        mapas: probabilidades ``(4, 192, 1024)``.
+
+    Returns:
+        Com braço: ``achou`` verdadeiro, ``xs``, ``y1``, ``y6``, ``ymedio`` (médio das
+        cordas), ``x_nut`` e ``picos`` (x dos picos do canal de trastes entre as cordas).
+        Sem braço: ``achou`` falso e ``motivo``.
+    """
     reta1 = _ajustar_corda(mapas[CANAL_CORDA1])
     reta6 = _ajustar_corda(mapas[CANAL_CORDA6])
     if reta1 is None or reta6 is None:
@@ -966,18 +1038,35 @@ def decodificar(mapas: np.ndarray) -> dict:
     if x_nut is None:
         return _nao_achou("nut sem pico acima de 0,3")
     picos = _picos(_perfil_entre_cordas(mapas[CANAL_TRASTES], y1, y6))
-    numerados = _numerar_por_ordem(picos, x_nut)
-    if len(numerados) < MINIMO_TRASTES:
-        return _nao_achou("menos de 4 trastes detectados")
-    pares = [(0, x_nut)] + [(n, x) for n, x in numerados]
-    ajuste = _refit_projetivo(pares, np.ones(len(pares), dtype=bool))
-    if ajuste is None:
-        return _nao_achou("ajuste projetivo singular")
-    maior = numerados[-1][0]
-    ts = _projetar(ajuste, list(range(maior + 1)))
-    if ts is None or np.any(np.diff(ts) <= 0.0):
-        return _nao_achou("modelo ajustado não cresce do nut para fora")
-    detectados = dict(numerados)
+    return {
+        "achou": True,
+        "xs": xs,
+        "y1": y1,
+        "y6": y6,
+        "ymedio": ymedio,
+        "x_nut": x_nut,
+        "picos": picos,
+    }
+
+
+def _montar_saida(geo: dict, detectados: dict[int, float], ts: np.ndarray) -> dict:
+    """Saída do decodificador: trastes de 1 até o maior detectado.
+
+    Número detectado usa a posição do pico; número sem pico usa a posição do modelo
+    (``ts[n]``).
+
+    Args:
+        geo: resultado de ``_cordas_e_nut`` com ``achou`` verdadeiro.
+        detectados: número -> x do pico, para os números que têm pico.
+        ts: posições do modelo, com ``ts[n]`` para n de 0 até o maior número.
+
+    Returns:
+        Dicionário com ``achou``, ``nut``, ``trastes``, ``corda1``, ``corda6``,
+        ``detectados`` e ``preenchidos``.
+    """
+    xs, y1, y6, ymedio = geo["xs"], geo["y1"], geo["y6"], geo["ymedio"]
+    x_nut = geo["x_nut"]
+    maior = max(detectados)
     trastes: dict[int, list[float]] = {}
     preenchidos: list[int] = []
     for n in range(1, maior + 1):
@@ -999,9 +1088,146 @@ def decodificar(mapas: np.ndarray) -> dict:
         "trastes": trastes,
         "corda1": [ponto_corda(y1, x_nut), ponto_corda(y1, fim)],
         "corda6": [ponto_corda(y6, x_nut), ponto_corda(y6, fim)],
-        "detectados": len(numerados),
+        "detectados": len(detectados),
         "preenchidos": preenchidos,
     }
+
+
+def _numerar_v2(picos: list[int], x_nut: float) -> dict | None:
+    """Numeração robusta dos picos por ajuste (decodificador v2, rodada 1022).
+
+    Modelo ``t(n) = (a s(n) + b) / (c s(n) + 1)`` com ``b`` preso no x do nut. Para cada
+    par de picos (``p_i < p_j``) e cada par de números (``1 <= n_i < n_j <= N_MAX_V2``),
+    resolve ``a`` e ``c`` pelo sistema 2 x 2 (``a s - c t s = t - b``). A hipótese é
+    descartada se o denominador não é positivo em n = 0..N_MAX_V2 + 1 (o +1 é o espaço do
+    último número) ou se ``t`` não cresce em 0..N_MAX_V2. Um pico é inlier do número n
+    quando ``|p - t(n)| <= TOLERANCIA_V2 * (t(n+1) - t(n))``, com atribuição um-para-um
+    (o mais próximo, por ordem de número). Só contam os números de 1 até o maior com
+    ``t(n) < LARGURA_FAIXA``. Vence a hipótese com mais inliers; empate, a menor soma dos
+    erros normalizados pelo espaço local. O ajuste final refaz ``a`` e ``c`` por mínimos
+    quadrados com ``b`` preso.
+
+    Args:
+        picos: x dos picos do canal de trastes, em ordem crescente.
+        x_nut: x do nut (``b`` do modelo).
+
+    Returns:
+        ``{"inliers": {numero: x}, "ts": array}`` com ``ts[n]`` de 0 até o maior inlier,
+        ou None se há menos de ``MIN_INLIERS_V2`` inliers (ou o ajuste não é válido).
+    """
+    direita = np.array([float(p) for p in picos if p > x_nut])
+    if direita.size < MIN_INLIERS_V2:
+        return None
+    b = float(x_nut)
+    s_todos = np.array([s_do_traste(n) for n in range(N_MAX_V2 + 2)], dtype=float)
+    indices_picos = np.triu_indices(direita.size, k=1)
+    pares_numeros = [
+        (i, j) for i in range(1, N_MAX_V2 + 1) for j in range(i + 1, N_MAX_V2 + 1)
+    ]
+    ni = np.array([i for i, _ in pares_numeros])
+    nj = np.array([j for _, j in pares_numeros])
+    si, sj = s_todos[ni], s_todos[nj]
+    s_n = s_todos[None, :]
+    melhor = None
+    for k in range(len(indices_picos[0])):
+        pi = direita[indices_picos[0][k]]
+        pj = direita[indices_picos[1][k]]
+        di, dj = pi - b, pj - b
+        det = si * sj * (pi - pj)
+        a = (-di * pj * sj + pi * si * dj) / det
+        c = (si * dj - sj * di) / det
+        with np.errstate(divide="ignore", invalid="ignore"):
+            den = c[:, None] * s_n + 1.0
+            t = (a[:, None] * s_n + b) / den
+        ok = np.all(den > 0.0, axis=1)
+        ok &= np.all(np.diff(t[:, : N_MAX_V2 + 1], axis=1) > 0.0, axis=1)
+        if not np.any(ok):
+            continue
+        idx = np.nonzero(ok)[0]
+        tn = t[idx, 1 : N_MAX_V2 + 1]
+        espaco = t[idx, 2 : N_MAX_V2 + 2] - tn
+        dentro = np.logical_and.accumulate(tn < LARGURA_FAIXA, axis=1)
+        dist = np.abs(direita[None, None, :] - tn[:, :, None])
+        cand = (dist <= TOLERANCIA_V2 * espaco[:, :, None]) & dentro[:, :, None]
+        usado = np.zeros((idx.size, direita.size), dtype=bool)
+        linhas = np.arange(idx.size)
+        atribuido = np.full((idx.size, N_MAX_V2), -1, dtype=int)
+        erro = np.zeros(idx.size)
+        for m in range(N_MAX_V2):
+            d = np.where(cand[:, m, :] & ~usado, dist[:, m, :], np.inf)
+            j = np.argmin(d, axis=1)
+            tem = np.isfinite(d[linhas, j])
+            atribuido[tem, m] = j[tem]
+            usado[linhas[tem], j[tem]] = True
+            erro[tem] += d[linhas[tem], j[tem]] / espaco[tem, m]
+        contagem = (atribuido >= 0).sum(axis=1)
+        ordem = np.lexsort((erro, -contagem))[0]
+        if melhor is None or (contagem[ordem], -erro[ordem]) > (
+            melhor["contagem"],
+            -melhor["erro"],
+        ):
+            melhor = {
+                "contagem": int(contagem[ordem]),
+                "erro": float(erro[ordem]),
+                "atribuido": atribuido[ordem].copy(),
+            }
+    if melhor is None or melhor["contagem"] < MIN_INLIERS_V2:
+        return None
+    inliers = {
+        m + 1: float(direita[j]) for m, j in enumerate(melhor["atribuido"]) if j >= 0
+    }
+    numeros = sorted(inliers)
+    maior = numeros[-1]
+    s_in = np.array([s_do_traste(n) for n in numeros], dtype=float)
+    p_in = np.array([inliers[n] for n in numeros], dtype=float)
+    matriz = np.column_stack([s_in, -p_in * s_in])
+    (a_fim, c_fim), *_ = np.linalg.lstsq(matriz, p_in - b, rcond=None)
+    ts = _projetar(np.array([a_fim, b, c_fim]), list(range(maior + 1)))
+    if ts is None or np.any(np.diff(ts) <= 0.0):
+        return None
+    return {"inliers": inliers, "ts": ts}
+
+
+def decodificar_v2(mapas: np.ndarray) -> dict:
+    """Decodificador v2 (rodada 1022): numeração por ajuste robusto, no lugar da ordem.
+
+    Cordas e nut são os da v1 (``_cordas_e_nut``). Só a numeração dos picos muda, via
+    ``_numerar_v2``: tolera picos espúrios e trastes faltando. Menos de
+    ``MIN_INLIERS_V2`` inliers é "não achou".
+
+    Args:
+        mapas: probabilidades ``(4, 192, 1024)``.
+
+    Returns:
+        O mesmo formato de ``decodificar``.
+    """
+    geo = _cordas_e_nut(mapas)
+    if not geo["achou"]:
+        return geo
+    resultado = _numerar_v2(geo["picos"], geo["x_nut"])
+    if resultado is None:
+        return _nao_achou("menos de 4 inliers de traste")
+    return _montar_saida(geo, resultado["inliers"], resultado["ts"])
+
+
+def decodificar_versao(mapas: np.ndarray, versao: int) -> dict:
+    """Escolhe o decodificador pela versão (1 é o da 1021, 2 é o da 1022).
+
+    Args:
+        mapas: probabilidades ``(4, 192, 1024)``.
+        versao: 1 ou 2.
+
+    Returns:
+        O resultado do decodificador escolhido.
+
+    Raises:
+        ValueError: se a versão não existe.
+    """
+    if versao == 1:
+        return decodificar(mapas)
+    if versao == 2:
+        return decodificar_v2(mapas)
+    raise ValueError(f"decodificador desconhecido: {versao}")
 
 
 def _no_quadro(dec: dict, matriz: np.ndarray) -> Marcas:
@@ -1463,8 +1689,11 @@ def rodar() -> int:
     return 0
 
 
-def _quadro_v1() -> list[dict]:
+def _quadro_v1(versao: int = 1) -> list[dict]:
     """Oráculo (V1): mapas perfeitos desenhados a partir do rótulo G.
+
+    Args:
+        versao: decodificador a usar (1 ou 2).
 
     Returns:
         Medidas por quadro G (todos os 64).
@@ -1474,7 +1703,7 @@ def _quadro_v1() -> list[dict]:
     for entrada in _entradas_g(None):
         alvo_g = mapas_alvo(entrada["rotulo_na_faixa"])
         mapa = 1.0 / (1.0 + np.exp(-(LOGIT_CRISTA * alvo_g + LOGIT_FUNDO)))
-        dec = decodificar(mapa.astype(np.float32))
+        dec = decodificar_versao(mapa.astype(np.float32), versao)
         marcas = marcas_do_registro(gabarito[entrada["id"]])
         classe, medida = _medir(dec, np.asarray(entrada["matriz"], dtype=float), marcas)
         quadros.append(
@@ -2044,6 +2273,70 @@ def resumo() -> int:
     return 0
 
 
+def _itens_final(
+    pool_s: list[tuple[str, dict]],
+    pool_r: list[dict],
+    semente: int,
+    passos: int = PASSOS,
+) -> list[tuple]:
+    """Sequência da unidade final (rodada 1022): S e R de todos os canais, sem dobra.
+
+    A mistura é a de A3 (``MISTURA["A3"]``). Os R entram todos, sem deixar canal de fora.
+
+    Args:
+        pool_s: quadros S.
+        pool_r: quadros R de todos os canais (de ``_pool_r``).
+        semente: semente do treino, para o sorteio da sequência.
+        passos: número de passos (``PASSOS`` na unidade final).
+
+    Returns:
+        Lista de ``passos * LOTE`` tuplas para ``_Itens``.
+    """
+    return _sequencia(pool_s, pool_r, passos, MISTURA["A3"], f"final:{semente}")
+
+
+def treinar_final(semente: int) -> int:
+    """Treina a unidade final ``A3_100_todos_s<semente>`` e grava só o peso.
+
+    S e todos os R dos 8 canais, em ``PASSOS`` passos fixos (sem orçamento do V4), sob a
+    trava de GPU. Não mede nada: a prova é feita depois, pelo subcomando ``prova``.
+
+    Args:
+        semente: semente do treino.
+
+    Returns:
+        0 ao terminar.
+    """
+    pool_s = _pool_s()
+    pool_r = _pool_r()
+    nome = f"A3_100_todos_s{semente}"
+    sequencia = _itens_final(pool_s, pool_r, semente)
+    with _trava_gpu():
+        modelo, perdas, segundos = _treinar(sequencia, PASSOS, semente)
+        _salvar_pesos(
+            modelo,
+            nome,
+            {
+                "nome": nome,
+                "exp": "A3",
+                "fracao": "100",
+                "dobra": "todos",
+                "canal_deixado_fora": None,
+                "semente": semente,
+                "passos": PASSOS,
+                "tamanho_s": len(pool_s),
+                "tamanho_r": len(pool_r),
+                "tempo_treino_s": segundos,
+                "perdas": perdas,
+                "comando": (
+                    f"python -m tab.maos_braco_detector final --semente {semente}"
+                ),
+            },
+        )
+    print(f"{nome} gravada em {segundos:.0f} s", file=sys.stderr)
+    return 0
+
+
 def treinar_unidade(exp: str, fracao: str, dobra: int | None, semente: int) -> int:
     """Treina e mede uma única unidade (CLI ``treinar``).
 
@@ -2059,6 +2352,357 @@ def treinar_unidade(exp: str, fracao: str, dobra: int | None, semente: int) -> i
     passos = passos_do_orcamento()
     nome = _executar_unidade(exp, fracao, dobra, semente, passos, _pool_s(), _pool_r())
     print(f"unidade {nome} gravada", file=sys.stderr)
+    return 0
+
+
+# ---------------------------------------------------------------------------
+# Rodada 1022: portões D1 a D3 (desenvolvimento) e prova M11b (lacrada)
+# ---------------------------------------------------------------------------
+
+
+def _contagem_chave(quadros: list[dict], chave: str) -> dict[str, int]:
+    """Quantidade de quadros por classe, lida de ``chave``.
+
+    Args:
+        quadros: entradas com a chave indicada.
+        chave: nome da chave com a classe (``classe_v1``, ``classe_v2``...).
+
+    Returns:
+        Dicionário classe -> quantidade.
+    """
+    return {c: sum(1 for q in quadros if q[chave] == c) for c in CLASSES}
+
+
+def _medir_r_fora(modelo: nn.Module, entradas: list[dict]) -> list[dict]:
+    """Mede a rede nos quadros R de um canal deixado de fora, com a v1 e a v2 (D2).
+
+    A perturbação é fixa (``SEMENTE_D2``) e o rótulo é o do rastreador (R).
+
+    Args:
+        modelo: rede treinada sem o canal dos ``entradas``.
+        entradas: entradas de ``_pool_r`` com o canal deixado de fora.
+
+    Returns:
+        Uma entrada por quadro: ``id``, ``canal``, ``classe_v1``, ``classe_v2`` e os
+        erros de cada versão.
+    """
+    faixas, matrizes, marcas = [], [], []
+    for entrada in entradas:
+        caminho = Path(entrada["caminho"])
+        alvo = marcas_do_registro(entrada["registro"])
+        eixo = eixo_da_faixa(alvo)
+        matriz = matriz_da_faixa(
+            perturbar(eixo, random.Random(f"{SEMENTE_D2}:{caminho.stem}"))
+        )
+        faixas.append(recortar(_imagem(caminho), matriz))
+        matrizes.append(matriz)
+        marcas.append(alvo)
+    mapas = prever_mapas(modelo, faixas)
+    quadros = []
+    for entrada, mapa, matriz, alvo in zip(
+        entradas, mapas, matrizes, marcas, strict=True
+    ):
+        linha: dict = {
+            "id": Path(entrada["caminho"]).stem,
+            "canal": entrada["canal"],
+        }
+        for versao in (1, 2):
+            dec = decodificar_versao(mapa, versao)
+            classe, medida = _medir(dec, matriz, alvo)
+            linha[f"classe_v{versao}"] = classe
+            linha[f"erros_v{versao}"] = medida
+        quadros.append(linha)
+    return quadros
+
+
+def d1() -> int:
+    """Portão D1 (1022): oráculo de G pelo decodificador v2, com a v1 ao lado.
+
+    Só desenvolvimento, sem modelo: mapas perfeitos de G. Passa com >= 95 % certo.
+
+    Returns:
+        0 se passou, 1 caso contrário.
+    """
+    quadros_v2 = _quadro_v1(versao=2)
+    quadros_v1 = _quadro_v1(versao=1)
+    contagem = _contagem(quadros_v2)
+    total = len(quadros_v2)
+    passou = contagem["certo"] / total >= LIMITE_V1
+    dados = {
+        "portao": "D1",
+        "decodificador": 2,
+        "tolerancia_v2": TOLERANCIA_V2,
+        "quadros": total,
+        "contagem": contagem,
+        "contagem_v1_mesmo_oraculo": _contagem(quadros_v1),
+        "limite": LIMITE_V1,
+        "passou": passou,
+        "nao_certos": [q["id"] for q in quadros_v2 if q["classe"] != "certo"],
+    }
+    _gravar_json(ARQUIVO_D1, dados)
+    print(json.dumps(dados, ensure_ascii=False, indent=2))
+    return 0 if passou else 1
+
+
+def d2() -> int:
+    """Portão D2 (1022): pesos ``A3_100_<k>_s1`` aplicados aos R do canal k.
+
+    O canal k ficou de fora do treino da dobra k, então os R dele são fora da dobra.
+    Só registro: certos e falsos contra o rótulo R, com a v1 e a v2.
+
+    Returns:
+        0 ao terminar.
+    """
+    pool_r = _pool_r()
+    por_dobra = []
+    todos: list[dict] = []
+    for k, canal in enumerate(canais_g()):
+        nome = _nome_unidade("A3", "100", k, 1)
+        passos = _ler_json(DIR_PESOS / f"{nome}.json")["passos"]
+        entradas = [e for e in pool_r if e["canal"] == canal]
+        with _trava_gpu():
+            modelo, _ = _carregar_pesos(nome, passos)
+            quadros = _medir_r_fora(modelo, entradas)
+        por_dobra.append(
+            {
+                "dobra": k,
+                "canal": canal,
+                "peso": nome,
+                "quadros": len(quadros),
+                "contagem_v1": _contagem_chave(quadros, "classe_v1"),
+                "contagem_v2": _contagem_chave(quadros, "classe_v2"),
+            }
+        )
+        todos.extend(quadros)
+    dados = {
+        "portao": "D2",
+        "tolerancia_v2": TOLERANCIA_V2,
+        "por_dobra": por_dobra,
+        "total": {
+            "quadros": len(todos),
+            "contagem_v1": _contagem_chave(todos, "classe_v1"),
+            "contagem_v2": _contagem_chave(todos, "classe_v2"),
+        },
+        "quadros": todos,
+    }
+    _gravar_json(ARQUIVO_D2, dados)
+    print(json.dumps(dados["total"], ensure_ascii=False, indent=2))
+    return 0
+
+
+def d3() -> int:
+    """Portão D3 (1022): peso ``A1_100_sem_s1`` nos 500 S de validação, v1 e v2.
+
+    Os S são gerados como no V3. A contagem da v1 deve reproduzir a do V3 gravado
+    (``v3_validacao_s.json``); é conferência, não critério. Só registro.
+
+    Returns:
+        0 ao terminar.
+    """
+    amostras = _gerar_sval()
+    nome = _nome_unidade("A1", "100", DOBRA_A1, 1)
+    passos = _ler_json(DIR_PESOS / f"{nome}.json")["passos"]
+    with _trava_gpu():
+        modelo, _ = _carregar_pesos(nome, passos)
+        mapas = prever_mapas(modelo, [a[0] for a in amostras])
+    quadros: list[dict] = []
+    for mapa, (_, matriz, registro) in zip(mapas, amostras, strict=True):
+        alvo = marcas_do_registro(registro)
+        linha: dict = {}
+        for versao in (1, 2):
+            dec = decodificar_versao(mapa, versao)
+            classe, _ = _medir(dec, np.asarray(matriz, dtype=float), alvo)
+            linha[f"classe_v{versao}"] = classe
+        quadros.append(linha)
+    dados = {
+        "portao": "D3",
+        "peso": nome,
+        "tolerancia_v2": TOLERANCIA_V2,
+        "amostras": len(quadros),
+        "contagem_v1": _contagem_chave(quadros, "classe_v1"),
+        "contagem_v2": _contagem_chave(quadros, "classe_v2"),
+        "v3_gravado": _ler_json(ARQUIVO_V3)["contagem"]
+        if ARQUIVO_V3.exists()
+        else None,
+    }
+    _gravar_json(ARQUIVO_D3, dados)
+    print(json.dumps(dados, ensure_ascii=False, indent=2))
+    return 0
+
+
+def _canal_por_quadro(ids: set[str]) -> dict[str, str]:
+    """Canal de cada quadro da prova, pelo índice da M11b (ou pelos vídeos sorteados).
+
+    Args:
+        ids: identificadores dos quadros da prova.
+
+    Returns:
+        Quadro -> canal.
+
+    Raises:
+        ValueError: se algum quadro não está no índice da M11b.
+    """
+    indice = _ler_json(MAOS_M11B / "indice.json")["quadros"]
+    chaves = _ler_json(MAOS_M11B / "chaves.json")["videos"]
+    canal_do_arquivo = {v["arquivo"]: v["canal"] for v in chaves}
+    canais: dict[str, str] = {}
+    for quadro in indice:
+        if quadro["id"] in ids:
+            canais[quadro["id"]] = (
+                quadro.get("canal") or canal_do_arquivo[quadro["arquivo"]]
+            )
+    faltam = sorted(ids - set(canais))
+    if faltam:
+        raise ValueError(f"quadros da prova fora do índice da M11b: {faltam}")
+    return canais
+
+
+def _entradas_prova() -> list[dict]:
+    """Os 28 quadros da prova M11b, com a faixa recortada e as marcas do dono.
+
+    A perturbação é ``random.Random("20261021:T:<id>")``, a mesma que o pré-registro
+    fixa. Lê o gabarito e as imagens da M11b: só deve ser chamada na prova lacrada.
+
+    Returns:
+        Uma entrada por quadro: ``id``, ``canal``, ``faixa``, ``matriz`` e ``marcas``.
+
+    Raises:
+        ValueError: se algum quadro não tem braço ou marcas completas.
+    """
+    gabarito = _ler_json(GABARITO_BRACO_M11B)["quadros"]
+    canais = _canal_por_quadro(set(QUADROS_PROVA))
+    entradas = []
+    for id_quadro in QUADROS_PROVA:
+        marcas = marcas_do_registro(gabarito[id_quadro])
+        if marcas is None:
+            raise ValueError(f"{id_quadro} sem braço ou marcas completas")
+        imagem = _imagem(MAOS_M11B / "quadros" / f"{id_quadro}.png")
+        matriz = matriz_da_faixa(
+            perturbar(
+                eixo_da_faixa(marcas),
+                random.Random(f"{SEMENTE_PROVA}:{id_quadro}"),
+            )
+        )
+        entradas.append(
+            {
+                "id": id_quadro,
+                "canal": canais[id_quadro],
+                "faixa": recortar(imagem, matriz),
+                "matriz": matriz,
+                "marcas": marcas,
+            }
+        )
+    return entradas
+
+
+def _agregar_prova(por_semente: dict[int, list[dict]]) -> dict:
+    """Resumo da prova: classes por semente, média, canais, medianas e o critério.
+
+    Args:
+        por_semente: semente -> uma entrada por quadro, com ``classe``, ``canal`` e
+            ``erros`` (``None`` se não houve medida).
+
+    Returns:
+        Dicionário com ``por_semente``, ``media`` (por classe, com amplitude), ``canais``,
+        ``medianas`` e ``passou`` (certos >= 70 % e falsos <= 5 %, pela média).
+    """
+    sementes = sorted(por_semente)
+    por_classe: dict[str, dict] = {}
+    for classe in CLASSES[:4]:
+        pct = [
+            100.0
+            * sum(q["classe"] == classe for q in por_semente[s])
+            / len(por_semente[s])
+            for s in sementes
+        ]
+        por_classe[classe] = _medias_e_amplitude(pct)
+    todos = [q for s in sementes for q in por_semente[s]]
+    canais = {}
+    for canal in sorted({q["canal"] for q in todos}):
+        canais[canal] = {
+            classe: statistics.mean(
+                100.0
+                * sum(
+                    q["canal"] == canal and q["classe"] == classe
+                    for q in por_semente[s]
+                )
+                / max(1, sum(q["canal"] == canal for q in por_semente[s]))
+                for s in sementes
+            )
+            for classe in CLASSES[:4]
+        }
+        canais[canal]["quadros"] = sum(
+            q["canal"] == canal for q in por_semente[sementes[0]]
+        )
+
+    def mediana(chave: str) -> float | None:
+        valores = [
+            q["erros"][chave]
+            for q in todos
+            if q["erros"] and q["erros"].get(chave) is not None
+        ]
+        return statistics.median(valores) if valores else None
+
+    media_certo = por_classe["certo"]["media"]
+    media_falso = por_classe["falso"]["media"]
+    return {
+        "portao": "PROVA_M11B",
+        "pesos": [f"A3_100_todos_s{s}" for s in sementes],
+        "tolerancia_v2": TOLERANCIA_V2,
+        "quadros": len(por_semente[sementes[0]]),
+        "por_semente": {str(s): _contagem(por_semente[s]) for s in sementes},
+        "percentuais": por_classe,
+        "canais_media_pct": canais,
+        "medianas": {
+            "perp_cordas": mediana("perp_cordas"),
+            "nut_casas": mediana("nut_casas"),
+            "pior_traste_casas": mediana("pior_traste_casas"),
+        },
+        "criterio": {
+            "certo_minimo_pct": LIMITE_PROVA_CERTO,
+            "falso_maximo_pct": LIMITE_PROVA_FALSO,
+        },
+        "passou": media_certo >= LIMITE_PROVA_CERTO
+        and media_falso <= LIMITE_PROVA_FALSO,
+    }
+
+
+def prova(destino: Path = ARQUIVO_PROVA) -> int:
+    """Prova M11b (1022): NÃO executar antes do commit do decodificador congelado.
+
+    Aplica os 3 pesos finais (``A3_100_todos_s1..3``) com a v2 aos 28 quadros, mede
+    (cordas, nut, trastes, classe) e grava o resumo em ``destino``.
+
+    Args:
+        destino: arquivo do resumo.
+
+    Returns:
+        0 ao terminar (a decisão é do dono, pelo campo ``passou``).
+    """
+    entradas = _entradas_prova()
+    por_semente: dict[int, list[dict]] = {}
+    for semente in SEMENTES_FINAIS:
+        nome = f"A3_100_todos_s{semente}"
+        with _trava_gpu():
+            modelo, _ = _carregar_pesos(nome, PASSOS)
+            mapas = prever_mapas(modelo, [e["faixa"] for e in entradas])
+        quadros = []
+        for entrada, mapa in zip(entradas, mapas, strict=True):
+            dec = decodificar_versao(mapa, 2)
+            classe, medida = _medir(dec, entrada["matriz"], entrada["marcas"])
+            quadros.append(
+                {
+                    "id": entrada["id"],
+                    "canal": entrada["canal"],
+                    "classe": classe,
+                    "achou": bool(dec["achou"]),
+                    "erros": medida,
+                }
+            )
+        por_semente[semente] = quadros
+    dados = _agregar_prova(por_semente)
+    _gravar_json(destino, dados)
+    print(json.dumps(dados, ensure_ascii=False, indent=2))
     return 0
 
 
@@ -2081,6 +2725,12 @@ def _parser() -> argparse.ArgumentParser:
         p.add_argument("--semente", type=int, default=1)
     sub.add_parser("rodar", help="plano inteiro, retomável")
     sub.add_parser("resumo", help="resumo.json de todos os resultados")
+    p = sub.add_parser("final", help="treina A3 sem dobra (S + todos os R), sem medir")
+    p.add_argument("--semente", type=int, required=True)
+    sub.add_parser("d1", help="portão D1: oráculo de G pela v2 (desenvolvimento)")
+    sub.add_parser("d2", help="portão D2: R fora da dobra, v1 e v2 (desenvolvimento)")
+    sub.add_parser("d3", help="portão D3: S de validação, v1 e v2 (desenvolvimento)")
+    sub.add_parser("prova", help="PROVA M11b lacrada: não rodar antes do aval do dono")
     return parser
 
 
@@ -2101,6 +2751,16 @@ def main() -> int:
         return treinar_unidade(args.exp, args.fracao, args.dobra, args.semente)
     if args.comando == "rodar":
         return rodar()
+    if args.comando == "final":
+        return treinar_final(args.semente)
+    if args.comando == "d1":
+        return d1()
+    if args.comando == "d2":
+        return d2()
+    if args.comando == "d3":
+        return d3()
+    if args.comando == "prova":
+        return prova()
     return resumo()
 
 
