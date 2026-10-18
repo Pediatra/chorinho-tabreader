@@ -40,7 +40,7 @@ import threading
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
-from tab.caminhos import RAIZ, SAIDA
+from tab.caminhos import PART_FRENTE_D, RAIZ, SAIDA
 from tab.partitura_avaliar import (
     NotaXML,
     _carregar_ouro,
@@ -1388,14 +1388,19 @@ def criar_servidor(
         def _png(self, recorte_id: str) -> None:
             """Entrega o PNG original de um recorte.
 
-            Só entrega arquivo dentro de ``PASTA_RECORTES`` (P1) ou de
-            ``PASTA_SEM_PRODUTO``; qualquer outro caminho vira 404.
+            Só entrega arquivo dentro de ``PASTA_RECORTES`` (P1), de ``PASTA_SEM_PRODUTO``
+            ou da pasta da frente D (amostra do gabarito novo); qualquer outro caminho vira
+            404.
 
             Args:
                 recorte_id: id do recorte (já conferido contra os itens).
             """
             alvo = (RAIZ / por_id[recorte_id]["png"]).resolve()
-            pastas = (PASTA_RECORTES.resolve(), PASTA_SEM_PRODUTO.resolve())
+            pastas = (
+                PASTA_RECORTES.resolve(),
+                PASTA_SEM_PRODUTO.resolve(),
+                PART_FRENTE_D.resolve(),
+            )
             if not any(alvo.is_relative_to(p) for p in pastas) or not alvo.is_file():
                 self._json(404, {"ok": False, "erro": "não encontrado"})
                 return
