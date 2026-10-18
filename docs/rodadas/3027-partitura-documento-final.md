@@ -287,3 +287,126 @@ inclusive a que tem nota pareada no mesmo x. Por isso ela tira 29 notas de acord
 a pauta tem a nota da coluna, e a pausa está numa outra voz ou num outro sistema. Se a regra valer
 só para nota isolada, esses acordes voltam. Não mudei a regra sem a sua decisão. As 6 pausas
 isoladas (inclusive a do greensleeves e a do gym T07 E3) continuam fora.
+
+## Ajuste 2: a pausa barra nota isolada pela voz
+
+**Motivo.** A gymnopédie tem duas vozes: a melodia pausa enquanto o baixo toca. Pausa de uma voz
+não cala a outra. Decisão da sessão principal, depois do Ajuste 1.
+
+**Tentativa 1 (medida, descartada).** A primeira versão barrava a isolada só em compasso de uma
+voz. Medida: greensleeves T03 C#5 entrou. O compasso 8 tem duas vozes na leitura herdada (voz 1:
+mi4 de meia e pausa de semínima em t = 2; voz 2: mi3 de meia). Parei, como pedido, e a sessão
+principal decidiu pela regra por voz abaixo. Nada foi commitado da tentativa 1.
+
+**Regras (a priori).** Ordem dos motivos, como no Ajuste 1: `ligada`, `harmonico`, `pausa`,
+`cabecalho`, `oitava`. Vale o primeiro que se aplica.
+
+- **Voz da nota isolada:** a que `_completar` escolhe pela corda: cordas 4 a 6 vão para a voz 2
+  se o compasso tem duas vozes na leitura herdada; senão, voz 1. Essa voz vai no símbolo gravado.
+- `pausa` para nota **isolada**: barra se existe uma pausa da leitura herdada a até
+  `TOLERANCIA_PX` do x da coluna **e na mesma voz** que a nota recebe. Pausa de outra voz não barra.
+- `pausa` para nota **acorde** (coluna com evento pareado): não se aplica.
+- `cabecalho`, `oitava`, `ligada` e `harmonico`: como estão.
+- Sem mudança em `_completar`: a E1 continua com a mesma regra, e o `e1.json` não muda.
+
+**Aceite (congelado antes da medida da regra por voz).**
+
+1. Os 442 eventos que já existiam continuam idênticos (mesmo comparador).
+2. Gymnopédie T01 E4 continua fora (`cabecalho`). Greensleeves T03 C#5 fica fora por `pausa`. Se
+   continuar entrando, PARAR e relatar a voz da pausa e a voz que a nota receberia.
+3. Diz o que aconteceu com a gymnopédie T07 E3 (x 247,6), e a voz da pausa dela.
+4. Tabela por vídeo como no Ajuste 1, com a tela 10 da gymnopédie à parte; lista das notas que
+   continuam fora, com o motivo.
+5. 5 notas de acorde que entraram (fora da tela 10), olhadas no recorte. Seleção: as que voltam a
+   entrar em relação ao Ajuste 1, as 5 primeiras em ordem de vídeo, tela e x. Para cada uma:
+   **certa** (a nota está desenhada na pauta naquele x), **errada** (não está) ou **não dá para
+   decidir**. PNGs em `fp_produto/casos_ajuste2/`.
+6. `e1.json` da frente E continua igual (`cmp`).
+7. Gate verde, o mesmo do briefing.
+
+### Resultado do Ajuste 2 (regra de pausa por voz)
+
+**Tentativa 1 (descartada):** a regra "compasso de uma voz" deixou greensleeves T03 C#5 entrar. Esse
+compasso tem duas vozes (ver acima). Parei, como pedido, e a regra foi trocada pela regra por voz.
+
+Gate e commit: ver a mensagem do commit deste Ajuste.
+
+| item do aceite | resultado |
+| --- | --- |
+| 1. 442 eventos que já existiam | **0 diferenças** (`comparar_partitura.py`, sem nenhuma linha de mudança; só as 4 linhas de contagem contra a E1, esperadas) |
+| 2. greensleeves T03 C#5 fora por pausa | **fora por `pausa`**. Nota na voz 1 (corda 2); pausa da voz 1 a 1767,0 (1,1 px da coluna). Compasso 8 tem duas vozes, mas a pausa é da mesma voz da nota |
+| 2. gymnopédie T01 E4 fora (cabeçalho) | **fora por `cabecalho`**, como antes. A nota vai para a voz 2 (corda 4, compasso com duas vozes), mas não há pausa perto: o motivo é o cabeçalho |
+| 3. gymnopédie T07 E3 (x 247,6) | **fora por `pausa`** (isolada, compasso 1). Pausa da voz 1 a 244,0; nota na voz 1 (corda 6; o compasso 1 tem uma voz só, então a corda 6 não vai para a voz 2). O T07 E3 de x 1707,6 (compasso 7) também cai por `pausa` |
+| 4. tabela por vídeo | ver abaixo |
+| 5. 5 notas de acorde que entraram (fora da tela 10) | ver abaixo |
+| 6. `e1.json` igual | **igual** (`cmp` = 0) |
+| 7. gate | ver o commit |
+
+**Tabela por vídeo (completadas que entram; motivos de não entrar)**
+
+| vídeo | pautas | pequenas | acorde | isoladas | pausa | cabeçalho | oitava | harmônico | ligada |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| greensleeves | 4 | 0 | 0 | 0 | 1 (iso) | 0 | 0 | 0 | 0 |
+| south american | 3 | 3 | 1 | 1 | 0 | 0 | 2 (acorde) | 0 | 0 |
+| gymnopédie (sem a tela 10) | 12 | 0 | 19 | 1 | 3 (iso) | 1 (iso) | 8 (acorde) | 0 | 0 |
+| **gymnopédie tela 10 (à parte)** | — | — | 17 | 11 | 0 | 0 | 1 (iso) | 0 | 0 |
+| **total** | 19 | 3 | 37 | 13 | 4 | 1 | 11 | 0 | 0 |
+
+Total: 50 entram (37 acorde, 13 isoladas) e 16 saem (4 por pausa, 1 por cabeçalho, 11 por oitava).
+Conferido por `motivos_p4.py`: fora da tela 10, a E1 tem 37 = 22 que entram + 15 que saem; na tela
+10, 29 = 28 que entram + 1 que sai. Total: 50 + 16 = 66.
+
+**Notas que continuam fora, com o motivo** (vídeo, tela, recorte, x, nota, tipo, compasso):
+
+| vídeo | tela | recorte | x | nota | tipo | compasso | motivo |
+| --- | ---: | --- | ---: | --- | --- | ---: | --- |
+| greensleeves | 3 | T03 | 1768,1 | C#5 | isolado | 8 | pausa |
+| south | 3 | T03 | 1882,7 | E3 | acorde | 12 | oitava |
+| south | 3 | T03 | 1882,7 | B3 | acorde | 12 | oitava |
+| gym | 1 | T01 | 41,4 | E4 | isolado | 1 | cabecalho |
+| gym | 2 | T02 | 476,0 | G#6 | acorde | 2 | oitava |
+| gym | 2 | T02 | 708,0 | E3 | isolado | 3 | pausa |
+| gym | 3 | T03 | 744,3 | D#6 | acorde | 3 | oitava |
+| gym | 3 | T03 | 981,9 | G#6 | acorde | 4 | oitava |
+| gym | 6 | T06 | 1034,1 | E3 | acorde | 4 | oitava |
+| gym | 7 | T07 | 247,6 | E3 | isolado | 1 | pausa |
+| gym | 7 | T07 | 1474,0 | G#6 | acorde | 6 | oitava |
+| gym | 7 | T07 | 1707,6 | E3 | isolado | 7 | pausa |
+| gym | 9 | T09 | 240,3 | G#6 | acorde | 1 | oitava |
+| gym | 10 | T10 | 789,0 | G4 | isolado | 3 | oitava (tela 10) |
+| gym | 11 | T11 | 697,7 | C#4 | acorde | 3 | oitava |
+| gym | 12 | T12 | 831,7 | E4 | acorde | 1 | oitava |
+
+Os 5 candidatos de oitava dos documentos continuam fora: south E3 e B3 (c12); gym T06 E3 (c4, agora
+por `oitava`, porque a pausa não barra mais acorde); T11 C#4 (c3); T12 E4 (c1).
+
+**Voltaram a entrar desde o Ajuste 1:** 25 notas (23 acordes e 2 isoladas da tela 10, T10 A3 x 467,3
+e x 1689,9). A pausa barrava 29 acordes da gymnopédie no Ajuste 1. Agora 23 entram e 6 caem por
+`oitava` (a pauta tem a mesma nota uma oitava fora no mesmo x): T02 G#6 c2, T03 D#6 c3, T03 G#6 c4,
+T06 E3 c4, T07 G#6 c6, T09 G#6 c1.
+
+**5 notas de acorde que entraram, olhadas no recorte** (fora da tela 10; as 5 primeiras, em ordem de
+vídeo, tela e x, entre as que voltaram). PNGs em `data/saida/part_frentes/fp_produto/casos_ajuste2/`
+(3×, linha vermelha no x do evento). Veredito: **certa** = cabeça de nota desenhada no x, na altura
+esperada; **errada** = não há nota desenhada no x, na pauta da voz; **não dá para decidir** = há
+desenho no x, mas a altura não se confirma na escala.
+
+1. `gym_T01_c6_m82_x1448_acorde_voz1.png`: A#5, voz 1, compasso 6. **Não dá para decidir.** Há cabeça
+   de nota com haste acima da pauta, no x, mas não vejo sustenido, e a altura A#5 não se confirma.
+2. `gym_T02_c2_m57_x478_acorde_voz2.png`: A3, voz 2, compasso 2. **Não dá para decidir.** No x há
+   um losango (harmônico?) no alto e uma cabeça de meia na pauta de cima, e uma cabeça na pauta
+   de baixo, com haste para baixo. Não consigo ligar a A3 a uma delas.
+3. `gym_T02_c7_m52_x1679_acorde_voz2.png`: E3, voz 2, compasso 7. **Não dá para decidir.** Há
+   cabeça de meia pontuada com haste para baixo, no x, na pauta de baixo, mas a altura E3 não se
+   confirma na escala.
+4. `gym_T03_c5_m85_x1224_acorde_voz1.png`: C#6, voz 1, compasso 5. **Errada.** A cabeça desenhada
+   no x fica entre as linhas do alto da pauta, perto de E5. C#6 ficaria acima da pauta, com linhas
+   suplementares, e elas não aparecem.
+5. `gym_T04_c4_m52_acorde_voz2.png`: E3, voz 2, compasso 4. **Não dá para decidir.** Há cabeça com
+   haste para baixo, no x, na pauta de baixo, e a altura não se confirma na escala.
+
+Resultado: 0 certas, 1 errada, 4 não decididas. Com esta amostra, a regra por voz não está medida
+como precisa: nenhuma das 5 se confirmou como certa.
+
+**Não repetir:** regra de pausa por compasso ("uma voz só") deixa passar acorde de duas vozes com
+pausa da outra voz. Regra por voz da nota isolada é a que vale.

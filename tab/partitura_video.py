@@ -1037,8 +1037,8 @@ def _contagens_da_pauta(pauta: dict, notas: list[dict]) -> dict[str, int]:
     }
 
 
-def _pausas_do_recorte(entrada: dict, omr: Path) -> list[float]:
-    """x no quadro das pausas da leitura herdada de um recorte (rodada 3027, Ajuste 1).
+def _pausas_do_recorte(entrada: dict, omr: Path) -> list[tuple[float, str]]:
+    """Pausas da leitura herdada de um recorte: x no quadro e voz (rodada 3027, Ajuste 1 e 2).
 
     A pausa é lida como uma nota: ``_x_do_simbolo``, com o slot do compasso dela no ``.omr``.
     Pausa sem slot não tem x e fica fora da lista.
@@ -1048,8 +1048,8 @@ def _pausas_do_recorte(entrada: dict, omr: Path) -> list[float]:
         omr: pasta ``omr`` do produto (``pasta_omr``).
 
     Returns:
-        O x de cada pausa lida, na ordem da leitura. Lista vazia se falta a leitura herdada
-        ou o ``.omr``, ou se a leitura não abre.
+        ``(x, voz)`` de cada pausa lida, na ordem da leitura. Lista vazia se falta a leitura
+        herdada ou o ``.omr``, ou se a leitura não abre.
     """
     rid = entrada["id"]
     x0 = entrada["caixa_recorte"][0]
@@ -1071,12 +1071,44 @@ def _pausas_do_recorte(entrada: dict, omr: Path) -> list[float]:
             if simbolo["pausa"]:
                 x = _x_do_simbolo(simbolo, pilha, x0, ESCALA_X2)
                 if x is not None:
-                    xs.append(x)
+                    xs.append((x, str(simbolo["voz"])))
     return xs
 
 
+def _vozes_do_recorte(entrada: dict, omr: Path) -> dict[str, set[str]]:
+    """Vozes de cada compasso da leitura herdada de um recorte (rodada 3027, Ajuste 2).
+
+    Conta as notas e as pausas: a voz de uma pausa vem da mesma tag ``voice`` da nota.
+
+    Args:
+        entrada: entrada do ``indice.json`` com ``sem_pauta`` falso.
+        omr: pasta ``omr`` do produto (``pasta_omr``).
+
+    Returns:
+        ``{numero do compasso: vozes}``. Dicionário vazio se falta a leitura herdada ou ela não
+        abre.
+    """
+    rid = entrada["id"]
+    herdada = (
+        omr / "audiveris" / f"{CONDICAO_AUDIVERIS}_herdada" / rid / "saida.musicxml"
+    )
+    if not herdada.exists():
+        return {}
+    try:
+        leitura = ler_partitura(herdada)
+    except ValueError, ET.ParseError:
+        return {}
+    return {
+        compasso["numero"]: {str(s["voz"]) for s in compasso["simbolos"]}
+        for compasso in leitura["compassos"]
+    }
+
+
 def _completar_pauta_do_recorte(
-    pauta: dict, notas: list[dict], pausas_x: list[float]
+    pauta: dict,
+    notas: list[dict],
+    pausas_x: list[tuple[float, str]],
+    vozes_por_compasso: dict[str, set[str]] | None = None,
 ) -> tuple[dict, dict[str, int], list[dict]]:
     """Completa uma pauta com as notas da tab que ela não leu (``completar_pauta``).
 
@@ -1086,7 +1118,7 @@ def _completar_pauta_do_recorte(
     Args:
         pauta: pauta de ``_pauta_do_recorte``, já com os pares.
         notas: lista ``notas`` do produto.
-        pausas_x: x no quadro das pausas do recorte (``_pausas_do_recorte``).
+        pausas_x: pausas do recorte, ``(x, voz)`` (``_pausas_do_recorte``).
 
     Returns:
         ``(pauta, contagens, motivos)``: a pauta com os eventos completados; as contagens de
@@ -1120,7 +1152,12 @@ def _completar_pauta_do_recorte(
             }
         )
     eventos, contagens, motivos = completar_pauta(
-        pauta["eventos"], tab, pauta["compassos"], pauta["tela"], pausas_x
+        pauta["eventos"],
+        tab,
+        pauta["compassos"],
+        pauta["tela"],
+        pausas_x,
+        vozes_por_compasso,
     )
     motivos = [
         {**m, "tela": pauta["tela"], "recorte": pauta["recorte"]} for m in motivos
@@ -1190,7 +1227,10 @@ def parear_produto(produto: Path, pasta_video: Path | None = None) -> dict:
     ]
     completadas = [
         _completar_pauta_do_recorte(
-            pauta, dados["notas"], _pausas_do_recorte(entrada, omr)
+            pauta,
+            dados["notas"],
+            _pausas_do_recorte(entrada, omr),
+            _vozes_do_recorte(entrada, omr),
         )
         for entrada, pauta in zip(com_pauta, pautas, strict=True)
     ]

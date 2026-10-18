@@ -161,29 +161,31 @@ def test_par_de_outra_tela_nao_ocupa_a_coluna():
     assert saida[0]["simbolos"] == eventos[0]["simbolos"]
 
 
-def test_pausa_no_mesmo_x_nao_completa():
-    # a pauta está calada em x 102, a 2 px da coluna (x 100): a nota não entra
-    eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
-    tab = [_tab(100.0, 7, {60, 64})]
-    saida, contagens, motivos = completar_pauta(eventos, tab, COMPASSOS, 1, [102.0])
+def test_pausa_no_mesmo_x_nao_completa_isolado_em_uma_voz():
+    # isolado em x 100 (coluna sem par), pausa em x 102, compasso 1 com uma voz: não entra
+    eventos = [_evento("1", 50.0, 9, [_simbolo(60)])]
+    tab = [_tab(100.0, 7, {64})]
+    saida, contagens, motivos = completar_pauta(
+        eventos, tab, COMPASSOS, 1, [(102.0, "1")], {"1": {"1"}}
+    )
     assert contagens["nao_pausa"] == 1
-    assert contagens["acorde"] == 0
-    assert saida[0]["simbolos"] == eventos[0]["simbolos"]
+    assert contagens["isolado"] == 0
+    assert len(saida) == 1
     assert motivos == [
-        {"x": 100.0, "midi": 64, "tipo": "acorde", "compasso": "1", "motivo": "pausa"}
+        {"x": 100.0, "midi": 64, "tipo": "isolado", "compasso": "1", "motivo": "pausa"}
     ]
 
 
 def test_pausa_longe_do_x_nao_bloqueia_e_pausa_isolada_conta():
     eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
     _, contagens, motivos = completar_pauta(
-        eventos, [_tab(100.0, 7, {60, 64})], COMPASSOS, 1, [120.0]
+        eventos, [_tab(100.0, 7, {60, 64})], COMPASSOS, 1, [(120.0, "1")]
     )
     assert contagens["acorde"] == 1
     assert motivos == []
-    # isolado com pausa a 2 px: não entra
+    # isolado com pausa a 2 px, em compasso de uma voz: não entra
     _, contagens, _ = completar_pauta(
-        eventos, [_tab(200.0, 8, {62})], COMPASSOS, 1, [198.0]
+        eventos, [_tab(200.0, 8, {62})], COMPASSOS, 1, [(198.0, "1")], {"2": {"1"}}
     )
     assert contagens["nao_pausa"] == 1
     assert contagens["isolado"] == 0
@@ -203,7 +205,7 @@ def test_pausa_antes_da_primeira_nota_conta_como_primeiro_evento():
     # com uma pausa em x 80, o primeiro evento da pauta passa a ser 80: x 90 já não é cabeçalho
     eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
     tab = [_tab(90.0, 8, {62})]
-    saida, contagens, _ = completar_pauta(eventos, tab, COMPASSOS, 1, [80.0])
+    saida, contagens, _ = completar_pauta(eventos, tab, COMPASSOS, 1, [(80.0, "1")])
     assert contagens["nao_cabecalho"] == 0
     assert contagens["isolado"] == 1
     assert len(saida) == 2
@@ -229,3 +231,67 @@ def test_oitava_acima_na_pauta_nao_completa_no_isolado():
     assert contagens["nao_oitava"] == 1
     assert contagens["isolado"] == 0
     assert motivos[0]["tipo"] == "isolado"
+
+
+def test_pausa_de_isolado_barra_na_mesma_voz():
+    # isolado de corda 1 recebe a voz 1; a pausa da voz 1 a 2 px barra
+    eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
+    _, contagens, motivos = completar_pauta(
+        eventos, [_tab(200.0, 8, {62})], COMPASSOS, 1, [(198.0, "1")], {"2": {"1", "2"}}
+    )
+    assert contagens["nao_pausa"] == 1
+    assert contagens["isolado"] == 0
+    assert motivos[0]["motivo"] == "pausa"
+
+
+def test_pausa_de_outra_voz_nao_barra():
+    # o compasso 2 tem duas vozes; a pausa é da voz 2 e o isolado recebe a voz 1: não barra
+    eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
+    saida, contagens, motivos = completar_pauta(
+        eventos, [_tab(200.0, 8, {62})], COMPASSOS, 1, [(198.0, "2")], {"2": {"1", "2"}}
+    )
+    assert contagens["isolado"] == 1
+    assert contagens["nao_pausa"] == 0
+    assert motivos == []
+    assert len(saida) == 2
+
+
+def test_pausa_nao_barra_nota_de_acorde():
+    # a nota pareada no mesmo x (acorde) não é barrada por pausa, mesmo com uma voz só
+    eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
+    saida, contagens, motivos = completar_pauta(
+        eventos, [_tab(100.0, 7, {60, 64})], COMPASSOS, 1, [(102.0, "1")], {"1": {"1"}}
+    )
+    assert contagens["acorde"] == 1
+    assert contagens["nao_pausa"] == 0
+    assert motivos == []
+    assert saida[0]["simbolos"][1]["midi_escrito"] == 64
+
+
+def test_isolado_de_corda_4_a_6_vai_para_voz_2_com_duas_vozes():
+    # corda 5 (4 a 6) e compasso com voz 2 na leitura: a nota entra na voz 2
+    tab = [{**_tab(200.0, 8, {52}), "cordas": {52: 5}}]
+    eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
+    saida, contagens, _ = completar_pauta(
+        eventos, tab, COMPASSOS, 1, [], {"2": {"1", "2"}}
+    )
+    assert contagens["isolado"] == 1
+    assert saida[1]["simbolos"][0]["voz"] == "2"
+
+
+def test_isolado_de_corda_4_a_6_fica_na_voz_1_sem_voz_2():
+    tab = [{**_tab(200.0, 8, {52}), "cordas": {52: 5}}]
+    eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
+    saida, contagens, _ = completar_pauta(eventos, tab, COMPASSOS, 1, [], {"2": {"1"}})
+    assert contagens["isolado"] == 1
+    assert saida[1]["simbolos"][0]["voz"] == "1"
+
+
+def test_pausa_da_voz_2_barra_isolado_de_corda_5():
+    tab = [{**_tab(200.0, 8, {52}), "cordas": {52: 5}}]
+    eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
+    _, contagens, motivos = completar_pauta(
+        eventos, tab, COMPASSOS, 1, [(198.0, "2")], {"2": {"1", "2"}}
+    )
+    assert contagens["nao_pausa"] == 1
+    assert motivos[0]["motivo"] == "pausa"

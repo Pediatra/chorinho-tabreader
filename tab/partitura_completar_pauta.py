@@ -427,12 +427,40 @@ def _motivo_de_nao_entrar(
     return None
 
 
+def _voz_isolada(
+    midi: int,
+    cordas: dict[int, int],
+    compasso: str | None,
+    vozes_por_compasso: dict[str, set[str]] | None,
+) -> str:
+    """Voz de uma nota isolada, pela mesma escolha de ``_completar`` (rodada 3027, Ajuste 2).
+
+    Cordas 4 a 6 vão para a voz 2 se o compasso tem duas vozes na leitura herdada; senão, voz 1.
+
+    Args:
+        midi: altura escrita da nota.
+        cordas: ``{altura escrita: corda}`` da coluna da tab.
+        compasso: número do compasso da nota (``_compasso_de_x``), ou None.
+        vozes_por_compasso: ``{numero do compasso: vozes das notas e pausas}``, ou None.
+
+    Returns:
+        ``"2"`` ou ``"1"``.
+    """
+    tem_voz2 = (
+        compasso is not None
+        and vozes_por_compasso is not None
+        and "2" in vozes_por_compasso.get(compasso, set())
+    )
+    return "2" if cordas.get(midi, 0) in CORDAS_VOZ_2 and tem_voz2 else "1"
+
+
 def completar_pauta(
     eventos: list[dict],
     tab: list[dict],
     compassos: list[dict],
     tela: int,
-    pausas_x: list[float] | None = None,
+    pausas: list[tuple[float, str]] | None = None,
+    vozes_por_compasso: dict[str, set[str]] | None = None,
 ) -> tuple[list[dict], dict[str, int], list[dict]]:
     """Acrescenta à pauta as notas da tab que ela não leu (regras da rodada 3172 e 3027).
 
@@ -447,7 +475,8 @@ def completar_pauta(
     Regras: a figura é sempre ``None``. Símbolo que já existe não muda. Uma nota da tab
     não entra, e é contada pelo primeiro motivo que se aplica (``_motivo_de_nao_entrar``):
     ``ligada`` (``tecnica`` lig), ``harmonico`` (``tecnica`` harm com oitava na pauta),
-    ``pausa`` (pausa a até ``TOLERANCIA_PX`` do x), ``cabecalho`` (x antes do primeiro
+    ``pausa`` (nota isolada: pausa a até ``TOLERANCIA_PX`` do x, na mesma voz que a nota
+    recebe; o acorde não tem essa regra), ``cabecalho`` (x antes do primeiro
     evento da pauta, nota ou pausa, menos ``TOLERANCIA_PX``) e ``oitava`` (a pauta tem a
     mesma nota uma oitava acima ou abaixo, a até ``TOLERANCIA_PX``).
 
@@ -460,8 +489,10 @@ def completar_pauta(
             notas lig).
         compassos: ``{"numero", "fracao", "x_quadro"}`` do recorte.
         tela: tela do produto (vai no ``par`` dos eventos novos).
-        pausas_x: x no quadro das pausas do recorte (leitura herdada). ``None`` é lista
-            vazia.
+        pausas: ``(x no quadro, voz)`` de cada pausa do recorte, da leitura herdada. ``None``
+            é lista vazia.
+        vozes_por_compasso: ``{numero do compasso: vozes das notas e pausas}``, da leitura
+            herdada. Dá a voz da nota isolada (``_voz_isolada``). ``None`` põe todas na voz 1.
 
     Returns:
         ``(eventos, contagens, motivos)``: a pauta com as notas completadas; ``contagens``
@@ -479,8 +510,10 @@ def completar_pauta(
                 "midis": {s["midi"] for s in simbolos},
             }
         )
-    pausas = list(pausas_x or [])
-    xs_da_pauta = [e["x"] for e in normalizados if e["x"] is not None] + pausas
+    pausas_todas = list(pausas or [])
+    xs_da_pauta = [e["x"] for e in normalizados if e["x"] is not None] + [
+        x for x, _ in pausas_todas
+    ]
     primeiro_x = min(xs_da_pauta) if xs_da_pauta else None
     ocupados: dict[int, int] = {}
     for indice, evento in enumerate(eventos):
@@ -498,8 +531,15 @@ def completar_pauta(
         )
         isolados = []
         for nota in feitas:
+            voz = nota["voz"]
+            pausas_da_voz: list[float] = []
+            if nota["tipo"] == "isolado":
+                voz = _voz_isolada(
+                    nota["midi"], tab_j["cordas"], nota["compasso"], vozes_por_compasso
+                )
+                pausas_da_voz = [x for x, v in pausas_todas if v == voz]
             motivo = _motivo_de_nao_entrar(
-                nota, tab_j, normalizados, pausas, primeiro_x
+                nota, tab_j, normalizados, pausas_da_voz, primeiro_x
             )
             if motivo is not None:
                 contagens[CONTADOR_DO_MOTIVO[motivo]] += 1
@@ -513,7 +553,7 @@ def completar_pauta(
                     }
                 )
                 continue
-            simbolo = _simbolo_completado(nota["midi"], nota["voz"], nota["harmonico"])
+            simbolo = _simbolo_completado(nota["midi"], voz, nota["harmonico"])
             if nota["tipo"] == "acorde":
                 saida[i]["simbolos"].append(simbolo)
                 contagens["acorde"] += 1
