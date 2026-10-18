@@ -70,3 +70,23 @@ quadro sinalizado vai para o dono.
 - **A perturbação ainda parte do gabarito.** S1 mede a estabilidade em torno do eixo certo, e
   na fase B o eixo vem do estágio 1.
 - **84 medidas são poucas**: 4 falsos que passam equivalem a 5 %.
+
+## Desenvolvimento: resultado (2026-10-18) — **passa**
+
+`python -m tab.maos_braco_confianca dev` (`c1023_dev.json`, 1.525 s), sobre 1.052 quadros.
+- A classe v2 confere com o D2 da 1022 em **1.052 de 1.052** quadros: 36 falsos e 1 não achou.
+
+| regra | percentil | limiar | sinalizados | falsos que passam (de 36) |
+| --- | --- | --- | --- | --- |
+| S1 | 85 | 0,540 | 166 (15,8 %) | 2 (0,19 %) |
+| S2 | 70 | 0,050 | 287 (27,3 %) | 14 (1,33 %) |
+| S3 | 75 | 0,126 | 263 (25,0 %) | 8 (0,76 %) |
+| **S1 ou S2** | 85 / 90 | 0,5402 / 0,0952 | **228 (21,7 %)** | **1 (0,10 %)** |
+
+- **Regra congelada**: S1 > 0,5402071601548553 **ou** S2 > 0,09523809523809523.
+  - "Não achou" e uma extra sem braço contam como sinalizados.
+  - As constantes ficam em `tab/maos_braco_confianca.py` neste commit, antes da confirmação.
+- O único falso que passa é o `q28_-5` (sky guitar).
+- Conferi a escolha refazendo a conta à parte a partir do arquivo: o resultado é o mesmo, 228
+  sinalizados e 1 falso que passa.
+- A estabilidade sob perturbação (S1) carrega quase tudo sozinha. O S2 só pega 1 falso a mais.
