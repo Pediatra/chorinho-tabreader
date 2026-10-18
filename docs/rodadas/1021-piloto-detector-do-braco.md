@@ -191,3 +191,26 @@ medido de novo com o R terminado.
 
 O cronograma dos experimentos (A1, A2 e A3) não muda aqui. Os passos são decididos no V4, com
 a máquina livre.
+
+## Emenda 4 (2026-10-17, depois do V2, antes de qualquer medida de modelo em G)
+
+**V2 com a Emenda 3:**
+- (perda − piso) caiu: final 0,126 contra um piso de 0,180. Passou em (a).
+- Mas deu **0 de 32 certos**, porque todos foram falsos.
+- A folha (`v2_folha.jpg`) mostra a saída **praticamente igual ao alvo**: a média da saída
+  sobre o alvo de cada canal vai de 0,86 a 0,98, e a ordem dos canais está certa.
+- **O defeito era do decodificador.** A busca de picos não exigia máximo local: qualquer
+  ponto acima de 0,2 e a pelo menos 4 px dos já escolhidos virava traste. Numa crista prevista
+  um pouco mais larga, as encostas viravam trastes extras.
+- O V1 não pegava esse defeito, porque o oráculo não tem ruído nem crista larga.
+
+**Correção:**
+- o perfil é suavizado com gaussiana de σ 1,5 px;
+- um pico é um máximo local estrito numa janela de ±8 px, acima de 0,2.
+  - O menor espaço entre trastes na faixa é de ~25 px (traste 19–20), então a janela não
+    funde trastes vizinhos.
+- Com a correção, o V1 continua em 62 de 64.
+- O V2 é refeito, e os pesos ficam gravados (`artefatos/m21/v2_sobreajuste.pt`).
+
+**Nota sobre o piso da Emenda 3:** com `pos_weight`, a BCE mínima não fica em logit(alvo).
+Por isso a perda pode ficar abaixo do piso definido. O critério (a) continua como escrito.

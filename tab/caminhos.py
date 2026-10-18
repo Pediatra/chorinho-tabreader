@@ -99,6 +99,10 @@ MAOS_M19 = SAIDA / "maos" / "m19"
 #: ``resultado.json`` (``tab.maos_braco_deepseek``).
 MAOS_M20 = SAIDA / "maos" / "m20"
 
+#: Piloto do detector do braço (rodada 1021, parte 1 dos dados): faixas G, rastreio R,
+#: sintético S e fundos, gerados por ``tab.maos_braco_m21``.
+MAOS_M21 = SAIDA / "maos" / "m21"
+
 #: Frentes de teste da pesquisa das mãos (``docs/pesquisa/maos-frentes.md``): uma pasta
 #: por frente, para as worktrees paralelas não escreverem no mesmo lugar.
 MAOS_FRENTE_0 = SAIDA / "maos" / "frentes" / "f0_residuo"
