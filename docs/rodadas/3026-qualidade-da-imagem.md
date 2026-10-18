@@ -70,3 +70,36 @@ quantas a nova leitura ainda acha (alinhamento de eventos, altura sem acidente).
   `tab/partitura_imagem_mediana.py`, sem GPU nem download); na A1a (rodada 3110) ela só foi
   medida em "a leitura sai ou não", em 6 recortes, nunca em cobertura de pauta pequena.
 - Fora disso, a nota que falta continua completada pela tab (rodada 3172, figura `null`).
+
+## Mediana de quadros na pauta pequena (2026-10-18)
+
+`data/saida/partitura/diag/qualidade_imagem/mediana.py` (`mediana.json`, `mediana.log`). Os 29
+recortes conferidos com entrelinha < 16 px. Mediana pixel a pixel de até 15 quadros da mesma
+página (primeira exibição do índice, ou t ± 3 s), só com quadros parecidos com o do instante t;
+leitura do Audiveris `x2_margem` do PNG original (controle) e da mediana.
+
+- Mediana feita em 26 de 29: R20 e R21 (ギタロー, vídeos apagados do acervo) sem quadro; carol of
+  the bells P02a sem quadro parecido com o do instante t.
+- A mediana fica quase igual ao PNG original: diferença média de 0,0 a 4,9 níveis de cinza (de
+  255). O vídeo repete o mesmo quadro e a compressão quase não varia na página parada.
+
+| condição (26 recortes) | saiu | notas certas achadas | lidas | extras (não casam com nota certa) |
+| --- | ---: | ---: | ---: | ---: |
+| controle | 26/26 | 1376/1376 | 1449 | 73 |
+| mediana | 26/26 | 1323/1376 | 1439 | 116 |
+| sem flow my tears P06a, controle | 25/25 | 1318/1318 | 1380 | 62 |
+| sem flow my tears P06a, mediana | 25/25 | 1316/1318 | 1408 | 88 |
+
+- Nota faltando no gabarito do dono nesses 26: 206. Mesmo que todos os 26 extras a mais fossem
+  nota recuperada (não foram conferidos), seria 26 de 206. E não são todos: no 空も飛べるはず
+  P07a o dono não marcou nota faltando e a mediana trouxe 4 extras.
+- flow my tears P06a (fundo transparente, rodada 3162) quebra com a mediana: 58 → 7 certas.
+
+**A mediana de quadros não recupera a nota que falta.** Não entra no produto. O que a pauta
+pequena perde não está no ruído do vídeo, e sim na resolução. Fica só a fonte de resolução maior
+(ou super-resolução treinada), e isso não se testa com o que temos hoje.
+
+## Não repetir
+
+- Mediana (ou média) de quadros para tirar ruído de compressão da pauta parada: a página parada
+  sai quase igual ao quadro único, e a leitura não muda.
