@@ -358,3 +358,86 @@ def test_carregar_prova_le_os_arquivos_da_pasta(tmp_path: Path) -> None:
     assert [q["id"] for q in incluidos] == ["q02", "q03"]
     assert excluidos == []
     assert incluidos[1]["dois_bracos"] is True
+
+
+_IDENTIDADE = loc.Enquadre(sx=1.0, sy=1.0, ox=0.0, oy=0.0)
+
+
+def _mapas_com_picos(picos: dict[int, list[tuple[float, float, float]]]) -> np.ndarray:
+    """Mapas ``(5, 384, 640)`` com gaussianas (sigma 2) nos picos ``(x, y, valor)``.
+
+    Args:
+        picos: canal -> lista de picos. A presença (canal 4) fica alta num bloco fixo.
+
+    Returns:
+        Array float32 com os 5 canais.
+    """
+    ys, xs = np.mgrid[0 : loc.ALTURA_CANVAS, 0 : loc.LARGURA_ENTRADA].astype(np.float32)
+    mapas = np.zeros((5, loc.ALTURA_CANVAS, loc.LARGURA_ENTRADA), dtype=np.float32)
+    for canal, lista in picos.items():
+        for x, y, valor in lista:
+            gauss = valor * np.exp(-((xs - x) ** 2 + (ys - y) ** 2) / 8.0)
+            mapas[canal] = np.maximum(mapas[canal], gauss.astype(np.float32))
+    mapas[loc.CANAL_PRESENCA, 100:200, 200:300] = 0.95
+    return mapas
+
+
+def test_conjunta_escolhe_a_combinacao_certa_com_dois_picos_por_canal() -> None:
+    """Cada canal tem um pico em cada ponta. A antiga (argmax) erra; a conjunta acerta.
+
+    Os canais 1 e 3 têm o pico mais alto no ponto errado (a ponta perto), reproduzindo
+    o caso da semente 2: o argmax põe mais de um ponto na mesma ponta.
+    """
+    picos = {
+        0: [(100.0, 52.0, 0.9), (600.0, 40.0, 0.8)],
+        1: [(100.0, 52.0, 0.9), (600.0, 40.0, 0.85)],
+        2: [(100.0, 58.0, 0.9), (600.0, 60.0, 0.8)],
+        3: [(100.0, 58.0, 0.9), (600.0, 60.0, 0.85)],
+    }
+    mapas = _mapas_com_picos(picos)
+    esperado = np.array([[100.0, 52.0], [600.0, 40.0], [100.0, 58.0], [600.0, 60.0]])
+    conjunta = loc.decodificar_quadro_conjunto(mapas, _IDENTIDADE)
+    assert conjunta["achou"] is True
+    assert np.max(np.abs(conjunta["pontos"] - esperado)) < 0.3
+    antiga = loc.decodificar_quadro(mapas, _IDENTIDADE)
+    assert np.max(np.abs(antiga["pontos"] - esperado)) > 100.0
+
+
+def test_combinacao_impossivel_dá_sem_braco() -> None:
+    """Com um só candidato por canal, o único par de pontas é degenerado: sem braço."""
+    picos = {
+        0: [(100.0, 52.0, 0.9)],
+        1: [(100.0, 52.0, 0.9)],
+        2: [(100.0, 58.0, 0.9)],
+        3: [(100.0, 58.0, 0.9)],
+    }
+    dec = loc.decodificar_quadro_conjunto(_mapas_com_picos(picos), _IDENTIDADE)
+    assert dec["achou"] is False
+    assert "combinação" in dec["motivo"]
+
+
+def test_cruzamento_e_rejeitado() -> None:
+    """Cordas que se cruzam não passam na regra d, mesmo com as outras três regras."""
+    cruzadas = np.array([[100.0, 52.0], [600.0, 58.0], [100.0, 58.0], [600.0, 52.0]])
+    paralelas = np.array([[100.0, 52.0], [600.0, 40.0], [100.0, 58.0], [600.0, 60.0]])
+    assert loc.combinacao_valida(paralelas) is True
+    assert loc.combinacao_valida(cruzadas) is False
+    picos = {
+        0: [(100.0, 52.0, 0.9)],
+        1: [(600.0, 58.0, 0.9)],
+        2: [(100.0, 58.0, 0.9)],
+        3: [(600.0, 52.0, 0.9)],
+    }
+    dec = loc.decodificar_quadro_conjunto(_mapas_com_picos(picos), _IDENTIDADE)
+    assert dec["achou"] is False
+
+
+def test_candidatos_respeitam_limiar_e_o_maximo_de_cinco() -> None:
+    """Sete picos acima de 0,3 viram 5 candidatos, do maior para o menor."""
+    picos = [(40.0 + 60.0 * k, 50.0, 0.4 + 0.05 * k) for k in range(7)]
+    mapa = _mapas_com_picos({0: picos})[0]
+    candidatos = loc._candidatos(mapa)
+    assert len(candidatos) == 5
+    valores = [v for _, _, v in candidatos]
+    assert valores == sorted(valores, reverse=True)
+    assert all(v >= 0.3 for v in valores)

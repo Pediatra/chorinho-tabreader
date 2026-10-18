@@ -143,3 +143,22 @@ mudam. Todos os números abaixo são fixados agora, pela geometria do braço, se
   É só registro e verificação de código; nenhum número da emenda muda depois disso.
 - A **prova N** usa a decodificação conjunta.
 - A decodificação da 1024 fica disponível com o nome antigo, para a comparação.
+
+### Emenda 1: verificação na M11b (desenvolvimento, `dev1025_m11b_conjunto.json`)
+
+| semente | dentro do envelope, antiga → conjunta | certo | falso | não achou | sinalizados | falsos não sinalizados |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 17 → 21 | 12 → 15 | 11 → 6 | 2 → 1 | 15 → 11 | 0 → 0 |
+| 2 | 0 → 4 | 0 → 5 | 17 → 21 | 10 → 0 | 27 → 24 | 1 → 0 |
+| 3 | 21 → 23 | 16 → 16 | 7 → 8 | 1 → 1 | 12 → 11 | 0 → 0 |
+| total | 38 → **48** de 84 | 28 → **36** | 35 → 35 | 13 → 2 | 54 → **46** (55 %) | 1 → **0** |
+
+- A decodificação conjunta melhora tudo, mas a semente 2 continua fraca no estágio 1 (4/28).
+- A regra a–d **não diz qual ponta é o nut**. Uma combinação com as pontas trocadas pode ser
+  válida e vencer pela soma dos picos. Fica registrado para a leitura da prova.
+
+**Observações do dono no N**, lidas antes de abrir a prova (só o campo de observação):
+- q01 e q05 são **violão de 7 cordas** (gabriel cryslian). Ficam no teste pela regra e são
+  reportados à parte.
+- q20 tem **dois violões** na tela, e o dono marcou o de cima. É reportado à parte.
+- q08 é guitarra e já estava excluído.

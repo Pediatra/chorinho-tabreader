@@ -18,6 +18,7 @@ Pré-registro da 1025: ``docs/rodadas/1025-localizador-com-marcas-grosseiras.md`
 from __future__ import annotations
 
 import argparse
+import itertools
 import math
 import random
 import statistics
@@ -102,6 +103,16 @@ CANAL_PRESENCA = 4
 SIGMA_PONTO_PX = 3.0
 #: Limiar de presença e de cada ponto (fixo, sem ajuste).
 P_MIN = 0.3
+#: Decodificação conjunta (emenda 1 da 1025): NMS 9x9 na tela de 640 e candidatos por canal.
+NMS_JANELA = 9
+CANDIDATO_MIN = 0.3
+FRACAO_MAXIMO_CANAL = 0.30
+CANDIDATOS_POR_CANAL = 5
+#: Validade da combinação: pontas do nut e do extremo a até 35 % do comprimento médio;
+#: braço ao menos 3 vezes a maior dessas distâncias; cordas a até 15 graus.
+FRACAO_PONTAS_PERTO = 0.35
+RAZAO_ALONGADO = 3.0
+ANGULO_MAXIMO_CORDAS_GRAUS = 15.0
 #: Aumentos do treino (pré-registro): escala, rotação, translação e cor.
 ESCALA_AUMENTO = (0.7, 1.3)
 ROTACAO_AUMENTO_GRAUS = 10.0
@@ -712,6 +723,153 @@ def decodificar_quadro(mapas: np.ndarray, enquadre: Enquadre) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Decodificação conjunta (emenda 1 da 1025)
+# ---------------------------------------------------------------------------
+
+
+def _candidatos(mapa: np.ndarray) -> list[tuple[float, float, float]]:
+    """Picos de um canal: NMS 9 x 9, valor >= 0,3 e >= 30 % do máximo, os 5 maiores.
+
+    Cada pico é refinado pelo centróide 3 x 3. O valor é o do pixel do pico.
+
+    Args:
+        mapa: probabilidades de um canal ``(384, 640)``.
+
+    Returns:
+        Lista de ``(x, y, valor)`` no canvas, do maior valor para o menor.
+    """
+    maximo = float(mapa.max())
+    limiar = max(CANDIDATO_MIN, FRACAO_MAXIMO_CANAL * maximo)
+    teto = cv2.dilate(
+        mapa.astype(np.float32), np.ones((NMS_JANELA, NMS_JANELA), np.uint8)
+    )
+    ys, xs = np.nonzero((mapa >= teto) & (mapa >= limiar))
+    pontos = sorted(
+        zip(ys.tolist(), xs.tolist(), strict=True),
+        key=lambda p: -float(mapa[p[0], p[1]]),
+    )[:CANDIDATOS_POR_CANAL]
+    candidatos: list[tuple[float, float, float]] = []
+    for y, x in pontos:
+        cx, cy = _centroide(mapa, y, x)
+        candidatos.append((cx, cy, float(mapa[y, x])))
+    return candidatos
+
+
+def _segmentos_se_cruzam(
+    p1: np.ndarray, p2: np.ndarray, p3: np.ndarray, p4: np.ndarray
+) -> bool:
+    """Se os segmentos ``p1``-``p2`` e ``p3``-``p4`` se cruzam (cruzamento próprio).
+
+    Args:
+        p1: primeira ponta do primeiro segmento.
+        p2: segunda ponta do primeiro segmento.
+        p3: primeira ponta do segundo segmento.
+        p4: segunda ponta do segundo segmento.
+
+    Returns:
+        True quando cada segmento separa as pontas do outro.
+    """
+
+    def orientacao(a: np.ndarray, b: np.ndarray, c: np.ndarray) -> float:
+        """Sinal da área do triângulo ``a``, ``b``, ``c``."""
+        return float((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]))
+
+    d1 = orientacao(p3, p4, p1)
+    d2 = orientacao(p3, p4, p2)
+    d3 = orientacao(p1, p2, p3)
+    d4 = orientacao(p1, p2, p4)
+    return d1 * d2 < 0.0 and d3 * d4 < 0.0
+
+
+def combinacao_valida(pontos: np.ndarray) -> bool:
+    """Regras a–d da emenda 1 para uma combinação de 4 pontos no quadro original.
+
+    A ordem é (c1 no nut, c1 no extremo, c6 no nut, c6 no extremo). As regras são:
+    a) as pontas do nut e as do extremo ficam a até 35 % do comprimento médio;
+    b) o comprimento médio é ao menos 3 vezes a maior das distâncias de (a);
+    c) o ângulo entre as cordas é de até 15 graus;
+    d) a corda 1 e a corda 6 não se cruzam.
+
+    Args:
+        pontos: array ``(4, 2)`` na ordem acima, no quadro original.
+
+    Returns:
+        True se as quatro regras passam.
+    """
+    c1n, c1f, c6n, c6f = (np.asarray(p, dtype=float) for p in pontos)
+    v1 = c1f - c1n
+    v6 = c6f - c6n
+    l1 = float(np.linalg.norm(v1))
+    l6 = float(np.linalg.norm(v6))
+    if l1 == 0.0 or l6 == 0.0:
+        return False
+    media = (l1 + l6) / 2.0
+    d_nut = float(np.linalg.norm(c1n - c6n))
+    d_extremo = float(np.linalg.norm(c1f - c6f))
+    if max(d_nut, d_extremo) > FRACAO_PONTAS_PERTO * media:
+        return False
+    if media < RAZAO_ALONGADO * max(d_nut, d_extremo):
+        return False
+    cosseno = float(np.dot(v1, v6)) / (l1 * l6)
+    angulo = math.degrees(math.acos(max(-1.0, min(1.0, cosseno))))
+    if angulo > ANGULO_MAXIMO_CORDAS_GRAUS:
+        return False
+    return not _segmentos_se_cruzam(c1n, c1f, c6n, c6f)
+
+
+def decodificar_quadro_conjunto(mapas: np.ndarray, enquadre: Enquadre) -> dict:
+    """Decodificação conjunta dos 4 pontos (emenda 1 da 1025).
+
+    Em cada canal de ponto, os candidatos de ``_candidatos``. Todas as combinações (um
+    candidato por canal) são testadas pelas regras a–d de ``combinacao_valida``, e a
+    válida de maior soma dos valores dos picos vence. Sem combinação válida, o quadro
+    é "sem braço". O teste de presença (``P_MIN``) é o mesmo da decodificação antiga.
+
+    Args:
+        mapas: probabilidades ``(5, 384, 640)``.
+        enquadre: transformação de ``enquadrar`` do quadro.
+
+    Returns:
+        O mesmo formato de ``decodificar_quadro``.
+    """
+    presenca = float(mapas[CANAL_PRESENCA].max())
+    if presenca < P_MIN:
+        return _sem_braco_localizador(f"presença {presenca:.2f} < 0,3", presenca)
+    candidatos: list[list[tuple[float, float, float]]] = []
+    for canal in range(CANAL_PRESENCA):
+        lista = _candidatos(mapas[canal])
+        if not lista:
+            return _sem_braco_localizador(f"canal {canal} sem candidato", presenca)
+        candidatos.append(lista)
+    melhor: np.ndarray | None = None
+    melhor_soma = -math.inf
+    for escolha in itertools.product(*candidatos):
+        soma = sum(valor for _, _, valor in escolha)
+        pontos = do_canvas(np.array([[x, y] for x, y, _ in escolha]), enquadre)
+        if not combinacao_valida(pontos):
+            continue
+        if soma > melhor_soma:
+            melhor, melhor_soma = pontos, soma
+    if melhor is None:
+        return _sem_braco_localizador(
+            "nenhuma combinação válida (regras a–d)", presenca
+        )
+    marcas = Marcas(
+        nut=(melhor[0] + melhor[2]) / 2.0,
+        trastes={},
+        corda1=melhor[0:PONTOS_POR_CORDA],
+        corda6=melhor[PONTOS_POR_CORDA : 2 * PONTOS_POR_CORDA],
+    )
+    return {
+        "achou": True,
+        "motivo": None,
+        "presenca": presenca,
+        "pontos": melhor,
+        "marcas": marcas,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Cadeia completa
 # ---------------------------------------------------------------------------
 
@@ -781,6 +939,7 @@ def cadeia(
     modelo_dois: nn.Module,
     imagem: np.ndarray,
     identificador: str,
+    conjunta: bool = False,
 ) -> dict:
     """Cadeia completa de um quadro: estágio 1 -> faixa -> estágio 2 -> refino -> sinais.
 
@@ -793,13 +952,16 @@ def cadeia(
         modelo_dois: estágio 2 (detector v2) do canal.
         imagem: quadro inteiro BGR uint8.
         identificador: id do quadro, para a semente das extras.
+        conjunta: se True, o estágio 1 usa a decodificação conjunta (1025); se False,
+            a antiga (1024).
 
     Returns:
         ``achou``, ``motivo``, ``passadas``, ``presenca``, ``dec`` (saída do estágio 2
         final), ``matriz`` (faixa final), e os sinais ``S1``, ``S2``, ``S3``.
     """
     canvas, enquadre = enquadrar(imagem)
-    loc = decodificar_quadro(prever_localizador(modelo_loc, [canvas])[0], enquadre)
+    decodificar = decodificar_quadro_conjunto if conjunta else decodificar_quadro
+    loc = decodificar(prever_localizador(modelo_loc, [canvas])[0], enquadre)
     if not loc["achou"]:
         return _sem_braco_cadeia(loc["motivo"], 0, loc["presenca"])
     try:
@@ -1395,6 +1557,7 @@ MARCA_DOIS_BRACOS = "2 braços"
 SEMENTE_FOLHA_C = "20261025:folha_c"
 ARQUIVO_FOLHA_C = MAOS_M21 / "l2_folha_c.jpg"
 ARQUIVO_DEV1025 = MAOS_M21 / "dev1025_m11b.json"
+ARQUIVO_DEV1025_CONJUNTO = MAOS_M21 / "dev1025_m11b_conjunto.json"
 ARQUIVO_PROVA1025 = MAOS_M21 / "prova1025.json"
 #: Quadros da fonte C com as marcas completas para o alvo (nut ponto e duas cordas de 2
 #: pontos). O pré-registro previa 140 pelas cordas; quatro deles (``q06``, ``q38``,
@@ -1618,7 +1781,9 @@ def smoke_c(passos: int = 50) -> int:
     return 0
 
 
-def _envelope_do_estagio1(loc: nn.Module, imagem: np.ndarray, alvo: Marcas) -> dict:
+def _envelope_do_estagio1(
+    loc: nn.Module, imagem: np.ndarray, alvo: Marcas, conjunta: bool = False
+) -> dict:
     """Estágio 1 sozinho num quadro inteiro: se achou e o erro do eixo contra o alvo.
 
     Args:
@@ -1630,7 +1795,8 @@ def _envelope_do_estagio1(loc: nn.Module, imagem: np.ndarray, alvo: Marcas) -> d
         Dicionário com ``achou``, ``erro`` (ou None) e ``dentro`` do envelope.
     """
     canvas, enquadre = enquadrar(imagem)
-    dec = decodificar_quadro(prever_localizador(loc, [canvas])[0], enquadre)
+    decodificar = decodificar_quadro_conjunto if conjunta else decodificar_quadro
+    dec = decodificar(prever_localizador(loc, [canvas])[0], enquadre)
     erro = None
     if dec["achou"]:
         try:
@@ -1640,7 +1806,9 @@ def _envelope_do_estagio1(loc: nn.Module, imagem: np.ndarray, alvo: Marcas) -> d
     return {"achou": dec["achou"], "erro": erro, "dentro": dentro_do_envelope(erro)}
 
 
-def _rodar_semente(semente: int, entradas: list[dict]) -> list[dict]:
+def _rodar_semente(
+    semente: int, entradas: list[dict], conjunta: bool = False
+) -> list[dict]:
     """Estágio 1 (L2) e cadeia completa (A3_100_todos) de uma semente, em cada quadro.
 
     A GPU deve estar reservada pelo chamador (``_trava_gpu``).
@@ -1665,8 +1833,10 @@ def _rodar_semente(semente: int, entradas: list[dict]) -> list[dict]:
             "dois_bracos": entrada["dois_bracos"],
         }
         if entrada["marcas"] is not None:
-            linha["envelope"] = _envelope_do_estagio1(loc, imagem, entrada["marcas"])
-        resultado = cadeia(loc, dois, imagem, entrada["id"])
+            linha["envelope"] = _envelope_do_estagio1(
+                loc, imagem, entrada["marcas"], conjunta
+            )
+        resultado = cadeia(loc, dois, imagem, entrada["id"], conjunta=conjunta)
         if entrada["marcas"] is not None:
             classe = _classe(resultado, entrada["marcas"])
         else:
@@ -1743,11 +1913,27 @@ def _entradas_dev() -> list[dict]:
     return entradas
 
 
-def dev1025(destino: Path = ARQUIVO_DEV1025) -> int:
+def _resumo_antiga() -> dict | None:
+    """Resultado da decodificação antiga (dev1025 da primeira rodada), se existe.
+
+    Returns:
+        ``total`` e ``por_semente`` do ``dev1025_m11b.json``, ou None se não existe.
+    """
+    if not ARQUIVO_DEV1025.exists():
+        return None
+    antiga = _ler_json(ARQUIVO_DEV1025)
+    return {"total": antiga["total"], "por_semente": antiga["por_semente"]}
+
+
+def dev1025(destino: Path = ARQUIVO_DEV1025_CONJUNTO, conjunta: bool = True) -> int:
     """Desenvolvimento da 1025 na M11b: L2 com A3_100_todos, por semente (só registro).
+
+    Por padrão usa a decodificação conjunta (emenda 1) e grava em
+    ``dev1025_m11b_conjunto.json``. O ``dev1025_m11b.json`` (antiga) não é tocado.
 
     Args:
         destino: arquivo do resultado.
+        conjunta: True para a decodificação conjunta, False para a antiga.
 
     Returns:
         0 ao terminar.
@@ -1756,11 +1942,12 @@ def dev1025(destino: Path = ARQUIVO_DEV1025) -> int:
     por_semente: dict[int, list[dict]] = {}
     with _trava_gpu():
         for semente in SEMENTES_FINAIS:
-            por_semente[semente] = _rodar_semente(semente, entradas)
+            por_semente[semente] = _rodar_semente(semente, entradas, conjunta=conjunta)
     medidas = [linha for linhas in por_semente.values() for linha in linhas]
     regra, limiares = _constantes_congeladas()
     dados = {
         "portao": "DEV1025_M11B",
+        "decodificacao": "conjunta" if conjunta else "antiga",
         "pesos_estagio1": "L2_todos_s<k>",
         "estagio2": "A3_100_todos_s<k>",
         "regra": "+".join(regra),
@@ -1772,14 +1959,17 @@ def dev1025(destino: Path = ARQUIVO_DEV1025) -> int:
         },
         "quadros_por_semente": {str(s): linhas for s, linhas in por_semente.items()},
         "comparacao_1024": RESULTADO_1024,
+        "antiga_gravada_em": str(ARQUIVO_DEV1025),
+        "antiga": _resumo_antiga(),
     }
     _gravar_json(destino, dados)
     for semente, linhas in por_semente.items():
         resumo = _resumo_medidas(linhas)
         print(
-            f"dev1025 s{semente}: envelope {resumo['envelope']['dentro']}/"
-            f"{resumo['envelope']['n']}; {resumo['classes']}; sinalizados "
-            f"{resumo['sinalizados']}/{resumo['medidas']}; falsos não sinalizados "
+            f"dev1025 ({dados['decodificacao']}) s{semente}: envelope "
+            f"{resumo['envelope']['dentro']}/{resumo['envelope']['n']}; "
+            f"{resumo['classes']}; sinalizados {resumo['sinalizados']}/"
+            f"{resumo['medidas']}; falsos não sinalizados "
             f"{resumo['falsos_nao_sinalizados']}"
         )
     return 0
@@ -1885,7 +2075,7 @@ def prova1025(destino: Path = ARQUIVO_PROVA1025) -> int:
     por_semente: dict[int, list[dict]] = {}
     with _trava_gpu():
         for semente in SEMENTES_FINAIS:
-            por_semente[semente] = _rodar_semente(semente, incluidos)
+            por_semente[semente] = _rodar_semente(semente, incluidos, conjunta=True)
     medidas = [linha for linhas in por_semente.values() for linha in linhas]
     total = _resumo_medidas(medidas)
     seguranca = (
@@ -1911,6 +2101,7 @@ def prova1025(destino: Path = ARQUIVO_PROVA1025) -> int:
     dois = [linha for linha in medidas if linha["dois_bracos"]]
     dados = {
         "portao": "PROVA1025_M25",
+        "decodificacao": "conjunta",
         "pesos_estagio1": "L2_todos_s<k>",
         "estagio2": "A3_100_todos_s<k>",
         "quadros_incluidos": [
