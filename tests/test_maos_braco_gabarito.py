@@ -371,6 +371,27 @@ def test_desfazer_restaura_o_clique_anterior() -> None:
         aplicar_acao(g, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
 
 
+def test_limpar_apaga_as_marcas_e_o_desfazer_traz_de_volta() -> None:
+    """Limpar zera cordas, nut e trastes de uma vez; um desfazer restaura tudo."""
+    g = _gabarito_com(["q01"])
+    aplicar_acao(
+        g,
+        "q01",
+        {"acao": "clique", "modo": "nut", "ponto_img": [10, 10], "escala": 1.0},
+        DIMENSOES,
+        "t",
+    )
+    g["quadros"]["q01"]["obs"] = "nota"
+    aplicar_acao(g, "q01", {"acao": "limpar"}, DIMENSOES, "t")
+    registro = g["quadros"]["q01"]
+    assert registro["nut"] is None
+    assert registro["trastes"] == []
+    assert registro["corda1"] is None
+    assert registro["obs"] == "nota"
+    aplicar_acao(g, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert g["quadros"]["q01"]["nut"] == [10.0, 10.0]
+
+
 def test_braco_nao_limpa_a_geometria_e_volta_sem_ela() -> None:
     """Braço "nao" zera cordas, nut, trastes e referência."""
     g = _gabarito_com(["q01"])

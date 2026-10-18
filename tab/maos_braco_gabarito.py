@@ -127,6 +127,17 @@ CAMPOS_RESPOSTA = (
     "obs",
 )
 
+#: Campos que o botão "limpar marcas" apaga de uma vez (o desfazer os traz de volta).
+CAMPOS_LIMPAR = (
+    "braco",
+    "corda1",
+    "corda6",
+    "nut",
+    "trastes",
+    "trastes_previstos",
+    "traste_referencia",
+)
+
 #: Campos que o desfazer restaura (a observação fica de fora de propósito). A
 #: ``divisao`` antiga também fica de fora: o desfazer não mexe no rótulo do dono.
 CAMPOS_DESFAZER = (
@@ -1184,7 +1195,7 @@ def aplicar_acao(
     Args:
         gabarito: gabarito, alterado em lugar.
         id_quadro: id do quadro (``qNN``).
-        dados: ``acao`` (``clique``, ``desfazer`` ou ``prever_trastes``) com
+        dados: ``acao`` (``clique``, ``desfazer``, ``limpar`` ou ``prever_trastes``) com
             ``modo``/``ponto_img``/``escala`` ou ``numeros``, ou ``campo``/``valor``.
         dimensoes: ``(largura, altura)`` do quadro original.
         agora: carimbo de data/hora da resposta.
@@ -1207,6 +1218,11 @@ def aplicar_acao(
             registro["paineis"] = _paineis_da_divisao(registro)
         registro["historico"] = registro["historico"][:-1]
         registro["respondido_em"] = agora
+    elif acao == "limpar":
+        _empilhar(registro)
+        for c in CAMPOS_LIMPAR:
+            registro[c] = [] if c == "trastes" else None
+        registro["respondido_em"] = agora
     elif acao == "clique":
         _clicar(registro, dados, dimensoes, agora)
     elif acao == "prever_trastes":
@@ -1215,7 +1231,7 @@ def aplicar_acao(
         _mudar_campo(registro, dados, agora)
     else:
         raise ValueError(
-            "ação desconhecida (use clique, desfazer, prever_trastes ou campo)"
+            "ação desconhecida (use clique, desfazer, limpar, prever_trastes ou campo)"
         )
 
 
@@ -1489,7 +1505,8 @@ input[type=number] { width: 72px; }
     <button data-modo="nut">3 nut</button>
     <button data-modo="trastes">4 trastes</button>
     <button id="fora">f nut fora</button>
-    <button id="desfazer">desfazer último clique</button>
+    <button id="desfazer">desfazer último clique (espaço)</button>
+    <button id="limpar-marcas">limpar marcas do quadro</button>
     <span class="prog" id="prog"></span>
   </div>
   <div class="barra">
@@ -1963,6 +1980,9 @@ $("limpar-paineis").addEventListener("click", () => {
 $("desfazer").addEventListener("click", () => {
   enviar({ quadro: atual().id, acao: "desfazer" });
 });
+$("limpar-marcas").addEventListener("click", () => {
+  enviar({ quadro: atual().id, acao: "limpar" });
+});
 $("ant").addEventListener("click", () => trocar(-1));
 $("prox").addEventListener("click", () => trocar(1));
 $("obs").addEventListener("change", (ev) => {
@@ -1975,6 +1995,10 @@ document.addEventListener("keydown", (ev) => {
   if (ev.key === "Tab") {
     ev.preventDefault();
     trocar(ev.shiftKey ? -1 : 1);
+  }
+  else if (ev.key === " ") {
+    ev.preventDefault();
+    if (!$("desfazer").disabled) enviar({ quadro: atual().id, acao: "desfazer" });
   }
   else if (ev.key === "ArrowLeft") trocar(-1);
   else if (ev.key === "ArrowRight") trocar(1);
