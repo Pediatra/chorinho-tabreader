@@ -231,3 +231,57 @@ o corte do V4 nunca desce abaixo de **2.000 passos** (`PASSOS_MINIMO`).
 **Memória.** O V3 caiu na primeira tentativa porque 6 processos gerando o S de validação em
 4× estouraram os 15 GB da máquina (`BrokenProcessPool`). A geração do S de validação passa a
 usar 2 processos. Nada do método muda.
+
+## Resultado (2026-10-18, manhã)
+
+**Portões**:
+- V1: 62/64.
+- V2: 32/32.
+- V3: 283 de 500 S de validação certos (56,6 %), acima dos 50 %.
+- V4: 3.024 s por treino de 3.000 passos. A previsão era de 70 h, e o corte daria 430
+  passos. Pela emenda 5, o plano rodou com 2.000 passos.
+
+**Execução**:
+- A3 com 100 % rodou nas 8 dobras com a semente 1 e nas dobras 0–3 com a semente 2. Foram 12
+  de 24 treinos.
+- Às 8h05, o 13º caiu com `CUDA error: unspecified launch failure`, um erro do driver com a GPU
+  dividida.
+- A1, A2 e as frações de 25 % e 50 % não rodaram.
+
+**A3 com 100 %, semente 1, nos 64 quadros G (canal deixado de fora):**
+
+| certo | impreciso | falso | não achou |
+| --- | --- | --- | --- |
+| 30 (46,9 %) | 16 (25,0 %) | 18 (28,1 %) | 0 |
+
+- A semente 2, nas 4 dobras que rodou, deu 28,6 % certos e 57,1 % falsos.
+- **Critério (≥ 70 % certos e ≤ 5 % falsos): não passa.**
+- Com 18 falsos em 64 na semente 1, as 12 execuções restantes não teriam como trazer a média
+  para dentro do critério.
+- **A curva (25 % e 50 %) não foi medida.** Por isso a tabela de decisão não separa "faltam
+  dados" de "parar". O diagnóstico abaixo explica por que a curva, medida agora, também não
+  separaria.
+
+**Diagnóstico, feito depois de ver o resultado e declarado assim:**
+- **Cordas**: mediana de **0,19 vão** e p90 de 0,30. A repetibilidade do próprio dono é de
+  0,14 vão mediana (1018).
+- **Nut**: mediana de **0,02 casa**.
+- **Os 18 falsos da semente 1 têm cordas e nut bons**: todos vêm dos trastes.
+  - O erro por traste cresce +1 casa a cada traste: 1,0, 1,6, 2,1, 2,9 e assim por diante.
+  - Ou seja, a rede acha os fios, e é o **decodificador que conta errado**: um pico a mais ou
+    a menos desloca toda a numeração.
+  - É o caso do kenneth acoustic (capotraste no traste 2), com 6 de 7 falsos, e do guitar
+    dell'arte na semente 2, com picos extras.
+  - Nos quadros em que a contagem acerta, o pior traste fica em 0,04 a 0,11 casa (mediana por
+    dobra).
+- **Conclusão do diagnóstico:**
+  - a rede aprende a geometria em canais que não viu;
+  - a numeração "por ordem" (emenda 2) é frágil diante de picos espúrios e de trastes
+    escondidos;
+  - um decodificador robusto (o ajuste das 12 notas com atribuição de números por RANSAC,
+    que tolera picos extras e faltantes) é a próxima hipótese.
+- Ele **não pode ser validado nos G**, que já foram vistos. Precisa de rodada nova, com prova
+  lacrada.
+
+**Veredito: reprovado no critério da fase A. Gargalo identificado: o decodificador de trastes,
+não o aprendizado.**
