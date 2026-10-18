@@ -143,3 +143,64 @@ Interpretações tomadas na implementação, onde o pré-registro não dizia:
   difíceis que o real. É só registro: o S não entra no critério.
 
 **Decodificador congelado** neste commit, antes de abrir a M11b.
+
+## Prova M11b: resultado (2026-10-18) — **REPROVA**
+
+A M11b foi aberta uma vez, depois do commit 437042e8 (decodificador congelado), com
+`python -m tab.maos_braco_detector prova` (`prova_m11b.json`).
+
+| semente | certo | impreciso | falso | não achou |
+| --- | --- | --- | --- | --- |
+| 1 | 17 | 4 | 7 | 0 |
+| 2 | 16 | 4 | 8 | 0 |
+| 3 | 17 | 5 | 6 | 0 |
+| **média** | **59,5 %** (amplitude 3,6) | 15,5 % | **25,0 %** (amplitude 7,1) | 0 |
+
+- O critério pedia **≥ 70 % de certos e ≤ 5 % de falsos**: os dois lados falharam.
+- Medianas: cordas 0,16 vão, nut 0,02 casa, pior traste 0,07 casa. A geometria típica é boa.
+- Comparação com o rastreador da [1018](1018-m11b-braco-encadeado.md), que deu 9/16 certos e
+  1 falso nos alvos. Ele não é comparável um a um: o rastreador recebe as marcas do quadro-chave,
+  e o detector recebe só a faixa.
+
+**Por canal** (média das sementes):
+
+| canal | quadros | certo | falso |
+| --- | --- | --- | --- |
+| lonelypicker | 5 | 0 % | 93 % |
+| kimny's guitar | 2 | 33 % | 50 % |
+| paolo d'angelo | 2 | 50 % | 50 % |
+| mr. tabs | 5 | 53 % | 0 % |
+| tv on guitar | 5 | 73 % | 0 % |
+| pablo romé | 5 | 93 % | 7 % |
+| transcriptor | 2 | 100 % | 0 % |
+| vvxofingerstyletab | 2 | 100 % | 0 % |
+
+### Diagnóstico (depois de abrir; não muda o veredito)
+
+Erros recalculados quadro a quadro com o mesmo código
+(`data/saida/maos/m21/prova_diag/`). A v1 nos mesmos mapas daria 29/84 certos e 49 falsos, e a
+v2 deu 50 certos e 21 falsos.
+
+De onde vêm os 21 falsos (somando as sementes):
+- **14 vêm do lonelypicker** (q11 e q54–q57): cordas erram de 0,6 a 2 vãos e trastes de
+  1,5 a 7 casas. O canal filma **do ponto de vista do violonista**, por cima do ombro: o braço
+  fica em perspectiva forte e as cordas convergem. Nenhum canal de S, R ou G tem esse ângulo.
+  É um buraco de cobertura, não de decodificador.
+- **3 vêm do q31** (kimny): o nut erra 1,2 casa nas 3 sementes. O nut está quase cortado na
+  borda do quadro, e a rede marca a 1ª casa como nut.
+- **3 vêm do q65** (paolo): os trastes erram de 4 a 6 casas, com cordas e nut bons. A
+  numeração desliza num quadro em que só 15–16 trastes aparecem.
+- **1 vem do q47, semente 2**: as cordas erram 5,5 vãos. É um desvio isolado.
+
+Sem o lonelypicker (23 quadros), a v2 daria cerca de 72 % de certos e 10 % de falsos. **Mesmo
+assim reprovaria nos falsos.** Esta é uma conta depois do fato, que não vale como resultado.
+
+### O que fica
+
+- **O decodificador v2 é ganho real** em todas as medidas (D1, D2, D3 e a prova: falsos de 49
+  para 21 em 84).
+- **O detector ainda não está pronto para rodar sem revisão**. Ele falha:
+  - num ponto de vista que não viu (câmera na posição do violonista);
+  - quando o nut está na borda do quadro.
+- A M11b está gasta como teste. Uma próxima prova precisa de quadros novos, de canais novos.
+- **A próxima decisão é do dono** (regra do pré-registro).
