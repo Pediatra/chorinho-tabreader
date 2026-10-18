@@ -76,3 +76,45 @@ leitura é parte da medida). Por isso a D1 não foi continuada.
 Rodado de novo no container, na `main`: a saída deu igual byte a byte à da cópia (`cmp`).
 
 O `amostra.json` vai no mesmo commit desta rodada, antes de qualquer `paginar`. No container há `ffmpeg`, então os 15 vídeos AV1 decodificam lá. O bloqueio era só da cópia, e a leitura segue na D1.
+
+
+## Revisão 2 (2026-10-17): sorteio corrigido, lista antiga inválida, paginar da lista nova
+
+**Lista antiga (commit `d55857f7`): inválida.** O sorteio usava as 30 vagas proporcionais só
+nos canais kimny's guitar, lonelypicker e mr. tabs. Decisão do dono: a proporção vale para
+**todos os canais com pauta no P0**. Nada mais é lido da lista antiga; o log dela foi
+arquivado como `*_v1_INVALIDA`.
+
+**Sorteio corrigido: commit `27e40dbf`** (branch `part/d1-amostra`), semente 0, maior resto,
+reservas na ordem. 40 vídeos em 13 canais, nenhuma cota faltando. Committed antes do paginar.
+
+**Paginar da lista nova** (primeira passada, 40 sorteados): 5 sem página com pauta
+(12,5 %, abaixo do limite de 25 %, a rodada continua):
+- `five beautiful` (guitar dell arte): só o violonista, sem pauta em nenhum instante amostrado.
+  Trocado.
+- `milonga` (transcriptor): só tablatura. Trocado.
+- `小さな恋のうた` (ギタロー): só tablatura. Trocado (9 reservas sem pauta, a 10ª tinha).
+- `5 miniatures` e `garden of bliss` (robert lunn): **têm pauta visível**. O `paginar` deu
+  erro `zero-size array` em `_forca_de_linha`. Trocados por engano na primeira rodada.
+
+**Causa do erro:** a 6ª linha abaixo da pauta cai abaixo da borda do quadro. A faixa de linhas
+fica vazia, e o `min` do numpy falha. **Correção:** o runner `tab/partitura_amostra_paginar.py`
+troca `_forca_de_linha` em tempo de execução por uma cópia que só retorna 0 nesse caso. O
+`tab/partitura_video.py` não foi editado. Quando a faixa não é vazia, o resultado é igual ao
+original. Com a correção: `5 miniatures` 30 páginas (29 com pauta); `garden of bliss` 12 páginas
+(12 com pauta).
+
+**Lista final** (`data/saida/part_frentes/fd_gabarito/amostra_final.json`): 40 vídeos. Os dois
+robert lunn voltam ao sorteio. As três trocas, todas de vídeo sem pauta, são:
+- five beautiful → `la vita è bella` (guitar dell arte): pauta visível a partir de ~1000 s.
+- milonga → `quiero ser tu sombra` (transcriptor): pauta visível.
+- 小さな恋のうた → `空も飛べるはず` (ギタロー): pauta visível.
+
+Olhadas de confirmação: `olho_sem_pauta.jpg`, `olho_five_beautiful.jpg`,
+`olho_reservas_entrada.jpg`, `olho_la_vita.jpg` (na pasta da frente).
+
+**Limite de 25 %:** na primeira passada, 3 de 40 sem pauta real (7,5 %). Os 2 erros do paginar
+foram corrigidos e não contam como "sem pauta".
+
+**Não feito ainda:** a escolha de 1 recorte por vídeo com a semente, o `ler_pasta` (Audiveris e
+homr) e a montagem dos itens de conferência. A sessão principal leva ao dono.

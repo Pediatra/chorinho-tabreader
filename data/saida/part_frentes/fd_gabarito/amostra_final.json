@@ -1,0 +1,75 @@
+{
+  "frente": "D1",
+  "rodada": 3160,
+  "base": "amostra.json (semente 0, commit 27e40dbf)",
+  "trocas_sem_pauta": {
+    "guitar dell ́arte/five beautiful and easy pieces! guitar. free sheet and tab🎼🎶.mp4": "guitar dell ́arte/la vita è bella valse larmoyante, guitar tutorial.mp4",
+    "transcriptor/milonga - cacho tirao - tablatura ⧸ partitura.mp4": "transcriptor/quiero ser tu sombra - 2° guitarra - acompañamiento - tablatura.mp4",
+    "ギタロー ⧸ guitarous/小さな恋のうた ソロギター 初心者向け タブ譜.mp4": "ギタロー ⧸ guitarous/【tab】＂空も飛べるはず＂のイントロやソロなどをアコギ一本で再現したタブ譜.mp4"
+  },
+  "escolhidos_final": {
+    "guitar dell ́arte": [
+      "guitar dell ́arte/el choclo⧸kiss of fire (a. villoldo), guitar arrangement and tutorial with sheet and tab.mp4",
+      "guitar dell ́arte/sargento cabral, barrios’s hidden gem😯guitar, sheet and tab.mp4",
+      "guitar dell ́arte/somewhere over the rainbow, arrangement for guitar duet⧸guitar and voice.mp4",
+      "guitar dell ́arte/comptine d’un autre été (y. tiersen), guitar lesson with sheet and tab.mp4",
+      "guitar dell ́arte/somewhere over the rainbow (h. arlen) arrangement for guitar, tutorial with sheet and tab.mp4",
+      "guitar dell ́arte/valsa sem nome (baden powell), guitar lesson, sheet and tab.mp4",
+      "guitar dell ́arte/bella notte (s. burke), guitar lesson, sheet and tab.mp4",
+      "guitar dell ́arte/la vita è bella valse larmoyante, guitar tutorial.mp4"
+    ],
+    "iwaki": [
+      "iwaki/spanish romance ( - jeux interdits - romance d'amour) ｜ tab.mp4",
+      "iwaki/- therru's song - aoi teshima- tab.mp4",
+      "iwaki/someday my prince will come ⧸ tab for beginners.mp4",
+      "iwaki/titanic - my heart will go on ｜ tab.mp4"
+    ],
+    "kimny's guitar": [],
+    "lonelypicker": [],
+    "mr. tabs": [],
+    "pablo romé": [
+      "pablo romé/romance anónimo segunda parte 😎 [partitura+tab].mp4",
+      "pablo romé/danza española 💃 nº5 👏(clase 2) ＂andaluza＂ ｜ partitura+tab.mp4",
+      "pablo romé/taranta de montoya 💥 tutorial flamenco ｜ partitura + tab.mp4"
+    ],
+    "paolo d'angelo": [
+      "paolo d'angelo/imagine ｜ john lennon ｜ guitar tab & chords ｜ guitar tutorial.mp4"
+    ],
+    "robert lunn": [
+      "robert lunn/5 miniatures - includes full sheet music⧸tab - classical guitar.mp4",
+      "robert lunn/the garden of bliss - includes sheet music and tab - classical guitar - robert lunn.mp4",
+      "robert lunn/flow my tears - john dowland - full sheet⧸music tab - classical guitar.mp4",
+      "robert lunn/3 middle eastern guitar pieces (vol. 2) - with sheet music⧸tab.mp4",
+      "robert lunn/air on the g string - j.s. bach - includes tab - arrangement for classical guitar.mp4",
+      "robert lunn/arpeggio no. 3 - free sheet music⧸tab - robert lunn.mp4",
+      "robert lunn/carol of the bells - includes sheet music⧸tab - classical guitar arrangement.mp4",
+      "robert lunn/hammer-on exercise no. 1 - includes sheet music⧸tab - robert lunn.mp4"
+    ],
+    "serge kottelat": [
+      "serge kottelat/jean-marie ecay – eternal child (chick corea) ｜ beautiful solo guitar • transcription with tab.mp4",
+      "serge kottelat/brian may live 2024 – who wants to live forever (with andrea bocelli) ｜ unique guitar score + tabs.mp4"
+    ],
+    "sky guitar": [
+      "sky guitar/edelweiss (hard version) - fingerstyle lesson + tab.mp4",
+      "sky guitar/heidenroslein - guitar lesson + tab.mp4",
+      "sky guitar/asturias (easy version) - guitar lesson + tab.mp4",
+      "sky guitar/the phantom of the opera - fingerstyle lesson + tab.mp4",
+      "sky guitar/tarantella napoletana - guitar lesson + tab.mp4",
+      "sky guitar/summer (kikujiro) - guitar lesson + tab.mp4",
+      "sky guitar/the muffin man - fingerstyle lesson + tab.mp4",
+      "sky guitar/minuet (bach) - guitar lesson + tab.mp4",
+      "sky guitar/lullaby (brahms) jazzy version - guitar lesson + tab.mp4",
+      "sky guitar/fun series #9 (20th century fox) tab.mp4"
+    ],
+    "transcriptor": [
+      "transcriptor/charagua - victor jara -  2＊ guitarra - partitura ⧸ tablatura..mp4",
+      "transcriptor/quiero ser tu sombra - 2° guitarra - acompañamiento - tablatura.mp4"
+    ],
+    "tv on guitar": [
+      "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4"
+    ],
+    "ギタロー ⧸ guitarous": [
+      "ギタロー ⧸ guitarous/【tab】＂空も飛べるはず＂のイントロやソロなどをアコギ一本で再現したタブ譜.mp4"
+    ]
+  }
+}
