@@ -214,3 +214,20 @@ a máquina livre.
 
 **Nota sobre o piso da Emenda 3:** com `pos_weight`, a BCE mínima não fica em logit(alvo).
 Por isso a perda pode ficar abaixo do piso definido. O critério (a) continua como escrito.
+
+## Emenda 5 (2026-10-18, 0h, antes do V3 e de qualquer medida de modelo em G)
+
+**V2 com a Emenda 4: passou.**
+- **32 de 32 certos** nas amostras decoradas.
+- Perda de 0,871 para 0,127, com piso de 0,180.
+- Tempo: 1,19 s por passo, com a GPU dividida com o treino de outra trilha.
+
+**Piso de passos.** Com o tempo medido, a regra do V4 cortaria cada treino para cerca de 360
+passos. Seria tão pouco treino que um "não aprende" viria do corte, e não do método. Por isso
+o corte do V4 nunca desce abaixo de **2.000 passos** (`PASSOS_MINIMO`).
+- Se o orçamento de 10 h estoura, o plano demora mais. A ordem da Emenda 1 garante que a
+  linha que decide (A3 com 100 %) roda primeiro.
+
+**Memória.** O V3 caiu na primeira tentativa porque 6 processos gerando o S de validação em
+4× estouraram os 15 GB da máquina (`BrokenProcessPool`). A geração do S de validação passa a
+usar 2 processos. Nada do método muda.

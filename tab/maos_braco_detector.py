@@ -55,6 +55,8 @@ from .sintetico import fixar_semente
 SEMENTE = 20261021
 #: Passos de treino (fixos para todos os experimentos; V4 pode reduzir antes de G).
 PASSOS = 3000
+#: Piso de passos depois do corte do V4 (emenda 5 da 1021).
+PASSOS_MINIMO = 2000
 #: Amostras por passo.
 LOTE = 16
 #: Passos e amostras do teste de sobreajuste (V2).
@@ -104,6 +106,8 @@ MEMORIA_LIVRE_MINIMA = 3 * 2**30
 ESPERA_GPU_S = 60
 #: Processos de leitura de dados por treino.
 PROCESSOS_DADOS = 6
+#: Processos que geram o S de validação: o gerador desenha em 4x e 6 estouram a memória.
+PROCESSOS_SVAL = 2
 #: Canais: cordas, trastes (sem o nut) e nut (Emenda 2: 4 canais).
 CANAL_CORDA1 = 0
 CANAL_CORDA6 = 1
@@ -1289,11 +1293,14 @@ def _carregar_pesos(nome: str, passos: int) -> tuple[UNetBraco, dict]:
 def passos_do_orcamento() -> int:
     """Passos de treino em uso: os de ``v4_tempo.json`` se existir, senão ``PASSOS``.
 
+    Emenda 5 da 1021: o corte do V4 nunca desce abaixo de ``PASSOS_MINIMO``. Se o
+    orçamento estoura, o plano demora mais em vez de treinar pouco.
+
     Returns:
         Número de passos.
     """
     if ARQUIVO_V4.exists():
-        return int(_ler_json(ARQUIVO_V4)["passos"])
+        return max(PASSOS_MINIMO, int(_ler_json(ARQUIVO_V4)["passos"]))
     return PASSOS
 
 
@@ -1862,7 +1869,7 @@ def _gerar_sval() -> list[tuple[np.ndarray, list, dict]]:
     """
     fundos = _ler_json(DIR_FUNDOS / "indice.json")["fundos"]
     with concurrent.futures.ProcessPoolExecutor(
-        max_workers=PROCESSOS_DADOS,
+        max_workers=PROCESSOS_SVAL,
         initializer=_iniciar_sval,
         initargs=(fundos, videos_proibidos()),
     ) as executor:
