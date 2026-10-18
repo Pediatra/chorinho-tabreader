@@ -90,3 +90,31 @@ quadro sinalizado vai para o dono.
 - Conferi a escolha refazendo a conta à parte a partir do arquivo: o resultado é o mesmo, 228
   sinalizados e 1 falso que passa.
 - A estabilidade sob perturbação (S1) carrega quase tudo sozinha. O S2 só pega 1 falso a mais.
+
+## Confirmação M11b: resultado (2026-10-18) — **passa**
+
+`python -m tab.maos_braco_confianca confirmar` (`c1023_confirmacao.json`), rodado depois do
+commit fe114eb4, que congelou a regra.
+- São 84 medidas: 28 quadros × 3 pesos.
+
+| classe v2 | sinalizada | não sinalizada |
+| --- | --- | --- |
+| certo | 7 | 43 |
+| impreciso | 5 | 8 |
+| falso | **21** | **0** |
+
+- **Sinalizados**: 33 de 84 (39,3 %), dentro do limite de 50 %.
+- **Falsos que passam**: 0 de 84, dentro do limite de 4. **Passa.**
+- Os 15 quadros do lonelypicker (5 × 3) **foram todos sinalizados**. O detector percebe que não
+  conhece aquele ângulo.
+- Os 51 quadros não sinalizados são 43 certos e 8 imprecisos, sem nenhum falso. Os imprecisos
+  ficam entre 0,25 e 0,5 de erro.
+- A fração sinalizada sobe de 21,7 % no desenvolvimento para 39,3 % na M11b, o que é esperado
+  em canais novos e ângulos novos.
+
+**Conclusão**: o detector sabe quando erra, no desenvolvimento e na M11b. O ciclo de revisão é
+viável: o detector marca, e o dono confere só os sinalizados (cerca de 20 a 40 %). Os quadros
+sinalizados e corrigidos são justamente os ângulos que faltam no treino.
+
+**Limite que continua valendo**: a faixa ainda parte do gabarito. Na fase B, o eixo vem do
+estágio 1, e os sinais precisam ser medidos de novo.
