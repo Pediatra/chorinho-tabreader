@@ -6,9 +6,9 @@ Um item por recorte com símbolos a julgar. Entram só os símbolos que o dono c
   que ficam ``null`` não vão para a conferência (regra da sessão principal);
 - as notas do homr de R01–R12 que o pareamento acrescentou (``origem`` ``homr``).
 
-A leitura em MusicXML do recorte é a mesma usada pela conferência da P1 (desenho na página).
-As notas completadas não estão no MusicXML; aparecem como símbolos na lista de cada
-compasso, com ``origem`` ``tab_completada``. O dono marca ``certo`` ou ``figura_errada``.
+O desenho de cada item tem só as notas a julgar, cada uma com a sua figura, uma após a
+outra em cada compasso (``_musicxml_das_julgadas``): o dono clica nelas e compara com a
+imagem do recorte. O dono marca ``certo`` ou ``figura_errada``.
 
 Grava ``itens_e1.json`` e a cópia vazia do gabarito (``ouro_e1_copia.json``) na pasta da
 frente E. O gabarito real (``data/gold``) não é tocado.
@@ -66,6 +66,7 @@ def _simbolo(
     pontuada: bool,
     voz: str,
     origem: str,
+    x: float | None,
 ) -> dict:
     """Símbolo no formato que a conferência usa (campos de ``_palpite`` completos).
 
@@ -78,6 +79,7 @@ def _simbolo(
         pontuada: se a figura é pontuada.
         voz: voz.
         origem: ``tab_completada`` ou ``homr``.
+        x: posição x no quadro (ordena as julgadas no compasso), ou None.
 
     Returns:
         Símbolo com ``idx`` e os campos da leitura.
@@ -100,7 +102,100 @@ def _simbolo(
         "graca": False,
         "notacoes": [],
         "origem": origem,
+        "x": x,
     }
+
+
+#: Divisões por semínima no MusicXML gerado (cobre a fusa).
+DIVISOES = 8
+PASSOS = [
+    ("C", 0),
+    ("C", 1),
+    ("D", 0),
+    ("D", 1),
+    ("E", 0),
+    ("F", 0),
+    ("F", 1),
+    ("G", 0),
+    ("G", 1),
+    ("A", 0),
+    ("A", 1),
+    ("B", 0),
+]
+PASSOS_BEMOL = [
+    ("C", 0),
+    ("D", -1),
+    ("D", 0),
+    ("E", -1),
+    ("E", 0),
+    ("F", 0),
+    ("G", -1),
+    ("G", 0),
+    ("A", -1),
+    ("A", 0),
+    ("B", -1),
+    ("B", 0),
+]
+
+
+def _musicxml_das_julgadas(leitura: dict, compassos: list[dict]) -> str:
+    """MusicXML com só as notas a julgar, uma após a outra em cada compasso.
+
+    A conferência casa nota desenhada e símbolo pela altura dentro do compasso. Com a
+    leitura inteira do Audiveris desenhada, as poucas notas a julgar casavam com notas que
+    não eram delas. Desenhando só as julgadas, cada nota desenhada é um símbolo, com a
+    figura que o dono confere contra a imagem. Compasso sem nota leva pausa de compasso.
+
+    Args:
+        leitura: leitura do recorte (``clave``, ``armadura``, ``compasso_formula``).
+        compassos: compassos do item, com os ``simbolos`` a julgar já em ordem.
+
+    Returns:
+        O documento MusicXML (partwise, uma parte).
+    """
+    armadura = leitura["armadura"] or 0
+    passos = PASSOS_BEMOL if armadura < 0 else PASSOS
+    clave = leitura["clave"] or {"sign": "G", "line": 2}
+    formula = leitura["compasso_formula"]
+    medidas = []
+    for k, compasso in enumerate(compassos):
+        partes = []
+        if k == 0:
+            tempo = (
+                f"<time><beats>{formula['beats']}</beats>"
+                f"<beat-type>{formula['beat_type']}</beat-type></time>"
+                if formula
+                else ""
+            )
+            partes.append(
+                f"<attributes><divisions>{DIVISOES}</divisions>"
+                f"<key><fifths>{armadura}</fifths></key>{tempo}"
+                f"<clef><sign>{clave['sign']}</sign><line>{clave['line']}</line></clef>"
+                "</attributes>"
+            )
+        if not compasso["simbolos"]:
+            partes.append(
+                f'<note><rest measure="yes"/><duration>{DIVISOES * 4}</duration>'
+                "<voice>1</voice></note>"
+            )
+        for s in compasso["simbolos"]:
+            passo, alter = passos[s["midi"] % 12]
+            oitava = s["midi"] // 12 - 1
+            duracao = max(1, round(s["duracao"] * DIVISOES))
+            altera = f"<alter>{alter}</alter>" if alter else ""
+            ponto = "<dot/>" if s["pontuada"] else ""
+            partes.append(
+                f"<note><pitch><step>{passo}</step>{altera}<octave>{oitava}</octave>"
+                f"</pitch><duration>{duracao}</duration><voice>1</voice>"
+                f"<type>{s['figura']}</type>{ponto}</note>"
+            )
+        medidas.append(f'<measure number="{k + 1}">{"".join(partes)}</measure>')
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<score-partwise version="3.1"><part-list><score-part id="P1">'
+        "<part-name>E1</part-name></score-part></part-list>"
+        f'<part id="P1">{"".join(medidas)}</part></score-partwise>'
+    )
 
 
 def _item(
@@ -143,6 +238,13 @@ def _item(
     extra = [s for c, lista in por_compasso.items() if c not in numeros for s in lista]
     if extra:
         compassos.append({"numero": "extra", "duracao": 0.0, "simbolos": extra})
+    # Em cada compasso, as julgadas uma após a outra, pela posição x: o t é o do desenho.
+    for compasso in compassos:
+        compasso["simbolos"].sort(key=lambda s: (s["x"] is None, s["x"] or 0.0))
+        t = 0.0
+        for s in compasso["simbolos"]:
+            s["t"] = t
+            t += s["duracao"]
     return {
         "id": id_,
         "origem": origem,
@@ -153,10 +255,7 @@ def _item(
         "png": _relativo_a_raiz(png),
         "largura_png": _tamanho_png(png)[0],
         "altura_png": _tamanho_png(png)[1],
-        "musicxml": xml.read_bytes().decode("utf-8"),
-        # As notas a julgar não estão nessa leitura: o desenho é só referência, e o dono
-        # marca pela lista de símbolos.
-        "so_lista": True,
+        "musicxml": _musicxml_das_julgadas(leitura, compassos),
         "clave": leitura["clave"],
         "armadura": leitura["armadura"],
         "compasso_formula": leitura["compasso_formula"],
@@ -229,6 +328,7 @@ def main(argv: list[str] | None = None) -> int:
                             bool(s.get("pontuada")),
                             str(s.get("voz", "1")),
                             "homr",
+                            evento.get("x_quadro"),
                         )
                     )
         for n in [c for c in completadas if c["recorte"] == rid]:
@@ -243,6 +343,7 @@ def main(argv: list[str] | None = None) -> int:
                     bool(n["pontuada"]),
                     str(n["voz"]),
                     "tab_completada",
+                    n["x"],
                 )
             )
         if not julgar:
@@ -288,6 +389,7 @@ def main(argv: list[str] | None = None) -> int:
                         bool(n["pontuada"]),
                         str(n["voz"]),
                         "tab_completada",
+                        n["x"],
                     )
                 )
             for k, s in enumerate(julgar):
