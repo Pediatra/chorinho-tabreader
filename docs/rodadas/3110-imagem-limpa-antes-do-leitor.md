@@ -100,3 +100,15 @@ para medir a A1a nos 30; (2) decidir se a A1d (moldura) vira entrada do leitor o
 
 Sem conferência do dono: a A1d recuperou 2 recortes; a conferência deles (até 6 recortes na
 porta 8123) só faz sentido se você decidir que a A1 avança. Nenhum item foi montado.
+
+
+## Busca dos vídeos ausentes (2026-10-17, depois do encerramento)
+
+- **`lonelypicker` (11 recortes, "[free tab] (everything i do) i do it for you - bryan adams"):** o
+  canal tem hoje só 2 arquivos. O mesmo título aparece em `sky guitar/(everything i do) i do it for
+  you - fingerstyle lesson + tab.mp4`. **Candidato, não confirmado:** pode ser o mesmo vídeo, com
+  outro canal. Não usado na medida. Confirmação é do dono.
+- **`ギタロー` / mela (19 recortes, "【無料タブ譜】mela! - 緑黄色社会"):** nenhum arquivo com "mela" ou
+  "緑黄色社会" no nome. Sem candidato. Provavelmente removido do acervo.
+
+Os 30 recortes continuam sem medida. A A1 permanece encerrada.
