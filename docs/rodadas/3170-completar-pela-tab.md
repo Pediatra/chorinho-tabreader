@@ -100,3 +100,125 @@ Rodado de novo no container, na `main`: a saída deu igual byte a byte à da có
 
 - **Base de R01–R12.** `_parear_recorte` já roda `completar_com_homr`. Então as 19 notas que faltam são as da leitura com o homr confirmado pela tab (linha A do CA1: 14 faltando e 4 de altura errada), e não as 41 da leitura só com o Audiveris.
 - **39 de 66 nos produtos.** A conta foi feita fora do módulo e não está no `e1.json`. É compatível com a linha B do CA1: a tab do produto tem 21 alturas erradas e 17 inventadas, 38 no total. Leitura provável: nos produtos, a maior parte do que "falta" na partitura é erro da tab, e não da pauta. Completar pela tab do produto tem de esperar a régua da tab, ou a conferência do dono.
+
+
+## Revisão (2026-10-17): contas feitas pelo código, harmônico e tela 10 à parte
+
+O módulo agora faz as contas (`tab/partitura_completar.py`). A conta antiga de 39 de 66 foi
+feita fora do módulo e não vale mais.
+
+- **Contadas** (fora harmônico e tela 10): produtos 32 (25 acorde com figura, 7 isolado sem
+  figura); R01–R12 17 (10 acorde, 7 isolado sem figura).
+- **Harmônico** (regra da 3013: a pauta tem a nota uma oitava acima no mesmo x): 8, à parte.
+- **Tela 10 da Gymnopédie** (rodada 3014): 28, à parte.
+- **Nota ligada**: **não detectável** no produto (`tecnica` é `None` em quase todas as notas;
+  só uma tem `enfeite`). Contagem 0, e isso é ausência de detecção, não medida.
+- **Herda erro da tab** (altura que não existe no gabarito de tab no mesmo x, tolerância 6 px):
+  **13 de 32** nos produtos (10 acorde, 3 isolado). Nas R01–R12 a altura é circular por
+  construção, então não entra.
+
+## Casos olhados (acumulado: 6)
+
+Recortes em `data/saida/part_frentes/fe_completar/casos/` (ampliados 3×).
+
+- **Acorde, south american T01 c1 midi 60**: inconclusivo na altura (escala pequena).
+- **Acorde, gymnopédie T10 c1 midi 57 (meia pontuada, voz 2)**: certo na figura.
+- **Acorde, gymnopédie T03 c5 midi 85 (meia pontuada, voz 1)**: certo na figura. A nota de 76
+  (meia sem ponto, voz 2) fica inconclusiva.
+- **Acorde, R07 c10 midi 52 e 59 (meia, voz 2)**: certo na figura.
+- **Isolado, greensleeves T03 c8 midi 73**: **suspeito**. Na pauta, na posição x dessa coluna,
+  há uma pausa, não uma nota. A tab não tem pausa (plano, pegadinha da E1). Esse completamento
+  pode ser falso.
+- **Acorde, R09 c3 midi 87**: **erro**. A imagem tem um losango (harmônico) e a marca "A.H.".
+  A regra da oitava não pegou, porque a pauta não lê o losango como nota. A nota completada
+  deveria estar à parte.
+
+Pelo critério do briefing (pelo menos 2 isolados e 2 de R01–R12), **ainda falta**: só 1 isolado
+foi olhado, e ele é suspeito. Os casos isolados seguem sem a conta fechada.
+
+## Falha achada: harmônico com losango não é detectado
+
+O caso R09 c3 (midi 87) mostra que a detecção de harmônico só pela oitava na pauta não basta:
+o losango não vira nota no `.omr`/MusicXML. Isso precisa de outra fonte (a tab, o "A.H." da
+imagem ou uma lista de casas harmônicas). Não corrigido nesta rodada.
+
+## Pausa no mesmo x (suspeita)
+
+O caso greensleeves T03 c8 mostra o risco: completar nota onde a pauta tem pausa. Não há
+checagem de pausa no código ainda.
+
+## Não feito nesta revisão
+
+- Conferência do dono (`servir` na porta 8122): não montada. O item precisa de um adaptador
+  para a ferramenta de conferência, que hoje é por símbolo de MusicXML.
+- Os 10 casos completos (faltam 4, com pelo menos 1 isolado a mais).
+
+
+## Revisão 2 (2026-10-17): decisão do dono sobre harmônico
+
+Decisão do dono: harmônico vem **só da tab** (símbolo de harmônico guardado na tab) e conta à
+parte. Nada de detector de imagem. Se a tab não tiver o símbolo, conta como "harmônico não
+detectado".
+
+O que a tab tem: o ouro de tab (`data/gold/ouro_video`) guarda só `corda`, `casa`,
+`x_quadro` e `x_centro_quadro`; o produto tem `tecnica` `None` em quase tudo (uma nota com
+`enfeite`). **Não há símbolo de harmônico em nenhuma das duas fontes.** Por isso:
+
+- **Harmônico (da tab): 0 detectado.**
+- **Harmônico não detectado, candidatos pela regra de oitava** (diagnóstico, na 3013): 7.
+  Esses 7 continuam contados como completados, porque a regra de oitava saiu da conta.
+- **Tela 10 da Gymnopédie**: 29 à parte (antes 28, porque um dos casos saiu como harmônico
+  pela regra antiga).
+- **Nota ligada**: não detectável (tecnica `None`). Declarado, com 0.
+
+Contagem nova: **contadas 56** (produtos 37: 30 acorde com figura e 7 isolado sem figura;
+R01–R12 19: 12 acorde e 7 isolado sem figura).
+
+**Herda erro da tab** (produtos, pelo código): **14 de 37**. Nas R01–R12 a altura é circular.
+
+Caso R09 c3 midi 87 (losango e "A.H." na imagem, visto antes): continua como completado, porque
+a tab não tem o símbolo. Esse caso é a falha que o dono precisa ver na conferência.
+
+Não feito: conferência do dono (porta 8122, itens) — ver o ponto de conferência acima.
+
+
+## Casos olhados (revisão 3: 10 casos distintos)
+
+Recortes em `data/saida/part_frentes/fe_completar/casos/` (3×). O caso "R05 c1 midi 60" é o
+mesmo recorte do "south american T01 c1 midi 60" (R05 = south american tela 1), então conta uma
+vez só.
+
+| # | caso | leitura | figura registrada | imagem |
+| --- | --- | --- | --- | --- |
+| 1 | south american T01 / R05, c1, midi 60, acorde | inconclusivo | eighth, voz 1 | altura não dá para confirmar na escala |
+| 2 | gymnopédie T10, c1, midi 57, acorde | certo | half pontuada, voz 2 | bate |
+| 3 | gymnopédie T03, c5, midi 85, acorde | certo | half pontuada, voz 1 | bate; a de 76 fica inconclusiva |
+| 4 | R07, c10, midi 52 e 59, acorde | certo | half, voz 2 | bate |
+| 5 | greensleeves T03, c8, midi 73, isolado | **suspeito** | sem figura | há pausa na pauta nesse x (falso completamento?) |
+| 6 | R09, c3, midi 87, acorde | **erro** | half | losango e "A.H." (harmônico); a tab não tem o símbolo |
+| 7 | gymnopédie T02, c3, midi 52, isolado | figura não resolvida | null | a imagem tem meia pontuada no x; o método não tem como dar a figura |
+| 8 | R11, c4, midi 57, acorde | **erro de figura** | quarter, voz 2 | a imagem mostra meia pontuada na pauta de baixo |
+| 9 | gymnopédie T07, c4, midi 57, acorde | **erro de figura** | quarter, voz 2 | mesma coisa: meia pontuada na imagem |
+| 10 | R10, c2, midi 52, acorde | certo | half pontuada, voz 2 | bate |
+
+**O que isso diz.** Nos acordes com figura que eu consegui olhar (2, 3, 4, 8, 9, 10 e o 6 pela
+figura), a figura bate em 4 e erra em 2 (o 6 é harmônico, não figura). Os dois erros (8 e 9) são
+o mesmo padrão: a nota da voz 2 em clave de baixo é meia pontuada, e a E1 pega a figura do evento
+pareado (a semínima da voz 1), e não a da própria voz. O aceite do briefing pede 0,95 nos
+acordes. Com essa amostra, o método **não passa**.
+
+**Isolados.** Dos 2 isolados olhados, um é suspeito de pausa (5) e outro tem figura não
+resolvida (7). Nenhum dos dois tem figura correta pelo método. Mínimo de "2 isolados": cumprido,
+mas os dois não viram acerto.
+
+**Correção aplicada (revisão 3).** A figura do acorde agora vem do símbolo da **mesma voz**
+da nota completada. Se o evento pareado não tem símbolo nessa voz, a figura fica `null` (nada
+decide). Isso corrige os erros 8 e 9, mas tira a figura de notas que a leitura não tem na voz
+(como os baixos dos casos 2, 4 e 10, que estavam certos por acaso).
+
+Números após a correção: contadas 56. Figura registrada em **22** (produtos 17 de 37, R01–R12
+5 de 19). Ficam `null` 34: 20 nos produtos e 14 em R01–R12. Antes eram 14 `null`. Quem decide a
+figura dessas 34 é a conferência do dono.
+
+O aceite de 0,95 não é atingido com as olhadas: ver a tabela acima. A conferência do dono
+continua sendo a medida; esta rodada só registra o que o código faz agora.

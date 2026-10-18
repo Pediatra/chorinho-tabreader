@@ -108,6 +108,53 @@ def _normalizar(simbolos: list[dict]) -> list[dict]:
     return saida
 
 
+def _candidato_oitava(midi: int, x: float | None, eventos: list[dict]) -> bool:
+    """Diz se a pauta tem a nota uma oitava acima, no mesmo x (candidato a harmônico).
+
+    Só diagnóstico: a regra da 3013 (a pauta tem a nota uma oitava acima no mesmo x).
+    O harmônico de verdade vem da tab (símbolo), não daqui; a decisão do dono (3170) tirou
+    esta regra da conta.
+
+    Args:
+        midi: altura escrita da nota da tab que falta na pauta.
+        x: posição x da coluna da tab.
+        eventos: eventos normalizados da partitura do recorte ou da tela.
+
+    Returns:
+        True se algum evento da partitura no mesmo x tem ``midi + 12``.
+    """
+    if x is None:
+        return False
+    for evento in eventos:
+        if (
+            evento["x"] is not None
+            and abs(evento["x"] - x) <= TOLERANCIA_PX
+            and (midi + 12) in evento["midis"]
+        ):
+            return True
+    return False
+
+
+def _herda_erro(midi: int, x: float, notas_gabarito: list[dict]) -> bool:
+    """Diz se a altura completada não existe no gabarito de tab no mesmo x.
+
+    Args:
+        midi: altura escrita da nota completada.
+        x: posição x da coluna da tab do produto.
+        notas_gabarito: notas da tela no gabarito de tab (``x_centro_quadro``, ``corda``,
+            ``casa``).
+
+    Returns:
+        True se nenhuma nota do gabarito a até ``TOLERANCIA_PX`` tem essa altura escrita.
+    """
+    for nota in notas_gabarito:
+        if abs(float(nota["x_centro_quadro"]) - x) <= TOLERANCIA_PX:
+            som = midi_da_corda(int(nota["corda"]), int(nota["casa"]))
+            if som is not None and som + 12 == midi:
+                return False
+    return True
+
+
 def _compasso_de_x(x: float | None, compassos: list[dict]) -> str | None:
     """Número do compasso que contém o x, pelo último compasso que começa antes dele.
 
@@ -208,6 +255,8 @@ def _completar(
                     if cordas in CORDAS_VOZ_2 and tem_voz2
                     else (primeiro["voz"] if primeiro else "1")
                 )
+                da_voz = [s for s in evento["simbolos"] if s["voz"] == voz]
+                mesma_voz = da_voz[0] if da_voz else None
                 completadas.append(
                     {
                         **identificacao,
@@ -215,10 +264,12 @@ def _completar(
                         "tipo": "acorde",
                         "compasso": compasso,
                         "midi": midi,
-                        "figura": primeiro["figura"] if primeiro else None,
-                        "pontuada": primeiro["pontuada"] if primeiro else False,
+                        "figura": mesma_voz["figura"] if mesma_voz else None,
+                        "pontuada": mesma_voz["pontuada"] if mesma_voz else False,
                         "voz": voz,
                         "x": tab["x"],
+                        "harmonico": bool(tab.get("harmonico_tab")),
+                        "candidato_oitava": _candidato_oitava(midi, tab["x"], eventos),
                     }
                 )
         else:
@@ -243,6 +294,8 @@ def _completar(
                         "pontuada": pontuada,
                         "voz": "1",
                         "x": tab["x"],
+                        "harmonico": bool(tab.get("harmonico_tab")),
+                        "candidato_oitava": _candidato_oitava(midi, tab["x"], eventos),
                         "deficit": deficit,
                     }
                 )
@@ -309,7 +362,12 @@ def _grupo_produtos() -> list[dict]:
                         cordas.setdefault(som + 12, int(nota["corda"]))
                 coluna = evento.notas[0]["coluna"]
                 notas_tab.append(
-                    {"x": evento.x_quadro, "midis": set(evento.midis), "cordas": cordas}
+                    {
+                        "x": evento.x_quadro,
+                        "midis": set(evento.midis),
+                        "cordas": cordas,
+                        "harmonico_tab": any(n.get("harmonico") for n in evento.notas),
+                    }
                 )
                 if coluna in colunas_pareadas:
                     pares[j] = colunas_pareadas[coluna]
@@ -363,7 +421,12 @@ def _grupo_r01_r12() -> list[dict]:
                 if som is not None:
                     cordas.setdefault(som + 12, int(nota["corda"]))
             notas_tab.append(
-                {"x": e["x_quadro"], "midis": set(e["midis"]), "cordas": cordas}
+                {
+                    "x": e["x_quadro"],
+                    "midis": set(e["midis"]),
+                    "cordas": cordas,
+                    "harmonico_tab": any(n.get("harmonico") for n in e["notas"]),
+                }
             )
         pares = {
             p["par_tab"]: p["indice"]
@@ -411,28 +474,72 @@ def _grupo_r01_r12() -> list[dict]:
     return resultado
 
 
+def _marcar(completadas: list[dict]) -> None:
+    """Marca, em cada nota completada, tela 10 da Gymnopédie e herança de erro da tab.
+
+    ``herda_erro_tab`` é a comparação com o gabarito de tab no mesmo x (tolerância de
+    ``TOLERANCIA_PX``), só para as notas dos produtos. Nas R01–R12 a altura vem do próprio
+    gabarito, então o campo fica ``None`` (circular, rodada 3170).
+
+    Args:
+        completadas: notas completadas, alteradas no lugar.
+    """
+    ouro = _carregar_ouro()
+    gym = STEMS[2]
+    for nota in completadas:
+        nota["tela_10_gym"] = nota["video"] == gym and nota["tela"] == 10
+        if nota["video"] in STEMS:
+            produto = json.loads(
+                (PASTA_PRODUTO / f"{nota['video']}.json").read_text(encoding="utf-8")
+            )
+            gabarito = ouro[produto["video"]["arquivo"]][0]
+            tela = next(t for t in gabarito["telas"] if t["id"] == nota["tela"])
+            nota["herda_erro_tab"] = _herda_erro(nota["midi"], nota["x"], tela["notas"])
+        else:
+            nota["herda_erro_tab"] = None
+
+
 def medir() -> dict:
     """Roda a E1 nos dois conjuntos e devolve o documento de saída.
 
+    Harmônico e tela 10 da Gymnopédie saem da conta e são contados à parte. Nota ligada não
+    é detectável neste produto (``tecnica`` é ``None``), então fica declarada, com 0.
+
     Returns:
-        Documento com ``completadas`` (lista), ``contagens`` por conjunto e tipo, e
-        ``figura_nula`` (notas sem figura).
+        Documento com ``completadas`` (as contadas), ``a_parte`` (harmônico, tela 10),
+        ``contagens`` por conjunto e tipo, e ``herdam_erro_tab`` (produtos).
     """
     produtos = _grupo_produtos()
     r = _grupo_r01_r12()
-    completadas = produtos + r
+    todas = produtos + r
+    _marcar(todas)
+    contadas = [n for n in todas if not n["harmonico"] and not n["tela_10_gym"]]
+    a_parte = {
+        "harmonico": sum(1 for n in todas if n["harmonico"]),
+        "tela_10_gym": sum(1 for n in todas if n["tela_10_gym"] and not n["harmonico"]),
+        "harmonico_nao_detectado_candidatos_oitava": sum(
+            1 for n in contadas if n["candidato_oitava"]
+        ),
+        "nota_ligada": "não detectável: tecnica é None no produto",
+    }
     contagens: dict[str, dict] = {}
-    for nome, grupo in (("produtos_19_telas", produtos), ("R01_R12", r)):
-        c = defaultdict(int)
+    for nome, grupo in (
+        ("produtos_19_telas", [n for n in contadas if n["video"] in STEMS]),
+        ("R01_R12", [n for n in contadas if n["video"] not in STEMS]),
+    ):
+        c: dict = defaultdict(int)
         for n in grupo:
             c[n["tipo"]] += 1
             c["figura_nula" if n["figura"] is None else "com_figura"] += 1
         contagens[nome] = dict(c)
+    herdam = sum(1 for n in contadas if n["herda_erro_tab"] is True)
     return {
         "frente": "E1",
         "rodada": 3170,
-        "completadas": completadas,
+        "completadas": contadas,
+        "a_parte": a_parte,
         "contagens": contagens,
+        "herdam_erro_tab": herdam,
         "tolerancia_px": TOLERANCIA_PX,
     }
 
