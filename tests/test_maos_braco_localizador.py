@@ -6,8 +6,10 @@ só para conferir formas.
 
 from __future__ import annotations
 
+import json
 import math
 import random
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -17,7 +19,7 @@ import torch
 from tab import maos_braco_localizador as loc
 from tab.maos_braco_detector import UNetBraco
 from tab.maos_braco_faixa import eixo_da_faixa
-from tab.maos_braco_tempo import Marcas
+from tab.maos_braco_tempo import Marcas, marcas_do_registro
 
 
 def _marcas_sinteticas() -> Marcas:
@@ -214,3 +216,145 @@ def test_rede_com_cinco_saidas_na_forma_certa() -> None:
         saida = rede(torch.zeros(1, 3, 128, 160))
     assert tuple(saida.shape) == (1, 5, 128, 160)
     assert UNetBraco(pesos_imagenet=False).cabeca.out_channels == 4
+
+
+def _registro_c(**campos: object) -> dict:
+    """Registro da fonte C válido (braço nulo, nut e duas cordas de 2 pontos, sem trastes).
+
+    Args:
+        **campos: campos a sobrescrever.
+
+    Returns:
+        Registro no formato de ``braco_m25_treino.json``.
+    """
+    base: dict = {
+        "braco": None,
+        "corda1": [[600.0, 40.0], [100.0, 52.0]],
+        "corda6": [[600.0, 60.0], [100.0, 58.0]],
+        "nut": [100.0, 50.0],
+        "trastes": None,
+        "obs": None,
+    }
+    base.update(campos)
+    return base
+
+
+def _registro_completo_sim(**campos: object) -> dict:
+    """Registro do gabarito com braço "sim" completo (nut, cordas e dois trastes).
+
+    Args:
+        **campos: campos a sobrescrever.
+
+    Returns:
+        Registro que ``marcas_do_registro`` aceita.
+    """
+    base = _registro_c(braco="sim", trastes=[[300.0, 46.0], [450.0, 44.0]])
+    base.update(campos)
+    return base
+
+
+def _escreve_fonte(pasta: Path, quadros: dict[str, dict]) -> tuple[Path, Path]:
+    """Grava um gabarito e um ``indice.json`` falsos em ``pasta``.
+
+    Args:
+        pasta: diretório temporário.
+        quadros: id -> registro do gabarito.
+
+    Returns:
+        ``(caminho_do_gabarito, pasta_com_indice)``.
+    """
+    gold = pasta / "gold.json"
+    gold.write_text(json.dumps({"formato": 1, "quadros": quadros}), encoding="utf-8")
+    pasta_quadros = pasta / "fonte"
+    pasta_quadros.mkdir()
+    indice = {
+        "semente": 1,
+        "quadros": [
+            {"id": qid, "canal": "canal x", "png": f"quadros/{qid}.png"}
+            for qid in quadros
+        ],
+    }
+    (pasta_quadros / "indice.json").write_text(json.dumps(indice), encoding="utf-8")
+    return gold, pasta_quadros
+
+
+def test_fonte_c_monta_marcas_sem_trastes() -> None:
+    """O registro do C vira ``Marcas`` com nut, duas cordas e trastes vazios."""
+    marcas = loc.marcas_da_fonte_c(_registro_c())
+    assert marcas is not None
+    assert marcas.nut.tolist() == [100.0, 50.0]
+    assert marcas.trastes == {}
+    assert marcas.corda1.shape == (2, 2)
+    assert marcas.corda6.shape == (2, 2)
+
+
+def test_fonte_c_recusa_corda_com_um_ponto_ou_sem_nut() -> None:
+    """Corda com 1 ponto, ou nut ausente, deixa o quadro de fora da fonte C."""
+    assert loc.marcas_da_fonte_c(_registro_c(corda1=[[600.0, 40.0]])) is None
+    assert loc.marcas_da_fonte_c(_registro_c(nut=None)) is None
+
+
+def test_marcas_do_registro_nao_serve_para_o_c() -> None:
+    """Por isso o C monta as marcas direto: com braço nulo, ``marcas_do_registro`` dá None."""
+    assert marcas_do_registro(_registro_c()) is None
+
+
+def test_ler_fonte_c_so_conta_quadros_completos(tmp_path: Path) -> None:
+    """Só entra o quadro com nut e as duas cordas de 2 pontos; id, canal e caminho certos."""
+    gold, pasta = _escreve_fonte(
+        tmp_path,
+        {
+            "q01": _registro_c(),
+            "q02": _registro_c(corda1=[[600.0, 40.0]]),
+            "q03": _registro_c(nut=None),
+        },
+    )
+    registros = loc.ler_fonte_c(gold=gold, pasta=pasta)
+    assert [r["id"] for r in registros] == ["C-q01"]
+    assert registros[0]["origem"] == "C"
+    assert registros[0]["canal"] == "canal x"
+    assert registros[0]["caminho"] == str(pasta / "quadros" / "q01.png")
+    assert registros[0]["marcas"].trastes == {}
+
+
+def test_regra_de_inclusao_da_prova() -> None:
+    """q08 sai; sem resposta sai; "nao" entra negativo; braço nulo com marcas vira "sim"."""
+    gold = {
+        "q08": _registro_completo_sim(),
+        "q01": _registro_c(corda1=None, corda6=None, nut=None, braco=None),
+        "q02": {"braco": "nao", "corda1": None, "corda6": None, "obs": None},
+        "q03": _registro_c(trastes=[[300.0, 46.0], [450.0, 44.0]], obs="2 braços"),
+        "q04": _registro_c(trastes=[]),
+        "q05": _registro_completo_sim(),
+        "q06": _registro_completo_sim(braco="?"),
+    }
+    indice = {
+        qid: {"id": qid, "canal": "canal y", "png": f"quadros/{qid}.png"}
+        for qid in gold
+    }
+    incluidos, excluidos = loc.selecionar_prova(gold, indice, Path("/x"))
+    assert [q["id"] for q in incluidos] == ["q02", "q03", "q05"]
+    assert {e["id"]: e["motivo"] for e in excluidos}["q08"].startswith("q08")
+    assert {e["id"] for e in excluidos} == {"q08", "q01", "q04", "q06"}
+    por_id = {q["id"]: q for q in incluidos}
+    assert por_id["q02"]["braco"] == "nao"
+    assert por_id["q02"]["marcas"] is None
+    assert por_id["q03"]["braco"] == "sim"
+    assert por_id["q03"]["dois_bracos"] is True
+    assert por_id["q05"]["dois_bracos"] is False
+    assert por_id["q03"]["caminho"] == str(Path("/x") / "quadros" / "q03.png")
+
+
+def test_carregar_prova_le_os_arquivos_da_pasta(tmp_path: Path) -> None:
+    """Com gabarito e índice falsos, ``carregar_prova`` aplica a mesma regra."""
+    gold, pasta = _escreve_fonte(
+        tmp_path,
+        {
+            "q02": {"braco": "nao", "corda1": None, "corda6": None, "obs": None},
+            "q03": _registro_completo_sim(obs="2 braços"),
+        },
+    )
+    incluidos, excluidos = loc.carregar_prova(gold=gold, pasta=pasta)
+    assert [q["id"] for q in incluidos] == ["q02", "q03"]
+    assert excluidos == []
+    assert incluidos[1]["dois_bracos"] is True

@@ -93,3 +93,53 @@ Nada é ajustado por esses números. Não há limiar livre nesta rodada.
   bom. O registro separa os dois casos pelo envelope.
 - **As marcas grosseiras foram feitas rápido.** O envelope da 1021 tolera de sobra o erro de
   clique; o refino e o estágio 2 decidem o resto.
+
+## Desenvolvimento: resultado (2026-10-18)
+
+- **Treino**: `L2_todos_s1..3` com R 1.052, G 64 e **C 136**, com 1.061 s, 1.276 s e 1.099 s.
+- **Desvio**: 4 quadros C (q06, q38, q43 e q52) têm o nut "fora" e não têm traste de referência.
+  Sem nut, não há alvo, e eles ficaram de fora (`fonte_c_fora_por_nut` no json do treino).
+
+**dev1025** (M11b, `dev1025_m11b.json`):
+
+| semente | dentro do envelope | certo | falso | não achou | sinalizados | falsos não sinalizados |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 17/28 | 12 | 11 | 2 | 15 | 0 |
+| 2 | **0/28** | 0 | 17 | 10 | 27 | 1 (q52) |
+| 3 | 21/28 | 16 | 7 | 1 | 12 | 0 |
+| total | 38/84 (1024: 18/84) | 28 (1024: 19) | 35 | 13 | 54/84 (1024: 63) | 1 |
+
+O q52 da linha da semente 2 é o quadro da M11b, não o quadro C de mesmo nome.
+
+**Diagnóstico da semente 2** (`b1_diag/s2.py`):
+- O mapa de cada ponto tem **dois picos**, um em cada ponta da corda. A rede sabe onde estão as
+  pontas, mas não sabe qual é a do nut.
+- A decodificação da 1024 toma o argmax de cada canal **separadamente**. Na semente 2, três dos
+  quatro pontos caem na mesma ponta: no q46, as pontas da corda 1 e a ponta da corda 6 no
+  extremo caem todas em (630, 786).
+- É a mesma falha da semente 2 na 1024: 0/28 nas duas rodadas.
+- Nas sementes 1 e 3 há o sinal fraco do mesmo problema: canais com máximo de só 0,4.
+
+## Emenda 1 (2026-10-18, antes de abrir o N): decodificação conjunta dos 4 pontos
+
+Muda **só a decodificação do estágio 1**. Pesos, estágio 2, regra 1023 e critério da prova não
+mudam. Todos os números abaixo são fixados agora, pela geometria do braço, sem varredura.
+
+1. **Candidatos**: em cada canal de ponto, os máximos locais (supressão de não máximos numa
+   janela de 9×9 na tela de 640) com valor ≥ 0,3 e ≥ 30 % do máximo do canal. São os 5 maiores
+   por canal, refinados pelo centróide 3×3 como antes.
+2. **Combinações**: todas as escolhas de um candidato por canal (até 5⁴). Cada combinação é
+   (c1 no nut, c1 no extremo, c6 no nut, c6 no extremo). Ela é **válida** se:
+   - a. as pontas do nut ficam perto uma da outra, e as do extremo também: cada distância é
+     ≤ 0,35 × o comprimento médio das duas cordas;
+   - b. o braço é alongado: o comprimento médio é ≥ 3 × a maior das duas distâncias do item a;
+   - c. as cordas são quase paralelas: o ângulo entre elas é ≤ 15°;
+   - d. a corda 1 e a corda 6 não se cruzam.
+3. **Escolha**: a combinação válida com a **maior soma** dos valores dos picos. Sem combinação
+   válida, o resultado é "sem braço". O teste de presença (`P_MIN` = 0,3) continua igual.
+
+**Uso**:
+- A **M11b** (desenvolvimento) é medida de novo com a decodificação conjunta e as 3 sementes.
+  É só registro e verificação de código; nenhum número da emenda muda depois disso.
+- A **prova N** usa a decodificação conjunta.
+- A decodificação da 1024 fica disponível com o nome antigo, para a comparação.

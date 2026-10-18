@@ -10,7 +10,9 @@ A cadeia é: estágio 1 -> faixa -> estágio 2 (v2) -> refino (segunda passada) 
 
 Pré-registro: ``docs/rodadas/1024-fase-b-localizador-do-braco.md``.
 
-CLI: ``python -m tab.maos_braco_localizador {treinar,smoke,b1,b2,prova}``.
+CLI: ``python -m tab.maos_braco_localizador {treinar,smoke,b1,b2,prova}``. Rodada 1025:
+``treinar --final2``, ``smoke2``, ``dev1025`` e ``prova1025`` (esta última não roda nesta fase).
+Pré-registro da 1025: ``docs/rodadas/1025-localizador-com-marcas-grosseiras.md``.
 """
 
 from __future__ import annotations
@@ -30,7 +32,15 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
 
-from .caminhos import GABARITO_BRACO_M11B, MAOS_M3B, MAOS_M11B, MAOS_M21
+from .caminhos import (
+    GABARITO_BRACO_M11B,
+    GABARITO_BRACO_M25_PROVA,
+    GABARITO_BRACO_M25_TREINO,
+    MAOS_M3B,
+    MAOS_M11B,
+    MAOS_M21,
+    MAOS_M25,
+)
 from .maos_braco_confianca import (
     N_EXTRAS,
     _constantes_congeladas,
@@ -41,6 +51,7 @@ from .maos_braco_confianca import (
     sinal_s3,
 )
 from .maos_braco_detector import (
+    CLASSES,
     DIR_G,
     DIR_PESOS,
     LOTE,
@@ -1316,20 +1327,25 @@ def conferir_frames_g() -> None:
     )
 
 
-def folha_alvos(destino: Path = ARQUIVO_FOLHA) -> None:
-    """Folha de conferência: 12 quadros de treino com os 4 pontos e a máscara.
+def _grava_folha(registros: list[dict], sementes: list[int], destino: Path) -> None:
+    """Desenha 12 quadros com os 4 pontos e a máscara, do alvo que a rede recebe.
 
     Os quadros saem do próprio ``_Quadros`` (com aumento), para conferir o alvo que a rede
     recebe. Cada ponto é o pico do seu canal; a máscara aparece em verde.
 
     Args:
+        registros: 12 registros com ``caminho``, ``marcas``, ``id`` e ``canal``.
+        sementes: semente do aumento de cada registro.
         destino: arquivo JPEG da folha.
     """
-    treino, _ = dividir_por_canal(_registros())
-    sorteio = random.Random(f"{SEMENTE_TEXTO}:folha").sample(range(len(treino)), 12)
-    dados = _Quadros([(treino[i]["caminho"], treino[i]["marcas"], i) for i in sorteio])
+    dados = _Quadros(
+        [
+            (r["caminho"], r["marcas"], s)
+            for r, s in zip(registros, sementes, strict=True)
+        ]
+    )
     quadros = []
-    for i, indice in enumerate(sorteio):
+    for i, registro in enumerate(registros):
         rgb, alvo = dados[i]
         bgr = np.ascontiguousarray(rgb[..., ::-1])
         mascara = alvo[CANAL_PRESENCA] > 127
@@ -1341,7 +1357,7 @@ def folha_alvos(destino: Path = ARQUIVO_FOLHA) -> None:
             cv2.circle(bgr, (int(x), int(y)), 6, CORES_PONTOS[canal], -1)
         cv2.putText(
             bgr,
-            f"{treino[indice]['id']} {treino[indice]['canal'][:18]}",
+            f"{registro['id']} {registro['canal'][:18]}",
             (8, 24),
             cv2.FONT_HERSHEY_SIMPLEX,
             0.6,
@@ -1354,6 +1370,578 @@ def folha_alvos(destino: Path = ARQUIVO_FOLHA) -> None:
     destino.parent.mkdir(parents=True, exist_ok=True)
     cv2.imwrite(str(destino), folha, [cv2.IMWRITE_JPEG_QUALITY, 88])
     print(f"folha gravada em {destino}")
+
+
+def folha_alvos(destino: Path = ARQUIVO_FOLHA) -> None:
+    """Folha de conferência: 12 quadros de treino com os 4 pontos e a máscara.
+
+    Args:
+        destino: arquivo JPEG da folha.
+    """
+    treino, _ = dividir_por_canal(_registros())
+    sorteio = random.Random(f"{SEMENTE_TEXTO}:folha").sample(range(len(treino)), 12)
+    _grava_folha([treino[i] for i in sorteio], sorteio, destino)
+
+
+# ---------------------------------------------------------------------------
+# Rodada 1025: fonte C (marcas grosseiras), L2, dev1025 e prova1025
+# ---------------------------------------------------------------------------
+
+#: Quadro da prova excluído antes da marcação (guitarra elétrica).
+QUADRO_EXCLUIDO_PROVA = "q08"
+#: Observação do dono que marca dois braços no quadro (reportado à parte).
+MARCA_DOIS_BRACOS = "2 braços"
+#: Quadros da folha de conferência da fonte C (sorteio com semente própria).
+SEMENTE_FOLHA_C = "20261025:folha_c"
+ARQUIVO_FOLHA_C = MAOS_M21 / "l2_folha_c.jpg"
+ARQUIVO_DEV1025 = MAOS_M21 / "dev1025_m11b.json"
+ARQUIVO_PROVA1025 = MAOS_M21 / "prova1025.json"
+#: Quadros da fonte C com as marcas completas para o alvo (nut ponto e duas cordas de 2
+#: pontos). O pré-registro previa 140 pelas cordas; quatro deles (``q06``, ``q38``,
+#: ``q43``, ``q52``) têm ``nut = "fora"`` sem traste de referência, então não há ponto do
+#: nut e o alvo de 4 pontos não existe. Ficam de fora: 136 (desvio registrado na 1025).
+QUADROS_FONTE_C_ESPERADOS = 136
+#: Resultados da 1024 na M11b, para comparação (envelope por semente, sinalizados).
+RESULTADO_1024 = {
+    "envelope_dentro_de_28": {"1": 9, "2": 0, "3": 9},
+    "sinalizados_de_84": 63,
+    "falsos_nao_sinalizados": 0,
+}
+
+
+def _par_de_pontos(valor: object) -> bool:
+    """Se a corda tem exatamente 2 pontos ``[x, y]``.
+
+    Args:
+        valor: ``corda1`` ou ``corda6`` do registro.
+
+    Returns:
+        True com 2 pontos válidos.
+    """
+    return (
+        isinstance(valor, list)
+        and len(valor) == 2
+        and all(isinstance(p, list) and len(p) == 2 for p in valor)
+    )
+
+
+def marcas_da_fonte_c(registro: dict) -> Marcas | None:
+    """Marcas de um quadro da fonte C: nut e as duas cordas, sem trastes.
+
+    O registro do C tem ``braco`` nulo e não tem trastes, então ``marcas_do_registro``
+    devolve ``None`` para ele. Aqui as marcas são montadas direto.
+
+    Args:
+        registro: entrada de ``braco_m25_treino.json``.
+
+    Returns:
+        ``Marcas`` com ``trastes`` vazio, ou ``None`` se falta o nut ou uma corda não
+        tem 2 pontos.
+    """
+    nut = registro.get("nut")
+    if not isinstance(nut, list) or len(nut) != 2:
+        return None
+    if not (
+        _par_de_pontos(registro.get("corda1"))
+        and _par_de_pontos(registro.get("corda6"))
+    ):
+        return None
+    return Marcas(
+        nut=np.asarray(nut, dtype=float),
+        trastes={},
+        corda1=np.asarray(registro["corda1"], dtype=float),
+        corda6=np.asarray(registro["corda6"], dtype=float),
+    )
+
+
+def _indice_por_id(caminho: Path) -> dict[str, dict]:
+    """Índice de uma pasta de quadros (``indice.json``), por ``id``.
+
+    Args:
+        caminho: arquivo ``indice.json``.
+
+    Returns:
+        Entradas com ``canal`` e ``png`` por id do quadro.
+    """
+    return {quadro["id"]: quadro for quadro in _ler_json(caminho)["quadros"]}
+
+
+def ler_fonte_c(
+    gold: Path = GABARITO_BRACO_M25_TREINO, pasta: Path = MAOS_M25 / "treino"
+) -> list[dict]:
+    """Quadros da fonte C que entram no estágio 1 (nut e duas cordas de 2 pontos).
+
+    Args:
+        gold: gabarito grosseiro do treino (``quadros`` por id).
+        pasta: pasta com ``indice.json`` (canal e png) e ``quadros/``.
+
+    Returns:
+        Registros com ``id`` (prefixo ``C-``), ``origem`` ``C``, ``canal``, ``caminho``
+        (quadro inteiro) e ``marcas``.
+    """
+    indice = _indice_por_id(pasta / "indice.json")
+    registros: list[dict] = []
+    for id_quadro, registro in _ler_json(gold)["quadros"].items():
+        marcas = marcas_da_fonte_c(registro)
+        if not _utilizavel(marcas):
+            continue
+        entrada = indice[id_quadro]
+        registros.append(
+            {
+                "id": f"C-{id_quadro}",
+                "origem": "C",
+                "canal": entrada["canal"],
+                "caminho": str(pasta / entrada["png"]),
+                "marcas": marcas,
+            }
+        )
+    return registros
+
+
+def fonte_c_fora_por_nut(gold: Path = GABARITO_BRACO_M25_TREINO) -> list[str]:
+    """Ids da fonte C com as duas cordas de 2 pontos, mas sem nut utilizável.
+
+    Args:
+        gold: gabarito grosseiro do treino.
+
+    Returns:
+        Ids (``q..``) com ``nut`` fora do quadro e sem marcas completas para o alvo.
+    """
+    return [
+        id_quadro
+        for id_quadro, registro in _ler_json(gold)["quadros"].items()
+        if _par_de_pontos(registro.get("corda1"))
+        and _par_de_pontos(registro.get("corda6"))
+        and marcas_da_fonte_c(registro) is None
+    ]
+
+
+def _registros_final2() -> list[dict]:
+    """Fontes do estágio 1 da 1025: R e G (como na 1024) mais C.
+
+    Returns:
+        Registros de treino: ``_registros()`` seguido de ``ler_fonte_c()``.
+    """
+    return _registros() + ler_fonte_c()
+
+
+def treinar_final2(semente: int, passos: int = PASSOS) -> int:
+    """Treina o estágio 1 da 1025 com R + G + C, em todos os canais.
+
+    Grava ``artefatos/m21/L2_todos_s<semente>.pt`` com o json (comando, semente,
+    passos e quadros por fonte).
+
+    Args:
+        semente: semente do treino.
+        passos: passos (``PASSOS`` no treino oficial).
+
+    Returns:
+        0 ao terminar.
+    """
+    registros = _registros_final2()
+    fontes = {
+        origem: sum(r["origem"] == origem for r in registros)
+        for origem in ("R", "G", "C")
+    }
+    nome = f"L2_todos_s{semente}"
+    itens = _sequencia(registros, passos, nome)
+    with _trava_gpu():
+        modelo, perdas, segundos = _treinar_localizador(itens, passos, semente)
+        _salvar_pesos(
+            modelo,
+            nome,
+            {
+                "nome": nome,
+                "comando": (
+                    "python -m tab.maos_braco_localizador treinar --final2 "
+                    f"--semente {semente}"
+                ),
+                "semente": semente,
+                "passos": passos,
+                "fontes": "R + G + C",
+                "quadros_por_fonte": fontes,
+                "canais_fora": [],
+                "fonte_c_fora_por_nut": fonte_c_fora_por_nut(),
+                "quadros_de_treino": len(registros),
+                "tempo_treino_s": segundos,
+                "perdas": perdas,
+            },
+        )
+    print(
+        f"{nome}: {passos} passos, quadros {fontes}, perda final {perdas[-1]:.4f}, "
+        f"{segundos:.0f} s"
+    )
+    return 0
+
+
+def folha_c(destino: Path = ARQUIVO_FOLHA_C) -> None:
+    """Folha de conferência da fonte C: 12 quadros com os alvos que a rede recebe.
+
+    Args:
+        destino: arquivo JPEG da folha.
+    """
+    fonte_c = ler_fonte_c()
+    sorteio = random.Random(SEMENTE_FOLHA_C).sample(range(len(fonte_c)), 12)
+    _grava_folha([fonte_c[i] for i in sorteio], sorteio, destino)
+
+
+def smoke_c(passos: int = 50) -> int:
+    """Teste de 50 passos com R + G + C (sem gravar pesos), e a folha da fonte C.
+
+    Args:
+        passos: passos do teste.
+
+    Returns:
+        0 ao terminar.
+
+    Raises:
+        RuntimeError: se a fonte C não tem os 140 quadros do pré-registro.
+    """
+    fonte_c = ler_fonte_c()
+    if len(fonte_c) != QUADROS_FONTE_C_ESPERADOS:
+        raise RuntimeError(
+            f"fonte C deu {len(fonte_c)} quadros, eram {QUADROS_FONTE_C_ESPERADOS}"
+        )
+    print(
+        f"fonte C: {len(fonte_c)} quadros com nut e duas cordas; fora por nut "
+        f"{fonte_c_fora_por_nut()}"
+    )
+    folha_c()
+    registros = _registros_final2()
+    itens = _sequencia(registros, passos, "smoke2")
+    with _trava_gpu():
+        _, perdas, segundos = _treinar_localizador(itens, passos, 1)
+    print(
+        f"smoke2: {passos} passos com {len(registros)} quadros, perda "
+        f"{perdas[0]:.4f} -> {perdas[-1]:.4f}, {segundos:.1f} s"
+    )
+    return 0
+
+
+def _envelope_do_estagio1(loc: nn.Module, imagem: np.ndarray, alvo: Marcas) -> dict:
+    """Estágio 1 sozinho num quadro inteiro: se achou e o erro do eixo contra o alvo.
+
+    Args:
+        loc: localizador em modo de avaliação.
+        imagem: quadro inteiro BGR.
+        alvo: marcas do rótulo no quadro.
+
+    Returns:
+        Dicionário com ``achou``, ``erro`` (ou None) e ``dentro`` do envelope.
+    """
+    canvas, enquadre = enquadrar(imagem)
+    dec = decodificar_quadro(prever_localizador(loc, [canvas])[0], enquadre)
+    erro = None
+    if dec["achou"]:
+        try:
+            erro = erro_do_eixo(eixo_da_faixa(dec["marcas"]), eixo_da_faixa(alvo))
+        except ValueError:
+            erro = None
+    return {"achou": dec["achou"], "erro": erro, "dentro": dentro_do_envelope(erro)}
+
+
+def _rodar_semente(semente: int, entradas: list[dict]) -> list[dict]:
+    """Estágio 1 (L2) e cadeia completa (A3_100_todos) de uma semente, em cada quadro.
+
+    A GPU deve estar reservada pelo chamador (``_trava_gpu``).
+
+    Args:
+        semente: semente do par L2 e A3.
+        entradas: quadros com ``id``, ``canal``, ``braco``, ``marcas`` (None se não há
+            braço), ``caminho`` e ``dois_bracos``.
+
+    Returns:
+        Uma linha por quadro: classe, sinalizado, sinais, e (com braço) o envelope.
+    """
+    loc = _carregar_localizador(f"L2_todos_s{semente}")
+    dois, _ = _carregar_pesos(f"A3_100_todos_s{semente}", PASSOS)
+    linhas: list[dict] = []
+    for entrada in entradas:
+        imagem = _imagem(Path(entrada["caminho"]))
+        linha: dict = {
+            "id": entrada["id"],
+            "canal": entrada["canal"],
+            "braco": entrada["braco"],
+            "dois_bracos": entrada["dois_bracos"],
+        }
+        if entrada["marcas"] is not None:
+            linha["envelope"] = _envelope_do_estagio1(loc, imagem, entrada["marcas"])
+        resultado = cadeia(loc, dois, imagem, entrada["id"])
+        if entrada["marcas"] is not None:
+            classe = _classe(resultado, entrada["marcas"])
+        else:
+            classe = classificar({}, resultado["achou"], "nao")
+        linha.update(
+            {
+                "achou": resultado["achou"],
+                "classe": classe,
+                "sinalizado": sinalizado(resultado),
+                "S1": _json(resultado["S1"]),
+                "S2": _json(resultado["S2"]),
+                "S3": _json(resultado["S3"]),
+            }
+        )
+        linhas.append(linha)
+    return linhas
+
+
+def _resumo_medidas(linhas: list[dict]) -> dict:
+    """Contagens de um conjunto de medidas: classes, sinalizados, envelope.
+
+    Args:
+        linhas: saída de ``_rodar_semente`` (uma ou mais sementes).
+
+    Returns:
+        Dicionário com ``medidas``, ``medidas_com_braco``, ``classes``, ``sinalizados``,
+        ``sinalizados_com_braco``, ``falsos_nao_sinalizados`` e ``envelope``.
+    """
+    com_braco = [linha for linha in linhas if linha["braco"] != "nao"]
+    envelopes = [linha["envelope"]["dentro"] for linha in linhas if "envelope" in linha]
+    return {
+        "medidas": len(linhas),
+        "medidas_com_braco": len(com_braco),
+        "classes": {
+            classe: sum(linha["classe"] == classe for linha in linhas)
+            for classe in CLASSES
+        },
+        "sinalizados": sum(linha["sinalizado"] for linha in linhas),
+        "sinalizados_com_braco": sum(linha["sinalizado"] for linha in com_braco),
+        "falsos_nao_sinalizados": sum(
+            linha["classe"] == "falso" and not linha["sinalizado"] for linha in linhas
+        ),
+        "envelope": {
+            "n": len(envelopes),
+            "dentro": sum(envelopes),
+            "fracao_dentro": sum(envelopes) / len(envelopes) if envelopes else None,
+        },
+    }
+
+
+def _entradas_dev() -> list[dict]:
+    """Os 28 quadros da M11b (``QUADROS_PROVA``) como entradas da cadeia.
+
+    O q77 (braço "não") não entra no desenvolvimento, como na 1024.
+
+    Returns:
+        Entradas com ``id``, ``canal``, ``braco``, ``marcas``, ``caminho`` e
+        ``dois_bracos`` (sempre falso na M11b).
+    """
+    entradas: list[dict] = []
+    for id_quadro, canal, marcas, braco in _entradas_prova():
+        if id_quadro not in QUADROS_PROVA:
+            continue
+        entradas.append(
+            {
+                "id": id_quadro,
+                "canal": canal,
+                "braco": braco,
+                "marcas": marcas,
+                "caminho": str(MAOS_M11B / "quadros" / f"{id_quadro}.png"),
+                "dois_bracos": False,
+            }
+        )
+    return entradas
+
+
+def dev1025(destino: Path = ARQUIVO_DEV1025) -> int:
+    """Desenvolvimento da 1025 na M11b: L2 com A3_100_todos, por semente (só registro).
+
+    Args:
+        destino: arquivo do resultado.
+
+    Returns:
+        0 ao terminar.
+    """
+    entradas = _entradas_dev()
+    por_semente: dict[int, list[dict]] = {}
+    with _trava_gpu():
+        for semente in SEMENTES_FINAIS:
+            por_semente[semente] = _rodar_semente(semente, entradas)
+    medidas = [linha for linhas in por_semente.values() for linha in linhas]
+    regra, limiares = _constantes_congeladas()
+    dados = {
+        "portao": "DEV1025_M11B",
+        "pesos_estagio1": "L2_todos_s<k>",
+        "estagio2": "A3_100_todos_s<k>",
+        "regra": "+".join(regra),
+        "limiares": limiares,
+        "quadros": len(entradas),
+        "total": _resumo_medidas(medidas),
+        "por_semente": {
+            str(s): _resumo_medidas(linhas) for s, linhas in por_semente.items()
+        },
+        "quadros_por_semente": {str(s): linhas for s, linhas in por_semente.items()},
+        "comparacao_1024": RESULTADO_1024,
+    }
+    _gravar_json(destino, dados)
+    for semente, linhas in por_semente.items():
+        resumo = _resumo_medidas(linhas)
+        print(
+            f"dev1025 s{semente}: envelope {resumo['envelope']['dentro']}/"
+            f"{resumo['envelope']['n']}; {resumo['classes']}; sinalizados "
+            f"{resumo['sinalizados']}/{resumo['medidas']}; falsos não sinalizados "
+            f"{resumo['falsos_nao_sinalizados']}"
+        )
+    return 0
+
+
+def selecionar_prova(
+    gold: dict[str, dict], indice: dict[str, dict], pasta: Path
+) -> tuple[list[dict], list[dict]]:
+    """Regra de inclusão da prova 1025: quais quadros entram e por quê os outros saem.
+
+    Exclui o q08 e os quadros sem resposta (sem ``corda1`` e ``braco`` diferente de
+    ``nao``). ``braco`` ``nao`` é negativo. Com ``braco`` nulo e marcas completas, o
+    quadro entra como ``sim`` (cópia do registro com ``braco="sim"``). Quadros com
+    marcas incompletas saem, com o motivo.
+
+    Args:
+        gold: ``quadros`` de ``braco_m25_prova.json`` (id -> registro).
+        indice: ``quadros`` do ``indice.json`` da prova, por id (canal e png).
+        pasta: pasta da prova (``quadros/`` ao lado do índice).
+
+    Returns:
+        ``(incluidos, excluidos)``. Incluídos: ``id``, ``canal``, ``braco`` (``sim`` ou
+        ``nao``), ``marcas`` (None para ``nao``), ``caminho``, ``dois_bracos``.
+        Excluídos: ``id`` e ``motivo``.
+
+    Raises:
+        ValueError: se um quadro do gabarito não está no índice.
+    """
+    incluidos: list[dict] = []
+    excluidos: list[dict] = []
+    for id_quadro, registro in gold.items():
+        if id_quadro == QUADRO_EXCLUIDO_PROVA:
+            excluidos.append({"id": id_quadro, "motivo": "q08 excluído antes"})
+            continue
+        braco = registro.get("braco")
+        if braco != "nao" and not registro.get("corda1"):
+            excluidos.append({"id": id_quadro, "motivo": "sem resposta"})
+            continue
+        if braco == "nao":
+            marcas = None
+            braco_efetivo = "nao"
+        else:
+            regra = dict(registro)
+            if braco is None:
+                regra["braco"] = "sim"
+            marcas = marcas_do_registro(regra)
+            if marcas is None:
+                excluidos.append(
+                    {
+                        "id": id_quadro,
+                        "motivo": f"marcas incompletas (braco={braco!r})",
+                    }
+                )
+                continue
+            braco_efetivo = "sim"
+        if id_quadro not in indice:
+            raise ValueError(f"{id_quadro} não está no índice da prova")
+        entrada = indice[id_quadro]
+        incluidos.append(
+            {
+                "id": id_quadro,
+                "canal": entrada["canal"],
+                "braco": braco_efetivo,
+                "marcas": marcas,
+                "caminho": str(pasta / entrada["png"]),
+                "dois_bracos": MARCA_DOIS_BRACOS in str(registro.get("obs") or ""),
+            }
+        )
+    return incluidos, excluidos
+
+
+def carregar_prova(
+    gold: Path = GABARITO_BRACO_M25_PROVA, pasta: Path = MAOS_M25 / "prova"
+) -> tuple[list[dict], list[dict]]:
+    """Lê o gabarito e o índice da prova 1025 e aplica ``selecionar_prova``.
+
+    Args:
+        gold: gabarito da prova (``braco_m25_prova.json``).
+        pasta: pasta da prova (``indice.json`` e ``quadros/``).
+
+    Returns:
+        ``(incluidos, excluidos)`` de ``selecionar_prova``.
+    """
+    indice = _indice_por_id(pasta / "indice.json")
+    return selecionar_prova(_ler_json(gold)["quadros"], indice, pasta)
+
+
+def prova1025(destino: Path = ARQUIVO_PROVA1025) -> int:
+    """Prova da 1025 (quatro canais novos): implementada, NÃO rodar nesta fase.
+
+    Pesos ``L2_todos_s<k>`` com ``A3_100_todos_s<k>``, 3 sementes. Critério (o mesmo
+    da 1024): falsos não sinalizados até 5 % das medidas; sinalizados (com "não
+    achou") até 50 % das medidas com braço. Os quadros com dois braços são reportados
+    à parte.
+
+    Args:
+        destino: arquivo do resultado.
+
+    Returns:
+        0 ao terminar.
+    """
+    incluidos, excluidos = carregar_prova()
+    por_semente: dict[int, list[dict]] = {}
+    with _trava_gpu():
+        for semente in SEMENTES_FINAIS:
+            por_semente[semente] = _rodar_semente(semente, incluidos)
+    medidas = [linha for linhas in por_semente.values() for linha in linhas]
+    total = _resumo_medidas(medidas)
+    seguranca = (
+        total["falsos_nao_sinalizados"] / total["medidas"] <= LIMITE_FALSOS_PROVA
+    )
+    utilidade = (
+        total["sinalizados_com_braco"] / total["medidas_com_braco"]
+        <= LIMITE_SINALIZADOS_PROVA
+    )
+    if not seguranca:
+        acao = "não serve para o ciclo; a decisão volta ao dono"
+    elif utilidade:
+        acao = "passa nos dois: propor ao dono o ciclo de revisão num lote de vídeos"
+    else:
+        acao = (
+            "segurança passa e utilidade reprova: registrar se o gargalo segue no "
+            "estágio 1 (envelope) ou passou para o estágio 2"
+        )
+    por_canal = {
+        canal: _resumo_medidas([linha for linha in medidas if linha["canal"] == canal])
+        for canal in sorted({linha["canal"] for linha in medidas})
+    }
+    dois = [linha for linha in medidas if linha["dois_bracos"]]
+    dados = {
+        "portao": "PROVA1025_M25",
+        "pesos_estagio1": "L2_todos_s<k>",
+        "estagio2": "A3_100_todos_s<k>",
+        "quadros_incluidos": [
+            {k: v for k, v in q.items() if k != "marcas"} for q in incluidos
+        ],
+        "quadros_excluidos": excluidos,
+        "medidas": total["medidas"],
+        "medidas_com_braco": total["medidas_com_braco"],
+        "total": total,
+        "por_semente": {
+            str(s): _resumo_medidas(linhas) for s, linhas in por_semente.items()
+        },
+        "por_canal": por_canal,
+        "dois_bracos": {
+            "quadros": [q["id"] for q in incluidos if q["dois_bracos"]],
+            "resumo": _resumo_medidas(dois),
+        },
+        "seguranca": seguranca,
+        "utilidade": utilidade,
+        "acao": acao,
+        "quadros_por_semente": {str(s): linhas for s, linhas in por_semente.items()},
+    }
+    _gravar_json(destino, dados)
+    print(
+        f"prova1025: {total['medidas']} medidas; falsos não sinalizados "
+        f"{total['falsos_nao_sinalizados']} (limite {LIMITE_FALSOS_PROVA:.0%}); "
+        f"sinalizados {total['sinalizados_com_braco']}/{total['medidas_com_braco']} "
+        f"(limite {LIMITE_SINALIZADOS_PROVA:.0%}); segurança {seguranca}, "
+        f"utilidade {utilidade}: {acao}"
+    )
+    return 0
 
 
 def smoke(passos: int = 50) -> int:
@@ -1390,11 +1978,15 @@ def _parser() -> argparse.ArgumentParser:
     modo = treino.add_mutually_exclusive_group(required=True)
     modo.add_argument("--validacao", action="store_true")
     modo.add_argument("--final", action="store_true")
+    modo.add_argument("--final2", action="store_true")
     treino.add_argument("--semente", type=int, required=True)
     sub.add_parser("smoke", help="teste de 50 passos e folha de alvos")
     sub.add_parser("b1", help="portão B1: envelope do estágio 1")
     sub.add_parser("b2", help="portão B2: cadeia completa nos G de validação")
     sub.add_parser("prova", help="prova M11b (não rodar nesta fase)")
+    sub.add_parser("smoke2", help="teste de 50 passos com R + G + C e folha C")
+    sub.add_parser("dev1025", help="desenvolvimento 1025 na M11b")
+    sub.add_parser("prova1025", help="prova 1025 (NÃO rodar nesta fase)")
     return parser
 
 
@@ -1406,6 +1998,8 @@ def main() -> int:
     """
     args = _parser().parse_args()
     if args.comando == "treinar":
+        if args.final2:
+            return treinar_final2(semente=args.semente)
         return treinar(validacao=args.validacao, semente=args.semente)
     if args.comando == "smoke":
         return smoke()
@@ -1413,6 +2007,12 @@ def main() -> int:
         return b1()
     if args.comando == "b2":
         return b2()
+    if args.comando == "smoke2":
+        return smoke_c()
+    if args.comando == "dev1025":
+        return dev1025()
+    if args.comando == "prova1025":
+        return prova1025()
     return prova()
 
 

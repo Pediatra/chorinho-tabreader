@@ -91,6 +91,12 @@ MAOS_M11B = SAIDA / "maos" / "m11b"
 #: Gabarito do teste M11b, rotulado pelo dono com ``tab.maos_braco_gabarito servir``.
 GABARITO_BRACO_M11B = RAIZ / "data" / "gold" / "maos" / "braco_m11b.json"
 
+#: Marcas grosseiras de 16 canais (rodada 1025): treino (fonte C, ``treino/``) e prova
+#: (``prova/``, lacrada até o dono terminar a marcação). Quadros em ``<pasta>/quadros``.
+MAOS_M25 = SAIDA / "maos" / "m25"
+GABARITO_BRACO_M25_TREINO = RAIZ / "data" / "gold" / "maos" / "braco_m25_treino.json"
+GABARITO_BRACO_M25_PROVA = RAIZ / "data" / "gold" / "maos" / "braco_m25_prova.json"
+
 #: Pré-marcação do braço por consenso de modelos de visão (rodada 1019): respostas brutas
 #: por modelo, resultado e tabelas (``tab.maos_braco_vlm``).
 MAOS_M19 = SAIDA / "maos" / "m19"
