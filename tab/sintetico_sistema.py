@@ -190,14 +190,22 @@ P_LETRA_LEGATO = 0.6
 P_ARCO_ABAIXO = 0.4
 #: G3: chance de o arco partir do centro das notas (por cima ou por baixo do algarismo).
 P_ARCO_CENTRO = 0.4
-#: G2: chance de um par h/p ligar notas a 2-4 colunas, com a corda vazia no meio.
+#: G2: chance de um par h/p ligar notas a 2-6 colunas, com a corda vazia no meio.
 P_PAR_LONGO = 0.3
+#: Rodada 0204 (R4c): o que ainda escapava no R4b.
+#: G10: chance de o arco longo ser raso (altura 0,08-0,3 passo).
+P_ARCO_RASO = 0.5
+#: G9: chance de o slide ser um risco curto e inclinado, deslocado para cima da corda.
+P_SLIDE_CURTO = 0.5
+#: G8: chance de, nas colunas apertadas, os algarismos serem pequenos (a corda aparece
+#: como um traço entre eles: ``3-0-3``).
+P_TRACO = 0.5
 #: G4: chance de o sistema ter um mordente de três notas (a-b-a sob um arco só).
 P_MORDENTE_TRES = 0.15
 #: G5: chance de uma nota sem técnica ter o zigue-zague de mordente sozinho (atacada).
 P_ZIGUE_SOZINHO = 0.03
 #: G6: chance de o sistema ter colunas apertadas (algarismos quase encostados).
-P_APERTADO = 0.2
+P_APERTADO = 0.3
 #: Chance de um grupo de 2 ou mais colcheias ter viga dupla (semicolcheias).
 P_VIGA_DUPLA = 0.3
 #: Chance de uma barline virar ritornelo (barra dupla com dois pontos).
@@ -399,7 +407,7 @@ def _tecnicas_pares(
             continue
         col_origem = c - 1
         if tipo in ("h", "p") and rng.random() < P_PAR_LONGO:  # G2: arco longo
-            k = rng.randint(2, 4)
+            k = rng.randint(2, 6)
             meio = [(cc, s) for cc in range(c - k + 1, c)]
             if c - k >= 0 and all(
                 grade[m]["tecnica"] is None and len(grade[m]) == 2
@@ -656,6 +664,7 @@ def _pontos_arco(
     passo: float,
     marcas: list[str],
     centro: bool | None = None,
+    raso: bool = False,
 ) -> list[tuple[int, int]]:
     """Pontos de um arco entre duas notas da mesma corda, com estilo sorteado (R4b).
 
@@ -671,6 +680,7 @@ def _pontos_arco(
         passo: passo do sistema.
         marcas: lista onde se registram as variantes desenhadas.
         centro: força a ponta no centro (True) ou na borda (False); None sorteia.
+        raso: curva baixa, de 0,08 a 0,3 passo (G10, arco longo).
 
     Returns:
         11 pontos do arco.
@@ -684,7 +694,7 @@ def _pontos_arco(
     else:
         xa, xb = caixa_a[2] + 0.1 * passo, caixa_b[0] - 0.1 * passo
         base = rng.uniform(0.1, 0.6) * passo
-    altura = rng.uniform(0.15, 0.7) * passo
+    altura = rng.uniform(0.08, 0.3) * passo if raso else rng.uniform(0.15, 0.7) * passo
     sinal = 1 if abaixo else -1
     if abaixo:
         marcas.append("arco_abaixo")
@@ -744,7 +754,10 @@ def _desenhar_tecnicas_pares(
             xm = (xa + xb) / 2
             com_letra = rng.random() < P_LETRA_LEGATO
             if not com_letra or rng.random() < 0.5:  # arco de ligado
-                pontos = _pontos_arco(rng, origem, destino, y, passo, marcas)
+                raso = "col_origem" in nota and rng.random() < P_ARCO_RASO
+                if raso:
+                    marcas.append("arco_raso")
+                pontos = _pontos_arco(rng, origem, destino, y, passo, marcas, raso=raso)
                 d.line(pontos, fill=tinta, width=espessura_traco)
                 if not com_letra:
                     marcas.append("legato_sem_letra")
@@ -755,10 +768,18 @@ def _desenhar_tecnicas_pares(
                 )
                 d.text((px, py), tipo, font=fonte, fill=tinta)
         else:
+            meia = 0.25 * passo
+            yc = y
+            if rng.random() < P_SLIDE_CURTO:  # G9: risco curto, alto e inclinado
+                marcas.append("slide_curto")
+                meia = rng.uniform(0.2, 0.45) * passo
+                yc = y - rng.uniform(0.0, 0.45) * passo
+                encolhe = rng.uniform(0.0, 0.3) * (xb - xa)
+                xa, xb = xa + encolhe, xb - encolhe
             if tipo == "/":
-                pa, pb = y + 0.25 * passo, y - 0.25 * passo
+                pa, pb = yc + meia, yc - meia
             else:
-                pa, pb = y - 0.25 * passo, y + 0.25 * passo
+                pa, pb = yc - meia, yc + meia
             d.line(
                 [(round(xa), round(pa)), (round(xb), round(pb))],
                 fill=tinta,
@@ -1443,6 +1464,10 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
     if any(n.get("sobre") and n["rotulo"] in ("1", "11") for n in grade.values()):
         marcas.append("serif_casa_1")
     tamanho = max(6, round(passo * rng.uniform(0.55, 1.05) / DIGITO_ALTURA_EM))
+    if marcas_apertado and rng.random() < P_TRACO:  # G8: a corda vira traço: 3-0-3
+        tamanho = max(6, round(passo * rng.uniform(0.45, 0.65) / DIGITO_ALTURA_EM))
+        marcas.append("traco")
+        _corrida_na_corda(rng, grade, n_col)
     _escolher_fontes(rng, grade, fontes)
     xs = _xs_por_medida(grade, n_col, passo, espaco, x_ini, tamanho)
     x_fim = xs[-1] + 0.5 * espaco
@@ -1869,6 +1894,27 @@ def _sortear_mordente_tres(
         grade[k] = {"rotulo": str(rotulo), "tecnica": None}
     grade[chaves[1]].update(tecnica="orn", mordente3="meio")
     grade[chaves[2]].update(tecnica="orn", mordente3="fim")
+
+
+def _corrida_na_corda(
+    rng: random.Random, grade: dict[tuple[int, int], dict], n_col: int
+) -> None:
+    """Notas seguidas numa corda só, sem técnica (G8, ``0-3-0-3``; rodada 0204).
+
+    Não mexe numa corda que tem arco longo, para a corrida não cair dentro dele.
+
+    Args:
+        rng: gerador aleatório.
+        grade: notas, alteradas no lugar.
+        n_col: número de colunas.
+    """
+    s = rng.randrange(6)
+    if any("col_origem" in n for (_, ss), n in grade.items() if ss == s):
+        return
+    tamanho = min(n_col, rng.randint(3, 5))
+    inicio = rng.randint(0, n_col - tamanho)
+    for c in range(inicio, inicio + tamanho):
+        grade.setdefault((c, s), {"rotulo": _sortear_rotulo(rng), "tecnica": None})
 
 
 def _sortear_zigues(rng: random.Random, grade: dict[tuple[int, int], dict]) -> None:
