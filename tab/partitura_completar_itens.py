@@ -154,6 +154,9 @@ def _item(
         "largura_png": _tamanho_png(png)[0],
         "altura_png": _tamanho_png(png)[1],
         "musicxml": xml.read_bytes().decode("utf-8"),
+        # As notas a julgar não estão nessa leitura: o desenho é só referência, e o dono
+        # marca pela lista de símbolos.
+        "so_lista": True,
         "clave": leitura["clave"],
         "armadura": leitura["armadura"],
         "compasso_formula": leitura["compasso_formula"],

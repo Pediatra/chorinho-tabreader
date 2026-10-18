@@ -2238,7 +2238,9 @@ function renderizarPartitura(it) {
   const mapeados = alvos.size;
   window.mapeamento[it.id] = [mapeados, mapa.total];
   const falta = mapa.total - mapeados;
-  aviso(falta ? falta + " símbolos sem posição na partitura (estão na lista de símbolos)" : "");
+  aviso(it.so_lista === true
+    ? "O desenho é a leitura do Audiveris, só para referência: marque cada nota na lista de símbolos."
+    : (falta ? falta + " símbolos sem posição na partitura (estão na lista de símbolos)" : ""));
   pintarPartitura();
 }
 
@@ -2248,6 +2250,13 @@ async function desenharPartitura(it) {
   alvo.textContent = "";
   mapaAtual = null;
   osmdAtual = null;
+  // Item que se julga pela lista (ex.: notas completadas pela tab, que não estão na
+  // leitura desenhada): a lista abre sozinha.
+  dom("lista-simbolos").open = !it.musicxml || it.so_lista === true;
+  if (!it.musicxml) {
+    aviso("Sem leitura desenhada neste trecho: marque cada nota na lista de símbolos.");
+    return;
+  }
   if (typeof opensheetmusicdisplay === "undefined" || !opensheetmusicdisplay.OpenSheetMusicDisplay) {
     aviso("Leitura desenhada indisponível (a biblioteca de desenho não carregou). Use a lista de símbolos.");
     return;
