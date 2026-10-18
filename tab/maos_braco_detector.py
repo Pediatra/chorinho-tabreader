@@ -510,11 +510,12 @@ class _Bloco(nn.Module):
 class UNetBraco(nn.Module):
     """U-Net com codificador ResNet18 e decodificador de 5 blocos até a resolução cheia."""
 
-    def __init__(self, pesos_imagenet: bool = True) -> None:
+    def __init__(self, pesos_imagenet: bool = True, canais: int = CANAIS_ALVO) -> None:
         """Monta a rede, com os pesos ImageNet do cache local se pedido.
 
         Args:
             pesos_imagenet: se True, carrega ``IMAGENET1K_V1`` de ``PESOS_RESNET18``.
+            canais: canais de saída (4 no estágio 2; 5 no localizador da 1024).
 
         Raises:
             FileNotFoundError: se os pesos pedidos não estão no cache.
@@ -540,7 +541,7 @@ class UNetBraco(nn.Module):
         self.dec1 = _Bloco(64 + 64, 32)
         self.sobe0 = nn.ConvTranspose2d(32, 32, 2, stride=2)
         self.dec0 = _Bloco(32, 16)
-        self.cabeca = nn.Conv2d(16, CANAIS_ALVO, 1)
+        self.cabeca = nn.Conv2d(16, canais, 1)
 
     def codificador(self) -> list[nn.Module]:
         """Módulos do codificador (ResNet18), para a taxa de aprendizado menor.

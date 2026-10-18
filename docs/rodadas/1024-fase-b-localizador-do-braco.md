@@ -125,3 +125,74 @@ inexistente tende a sair como "não achou" ou sinalizado. Nenhum limiar do está
 - **Só R e G, de 8 canais**: a diversidade de ângulos do estágio 1 é pequena. Um ângulo novo,
   como o do lonelypicker, deve falhar; a esperança é que a regra da 1023 o sinalize.
 - **Tela dividida** (robert lunn): dois braços no mesmo quadro. O rótulo marca um só.
+
+## Desenvolvimento: resultado (2026-10-18) — **B1 reprova**; a rodada para e volta ao dono
+
+**Treino de validação** (`L1_val_s1`, 3.000 passos, 1.374 s):
+- 914 quadros no treino: 864 R e 50 G;
+- 202 na validação: 188 R e 14 G, de kenneth acoustic e shin izumi.
+- A folha de alvos foi conferida: os pontos caem nas pontas das cordas.
+
+**B1, envelope** (`b1_envelope.json`): **68,3 %** dentro, e o exigido era ≥ 90 %. **Reprova.**
+
+| canal | origem | n | dentro |
+| --- | --- | --- | --- |
+| kenneth acoustic | R | 90 | 87,8 % (7 sem eixo) |
+| kenneth acoustic | G | 7 | 85,7 % |
+| shin izumi | R | 98 | **48,0 %** |
+| shin izumi | G | 7 | 85,7 % |
+
+- **Por critério**:
+
+  | critério | dentro do envelope |
+  | --- | --- |
+  | perpendicular | 95,5 % |
+  | ao longo | 95,0 % |
+  | rotação | 94,6 % |
+  | **escala** | **68,8 %** |
+
+- **Medianas**: perpendicular 0,064 largura, ao longo 0,004 comprimento, rotação 0,15°, escala
+  0,061.
+- **De onde vem a reprovação**: quase toda da **escala no shin izumi R**. A largura prevista sai
+  de 11 a 20 % maior que a do rótulo R, e o comprimento só de 1 a 2 % maior.
+  - Não dá para separar o erro do estágio 1 do erro do rastreador. Nos G do mesmo canal, o
+    dentro é 85,7 %.
+- **No kenneth**: o vídeo q44 tem 5 quadros com pontos degenerados e 2 sem braço.
+
+**B2, cadeia nos G de validação** (registro, `b2_cadeia.json`), 14 quadros:
+- 11 certos, 2 imprecisos, 1 falso;
+- 2 sinalizados, e o falso (q44) é um deles;
+- **0 falsos não sinalizados**.
+
+### Diagnóstico depois do B1 (não é portão; nada foi ajustado)
+
+**Pergunta**: o erro de escala do B1 importa para a cadeia?
+
+**Como foi medido**: a cadeia completa nos **188 R de validação**, contra o rótulo R
+(`b1_diag/cadeia_r.json`). A comparação é com a faixa recortada do próprio rótulo, que é o
+mesmo estágio 2 do D2 da 1022.
+
+| | n | certo | impreciso | falso | não achou | sinalizados | falsos não sinalizados |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| cadeia a partir do quadro inteiro | 188 | **152** | 25 | **4** | 7 | 36 (19 %) | **1** |
+| faixa do rótulo (D2, para comparar) | 188 | 146 | 36 | 6 | 0 | — | — |
+
+| canal | cadeia | faixa do rótulo |
+| --- | --- | --- |
+| shin izumi | 73 certos e 25 imprecisos | 65 certos e 33 imprecisos |
+| kenneth | 79 certos, 4 falsos e 7 não achou | 81 certos e 6 falsos |
+
+- **A cadeia que parte do quadro inteiro vai tão bem quanto a faixa do rótulo, ou melhor.**
+- A largura maior no shin izumi **não atrapalha** o estágio 2. O refino (segunda passada) recorta
+  de novo a partir das cordas que o próprio estágio 2 encontrou.
+- O envelope do B1 era um critério indireto mais severo do que o necessário.
+
+**Decisão pendente com o dono** (pela regra deste pré-registro): seguir ou não para o treino
+final e a prova, registrando o B1 como reprovado.
+
+**Desvios de implementação**, onde o pré-registro não dizia:
+- tela de 640×384: 360 linhas do quadro mais 24 pretas, porque a U-Net exige múltiplo de 32;
+- o quadro inteiro dos G vem de `m3b/quadros`, conferido contra as faixas G (diferença 0,00);
+- o nut é a média das pontas das cordas 1 e 6 no nut;
+- escala = max(|L'/L − 1|, |w'/w − 1|);
+- os pesos das dobras A3_100_k têm 2.000 passos (o piso da 1021).
