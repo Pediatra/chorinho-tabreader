@@ -171,6 +171,50 @@ O sinal agora existe, mas mal calibrado. Por isso, **escrito antes de medir os o
 - Esse limiar vale **sem mudança** na T8.2, e a T8.2 é a medida dele.
 - O aceite e a regra de parada são os de cima, para o limiar 0,5 e para o escolhido.
 
-## Resultado
+## Resultado (2026-10-18)
 
-(a preencher)
+Os 15 treinos `_atqg` terminaram sem erro (`data/saida/tab_rotulo/r4b/treino_*.log`). O `_atq`
+das sementes 2 e 3 foi medido de novo com o código de hoje, para ter `por_limiar`
+(`r4b/remedir_atq.sh`); no limiar 0,5 os números são os da 0202 com a regra do passo A.
+Medidas: `r4a/medida_<versao>_s<semente>.json`. Todos os números têm a regra do slide sem
+origem. Sementes `s1 · s2 · s3`.
+
+### O limiar escolhido nos ouros
+
+O menor limiar com "não" em atacada até 1 % nos 8 ouros, com as 3 sementes somadas:
+
+| versão | 0,10 | 0,15 | 0,20 | 0,50 | escolhido |
+| --- | --- | --- | --- | --- | --- |
+| `_atq` | 0,76 % | 0,64 % | 0,49 % | 0,31 % | 0,10 (o menor da grade) |
+| `_atqg` | 1,35 % | **0,98 %** | 0,63 % | 0,18 % | **0,15** |
+
+### "Sim" falso: notas "não" do ouro lidas como atacadas
+
+| teste | `_atq` 0,5 | `_atq` 0,10 | `_atqg` 0,5 | `_atqg` 0,15 |
+| --- | --- | --- | --- | --- |
+| 8 ouros | 31 · 34 · 33 /84 | 25 · 26 · 24 /84 | 35 · 33 · 39 /84 | **13 · 11 · 15 /84** (13–18 %) |
+| T8.2 | 23 · 24 · 24 /41 | 22 · 21 · 21 /41 | 24 · 24 · 23 /41 | **14 · 16 · 14 /41** (34–39 %) |
+
+### "Não" em nota atacada e casa
+
+| teste | medida | `_atq` 0,10 | `_atqg` 0,5 | `_atqg` 0,15 |
+| --- | --- | --- | --- | --- |
+| 8 ouros | "não" em atacada | 17 · 21 · 21 /~2591 | 7 · 3 · 4 | 30 · 22 · 24 (0,8–1,2 %) |
+| 8 ouros | casa | 2644 · 2646 · 2655 | 2646 · 2650 · 2650 | igual |
+| T8.2 | "não" em atacada | 15 · 9 · 12 /~1485 | 2 · 5 · 5 | 10 · 14 · 13 (0,7–0,9 %) |
+| T8.2 | casa | 1519 · 1522 · 1525 | 1518 · 1525 · 1519 /~1527 | igual |
+
+O limiar só muda a técnica, então a casa é a mesma nos dois limiares.
+
+## Leitura
+
+- **O aceite não passa.** Com o limiar escolhido, o "sim" falso fica em 13–18 % nos ouros e
+  34–39 % na T8.2. O aceite pede 5 % ou menos.
+- **A regra de parada não dispara.** Na T8.2, o "sim" falso cai de 21–24/41 (`_atq`, em
+  qualquer limiar) para 14–16/41, fora da amplitude das sementes. No limiar 0,5 o ganho não
+  aparece (23–24/41): o gerador novo deu o sinal, mas abaixo de 0,5.
+- O custo fica longe dos limites: "não" em atacada até 1,2 %, e a casa dentro da amplitude.
+- O estilo do arco era parte do problema, não ele todo: o `_atqg` acha 25–27 das 41 notas
+  não atacadas da T8.2. Os pesos `_atqg` não substituem o `DETECTOR_PADRAO`.
+- Próximo passo: a folha do que ainda escapa no `_atqg` a 0,15, por motivo, antes de decidir
+  entre mais gerador e o arco como objeto próprio (A2).
