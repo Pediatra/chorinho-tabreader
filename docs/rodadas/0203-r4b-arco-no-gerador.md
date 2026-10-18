@@ -151,6 +151,26 @@ e foram olhadas. O rótulo cai na nota certa: a chegada do arco longo e a 2ª e 
 mordente de três notas. As colunas apertadas, com enfeite, chegam a encostar os algarismos
 pequenos.
 
+## Primeiro sinal e acréscimo ao pré-registro (2026-10-18, 13h, antes de medir os ouros)
+
+T8.2, dobra 0, semente 1: o `_atqg` tem "sim" falso de 23/41 (o `_atq` tinha 21/41) e "não"
+em atacada de 3/1483 (o `_atq` tinha 8/1484). Por nota (`r4b/t82_por_motivo.py`):
+
+- o escore sobe em boa parte das perdidas, de cerca de 0 para 0,3–0,57. Exemplos: Mr. Tabs
+  h e p, Kenneth p, Leonardo Ramos e Serge Kottelat (mordente e p), Shin Izumi p;
+- mas fica abaixo do limiar de 0,5;
+- e algumas que eram certas caem: Lonelypicker prolongamento 1,0 → 0,03, Sky Guitar slide
+  0,87 → 0,01, Pablo Romé h 0,69 → 0,40.
+
+O sinal agora existe, mas mal calibrado. Por isso, **escrito antes de medir os ouros com o
+`_atqg`**, o pré-registro ganha esta variante:
+
+- **Limiar da técnica à parte** (o do centro continua 0,5). Ele é escolhido **só nos 8 ouros**,
+  pela dobra fora e com as 3 sementes juntas: o menor limiar, entre 0,10 e 0,50 em passos de
+  0,05, com "não" em atacada até 1 % nos ouros.
+- Esse limiar vale **sem mudança** na T8.2, e a T8.2 é a medida dele.
+- O aceite e a regra de parada são os de cima, para o limiar 0,5 e para o escolhido.
+
 ## Resultado
 
 (a preencher)

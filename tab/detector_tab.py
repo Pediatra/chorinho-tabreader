@@ -440,13 +440,17 @@ def _dispositivo(modelo: nn.Module) -> torch.device:
     return torch.device("cpu")
 
 
-def _decodificar(modelo: nn.Module, arr: np.ndarray, escala: float) -> list[dict]:
+def _decodificar(
+    modelo: nn.Module, arr: np.ndarray, escala: float, com_escores: bool = False
+) -> list[dict]:
     """Roda o modelo num sistema já normalizado e extrai as notas.
 
     Args:
         modelo: modelo com a mesma saída de `DetectorTab`.
         arr: sistema normalizado (160, W), W múltiplo de 4.
         escala: escala de `normalizar_sistema`.
+        com_escores: inclui "tecnica_p", a probabilidade de cada técnica
+            (``TECNICAS_MODELO``), para medir outro limiar sem reler (rodada 0203).
 
     Returns:
         Lista de {"corda", "rotulo", "tecnica", "x", "confianca"}, ordenada por corda
@@ -488,6 +492,8 @@ def _decodificar(modelo: nn.Module, arr: np.ndarray, escala: float) -> list[dict
                     "confianca": float(probs[j]),
                 }
             )
+            if com_escores:
+                notas[-1]["tecnica_p"] = [round(float(v), 4) for v in tecnica[k, j]]
     return notas
 
 
@@ -496,6 +502,7 @@ def detectar(
     img: np.ndarray,
     linhas_y: Sequence[float],
     passo: float,
+    com_escores: bool = False,
 ) -> list[dict]:
     """Detecta as notas de um sistema de tablatura.
 
@@ -504,13 +511,14 @@ def detectar(
         img: imagem BGR do sistema inteiro.
         linhas_y: y de cada corda na imagem, da 1 (em cima) à 6.
         passo: distância vertical entre cordas, em px.
+        com_escores: inclui "tecnica_p" em cada nota (ver `_decodificar`).
 
     Returns:
         Lista de {"corda" (1-6), "rotulo", "tecnica" (lista), "x" (px da imagem),
         "confianca" (probabilidade do centro)}.
     """
     arr, escala, _ = normalizar_sistema(img, linhas_y, passo)
-    return _decodificar(modelo, arr, escala)
+    return _decodificar(modelo, arr, escala, com_escores)
 
 
 def _contar_sistema(

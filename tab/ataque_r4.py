@@ -74,6 +74,9 @@ GABARITOS = {
 #: Folga do casamento nota do cache × nota do gabarito, em passos.
 FOLGA = 0.5
 
+#: Limiares da técnica medidos além do 0,5 (rodada 0203): o escolhido sai dos ouros.
+LIMIARES = tuple(round(0.10 + 0.05 * i, 2) for i in range(9))
+
 #: Slide sem nota de origem na mesma corda até esta distância à esquerda (passos) é
 #: slide de entrada: a nota é atacada (regra do dono; rodada 0203, passo A).
 ORIGEM_SLIDE_MAX = 3.0
@@ -192,10 +195,38 @@ def ler_tela(modelo: detector_tab.DetectorTab, video: Path, t_s: float) -> tuple
             "casa": str(d["rotulo"]),
             "tecnica": d["tecnica"],
             "x_centro_quadro": float(d["x"]) + c.x0,
+            "tecnica_p": d["tecnica_p"],
         }
-        for d in detector_tab.detectar(modelo, c.roi, c.grade.linhas_y, c.passo)
+        for d in detector_tab.detectar(
+            modelo, c.roi, c.grade.linhas_y, c.passo, com_escores=True
+        )
     ]
     return pred, float(c.passo)
+
+
+def com_limiar(pred: Sequence[dict], limiar: float) -> list[dict]:
+    """As notas previstas com a técnica refeita por outro limiar (o centro não muda).
+
+    Args:
+        pred: notas de ``ler_tela`` (com ``tecnica_p``).
+        limiar: limiar das técnicas.
+
+    Returns:
+        Cópias das notas, com ``tecnica`` = técnicas de probabilidade acima do limiar.
+    """
+    return [
+        {
+            **p,
+            "tecnica": [
+                t
+                for t, v in zip(
+                    detector_tab.TECNICAS_MODELO, p["tecnica_p"], strict=True
+                )
+                if v > limiar
+            ],
+        }
+        for p in pred
+    ]
 
 
 def ataque_com_regra(pred: Sequence[dict], j: int, passo: float) -> str:
@@ -273,34 +304,47 @@ def medir(versao: str, semente: int) -> dict:
     """Mede uma versão e semente nos 8 ouros (dobra fora) e na T8.2 (dobra 0).
 
     Args:
-        versao: "ger" ou "atq".
+        versao: "ger", "atq" ou "atqg".
         semente: 1, 2 ou 3.
 
     Returns:
-        Dict fonte -> matriz e taxas, mais ``ouros`` (soma dos 8) e ``t82``.
+        Dict fonte -> matriz e taxas (no limiar 0,5 e em ``por_limiar``), mais ``ouros``
+        (soma dos 8) e ``t82``.
     """
     r2 = caminhos.TAB_ROTULO / "r2"
     dobra_de = {slug: d for d, slugs in DOBRAS.items() for slug in slugs}
     saida: dict = {}
     soma: Counter = Counter()
+    soma_l: dict[float, Counter] = {lim: Counter() for lim in LIMIARES}
     for slug, (sub, fonte) in GABARITOS.items():
         modelo = detector_tab.carregar(modelo_da_dobra(versao, dobra_de[slug], semente))
         ouro = json.loads((r2 / sub / f"{slug}.json").read_text(encoding="utf-8"))
         video = caminhos.acervo() / ouro["video"]
         quadro = {int(t["id"]): float(t["quadro_ref_s"]) for t in ouro["telas"]}
         c: Counter = Counter()
+        por_l: dict[float, Counter] = {lim: Counter() for lim in LIMIARES}
         for tela, notas in sorted(
             gabarito_por_tela(r2 / sub / f"ataque_{fonte}.json").items()
         ):
             pred, passo = ler_tela(modelo, video, quadro[tela])
             c += contar(notas, pred, passo)
-        saida[fonte] = {"matriz": dict(c), "taxas": taxas(c), "regra": taxas(regra(c))}
+            for lim in LIMIARES:
+                por_l[lim] += contar(notas, com_limiar(pred, lim), passo)
+        saida[fonte] = {
+            "matriz": dict(c),
+            "taxas": taxas(c),
+            "regra": taxas(regra(c)),
+            "por_limiar": {str(lim): dict(m) for lim, m in por_l.items()},
+        }
         soma += c
+        for lim in LIMIARES:
+            soma_l[lim] += por_l[lim]
         print(versao, semente, fonte, dict(c), flush=True)
     saida["ouros"] = {
         "matriz": dict(soma),
         "taxas": taxas(soma),
         "regra": taxas(regra(soma)),
+        "por_limiar": {str(lim): dict(m) for lim, m in soma_l.items()},
     }
     ferr = caminhos.SAIDA / "t82" / "ferramenta"
     indice = {
@@ -309,14 +353,44 @@ def medir(versao: str, semente: int) -> dict:
     }
     modelo = detector_tab.carregar(modelo_da_dobra(versao, 0, semente))
     c = Counter()
+    por_l = {lim: Counter() for lim in LIMIARES}
     gab = gabarito_por_tela(r2 / "conferir_novos" / "ataque_t82.json")
     for tela, notas in sorted(gab.items()):
         r = indice[tela]
         pred, passo = ler_tela(modelo, caminhos.acervo() / r["video"], float(r["t"]))
         c += contar(notas, pred, passo)
-    saida["t82"] = {"matriz": dict(c), "taxas": taxas(c), "regra": taxas(regra(c))}
+        for lim in LIMIARES:
+            por_l[lim] += contar(notas, com_limiar(pred, lim), passo)
+    saida["t82"] = {
+        "matriz": dict(c),
+        "taxas": taxas(c),
+        "regra": taxas(regra(c)),
+        "por_limiar": {str(lim): dict(m) for lim, m in por_l.items()},
+    }
     print(versao, semente, "t82", dict(c), flush=True)
     return saida
+
+
+def escolher_limiar(medidas: Sequence[dict], teto: float = 0.01) -> float:
+    """O menor limiar com "não" em atacada até ``teto`` nos ouros (rodada 0203).
+
+    As sementes entram somadas. Usa a regra do slide sem origem.
+
+    Args:
+        medidas: saídas de ``medir`` de uma versão (uma por semente).
+        teto: fração máxima de notas atacadas lidas como "não".
+
+    Returns:
+        O limiar escolhido; 0,5 se nenhum menor serve.
+    """
+    for lim in LIMIARES:
+        soma: Counter = Counter()
+        for m in medidas:
+            soma.update(m["ouros"]["por_limiar"][str(lim)])
+        n, d = taxas(regra(soma))["nao_falso"]
+        if d and n / d <= teto:
+            return lim
+    return 0.5
 
 
 def main() -> int:

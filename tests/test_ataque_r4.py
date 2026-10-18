@@ -1,8 +1,11 @@
 """Testes dos alvos de técnica do R4a (rodada 0202)."""
 
 from tab.ataque_r4 import (
+    LIMIARES,
     alvos_da_tela,
     ataque_com_regra,
+    com_limiar,
+    escolher_limiar,
     modelo_da_dobra,
     tecnica_alvo,
 )
@@ -61,3 +64,29 @@ def test_slide_sem_origem_e_atacado() -> None:
     assert ataque_com_regra(pred, 2, 20.0) == "sim"  # sem origem na corda 2
     assert ataque_com_regra(pred, 3, 20.0) == "nao"  # h não é slide
     assert ataque_com_regra(pred, 0, 20.0) == "sim"
+
+
+def test_limiar_refaz_so_a_tecnica() -> None:
+    p = [0.0] * 10
+    p[0] = 0.3  # h
+    pred = [{"corda": 1, "x_centro_quadro": 10.0, "tecnica": [], "tecnica_p": p}]
+    assert com_limiar(pred, 0.25)[0]["tecnica"] == ["h"]
+    assert com_limiar(pred, 0.5)[0]["tecnica"] == []
+    assert pred[0]["tecnica"] == []
+
+
+def test_escolher_o_menor_limiar_que_cabe_no_teto() -> None:
+    def medida(alarmes: dict[float, int]) -> dict:
+        return {
+            "ouros": {
+                "por_limiar": {
+                    str(lim): {
+                        "regra:sim|nao": alarmes.get(lim, 0),
+                        "regra:sim|sim": 100 - alarmes.get(lim, 0),
+                    }
+                    for lim in LIMIARES
+                }
+            }
+        }
+
+    assert escolher_limiar([medida({0.1: 5, 0.15: 2, 0.2: 1})]) == 0.2
