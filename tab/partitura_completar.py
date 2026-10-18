@@ -255,6 +255,8 @@ def _completar(
                     if cordas in CORDAS_VOZ_2 and tem_voz2
                     else (primeiro["voz"] if primeiro else "1")
                 )
+                da_voz = [s for s in evento["simbolos"] if s["voz"] == voz]
+                mesma_voz = da_voz[0] if da_voz else None
                 completadas.append(
                     {
                         **identificacao,
@@ -262,8 +264,8 @@ def _completar(
                         "tipo": "acorde",
                         "compasso": compasso,
                         "midi": midi,
-                        "figura": primeiro["figura"] if primeiro else None,
-                        "pontuada": primeiro["pontuada"] if primeiro else False,
+                        "figura": mesma_voz["figura"] if mesma_voz else None,
+                        "pontuada": mesma_voz["pontuada"] if mesma_voz else False,
                         "voz": voz,
                         "x": tab["x"],
                         "harmonico": bool(tab.get("harmonico_tab")),

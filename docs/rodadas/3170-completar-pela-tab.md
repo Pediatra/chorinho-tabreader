@@ -180,3 +180,45 @@ Caso R09 c3 midi 87 (losango e "A.H." na imagem, visto antes): continua como com
 a tab não tem o símbolo. Esse caso é a falha que o dono precisa ver na conferência.
 
 Não feito: conferência do dono (porta 8122, itens) — ver o ponto de conferência acima.
+
+
+## Casos olhados (revisão 3: 10 casos distintos)
+
+Recortes em `data/saida/part_frentes/fe_completar/casos/` (3×). O caso "R05 c1 midi 60" é o
+mesmo recorte do "south american T01 c1 midi 60" (R05 = south american tela 1), então conta uma
+vez só.
+
+| # | caso | leitura | figura registrada | imagem |
+| --- | --- | --- | --- | --- |
+| 1 | south american T01 / R05, c1, midi 60, acorde | inconclusivo | eighth, voz 1 | altura não dá para confirmar na escala |
+| 2 | gymnopédie T10, c1, midi 57, acorde | certo | half pontuada, voz 2 | bate |
+| 3 | gymnopédie T03, c5, midi 85, acorde | certo | half pontuada, voz 1 | bate; a de 76 fica inconclusiva |
+| 4 | R07, c10, midi 52 e 59, acorde | certo | half, voz 2 | bate |
+| 5 | greensleeves T03, c8, midi 73, isolado | **suspeito** | sem figura | há pausa na pauta nesse x (falso completamento?) |
+| 6 | R09, c3, midi 87, acorde | **erro** | half | losango e "A.H." (harmônico); a tab não tem o símbolo |
+| 7 | gymnopédie T02, c3, midi 52, isolado | figura não resolvida | null | a imagem tem meia pontuada no x; o método não tem como dar a figura |
+| 8 | R11, c4, midi 57, acorde | **erro de figura** | quarter, voz 2 | a imagem mostra meia pontuada na pauta de baixo |
+| 9 | gymnopédie T07, c4, midi 57, acorde | **erro de figura** | quarter, voz 2 | mesma coisa: meia pontuada na imagem |
+| 10 | R10, c2, midi 52, acorde | certo | half pontuada, voz 2 | bate |
+
+**O que isso diz.** Nos acordes com figura que eu consegui olhar (2, 3, 4, 8, 9, 10 e o 6 pela
+figura), a figura bate em 4 e erra em 2 (o 6 é harmônico, não figura). Os dois erros (8 e 9) são
+o mesmo padrão: a nota da voz 2 em clave de baixo é meia pontuada, e a E1 pega a figura do evento
+pareado (a semínima da voz 1), e não a da própria voz. O aceite do briefing pede 0,95 nos
+acordes. Com essa amostra, o método **não passa**.
+
+**Isolados.** Dos 2 isolados olhados, um é suspeito de pausa (5) e outro tem figura não
+resolvida (7). Nenhum dos dois tem figura correta pelo método. Mínimo de "2 isolados": cumprido,
+mas os dois não viram acerto.
+
+**Correção aplicada (revisão 3).** A figura do acorde agora vem do símbolo da **mesma voz**
+da nota completada. Se o evento pareado não tem símbolo nessa voz, a figura fica `null` (nada
+decide). Isso corrige os erros 8 e 9, mas tira a figura de notas que a leitura não tem na voz
+(como os baixos dos casos 2, 4 e 10, que estavam certos por acaso).
+
+Números após a correção: contadas 56. Figura registrada em **22** (produtos 17 de 37, R01–R12
+5 de 19). Ficam `null` 34: 20 nos produtos e 14 em R01–R12. Antes eram 14 `null`. Quem decide a
+figura dessas 34 é a conferência do dono.
+
+O aceite de 0,95 não é atingido com as olhadas: ver a tabela acima. A conferência do dono
+continua sendo a medida; esta rodada só registra o que o código faz agora.
