@@ -1,6 +1,6 @@
 """Testes das funções puras da E1 da partitura (sem acervo e sem GPU)."""
 
-from tab.partitura_completar import _compasso_de_x, _figura_do_deficit
+from tab.partitura_completar_pauta import _compasso_de_x, _figura_do_deficit
 
 
 def test_figura_do_deficit_cabe_numa_figura_so():

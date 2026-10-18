@@ -30,7 +30,9 @@ herdada, em sustenidos + ou bemóis −), ``fifths_origem`` (``video`` se a arma
 foi aplicada, ``leitura`` se não), ``compassos`` (número, fórmula e x de cada compasso),
 e os eventos. Cada evento tem o par na tab (ou None) com ``metodo``: ``altura`` quando o
 pareamento por sequência de alturas vale, ``x`` quando a posição no quadro trocou o par
-(``reparear_por_x``).
+(``reparear_por_x``). Depois do par, ``parear`` completa a pauta com as notas da tab que a
+pauta não leu, sem figura (``completar_pauta``, rodada 3172). ``--pasta-video`` grava fora
+de ``PASTA_VIDEO``, para a frente P4 (rodada 3027).
 
 Etapa ``paginar``, para vídeos **sem** produto de tablatura: varre o vídeo inteiro a
 ``QPS_PAGINAS``, reduz cada quadro a uma assinatura binária da região das pautas
@@ -52,7 +54,7 @@ Uso:
     python -m tab.partitura_video recortar --produto CAMINHO [--produto CAMINHO ...]
     python -m tab.partitura_video ler --produto CAMINHO [--produto CAMINHO ...] [--ids T01,T02]
     python -m tab.partitura_video ler --pasta PASTA [--pasta PASTA ...] [--ids P01a,P02a]
-    python -m tab.partitura_video parear --produto CAMINHO [--produto CAMINHO ...]
+    python -m tab.partitura_video parear --produto CAMINHO [--produto CAMINHO ...] [--pasta-video PASTA]
     python -m tab.partitura_video paginar --video CAMINHO [--video CAMINHO ...] [--pasta PASTA]
 
 ``ler`` pede exatamente um de ``--produto`` e ``--pasta``.
@@ -82,12 +84,19 @@ from tab.caminhos import RAIZ, SAIDA, acervo
 from tab.leitor import info, quadro_em, quadros
 from tab.musicxml import midi_da_corda
 from tab.partitura_avaliar import SEMITONS_ESCRITA
+from tab.partitura_completar_pauta import (
+    CONTAGENS,
+    TECNICA_HARMONICO,
+    TECNICA_LIGADA,
+    completar_pauta,
+)
 from tab.partitura_gabarito import ler_partitura
 from tab.partitura_omr import _gravar_execucao, herdar_condicao, rodar_um
 from tab.partitura_pareamento import (
     EventoPartitura,
     EventoTab,
     _t_inis,
+    _x_do_simbolo,
     completar_com_homr,
     eventos_da_partitura,
     parear,
@@ -130,6 +139,13 @@ CONDICAO_HOMR = "nativo"
 
 #: Esquema do documento gravado por ``parear``.
 ESQUEMA_PARTITURA = "chorinho/partitura@1"
+
+#: Entrelinha (px) abaixo da qual a pauta é "pequena": o Audiveris perde de 5 a 8 pontos de
+#: cobertura (rodada 3026). Só marca o aviso ``pauta_pequena``; não muda a leitura.
+ENTRELINHA_PEQUENA = 16.0
+
+#: Texto de ``gerado_por.completar_tab`` no documento (rodada 3172).
+COMPLETAR_TAB = "nota da tab sem nota na pauta, figura null (rodada 3172)"
 
 #: Fator da imagem ampliada (condição ``x2``) em relação ao quadro, para o x do ``.omr``.
 ESCALA_X2 = 2.0
@@ -227,28 +243,31 @@ def pauta_acima_da_tab(
     return max(candidatas, key=lambda entrada: entrada["ys"][4])
 
 
-def pasta_do_produto(produto: Path) -> Path:
-    """Pasta de saída de um produto: ``PASTA_VIDEO / <nome sem extensão>``.
+def pasta_do_produto(produto: Path, pasta_video: Path | None = None) -> Path:
+    """Pasta de saída de um produto: ``pasta_video / <nome sem extensão>``.
 
     Args:
         produto: caminho do JSON de produto.
+        pasta_video: pasta-raiz dos vídeos. ``None`` usa ``PASTA_VIDEO``, lida na hora.
 
     Returns:
         A pasta onde os recortes do produto são gravados.
     """
-    return PASTA_VIDEO / produto.stem
+    raiz = PASTA_VIDEO if pasta_video is None else pasta_video
+    return raiz / produto.stem
 
 
-def pasta_omr(produto: Path) -> Path:
+def pasta_omr(produto: Path, pasta_video: Path | None = None) -> Path:
     """Pasta das leituras de partitura de um produto: ``pasta_do_produto / omr``.
 
     Args:
         produto: caminho do JSON de produto.
+        pasta_video: pasta-raiz dos vídeos (``None`` usa ``PASTA_VIDEO``).
 
     Returns:
         A pasta com uma subpasta por biblioteca e condição (e a armadura herdada).
     """
-    return pasta_do_produto(produto) / "omr"
+    return pasta_do_produto(produto, pasta_video) / "omr"
 
 
 def _limpar_recortes(pasta_recortes: Path) -> None:
@@ -1018,27 +1037,161 @@ def _contagens_da_pauta(pauta: dict, notas: list[dict]) -> dict[str, int]:
     }
 
 
-def caminho_do_parear(produto: Path) -> Path:
+def _pausas_do_recorte(entrada: dict, omr: Path) -> list[tuple[float, str]]:
+    """Pausas da leitura herdada de um recorte: x no quadro e voz (rodada 3027, Ajuste 1 e 2).
+
+    A pausa é lida como uma nota: ``_x_do_simbolo``, com o slot do compasso dela no ``.omr``.
+    Pausa sem slot não tem x e fica fora da lista.
+
+    Args:
+        entrada: entrada do ``indice.json`` com ``sem_pauta`` falso.
+        omr: pasta ``omr`` do produto (``pasta_omr``).
+
+    Returns:
+        ``(x, voz)`` de cada pausa lida, na ordem da leitura. Lista vazia se falta a leitura
+        herdada ou o ``.omr``, ou se a leitura não abre.
+    """
+    rid = entrada["id"]
+    x0 = entrada["caixa_recorte"][0]
+    herdada = (
+        omr / "audiveris" / f"{CONDICAO_AUDIVERIS}_herdada" / rid / "saida.musicxml"
+    )
+    entrada_omr = omr / "audiveris" / CONDICAO_AUDIVERIS / rid / "entrada.omr"
+    if not herdada.exists() or not entrada_omr.exists():
+        return []
+    try:
+        leitura = ler_partitura(herdada)
+        pilhas = x_dos_compassos(entrada_omr)
+    except ValueError, ET.ParseError:
+        return []
+    xs = []
+    for k, compasso in enumerate(leitura["compassos"]):
+        pilha = pilhas[k] if k < len(pilhas) else None
+        for simbolo in compasso["simbolos"]:
+            if simbolo["pausa"]:
+                x = _x_do_simbolo(simbolo, pilha, x0, ESCALA_X2)
+                if x is not None:
+                    xs.append((x, str(simbolo["voz"])))
+    return xs
+
+
+def _vozes_do_recorte(entrada: dict, omr: Path) -> dict[str, set[str]]:
+    """Vozes de cada compasso da leitura herdada de um recorte (rodada 3027, Ajuste 2).
+
+    Conta as notas e as pausas: a voz de uma pausa vem da mesma tag ``voice`` da nota.
+
+    Args:
+        entrada: entrada do ``indice.json`` com ``sem_pauta`` falso.
+        omr: pasta ``omr`` do produto (``pasta_omr``).
+
+    Returns:
+        ``{numero do compasso: vozes}``. Dicionário vazio se falta a leitura herdada ou ela não
+        abre.
+    """
+    rid = entrada["id"]
+    herdada = (
+        omr / "audiveris" / f"{CONDICAO_AUDIVERIS}_herdada" / rid / "saida.musicxml"
+    )
+    if not herdada.exists():
+        return {}
+    try:
+        leitura = ler_partitura(herdada)
+    except ValueError, ET.ParseError:
+        return {}
+    return {
+        compasso["numero"]: {str(s["voz"]) for s in compasso["simbolos"]}
+        for compasso in leitura["compassos"]
+    }
+
+
+def _completar_pauta_do_recorte(
+    pauta: dict,
+    notas: list[dict],
+    pausas_x: list[tuple[float, str]],
+    vozes_por_compasso: dict[str, set[str]] | None = None,
+) -> tuple[dict, dict[str, int], list[dict]]:
+    """Completa uma pauta com as notas da tab que ela não leu (``completar_pauta``).
+
+    A tab é a da janela do recorte na tela da pauta, com as mesmas colunas de
+    ``parear_produto``. Pauta com ``erro`` não é completada: não tem eventos para comparar.
+
+    Args:
+        pauta: pauta de ``_pauta_do_recorte``, já com os pares.
+        notas: lista ``notas`` do produto.
+        pausas_x: pausas do recorte, ``(x, voz)`` (``_pausas_do_recorte``).
+
+    Returns:
+        ``(pauta, contagens, motivos)``: a pauta com os eventos completados; as contagens de
+        ``completar_pauta`` (zeros se a pauta tem ``erro``); e os motivos das notas que não
+        entraram, com ``tela`` e ``recorte`` acrescentados.
+    """
+    if "erro" in pauta:
+        return pauta, dict.fromkeys(CONTAGENS, 0), []
+    x0, x1 = pauta["caixa_quadro"][0], pauta["caixa_quadro"][2]
+    tab = []
+    for evento in eventos_do_produto(notas, pauta["tela"], x0, x1):
+        cordas: dict[int, int] = {}
+        ligadas: set[int] = set()
+        for nota in evento.notas:
+            som = midi_da_corda(int(nota["corda"]), int(nota["casa"]))
+            if som is None:
+                continue
+            cordas.setdefault(som + SEMITONS_ESCRITA, int(nota["corda"]))
+            if nota.get("tecnica") == TECNICA_LIGADA:
+                ligadas.add(som + SEMITONS_ESCRITA)
+        tab.append(
+            {
+                "x": evento.x_quadro,
+                "coluna": evento.notas[0]["coluna"],
+                "midis": set(evento.midis),
+                "cordas": cordas,
+                "harmonico_tab": any(
+                    n.get("tecnica") == TECNICA_HARMONICO for n in evento.notas
+                ),
+                "ligadas": ligadas,
+            }
+        )
+    eventos, contagens, motivos = completar_pauta(
+        pauta["eventos"],
+        tab,
+        pauta["compassos"],
+        pauta["tela"],
+        pausas_x,
+        vozes_por_compasso,
+    )
+    motivos = [
+        {**m, "tela": pauta["tela"], "recorte": pauta["recorte"]} for m in motivos
+    ]
+    return {**pauta, "eventos": eventos}, contagens, motivos
+
+
+def caminho_do_parear(produto: Path, pasta_video: Path | None = None) -> Path:
     """Caminho do documento de ``parear``: ``pasta_do_produto / <stem>.partitura.json``.
 
     Args:
         produto: caminho do JSON de produto.
+        pasta_video: pasta-raiz dos vídeos (``None`` usa ``PASTA_VIDEO``).
 
     Returns:
         O caminho onde ``parear_produto`` grava o documento.
     """
-    return pasta_do_produto(produto) / f"{produto.stem}.partitura.json"
+    return pasta_do_produto(produto, pasta_video) / f"{produto.stem}.partitura.json"
 
 
-def parear_produto(produto: Path) -> dict:
+def parear_produto(produto: Path, pasta_video: Path | None = None) -> dict:
     """Pareia as pautas de um produto com as colunas da tab e grava o documento.
 
     Lê ``recortes/indice.json`` e processa, em ordem, as entradas com pauta. Cada pauta
-    vira um item de ``pautas`` (ver ``_pauta_do_recorte``). O documento é gravado em
-    ``caminho_do_parear(produto)``. O produto é lido, nunca escrito.
+    vira um item de ``pautas`` (ver ``_pauta_do_recorte``). Depois do par, cada pauta é
+    completada com as notas da tab que ela não leu (``_completar_pauta_do_recorte``); os
+    totais do ``resumo`` de pareamento são os de antes da completação, e as completadas
+    têm contagem própria. O documento é gravado em ``caminho_do_parear(produto, pasta_video)``.
+    O produto é lido, nunca escrito.
 
     Args:
         produto: caminho do JSON de produto (somente leitura).
+        pasta_video: pasta-raiz onde gravar (``None`` usa ``PASTA_VIDEO``). A leitura dos
+            recortes e do ``omr`` também sai daqui.
 
     Returns:
         O documento ``chorinho/partitura@1``, com ``produto_sha256`` e ``resumo``.
@@ -1046,15 +1199,13 @@ def parear_produto(produto: Path) -> dict:
     bruto = produto.read_bytes()
     dados = json.loads(bruto.decode("utf-8"))
     indice = json.loads(
-        (pasta_do_produto(produto) / "recortes" / "indice.json").read_text(
+        (pasta_do_produto(produto, pasta_video) / "recortes" / "indice.json").read_text(
             encoding="utf-8"
         )
     )
-    pautas = [
-        _pauta_do_recorte(entrada, dados["notas"], pasta_omr(produto))
-        for entrada in indice
-        if not entrada["sem_pauta"]
-    ]
+    omr = pasta_omr(produto, pasta_video)
+    com_pauta = [entrada for entrada in indice if not entrada["sem_pauta"]]
+    pautas = [_pauta_do_recorte(entrada, dados["notas"], omr) for entrada in com_pauta]
     contagens = [_contagens_da_pauta(pauta, dados["notas"]) for pauta in pautas]
     totais = {
         chave: sum(c[chave] for c in contagens)
@@ -1074,6 +1225,19 @@ def parear_produto(produto: Path) -> dict:
         for e in pauta["eventos"]
         if e["par"] is not None
     ]
+    completadas = [
+        _completar_pauta_do_recorte(
+            pauta,
+            dados["notas"],
+            _pausas_do_recorte(entrada, omr),
+            _vozes_do_recorte(entrada, omr),
+        )
+        for entrada, pauta in zip(com_pauta, pautas, strict=True)
+    ]
+    soma = {
+        chave: sum(contagem[chave] for _, contagem, _ in completadas)
+        for chave in CONTAGENS
+    }
     documento = {
         "esquema": ESQUEMA_PARTITURA,
         "produto": str(produto),
@@ -1081,15 +1245,33 @@ def parear_produto(produto: Path) -> dict:
         "gerado_por": {
             "leitor": "audiveris x2_margem + armadura do vídeo",
             "completar": "homr nativo confirmado pela tab",
+            "completar_tab": COMPLETAR_TAB,
         },
-        "pautas": pautas,
+        "pautas": [
+            {
+                **pauta,
+                "pauta_pequena": pauta["entrelinha"] < ENTRELINHA_PEQUENA,
+                "leitura_ok": "erro" not in pauta,
+            }
+            for pauta, _, _ in completadas
+        ],
         "resumo": {
             "pautas": len(pautas),
             **totais,
             "colunas_pareadas": len(set(pares)),
+            "completadas_acorde": soma["acorde"],
+            "completadas_isolado": soma["isolado"],
+            "nao_completadas_harmonico": soma["nao_harmonico"],
+            "nao_completadas_ligada": soma["nao_ligada"],
+            "nao_completadas_pausa": soma["nao_pausa"],
+            "nao_completadas_cabecalho": soma["nao_cabecalho"],
+            "nao_completadas_oitava": soma["nao_oitava"],
+            "pautas_pequenas": sum(
+                pauta["entrelinha"] < ENTRELINHA_PEQUENA for pauta, _, _ in completadas
+            ),
         },
     }
-    destino = caminho_do_parear(produto)
+    destino = caminho_do_parear(produto, pasta_video)
     destino.parent.mkdir(parents=True, exist_ok=True)
     destino.write_text(
         json.dumps(documento, ensure_ascii=False, indent=2), encoding="utf-8"
@@ -1763,6 +1945,12 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         help="JSON de produto (pode repetir)",
     )
+    parser_parear.add_argument(
+        "--pasta-video",
+        type=Path,
+        default=None,
+        help="pasta-raiz onde ler os recortes e gravar o documento (padrão: a de hoje)",
+    )
     parser_paginar = subparsers.add_parser(
         "paginar", help="acha as páginas de um vídeo sem produto e recorta as pautas"
     )
@@ -1818,7 +2006,7 @@ def main(argv: list[str] | None = None) -> int:
             )
     elif args.comando == "parear":
         for produto in args.produto:
-            documento = parear_produto(produto)
+            documento = parear_produto(produto, args.pasta_video)
             notas = json.loads(produto.read_text(encoding="utf-8"))["notas"]
             for pauta in documento["pautas"]:
                 c = _contagens_da_pauta(pauta, notas)
@@ -1839,7 +2027,7 @@ def main(argv: list[str] | None = None) -> int:
                 f" colunas pareadas {r['colunas_pareadas']},"
                 f" homr {r['notas_homr']}, trocadas {r['trocadas']}"
             )
-            print(f"gravado em {caminho_do_parear(produto)}")
+            print(f"gravado em {caminho_do_parear(produto, args.pasta_video)}")
     elif args.comando == "paginar":
         if args.pasta is not None and len(args.video) > 1:
             parser.error("--pasta só vale com um --video")
