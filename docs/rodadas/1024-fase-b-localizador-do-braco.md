@@ -196,3 +196,61 @@ final e a prova, registrando o B1 como reprovado.
 - o nut é a média das pontas das cordas 1 e 6 no nut;
 - escala = max(|L'/L − 1|, |w'/w − 1|);
 - os pesos das dobras A3_100_k têm 2.000 passos (o piso da 1021).
+
+## Prova M11b: resultado (2026-10-18) — **segurança passa, utilidade reprova**
+
+**Seguir**: o dono aprovou seguir apesar do B1 ("sim").
+
+**Treino final**: `L1_todos_s1..3`, 3.000 passos, com 1.214 s, 1.364 s e 1.267 s. Todos
+terminaram na primeira tentativa.
+
+**Prova**: `python -m tab.maos_braco_localizador prova`, uma vez (`prova_localizador.json`), em 87
+medidas.
+
+| semente | certo | impreciso | falso | não achou | sinalizados (de 29) |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 8 | 1 | 12 | 8 | 21 |
+| 2 | 0 | 0 | 12 | 17 | 29 |
+| 3 | 11 | 2 | 13 | 3 | 16 |
+
+O q77 entra na tabela como "não achou" nas 3 sementes.
+
+- **Segurança**: falsos não sinalizados **0 de 87**. **Passa.** Todos os 37 falsos foram
+  sinalizados, e o q77 (sem braço) saiu "não achou" nas 3 sementes.
+- **Utilidade**: sinalizados **63 de 84 (75 %)**, e o limite era 50 %. **Reprova.**
+- **Certos não sinalizados**: 18 de 84, e só 1 certo foi sinalizado.
+
+### Diagnóstico (depois da prova; não muda o veredito)
+
+Erro do eixo do **estágio 1 sozinho** nos 28 quadros (`b1_diag/envelope_m11b.json`):
+
+| | dentro do envelope |
+| --- | --- |
+| semente 1 | 9 de 28 |
+| semente 2 | 0 de 28 |
+| semente 3 | 9 de 28 |
+| validação (kenneth e shin izumi) | 68 % |
+
+- **O gargalo é o estágio 1 em canais novos.** Os erros não são finos:
+  - rotações de 15 a 100° (os pontos caem em outra parte do violão);
+  - larguras de 10 a 200 vezes a real (as pontas da corda 1 e da corda 6 caem quase no mesmo
+    lugar).
+- Cada ponto é o argmax do seu mapa, e cada um é escolhido sozinho. Num canal que a rede não
+  viu, um ponto vai para outro lugar e o eixo inteiro se desfaz.
+- **As sementes discordam muito** (0 a 9 de 28 dentro). Com cerca de 900 quadros de 8 canais, o
+  estágio 1 decorou os canais do treino.
+- **Quando o estágio 1 acerta, a cadeia acerta.** Os 18 certos não sinalizados vêm dos quadros
+  em que o eixo caiu perto. Os sinais da 1023 seguraram tudo o que veio de eixo errado.
+
+### O que fica
+
+- **A cadeia é segura**: ela nunca deixou um erro passar sem ser sinalizado, nem com o eixo
+  totalmente errado.
+- **A cadeia ainda não é útil em canais novos**: o estágio 1 só tem 8 canais de exemplo.
+- O estágio 2 e a regra continuam valendo. Falta um estágio 1 que generalize.
+- **Caminhos**, para a decisão do dono:
+  1. marcação **grosseira** de mais canais só para o estágio 1: 4 cliques por quadro (as pontas
+     das cordas 1 e 6 no nut e no corpo), sem trastes. A tolerância é larga, e o refino corrige
+     o resto;
+  2. um detector de objetos genérico, pré-treinado e de licença aberta, como estágio 1. Isso
+     exige um download e o aval do dono.
