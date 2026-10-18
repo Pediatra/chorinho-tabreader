@@ -132,8 +132,8 @@ As mudanças estão em `tab/sintetico_sistema.py`. As chances ficam nas constant
 - **G2**: no par longo, as notas da corda que estão no meio saem.
 - **G4**: `_sortear_mordente_tres` e `_desenhar_mordentes_tres`.
 - **G5**: `_sortear_zigues` e `_desenhar_zigues`. O desenho do zigue-zague foi para `_zigue`.
-- **G6**: colunas apertadas, com espaço de 0,6 a 1,1 passo. A primeira coluna fica onde
-  ficaria antes.
+- **G6**: colunas apertadas, com espaço de 0,6 a 1,1 passo. A primeira coluna fica onde ficaria
+  com o maior espaço de antes (2,6 passos), para a fórmula não encostar nela.
 - **G7** (novo, pela decisão do dono sobre os parênteses): `(n)` deixa de ser a técnica
   `lig`. Agora é nota atacada (`parenteses`). O tie continua `lig`.
   - Dívida: o modelo deixa de dizer "parênteses". A informação volta quando houver uma classe

@@ -1422,8 +1422,8 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
         tem_formula = True
         formula = rng.choice(FORMULAS)
     x_ini = (5.2 if gp else 4.6 if tem_formula else 2.6) * passo
-    if marcas_apertado:  # a 1ª coluna fica onde ficaria com o espaço mínimo de antes
-        x_ini += 0.5 * (1.2 * passo - espaco)
+    if marcas_apertado:  # a 1ª coluna fica onde ficaria com o espaço máximo de antes
+        x_ini += 0.5 * (2.6 * passo - espaco)
     ys = [round(2.4 * passo + i * passo) for i in range(6)]
     altura = round(ys[5] + (3.4 if tem_ritmo else 1.6) * passo)
 
