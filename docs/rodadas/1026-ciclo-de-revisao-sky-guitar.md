@@ -77,3 +77,52 @@ dono. O gabarito ao vivo grava a cada clique.
 - **Auditoria com preenchimento induz concordância**: o dono pode aceitar uma marca quase certa.
   A régua tolera 0,25. A repetibilidade do dono é de 0,14 vão.
 - **64 quadros de um canal** dão a direção, não uma taxa firme.
+
+## Resultado (2026-10-18) — **o ciclo funciona**
+
+**Lote**: 8 vídeos e 64 quadros (`m26/sorteio.json`).
+- O detector achou o braço em 63 e **sinalizou 6** (9 %).
+- Antes de abrir a ferramenta, os trastes previstos fora da imagem foram cortados no gabarito
+  (34 listas). A previsão completa ficou em `previsto.json`.
+
+**Ferramenta** (a pedido do dono, durante a revisão): espaço desfaz, há um botão "limpar marcas
+do quadro" e as pontas das cordas, o nut e os trastes podem ser arrastados. Commits 0d3ca412 e
+0ac037d2. Cada mudança foi testada numa cópia antes.
+
+**Como a revisão foi registrada**:
+- O dono corrigiu os sinalizados (q03, q25, q27 e q46) e marcou o q19 como "braço não".
+- Os outros ele conferiu sem apertar "braço sim". O "braço sim" desses 59 quadros e dos 4
+  corrigidos foi gravado **em lote, a pedido do dono** ("usa a lógica aí então e me ajuda, marca
+  os outros como sim").
+  - Ficou registrado na observação de cada quadro.
+  - A cópia anterior está em `m26/braco_m26_antes_lote.json`.
+
+**Medida** (`python -m tab.maos_braco_ciclo medir`, `m26/medida.json`):
+
+| | resultado |
+| --- | --- |
+| quadros medidos | 64 (63 com braço) |
+| **entregue certo** (não sinalizado e certo) | **58 de 63 (92 %)** |
+| **falsos que passam** | **0 de 64** |
+| sinalizados | 6 (9 %) |
+| sinalizados que já vinham certos | q46, q64 e o q19 (sem braço, achado como sem braço) |
+| sinalizados que o dono corrigiu | q03, q25 e q27 (falsos) |
+
+- **Critério**: falsos que passam 0 % ≤ 5 % e sinalizados 9 % ≤ 50 %. **O ciclo funciona.**
+- **Defeito encontrado e corrigido na medida**: o critério recebia a **contagem** de sinalizados
+  (6) no lugar da fração (0,09), e a primeira saída dizia "seguro, mas caro".
+  - Corrigido, com teste de regressão.
+  - Os números acima são os da medida corrigida.
+
+**Leitura**:
+- Num canal conhecido, o detector entregou 92 % dos quadros certos sem revisão.
+- Os 3 erros reais foram todos sinalizados.
+- O trabalho do dono foi corrigir 3 quadros de 64.
+- **Cautela**:
+  - a auditoria dos não sinalizados foi feita sobre marcas já preenchidas, e o "sim" foi gravado
+    em lote;
+  - o canal está no treino.
+  - A generalização vale pelo número da 1025, não por este.
+
+**Próximo passo** (pelo pré-registro): a 1027 retreina os estágios 1 e 2 com as marcas finais
+deste ciclo e mede de novo num lote novo.

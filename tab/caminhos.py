@@ -97,6 +97,12 @@ MAOS_M25 = SAIDA / "maos" / "m25"
 GABARITO_BRACO_M25_TREINO = RAIZ / "data" / "gold" / "maos" / "braco_m25_treino.json"
 GABARITO_BRACO_M25_PROVA = RAIZ / "data" / "gold" / "maos" / "braco_m25_prova.json"
 
+#: Ciclo de revisão do braço (rodada 1026, sky guitar): quadros e ``indice.json`` da
+#: ferramenta, ``previsto.json`` (a cadeia, guardada à parte), ``medida.json`` e o
+#: gabarito que o dono confere (``tab.maos_braco_ciclo``).
+MAOS_M26 = SAIDA / "maos" / "m26"
+GABARITO_BRACO_M26 = RAIZ / "data" / "gold" / "maos" / "braco_m26.json"
+
 #: Pré-marcação do braço por consenso de modelos de visão (rodada 1019): respostas brutas
 #: por modelo, resultado e tabelas (``tab.maos_braco_vlm``).
 MAOS_M19 = SAIDA / "maos" / "m19"
