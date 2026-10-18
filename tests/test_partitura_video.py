@@ -954,8 +954,13 @@ def test_completar_pauta_do_recorte_usa_a_tab_da_janela():
         ],
     }
     original = copy.deepcopy(pauta)
-    saida, contagens = partitura_video._completar_pauta_do_recorte(pauta, notas)
-    assert contagens == {"acorde": 1, "isolado": 1, "nao_harmonico": 0, "nao_ligada": 0}
+    saida, contagens, motivos = partitura_video._completar_pauta_do_recorte(
+        pauta, notas, []
+    )
+    assert contagens["acorde"] == 1
+    assert contagens["isolado"] == 1
+    assert sum(contagens.values()) == 2
+    assert motivos == []
     assert pauta == original
     evento, novo = saida["eventos"]
     assert [s["midi_escrito"] for s in evento["simbolos"]] == [57, 76]
@@ -975,6 +980,9 @@ def test_completar_pauta_do_recorte_nao_mexe_em_pauta_com_erro():
         "eventos": [],
         "erro": "faltando: x",
     }
-    saida, contagens = partitura_video._completar_pauta_do_recorte(pauta, [])
+    saida, contagens, motivos = partitura_video._completar_pauta_do_recorte(
+        pauta, [], []
+    )
     assert saida == pauta
-    assert contagens == {"acorde": 0, "isolado": 0, "nao_harmonico": 0, "nao_ligada": 0}
+    assert sum(contagens.values()) == 0
+    assert motivos == []

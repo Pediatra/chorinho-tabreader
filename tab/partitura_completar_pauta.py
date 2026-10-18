@@ -348,10 +348,93 @@ def _posicao_por_x(eventos: list[dict], x: float) -> int:
     return len(eventos)
 
 
+#: Contagens de ``completar_pauta``: as completadas e uma por motivo de não entrar.
+CONTAGENS = (
+    "acorde",
+    "isolado",
+    "nao_ligada",
+    "nao_harmonico",
+    "nao_pausa",
+    "nao_cabecalho",
+    "nao_oitava",
+)
+#: Contador de cada motivo de não entrar (rodada 3027, Ajuste 1).
+CONTADOR_DO_MOTIVO = {
+    "ligada": "nao_ligada",
+    "harmonico": "nao_harmonico",
+    "pausa": "nao_pausa",
+    "cabecalho": "nao_cabecalho",
+    "oitava": "nao_oitava",
+}
+
+
+def _oitava_na_pauta(midi: int, x: float | None, eventos: list[dict]) -> bool:
+    """Diz se a pauta tem a mesma nota uma oitava acima ou abaixo, no mesmo x.
+
+    Mesma tolerância de ``_candidato_oitava`` (``TOLERANCIA_PX``), nos dois sentidos.
+
+    Args:
+        midi: altura escrita da nota da tab.
+        x: posição x da coluna da tab.
+        eventos: eventos normalizados da pauta (``x`` e ``midis``).
+
+    Returns:
+        True se algum evento a até ``TOLERANCIA_PX`` tem ``midi + 12`` ou ``midi - 12``.
+    """
+    if x is None:
+        return False
+    return any(
+        evento["x"] is not None
+        and abs(evento["x"] - x) <= TOLERANCIA_PX
+        and (midi + 12 in evento["midis"] or midi - 12 in evento["midis"])
+        for evento in eventos
+    )
+
+
+def _motivo_de_nao_entrar(
+    nota: dict,
+    tab_j: dict,
+    normalizados: list[dict],
+    pausas_x: list[float],
+    primeiro_x: float | None,
+) -> str | None:
+    """Motivo pelo qual uma nota da tab não entra na pauta, ou None se ela entra.
+
+    Ordem das regras (rodada 3027, Ajuste 1): ligada, harmônico, pausa, cabeçalho e oitava.
+    Vale a primeira que se aplica.
+
+    Args:
+        nota: nota de ``_completar`` (``midi``, ``x``, ``harmonico``).
+        tab_j: evento da tab da nota (``ligadas``).
+        normalizados: eventos normalizados da pauta.
+        pausas_x: x no quadro das pausas do recorte.
+        primeiro_x: x do primeiro evento da pauta (nota ou pausa), ou None.
+
+    Returns:
+        ``ligada``, ``harmonico``, ``pausa``, ``cabecalho``, ``oitava`` ou None.
+    """
+    if nota["midi"] in tab_j["ligadas"]:
+        return "ligada"
+    oitava = _oitava_na_pauta(nota["midi"], nota["x"], normalizados)
+    if nota["harmonico"] and oitava:
+        return "harmonico"
+    if any(abs(p - nota["x"]) <= TOLERANCIA_PX for p in pausas_x):
+        return "pausa"
+    if primeiro_x is not None and nota["x"] < primeiro_x - TOLERANCIA_PX:
+        return "cabecalho"
+    if oitava:
+        return "oitava"
+    return None
+
+
 def completar_pauta(
-    eventos: list[dict], tab: list[dict], compassos: list[dict], tela: int
-) -> tuple[list[dict], dict[str, int]]:
-    """Acrescenta à pauta as notas da tab que ela não leu (regras da rodada 3172).
+    eventos: list[dict],
+    tab: list[dict],
+    compassos: list[dict],
+    tela: int,
+    pausas_x: list[float] | None = None,
+) -> tuple[list[dict], dict[str, int], list[dict]]:
+    """Acrescenta à pauta as notas da tab que ela não leu (regras da rodada 3172 e 3027).
 
     Cada evento da tab (uma coluna) entra assim:
 
@@ -361,9 +444,12 @@ def completar_pauta(
       ``t`` None, ``x_quadro`` da coluna e ``par`` com ``metodo`` ``tab``. O evento novo
       entra antes do primeiro evento de x maior.
 
-    Regras: a figura é sempre ``None``. Nota com ``tecnica`` lig não entra (é casa presa,
-    não ataque novo). Harmônico com a nota uma oitava acima na pauta não entra (a pauta já a
-    tem); senão entra, com ``harmonico`` true. Símbolo que já existe não muda.
+    Regras: a figura é sempre ``None``. Símbolo que já existe não muda. Uma nota da tab
+    não entra, e é contada pelo primeiro motivo que se aplica (``_motivo_de_nao_entrar``):
+    ``ligada`` (``tecnica`` lig), ``harmonico`` (``tecnica`` harm com oitava na pauta),
+    ``pausa`` (pausa a até ``TOLERANCIA_PX`` do x), ``cabecalho`` (x antes do primeiro
+    evento da pauta, nota ou pausa, menos ``TOLERANCIA_PX``) e ``oitava`` (a pauta tem a
+    mesma nota uma oitava acima ou abaixo, a até ``TOLERANCIA_PX``).
 
     Args:
         eventos: eventos da pauta, no formato do documento (``compasso``, ``t``,
@@ -374,11 +460,13 @@ def completar_pauta(
             notas lig).
         compassos: ``{"numero", "fracao", "x_quadro"}`` do recorte.
         tela: tela do produto (vai no ``par`` dos eventos novos).
+        pausas_x: x no quadro das pausas do recorte (leitura herdada). ``None`` é lista
+            vazia.
 
     Returns:
-        ``(eventos, contagens)``: a pauta com as notas completadas, e ``contagens`` com
-        ``acorde``, ``isolado``, ``nao_harmonico`` (harmônico que não entra) e
-        ``nao_ligada`` (nota lig que não entra).
+        ``(eventos, contagens, motivos)``: a pauta com as notas completadas; ``contagens``
+        com as chaves de ``CONTAGENS``; e ``motivos``, uma entrada por nota que não entrou,
+        com ``x``, ``midi``, ``tipo``, ``compasso`` e ``motivo``.
     """
     normalizados = []
     for evento in eventos:
@@ -391,6 +479,9 @@ def completar_pauta(
                 "midis": {s["midi"] for s in simbolos},
             }
         )
+    pausas = list(pausas_x or [])
+    xs_da_pauta = [e["x"] for e in normalizados if e["x"] is not None] + pausas
+    primeiro_x = min(xs_da_pauta) if xs_da_pauta else None
     ocupados: dict[int, int] = {}
     for indice, evento in enumerate(eventos):
         par = evento.get("par") or {}
@@ -398,7 +489,8 @@ def completar_pauta(
             ocupados.setdefault(par["coluna"], indice)
     saida = [{**evento, "simbolos": list(evento["simbolos"])} for evento in eventos]
     novos: list[dict] = []
-    contagens = {"acorde": 0, "isolado": 0, "nao_harmonico": 0, "nao_ligada": 0}
+    contagens = dict.fromkeys(CONTAGENS, 0)
+    motivos: list[dict] = []
     for tab_j in tab:
         i = ocupados.get(tab_j["coluna"])
         feitas = _completar(
@@ -406,11 +498,20 @@ def completar_pauta(
         )
         isolados = []
         for nota in feitas:
-            if nota["midi"] in tab_j["ligadas"]:
-                contagens["nao_ligada"] += 1
-                continue
-            if nota["harmonico"] and nota["candidato_oitava"]:
-                contagens["nao_harmonico"] += 1
+            motivo = _motivo_de_nao_entrar(
+                nota, tab_j, normalizados, pausas, primeiro_x
+            )
+            if motivo is not None:
+                contagens[CONTADOR_DO_MOTIVO[motivo]] += 1
+                motivos.append(
+                    {
+                        "x": nota["x"],
+                        "midi": nota["midi"],
+                        "tipo": nota["tipo"],
+                        "compasso": nota["compasso"],
+                        "motivo": motivo,
+                    }
+                )
                 continue
             simbolo = _simbolo_completado(nota["midi"], nota["voz"], nota["harmonico"])
             if nota["tipo"] == "acorde":
@@ -438,4 +539,4 @@ def completar_pauta(
             )
     for novo in novos:
         saida.insert(_posicao_por_x(saida, novo["x_quadro"]), novo)
-    return saida, contagens
+    return saida, contagens, motivos

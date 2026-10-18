@@ -85,6 +85,7 @@ from tab.leitor import info, quadro_em, quadros
 from tab.musicxml import midi_da_corda
 from tab.partitura_avaliar import SEMITONS_ESCRITA
 from tab.partitura_completar_pauta import (
+    CONTAGENS,
     TECNICA_HARMONICO,
     TECNICA_LIGADA,
     completar_pauta,
@@ -95,6 +96,7 @@ from tab.partitura_pareamento import (
     EventoPartitura,
     EventoTab,
     _t_inis,
+    _x_do_simbolo,
     completar_com_homr,
     eventos_da_partitura,
     parear,
@@ -1035,7 +1037,47 @@ def _contagens_da_pauta(pauta: dict, notas: list[dict]) -> dict[str, int]:
     }
 
 
-def _completar_pauta_do_recorte(pauta: dict, notas: list[dict]) -> tuple[dict, dict]:
+def _pausas_do_recorte(entrada: dict, omr: Path) -> list[float]:
+    """x no quadro das pausas da leitura herdada de um recorte (rodada 3027, Ajuste 1).
+
+    A pausa é lida como uma nota: ``_x_do_simbolo``, com o slot do compasso dela no ``.omr``.
+    Pausa sem slot não tem x e fica fora da lista.
+
+    Args:
+        entrada: entrada do ``indice.json`` com ``sem_pauta`` falso.
+        omr: pasta ``omr`` do produto (``pasta_omr``).
+
+    Returns:
+        O x de cada pausa lida, na ordem da leitura. Lista vazia se falta a leitura herdada
+        ou o ``.omr``, ou se a leitura não abre.
+    """
+    rid = entrada["id"]
+    x0 = entrada["caixa_recorte"][0]
+    herdada = (
+        omr / "audiveris" / f"{CONDICAO_AUDIVERIS}_herdada" / rid / "saida.musicxml"
+    )
+    entrada_omr = omr / "audiveris" / CONDICAO_AUDIVERIS / rid / "entrada.omr"
+    if not herdada.exists() or not entrada_omr.exists():
+        return []
+    try:
+        leitura = ler_partitura(herdada)
+        pilhas = x_dos_compassos(entrada_omr)
+    except ValueError, ET.ParseError:
+        return []
+    xs = []
+    for k, compasso in enumerate(leitura["compassos"]):
+        pilha = pilhas[k] if k < len(pilhas) else None
+        for simbolo in compasso["simbolos"]:
+            if simbolo["pausa"]:
+                x = _x_do_simbolo(simbolo, pilha, x0, ESCALA_X2)
+                if x is not None:
+                    xs.append(x)
+    return xs
+
+
+def _completar_pauta_do_recorte(
+    pauta: dict, notas: list[dict], pausas_x: list[float]
+) -> tuple[dict, dict[str, int], list[dict]]:
     """Completa uma pauta com as notas da tab que ela não leu (``completar_pauta``).
 
     A tab é a da janela do recorte na tela da pauta, com as mesmas colunas de
@@ -1044,14 +1086,15 @@ def _completar_pauta_do_recorte(pauta: dict, notas: list[dict]) -> tuple[dict, d
     Args:
         pauta: pauta de ``_pauta_do_recorte``, já com os pares.
         notas: lista ``notas`` do produto.
+        pausas_x: x no quadro das pausas do recorte (``_pausas_do_recorte``).
 
     Returns:
-        ``(pauta, contagens)``: a pauta com os eventos completados, e as contagens de
-        ``completar_pauta`` (zeros se a pauta tem ``erro``).
+        ``(pauta, contagens, motivos)``: a pauta com os eventos completados; as contagens de
+        ``completar_pauta`` (zeros se a pauta tem ``erro``); e os motivos das notas que não
+        entraram, com ``tela`` e ``recorte`` acrescentados.
     """
-    zero = {"acorde": 0, "isolado": 0, "nao_harmonico": 0, "nao_ligada": 0}
     if "erro" in pauta:
-        return pauta, zero
+        return pauta, dict.fromkeys(CONTAGENS, 0), []
     x0, x1 = pauta["caixa_quadro"][0], pauta["caixa_quadro"][2]
     tab = []
     for evento in eventos_do_produto(notas, pauta["tela"], x0, x1):
@@ -1076,10 +1119,13 @@ def _completar_pauta_do_recorte(pauta: dict, notas: list[dict]) -> tuple[dict, d
                 "ligadas": ligadas,
             }
         )
-    eventos, contagens = completar_pauta(
-        pauta["eventos"], tab, pauta["compassos"], pauta["tela"]
+    eventos, contagens, motivos = completar_pauta(
+        pauta["eventos"], tab, pauta["compassos"], pauta["tela"], pausas_x
     )
-    return {**pauta, "eventos": eventos}, contagens
+    motivos = [
+        {**m, "tela": pauta["tela"], "recorte": pauta["recorte"]} for m in motivos
+    ]
+    return {**pauta, "eventos": eventos}, contagens, motivos
 
 
 def caminho_do_parear(produto: Path, pasta_video: Path | None = None) -> Path:
@@ -1120,11 +1166,9 @@ def parear_produto(produto: Path, pasta_video: Path | None = None) -> dict:
             encoding="utf-8"
         )
     )
-    pautas = [
-        _pauta_do_recorte(entrada, dados["notas"], pasta_omr(produto, pasta_video))
-        for entrada in indice
-        if not entrada["sem_pauta"]
-    ]
+    omr = pasta_omr(produto, pasta_video)
+    com_pauta = [entrada for entrada in indice if not entrada["sem_pauta"]]
+    pautas = [_pauta_do_recorte(entrada, dados["notas"], omr) for entrada in com_pauta]
     contagens = [_contagens_da_pauta(pauta, dados["notas"]) for pauta in pautas]
     totais = {
         chave: sum(c[chave] for c in contagens)
@@ -1145,11 +1189,14 @@ def parear_produto(produto: Path, pasta_video: Path | None = None) -> dict:
         if e["par"] is not None
     ]
     completadas = [
-        _completar_pauta_do_recorte(pauta, dados["notas"]) for pauta in pautas
+        _completar_pauta_do_recorte(
+            pauta, dados["notas"], _pausas_do_recorte(entrada, omr)
+        )
+        for entrada, pauta in zip(com_pauta, pautas, strict=True)
     ]
     soma = {
-        chave: sum(contagem[chave] for _, contagem in completadas)
-        for chave in ("acorde", "isolado", "nao_harmonico", "nao_ligada")
+        chave: sum(contagem[chave] for _, contagem, _ in completadas)
+        for chave in CONTAGENS
     }
     documento = {
         "esquema": ESQUEMA_PARTITURA,
@@ -1166,7 +1213,7 @@ def parear_produto(produto: Path, pasta_video: Path | None = None) -> dict:
                 "pauta_pequena": pauta["entrelinha"] < ENTRELINHA_PEQUENA,
                 "leitura_ok": "erro" not in pauta,
             }
-            for pauta, _ in completadas
+            for pauta, _, _ in completadas
         ],
         "resumo": {
             "pautas": len(pautas),
@@ -1176,8 +1223,11 @@ def parear_produto(produto: Path, pasta_video: Path | None = None) -> dict:
             "completadas_isolado": soma["isolado"],
             "nao_completadas_harmonico": soma["nao_harmonico"],
             "nao_completadas_ligada": soma["nao_ligada"],
+            "nao_completadas_pausa": soma["nao_pausa"],
+            "nao_completadas_cabecalho": soma["nao_cabecalho"],
+            "nao_completadas_oitava": soma["nao_oitava"],
             "pautas_pequenas": sum(
-                pauta["entrelinha"] < ENTRELINHA_PEQUENA for pauta, _ in completadas
+                pauta["entrelinha"] < ENTRELINHA_PEQUENA for pauta, _, _ in completadas
             ),
         },
     }

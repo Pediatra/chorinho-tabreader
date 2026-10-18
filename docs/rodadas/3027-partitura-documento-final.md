@@ -159,3 +159,131 @@ medida.
 1596 passed, 2 skipped, 5 deselected, 2 xfailed. Os testes novos estão em
 `tests/test_partitura_completar_pauta.py` (9) e `tests/test_partitura_video.py` (3). Não usam
 `data/saida`, `artefatos` nem o acervo.
+
+## Ajuste 1: a tab só completa onde a pauta está presente
+
+**Motivo.** A revisão da sessão principal achou dois casos errados: gymnopédie T01 E4, sobre a clave
+de sol, e greensleeves T03 C#5, sobre uma pausa. O erro é da tab do produto, e não da partitura.
+Decisão do dono: uma nota da tab não é completada quando a pauta está calada naquele x, quando
+fica antes do começo da pauta, ou quando a pauta tem a mesma nota uma oitava acima ou abaixo.
+
+**Regras (a priori).** Tolerância `TOLERANCIA_PX` = 5,0 px no quadro, como nas outras regras.
+
+- `ligada`: `tecnica` `lig`. Não entra (regra da P4 original).
+- `harmonico`: `tecnica` `harm` com oitava na pauta. Não entra (regra da P4 original; o produto
+  não tem essa marca).
+- `pausa`: há uma pausa da leitura herdada (`x2_margem_herdada`) a até `TOLERANCIA_PX` do x da
+  coluna, no mesmo recorte. O x da pausa sai dos slots do `.omr`, igual aos das notas.
+- `cabecalho`: x da coluna < primeiro x da pauta (nota ou pausa) − `TOLERANCIA_PX`.
+- `oitava`: a pauta tem a mesma nota, a até `TOLERANCIA_PX`, uma oitava acima ou abaixo. Vale para
+  acorde e isolado. A regra antiga da 3013 (só acima) fica como diagnóstico na E1.
+
+Motivo de cada nota que não entra: a primeira regra da lista acima que se aplica.
+
+**Aceite (congelado antes da medida).**
+
+1. Os 442 eventos que já existiam nos 3 documentos ficam idênticos, campo a campo, com o comparador.
+2. gymnopédie T01 E4 (x 41,4) e greensleeves T03 C#5 (x 1768,1) não entram.
+3. Os 7 candidatos de oitava da 3027 não entram. Cinco estão nos documentos finais: south T03 c12
+   midi 52 e 59; gymnopédie T06 c4 midi 52; T11 c3 midi 61; T12 c1 midi 64. Os outros dois são do
+   R07 (R01–R12), que não entra no documento final, e não se medem aqui.
+4. Lista de cada nota que deixou de entrar (vídeo, tela, x, nota, motivo). As 66 da 3027 ficam
+   divididas entre as que entram e as que saíram. Diz também se a gymnopédie T07 E3 (x 247,6)
+   caiu em alguma regra.
+5. Tabela nova por vídeo: completadas de acorde, isoladas, e não completadas por pausa, cabeçalho,
+   oitava, harmônico e ligada. Tela 10 da gymnopédie à parte.
+6. O `e1.json` da frente E não muda (`cmp` contra `fe_completar/e1.json`): as regras novas só valem
+   no documento final.
+7. Gate verde, o mesmo do briefing.
+
+**Limite registrado antes da medida.** Uma pausa sem slot no `.omr` não tem x, e por isso não entra
+na regra de pausa. A quantidade dessas pausas sai na rodada.
+
+### Resultado do Ajuste 1
+
+Gate: `ruff check`, `ruff format --check` e `pytest tests/` passaram (1602 passed, 2 skipped,
+5 deselected, 2 xfailed).
+
+| item do aceite | resultado |
+| --- | --- |
+| 1. 442 eventos que já existiam, campo a campo | **0 diferenças** (`comparar_partitura.py`: topo, pautas, eventos, símbolos existentes, resumo antigo) |
+| 2. gymnopédie T01 E4 e greensleeves T03 C#5 não entram | **não entram**: T01 E4 por `cabecalho`; T03 C#5 por `pausa` |
+| 3. os 7 candidatos de oitava não entram | **5 de 5 que estão no documento não entram**: south T03 c12 m52 e m59 (`oitava`); gym T06 c4 m52 (`pausa`, que vem antes de `oitava`); T11 c3 m61 (`oitava`); T12 c1 m64 (`oitava`). Os 2 do R07 não estão no documento final |
+| 4. lista das notas que deixaram de entrar, com o motivo | **41 notas** (tabela abaixo). 66 = 25 que entram + 41 que saem |
+| 4. gymnopédie T07 E3 (x 247,6) | **caiu em `pausa`** (isolada, compasso 1). Outras 4 notas do T07 também caem em `pausa` |
+| 5. tabela por vídeo | ver abaixo |
+| 6. `e1.json` da frente E não muda | **igual** (`cmp` contra `fe_completar/e1.json`: 0) |
+| 7. gate | **verde** |
+
+**Conciliação com a E1** (`motivos_p4.py`): fora da tela 10, a E1 tem 37 notas; 11 entram e 26
+saem (pausa 21, cabeçalho 1, oitava 4). Na tela 10 da gymnopédie, a E1 tem 29; 14 entram e 15
+saem. Conferido por script: "OK".
+
+Ponto para o dono: `comparar_partitura.py` ainda compara as completadas com a E1 como se nada
+tivesse saído. Esses 4 avisos são esperados (a conta não fecha sem as 41 notas que saíram); a
+conciliação correta é a do `motivos_p4.py`, que fecha.
+
+**Tabela por vídeo (completadas que entram; motivos de não entrar)**
+
+| vídeo | pautas | pautas pequenas | acorde | isoladas | pausa | cabeçalho | oitava | harmônico | ligada |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| greensleeves | 4 | 0 | 0 | 0 | 1 (iso) | 0 | 0 | 0 | 0 |
+| south american | 3 | 3 | 1 | 1 | 0 | 0 | 2 (acorde) | 0 | 0 |
+| gymnopédie (sem a tela 10) | 12 | 0 | 8 | 1 | 20 (17 acorde, 3 iso) | 1 (iso) | 2 (acorde) | 0 | 0 |
+| **gymnopédie tela 10 (à parte)** | — | — | 5 | 9 | 14 (12 acorde, 2 iso) | 0 | 1 (iso) | 0 | 0 |
+| **total** | 19 | 3 | 14 | 11 | 35 (29 acorde, 6 iso) | 1 | 5 | 0 | 0 |
+
+Total: 25 entram (14 acorde, 11 isoladas); 41 saem (35 por `pausa`, 1 por `cabecalho`, 5 por
+`oitava`). Por `harmonico` e `ligada`: 0 e 0, como antes (o produto não tem essas marcas).
+
+**Lista das 41 notas que deixaram de entrar** (vídeo, tela, recorte, x no quadro, nota, tipo, compasso, motivo):
+
+| vídeo | tela | recorte | x | nota | tipo | compasso | motivo |
+| --- | ---: | --- | ---: | --- | --- | ---: | --- |
+| greensleeves | 3 | T03 | 1768,1 | C#5 | isolado | 8 | pausa |
+| south | 3 | T03 | 1882,7 | E3 | acorde | 12 | oitava |
+| south | 3 | T03 | 1882,7 | B3 | acorde | 12 | oitava |
+| gym | 1 | T01 | 41,4 | E4 | isolado | 1 | cabecalho |
+| gym | 1 | T01 | 1450,5 | A#5 | acorde | 6 | pausa |
+| gym | 2 | T02 | 476,0 | A3 | acorde | 2 | pausa |
+| gym | 2 | T02 | 476,0 | G#6 | acorde | 2 | pausa |
+| gym | 2 | T02 | 708,0 | E3 | isolado | 3 | pausa |
+| gym | 2 | T02 | 1679,5 | E3 | acorde | 7 | pausa |
+| gym | 3 | T03 | 744,3 | D#6 | acorde | 3 | pausa |
+| gym | 3 | T03 | 981,9 | G#6 | acorde | 4 | pausa |
+| gym | 3 | T03 | 1219,5 | C#6 | acorde | 5 | pausa |
+| gym | 4 | T04 | 986,1 | E3 | acorde | 4 | pausa |
+| gym | 4 | T04 | 1443,7 | E3 | acorde | 6 | pausa |
+| gym | 4 | T04 | 1701,1 | E3 | acorde | 7 | pausa |
+| gym | 6 | T06 | 1034,1 | E3 | acorde | 4 | pausa (também oitava) |
+| gym | 7 | T07 | 247,6 | E3 | isolado | 1 | pausa |
+| gym | 7 | T07 | 992,2 | A3 | acorde | 4 | pausa |
+| gym | 7 | T07 | 992,2 | B4 | acorde | 4 | pausa |
+| gym | 7 | T07 | 1474,0 | G#6 | acorde | 6 | pausa |
+| gym | 7 | T07 | 1707,6 | E3 | isolado | 7 | pausa |
+| gym | 8 | T08 | 967,8 | A#5 | acorde | 4 | pausa |
+| gym | 9 | T09 | 240,3 | G#6 | acorde | 1 | pausa |
+| gym | 9 | T09 | 1680,3 | E3 | acorde | 7 | pausa |
+| gym | 10 | T10 | 245,6 | A3 | acorde | 1 | pausa |
+| gym | 10 | T10 | 467,3 | A3 | isolado | 2 | pausa |
+| gym | 10 | T10 | 538,8 | G4 | acorde | 2 | pausa |
+| gym | 10 | T10 | 538,8 | C5 | acorde | 2 | pausa |
+| gym | 10 | T10 | 538,8 | E5 | acorde | 2 | pausa |
+| gym | 10 | T10 | 717,5 | A3 | acorde | 3 | pausa |
+| gym | 10 | T10 | 789,0 | G4 | isolado | 3 | oitava |
+| gym | 10 | T10 | 967,8 | A3 | acorde | 4 | pausa |
+| gym | 10 | T10 | 1218,0 | A3 | acorde | 5 | pausa |
+| gym | 10 | T10 | 1218,0 | B5 | acorde | 5 | pausa |
+| gym | 10 | T10 | 1468,3 | A3 | acorde | 6 | pausa |
+| gym | 10 | T10 | 1689,9 | A3 | isolado | 7 | pausa |
+| gym | 10 | T10 | 1761,4 | G4 | acorde | 7 | pausa |
+| gym | 10 | T10 | 1761,4 | C5 | acorde | 7 | pausa |
+| gym | 10 | T10 | 1761,4 | E5 | acorde | 7 | pausa |
+| gym | 11 | T11 | 697,7 | C#4 | acorde | 3 | oitava |
+| gym | 12 | T12 | 831,7 | E4 | acorde | 1 | oitava |
+
+**Pergunta aberta para o dono (a regra literal de pausa).** A regra da pausa vale para toda nota,
+inclusive a que tem nota pareada no mesmo x. Por isso ela tira 29 notas de acorde da gymnopédie:
+a pauta tem a nota da coluna, e a pausa está numa outra voz ou num outro sistema. Se a regra valer
+só para nota isolada, esses acordes voltam. Não mudei a regra sem a sua decisão. As 6 pausas
+isoladas (inclusive a do greensleeves e a do gym T07 E3) continuam fora.

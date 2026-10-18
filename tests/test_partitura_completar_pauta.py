@@ -1,4 +1,4 @@
-"""Testes da completação da pauta pela tab (P4, rodada 3027): função pura, sem acervo.
+"""Testes da completação da pauta pela tab (P4, rodadas 3027 e Ajuste 1): função pura.
 
 Os dados são montados à mão. Nada de ``data/saida``, de ``artefatos`` nem do acervo.
 """
@@ -64,10 +64,12 @@ def test_nome_da_nota_com_oitava():
 def test_acorde_entra_no_evento_pareado():
     eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
     original = copy.deepcopy(eventos)
-    saida, contagens = completar_pauta(
+    saida, contagens, motivos = completar_pauta(
         eventos, [_tab(100.0, 7, {60, 64})], COMPASSOS, 1
     )
-    assert contagens == {"acorde": 1, "isolado": 0, "nao_harmonico": 0, "nao_ligada": 0}
+    assert contagens["acorde"] == 1
+    assert sum(contagens.values()) == 1
+    assert motivos == []
     assert len(saida) == 1
     assert saida[0]["simbolos"][0] == original[0]["simbolos"][0]
     nova = saida[0]["simbolos"][1]
@@ -84,7 +86,7 @@ def test_isolado_vira_evento_novo_em_ordem_de_x():
         _evento("2", 300.0, 9, [_simbolo(67)]),
     ]
     tab = [_tab(100.0, 7, {60}), _tab(200.0, 8, {62}), _tab(300.0, 9, {67})]
-    saida, contagens = completar_pauta(eventos, tab, COMPASSOS, 1)
+    saida, contagens, _ = completar_pauta(eventos, tab, COMPASSOS, 1)
     assert contagens["isolado"] == 1
     assert contagens["acorde"] == 0
     assert [e["x_quadro"] for e in saida] == [100.0, 200.0, 300.0]
@@ -106,7 +108,7 @@ def test_isolado_vira_evento_novo_em_ordem_de_x():
 def test_figura_fica_null_mesmo_com_deficit_de_figura_so():
     # o compasso 2 está vazio na pauta: o déficit seria uma semibreve, e a figura fica null
     eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
-    saida, _ = completar_pauta(eventos, [_tab(200.0, 8, {62})], COMPASSOS, 1)
+    saida, _, _ = completar_pauta(eventos, [_tab(200.0, 8, {62})], COMPASSOS, 1)
     todas = [s for e in saida for s in e["simbolos"] if s["origem"] == "tab_completada"]
     assert todas and all(s["figura"] is None and s["pontuada"] is False for s in todas)
 
@@ -114,16 +116,17 @@ def test_figura_fica_null_mesmo_com_deficit_de_figura_so():
 def test_harmonico_com_oitava_na_pauta_nao_entra():
     eventos = [_evento("1", 100.0, 7, [_simbolo(76)])]
     tab = [_tab(100.0, 7, {64}, harmonico=True)]
-    saida, contagens = completar_pauta(eventos, tab, COMPASSOS, 1)
+    saida, contagens, motivos = completar_pauta(eventos, tab, COMPASSOS, 1)
     assert contagens["nao_harmonico"] == 1
     assert contagens["acorde"] == 0
+    assert motivos[0]["motivo"] == "harmonico"
     assert saida[0]["simbolos"] == eventos[0]["simbolos"]
 
 
 def test_harmonico_sem_oitava_na_pauta_entra_marcado():
     eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
     tab = [_tab(100.0, 7, {64}, harmonico=True)]
-    saida, contagens = completar_pauta(eventos, tab, COMPASSOS, 1)
+    saida, contagens, _ = completar_pauta(eventos, tab, COMPASSOS, 1)
     assert contagens["acorde"] == 1
     assert contagens["nao_harmonico"] == 0
     assert saida[0]["simbolos"][1]["midi_escrito"] == 64
@@ -133,16 +136,17 @@ def test_harmonico_sem_oitava_na_pauta_entra_marcado():
 def test_nota_ligada_nao_entra():
     eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
     tab = [_tab(100.0, 7, {60, 64}, ligadas={64})]
-    saida, contagens = completar_pauta(eventos, tab, COMPASSOS, 1)
+    saida, contagens, motivos = completar_pauta(eventos, tab, COMPASSOS, 1)
     assert contagens["nao_ligada"] == 1
     assert contagens["acorde"] == 0
+    assert motivos[0]["motivo"] == "ligada"
     assert len(saida[0]["simbolos"]) == 1
 
 
 def test_simbolo_existente_fica_intacto():
     eventos = [_evento("1", 100.0, 7, [_simbolo(60), _simbolo(67, figura="half")])]
     original = copy.deepcopy(eventos)
-    saida, _ = completar_pauta(eventos, [_tab(100.0, 7, {60, 64, 67})], COMPASSOS, 1)
+    saida, _, _ = completar_pauta(eventos, [_tab(100.0, 7, {60, 64, 67})], COMPASSOS, 1)
     assert eventos == original
     assert saida[0]["simbolos"][:2] == original[0]["simbolos"]
     assert [s["midi_escrito"] for s in saida[0]["simbolos"][2:]] == [64]
@@ -150,8 +154,78 @@ def test_simbolo_existente_fica_intacto():
 
 def test_par_de_outra_tela_nao_ocupa_a_coluna():
     eventos = [_evento("1", 100.0, 7, [_simbolo(60)], tela=2)]
-    saida, contagens = completar_pauta(eventos, [_tab(100.0, 7, {64})], COMPASSOS, 1)
+    saida, contagens, _ = completar_pauta(eventos, [_tab(100.0, 7, {64})], COMPASSOS, 1)
     assert contagens["isolado"] == 1
     assert contagens["acorde"] == 0
     assert len(saida) == 2
     assert saida[0]["simbolos"] == eventos[0]["simbolos"]
+
+
+def test_pausa_no_mesmo_x_nao_completa():
+    # a pauta está calada em x 102, a 2 px da coluna (x 100): a nota não entra
+    eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
+    tab = [_tab(100.0, 7, {60, 64})]
+    saida, contagens, motivos = completar_pauta(eventos, tab, COMPASSOS, 1, [102.0])
+    assert contagens["nao_pausa"] == 1
+    assert contagens["acorde"] == 0
+    assert saida[0]["simbolos"] == eventos[0]["simbolos"]
+    assert motivos == [
+        {"x": 100.0, "midi": 64, "tipo": "acorde", "compasso": "1", "motivo": "pausa"}
+    ]
+
+
+def test_pausa_longe_do_x_nao_bloqueia_e_pausa_isolada_conta():
+    eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
+    _, contagens, motivos = completar_pauta(
+        eventos, [_tab(100.0, 7, {60, 64})], COMPASSOS, 1, [120.0]
+    )
+    assert contagens["acorde"] == 1
+    assert motivos == []
+    # isolado com pausa a 2 px: não entra
+    _, contagens, _ = completar_pauta(
+        eventos, [_tab(200.0, 8, {62})], COMPASSOS, 1, [198.0]
+    )
+    assert contagens["nao_pausa"] == 1
+    assert contagens["isolado"] == 0
+
+
+def test_cabecalho_antes_da_primeira_nota_nao_completa():
+    # a primeira nota da pauta está em x 100; a coluna em x 90 cai antes de 100 - 5
+    eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
+    tab = [_tab(90.0, 8, {62})]
+    _, contagens, motivos = completar_pauta(eventos, tab, COMPASSOS, 1)
+    assert contagens["nao_cabecalho"] == 1
+    assert contagens["isolado"] == 0
+    assert motivos[0]["motivo"] == "cabecalho"
+
+
+def test_pausa_antes_da_primeira_nota_conta_como_primeiro_evento():
+    # com uma pausa em x 80, o primeiro evento da pauta passa a ser 80: x 90 já não é cabeçalho
+    eventos = [_evento("1", 100.0, 7, [_simbolo(60)])]
+    tab = [_tab(90.0, 8, {62})]
+    saida, contagens, _ = completar_pauta(eventos, tab, COMPASSOS, 1, [80.0])
+    assert contagens["nao_cabecalho"] == 0
+    assert contagens["isolado"] == 1
+    assert len(saida) == 2
+
+
+def test_oitava_abaixo_na_pauta_nao_completa_no_acorde():
+    # a pauta tem 52 (uma oitava abaixo de 64) no mesmo x
+    eventos = [_evento("1", 100.0, 7, [_simbolo(52)])]
+    _, contagens, motivos = completar_pauta(
+        eventos, [_tab(100.0, 7, {52, 64})], COMPASSOS, 1
+    )
+    assert contagens["nao_oitava"] == 1
+    assert contagens["acorde"] == 0
+    assert motivos[0]["motivo"] == "oitava"
+
+
+def test_oitava_acima_na_pauta_nao_completa_no_isolado():
+    # a pauta tem 76 (uma oitava acima de 64) a 2 px da coluna da tab, que não tem par
+    eventos = [_evento("1", 202.0, 9, [_simbolo(76)])]
+    _, contagens, motivos = completar_pauta(
+        eventos, [_tab(200.0, 8, {64})], COMPASSOS, 1
+    )
+    assert contagens["nao_oitava"] == 1
+    assert contagens["isolado"] == 0
+    assert motivos[0]["tipo"] == "isolado"
