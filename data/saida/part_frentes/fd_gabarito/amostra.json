@@ -4,21 +4,31 @@
   "semente": 0,
   "estratos": {
     "fortes": {
-      "guitar dell ́arte": 1,
-      "iwaki": 1,
-      "pablo romé": 1,
+      "guitar dell ́arte": 8,
+      "iwaki": 4,
+      "pablo romé": 3,
       "paolo d'angelo": 1,
-      "robert lunn": 1,
-      "serge kottelat": 1,
-      "sky guitar": 1,
-      "transcriptor": 1,
+      "robert lunn": 8,
+      "serge kottelat": 2,
+      "sky guitar": 10,
+      "transcriptor": 2,
       "tv on guitar": 1,
       "ギタロー ⧸ guitarous": 1
     },
     "proporcionais": {
-      "kimny's guitar": 22,
-      "lonelypicker": 2,
-      "mr. tabs": 6
+      "guitar dell ́arte": 7,
+      "iwaki": 3,
+      "kimny's guitar": 0,
+      "lonelypicker": 0,
+      "mr. tabs": 0,
+      "pablo romé": 2,
+      "paolo d'angelo": 0,
+      "robert lunn": 7,
+      "serge kottelat": 1,
+      "sky guitar": 9,
+      "transcriptor": 1,
+      "tv on guitar": 0,
+      "ギタロー ⧸ guitarous": 0
     },
     "pesos": {
       "cifra club": 0.0,
@@ -45,6 +55,9 @@
   "populacao": {
     "guitar dell ́arte": 359,
     "iwaki": 162,
+    "kimny's guitar": 108,
+    "lonelypicker": 2,
+    "mr. tabs": 22,
     "pablo romé": 122,
     "paolo d'angelo": 12,
     "robert lunn": 367,
@@ -52,17 +65,97 @@
     "sky guitar": 414,
     "transcriptor": 33,
     "tv on guitar": 3,
-    "ギタロー ⧸ guitarous": 53,
-    "kimny's guitar": 108,
-    "lonelypicker": 2,
-    "mr. tabs": 22
+    "ギタロー ⧸ guitarous": 53
   },
   "escolhidos": {
     "guitar dell ́arte": [
-      "guitar dell ́arte/el choclo⧸kiss of fire (a. villoldo), guitar arrangement and tutorial with sheet and tab.mp4"
+      "guitar dell ́arte/el choclo⧸kiss of fire (a. villoldo), guitar arrangement and tutorial with sheet and tab.mp4",
+      "guitar dell ́arte/sargento cabral, barrios’s hidden gem😯guitar, sheet and tab.mp4",
+      "guitar dell ́arte/somewhere over the rainbow, arrangement for guitar duet⧸guitar and voice.mp4",
+      "guitar dell ́arte/comptine d’un autre été (y. tiersen), guitar lesson with sheet and tab.mp4",
+      "guitar dell ́arte/somewhere over the rainbow (h. arlen) arrangement for guitar, tutorial with sheet and tab.mp4",
+      "guitar dell ́arte/valsa sem nome (baden powell), guitar lesson, sheet and tab.mp4",
+      "guitar dell ́arte/bella notte (s. burke), guitar lesson, sheet and tab.mp4",
+      "guitar dell ́arte/five beautiful and easy pieces! guitar. free sheet and tab🎼🎶.mp4"
     ],
     "iwaki": [
-      "iwaki/spanish romance ( - jeux interdits - romance d'amour) ｜ tab.mp4"
+      "iwaki/spanish romance ( - jeux interdits - romance d'amour) ｜ tab.mp4",
+      "iwaki/- therru's song - aoi teshima- tab.mp4",
+      "iwaki/someday my prince will come ⧸ tab for beginners.mp4",
+      "iwaki/titanic - my heart will go on ｜ tab.mp4"
+    ],
+    "kimny's guitar": [],
+    "lonelypicker": [],
+    "mr. tabs": [],
+    "pablo romé": [
+      "pablo romé/romance anónimo segunda parte 😎 [partitura+tab].mp4",
+      "pablo romé/danza española 💃 nº5 👏(clase 2) ＂andaluza＂ ｜ partitura+tab.mp4",
+      "pablo romé/taranta de montoya 💥 tutorial flamenco ｜ partitura + tab.mp4"
+    ],
+    "paolo d'angelo": [
+      "paolo d'angelo/imagine ｜ john lennon ｜ guitar tab & chords ｜ guitar tutorial.mp4"
+    ],
+    "robert lunn": [
+      "robert lunn/5 miniatures - includes full sheet music⧸tab - classical guitar.mp4",
+      "robert lunn/the garden of bliss - includes sheet music and tab - classical guitar - robert lunn.mp4",
+      "robert lunn/flow my tears - john dowland - full sheet⧸music tab - classical guitar.mp4",
+      "robert lunn/3 middle eastern guitar pieces (vol. 2) - with sheet music⧸tab.mp4",
+      "robert lunn/air on the g string - j.s. bach - includes tab - arrangement for classical guitar.mp4",
+      "robert lunn/arpeggio no. 3 - free sheet music⧸tab - robert lunn.mp4",
+      "robert lunn/carol of the bells - includes sheet music⧸tab - classical guitar arrangement.mp4",
+      "robert lunn/hammer-on exercise no. 1 - includes sheet music⧸tab - robert lunn.mp4"
+    ],
+    "serge kottelat": [
+      "serge kottelat/jean-marie ecay – eternal child (chick corea) ｜ beautiful solo guitar • transcription with tab.mp4",
+      "serge kottelat/brian may live 2024 – who wants to live forever (with andrea bocelli) ｜ unique guitar score + tabs.mp4"
+    ],
+    "sky guitar": [
+      "sky guitar/edelweiss (hard version) - fingerstyle lesson + tab.mp4",
+      "sky guitar/heidenroslein - guitar lesson + tab.mp4",
+      "sky guitar/asturias (easy version) - guitar lesson + tab.mp4",
+      "sky guitar/the phantom of the opera - fingerstyle lesson + tab.mp4",
+      "sky guitar/tarantella napoletana - guitar lesson + tab.mp4",
+      "sky guitar/summer (kikujiro) - guitar lesson + tab.mp4",
+      "sky guitar/the muffin man - fingerstyle lesson + tab.mp4",
+      "sky guitar/minuet (bach) - guitar lesson + tab.mp4",
+      "sky guitar/lullaby (brahms) jazzy version - guitar lesson + tab.mp4",
+      "sky guitar/fun series #9 (20th century fox) tab.mp4"
+    ],
+    "transcriptor": [
+      "transcriptor/charagua - victor jara -  2＊ guitarra - partitura ⧸ tablatura..mp4",
+      "transcriptor/milonga - cacho tirao - tablatura ⧸ partitura.mp4"
+    ],
+    "tv on guitar": [
+      "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4"
+    ],
+    "ギタロー ⧸ guitarous": [
+      "ギタロー ⧸ guitarous/小さな恋のうた ソロギター 初心者向け タブ譜.mp4"
+    ]
+  },
+  "reservas": {
+    "guitar dell ́arte": [
+      "guitar dell ́arte/la vita è bella valse larmoyante, guitar tutorial.mp4",
+      "guitar dell ́arte/invierno porteno (a. piazzolla) guitar, sheet and tab.mp4",
+      "guitar dell ́arte/adagio bwv 974 (bach⧸marcello), arrangement for guitar, tutorial with sheet and tab.mp4",
+      "guitar dell ́arte/chiquilin de bachin (piazzolla), guitar lesson, sheet and tab.mp4",
+      "guitar dell ́arte/etude no. 38, book 2 (j. sagreras) guitar, sheet and tab.mp4",
+      "guitar dell ́arte/manha de carneval (l. bonfa), guitar lesson, sheet and tab.mp4",
+      "guitar dell ́arte/pure imagination, guitar lesson, sheet and tab.mp4",
+      "guitar dell ́arte/great movie soundtracks on guitar.mp4",
+      "guitar dell ́arte/la fille aux cheveux de lin (debussy), guitar lesson, sheet and tab.mp4",
+      "guitar dell ́arte/quizas, quizas, quizas (o. farres) arrangement for guitar, tutorial with sheet and tab.mp4"
+    ],
+    "iwaki": [
+      "iwaki/when i was told to suddenly play the canon ⧸ tab.mp4",
+      "iwaki/brahms - lullaby ｜ tab.mp4",
+      "iwaki/handel⧸halvorsen - passacaglia.mp4",
+      "iwaki/a whole new world from aladdin｜tab.mp4",
+      "iwaki/mozart - lacrimosa｜ tab.mp4",
+      "iwaki/chrono trigger ⧸  wind scene  ⧸ tab.mp4",
+      "iwaki/mozart ： rondo alla turca (turkish march) ｜ tab.mp4",
+      "iwaki/fallen down (undertale)｜lesson + tab.mp4",
+      "iwaki/love - theme nuovo cinema paradiso.mp4",
+      "iwaki/greensleeves for beginners ⧸ tab.mp4"
     ],
     "kimny's guitar": [
       "kimny's guitar/[ tab ] libertango（リベルタンゴ） - astor piazzola ｜ performed by kimny.mp4",
@@ -74,19 +167,7 @@
       "kimny's guitar/[ tab ] count on me - bruno mars ｜ fingerstyle guitar cover ｜ free pdf.mp4",
       "kimny's guitar/[ tab ] i loves you, porgy - george gershwin ｜ fingerstyle guitar cover ｜ free pdf.mp4",
       "kimny's guitar/[tab] retrato brasileiro - baden powell ｜  performed by kimny.mp4",
-      "kimny's guitar/[ tab ] i won't last a day without you（愛は夢の中に） - carpenters ｜ fingerstyle guitar cover ｜ free pdf.mp4",
-      "kimny's guitar/[ tab ] ochún - chucho valdes ｜ fingerstyle guitar cover ｜ free pdf.mp4",
-      "kimny's guitar/[ tab ] lágrima（ラグリマ） - francisco tárrega（f. タレガ） ｜ performed by kimny.mp4",
-      "kimny's guitar/[ tab ] here i am again - tommy walker ｜ fingerstyle guitar cover ｜ free pdf.mp4",
-      "kimny's guitar/[ tab ] hallelujah（ハレルヤ） - leonard cohen ｜ fingerstyle guitar cover.mp4",
-      "kimny's guitar/[ tab ] aqua - 坂本龍一 ｜ fingerstyle guitar cover ｜.mp4",
-      "kimny's guitar/[tab] g線上のアリア - j. s. bach ｜ fingerstyle guitar cover.mp4",
-      "kimny's guitar/[tab] oblivion（忘却） - astor piazzolla ｜ guitar arrangement and performed by kimny.mp4",
-      "kimny's guitar/[tab] apelo - baden powell ｜ arrangement & performed by kimny.mp4",
-      "kimny's guitar/[ tab ] 時には昔の話を ～ 映画『紅の豚』より ～ - 加藤登紀子 ｜ fingerstyle guitar cover.mp4",
-      "kimny's guitar/[ tab ] 花 - 藤井風 ｜ fingerstyle guitar cover ｜ ドラマ『いちばんすきな花』主題歌.mp4",
-      "kimny's guitar/[ tab ] come away with me - norah jones ｜ fingerstyle guitar cover ｜ free pdf.mp4",
-      "kimny's guitar/[ tab ] a flower is not a flower - ryuichi sakamoto ｜ fingerstyle guitar cover.mp4"
+      "kimny's guitar/[ tab ] i won't last a day without you（愛は夢の中に） - carpenters ｜ fingerstyle guitar cover ｜ free pdf.mp4"
     ],
     "lonelypicker": [
       "lonelypicker/it’s a heartache – bonnie tyler - easy fingerstyle guitar tutorial tab.mp4",
@@ -98,86 +179,13 @@
       "mr. tabs/the tragically hip - ahead by a century - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
       "mr. tabs/pink floyd - wish you were here - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
       "mr. tabs/heart - crazy on you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ zager.mp4",
-      "mr. tabs/guns n' roses - patience - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4"
-    ],
-    "pablo romé": [
-      "pablo romé/romance anónimo segunda parte 😎 [partitura+tab].mp4"
-    ],
-    "paolo d'angelo": [
-      "paolo d'angelo/imagine ｜ john lennon ｜ guitar tab & chords ｜ guitar tutorial.mp4"
-    ],
-    "robert lunn": [
-      "robert lunn/5 miniatures - includes full sheet music⧸tab - classical guitar.mp4"
-    ],
-    "serge kottelat": [
-      "serge kottelat/jean-marie ecay – eternal child (chick corea) ｜ beautiful solo guitar • transcription with tab.mp4"
-    ],
-    "sky guitar": [
-      "sky guitar/edelweiss (hard version) - fingerstyle lesson + tab.mp4"
-    ],
-    "transcriptor": [
-      "transcriptor/charagua - victor jara -  2＊ guitarra - partitura ⧸ tablatura..mp4"
-    ],
-    "tv on guitar": [
-      "tv on guitar/mario wonder overworld theme tab & std notation ｜ tvonguitar.mp4"
-    ],
-    "ギタロー ⧸ guitarous": [
-      "ギタロー ⧸ guitarous/小さな恋のうた ソロギター 初心者向け タブ譜.mp4"
-    ]
-  },
-  "reservas": {
-    "guitar dell ́arte": [
-      "guitar dell ́arte/sargento cabral, barrios’s hidden gem😯guitar, sheet and tab.mp4",
-      "guitar dell ́arte/somewhere over the rainbow, arrangement for guitar duet⧸guitar and voice.mp4",
-      "guitar dell ́arte/comptine d’un autre été (y. tiersen), guitar lesson with sheet and tab.mp4",
-      "guitar dell ́arte/somewhere over the rainbow (h. arlen) arrangement for guitar, tutorial with sheet and tab.mp4",
-      "guitar dell ́arte/valsa sem nome (baden powell), guitar lesson, sheet and tab.mp4",
-      "guitar dell ́arte/bella notte (s. burke), guitar lesson, sheet and tab.mp4",
-      "guitar dell ́arte/five beautiful and easy pieces! guitar. free sheet and tab🎼🎶.mp4",
-      "guitar dell ́arte/la vita è bella valse larmoyante, guitar tutorial.mp4",
-      "guitar dell ́arte/invierno porteno (a. piazzolla) guitar, sheet and tab.mp4",
-      "guitar dell ́arte/adagio bwv 974 (bach⧸marcello), arrangement for guitar, tutorial with sheet and tab.mp4"
-    ],
-    "iwaki": [
-      "iwaki/- therru's song - aoi teshima- tab.mp4",
-      "iwaki/someday my prince will come ⧸ tab for beginners.mp4",
-      "iwaki/titanic - my heart will go on ｜ tab.mp4",
-      "iwaki/when i was told to suddenly play the canon ⧸ tab.mp4",
-      "iwaki/brahms - lullaby ｜ tab.mp4",
-      "iwaki/handel⧸halvorsen - passacaglia.mp4",
-      "iwaki/a whole new world from aladdin｜tab.mp4",
-      "iwaki/mozart - lacrimosa｜ tab.mp4",
-      "iwaki/chrono trigger ⧸  wind scene  ⧸ tab.mp4",
-      "iwaki/mozart ： rondo alla turca (turkish march) ｜ tab.mp4"
-    ],
-    "kimny's guitar": [
-      "kimny's guitar/[tab] maria luisa（マリア・ルイサ） - j. s. sagreras（サグレラス） ｜ performed by kimny.mp4",
-      "kimny's guitar/[ tab ] no surprises - radiohead ｜ fingerstyle guitar cover.mp4",
-      "kimny's guitar/[ tab ] ベンのテーマ - マイケル・ジャクソン ｜ fingerstyle guitar cover.mp4",
-      "kimny's guitar/[tab] rosa - pixinguinha (arr. baden powell) ｜ performed by kimny.mp4",
-      "kimny's guitar/[ tab ] いきどまり - 星野源 ｜ 映画『平場の月』主題歌 ｜ ソロギター.mp4",
-      "kimny's guitar/[tab] 群青（合唱曲）- 小田美樹 ｜ fingerstyle guitar cover.mp4",
-      "kimny's guitar/[ tab ] your song - elton john ｜ fingerstyle guitar cover.mp4",
-      "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
-      "kimny's guitar/[ tab ] エマニエル夫人のテーマ - ピエール・バシュレ ｜ fingerstyle guitar cover ｜ free pdf.mp4",
-      "kimny's guitar/[ tab ] いつか王子様が ~someday my prince will come~　(ディズニー映画『白雪姫』より) ｜ fingerstyle guitar cover ｜.mp4"
-    ],
-    "lonelypicker": [],
-    "mr. tabs": [
+      "mr. tabs/guns n' roses - patience - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
       "mr. tabs/extreme - more than words - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
       "mr. tabs/fleetwood mac - never going back again - guitar tab ｜ drop d ｜ lesson ｜ cover ｜ tutorial ｜ blue lava.mp4",
       "mr. tabs/green day - good riddance (time of your life) guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ rising g pro.mp4",
-      "mr. tabs/eric clapton - tears in heaven - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
-      "mr. tabs/the beatles (george harrison) - here comes the sun - chords ｜ guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
-      "mr. tabs/metallica - fade to black - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
-      "mr. tabs/mr. big - to be with you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ audimee.mp4",
-      "mr. tabs/bon jovi - wanted dead or alive - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
-      "mr. tabs/eric clapton - layla unplugged acoustic - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
-      "mr. tabs/hanging out in the upside down, taking requests. #shorts #guitar #lavamusic.mp4"
+      "mr. tabs/eric clapton - tears in heaven - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4"
     ],
     "pablo romé": [
-      "pablo romé/danza española 💃 nº5 👏(clase 2) ＂andaluza＂ ｜ partitura+tab.mp4",
-      "pablo romé/taranta de montoya 💥 tutorial flamenco ｜ partitura + tab.mp4",
       "pablo romé/nocturno 🌜op.9 no.2 de chopin 🔥(clase 2) tutorial ｜ partitura+tab.mp4",
       "pablo romé/asturias de albéniz 3  💃 tutorial guitarra [partitura+tab].mp4",
       "pablo romé/mi favorita guitarra ⭐️ 🥰 ｜ guía de estudio - partitura + tab.mp4",
@@ -185,7 +193,9 @@
       "pablo romé/suspiros de españa 🍩🍩 (clase 2) ｜ partitura + tab.mp4",
       "pablo romé/capricho árabe (clase 3) - tutorial - partitura+tab 🧨.mp4",
       "pablo romé/carcassi estudio 2 😇  tutorial ｜ partitura + tab.mp4",
-      "pablo romé/3 piezas de guitarra 🎸 para impresionar 😱🔥.mp4"
+      "pablo romé/3 piezas de guitarra 🎸 para impresionar 😱🔥.mp4",
+      "pablo romé/🌃 nocturno de chopin 🔥(clase 3) tutorial ｜ partitura+tab.mp4",
+      "pablo romé/pieza secreta de paganini para guitarra 😨 tutorial.mp4"
     ],
     "paolo d'angelo": [
       "paolo d'angelo/tears in heaven ｜ eric clapton ｜ guitar tab ｜ fingerstyle lesson.mp4",
@@ -200,19 +210,18 @@
       "paolo d'angelo/just breathe ｜ pearl jam ｜ guitar tab ｜ fingerstyle tutorial.mp4"
     ],
     "robert lunn": [
-      "robert lunn/the garden of bliss - includes sheet music and tab - classical guitar - robert lunn.mp4",
-      "robert lunn/flow my tears - john dowland - full sheet⧸music tab - classical guitar.mp4",
-      "robert lunn/3 middle eastern guitar pieces (vol. 2) - with sheet music⧸tab.mp4",
-      "robert lunn/air on the g string - j.s. bach - includes tab - arrangement for classical guitar.mp4",
-      "robert lunn/arpeggio no. 3 - free sheet music⧸tab - robert lunn.mp4",
-      "robert lunn/carol of the bells - includes sheet music⧸tab - classical guitar arrangement.mp4",
-      "robert lunn/hammer-on exercise no. 1 - includes sheet music⧸tab - robert lunn.mp4",
       "robert lunn/morning breeze (beginner series no. 2) - with sheet music⧸tab - robert lunn.mp4",
       "robert lunn/amazing grace - includes sheet music and tab - arrangement for classical guitar.mp4",
-      "robert lunn/floating mirrors - includes sheet music⧸tab - robert lunn.mp4"
+      "robert lunn/floating mirrors - includes sheet music⧸tab - robert lunn.mp4",
+      "robert lunn/andante - fernando sor - full sheet music⧸tab - classical guitar.mp4",
+      "robert lunn/favorite lick #11 - includes sheet music⧸tab - robert lunn.mp4",
+      "robert lunn/greensleeves (beginner duet) - tutorial with tab - classical guitar.mp4",
+      "robert lunn/gymnopedie no. 1 - erik satie - full tutorial with tab - fingerstyle guitar.mp4",
+      "robert lunn/stretching exercise no 1 - includes sheet music⧸tab - robert lunn.mp4",
+      "robert lunn/a second past midnight - includes sheet music⧸tab - extended techniques - classical guitar.mp4",
+      "robert lunn/piano sonata no. 2 (theme) - frédéric chopin - full tutorial with tab - classical guitar.mp4"
     ],
     "serge kottelat": [
-      "serge kottelat/brian may live 2024 – who wants to live forever (with andrea bocelli) ｜ unique guitar score + tabs.mp4",
       "serge kottelat/matthieu chedid playing an incredible version of 'je dis aime' + tab.mp4",
       "serge kottelat/mateus asato – goodbye. ｜ solo acoustic guitar transcription with tab.mp4",
       "serge kottelat/sting & dominic miller playing an incredible version of shape of my heart + tab.mp4",
@@ -221,22 +230,22 @@
       "serge kottelat/paulinho nogueira – samba em prelúdio ｜ solo guitar score with tab.mp4",
       "serge kottelat/pat metheny – don’t know why ｜ jazz guitar masterpiece • transcription with tab.mp4",
       "serge kottelat/sungha jung at age 12 – pirates of the caribbean ｜ guitar transcription with tab & notation.mp4",
-      "serge kottelat/brian may playing an incredible version of we are the champions, with tab.mp4"
+      "serge kottelat/brian may playing an incredible version of we are the champions, with tab.mp4",
+      "serge kottelat/jean-marie ecay – you're just a ghost ｜ fingerstyle solo guitar with tab.mp4"
     ],
     "sky guitar": [
-      "sky guitar/heidenroslein - guitar lesson + tab.mp4",
-      "sky guitar/asturias (easy version) - guitar lesson + tab.mp4",
-      "sky guitar/the phantom of the opera - fingerstyle lesson + tab.mp4",
-      "sky guitar/tarantella napoletana - guitar lesson + tab.mp4",
-      "sky guitar/summer (kikujiro) - guitar lesson + tab.mp4",
-      "sky guitar/the muffin man - fingerstyle lesson + tab.mp4",
-      "sky guitar/minuet (bach) - guitar lesson + tab.mp4",
-      "sky guitar/lullaby (brahms) jazzy version - guitar lesson + tab.mp4",
-      "sky guitar/fun series #9 (20th century fox) tab.mp4",
-      "sky guitar/he's a pirate (easy version) - guitar lesson + tab.mp4"
+      "sky guitar/he's a pirate (easy version) - guitar lesson + tab.mp4",
+      "sky guitar/the flea waltz - guitar lesson + tab.mp4",
+      "sky guitar/cinema paradiso (first youth) - tab & lesson.mp4",
+      "sky guitar/winter ＂largo＂ (vivaldi) - guitar lesson + tab.mp4",
+      "sky guitar/take five - guitar lesson + tab.mp4",
+      "sky guitar/für elise (easy version) - guitar lesson + tab.mp4",
+      "sky guitar/autumn leaves - fingerstyle lesson + tab.mp4",
+      "sky guitar/swan lake - guitar lesson + tab.mp4",
+      "sky guitar/(schubert) serenade - guitar lesson + tab.mp4",
+      "sky guitar/(agustín barrios mangoré) la catedral 1st mov. - tab & lesson.mp4"
     ],
     "transcriptor": [
-      "transcriptor/milonga - cacho tirao - tablatura ⧸ partitura.mp4",
       "transcriptor/quiero ser tu sombra - 2° guitarra - acompañamiento - tablatura.mp4",
       "transcriptor/el mercado de testaccio - inti illimani guitarra acompañamiento -  partitura ⧸ tablatura.mp4",
       "transcriptor/victor jara - la partida - 1°guitarra - partitura ⧸ tablatura.mp4",
@@ -245,7 +254,8 @@
       "transcriptor/francisco tarrega - etude in e minor - estudio en mi menor - partitura ⧸ tablatura..mp4",
       "transcriptor/charagua - victor jara -  1＊ guitarra - partitura ⧸ tablatura..mp4",
       "transcriptor/bachianinha n° 1 - paulinho nogueira - partitura ⧸ tablatura.mp4",
-      "transcriptor/marieta -tarrega - tablatura ⧸ partitura (mazurka).mp4"
+      "transcriptor/marieta -tarrega - tablatura ⧸ partitura (mazurka).mp4",
+      "transcriptor/altiplano - valle del alto - 1°guitarra - tablatura.mp4"
     ],
     "tv on guitar": [
       "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
