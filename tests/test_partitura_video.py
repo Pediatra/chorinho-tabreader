@@ -898,3 +898,9 @@ def test_cli_ler_pasta_imprime_total_e_caminho(
     assert "audiveris ok 0/1" in saida
     assert "armadura herdada em 0" in saida
     assert f"gravado em {caminho_da_pasta(pasta)}" in saida
+
+
+def test_forca_de_linha_abaixo_do_quadro_e_zero():
+    """A 6ª linha de uma pauta na borda de baixo cai fora do quadro: força 0, sem erro."""
+    cinza = np.full((40, 30), 255, dtype=np.uint8)
+    assert partitura_video._forca_de_linha(cinza, 45.0, 8.0, 0, 30) == 0.0

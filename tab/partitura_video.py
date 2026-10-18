@@ -1191,7 +1191,8 @@ def _forca_de_linha(
         x1: fim horizontal (exclusivo).
 
     Returns:
-        A fração, entre 0 e 1 (0 se o intervalo horizontal está vazio).
+        A fração, entre 0 e 1 (0 se o intervalo horizontal está vazio ou se a faixa cai
+        fora do quadro, como a 6ª linha de uma pauta encostada na borda de baixo).
     """
     altura = cinza.shape[0]
     largura = x1 - x0
@@ -1202,6 +1203,8 @@ def _forca_de_linha(
     ya = min(max(yc - meia, 0), altura - 1)
     yb = min(max(yc + meia, 0), altura - 1)
     faixa = cinza[max(yc - 2, 0) : min(yc + 3, altura), x0:x1].astype(np.int32)
+    if faixa.shape[0] == 0:
+        return 0.0
     ref = (cinza[ya, x0:x1].astype(np.int32) + cinza[yb, x0:x1].astype(np.int32)) / 2
     presente = faixa.min(axis=0) <= ref - CRISTA_DELTA_EXT
     return float(np.count_nonzero(presente)) / largura
