@@ -6,8 +6,8 @@ Um item por recorte com símbolos a julgar. Entram só os símbolos que o dono c
   que ficam ``null`` não vão para a conferência (regra da sessão principal);
 - as notas do homr de R01–R12 que o pareamento acrescentou (``origem`` ``homr``).
 
-O desenho de cada item tem só as notas a julgar, cada uma com a sua figura, uma após a
-outra em cada compasso (``_musicxml_das_julgadas``): o dono clica nelas e compara com a
+O desenho de cada item tem só as notas a julgar, cada uma com a sua figura, em ordem de x
+e com as notas do mesmo x num acorde (``_musicxml_das_julgadas``): o dono clica nelas e compara com a
 imagem do recorte. O dono marca ``certo`` ou ``figura_errada``.
 
 Grava ``itens_e1.json`` e a cópia vazia do gabarito (``ouro_e1_copia.json``) na pasta da
@@ -108,6 +108,8 @@ def _simbolo(
 
 #: Divisões por semínima no MusicXML gerado (cobre a fusa).
 DIVISOES = 8
+#: Distância de x (px do quadro) até a qual duas julgadas são o mesmo acorde.
+TOLERANCIA_ACORDE_PX = 6.0
 PASSOS = [
     ("C", 0),
     ("C", 1),
@@ -138,8 +140,39 @@ PASSOS_BEMOL = [
 ]
 
 
+def _grupos(simbolos: list[dict]) -> list[list[dict]]:
+    """Agrupa em acordes as julgadas de um compasso, já em ordem de x.
+
+    Entram no mesmo acorde as notas a até ``TOLERANCIA_ACORDE_PX`` do x da primeira do
+    grupo e com a mesma figura (figura diferente no mesmo x é outra voz: vira outro grupo,
+    para o desenho não trocar a figura que o dono confere).
+
+    Args:
+        simbolos: símbolos de um compasso, em ordem de x.
+
+    Returns:
+        Lista de grupos, na ordem.
+    """
+    grupos: list[list[dict]] = []
+    for s in simbolos:
+        for grupo in grupos:
+            primeiro = grupo[0]
+            if (
+                s["x"] is not None
+                and primeiro["x"] is not None
+                and abs(s["x"] - primeiro["x"]) <= TOLERANCIA_ACORDE_PX
+                and (s["figura"], s["pontuada"])
+                == (primeiro["figura"], primeiro["pontuada"])
+            ):
+                grupo.append(s)
+                break
+        else:
+            grupos.append([s])
+    return grupos
+
+
 def _musicxml_das_julgadas(leitura: dict, compassos: list[dict]) -> str:
-    """MusicXML com só as notas a julgar, uma após a outra em cada compasso.
+    """MusicXML com só as notas a julgar, em ordem de x, acordes juntos.
 
     A conferência casa nota desenhada e símbolo pela altura dentro do compasso. Com a
     leitura inteira do Audiveris desenhada, as poucas notas a julgar casavam com notas que
@@ -178,17 +211,19 @@ def _musicxml_das_julgadas(leitura: dict, compassos: list[dict]) -> str:
                 f'<note><rest measure="yes"/><duration>{DIVISOES * 4}</duration>'
                 "<voice>1</voice></note>"
             )
-        for s in compasso["simbolos"]:
-            passo, alter = passos[s["midi"] % 12]
-            oitava = s["midi"] // 12 - 1
-            duracao = max(1, round(s["duracao"] * DIVISOES))
-            altera = f"<alter>{alter}</alter>" if alter else ""
-            ponto = "<dot/>" if s["pontuada"] else ""
-            partes.append(
-                f"<note><pitch><step>{passo}</step>{altera}<octave>{oitava}</octave>"
-                f"</pitch><duration>{duracao}</duration><voice>1</voice>"
-                f"<type>{s['figura']}</type>{ponto}</note>"
-            )
+        for grupo in _grupos(compasso["simbolos"]):
+            for n, s in enumerate(sorted(grupo, key=lambda s: s["midi"])):
+                passo, alter = passos[s["midi"] % 12]
+                oitava = s["midi"] // 12 - 1
+                duracao = max(1, round(s["duracao"] * DIVISOES))
+                altera = f"<alter>{alter}</alter>" if alter else ""
+                ponto = "<dot/>" if s["pontuada"] else ""
+                acorde = "<chord/>" if n else ""
+                partes.append(
+                    f"<note>{acorde}<pitch><step>{passo}</step>{altera}"
+                    f"<octave>{oitava}</octave></pitch><duration>{duracao}</duration>"
+                    f"<voice>1</voice><type>{s['figura']}</type>{ponto}</note>"
+                )
         medidas.append(f'<measure number="{k + 1}">{"".join(partes)}</measure>')
     return (
         '<?xml version="1.0" encoding="UTF-8"?>'
@@ -238,13 +273,15 @@ def _item(
     extra = [s for c, lista in por_compasso.items() if c not in numeros for s in lista]
     if extra:
         compassos.append({"numero": "extra", "duracao": 0.0, "simbolos": extra})
-    # Em cada compasso, as julgadas uma após a outra, pela posição x: o t é o do desenho.
+    # Em cada compasso, as julgadas pela posição x; notas no mesmo x e com a mesma figura
+    # são um acorde e dividem o t (o t é o do desenho, não o da música).
     for compasso in compassos:
         compasso["simbolos"].sort(key=lambda s: (s["x"] is None, s["x"] or 0.0))
         t = 0.0
-        for s in compasso["simbolos"]:
-            s["t"] = t
-            t += s["duracao"]
+        for grupo in _grupos(compasso["simbolos"]):
+            for s in grupo:
+                s["t"] = t
+            t += grupo[0]["duracao"]
     return {
         "id": id_,
         "origem": origem,
