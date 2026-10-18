@@ -97,6 +97,53 @@ gerador ou passar ao R4b (o arco como objeto próprio), olhe a folha inteira dos
   `data/saida/tab_rotulo/r4a/rodar.sh`. Um treino leva cerca de 23 min, então são uns 8 h no
   total.
 
-## Resultado
+## Resultado (2026-10-18)
 
-(a preencher)
+Os 20 treinos terminaram sem erro (`data/saida/tab_rotulo/r4a/treino_*.log`). Medidas:
+`data/saida/tab_rotulo/r4a/medida_<versao>_s<semente>.json`. As 3 sementes (1, 2, 3) estão
+abaixo como `s1 / s2 / s3`.
+
+### "Sim" falso: notas "não" do ouro lidas como atacadas
+
+| teste | `_ger` (hoje) | `_atq` (R4a) |
+| --- | --- | --- |
+| 8 ouros, dobra fora | 67/84 · 67/84 · 68/84 (80 %) | 31/84 · 34/83 · 33/84 (37–41 %) |
+| T8.2, dobra 0 | 28/40 · 29/40 · 28/40 (70–72 %) | 21/41 · 22/41 · 22/41 (51–54 %) |
+
+Por fonte (`_ger` → `_atq`, faixa das 3 sementes):
+
+| fonte | `_ger` | `_atq` |
+| --- | --- | --- |
+| End of Beginning | 16/18 | 2–3/18 |
+| Room 335 | 22–23/29 | 15–17/29 |
+| From This Place | 7/13 | 2–3/13 |
+| Retrato | 19/21 | 8–9/21 |
+| La Vie en Rose | 3/3 | 3/3 |
+
+### "Não" em nota atacada e casa
+
+| teste | medida | `_ger` | `_atq` |
+| --- | --- | --- | --- |
+| 8 ouros | "não" em atacada | 9 · 10 · 12 / ~2588 | 18 · 19 · 22 / ~2591 |
+| 8 ouros | casa | 2652 · 2648 · 2647 / ~2672 | 2644 · 2646 · 2655 / ~2675 |
+| T8.2 | "não" em atacada | 7 · 6 · 6 / ~1488 | 8 · 7 · 8 / ~1485 |
+| T8.2 | casa | 1520 · 1526 · 1526 / ~1528 | 1519 · 1522 · 1525 / ~1526 |
+
+A Gymnopédie tem a casa mais solta (`_ger` 373–380/391, `_atq` 369–380/392). As faixas se
+sobrepõem, então não é uma piora.
+
+## Leitura
+
+- **O aceite não passa.** O "sim" falso fica em 37–41 % nos ouros e 51–54 % na T8.2. O aceite
+  pede 5 % ou menos.
+- O ganho é real e estável nas 3 sementes: nos ouros o "sim" falso vai de 80 % para cerca de
+  39 %. O custo é pequeno: o "não" em nota atacada sobe de 0,4 % para 0,8 %, longe dos 10 %, e
+  a casa fica dentro da amplitude.
+- **Fora do estilo do treino, o ganho cai à metade.** Na T8.2, canais que nenhum ouro tem, o
+  "sim" falso vai de 71 % para 52 %. O modelo acha **19 ou 20 das 41** notas não atacadas: menos
+  da metade. **A regra de parada vale para a T8.2.**
+- O La Vie en Rose (3 mordentes) não melhora em nenhuma semente.
+- O Room 335 melhora pouco (15–17/29). A dobra 4 treina com só 3 h, como previsto.
+- Próximo passo, pelo plano: olhar a folha inteira dos erros da T8.2 e dos ouros por motivo
+  antes de passar ao R4b (o arco como objeto próprio, com arcos de vários estilos no gerador).
+  Os pesos `_atq` não substituem o `DETECTOR_PADRAO`.
