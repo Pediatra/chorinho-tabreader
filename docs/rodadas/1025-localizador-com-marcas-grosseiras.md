@@ -162,3 +162,61 @@ mudam. Todos os números abaixo são fixados agora, pela geometria do braço, se
   reportados à parte.
 - q20 tem **dois violões** na tela, e o dono marcou o de cima. É reportado à parte.
 - q08 é guitarra e já estava excluído.
+
+## Prova N: resultado (2026-10-18) — **passa nos dois critérios**
+
+`python -m tab.maos_braco_localizador prova1025`, rodado uma vez depois do commit b3a34f2a
+(`prova1025.json`), com a decodificação conjunta.
+- São 23 quadros (o q08 ficou fora) × 3 sementes = **69 medidas**.
+
+| | resultado | limite | |
+| --- | --- | --- | --- |
+| segurança: falsos não sinalizados | **2 de 69 (2,9 %)** | ≤ 5 % | passa |
+| utilidade: sinalizados | **30 de 69 (43 %)** | ≤ 50 % | passa |
+
+| classe | sinalizada | não sinalizada |
+| --- | --- | --- |
+| certo | 2 | **36** |
+| impreciso | 0 | 1 |
+| falso | 25 | **2** |
+| não achou | 3 | — |
+
+- **Dos 39 quadros que vão direto, sem revisão, 36 estão certos**, 1 está impreciso e 2 estão
+  falsos.
+- **Os 2 falsos que passam são os dois do q05, um violão de 7 cordas**, nas sementes 1 e 3.
+  - O dono confirmou que marcou a 6ª corda. O detector supõe 6 cordas e toma a 7ª como borda.
+  - O outro 7 cordas (q01) saiu falso e sinalizado nas 3 sementes.
+  - **Sem os dois quadros de 7 cordas**, sobram 63 medidas, e 0 falso passa sem sinalização.
+- **q20** (dois violões, o dono marcou o de cima): falso e sinalizado nas 3 sementes.
+- **Por semente**:
+
+  | semente | certo | falso | sinalizados (de 23) |
+  | --- | --- | --- | --- |
+  | 1 | 16 | 4 | 6 |
+  | 2 | 9 | 14 | 15 |
+  | 3 | 13 | 9 | 9 |
+
+  A semente 2 continua a pior.
+- **Por canal**:
+
+  | canal | certo | falso | falsos que passam |
+  | --- | --- | --- | --- |
+  | yunus guitarist | 15/18 | 3 | 0 |
+  | guitarous | 12/18 | — | 0 |
+  | gabriel cryslian | 6/18 | 10 | 2 (o 7 cordas) |
+  | serge kottelat | 5/15 | 8 | 0 |
+
+- **Envelope do estágio 1**: 25 de 69 dentro. Muitos quadros saem certos fora do envelope: o
+  refino e o estágio 2 aguentam mais do que o envelope da 1021 exige.
+
+### O que fica
+
+- **A cadeia inteira passa num teste limpo de 4 canais que nada no sistema viu.** O quadro
+  inteiro entra sem gabarito. Mais da metade dos quadros sai certa sem revisão, e o que é
+  sinalizado concentra os erros.
+- **O violão de 7 cordas é um buraco conhecido**: o detector é de 6 cordas. Até ter tratamento
+  próprio, 7 cordas precisa ser marcado ou excluído no ciclo.
+- **A variação entre sementes é grande** (a semente 2 é a pior em todas as medidas). No ciclo,
+  usar a melhor semente de desenvolvimento ou a concordância entre sementes é decisão de uma
+  rodada própria.
+- **Próximo passo** (pelo pré-registro): propor ao dono o ciclo de revisão num lote de vídeos.
