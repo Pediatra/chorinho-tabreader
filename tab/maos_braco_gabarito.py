@@ -995,6 +995,53 @@ def _validar_referencia(valor: object, registro: dict) -> dict:
     return {"ponto": ponto, "numero": numero}
 
 
+def _mover(registro: dict, dados: dict, dimensoes: tuple[int, int], agora: str) -> None:
+    """Arrasta um ponto já marcado (ponta de corda, nut ou traste) para outro lugar.
+
+    Um traste previsto que o dono arrasta deixa de ser previsto (vira marca dele). Uma
+    referência de traste que apontava para o ponto antigo passa a apontar para o novo.
+
+    Args:
+        registro: resposta do quadro, alterada em lugar.
+        dados: ``campo`` (``corda1``, ``corda6``, ``nut`` ou ``trastes``), ``indice``
+            (posição do ponto na lista; ignorado no nut), ``ponto_img`` e ``escala``.
+        dimensoes: ``(largura, altura)`` do quadro original.
+        agora: carimbo de data/hora da resposta.
+
+    Raises:
+        ValueError: se o campo ou o índice forem inválidos, ou o ponto cair fora do
+            quadro.
+    """
+    campo = dados.get("campo")
+    if campo not in ("corda1", "corda6", "nut", "trastes"):
+        raise ValueError(f"campo que não se arrasta: {campo}")
+    ponto = converter_clique(dados.get("ponto_img"), dados.get("escala"))
+    validar_no_quadro(ponto, dimensoes)
+    if campo == "nut":
+        if not isinstance(registro.get("nut"), list):
+            raise ValueError("não há nut marcado para arrastar")
+        _empilhar(registro)
+        registro["nut"] = ponto
+    else:
+        lista = registro.get(campo) or []
+        indice = dados.get("indice")
+        if isinstance(indice, bool) or not isinstance(indice, int):
+            raise ValueError("indice deve ser inteiro")
+        if not 0 <= indice < len(lista):
+            raise ValueError(f"indice {indice} fora de {campo}")
+        _empilhar(registro)
+        antigo = list(lista[indice])
+        nova = [list(t) for t in lista]
+        nova[indice] = ponto
+        registro[campo] = nova
+        if campo == "trastes":
+            ref = registro.get("traste_referencia")
+            if ref and ref.get("ponto") == antigo:
+                registro["traste_referencia"] = {**ref, "ponto": ponto}
+            _limpar_previstos_orfaos(registro)
+    registro["respondido_em"] = agora
+
+
 def _clicar(
     registro: dict, dados: dict, dimensoes: tuple[int, int], agora: str
 ) -> None:
@@ -1195,7 +1242,8 @@ def aplicar_acao(
     Args:
         gabarito: gabarito, alterado em lugar.
         id_quadro: id do quadro (``qNN``).
-        dados: ``acao`` (``clique``, ``desfazer``, ``limpar`` ou ``prever_trastes``) com
+        dados: ``acao`` (``clique``, ``mover``, ``desfazer``, ``limpar`` ou
+            ``prever_trastes``) com
             ``modo``/``ponto_img``/``escala`` ou ``numeros``, ou ``campo``/``valor``.
         dimensoes: ``(largura, altura)`` do quadro original.
         agora: carimbo de data/hora da resposta.
@@ -1218,6 +1266,8 @@ def aplicar_acao(
             registro["paineis"] = _paineis_da_divisao(registro)
         registro["historico"] = registro["historico"][:-1]
         registro["respondido_em"] = agora
+    elif acao == "mover":
+        _mover(registro, dados, dimensoes, agora)
     elif acao == "limpar":
         _empilhar(registro)
         for c in CAMPOS_LIMPAR:
@@ -1231,7 +1281,8 @@ def aplicar_acao(
         _mudar_campo(registro, dados, agora)
     else:
         raise ValueError(
-            "ação desconhecida (use clique, desfazer, limpar, prever_trastes ou campo)"
+            "ação desconhecida (use clique, mover, desfazer, limpar, prever_trastes "
+            "ou campo)"
         )
 
 
@@ -1915,7 +1966,69 @@ function definirModo(m) {
 
 $("img").addEventListener("load", () => { $("img").style.visibility = "visible"; });
 
+// Arrastar: botão esquerdo em cima de uma ponta de corda, do nut ou de um traste
+// marcado e soltar em outro lugar. Um arraste curto (< 4 px) vale como clique comum.
+let arraste = null;
+let acabouDeArrastar = false;
+function pegarPonto(ev) {
+  const img = $("img");
+  const bb = img.getBoundingClientRect();
+  const escala = bb.width / img.naturalWidth;
+  const x = (ev.clientX - bb.left) / escala, y = (ev.clientY - bb.top) / escala;
+  const r = visao().registro;
+  const alcance = 12 / escala;
+  let melhor = null;
+  const testar = (campo, indice, p) => {
+    if (!Array.isArray(p)) return;
+    const d = Math.hypot(p[0] - x, p[1] - y);
+    if (d <= alcance && (!melhor || d < melhor.d)) melhor = { campo, indice, d };
+  };
+  (r.corda1 || []).forEach((p, i) => testar("corda1", i, p));
+  (r.corda6 || []).forEach((p, i) => testar("corda6", i, p));
+  testar("nut", 0, r.nut);
+  (r.trastes || []).forEach((p, i) => testar("trastes", i, p));
+  return melhor;
+}
+$("img").addEventListener("mousedown", (ev) => {
+  if (!estado || ev.button !== 0) return;
+  const alvo = pegarPonto(ev);
+  if (!alvo) return;
+  ev.preventDefault();
+  arraste = { ...alvo, x0: ev.clientX, y0: ev.clientY, marca: null };
+});
+document.addEventListener("mousemove", (ev) => {
+  if (!arraste) return;
+  const img = $("img");
+  const bb = img.getBoundingClientRect();
+  const escala = bb.width / img.naturalWidth;
+  const q = atual();
+  if (!arraste.marca) {
+    arraste.marca = ponto(0, 0, q.largura * 0.008, "#ff2d55", "#fff");
+    $("svg").appendChild(arraste.marca);
+  }
+  arraste.marca.setAttribute("cx", (ev.clientX - bb.left) / escala);
+  arraste.marca.setAttribute("cy", (ev.clientY - bb.top) / escala);
+});
+document.addEventListener("mouseup", (ev) => {
+  if (!arraste) return;
+  const a = arraste;
+  arraste = null;
+  if (Math.hypot(ev.clientX - a.x0, ev.clientY - a.y0) < 4) {
+    if (a.marca) a.marca.remove();
+    return;
+  }
+  acabouDeArrastar = true;
+  const img = $("img");
+  const bb = img.getBoundingClientRect();
+  const escala = bb.width / img.naturalWidth;
+  enviar({
+    quadro: atual().id, acao: "mover", campo: a.campo, indice: a.indice,
+    ponto_img: [ev.clientX - bb.left, ev.clientY - bb.top], escala: escala,
+  });
+});
+
 $("img").addEventListener("click", (ev) => {
+  if (acabouDeArrastar) { acabouDeArrastar = false; return; }
   if (!estado) return;
   const img = $("img");
   if (!img.complete || img.style.visibility === "hidden") {

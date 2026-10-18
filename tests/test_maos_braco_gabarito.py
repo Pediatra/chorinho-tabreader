@@ -392,6 +392,58 @@ def test_limpar_apaga_as_marcas_e_o_desfazer_traz_de_volta() -> None:
     assert g["quadros"]["q01"]["nut"] == [10.0, 10.0]
 
 
+def test_mover_arrasta_ponta_de_corda_nut_e_traste() -> None:
+    """Mover troca só o ponto escolhido; o desfazer volta; traste previsto vira do dono."""
+    g = _gabarito_com(["q01"])
+    clique = {"acao": "clique", "escala": 1.0}
+    aplicar_acao(
+        g, "q01", clique | {"modo": "corda1", "ponto_img": [10, 10]}, DIMENSOES, "t"
+    )
+    aplicar_acao(
+        g, "q01", clique | {"modo": "corda1", "ponto_img": [300, 20]}, DIMENSOES, "t"
+    )
+    aplicar_acao(
+        g, "q01", clique | {"modo": "nut", "ponto_img": [5, 5]}, DIMENSOES, "t"
+    )
+    aplicar_acao(
+        g, "q01", clique | {"modo": "trastes", "ponto_img": [50, 12]}, DIMENSOES, "t"
+    )
+    g["quadros"]["q01"]["trastes_previstos"] = [[50.0, 12.0]]
+    mover = {"acao": "mover", "escala": 1.0}
+    aplicar_acao(
+        g,
+        "q01",
+        mover | {"campo": "corda1", "indice": 1, "ponto_img": [310, 30]},
+        DIMENSOES,
+        "t",
+    )
+    aplicar_acao(
+        g, "q01", mover | {"campo": "nut", "ponto_img": [6, 7]}, DIMENSOES, "t"
+    )
+    aplicar_acao(
+        g,
+        "q01",
+        mover | {"campo": "trastes", "indice": 0, "ponto_img": [55, 13]},
+        DIMENSOES,
+        "t",
+    )
+    registro = g["quadros"]["q01"]
+    assert registro["corda1"] == [[10.0, 10.0], [310.0, 30.0]]
+    assert registro["nut"] == [6.0, 7.0]
+    assert registro["trastes"] == [[55.0, 13.0]]
+    assert registro["trastes_previstos"] is None
+    aplicar_acao(g, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert g["quadros"]["q01"]["trastes"] == [[50.0, 12.0]]
+    with pytest.raises(ValueError):
+        aplicar_acao(
+            g,
+            "q01",
+            mover | {"campo": "corda6", "indice": 0, "ponto_img": [1, 1]},
+            DIMENSOES,
+            "t",
+        )
+
+
 def test_braco_nao_limpa_a_geometria_e_volta_sem_ela() -> None:
     """Braço "nao" zera cordas, nut, trastes e referência."""
     g = _gabarito_com(["q01"])
