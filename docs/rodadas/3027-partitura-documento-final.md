@@ -410,3 +410,31 @@ como precisa: nenhuma das 5 se confirmou como certa.
 
 **Não repetir:** regra de pausa por compasso ("uma voz só") deixa passar acorde de duas vozes com
 pausa da outra voz. Regra por voz da nota isolada é a que vale.
+
+## Revisão da sessão principal (2026-10-18)
+
+Integrado na `main` (merge de `7f0f8d71`). Os 3 documentos foram regerados na pasta de verdade
+(`data/saida/partitura/video/`). São iguais aos da frente, e os 442 eventos que já existiam ficaram
+idênticos. Gate verde.
+
+**Cada nota completada contra a tab do gabarito do dono**, pelo x (5 px) e pela altura escrita
+(`data/saida/partitura/diag/p4_antes/completadas_vs_ouro.py`):
+
+| conjunto | completadas | certas | outra altura no x | sem nota no x |
+| --- | ---: | ---: | ---: | ---: |
+| fora da tela 10 da Gymnopédie | 22 | **12** | 8 | 2 |
+| tela 10 da Gymnopédie (tab com cordas deslocadas) | 28 | 2 | 26 | 0 |
+
+- Fora da tela 10, 12 de 22 estão certas (0,55). A tab do produto acerta 723 de 767 nessas telas
+  (0,94), mas erra mais justamente onde a partitura não leu: harmônico (A.H.), nota aguda com
+  linha suplementar e acorde denso. Os erros das duas fontes caem nos mesmos lugares.
+- A olhada nos recortes do Ajuste 2 confirma os baixos: gym T02 c2 A3, T02 c7 E3 e T04 c4 E3 estão
+  desenhados na pauta, e o Audiveris não os leu. Já o T01 c6 A#5 está errado: a tab do gabarito tem
+  A5, e a do produto errou a casa.
+- No CA1, linha B (contra a tab do gabarito): certas 727 → 738, faltando 31 → 14, altura errada
+  9 → 15, inventadas 7 → 40. Quase todas as inventadas novas são da tela 10.
+
+**Leitura.** A completação está certa como mecanismo, mas a nota completada vale o mesmo que a tab
+do produto naquele ponto. Ela fica no documento com `origem` `tab_completada` e figura `null`, e
+quem usa o documento deve tratá-la como sugestão. A qualidade sobe sozinha quando a tab da trilha
+da tablatura melhorar.

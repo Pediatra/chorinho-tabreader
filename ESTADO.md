@@ -5284,6 +5284,12 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - O `<stem>.partitura.json` ganha `fifths`, `fifths_origem` e `compassos` por pauta, e `metodo` (`altura` ou `x`) em cada par. Quando o x desmente o par pela altura, o evento pega a coluna livre mais próxima a até uma entrelinha: Gym tela 10 vai de 0 para 10 de 14 pares conferidos; total 433 de 438. Notas certas iguais (723/767). Gym tela 12 tem `fifths` 1, provavelmente errado; `fracao` só na primeira pauta de cada vídeo.
 
+## Partitura — 2026-10-18 — documento final por vídeo com a nota que a tab tem (rodadas 3026, 3027)
+
+- **Tamanho da pauta causa a perda** (3026): 30 pautas grandes reduzidas a 11 px caem de 925/925 para 855/925 notas certas achadas (0,924). Mediana de 15 quadros na pauta pequena não recupera nada (1376 → 1323 certas, extras 73 → 116). Só resolução de verdade ajuda.
+- **P4** (3027): `tab.partitura_video parear` completa a pauta com a nota da tab que a pauta não leu (`origem` `tab_completada`, figura `null`) e marca `pauta_pequena` (< 16 px) e `leitura_ok` por pauta. A nota não entra se houver pausa na mesma voz, se estiver no cabeçalho ou se houver conflito de oitava. Nos 3 vídeos: 66 candidatas, 50 entram, 16 ficam fora. 442 eventos existentes idênticos.
+- **Contra a tab do gabarito do dono**: fora da tela 10 da Gymnopédie, 12 de 22 completadas estão certas; na tela 10, 2 de 28. A completada vale o que vale a tab do produto naquele ponto, e as duas fontes erram nos mesmos lugares. Tratar como sugestão.
+
 ## Partitura — 2026-10-18 — onda 1 das frentes fechada (rodadas 3101–3103, 3110, 3160–3162, 3170–3172, 3026)
 
 - **D1, gabarito sorteado** (40 vídeos, 13 canais; 35 conferidos pelo dono, `leitura_d1.json`): **certos/lidos 0,962**, **certos/(certos+faltando) 0,906**, 0 altura errada; 5 de 40 recortes sem leitura do Audiveris. Confirma o P1 (0,976 e 0,916): o Audiveris quase não inventa; falta cobertura. guitar dell'arte e pablo romé são os piores (0,84). Ver 3162.
