@@ -5284,6 +5284,16 @@ Ouro do dono: 4 páginas, 106 notas, 40 instantes (commit `9f5a62c8`). Medida (`
 
 - O `<stem>.partitura.json` ganha `fifths`, `fifths_origem` e `compassos` por pauta, e `metodo` (`altura` ou `x`) em cada par. Quando o x desmente o par pela altura, o evento pega a coluna livre mais próxima a até uma entrelinha: Gym tela 10 vai de 0 para 10 de 14 pares conferidos; total 433 de 438. Notas certas iguais (723/767). Gym tela 12 tem `fifths` 1, provavelmente errado; `fracao` só na primeira pauta de cada vídeo.
 
+## Partitura — 2026-10-18 — onda 1 das frentes fechada (rodadas 3101–3103, 3110, 3160–3162, 3170–3172, 3026)
+
+- **D1, gabarito sorteado** (40 vídeos, 13 canais; 35 conferidos pelo dono, `leitura_d1.json`): **certos/lidos 0,962**, **certos/(certos+faltando) 0,906**, 0 altura errada; 5 de 40 recortes sem leitura do Audiveris. Confirma o P1 (0,976 e 0,916): o Audiveris quase não inventa; falta cobertura. guitar dell'arte e pablo romé são os piores (0,84). Ver 3162.
+- **F0, régua**: as marcas do Audiveris (`abnormal`, duração do compasso) avisam em 14 de 49 compassos com nota faltando (29 %); `expected="1"` do `.omr` é falta de fórmula, não duração (decisão: tratar como sem duração esperada daqui para frente). Troca pelo homr em R01–R12: 3 consertadas, 0 quebradas. Tempo pelo par: 217/438 eventos; as 4 inversões são da partitura. Ver 3101–3103.
+- **E1, completar pela tab**: 56 notas completadas; o dono avaliou os trechos como "praticamente tudo errada" sem marcar nota a nota, e a olhada da sessão achou 19/21 figuras batendo (conflito não resolvido; desenho da conferência provavelmente enganou). **Decisão: nota completada entra com altura e instante da tab e figura `null`.** Nos produtos, 14 de 37 completadas herdam erro da tab. Ver 3170–3172.
+- **A1, imagem limpa**: nenhuma variante passa de 25/36 (meta 30/36); a moldura recupera 2 e quebra 1. Não adotada. Ver 3110.
+- **Qualidade da imagem** (59 recortes dos três gabaritos): pauta ≥ 16 px cobre 0,934, menor que isso 0,87–0,89; precisão igual em todas as faixas; tela carregada (tinta) acompanha a perda (Spearman −0,29). Correlação, não causa; teste causal proposto (reduzir pauta grande e reler). Ver 3026.
+- Ferramenta de conferência: imagem dos recortes da frente D, id com acento, e `paginar` com pauta na borda de baixo do quadro corrigidos.
+- **Não repetir**: (1) agente de frente numa pasta copiada sem git, container e ffmpeg (travou a onda); a worktree com `host-spawn` resolve. (2) sorteio "proporcional" lido só nos canais pequenos (kimny's guitar com 22 de 40 vagas e ~4 vídeos com pauta). (3) conferência de "só a figura" desenhando só as notas a julgar.
+
 ## Partitura — 2026-10-15 — homr troca o compasso em vídeo sem produto (rodada 3025)
 
 - Regra adotada: no compasso em que o homr lê ≥ 2× as notas do Audiveris, entra o compasso do homr, com as notas marcadas `homr_sem_confirmacao` (`trocar_compassos_pelo_homr`). A leitura do Audiveris fica guardada. `ler --pasta` agora roda o homr também (160/162 ok). Nos 11 vídeos do piloto: **30 compassos trocados em 17 recortes** (11 no amores hallaras, 10 no blackbird). No athletic P01a, a troca recupera 25, inventa 8 e **perde 2** notas certas do Audiveris. Conferência do dono na porta 8097, gabarito `data/gold/partitura/compassos_homr.json`. Ver `docs/rodadas/3025-homr-troca-compasso-sem-produto.md`.
