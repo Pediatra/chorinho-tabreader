@@ -103,6 +103,11 @@ GABARITO_BRACO_M25_PROVA = RAIZ / "data" / "gold" / "maos" / "braco_m25_prova.js
 MAOS_M26 = SAIDA / "maos" / "m26"
 GABARITO_BRACO_M26 = RAIZ / "data" / "gold" / "maos" / "braco_m26.json"
 
+#: Segundo ciclo de revisão do braço (rodada 1027, guitarous: canal fora do treino). Mesmo
+#: formato da 1026: ``tab.maos_braco_ciclo`` lê e grava aqui.
+MAOS_M27 = SAIDA / "maos" / "m27"
+GABARITO_BRACO_M27 = RAIZ / "data" / "gold" / "maos" / "braco_m27.json"
+
 #: Pré-marcação do braço por consenso de modelos de visão (rodada 1019): respostas brutas
 #: por modelo, resultado e tabelas (``tab.maos_braco_vlm``).
 MAOS_M19 = SAIDA / "maos" / "m19"

@@ -1,24 +1,28 @@
-"""Ciclo de revisão do braço (rodada 1026, sky guitar): sorteio, previsão e medida.
+"""Ciclo de revisão do braço (rodadas 1026 e 1027): sorteio, previsão e medida.
 
-Pré-registro: ``docs/rodadas/1026-ciclo-de-revisao-sky-guitar.md`` (commit 1a70e34c).
+Pré-registros: ``docs/rodadas/1026-ciclo-de-revisao-sky-guitar.md`` (commit 1a70e34c) e
+``docs/rodadas/1027-ciclo-de-revisao-guitarous.md`` (commit 32c4a644).
 
-CLI: ``python -m tab.maos_braco_ciclo {sortear,prever,medir}``.
+CLI: ``python -m tab.maos_braco_ciclo {sortear,prever,medir} [--rodada 1026|1027]``
+(padrão 1026). Cada rodada tem canal, semente, pasta e gabarito na tabela ``RODADAS``.
 
-1. ``sortear``: 8 vídeos do sky guitar fora das amostras anteriores (M3b, M21 e M25
-   treino), 8 instantes por vídeo entre 0,15 e 0,85 da duração. Cria a pasta
-   ``data/saida/maos/m26`` e o gabarito vazio, e acrescenta os quadros pelo
-   ``acrescentar`` da ferramenta do braço.
+1. ``sortear``: 8 vídeos do canal da rodada fora das amostras anteriores (M3b, M21 R,
+   M25 treino e prova, e as rodadas de ciclo já feitas), 8 instantes por vídeo entre
+   0,15 e 0,85 da duração. Cria a pasta da rodada e o gabarito vazio, e acrescenta os
+   quadros pelo ``acrescentar`` da ferramenta do braço.
 2. ``prever`` (GPU): cadeia com ``L2_todos_s1`` e ``A3_100_todos_s1``, decodificação
-   conjunta. Grava ``previsto.json`` e preenche o gabarito com a previsão (``braco``
-   fica vazio: o dono confirma). Os sinalizados vão primeiro na lista da página.
+   conjunta. Grava ``previsto.json`` (a previsão completa) e preenche o gabarito com a
+   previsão, cortada no primeiro traste fora da imagem (``braco`` fica vazio: o dono
+   confirma). Os sinalizados vão primeiro na lista da página.
 3. ``medir``: compara ``previsto.json`` com o gabarito final do dono. Não é rodado
-   nesta rodada: o dono ainda revisa.
+   na 1027 até o dono terminar a revisão.
 """
 
 from __future__ import annotations
 
 import argparse
 import copy
+import dataclasses
 import json
 import math
 import os
@@ -31,10 +35,12 @@ import numpy as np
 
 from .caminhos import (
     GABARITO_BRACO_M26,
+    GABARITO_BRACO_M27,
     MAOS_M3B,
     MAOS_M21,
     MAOS_M25,
     MAOS_M26,
+    MAOS_M27,
     acervo,
 )
 from .maos_braco_detector import (
@@ -55,11 +61,46 @@ from .maos_braco_localizador import _carregar_localizador, cadeia, sinalizado
 from .maos_braco_tempo import Marcas, classificar, erros, marcas_do_registro
 from .maos_gabarito import gravar_atomico
 
-#: Semente do sorteio dos vídeos (a da rodada).
-SEMENTE = 20261026
 
-#: Canal do lote (o único canal desta rodada).
-CANAL = "sky guitar"
+@dataclasses.dataclass(frozen=True)
+class Rodada:
+    """Parâmetros de uma rodada do ciclo: canal, semente, pasta e gabarito.
+
+    Attributes:
+        canal: pasta do canal no acervo (o lote é sorteado só dentro dela).
+        semente: semente do sorteio dos vídeos.
+        pasta: pasta da rodada (``indice.json``, ``quadros/``, ``previsto.json``).
+        gabarito: gabarito que o dono confere.
+        proxima: rodada que vem depois, para a frase do critério.
+    """
+
+    canal: str
+    semente: int
+    pasta: Path
+    gabarito: Path
+    proxima: str
+
+
+#: Uma linha por rodada. A 1026 é a primeira; a 1027 usa o mesmo detector, sem mudança.
+RODADAS: dict[str, Rodada] = {
+    "1026": Rodada(
+        canal="sky guitar",
+        semente=20261026,
+        pasta=MAOS_M26,
+        gabarito=GABARITO_BRACO_M26,
+        proxima="1027",
+    ),
+    "1027": Rodada(
+        canal="ギタロー ⧸ guitarous",
+        semente=20261027,
+        pasta=MAOS_M27,
+        gabarito=GABARITO_BRACO_M27,
+        proxima="1028",
+    ),
+}
+
+#: Rodada usada quando a CLI não recebe ``--rodada``.
+RODADA_PADRAO = "1026"
 
 #: Vídeos do lote e quadros por vídeo.
 N_VIDEOS = 8
@@ -93,11 +134,21 @@ ARQUIVO_PREVISTO = "previsto.json"
 ARQUIVO_MEDIDA = "medida.json"
 ARQUIVO_SORTEIO = "sorteio.json"
 
-COMO_FOI_ROTULADO = (
-    "dono, por quadro, na ferramenta tab.maos_braco_gabarito (rodada 1026, ciclo de "
-    "revisão: a previsão do detector já vem preenchida, o dono confere); coordenadas "
-    "no espaço do quadro original (x_quadro = x_img / escala)"
-)
+
+def como_foi_rotulado(numero: str) -> str:
+    """Texto do gabarito que diz como os quadros foram rotulados.
+
+    Args:
+        numero: rodada (``"1026"`` ou ``"1027"``).
+
+    Returns:
+        A frase gravada em ``como_foi_rotulado`` do gabarito.
+    """
+    return (
+        f"dono, por quadro, na ferramenta tab.maos_braco_gabarito (rodada {numero}, "
+        "ciclo de revisão: a previsão do detector já vem preenchida, o dono confere); "
+        "coordenadas no espaço do quadro original (x_quadro = x_img / escala)"
+    )
 
 
 # ---------------------------------------------------------------------------------
@@ -119,7 +170,7 @@ def fracoes_instantes() -> list[float]:
 def escolher_videos(
     candidatos: list[str],
     excluidos: set[str],
-    semente: int = SEMENTE,
+    semente: int,
     n: int = N_VIDEOS,
 ) -> list[str]:
     """Sorteia ``n`` vídeos fora de ``excluidos``, reproduzível pela semente.
@@ -160,7 +211,10 @@ def itens_do_sorteio(videos: list[str], duracoes: dict[str, float]) -> list[dict
 
 
 def arquivos_ja_usados() -> set[str]:
-    """Vídeos que já aparecem nas amostras anteriores (M3b, M21 R e M25 treino).
+    """Vídeos que já aparecem nas amostras anteriores e nos ciclos de revisão.
+
+    Fontes: M3b, M21 R, M25 treino e prova (o teste da 1025), e os índices do ciclo da
+    1026 (``m26``). A 1027 não pode repetir nenhum deles.
 
     Returns:
         Caminhos relativos ao acervo que não podem voltar no lote.
@@ -172,23 +226,31 @@ def arquivos_ja_usados() -> set[str]:
         item["arquivo"]
         for item in _ler_json(MAOS_M25 / "treino" / ARQUIVO_INDICE)["quadros"]
     }
+    usados |= {
+        item["arquivo"]
+        for item in _ler_json(MAOS_M25 / "prova" / ARQUIVO_INDICE)["quadros"]
+    }
+    usados |= {
+        item["arquivo"] for item in _ler_json(MAOS_M26 / ARQUIVO_INDICE)["quadros"]
+    }
     for caminho in sorted((MAOS_M21 / "R").glob("*.json")):
         usados.add(_ler_json(caminho)["arquivo"])
     return usados
 
 
-def _candidatos(raiz: Path) -> list[str]:
+def _candidatos(raiz: Path, canal: str) -> list[str]:
     """Vídeos do canal do lote no acervo.
 
     Args:
         raiz: raiz do acervo (só leitura).
+        canal: pasta do canal dentro do acervo.
 
     Returns:
         Caminhos relativos ao acervo, em ordem.
     """
-    nomes = os.listdir(raiz / CANAL)
+    nomes = os.listdir(raiz / canal)
     return sorted(
-        f"{CANAL}/{nome}" for nome in nomes if nome.lower().endswith(EXTENSOES_VIDEO)
+        f"{canal}/{nome}" for nome in nomes if nome.lower().endswith(EXTENSOES_VIDEO)
     )
 
 
@@ -224,37 +286,32 @@ def _duracao(caminho: Path) -> float:
     return float(resultado.stdout.strip())
 
 
-def gabarito_vazio(semente: int) -> dict:
+def gabarito_vazio(numero: str) -> dict:
     """Gabarito do ciclo sem nenhuma resposta (os quadros entram pelo ``acrescentar``).
 
     Args:
-        semente: semente do sorteio.
+        numero: rodada (``"1026"`` ou ``"1027"``).
 
     Returns:
         Dicionário no formato da ferramenta, com ``quadros`` vazio.
     """
     return {
         "formato": FORMATO_GABARITO,
-        "como_foi_rotulado": COMO_FOI_ROTULADO,
-        "semente": semente,
+        "como_foi_rotulado": como_foi_rotulado(numero),
+        "semente": RODADAS[numero].semente,
         "ferramenta": "tab.maos_braco_gabarito",
         "quadros": {},
     }
 
 
-def sortear(
-    raiz: Path | None = None,
-    pasta: Path = MAOS_M26,
-    ouro: Path = GABARITO_BRACO_M26,
-) -> list[str]:
+def sortear(numero: str = RODADA_PADRAO, raiz: Path | None = None) -> list[str]:
     """Sorteia o lote, cria a pasta e o gabarito vazios e acrescenta os quadros.
 
     Recusa se a pasta ou o gabarito já existirem: nada é sobrescrito.
 
     Args:
+        numero: rodada (chave de ``RODADAS``).
         raiz: raiz do acervo; padrão é ``acervo()``.
-        pasta: pasta ``m26`` (``indice.json`` e ``quadros/``).
-        ouro: gabarito do ciclo.
 
     Returns:
         Os ids dos quadros criados, na ordem do sorteio.
@@ -262,23 +319,25 @@ def sortear(
     Raises:
         FileExistsError: se a pasta ou o gabarito já existirem.
     """
+    rodada = RODADAS[numero]
+    pasta, ouro = rodada.pasta, rodada.gabarito
     raiz = raiz or acervo()
     if (pasta / ARQUIVO_INDICE).exists() or ouro.exists():
         raise FileExistsError(f"já existe índice ou gabarito em {pasta} / {ouro}")
     usados = arquivos_ja_usados()
-    candidatos = _candidatos(raiz)
-    videos = escolher_videos(candidatos, usados)
+    candidatos = _candidatos(raiz, rodada.canal)
+    videos = escolher_videos(candidatos, usados, rodada.semente)
     duracoes = {video: _duracao(raiz / video) for video in videos}
     itens = itens_do_sorteio(videos, duracoes)
     pasta.mkdir(parents=True, exist_ok=True)
-    gravar_atomico(pasta / ARQUIVO_INDICE, {"semente": SEMENTE, "quadros": []})
-    gravar_atomico(ouro, gabarito_vazio(SEMENTE))
+    gravar_atomico(pasta / ARQUIVO_INDICE, {"semente": rodada.semente, "quadros": []})
+    gravar_atomico(ouro, gabarito_vazio(numero))
     ids = acrescentar(itens, raiz, pasta, ouro)
     gravar_atomico(
         pasta / ARQUIVO_SORTEIO,
         {
-            "semente": SEMENTE,
-            "canal": CANAL,
+            "semente": rodada.semente,
+            "canal": rodada.canal,
             "fracoes": fracoes_instantes(),
             "candidatos": len(candidatos),
             "excluidos": len(usados),
@@ -376,17 +435,43 @@ def marcas_do_previsto(previsto: dict) -> Marcas | None:
     )
 
 
-def registro_previsto(base: dict, previsto: dict, sinalizado_: bool) -> dict:
+def trastes_visiveis(previsto: dict, dimensoes: tuple[int, int]) -> list[dict]:
+    """Trastes previstos que o gabarito mostra: até o primeiro fora da imagem.
+
+    A lista é cortada no primeiro ponto com ``x`` fora de ``[0, largura)`` ou ``y`` fora
+    de ``[0, altura)``, e tudo depois dele sai (mesma regra com que o corte de 1026 foi
+    feito à mão). A previsão completa continua em ``previsto.json``.
+
+    Args:
+        previsto: entrada de ``previsto.json`` (com ``achou`` verdadeiro).
+        dimensoes: ``(largura, altura)`` do quadro original.
+
+    Returns:
+        Os itens ``{numero, ponto}`` do início da lista, na mesma ordem.
+    """
+    largura, altura = dimensoes
+    for k, item in enumerate(previsto["trastes"]):
+        x, y = item["ponto"]
+        if not (0 <= x < largura and 0 <= y < altura):
+            return previsto["trastes"][:k]
+    return previsto["trastes"]
+
+
+def registro_previsto(
+    base: dict, previsto: dict, sinalizado_: bool, dimensoes: tuple[int, int]
+) -> dict:
     """Registro do gabarito com a previsão: cordas, nut e trastes, ``braco`` vazio.
 
     Os trastes entram na ordem do número (1 a N, do nut para fora), que é a forma que
-    ``numerar_trastes`` relê. ``trastes_previstos`` recebe todos, para a página mostrar
-    tudo como previsto. Sem braço, a geometria fica vazia.
+    ``numerar_trastes`` relê, e são cortados no primeiro fora da imagem
+    (``trastes_visiveis``). ``trastes_previstos`` recebe a mesma lista cortada. Sem
+    braço, a geometria fica vazia.
 
     Args:
         base: registro em branco do quadro (com ``chave``).
         previsto: entrada de ``previsto.json``.
         sinalizado_: se o quadro foi sinalizado (vai para a observação).
+        dimensoes: ``(largura, altura)`` do quadro original.
 
     Returns:
         O novo registro (cópia; ``base`` não muda).
@@ -399,7 +484,7 @@ def registro_previsto(base: dict, previsto: dict, sinalizado_: bool) -> dict:
             registro[campo] = None
         registro["obs"] = OBS_SEM_BRACO
         return registro
-    pontos = [item["ponto"] for item in previsto["trastes"]]
+    pontos = [item["ponto"] for item in trastes_visiveis(previsto, dimensoes)]
     registro["corda1"] = copy.deepcopy(previsto["corda1"])
     registro["corda6"] = copy.deepcopy(previsto["corda6"])
     registro["nut"] = copy.deepcopy(previsto["nut"])
@@ -409,12 +494,15 @@ def registro_previsto(base: dict, previsto: dict, sinalizado_: bool) -> dict:
     return registro
 
 
-def conferir_numeracao(registro: dict, previsto: dict) -> None:
-    """Confere que a ferramenta relê os trastes com os mesmos números da previsão.
+def conferir_numeracao(
+    registro: dict, previsto: dict, dimensoes: tuple[int, int]
+) -> None:
+    """Confere que a ferramenta relê os trastes visíveis com os números da previsão.
 
     Args:
         registro: registro montado por ``registro_previsto``.
         previsto: a previsão do mesmo quadro.
+        dimensoes: ``(largura, altura)`` do quadro original.
 
     Quadro sem braço não tem trastes: nada a conferir.
 
@@ -423,7 +511,10 @@ def conferir_numeracao(registro: dict, previsto: dict) -> None:
     """
     if not previsto["achou"]:
         return
-    esperado = [(item["numero"], item["ponto"]) for item in previsto["trastes"]]
+    esperado = [
+        (item["numero"], item["ponto"])
+        for item in trastes_visiveis(previsto, dimensoes)
+    ]
     relido = [(item["numero"], item["ponto"]) for item in numerar_trastes(registro)]
     if relido != esperado:
         raise ValueError(f"numeração dos trastes diverge da previsão: {relido}")
@@ -470,18 +561,15 @@ def _sem_resposta(gabarito: dict) -> None:
             )
 
 
-def prever(
-    pasta: Path = MAOS_M26,
-    ouro: Path = GABARITO_BRACO_M26,
-) -> dict[str, bool]:
+def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
     """Roda a cadeia em cada quadro e preenche o gabarito com a previsão (GPU).
 
-    Grava ``previsto.json``, o gabarito e o ``indice.json`` com a lista reordenada
-    (sinalizados primeiro). Os ids não mudam.
+    Grava ``previsto.json`` (completo), o gabarito (com os trastes cortados no primeiro
+    fora da imagem) e o ``indice.json`` com a lista reordenada (sinalizados primeiro).
+    Os ids não mudam.
 
     Args:
-        pasta: pasta ``m26``.
-        ouro: gabarito do ciclo (já com os quadros do ``sortear``).
+        numero: rodada (chave de ``RODADAS``); o gabarito já tem os quadros do ``sortear``.
 
     Returns:
         id -> sinalizado, na ordem em que a página mostra os quadros.
@@ -490,6 +578,8 @@ def prever(
         ValueError: se o gabarito tiver formato errado, respostas do dono, ou se a
             numeração dos trastes não bater com a previsão.
     """
+    rodada = RODADAS[numero]
+    pasta, ouro = rodada.pasta, rodada.gabarito
     indice = _ler_json(pasta / ARQUIVO_INDICE)
     gabarito = _ler_json(ouro)
     if gabarito.get("formato") != FORMATO_GABARITO:
@@ -498,6 +588,7 @@ def prever(
     ids = [item["id"] for item in indice["quadros"]]
     if set(ids) != set(gabarito["quadros"]):
         raise ValueError("ids do indice.json e do gabarito não batem")
+    dimensoes = {q["id"]: (q["largura"], q["altura"]) for q in indice["quadros"]}
     previstos: dict[str, dict] = {}
     with _trava_gpu():
         loc = _carregar_localizador(ESTAGIO1)
@@ -517,9 +608,12 @@ def prever(
     novo_gabarito = dict(gabarito, quadros={})
     for id_q in ordem:
         registro = registro_previsto(
-            gabarito["quadros"][id_q], previstos[id_q], sinalizados[id_q]
+            gabarito["quadros"][id_q],
+            previstos[id_q],
+            sinalizados[id_q],
+            dimensoes[id_q],
         )
-        conferir_numeracao(registro, previstos[id_q])
+        conferir_numeracao(registro, previstos[id_q], dimensoes[id_q])
         novo_gabarito["quadros"][id_q] = registro
     por_id = {item["id"]: item for item in indice["quadros"]}
     novo_indice = dict(indice, quadros=[por_id[id_q] for id_q in ordem])
@@ -537,7 +631,7 @@ def prever(
 
 
 # ---------------------------------------------------------------------------------
-# Medida (implementada; NÃO rodar nesta rodada)
+# Medida (rodar só depois da revisão final do dono)
 # ---------------------------------------------------------------------------------
 
 
@@ -572,12 +666,15 @@ def classe_do_quadro(previsto: dict, registro: dict) -> tuple[str, bool]:
     return classe, classe == "certo"
 
 
-def criterio(falsos_passam: float | None, sinalizados: float | None) -> str:
+def criterio(
+    falsos_passam: float | None, sinalizados: float | None, proxima: str
+) -> str:
     """Ação pelo critério do pré-registro, com a ordem da tabela.
 
     Args:
         falsos_passam: falsos não sinalizados ÷ quadros medidos.
         sinalizados: sinalizados ÷ quadros medidos.
+        proxima: rodada que retreina, se o ciclo funcionar (``"1027"`` na 1026).
 
     Returns:
         A ação da tabela "Critério para seguir para a rodada de retreino".
@@ -592,12 +689,12 @@ def criterio(falsos_passam: float | None, sinalizados: float | None) -> str:
             "sinalizados"
         )
     return (
-        "o ciclo funciona: a 1027 retreina os estágios 1 e 2 com as marcas finais e "
-        "mede de novo num lote novo"
+        f"o ciclo funciona: a {proxima} retreina os estágios 1 e 2 com as marcas finais "
+        "e mede de novo num lote novo"
     )
 
 
-def medir_quadros(previsto_doc: dict, gabarito: dict) -> dict:
+def medir_quadros(previsto_doc: dict, gabarito: dict, proxima: str) -> dict:
     """Mede a previsão contra o gabarito final do dono, quadro a quadro.
 
     Sai da medida (e vai para ``excluidos``, com o motivo): quadro sem registro,
@@ -605,7 +702,8 @@ def medir_quadros(previsto_doc: dict, gabarito: dict) -> dict:
 
     Args:
         previsto_doc: conteúdo de ``previsto.json``.
-        gabarito: gabarito final do dono (``braco_m26.json``).
+        gabarito: gabarito final do dono (``braco_m26.json`` ou ``braco_m27.json``).
+        proxima: rodada que vem depois (para a frase do critério).
 
     Returns:
         ``linhas`` (uma por quadro medido), ``excluidos``, ``totais`` e ``criterio``.
@@ -643,7 +741,9 @@ def medir_quadros(previsto_doc: dict, gabarito: dict) -> dict:
             }
         )
     totais = _totais(linhas)
-    totais["criterio"] = criterio(totais["falsos_passam"], totais["sinalizados_fracao"])
+    totais["criterio"] = criterio(
+        totais["falsos_passam"], totais["sinalizados_fracao"], proxima
+    )
     return {"linhas": linhas, "excluidos": excluidos, "totais": totais}
 
 
@@ -699,15 +799,11 @@ def _fracao(parte: int, todo: int) -> float | None:
     return None if todo == 0 else parte / todo
 
 
-def medir(
-    pasta: Path = MAOS_M26,
-    ouro: Path = GABARITO_BRACO_M26,
-) -> dict:
+def medir(numero: str = RODADA_PADRAO) -> dict:
     """Compara ``previsto.json`` com o gabarito final e grava ``medida.json``.
 
     Args:
-        pasta: pasta ``m26`` (com ``previsto.json``).
-        ouro: gabarito final do dono.
+        numero: rodada (chave de ``RODADAS``).
 
     Returns:
         O resultado gravado em ``medida.json``.
@@ -715,11 +811,13 @@ def medir(
     Raises:
         ValueError: se o gabarito tiver formato errado.
     """
+    rodada = RODADAS[numero]
+    pasta = rodada.pasta
     previsto_doc = _ler_json(pasta / ARQUIVO_PREVISTO)
-    gabarito = _ler_json(ouro)
+    gabarito = _ler_json(rodada.gabarito)
     if gabarito.get("formato") != FORMATO_GABARITO:
         raise ValueError(f"gabarito fora do formato {FORMATO_GABARITO}")
-    resultado = medir_quadros(previsto_doc, gabarito)
+    resultado = medir_quadros(previsto_doc, gabarito, rodada.proxima)
     gravar_atomico(pasta / ARQUIVO_MEDIDA, resultado)
     return resultado
 
@@ -730,32 +828,40 @@ def medir(
 
 
 def main() -> int:
-    """Ponto de entrada: ``sortear``, ``prever`` e ``medir``.
+    """Ponto de entrada: ``sortear``, ``prever`` e ``medir``, com ``--rodada``.
 
     Returns:
         Código de saída do processo.
     """
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="comando", required=True)
-    sub.add_parser("sortear", help="sorteia o lote e acrescenta os quadros")
-    sub.add_parser("prever", help="roda a cadeia (GPU) e preenche o gabarito")
-    sub.add_parser("medir", help="compara a previsão com o gabarito final do dono")
+    ajuda_rodada = "rodada do ciclo (padrão 1026)"
+    for nome, ajuda in (
+        ("sortear", "sorteia o lote e acrescenta os quadros"),
+        ("prever", "roda a cadeia (GPU) e preenche o gabarito"),
+        ("medir", "compara a previsão com o gabarito final do dono"),
+    ):
+        sp = sub.add_parser(nome, help=ajuda)
+        sp.add_argument(
+            "--rodada", choices=list(RODADAS), default=RODADA_PADRAO, help=ajuda_rodada
+        )
     args = ap.parse_args()
+    numero = args.rodada
     try:
         if args.comando == "sortear":
-            ids = sortear()
+            ids = sortear(numero)
             print(f"sorteados {len(ids)} quadros: {', '.join(ids)}")
             return 0
         if args.comando == "prever":
-            sinalizados = prever()
-            previsto = _ler_json(MAOS_M26 / ARQUIVO_PREVISTO)["quadros"].values()
-            achados = sum(1 for p in previsto if p["achou"])
+            sinalizados = prever(numero)
+            previsto = _ler_json(RODADAS[numero].pasta / ARQUIVO_PREVISTO)["quadros"]
+            achados = sum(1 for p in previsto.values() if p["achou"])
             print(
                 f"previstos {len(sinalizados)}; com braço {achados}; "
                 f"sinalizados {sum(sinalizados.values())}"
             )
             return 0
-        resultado = medir()
+        resultado = medir(numero)
         totais = resultado["totais"]
         print(json.dumps(totais, ensure_ascii=False, indent=1))
         return 0
