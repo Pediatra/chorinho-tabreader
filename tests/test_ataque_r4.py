@@ -1,6 +1,11 @@
 """Testes dos alvos de técnica do R4a (rodada 0202)."""
 
-from tab.ataque_r4 import alvos_da_tela, modelo_da_dobra, tecnica_alvo
+from tab.ataque_r4 import (
+    alvos_da_tela,
+    ataque_com_regra,
+    modelo_da_dobra,
+    tecnica_alvo,
+)
 
 
 def _gab(ataque: str, motivo: str, casa: int = 5, esq: int | None = 3) -> dict:
@@ -45,3 +50,14 @@ def test_nome_dos_modelos() -> None:
     assert modelo_da_dobra("ger", 0, 2).parent.name == "detector_tab_final_s2_ger"
     assert modelo_da_dobra("atq", 0, 1).parent.name == "detector_tab_final_atq_s1"
     assert modelo_da_dobra("atq", 3, 3).parent.name == "detector_tab_v3ft_d3_atq_s3"
+
+
+def test_slide_sem_origem_e_atacado() -> None:
+    def n(corda: int, x: float, tec: list[str]) -> dict:
+        return {"corda": corda, "x_centro_quadro": x, "tecnica": tec}
+
+    pred = [n(1, 100, []), n(1, 130, ["/"]), n(2, 130, ["/"]), n(3, 200, ["h"])]
+    assert ataque_com_regra(pred, 1, 20.0) == "nao"  # origem a 1,5 passo
+    assert ataque_com_regra(pred, 2, 20.0) == "sim"  # sem origem na corda 2
+    assert ataque_com_regra(pred, 3, 20.0) == "nao"  # h não é slide
+    assert ataque_com_regra(pred, 0, 20.0) == "sim"

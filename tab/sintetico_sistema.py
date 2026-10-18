@@ -100,7 +100,8 @@ P_MUDO = 0.05
 P_UMA_NOTA_COLUNA = 0.5
 #: Chance de uma nota ser harmônico `<n>`.
 P_HARMONICO = 0.06
-#: Chance de uma nota ser ligada `(n)`.
+#: Chance de uma nota vir entre parênteses `(n)`: nota opcional ou fantasma, atacada
+#: (dono, 2026-10-18; rodada 0203, G7). Antes era técnica "lig" (sem ataque).
 P_LIGADA = 0.05
 #: Chance de uma coluna (a partir da segunda) começar um par h/p/"/"/"\\".
 P_TECNICA_PAR = 0.35
@@ -184,6 +185,19 @@ P_TIE = 0.05
 P_SLIDE_SOLTO = 0.04
 #: Chance de um legato h/p ter a letra; o resto é só o arco.
 P_LETRA_LEGATO = 0.6
+#: Rodada 0203 (R4b): estilos de arco medidos nos erros do R4a.
+#: G1: chance de o arco de h/p/tie ficar abaixo da corda.
+P_ARCO_ABAIXO = 0.4
+#: G3: chance de o arco partir do centro das notas (por cima ou por baixo do algarismo).
+P_ARCO_CENTRO = 0.4
+#: G2: chance de um par h/p ligar notas a 2-4 colunas, com a corda vazia no meio.
+P_PAR_LONGO = 0.3
+#: G4: chance de o sistema ter um mordente de três notas (a-b-a sob um arco só).
+P_MORDENTE_TRES = 0.15
+#: G5: chance de uma nota sem técnica ter o zigue-zague de mordente sozinho (atacada).
+P_ZIGUE_SOZINHO = 0.03
+#: G6: chance de o sistema ter colunas apertadas (algarismos quase encostados).
+P_APERTADO = 0.2
 #: Chance de um grupo de 2 ou mais colcheias ter viga dupla (semicolcheias).
 P_VIGA_DUPLA = 0.3
 #: Chance de uma barline virar ritornelo (barra dupla com dois pontos).
@@ -293,12 +307,12 @@ def _texto_da_nota(nota: dict) -> str:
         nota: dict com "rotulo" e "tecnica".
 
     Returns:
-        "<n>" para harmônico, "(n)" para ligada de verdade (a ligadura de
-        prolongamento, marcada com "tie", tem só o arco) e o rótulo nos demais casos.
+        "<n>" para harmônico, "(n)" para nota entre parênteses (opcional ou fantasma,
+        sem técnica) e o rótulo nos demais casos.
     """
     if nota["tecnica"] == "harm":
         return f"<{nota['rotulo']}>"
-    if nota["tecnica"] == "lig" and not nota.get("tie"):
+    if nota.get("parenteses"):
         return f"({nota['rotulo']})"
     return nota["rotulo"]
 
@@ -359,7 +373,7 @@ def _tecnicas_isoladas(rng: random.Random, grade: dict[tuple[int, int], dict]) -
         if r < P_HARMONICO:
             nota["tecnica"] = "harm"
         elif r < P_HARMONICO + P_LIGADA:
-            nota["tecnica"] = "lig"
+            nota["parenteses"] = True
 
 
 def _tecnicas_pares(
@@ -383,15 +397,31 @@ def _tecnicas_pares(
         destino_existente = grade.get((c, s))
         if destino_existente is not None and destino_existente["tecnica"] is not None:
             continue
-        for chave in ((c - 1, s), (c, s)):
+        col_origem = c - 1
+        if tipo in ("h", "p") and rng.random() < P_PAR_LONGO:  # G2: arco longo
+            k = rng.randint(2, 4)
+            meio = [(cc, s) for cc in range(c - k + 1, c)]
+            if c - k >= 0 and all(
+                grade[m]["tecnica"] is None and len(grade[m]) == 2
+                for m in meio
+                if m in grade
+            ):  # a corda fica vazia entre as duas notas
+                for m in meio:
+                    grade.pop(m, None)
+                col_origem = c - k
+        for chave in ((col_origem, s), (c, s)):
             if chave not in grade:
                 grade[chave] = {"rotulo": _sortear_rotulo(rng), "tecnica": None}
-        origem, destino = grade[(c - 1, s)], grade[(c, s)]
+        origem, destino = grade[(col_origem, s)], grade[(c, s)]
         if "x" in (origem["rotulo"], destino["rotulo"]):
             continue
         if origem["tecnica"] is not None or destino["tecnica"] is not None:
             continue
+        if "parenteses" in origem or "parenteses" in destino:
+            continue
         destino["tecnica"] = tipo
+        if col_origem != c - 1:
+            destino["col_origem"] = col_origem
 
 
 def _montar_fundo(
@@ -618,6 +648,57 @@ def _desenhar_notas(
         d.text((m["px"], m["py"]), m["texto"], font=m["fonte"], fill=m["cor"])
 
 
+def _pontos_arco(
+    rng: random.Random,
+    caixa_a: tuple[float, ...],
+    caixa_b: tuple[float, ...],
+    y: float,
+    passo: float,
+    marcas: list[str],
+    centro: bool | None = None,
+) -> list[tuple[int, int]]:
+    """Pontos de um arco entre duas notas da mesma corda, com estilo sorteado (R4b).
+
+    Lado (acima ou abaixo da corda, G1), ponta (na borda das caixas ou no centro das
+    notas, passando por cima ou por baixo do algarismo, G3), afastamento da corda e altura
+    da curva (G3).
+
+    Args:
+        rng: gerador aleatório.
+        caixa_a: caixa da nota de origem.
+        caixa_b: caixa da nota de destino.
+        y: linha da corda.
+        passo: passo do sistema.
+        marcas: lista onde se registram as variantes desenhadas.
+        centro: força a ponta no centro (True) ou na borda (False); None sorteia.
+
+    Returns:
+        11 pontos do arco.
+    """
+    abaixo = rng.random() < P_ARCO_ABAIXO
+    if centro is None:
+        centro = rng.random() < P_ARCO_CENTRO
+    if centro:
+        xa, xb = (caixa_a[0] + caixa_a[2]) / 2, (caixa_b[0] + caixa_b[2]) / 2
+        base = rng.uniform(0.5, 0.75) * passo
+    else:
+        xa, xb = caixa_a[2] + 0.1 * passo, caixa_b[0] - 0.1 * passo
+        base = rng.uniform(0.1, 0.6) * passo
+    altura = rng.uniform(0.15, 0.7) * passo
+    sinal = 1 if abaixo else -1
+    if abaixo:
+        marcas.append("arco_abaixo")
+    if centro:
+        marcas.append("arco_centro")
+    return [
+        (
+            round(xa + (xb - xa) * i / 10),
+            round(y + sinal * (base + altura * math.sin(math.pi * i / 10))),
+        )
+        for i in range(11)
+    ]
+
+
 def _desenhar_tecnicas_pares(
     d: ImageDraw.ImageDraw,
     rng: random.Random,
@@ -652,8 +733,10 @@ def _desenhar_tecnicas_pares(
         tipo = nota["tecnica"]
         if tipo not in ("h", "p", "/", "\\") or "lado" in nota:
             continue
-        origem = medidas[(c - 1, s)]["caixa"]
+        origem = medidas[(nota.get("col_origem", c - 1), s)]["caixa"]
         destino = medidas[(c, s)]["caixa"]
+        if "col_origem" in nota:
+            marcas.append("arco_longo")
         xa = origem[2] + 0.1 * passo
         xb = destino[0] - 0.1 * passo
         y = ys[s]
@@ -661,17 +744,7 @@ def _desenhar_tecnicas_pares(
             xm = (xa + xb) / 2
             com_letra = rng.random() < P_LETRA_LEGATO
             if not com_letra or rng.random() < 0.5:  # arco de ligado
-                pontos = []
-                for i in range(11):
-                    t = i / 10
-                    pontos.append(
-                        (
-                            round(xa + t * (xb - xa)),
-                            round(
-                                y - 0.5 * passo - 0.35 * passo * math.sin(math.pi * t)
-                            ),
-                        )
-                    )
+                pontos = _pontos_arco(rng, origem, destino, y, passo, marcas)
                 d.line(pontos, fill=tinta, width=espessura_traco)
                 if not com_letra:
                     marcas.append("legato_sem_letra")
@@ -1337,6 +1410,11 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
     espessura = rng.choice(_TAMANHOS_CORDA)
     n_col = rng.randint(4, 9)
     espaco = passo * rng.uniform(1.2, 2.6)
+    if rng.random() < P_APERTADO:  # G6: algarismos quase encostados
+        espaco = passo * rng.uniform(0.6, 1.1)
+        marcas_apertado = True
+    else:
+        marcas_apertado = False
     tem_formula = rng.random() < P_FORMULA
     formula = rng.choice(FORMULAS) if tem_formula else ""
     gp = rng.random() < P_GP_INICIO
@@ -1344,17 +1422,21 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
         tem_formula = True
         formula = rng.choice(FORMULAS)
     x_ini = (5.2 if gp else 4.6 if tem_formula else 2.6) * passo
+    if marcas_apertado:  # a 1ª coluna fica onde ficaria com o espaço mínimo de antes
+        x_ini += 0.5 * (1.2 * passo - espaco)
     ys = [round(2.4 * passo + i * passo) for i in range(6)]
     altura = round(ys[5] + (3.4 if tem_ritmo else 1.6) * passo)
 
-    marcas: list[str] = []
+    marcas: list[str] = ["colunas_apertadas"] if marcas_apertado else []
     grade = _sortear_grade(rng, n_col)
     _tecnicas_isoladas(rng, grade)
     _tecnicas_bend_vib(rng, grade)
     _sortear_orn(rng, grade)
+    _sortear_mordente_tres(rng, grade, n_col)
     _sortear_ligaduras(rng, grade, n_col)
     _sortear_slides_soltos(rng, grade)
     _tecnicas_pares(rng, grade, n_col)
+    _sortear_zigues(rng, grade)
     _sortear_serif(rng, grade)
     if any(n.get("sobre") for n in grade.values()):
         marcas.append("corda_sobre_serif")
@@ -1527,7 +1609,11 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
     _desenhar_tecnicas_pares(
         d, rng, grade, medidas, ys, passo, espessura, tinta, list(fontes), marcas
     )
-    _desenhar_ligaduras(d, grade, medidas, ys, passo, espessura, tinta, marcas)
+    _desenhar_ligaduras(d, rng, grade, medidas, ys, passo, espessura, tinta, marcas)
+    _desenhar_mordentes_tres(
+        d, rng, grade, medidas, ys, passo, espessura, tinta, marcas
+    )
+    _desenhar_zigues(d, grade, medidas, passo, espessura, tinta, marcas)
     _desenhar_slides_soltos(d, grade, medidas, ys, passo, espessura, tinta, marcas)
     enfeites = _desenhar_enfeites(
         d,
@@ -1617,7 +1703,7 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
             altura=altura,
         )
         if _livre_de_notas(
-            _ensaiar(previa, rng, largura, altura)["caixa"], medidas, passo
+            _ensaiar(previa, rng, largura, altura)["caixa"], alvos, passo
         ):
             estrutura.append(previa(d, rng))
     if rng.random() < P_MARCA_ACIMA:  # "o", "*" ou "harm." acima da corda 1
@@ -1754,6 +1840,160 @@ def _sortear_orn(rng: random.Random, grade: dict[tuple[int, int], dict]) -> None
         nota["mordente"] = rng.random() < P_MORDENTE
 
 
+def _sortear_mordente_tres(
+    rng: random.Random, grade: dict[tuple[int, int], dict], n_col: int
+) -> None:
+    """G4 (R4b): mordente de três notas, ``a-b-a`` na mesma corda sob um arco só.
+
+    A 2ª e a 3ª nota levam "orn" (sem ataque, como no gabarito do dono) e a marca
+    ``mordente3`` ("meio" ou "fim"); não têm enfeite.
+
+    Args:
+        rng: gerador aleatório.
+        grade: notas, alteradas no lugar.
+        n_col: número de colunas.
+    """
+    if n_col < 3 or rng.random() >= P_MORDENTE_TRES:
+        return
+    c = rng.randrange(n_col - 2)
+    s = rng.randrange(6)
+    chaves = [(c, s), (c + 1, s), (c + 2, s)]
+    if any(
+        k in grade and (grade[k]["tecnica"] is not None or "parenteses" in grade[k])
+        for k in chaves
+    ):
+        return
+    a = rng.randint(0, 10)
+    b = a + rng.choice((1, 2))
+    for k, rotulo in zip(chaves, (a, b, a), strict=True):
+        grade[k] = {"rotulo": str(rotulo), "tecnica": None}
+    grade[chaves[1]].update(tecnica="orn", mordente3="meio")
+    grade[chaves[2]].update(tecnica="orn", mordente3="fim")
+
+
+def _sortear_zigues(rng: random.Random, grade: dict[tuple[int, int], dict]) -> None:
+    """G5 (R4b): zigue-zague de mordente sozinho sobre nota comum (atacada).
+
+    Args:
+        rng: gerador aleatório.
+        grade: notas, alteradas no lugar (ganham ``zigue``).
+    """
+    for nota in grade.values():
+        if (
+            nota["tecnica"] is None
+            and nota["rotulo"] != "x"
+            and rng.random() < P_ZIGUE_SOZINHO
+        ):
+            nota["zigue"] = True
+
+
+def _zigue(
+    d: ImageDraw.ImageDraw,
+    mx: float,
+    y0: float,
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    vertical: bool,
+) -> None:
+    """Desenha o zigue-zague de mordente acima de uma nota.
+
+    Args:
+        d: desenho.
+        mx: centro da nota.
+        y0: topo da caixa da nota.
+        passo: passo do sistema.
+        espessura: espessura do traço.
+        tinta: cor da tinta.
+        vertical: desenha o traço vertical do mordente.
+    """
+    topo = y0 - 0.35 * passo
+    zig = [
+        (round(mx - 0.25 * passo), round(topo)),
+        (round(mx - 0.1 * passo), round(topo - 0.15 * passo)),
+        (round(mx + 0.1 * passo), round(topo)),
+        (round(mx + 0.25 * passo), round(topo - 0.15 * passo)),
+    ]
+    d.line(zig, fill=tinta, width=espessura)
+    if vertical:
+        d.line(
+            [
+                (round(mx), round(topo - 0.15 * passo)),
+                (round(mx), round(topo - 0.45 * passo)),
+            ],
+            fill=tinta,
+            width=espessura,
+        )
+
+
+def _desenhar_mordentes_tres(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    grade: dict[tuple[int, int], dict],
+    medidas: dict[tuple[int, int], dict],
+    ys: list[int],
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    marcas: list[str],
+) -> None:
+    """Desenha o arco único de cada mordente de três notas (G4).
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        grade: notas (a 3ª nota do mordente tem ``mordente3`` "fim").
+        medidas: saída de `_medir_notas`.
+        ys: linha de cada corda.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        marcas: lista onde se registram as variantes desenhadas.
+    """
+    for (c, s), nota in sorted(grade.items()):
+        if nota.get("mordente3") != "fim":
+            continue
+        pontos = _pontos_arco(
+            rng,
+            medidas[(c - 2, s)]["caixa"],
+            medidas[(c, s)]["caixa"],
+            ys[s],
+            passo,
+            marcas,
+            centro=True,
+        )
+        d.line(pontos, fill=tinta, width=max(1, espessura - 1))
+        marcas.append("mordente_tres")
+
+
+def _desenhar_zigues(
+    d: ImageDraw.ImageDraw,
+    grade: dict[tuple[int, int], dict],
+    medidas: dict[tuple[int, int], dict],
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    marcas: list[str],
+) -> None:
+    """Desenha o zigue-zague sozinho das notas com ``zigue`` (G5).
+
+    Args:
+        d: desenho.
+        grade: notas.
+        medidas: saída de `_medir_notas`.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        marcas: lista onde se registram as variantes desenhadas.
+    """
+    for chave, nota in sorted(grade.items()):
+        if not nota.get("zigue"):
+            continue
+        x0, y0, x1, _ = medidas[chave]["caixa"]
+        _zigue(d, (x0 + x1) / 2, y0, passo, max(1, espessura - 1), tinta, False)
+        marcas.append("zigue_sozinho")
+
+
 def _sortear_ligaduras(
     rng: random.Random, grade: dict[tuple[int, int], dict], n_col: int
 ) -> None:
@@ -1850,6 +2090,7 @@ def _desenhar_slides_soltos(
 
 def _desenhar_ligaduras(
     d: ImageDraw.ImageDraw,
+    rng: random.Random,
     grade: dict[tuple[int, int], dict],
     medidas: dict[tuple[int, int], dict],
     ys: list[int],
@@ -1862,6 +2103,7 @@ def _desenhar_ligaduras(
 
     Args:
         d: desenho.
+        rng: gerador aleatório (estilo do arco).
         grade: notas (as com `tie` são a segunda nota da ligadura).
         medidas: saída de `_medir_notas`.
         ys: linha de cada corda.
@@ -1874,16 +2116,14 @@ def _desenhar_ligaduras(
     for (c, s), nota in sorted(grade.items()):
         if not nota.get("tie"):
             continue
-        xa = medidas[(c - 1, s)]["caixa"][2] + 0.1 * passo
-        xb = medidas[(c, s)]["caixa"][0] - 0.1 * passo
-        y = ys[s]
-        pontos = [
-            (
-                round(xa + (xb - xa) * i / 10),
-                round(y - 0.5 * passo - 0.25 * passo * math.sin(math.pi * i / 10)),
-            )
-            for i in range(11)
-        ]
+        pontos = _pontos_arco(
+            rng,
+            medidas[(c - 1, s)]["caixa"],
+            medidas[(c, s)]["caixa"],
+            ys[s],
+            passo,
+            marcas,
+        )
         d.line(pontos, fill=tinta, width=espessura_traco)
         marcas.append("ligadura")
 
@@ -1925,7 +2165,7 @@ def _desenhar_enfeites(
     tamanho_enfeite = max(6, round(0.5 * tamanho))
     enfeites: list[dict] = []
     for (c, s), nota in sorted(grade.items()):
-        if nota["tecnica"] != "orn":
+        if nota["tecnica"] != "orn" or "enfeite" not in nota:
             continue
         x0, y0, x1, _ = medidas[(c, s)]["caixa"]
         y = ys[s]
@@ -1951,24 +2191,9 @@ def _desenhar_enfeites(
                 [(round(xa), ya), (round(xb), ya)], fill=tinta, width=espessura_traco
             )
         if nota["mordente"]:
-            mx = (x0 + x1) / 2
-            topo = y0 - 0.35 * passo
-            zig = [
-                (round(mx - 0.25 * passo), round(topo)),
-                (round(mx - 0.1 * passo), round(topo - 0.15 * passo)),
-                (round(mx + 0.1 * passo), round(topo)),
-                (round(mx + 0.25 * passo), round(topo - 0.15 * passo)),
-            ]
-            d.line(zig, fill=tinta, width=espessura_traco)
-            if rng.random() < 0.5:  # traço vertical do mordente
-                d.line(
-                    [
-                        (round(mx), round(topo - 0.15 * passo)),
-                        (round(mx), round(topo - 0.45 * passo)),
-                    ],
-                    fill=tinta,
-                    width=espessura_traco,
-                )
+            _zigue(
+                d, (x0 + x1) / 2, y0, passo, espessura_traco, tinta, rng.random() < 0.5
+            )
             marcas.append("mordente")
         marcas.append("enfeite")
         enfeites.append(
@@ -2866,7 +3091,7 @@ def _escolher_fontes(
             nota["fonte"] = rng.choice(serifs)
         else:
             nota["fonte"] = rng.choice(sans)
-        if nota["tecnica"] == "orn":
+        if nota["tecnica"] == "orn" and "enfeite" in nota:
             nota["fonte_enfeite"] = rng.choice(fontes)
 
 
@@ -2910,7 +3135,7 @@ def _xs_por_medida(
         for ha, _ in por_coluna.get(c, []):
             for hb, nota_b in por_coluna.get(c + 1, []):
                 necessario = max(necessario, ha + hb + folga)
-                if nota_b["tecnica"] == "orn":
+                if nota_b["tecnica"] == "orn" and "enfeite" in nota_b:
                     he = _meia_largura(
                         nota_b["enfeite"], nota_b["fonte_enfeite"], tamanho_enfeite
                     )

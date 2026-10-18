@@ -96,6 +96,8 @@ O arco entra em `nao_notas` como classe `arco`, com corda, `x_ini`, `x_fim` e co
 | fim de arco, mesmo número | nao | prolongamento |
 | arco que sai da nota e termina no vazio (deixar soar; dono, 2026-10-17) | sim | sustentada |
 | mordente em zigue-zague sobre uma nota só (as notas do enfeite não estão na tab; dono, 2026-10-17). Se a nota chega por h/p/ligadura, vale o h/p/ligadura | sim | mordente_simbolo |
+| nota entre parênteses, `(3)`: nota opcional ou fantasma, tocada fraca ou deixada soar (dono, 2026-10-18) | sim | normal |
+| soltura do bend (`b9r8`: o `8` depois do `r`) e slide que sai da nota (`7\`) (dono, 2026-10-18) | sim | normal |
 | arco que vem do vazio e termina na nota (continuação) | nao | prolongamento |
 | dentro de um arco de 3 ou mais números, depois do primeiro | nao | mordente |
 | letra `h` ou `p` entre os números (canal que escreve em vez de desenhar) | nao | h / p |

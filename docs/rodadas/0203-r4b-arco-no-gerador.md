@@ -43,7 +43,7 @@ O que a folha mostra, e o gerador não desenha (`tab/sintetico_sistema.py`):
 | arco que sai da nota para o vazio (sustentada) | 4 |
 | traço `3-0-3` ligando algarismos, sem arco (South American) | 5 |
 | zigue-zague de mordente sobre a nota (Robert Lunn; o dono diz que é atacada) | 1 |
-| a decidir com o dono (abaixo) | 7 |
+| parênteses, bend/soltura e arco que começa na nota (decididos abaixo) | 7 |
 | outros | 8 |
 
 - **Slide de entrada.** O modelo vê o `/` e o produto chama de "não", porque a técnica fica
@@ -51,12 +51,17 @@ O que a folha mostra, e o gerador não desenha (`tab/sintetico_sistema.py`):
 - **Zigue-zague.** O gerador só desenha o zigue-zague **junto** do enfeite `orn`. Por isso o
   modelo aprendeu "zigue-zague = sem ataque", o contrário da regra do dono.
 
-### A decidir com o dono
+### Decidido com o dono (2026-10-18)
 
-- `(3)` e `(0)` entre parênteses (ギタロー, T8.2 t36): estão "sim" no gabarito. No vocabulário
-  do projeto, "ligada" é a nota presa, desenhada como `(6)`.
-- `b9r8` e `7\` (Cifra Club, T8.2 t2): o `r` é a soltura do bend.
-- From This Place `4·4` com arco (t1-n63, t4-n70, t5-n3): estão "sim" no gabarito.
+Os 7 casos "a decidir" ficam como estão no gabarito ("sim"). São alarmes do modelo:
+
+- `(3)` e `(0)` entre parênteses (ギタロー, T8.2 t36) são nota opcional ou fantasma: tocada
+  fraca ou deixada soar. É ataque.
+- `b9r8` (o `8` da soltura do bend) e `7\` (slide que sai da nota), no Cifra Club, T8.2 t2: são
+  ataque, pela confirmação do dono.
+- From This Place `4·4` (t4-n70, t5-n3): o arco **começa** nesse 4 e passa a barra, então ele é
+  atacado. t1-n63 é `5-4-2-0`, só com traços, sem arco. O gabarito está certo nos três (lido no
+  recorte largo, `data/saida/tab_rotulo/r4a/duvidas/`).
 
 ## O que muda
 
@@ -98,6 +103,53 @@ Nos ouros fora da dobra e na T8.2, separados:
 **Pare se** o "sim" falso na T8.2 não cair além da amplitude do `_atq` (51–54 %). Nesse caso
 o problema não é o estilo de arco, e o próximo passo é o arco como objeto próprio (uma saída
 de começo e fim de arco, a A2 antiga).
+
+## Feito antes do treino (2026-10-18)
+
+### Passo A: regra do slide sem origem
+
+`tab.ataque_r4.ataque_com_regra`, com `ORIGEM_SLIDE_MAX = 3` passos, medido nas leituras do
+`_atq` (o campo `regra` de `medida_atq_s<semente>.json`):
+
+| teste | medida | sem a regra | com a regra |
+| --- | --- | --- | --- |
+| 8 ouros | "sim" falso | 31 · 34 · 33 /84 | 31 · 34 · 33 /84 |
+| 8 ouros | "não" em atacada | 18 · 19 · 22 | **7 · 7 · 10** |
+| T8.2 | "sim" falso | 21 · 22 · 22 /41 | 23 · 24 · 24 /41 |
+| T8.2 | "não" em atacada | 8 · 7 · 8 | 6 · 5 · 6 |
+
+Nos ouros, a regra tira 11 ou 12 alarmes e não perde nenhum ligado. Na T8.2, ela perde 2
+slides ligados em cada semente e tira 2 alarmes. A distância de 3 passos fica como foi
+registrada; não é ajustada olhando a T8.2.
+
+### Passo B: o gerador
+
+As mudanças estão em `tab/sintetico_sistema.py`. As chances ficam nas constantes `P_ARCO_*`,
+`P_PAR_LONGO`, `P_MORDENTE_TRES`, `P_ZIGUE_SOZINHO` e `P_APERTADO`.
+
+- **G1 e G3**: `_pontos_arco` sorteia o lado, a ponta (na borda das caixas ou no centro da
+  nota), o afastamento da corda e a altura. Vale para h, p, tie e o mordente de três notas.
+- **G2**: no par longo, as notas da corda que estão no meio saem.
+- **G4**: `_sortear_mordente_tres` e `_desenhar_mordentes_tres`.
+- **G5**: `_sortear_zigues` e `_desenhar_zigues`. O desenho do zigue-zague foi para `_zigue`.
+- **G6**: colunas apertadas, com espaço de 0,6 a 1,1 passo. A primeira coluna fica onde
+  ficaria antes.
+- **G7** (novo, pela decisão do dono sobre os parênteses): `(n)` deixa de ser a técnica
+  `lig`. Agora é nota atacada (`parenteses`). O tie continua `lig`.
+  - Dívida: o modelo deixa de dizer "parênteses". A informação volta quando houver uma classe
+    própria, que muda a cabeça do modelo.
+- **Correção de passagem**: o diagrama de acorde agora evita também o enfeite (usava
+  `medidas`, e não `alvos`). O teste `test_distratores_grandes_nao_cobrem_notas` pegou isso
+  com a nova sequência de sorteios.
+
+Frequência em 300 sistemas: arco abaixo 94, arco no centro 118, arco longo 35, mordente de três
+notas 47, zigue-zague sozinho 87, colunas apertadas 65.
+
+Folha: `data/saida/tab_rotulo/r4b/folha_gerador_{1,2,3}.png` (`folha_gerador.py`), com 4
+sistemas de cada variante. Todas as notas sem ataque estão sublinhadas, com o nome da técnica,
+e foram olhadas. O rótulo cai na nota certa: a chegada do arco longo e a 2ª e a 3ª do
+mordente de três notas. As colunas apertadas, com enfeite, chegam a encostar os algarismos
+pequenos.
 
 ## Resultado
 

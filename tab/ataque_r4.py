@@ -74,6 +74,10 @@ GABARITOS = {
 #: Folga do casamento nota do cache × nota do gabarito, em passos.
 FOLGA = 0.5
 
+#: Slide sem nota de origem na mesma corda até esta distância à esquerda (passos) é
+#: slide de entrada: a nota é atacada (regra do dono; rodada 0203, passo A).
+ORIGEM_SLIDE_MAX = 3.0
+
 
 def tecnica_alvo(nota: dict) -> str | None:
     """Técnica que a nota do gabarito ensina ao modelo (na nota de chegada).
@@ -144,18 +148,19 @@ def modelo_da_dobra(versao: str, dobra: int, semente: int) -> Path:
     """Caminho dos pesos de uma versão, dobra e semente.
 
     Args:
-        versao: "ger" (o ajuste fino de hoje) ou "atq" (com o arco real).
+        versao: "ger" (o ajuste fino de hoje), "atq" (com o arco real, R4a) ou "atqg"
+            (com o arco real e o gerador do R4b).
         dobra: 0 (os 8 ouros no treino) a 4.
         semente: 1, 2 ou 3.
 
     Returns:
         O ``modelo.pt``.
     """
-    if versao == "atq":
+    if versao != "ger":
         nome = (
-            f"detector_tab_final_atq_s{semente}"
+            f"detector_tab_final_{versao}_s{semente}"
             if dobra == 0
-            else f"detector_tab_v3ft_d{dobra}_atq_s{semente}"
+            else f"detector_tab_v3ft_d{dobra}_{versao}_s{semente}"
         )
     elif dobra == 0:
         nome = f"detector_tab_final_s{semente}_ger"
@@ -193,6 +198,32 @@ def ler_tela(modelo: detector_tab.DetectorTab, video: Path, t_s: float) -> tuple
     return pred, float(c.passo)
 
 
+def ataque_com_regra(pred: Sequence[dict], j: int, passo: float) -> str:
+    """Ataque da nota ``j`` com a regra do slide sem origem.
+
+    Um slide (``/`` ou ``\\``) sem outra técnica sem ataque e sem nota na mesma corda até
+    ``ORIGEM_SLIDE_MAX`` passos à esquerda é slide de entrada: atacada.
+
+    Args:
+        pred: notas previstas da tela (``corda``, ``x_centro_quadro``, ``tecnica``).
+        j: índice da nota.
+        passo: passo da tela.
+
+    Returns:
+        "sim" ou "nao".
+    """
+    p = pred[j]
+    base = ataque_previsto(p["tecnica"])
+    if base == "sim" or not set(p["tecnica"]) <= {"/", "\\"}:
+        return base
+    origem = any(
+        q["corda"] == p["corda"]
+        and 0 < p["x_centro_quadro"] - q["x_centro_quadro"] <= ORIGEM_SLIDE_MAX * passo
+        for q in pred
+    )
+    return base if origem else "sim"
+
+
 def contar(gabarito: Sequence[dict], pred: Sequence[dict], passo: float) -> Counter:
     """Matriz do ataque e acerto da casa de uma tela.
 
@@ -202,19 +233,40 @@ def contar(gabarito: Sequence[dict], pred: Sequence[dict], passo: float) -> Coun
         passo: passo da tela.
 
     Returns:
-        Contagem ``"<ouro>|<previsto>"`` mais ``casa_certa`` e ``casadas``.
+        Contagem ``"<ouro>|<previsto>"``, a mesma com a regra do slide sem origem
+        (``"regra:<ouro>|<previsto>"``), ``casa_certa`` e ``casadas``.
     """
     pares = parear(gabarito, pred, passo)
     c: Counter = Counter()
     for i, n in enumerate(gabarito):
         if i not in pares:
             c[f"{n['ataque']}|nao_lida"] += 1
+            c[f"regra:{n['ataque']}|nao_lida"] += 1
             continue
         p = pred[pares[i]]
         c[f"{n['ataque']}|{ataque_previsto(p['tecnica'])}"] += 1
+        c[f"regra:{n['ataque']}|{ataque_com_regra(pred, pares[i], passo)}"] += 1
         c["casadas"] += 1
         c["casa_certa"] += int(str(n["casa"]) == p["casa"])
     return c
+
+
+def regra(matriz: Counter) -> Counter:
+    """A parte ``"regra:"`` de uma matriz de ``contar``, sem o prefixo.
+
+    Args:
+        matriz: saída de ``contar`` (ou soma delas).
+
+    Returns:
+        Matriz ``"<ouro>|<previsto>"`` com a regra do slide sem origem.
+    """
+    return Counter(
+        {
+            k.removeprefix("regra:"): v
+            for k, v in matriz.items()
+            if k.startswith("regra:")
+        }
+    )
 
 
 def medir(versao: str, semente: int) -> dict:
@@ -242,10 +294,14 @@ def medir(versao: str, semente: int) -> dict:
         ):
             pred, passo = ler_tela(modelo, video, quadro[tela])
             c += contar(notas, pred, passo)
-        saida[fonte] = {"matriz": dict(c), "taxas": taxas(c)}
+        saida[fonte] = {"matriz": dict(c), "taxas": taxas(c), "regra": taxas(regra(c))}
         soma += c
         print(versao, semente, fonte, dict(c), flush=True)
-    saida["ouros"] = {"matriz": dict(soma), "taxas": taxas(soma)}
+    saida["ouros"] = {
+        "matriz": dict(soma),
+        "taxas": taxas(soma),
+        "regra": taxas(regra(soma)),
+    }
     ferr = caminhos.SAIDA / "t82" / "ferramenta"
     indice = {
         int(r["id"]): r
@@ -258,7 +314,7 @@ def medir(versao: str, semente: int) -> dict:
         r = indice[tela]
         pred, passo = ler_tela(modelo, caminhos.acervo() / r["video"], float(r["t"]))
         c += contar(notas, pred, passo)
-    saida["t82"] = {"matriz": dict(c), "taxas": taxas(c)}
+    saida["t82"] = {"matriz": dict(c), "taxas": taxas(c), "regra": taxas(regra(c))}
     print(versao, semente, "t82", dict(c), flush=True)
     return saida
 
@@ -272,7 +328,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = ap.add_subparsers(dest="comando", required=True)
     m = sub.add_parser("medir", help="mede uma versão e semente")
-    m.add_argument("--versao", choices=("ger", "atq"), required=True)
+    m.add_argument("--versao", choices=("ger", "atq", "atqg"), required=True)
     m.add_argument("--semente", type=int, required=True)
     args = ap.parse_args()
     resultado = medir(args.versao, args.semente)
