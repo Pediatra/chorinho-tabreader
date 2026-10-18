@@ -38,6 +38,7 @@ import struct
 import sys
 import threading
 from pathlib import Path
+from urllib.parse import unquote
 from xml.etree import ElementTree as ET
 
 from tab.caminhos import PART_FRENTE_D, RAIZ, SAIDA
@@ -1416,7 +1417,8 @@ def criar_servidor(
             """Página, itens com o estado do gabarito, e o PNG de cada recorte."""
             if self._recusada():
                 return
-            caminho = self.path.split("?", 1)[0]
+            # O navegador codifica o id com acento ou ideograma (%C3%A8...).
+            caminho = unquote(self.path.split("?", 1)[0])
             if caminho in {"/", "/index.html"}:
                 corpo = PAGINA.encode()
                 self.send_response(200)
@@ -2323,7 +2325,7 @@ async function abrir(id) {
   const r = rascunho[id];
   dom("titulo").textContent = id + " · " + it.canal + " · leitura " + it.fonte +
     " · discordâncias " + it.discordancias;
-  dom("png").src = "/recorte/" + id + ".png";
+  dom("png").src = "/recorte/" + encodeURIComponent(id) + ".png";
   dom("obs").value = r.obs;
   const gr = gravadoDoRecorte(id);
   dom("msg").textContent = confirmado(id) ?

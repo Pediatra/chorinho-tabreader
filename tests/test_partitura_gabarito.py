@@ -7,6 +7,7 @@ import json
 import struct
 import threading
 from pathlib import Path
+from urllib.parse import quote
 
 import pytest
 
@@ -917,11 +918,15 @@ def test_servidor_entrega_png_da_p1_e_do_sem_produto_e_recusa_o_resto(
     sem = preparar_sem_produto([(SLUG_SEM_PRODUTO, "P01a")], tmp_path / "sem.json")[0]
     da_p1 = _item("R01")
     da_p1["png"] = str(recortes_p1 / "R01.png")
+    _png_do_tamanho(recortes_p1 / "Rè空.png", 200, 100)
+    acentuado = _item("Rè空")
+    acentuado["png"] = str(recortes_p1 / "Rè空.png")
     intruso = _item("F01")
     intruso["png"] = str(fora)
     itens_path = tmp_path / "itens.json"
     itens_path.write_text(
-        json.dumps({"formato": 1, "itens": [da_p1, sem, intruso]}), encoding="utf-8"
+        json.dumps({"formato": 1, "itens": [da_p1, acentuado, sem, intruso]}),
+        encoding="utf-8",
     )
 
     srv = criar_servidor(itens_path, tmp_path / "gabarito.json", porta=0)
@@ -934,6 +939,9 @@ def test_servidor_entrega_png_da_p1_e_do_sem_produto_e_recusa_o_resto(
             assert dados.startswith(b"\x89PNG\r\n\x1a\n")
         status, _ = _pedido(porta, "GET", "/recorte/F01.png")
         assert status == 404
+        status, dados = _pedido(porta, "GET", f"/recorte/{quote('Rè空')}.png")
+        assert status == 200
+        assert dados.startswith(b"\x89PNG\r\n\x1a\n")
         status, _ = _pedido(porta, "GET", "/recorte/nao_existe.png")
         assert status == 404
     finally:
