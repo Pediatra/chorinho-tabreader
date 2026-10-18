@@ -46,6 +46,7 @@ from .maos_braco_faixa import (
     rotulo_na_faixa,
     voltar,
 )
+from .maos_braco_m21 import QUADROS_PELE
 from .maos_braco_regra import N_MAXIMO, s_do_traste
 from .maos_braco_sintetico import conferir_fora_m11b, gerar, videos_proibidos
 from .maos_braco_tempo import Marcas, classificar, erros, marcas_do_registro
@@ -1838,12 +1839,13 @@ def _amostra_sval(i: int) -> tuple[np.ndarray, list, dict]:
     proibidos = _CONTEXTO["proibidos"]
     rng = random.Random(f"{SEMENTE}:Sval:{i}")
     entrada = fundos[rng.randrange(len(fundos))]
-    entrada_mao = fundos[rng.randrange(len(fundos))]
+    entradas_mao = [fundos[rng.randrange(len(fundos))] for _ in range(QUADROS_PELE)]
     conferir_fora_m11b(entrada["arquivo"], proibidos)
-    conferir_fora_m11b(entrada_mao["arquivo"], proibidos)
+    for entrada_mao in entradas_mao:
+        conferir_fora_m11b(entrada_mao["arquivo"], proibidos)
     fundo = _imagem(DIR_FUNDOS / entrada["jpg"])
-    fundo_mao = _imagem(DIR_FUNDOS / entrada_mao["jpg"])
-    img, registro = gerar(rng, fundo, fundo_mao)
+    fundos_mao = [_imagem(DIR_FUNDOS / e["jpg"]) for e in entradas_mao]
+    img, registro = gerar(rng, fundo, fundos_mao)
     matriz = matriz_da_faixa(
         perturbar(eixo_da_faixa(marcas_do_registro(registro)), rng)
     )
