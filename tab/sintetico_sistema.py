@@ -193,7 +193,7 @@ P_ARCO_CENTRO = 0.4
 #: G2: chance de um par h/p ligar notas a 2-6 colunas, com a corda vazia no meio.
 P_PAR_LONGO = 0.3
 #: Rodada 0204 (R4c): o que ainda escapava no R4b.
-#: G10: chance de o arco longo ser raso (altura 0,08-0,3 passo).
+#: G10: chance de o arco longo ser raso (pouca curva, afastado dos algarismos).
 P_ARCO_RASO = 0.5
 #: G9: chance de o slide ser um risco curto e inclinado, deslocado para cima da corda.
 P_SLIDE_CURTO = 0.5
@@ -680,7 +680,7 @@ def _pontos_arco(
         passo: passo do sistema.
         marcas: lista onde se registram as variantes desenhadas.
         centro: força a ponta no centro (True) ou na borda (False); None sorteia.
-        raso: curva baixa, de 0,08 a 0,3 passo (G10, arco longo).
+        raso: afastado da corda (0,45-0,65 passo) e com pouca curva (0,15-0,4 passo), G10.
 
     Returns:
         11 pontos do arco.
@@ -694,7 +694,10 @@ def _pontos_arco(
     else:
         xa, xb = caixa_a[2] + 0.1 * passo, caixa_b[0] - 0.1 * passo
         base = rng.uniform(0.1, 0.6) * passo
-    altura = rng.uniform(0.08, 0.3) * passo if raso else rng.uniform(0.15, 0.7) * passo
+    altura = rng.uniform(0.15, 0.7) * passo
+    if raso:  # G10: longe dos algarismos, com pouca curva (nunca colado na corda)
+        base = max(base, rng.uniform(0.45, 0.65) * passo)
+        altura = rng.uniform(0.15, 0.4) * passo
     sinal = 1 if abaixo else -1
     if abaixo:
         marcas.append("arco_abaixo")

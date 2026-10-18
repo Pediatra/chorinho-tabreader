@@ -22,7 +22,7 @@ Na folha de `r4b/erros/`, com o limiar 0,15 e as 3 sementes:
 | --- | --- | --- |
 | G8 | colunas apertadas com chance de 0,3 (antes 0,2). Em metade delas, algarismos pequenos (0,45–0,65 passo), e uma corrida de 3 a 5 notas seguidas numa corda só | nenhuma técnica (atacada) |
 | G9 | slide: em metade dos casos, um risco curto, mais inclinado, deslocado para cima da corda e encolhido nas pontas | o de hoje (`/` ou `\` na chegada) |
-| G10 | arco longo de 2 a 6 colunas (antes 2 a 4); em metade dos casos, raso (altura de 0,08 a 0,3 passo) | o de hoje, na chegada |
+| G10 | arco longo de 2 a 6 colunas (antes 2 a 4); em metade dos casos, raso (ponta a 0,45–0,65 passo da corda, curva de 0,15–0,4 passo) | o de hoje, na chegada |
 
 Folha: `data/saida/tab_rotulo/r4c/folha_gerador_{1,2,3}.png` (`folha_gerador.py`), com 6
 sistemas de cada variante, olhada antes de treinar.
