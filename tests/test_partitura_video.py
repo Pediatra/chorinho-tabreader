@@ -904,3 +904,77 @@ def test_forca_de_linha_abaixo_do_quadro_e_zero():
     """A 6ª linha de uma pauta na borda de baixo cai fora do quadro: força 0, sem erro."""
     cinza = np.full((40, 30), 255, dtype=np.uint8)
     assert partitura_video._forca_de_linha(cinza, 45.0, 8.0, 0, 30) == 0.0
+
+
+def test_pasta_omr_aceita_outra_pasta_de_video(tmp_path):
+    """Com ``pasta_video``, as leituras saem da pasta dada, não da pasta de hoje."""
+    produto = tmp_path / "video_falso.json"
+    assert pasta_omr(produto, tmp_path / "frente") == (
+        tmp_path / "frente" / "video_falso" / "omr"
+    )
+
+
+def test_completar_pauta_do_recorte_usa_a_tab_da_janela():
+    """Acorde entra no evento pareado; isolado vira evento novo, com figura null."""
+    notas = [
+        {"tela": 1, "x_centro_quadro": 100.0, "corda": 1, "casa": 0, "coluna": 7},
+        {"tela": 1, "x_centro_quadro": 100.0, "corda": 5, "casa": 0, "coluna": 7},
+        {"tela": 1, "x_centro_quadro": 250.0, "corda": 2, "casa": 0, "coluna": 9},
+    ]
+    simbolo = {
+        "nome": "A2",
+        "midi_escrito": 57,
+        "figura": "quarter",
+        "pontuada": False,
+        "voz": "1",
+        "ligadura_inicio": False,
+        "ligadura_fim": False,
+        "notacoes": [],
+        "origem": "audiveris",
+    }
+    pauta = {
+        "tela": 1,
+        "caixa_quadro": [0, 0, 400, 100],
+        "compassos": [{"numero": "1", "fracao": "4/4", "x_quadro": 90.0}],
+        "eventos": [
+            {
+                "compasso": "1",
+                "t": 0.0,
+                "x_quadro": 100.0,
+                "par": {
+                    "tela": 1,
+                    "coluna": 7,
+                    "distancia_x": 0.0,
+                    "confere_x": True,
+                    "metodo": "altura",
+                },
+                "simbolos": [simbolo],
+                "trocadas": [],
+            }
+        ],
+    }
+    original = copy.deepcopy(pauta)
+    saida, contagens = partitura_video._completar_pauta_do_recorte(pauta, notas)
+    assert contagens == {"acorde": 1, "isolado": 1, "nao_harmonico": 0, "nao_ligada": 0}
+    assert pauta == original
+    evento, novo = saida["eventos"]
+    assert [s["midi_escrito"] for s in evento["simbolos"]] == [57, 76]
+    assert evento["simbolos"][1]["figura"] is None
+    assert novo["par"]["coluna"] == 9
+    assert novo["par"]["metodo"] == "tab"
+    assert novo["t"] is None
+    assert novo["simbolos"][0]["midi_escrito"] == 71
+
+
+def test_completar_pauta_do_recorte_nao_mexe_em_pauta_com_erro():
+    """Pauta sem leitura não tem evento para comparar: sai igual, com zeros."""
+    pauta = {
+        "tela": 1,
+        "caixa_quadro": [0, 0, 400, 100],
+        "compassos": [],
+        "eventos": [],
+        "erro": "faltando: x",
+    }
+    saida, contagens = partitura_video._completar_pauta_do_recorte(pauta, [])
+    assert saida == pauta
+    assert contagens == {"acorde": 0, "isolado": 0, "nao_harmonico": 0, "nao_ligada": 0}

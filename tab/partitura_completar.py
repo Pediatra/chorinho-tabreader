@@ -16,9 +16,12 @@ pareamento em memória de ``_parear_recorte``, como o bloco A do CA1).
 Só lê o que está gravado. Não reescreve nenhum ``.partitura.json``: grava ``e1.json`` na
 pasta da frente E, com só as notas completadas (``origem`` ``tab_completada``).
 
+A função de completar mora em ``tab/partitura_completar_pauta.py`` (pura, sem import de
+``partitura_video``). Este módulo só monta os conjuntos e grava o ``e1.json``.
+
 Uso (na raiz do projeto)::
 
-    python -m tab.partitura_completar
+    python -m tab.partitura_completar [--saida CAMINHO]
 """
 
 from __future__ import annotations
@@ -26,12 +29,18 @@ from __future__ import annotations
 import argparse
 import json
 from collections import defaultdict
+from pathlib import Path
 
 from .caminhos import PART_FRENTE_E, SAIDA
 from .musicxml import midi_da_corda
+from .partitura_completar_pauta import (
+    TECNICA_HARMONICO,
+    TOLERANCIA_PX,
+    _completar,
+    _normalizar,
+)
 from .partitura_gabarito import ler_partitura
 from .partitura_pareamento import INDICE, _carregar_ouro, _parear_recorte
-from .partitura_regua import _seminimas
 from .partitura_video import _compassos_do_recorte, eventos_do_produto
 
 STEMS = [
@@ -42,97 +51,6 @@ STEMS = [
 PASTA_PRODUTO = SAIDA / "fase8" / "rede"
 PASTA_PARTITURA = SAIDA / "partitura" / "video"
 SAIDA_JSON = PART_FRENTE_E / "e1.json"
-
-#: Valor em semínimas de cada figura do MusicXML.
-FIGURAS = {
-    "whole": 4.0,
-    "half": 2.0,
-    "quarter": 1.0,
-    "eighth": 0.5,
-    "16th": 0.25,
-    "32nd": 0.125,
-}
-#: Déficit que cabe numa figura só: (semínimas, nome, pontuada).
-FIGURA_UNICA = [
-    (4.0, "whole", False),
-    (3.0, "half", True),
-    (2.0, "half", False),
-    (1.5, "quarter", True),
-    (1.0, "quarter", False),
-    (0.75, "eighth", True),
-    (0.5, "eighth", False),
-    (0.25, "16th", False),
-    (0.125, "32nd", False),
-]
-TOLERANCIA_PX = 5.0
-TOLERANCIA_DURACAO = 1e-6
-CORDAS_VOZ_2 = {4, 5, 6}
-
-
-def _duracao(simbolo: dict) -> float:
-    """Duração de um símbolo em semínimas (pontuada ×1,5).
-
-    Args:
-        simbolo: símbolo normalizado (com ``figura`` e ``pontuada``).
-
-    Returns:
-        Duração em semínimas, ou 0.0 se a figura é desconhecida.
-    """
-    base = FIGURAS.get(simbolo.get("figura"), 0.0)
-    return base * 1.5 if simbolo.get("pontuada") else base
-
-
-def _normalizar(simbolos: list[dict]) -> list[dict]:
-    """Símbolos com as chaves ``midi``, ``figura``, ``pontuada`` e ``voz``.
-
-    Aceita o formato do ``.partitura.json`` (``midi_escrito``) e o de ``ler_partitura``
-    (``midi``).
-
-    Args:
-        simbolos: símbolos em um dos dois formatos.
-
-    Returns:
-        Lista com as mesmas notas nas chaves padrão.
-    """
-    saida = []
-    for s in simbolos:
-        midi = s.get("midi_escrito", s.get("midi"))
-        saida.append(
-            {
-                "midi": midi,
-                "figura": s.get("figura"),
-                "pontuada": bool(s.get("pontuada")),
-                "voz": str(s.get("voz", "1")),
-            }
-        )
-    return saida
-
-
-def _candidato_oitava(midi: int, x: float | None, eventos: list[dict]) -> bool:
-    """Diz se a pauta tem a nota uma oitava acima, no mesmo x (candidato a harmônico).
-
-    Só diagnóstico: a regra da 3013 (a pauta tem a nota uma oitava acima no mesmo x).
-    O harmônico de verdade vem da tab (símbolo), não daqui; a decisão do dono (3170) tirou
-    esta regra da conta.
-
-    Args:
-        midi: altura escrita da nota da tab que falta na pauta.
-        x: posição x da coluna da tab.
-        eventos: eventos normalizados da partitura do recorte ou da tela.
-
-    Returns:
-        True se algum evento da partitura no mesmo x tem ``midi + 12``.
-    """
-    if x is None:
-        return False
-    for evento in eventos:
-        if (
-            evento["x"] is not None
-            and abs(evento["x"] - x) <= TOLERANCIA_PX
-            and (midi + 12) in evento["midis"]
-        ):
-            return True
-    return False
 
 
 def _herda_erro(midi: int, x: float, notas_gabarito: list[dict]) -> bool:
@@ -153,169 +71,6 @@ def _herda_erro(midi: int, x: float, notas_gabarito: list[dict]) -> bool:
             if som is not None and som + 12 == midi:
                 return False
     return True
-
-
-def _compasso_de_x(x: float | None, compassos: list[dict]) -> str | None:
-    """Número do compasso que contém o x, pelo último compasso que começa antes dele.
-
-    Args:
-        x: posição x no quadro da nota da tab.
-        compassos: lista ``{"numero", "fracao", "x_quadro"}``, na ordem.
-
-    Returns:
-        O ``numero`` do compasso, ou None se não há compasso com x até ``x``.
-    """
-    if x is None:
-        return None
-    escolhido = None
-    for compasso in compassos:
-        cx = compasso.get("x_quadro")
-        if cx is not None and cx <= x + TOLERANCIA_PX:
-            escolhido = compasso["numero"]
-    return escolhido
-
-
-def _figura_do_deficit(deficit: float) -> tuple[str | None, bool]:
-    """Figura de um déficit de compasso, se ele cabe numa figura só.
-
-    Args:
-        deficit: esperada menos a maior soma por voz, em semínimas.
-
-    Returns:
-        ``(figura, pontuada)``, ou ``(None, False)`` se o déficit não é uma figura só.
-    """
-    for valor, nome, pontuada in FIGURA_UNICA:
-        if abs(deficit - valor) < TOLERANCIA_DURACAO:
-            return nome, pontuada
-    return None, False
-
-
-def _soma_do_compasso(eventos: list[dict], numero: str) -> float:
-    """Maior soma por voz das durações dos eventos de um compasso (acorde conta uma vez).
-
-    Args:
-        eventos: eventos normalizados, com ``compasso`` e ``simbolos``.
-        numero: número do compasso.
-
-    Returns:
-        A maior soma por voz, em semínimas.
-    """
-    somas: dict[str, float] = defaultdict(float)
-    for evento in eventos:
-        if evento["compasso"] != numero or not evento["simbolos"]:
-            continue
-        primeiro = evento["simbolos"][0]
-        somas[primeiro["voz"]] += _duracao(primeiro)
-    return max(somas.values(), default=0.0)
-
-
-def _completar(
-    notas_tab: list[dict],
-    eventos: list[dict],
-    pares: dict[int, int],
-    compassos: list[dict],
-    identificacao: dict,
-) -> list[dict]:
-    """Monta as notas completadas de um recorte ou tela.
-
-    Args:
-        notas_tab: eventos da tab; cada um tem ``x``, ``midis`` (escritas) e ``cordas``
-            (corda de cada altura).
-        eventos: eventos da partitura normalizados, com ``compasso``, ``x``, ``midis`` e
-            ``simbolos``.
-        pares: ``{indice do evento da tab: indice do evento da partitura}``, só com par
-            conferido.
-        compassos: ``{"numero", "fracao", "x_quadro"}`` do recorte ou da tela.
-        identificacao: campos que vão para cada nota (``video``, ``tela``, ``recorte``).
-
-    Returns:
-        Uma entrada por nota completada, com ``origem`` ``tab_completada``, ``tipo``
-        (``acorde`` ou ``isolado``), ``figura`` (ou None) e ``pontuada``.
-    """
-    completadas = []
-    for j, tab in enumerate(notas_tab):
-        i = pares.get(j)
-        if i is not None:
-            evento = eventos[i]
-            faltam = sorted(m for m in tab["midis"] if m not in evento["midis"])
-            if not faltam:
-                continue
-            primeiro = evento["simbolos"][0] if evento["simbolos"] else None
-            compasso = evento["compasso"]
-            tem_voz2 = any(
-                s["voz"] == "2"
-                for e in eventos
-                if e["compasso"] == compasso
-                for s in e["simbolos"]
-            )
-            for midi in faltam:
-                cordas = tab["cordas"].get(midi, 0)
-                voz = (
-                    "2"
-                    if cordas in CORDAS_VOZ_2 and tem_voz2
-                    else (primeiro["voz"] if primeiro else "1")
-                )
-                da_voz = [s for s in evento["simbolos"] if s["voz"] == voz]
-                mesma_voz = da_voz[0] if da_voz else None
-                completadas.append(
-                    {
-                        **identificacao,
-                        "origem": "tab_completada",
-                        "tipo": "acorde",
-                        "compasso": compasso,
-                        "midi": midi,
-                        "figura": mesma_voz["figura"] if mesma_voz else None,
-                        "pontuada": mesma_voz["pontuada"] if mesma_voz else False,
-                        "voz": voz,
-                        "x": tab["x"],
-                        "harmonico": bool(tab.get("harmonico_tab")),
-                        "candidato_oitava": _candidato_oitava(midi, tab["x"], eventos),
-                    }
-                )
-        else:
-            compasso = _compasso_de_x(tab["x"], compassos)
-            esperada = _seminimas_compasso(compassos, compasso)
-            soma = _soma_do_compasso(eventos, compasso) if compasso is not None else 0.0
-            deficit = (esperada - soma) if esperada is not None else None
-            figura, pontuada = (
-                _figura_do_deficit(deficit)
-                if deficit is not None and deficit > 0
-                else (None, False)
-            )
-            for midi in sorted(tab["midis"]):
-                completadas.append(
-                    {
-                        **identificacao,
-                        "origem": "tab_completada",
-                        "tipo": "isolado",
-                        "compasso": compasso,
-                        "midi": midi,
-                        "figura": figura,
-                        "pontuada": pontuada,
-                        "voz": "1",
-                        "x": tab["x"],
-                        "harmonico": bool(tab.get("harmonico_tab")),
-                        "candidato_oitava": _candidato_oitava(midi, tab["x"], eventos),
-                        "deficit": deficit,
-                    }
-                )
-    return completadas
-
-
-def _seminimas_compasso(compassos: list[dict], numero: str | None) -> float | None:
-    """Duração esperada de um compasso, em semínimas, pela fração.
-
-    Args:
-        compassos: ``{"numero", "fracao", "x_quadro"}`` do recorte ou da tela.
-        numero: número do compasso.
-
-    Returns:
-        Semínimas do compasso, ou None se não há fração ou compasso.
-    """
-    for compasso in compassos:
-        if compasso["numero"] == numero:
-            return _seminimas(compasso.get("fracao"))
-    return None
 
 
 def _grupo_produtos() -> list[dict]:
@@ -366,7 +121,9 @@ def _grupo_produtos() -> list[dict]:
                         "x": evento.x_quadro,
                         "midis": set(evento.midis),
                         "cordas": cordas,
-                        "harmonico_tab": any(n.get("harmonico") for n in evento.notas),
+                        "harmonico_tab": any(
+                            n.get("tecnica") == TECNICA_HARMONICO for n in evento.notas
+                        ),
                     }
                 )
                 if coluna in colunas_pareadas:
@@ -545,18 +302,25 @@ def medir() -> dict:
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Roda a E1 e grava ``e1.json`` na pasta da frente E.
+    """Roda a E1 e grava ``e1.json`` na pasta da frente E (ou no ``--saida``).
 
     Args:
-        argv: argumentos da linha de comando (não há opções).
+        argv: argumentos da linha de comando (``--saida``, opcional).
 
     Returns:
         Zero em caso de sucesso.
     """
-    argparse.ArgumentParser(description=__doc__.splitlines()[0]).parse_args(argv)
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument(
+        "--saida",
+        type=Path,
+        default=SAIDA_JSON,
+        help="arquivo e1.json de saída (padrão: a pasta da frente E)",
+    )
+    args = parser.parse_args(argv)
     documento = medir()
-    SAIDA_JSON.parent.mkdir(parents=True, exist_ok=True)
-    SAIDA_JSON.write_text(
+    args.saida.parent.mkdir(parents=True, exist_ok=True)
+    args.saida.write_text(
         json.dumps(documento, ensure_ascii=False, indent=2, default=list),
         encoding="utf-8",
     )
