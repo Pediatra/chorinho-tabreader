@@ -218,3 +218,42 @@ O limiar só muda a técnica, então a casa é a mesma nos dois limiares.
   não atacadas da T8.2. Os pesos `_atqg` não substituem o `DETECTOR_PADRAO`.
 - Próximo passo: a folha do que ainda escapa no `_atqg` a 0,15, por motivo, antes de decidir
   entre mais gerador e o arco como objeto próprio (A2).
+
+## Correção do gabarito, depois da folha (2026-10-18)
+
+A folha do que escapa (`r4b/folha_erros.py`, saída em `r4b/erros/`) mostrou 9 notas com
+cara de erro do gabarito. O dono olhou as 9 na ferramenta:
+
+- 5 estavam erradas no gabarito, e não na marcação do dono:
+  - T8.2 t16, t23 e t31: o dono marcou o h ou o p, mas o arco fica **abaixo** das notas, e a
+    caixa caiu na corda de baixo. O `converter.py` só tentava a corda de cima quando a caixa
+    estava acima, então deixou a região sem nota, e as notas ficaram "sim".
+  - T8.2 t24: um arco de prolongamento que o próprio dono não tinha visto. Ele marcou agora.
+  - Room 335 t27 `5‿9`: é hammer-on. Estava "sim" por um clique antigo.
+- 4 estavam certas: Kenneth t8 (as duas), Guitar dell'à t4 (o arco existe) e Paolo d'Angelo
+  t20 (o arco sai da nota, e a outra ponta está cortada).
+
+A correção:
+
+- O conversor agora tenta também a corda de cima quando a caixa cai abaixo das notas.
+- `r4b/corrigir_ataque.py` aplica isso nos arquivos já conferidos e nunca muda um clique do
+  dono. Mudaram 6 notas da T8.2: 4 viraram "não" e 2 ficaram "sim" com outro motivo.
+- O Room 335 t27-n25 foi mudado à mão, pela palavra do dono.
+- Os 6 modelos (`_atq` e `_atqg`, 3 sementes cada) foram medidos de novo. O limiar escolhido
+  continua 0,15 (0,94 % de "não" em atacada nos ouros).
+
+| teste | medida | `_atq` 0,10 | `_atqg` 0,5 | `_atqg` 0,15 |
+| --- | --- | --- | --- | --- |
+| 8 ouros | "sim" falso | 26 · 27 · 25 /85 | 35 · 34 · 39 /85 | **13 · 11 · 15 /85** (13–18 %) |
+| 8 ouros | "não" em atacada | 17 · 21 · 21 | 6 · 3 · 3 | 29 · 21 · 23 (0,8–1,1 %) |
+| T8.2 | "sim" falso | 26 · 25 · 25 /45 | 28 · 28 · 27 /45 | **14 · 16 · 14 /45** (31–36 %) |
+| T8.2 | "não" em atacada | 15 · 9 · 12 | 2 · 5 · 5 | 6 · 10 · 9 (0,4–0,7 %) |
+
+O `_atqg` a 0,15 já acertava as 4 notas novas da T8.2: eram alarmes contados errado. A leitura
+continua a mesma. O aceite não passa, e a regra de parada não dispara.
+
+O que escapa e o gerador não desenha:
+
+- o traço entre algarismos (`3-0-3`, `5-4-2`): 10 alarmes no South American;
+- o slide desenhado como um risco curto entre dois números (`1/2`);
+- o arco muito longo e raso (Room 335, Shin Izumi).
