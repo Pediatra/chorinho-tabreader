@@ -66,3 +66,31 @@ apenas **sinalizar**. Esse sinal sozinho já teria pego os 2 falsos da 1027.
 - **Os 16 vídeos estão no treino dos pesos novos**, por isso a Parte A usa os pesos antigos.
 - **2 quadros por segundo de 16 vídeos** são cerca de 4 a 8 mil quadros, de 1 a 2 h de GPU
   dividida.
+
+## Emenda 1 (2026-10-18 23h, antes de ver qualquer número da Parte B)
+
+**Achado (verificado na álgebra)**: com s(n) = 1 − 2^(−n/12), um deslocamento na numeração dá
+
+    s(n + k) = 1 − 2^(−k/12) · 2^(−n/12) = (1 − 2^(−k/12)) + 2^(−k/12) · s(n)
+
+Isso é uma função **afim** de s(n). O modelo projetivo t = (a·s + b)/(c·s + 1) com b livre
+absorve esse afim, então **todo k encaixa os picos igualmente bem**. A razão entre espaços
+vizinhos também não decide, pelo mesmo motivo.
+- **Consequência**: sem o nut, o espaçamento sozinho **não numera** os trastes.
+- Os métodos 2 (b livre) e 3 só funcionam com uma **âncora absoluta**: o fim do braço, uma
+  marcação (como a dupla da 12ª) ou o nut visto em outro quadro da tomada.
+- **Regra de empate**: hipóteses com números diferentes e resíduos que diferem menos de
+  0,001 do espaço viram **recusa**, ou seja, sinalização.
+  - O agente pôs essa regra no código antes da medida (commit c990bcd0).
+  - Ela fica registrada aqui como parte do método.
+- A medida guarda também a previsão "bruta" (sem a recusa), para mostrar quanto ela erraria.
+
+**Outro registro**: a Parte B só tem **9 quadros** com nut fora e referência (8 da 1027 e o q34
+da M11b).
+- O C tem 4 quadros com nut fora, mas sem referência, e fica de fora.
+
+**A GPU caiu às 23h09** (driver, "No devices were found"), e ela só volta quando o PC for
+reiniciado.
+- A Parte B e o P2/P3 da 1028 rodam na **CPU** (`CHORINHO_MAOS_CPU=1`), em fp32. Na GPU é fp16,
+  e os números podem diferir um pouco.
+- A Parte A (vídeo inteiro) fica para quando a GPU voltar.
