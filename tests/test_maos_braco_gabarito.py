@@ -1677,3 +1677,4 @@ def test_pagina_tem_os_botoes_e_as_teclas_6_e_7_cordas() -> None:
     assert 'data-cordas="7"' in PAGINA
     assert 'ev.key === "6"' in PAGINA
     assert 'ev.key === "7"' in PAGINA
+    assert "(r.cordas ?? 6)" in PAGINA

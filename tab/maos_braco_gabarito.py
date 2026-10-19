@@ -116,7 +116,8 @@ BOCA_MAXIMA = 8
 #: ``divisao`` é a linha antiga (refeita como ``paineis``): não é mais editável, mas
 #: o valor de quem já a marcou continua guardado e é mesclado. ``capo`` é o ponto do
 #: capotraste (um só, no quadro original); a casa continua contada do nut. ``cordas``
-#: é quantas cordas o violão tem (6 ou 7), marcado pelo dono no lote de 7 cordas.
+#: é quantas cordas o violão tem (6 ou 7), marcado pelo dono no lote de 7 cordas;
+#: ``None`` vale 6 (o padrão, a pedido do dono): só o 7 precisa ser marcado.
 CAMPOS_RESPOSTA = (
     "braco",
     "cordas",
@@ -1619,7 +1620,8 @@ input[type=number] { width: 72px; }
     <b>4</b> trastes (um clique no meio de cada traste visível; botão DIREITO em cima
     de um marcado o remove); <b>f</b> nut fora da imagem; <b>k</b> capo (1 clique em cima
     do capotraste, se houver; a casa segue contada do nut). Braço: sim (<b>x</b>), parcial, não, ?.
-    Violão: <b>6</b> ou <b>7</b> cordas (com 7, a "corda 6" é a da borda grave).
+    Violão: <b>6</b> cordas é o padrão; <b>7</b> marca 7 cordas (a "corda 6" vira a da
+    borda grave).
     <b>Tab</b> (ou &rarr;) vai ao próximo quadro; Shift+Tab (ou &larr;) volta. Nada avança
     sozinho.
     <br>Partes (opcionais): <b>s</b> saddle da corda 1 (1 clique no rastilho);
@@ -2041,7 +2043,7 @@ function render() {
   });
   const r = visao().registro;
   document.querySelectorAll("[data-cordas]").forEach((b) => {
-    b.classList.toggle("ativo", Number(b.dataset.cordas) === r.cordas);
+    b.classList.toggle("ativo", Number(b.dataset.cordas) === (r.cordas ?? 6));
   });
   document.querySelectorAll("[data-braco]").forEach((b) => {
     b.classList.toggle("ativo", b.dataset.braco === r.braco);
