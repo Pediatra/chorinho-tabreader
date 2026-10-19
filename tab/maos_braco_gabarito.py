@@ -48,7 +48,7 @@ import numpy as np
 from .cache import ModoCache, caminho_do_quadro, pasta_do_video
 from .caminhos import CENSO_MAOS, GABARITO_BRACO, MAOS_M3B, acervo, cache_quadros
 from .censo import chave_do_arquivo
-from .maos_braco_regra import N_MAXIMO, prever_trastes
+from .maos_braco_regra import N_MAXIMO, prever_trastes, prever_trastes_sem_nut
 from .maos_gabarito import gravar_atomico
 
 #: Ponto ``[x, y]`` no espaço do quadro original.
@@ -1160,6 +1160,65 @@ def _mudar_campo(registro: dict, dados: dict, agora: str) -> None:
     registro["respondido_em"] = agora
 
 
+def _prever_trastes_sem_nut(
+    registro: dict,
+    marcados: list[list[float]],
+    dados: dict,
+    dimensoes: tuple[int, int],
+    agora: str,
+) -> None:
+    """Prevê os trastes sem o nut, com 3 âncoras (P1 da rodada 1028).
+
+    Os números em ``dados["numeros"]`` (3 inteiros distintos) são associados aos trastes
+    marcados na ordem dos cliques. Com 2 âncoras e sem nut a curva não é determinada, e a
+    ferramenta recusa.
+
+    Args:
+        registro: resposta do quadro, alterada em lugar.
+        marcados: trastes marcados, na ordem dos cliques.
+        dados: ``numeros`` (3 inteiros distintos de 1 a ``N_MAXIMO``).
+        dimensoes: ``(largura, altura)`` do quadro original.
+        agora: carimbo de data/hora da resposta.
+
+    Raises:
+        ValueError: com menos de 3 trastes marcados, com números inválidos ou se a regra
+            recusar.
+    """
+    if len(marcados) < 3:
+        raise ValueError(
+            "sem a pestana (nut) marque 3 trastes e diga os 3 números: com 2 a curva "
+            "não é determinada"
+        )
+    numeros = dados.get("numeros")
+    if (
+        not isinstance(numeros, list)
+        or len(numeros) != len(marcados)
+        or any(isinstance(n, bool) or not isinstance(n, int) for n in numeros)
+        or len(set(numeros)) != len(numeros)
+    ):
+        raise ValueError("sem o nut, numeros deve ter um inteiro por traste marcado")
+    ancoras = {n: list(p) for n, p in zip(numeros, marcados, strict=True)}
+    previsao = prever_trastes_sem_nut(
+        registro.get("corda1"), registro.get("corda6"), ancoras, dimensoes, N_MAXIMO
+    )
+    sequencia = []
+    for n in range(1, N_MAXIMO + 1):
+        if n not in previsao:
+            break
+        sequencia.append(n)
+    if max(numeros) not in sequencia:
+        raise ValueError(
+            f"o traste {max(numeros)} fica fora do quadro antes de todos os trastes anteriores"
+        )
+    _empilhar(registro)
+    registro["trastes"] = [previsao[n] for n in sequencia]
+    registro["trastes_previstos"] = [
+        previsao[n] for n in sequencia if n not in ancoras
+    ] or None
+    _limpar_referencia_orfa(registro)
+    registro["respondido_em"] = agora
+
+
 def _prever_trastes(
     registro: dict, dados: dict, dimensoes: tuple[int, int], agora: str
 ) -> None:
@@ -1182,6 +1241,11 @@ def _prever_trastes(
             ``tab.maos_braco_regra.prever_trastes``), ou se a ordem dos previstos não
             bater com a do nut.
     """
+    marcados = [list(p) for p in (registro.get("trastes") or [])]
+    nut = registro.get("nut")
+    if not isinstance(nut, list):
+        _prever_trastes_sem_nut(registro, marcados, dados, dimensoes, agora)
+        return
     numeros = dados.get("numeros", [5, 12])
     if (
         not isinstance(numeros, list)
@@ -1191,12 +1255,8 @@ def _prever_trastes(
         raise ValueError("numeros deve ser uma lista com 2 inteiros")
     if numeros[0] == numeros[1]:
         raise ValueError("as duas âncoras têm o mesmo número")
-    marcados = [list(p) for p in (registro.get("trastes") or [])]
     if len(marcados) != 2:
         raise ValueError("marque exatamente 2 trastes (as âncoras) antes de prever")
-    nut = registro.get("nut")
-    if not isinstance(nut, list):
-        raise ValueError("a pestana (nut) precisa estar marcada")
     mais_perto, mais_longe = sorted(marcados, key=lambda p: math.dist(p, nut))
     menor, maior = sorted(numeros)
     previsao = prever_trastes(

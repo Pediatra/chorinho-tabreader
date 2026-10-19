@@ -199,3 +199,75 @@ def prever_trastes(
         if 0 <= x < largura and 0 <= y < altura:
             previstos[n] = [x, y]
     return previstos
+
+
+def prever_trastes_sem_nut(
+    corda1: object,
+    corda6: object,
+    ancoras: dict[int, list[float]],
+    dimensoes: tuple[int, int],
+    n_max: int = N_MAXIMO,
+) -> dict[int, list[float]]:
+    """Prevê os trastes 1 a ``n_max`` sem o nut, com 3 âncoras e ajuste de a, b e c.
+
+    Rodada 1028 (P1). Sem o nut, ``b`` não é fixado: o modelo ``t = (a s + b)/(c s + 1)``
+    é ajustado nas 3 âncoras, que dão um sistema linear exato. O sentido do eixo é o
+    que faz o traste de número maior ficar mais longe da origem que o de número menor.
+
+    Args:
+        corda1: dois pontos ``[x, y]`` da corda 1.
+        corda6: dois pontos ``[x, y]`` da corda 6.
+        ancoras: ``{numero: [x, y]}`` com exatamente 3 trastes clicados.
+        dimensoes: ``(largura, altura)`` do quadro original.
+        n_max: último traste previsto.
+
+    Returns:
+        ``{numero: [x, y]}`` para os trastes de 1 a ``n_max`` que caem no quadro; as
+        âncoras voltam com o ponto clicado.
+
+    Raises:
+        ValueError: com mensagem em português se houver menos de 3 âncoras (sem o nut a
+            curva com 2 âncoras não é determinada), se os números forem repetidos ou
+            fora de 1..``n_max``, se as cordas forem inválidas, ou se a curva prevista
+            não cresce ou tem polo dentro dos trastes.
+    """
+    if len(ancoras) < 3:
+        raise ValueError(
+            "sem a pestana (nut) são precisas 3 âncoras: com 2 a curva não fica "
+            "determinada"
+        )
+    for nome, corda in (("corda 1", corda1), ("corda 6", corda6)):
+        if not isinstance(corda, list) or len(corda) != 2:
+            raise ValueError(f"a {nome} precisa ter 2 pontos")
+    if any(n < 1 or n > n_max for n in ancoras):
+        raise ValueError(f"números das âncoras fora de 1..{n_max}")
+    origem, u = eixo_do_braco(corda1, corda6)
+    numeros = sorted(ancoras)
+    pontos = {n: np.asarray(ancoras[n], dtype=float) for n in numeros}
+    t_ancoras = {n: float(np.dot(pontos[n] - origem, u)) for n in numeros}
+    if t_ancoras[numeros[-1]] < t_ancoras[numeros[0]]:
+        u = -u
+        t_ancoras = {n: -t for n, t in t_ancoras.items()}
+    s = np.array([s_do_traste(n) for n in numeros], dtype=float)
+    t = np.array([t_ancoras[n] for n in numeros], dtype=float)
+    matriz = np.column_stack([s, np.ones_like(s), -t * s])
+    try:
+        params = np.linalg.solve(matriz, t)
+    except np.linalg.LinAlgError as erro:
+        raise ValueError("âncoras não permitem ajustar a curva") from erro
+    if float(params[2]) * s_do_traste(n_max) + 1.0 <= 0.0:
+        raise ValueError("a curva prevista tem um polo dentro dos trastes")
+    t_valores = _posicoes_t(params, n_max)
+    if any(x >= y for x, y in itertools.pairwise(t_valores[1:])):
+        raise ValueError("a curva prevista não cresce do nut para fora")
+    largura, altura = dimensoes
+    previstos: dict[int, list[float]] = {}
+    for n in range(1, n_max + 1):
+        if n in ancoras:
+            previstos[n] = [float(v) for v in ancoras[n]]
+            continue
+        ponto = origem + u * t_valores[n]
+        x, y = round(float(ponto[0]), 1), round(float(ponto[1]), 1)
+        if 0 <= x < largura and 0 <= y < altura:
+            previstos[n] = [x, y]
+    return previstos

@@ -866,7 +866,65 @@ def decodificar_quadro_conjunto(mapas: np.ndarray, enquadre: Enquadre) -> dict:
         "presenca": presenca,
         "pontos": melhor,
         "marcas": marcas,
+        "soma": melhor_soma,
     }
+
+
+#: P2 (rodada 1028): folga de cada componente do mapa de presença, em px (sem escala).
+FOLGA_COMPONENTE_PX = 3
+#: P2: limiar do mapa de presença para formar os componentes.
+LIMIAR_COMPONENTE = 0.5
+#: P2: diferença relativa abaixo da qual o componente de cima ganha.
+DIFERENCA_COMPONENTE = 0.05
+
+
+def decodificar_quadro_um_braco(mapas: np.ndarray, enquadre: Enquadre) -> dict:
+    """Decodificação conjunta de um braço só, por componente do mapa de presença (P2).
+
+    O mapa de presença (> 0,5) é dividido em componentes conexos. A decodificação conjunta
+    roda dentro de cada componente: os candidatos são só os pontos dele, alargados em 3 px.
+    Ganha o de maior soma; se a diferença para o segundo for menor que 5 %, ganha o de
+    cima e, em empate de altura, o da esquerda. Com um componente só, nada muda.
+
+    Args:
+        mapas: probabilidades ``(5, 384, 640)``.
+        enquadre: transformação de ``enquadrar`` do quadro.
+
+    Returns:
+        O mesmo formato de ``decodificar_quadro_conjunto``, com ``componentes`` (número de
+        componentes com braço válido).
+    """
+    presenca = float(mapas[CANAL_PRESENCA].max())
+    if presenca < P_MIN:
+        return _sem_braco_localizador(f"presença {presenca:.2f} < 0,3", presenca)
+    mascara = (mapas[CANAL_PRESENCA] > LIMIAR_COMPONENTE).astype(np.uint8)
+    total, rotulos = cv2.connectedComponents(mascara, connectivity=8)
+    if total <= 2:
+        return decodificar_quadro_conjunto(mapas, enquadre)
+    kernel = np.ones((2 * FOLGA_COMPONENTE_PX + 1,) * 2, np.uint8)
+    validos: list[tuple[float, float, float, dict]] = []
+    for rotulo in range(1, total):
+        componente = rotulos == rotulo
+        ys, xs = np.nonzero(componente)
+        alargado = cv2.dilate(componente.astype(np.uint8), kernel).astype(bool)
+        dec = decodificar_quadro_conjunto(
+            np.where(alargado[None], mapas, 0.0), enquadre
+        )
+        if dec["achou"]:
+            validos.append((dec["soma"], float(ys.min()), float(xs.min()), dec))
+    if not validos:
+        return _sem_braco_localizador(
+            "nenhum componente com combinação válida", presenca
+        )
+    validos.sort(key=lambda v: -v[0])
+    escolhido = validos[0]
+    if len(validos) > 1:
+        primeiro, segundo = validos[0], validos[1]
+        if primeiro[0] - segundo[0] < DIFERENCA_COMPONENTE * primeiro[0]:
+            escolhido = min(primeiro, segundo, key=lambda v: (v[1], v[2]))
+    dec = dict(escolhido[3])
+    dec["componentes"] = len(validos)
+    return dec
 
 
 # ---------------------------------------------------------------------------
@@ -940,6 +998,7 @@ def cadeia(
     imagem: np.ndarray,
     identificador: str,
     conjunta: bool = False,
+    um_braco: bool = False,
 ) -> dict:
     """Cadeia completa de um quadro: estágio 1 -> faixa -> estágio 2 -> refino -> sinais.
 
@@ -954,6 +1013,8 @@ def cadeia(
         identificador: id do quadro, para a semente das extras.
         conjunta: se True, o estágio 1 usa a decodificação conjunta (1025); se False,
             a antiga (1024).
+        um_braco: se True (com ``conjunta``), o estágio 1 usa o P2 da 1028
+            (``decodificar_quadro_um_braco``).
 
     Returns:
         ``achou``, ``motivo``, ``passadas``, ``presenca``, ``dec`` (saída do estágio 2
@@ -961,6 +1022,8 @@ def cadeia(
     """
     canvas, enquadre = enquadrar(imagem)
     decodificar = decodificar_quadro_conjunto if conjunta else decodificar_quadro
+    if um_braco:
+        decodificar = decodificar_quadro_um_braco
     loc = decodificar(prever_localizador(modelo_loc, [canvas])[0], enquadre)
     if not loc["achou"]:
         return _sem_braco_cadeia(loc["motivo"], 0, loc["presenca"])
