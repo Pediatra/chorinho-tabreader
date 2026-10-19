@@ -44,3 +44,36 @@ Nos ouros e na T8.2, separados:
 
 **Pare se** a T8.2 passar de 10 % de custo com o `L` dos ouros. Isso quer dizer que a faixa não
 generaliza, e o próximo passo volta a ser o arco como objeto próprio (R4b do plano, a A2).
+
+## Resultado (2026-10-19)
+
+Os 6 modelos foram medidos de novo (`r4c/medir_nao_sei.sh`). O `L` escolhido nos ouros é
+**0,02** nas duas versões: o custo, somado nas 3 sementes, fica em 4,2 %. Sementes
+`s1 · s2 · s3`.
+
+| teste | medida | `_atqg` 0,15 (0203) | `_atqg` L = 0,02 | `_atqc` L = 0,02 |
+| --- | --- | --- | --- | --- |
+| 8 ouros | "sim" falso | 13 · 11 · 15 /85 | **5 · 4 · 5 /85** (5–6 %) | 3 · 4 · 2 /85 (2–5 %) |
+| 8 ouros | "não"/"não sei" em atacada | 29 · 21 · 23 (~1 %) | 110 · 114 · 101 (3,9–4,4 %) | 114 · 116 · 98 (3,8–4,5 %) |
+| T8.2 | "sim" falso | 14 · 16 · 14 /45 | **7 · 8 · 8 /44–45** (16–18 %) | 7 · 7 · 7 /44–45 (16 %) |
+| T8.2 | "não"/"não sei" em atacada | 6 · 10 · 9 | 26 · 30 · 31 (1,8–2,1 %) | 30 · 27 · 33 (1,8–2,2 %) |
+
+A casa não muda: a regra só mexe no rótulo de ataque.
+
+Diagnóstico, que não escolhe nada: com `L = 0,01`, a T8.2 do `_atqg` dá 6 · 8 · 7 /45, com um
+custo de 42–47 (~3 %). Os 7 ou 8 que sobram têm sinal abaixo de 0,01. O modelo não vê nada ali.
+
+## Leitura
+
+- **O "sim" falso cai à metade** na T8.2 (14–16 → 7–8 de 45), com um custo de cerca de 2 %, longe
+  dos 10 %. Nos ouros, ele fica em 5–6 %, perto do aceite.
+- **O aceite ainda não passa na T8.2**: 16–18 % contra a meta de 5 %. A regra de parada (custo
+  acima de 10 % na T8.2) não dispara.
+- O `_atqc` dá o mesmo na T8.2. Fica de fora pela casa (0204).
+- Para a base das mãos, isso já muda o quadro. A nota duvidosa sai do "sim", e o "sim" errado
+  passa de cerca de 1 nota não atacada em 3 para 1 em 6 nos canais novos.
+- O que sobra é sinal zero, sobretudo o mordente. Só o arco como objeto próprio (A2), ou mais
+  gabarito de canais novos, ataca isso.
+- A faixa ainda **não está no produto** (`tab.video` só grava a técnica). Pô-la no rótulo de
+  ataque da base é o próximo passo barato. Ela vale com os pesos `_atqg`, que não são o
+  `DETECTOR_PADRAO`.
