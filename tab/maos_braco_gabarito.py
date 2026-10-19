@@ -115,9 +115,11 @@ BOCA_MAXIMA = 8
 #: Campos de resposta do quadro (o que o desfazer restaura e o gabarito guarda).
 #: ``divisao`` é a linha antiga (refeita como ``paineis``): não é mais editável, mas
 #: o valor de quem já a marcou continua guardado e é mesclado. ``capo`` é o ponto do
-#: capotraste (um só, no quadro original); a casa continua contada do nut.
+#: capotraste (um só, no quadro original); a casa continua contada do nut. ``cordas``
+#: é quantas cordas o violão tem (6 ou 7), marcado pelo dono no lote de 7 cordas.
 CAMPOS_RESPOSTA = (
     "braco",
+    "cordas",
     "corda1",
     "corda6",
     "nut",
@@ -153,8 +155,12 @@ CAMPOS_DESFAZER = (
     "trastes_previstos",
     "traste_referencia",
     "capo",
+    "cordas",
     *CAMPOS_PARTES,
 )
+
+#: Valores aceitos em ``cordas`` (além de ``None``, não respondido).
+NUMEROS_CORDAS = (6, 7)
 
 #: Campos de geometria: some quando o braço é "nao" ou "?". As partes do corpo
 #: (saddle, cavalete, boca, divisão) NÃO entram aqui: não somem com o braço.
@@ -601,6 +607,7 @@ def registro_em_branco(chave: str) -> dict:
         "trastes_previstos": None,
         "traste_referencia": None,
         "capo": None,
+        "cordas": None,
         "saddle1": None,
         "saddle6": None,
         "cavalete": None,
@@ -643,7 +650,8 @@ def completar_campos(registro: dict) -> None:
     carregamento faria o ``"nao"`` antigo voltar sozinho.
 
     ``trastes_previstos`` também ganha ``None`` quando falta (registro antes da regra
-    das 12 notas). ``capo`` também ganha ``None`` quando falta (registro antes do capo).
+    das 12 notas). ``capo`` e ``cordas`` também ganham ``None`` quando faltam (registro
+    de antes deles).
 
     Args:
         registro: resposta de um quadro, alterada em lugar.
@@ -657,6 +665,8 @@ def completar_campos(registro: dict) -> None:
         registro["trastes_previstos"] = None
     if "capo" not in registro:
         registro["capo"] = None
+    if "cordas" not in registro:
+        registro["cordas"] = None
 
 
 def gabarito_novo(indice: list[dict], semente: int) -> dict:
@@ -1121,7 +1131,7 @@ def _lista_ou_none(valor: object) -> list[Ponto] | None:
 
 
 def _mudar_campo(registro: dict, dados: dict, agora: str) -> None:
-    """Muda um campo de resposta (braço, nut, referência, partes ou observação).
+    """Muda um campo de resposta (braço, cordas, nut, referência, partes ou obs).
 
     Args:
         registro: resposta do quadro, alterada em lugar.
@@ -1142,6 +1152,11 @@ def _mudar_campo(registro: dict, dados: dict, agora: str) -> None:
             for c in CAMPOS_GEOMETRIA:
                 registro[c] = None
             registro["capo"] = None
+    elif campo == "cordas":
+        if valor is not None and valor not in NUMEROS_CORDAS:
+            raise ValueError(f"cordas deve ser um de {NUMEROS_CORDAS} ou null")
+        _empilhar(registro)
+        registro["cordas"] = valor
     elif campo == "nut":
         if valor not in ("fora", None):
             raise ValueError("nut aceita 'fora' ou null (o ponto vem do clique)")
@@ -1604,6 +1619,7 @@ input[type=number] { width: 72px; }
     <b>4</b> trastes (um clique no meio de cada traste visível; botão DIREITO em cima
     de um marcado o remove); <b>f</b> nut fora da imagem; <b>k</b> capo (1 clique em cima
     do capotraste, se houver; a casa segue contada do nut). Braço: sim (<b>x</b>), parcial, não, ?.
+    Violão: <b>6</b> ou <b>7</b> cordas (com 7, a "corda 6" é a da borda grave).
     <b>Tab</b> (ou &rarr;) vai ao próximo quadro; Shift+Tab (ou &larr;) volta. Nada avança
     sozinho.
     <br>Partes (opcionais): <b>s</b> saddle da corda 1 (1 clique no rastilho);
@@ -1644,6 +1660,9 @@ input[type=number] { width: 72px; }
     <button data-braco="parcial">parcial</button>
     <button data-braco="nao">não</button>
     <button data-braco="?">?</button>
+    &nbsp; violão:
+    <button data-cordas="6">6 cordas</button>
+    <button data-cordas="7">7 cordas</button>
     <span class="msg" id="msg"></span>
   </div>
   <div class="barra">
@@ -2021,6 +2040,9 @@ function render() {
     b.classList.toggle("ativo", b.dataset.modo === modo);
   });
   const r = visao().registro;
+  document.querySelectorAll("[data-cordas]").forEach((b) => {
+    b.classList.toggle("ativo", Number(b.dataset.cordas) === r.cordas);
+  });
   document.querySelectorAll("[data-braco]").forEach((b) => {
     b.classList.toggle("ativo", b.dataset.braco === r.braco);
   });
@@ -2161,6 +2183,11 @@ document.querySelectorAll("[data-braco]").forEach((b) => {
     enviar({ quadro: atual().id, campo: "braco", valor: b.dataset.braco });
   });
 });
+document.querySelectorAll("[data-cordas]").forEach((b) => {
+  b.addEventListener("click", () => {
+    enviar({ quadro: atual().id, campo: "cordas", valor: Number(b.dataset.cordas) });
+  });
+});
 // Botões "oculto" e "não dividida": campo de parte com o valor fixo do botão.
 document.querySelectorAll("[data-campo]").forEach((b) => {
   b.addEventListener("click", () => {
@@ -2203,6 +2230,8 @@ document.addEventListener("keydown", (ev) => {
   else if (ev.key === "3") definirModo("nut");
   else if (ev.key === "4") definirModo("trastes");
   else if (ev.key === "k") definirModo("capo");
+  else if (ev.key === "6") enviar({ quadro: atual().id, campo: "cordas", valor: 6 });
+  else if (ev.key === "7") enviar({ quadro: atual().id, campo: "cordas", valor: 7 });
   else if (ev.key === "x") enviar({ quadro: atual().id, campo: "braco", valor: "sim" });
   else if (ev.key === "v") enviar({ quadro: atual().id, campo: "paineis", valor: "nao" });
   else if (ev.key === "f") enviar({ quadro: atual().id, campo: "nut", valor: "fora" });

@@ -1631,3 +1631,49 @@ def test_pagina_tem_o_modo_capo_na_tecla_k_e_na_barra() -> None:
     assert 'definirModo("capo")' in PAGINA
     assert 'data-modo="capo"' in PAGINA
     assert "#14b8a6" in PAGINA
+
+
+def test_cordas_aceita_6_ou_7_recusa_outro_e_o_desfazer_volta() -> None:
+    """O campo ``cordas`` grava 6 ou 7, recusa outro número, e o desfazer o restaura."""
+    g = _gabarito_com(["q01"])
+    aplicar_acao(g, "q01", {"campo": "cordas", "valor": 7}, DIMENSOES, "t")
+    assert g["quadros"]["q01"]["cordas"] == 7
+    assert g["quadros"]["q01"]["respondido_em"] == "t"
+    aplicar_acao(g, "q01", {"campo": "cordas", "valor": 6}, DIMENSOES, "t")
+    assert g["quadros"]["q01"]["cordas"] == 6
+    with pytest.raises(ValueError):
+        aplicar_acao(g, "q01", {"campo": "cordas", "valor": 8}, DIMENSOES, "t")
+    aplicar_acao(g, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert g["quadros"]["q01"]["cordas"] == 7
+
+
+def test_limpar_marcas_e_braco_nao_mantem_as_cordas() -> None:
+    """Limpar marcas e braço "não" não apagam o número de cordas do violão."""
+    g = _gabarito_com(["q01"])
+    g["quadros"]["q01"] = _completo()
+    aplicar_acao(g, "q01", {"campo": "cordas", "valor": 7}, DIMENSOES, "t")
+    aplicar_acao(g, "q01", {"acao": "limpar"}, DIMENSOES, "t")
+    assert g["quadros"]["q01"]["cordas"] == 7
+    aplicar_acao(g, "q01", {"campo": "braco", "valor": "nao"}, DIMENSOES, "t")
+    assert g["quadros"]["q01"]["cordas"] == 7
+
+
+def test_registro_antigo_sem_cordas_carrega_com_none_e_mescla() -> None:
+    """Registro de antes do campo ganha ``cordas`` None; o valor do disco sobrevive."""
+    antigo = registro_em_branco("c")
+    del antigo["cordas"]
+    completar_campos(antigo)
+    assert antigo["cordas"] is None
+    disco = _gabarito_com(["q01"])
+    disco["quadros"]["q01"]["cordas"] = 7
+    disco["quadros"]["q01"]["respondido_em"] = "2026-10-19T10:00:00"
+    mesclado = mesclar_gabarito(_gabarito_com(["q01"]), disco)
+    assert mesclado["quadros"]["q01"]["cordas"] == 7
+
+
+def test_pagina_tem_os_botoes_e_as_teclas_6_e_7_cordas() -> None:
+    """A página tem os botões "6 cordas"/"7 cordas" e as teclas 6 e 7."""
+    assert 'data-cordas="6"' in PAGINA
+    assert 'data-cordas="7"' in PAGINA
+    assert 'ev.key === "6"' in PAGINA
+    assert 'ev.key === "7"' in PAGINA
