@@ -1,10 +1,13 @@
-"""Ciclo de revisão do braço (rodadas 1026 e 1027): sorteio, previsão e medida.
+"""Ciclo de revisão do braço (rodadas 1026, 1027 e 1029): sorteio, previsão e medida.
 
-Pré-registros: ``docs/rodadas/1026-ciclo-de-revisao-sky-guitar.md`` (commit 1a70e34c) e
-``docs/rodadas/1027-ciclo-de-revisao-guitarous.md`` (commit 32c4a644).
+Pré-registros: ``docs/rodadas/1026-ciclo-de-revisao-sky-guitar.md`` (commit 1a70e34c),
+``docs/rodadas/1027-ciclo-de-revisao-guitarous.md`` (commit 32c4a644) e
+``docs/rodadas/1029-ciclo-de-revisao-pablo-rome.md`` (commit 7332f4d8).
 
-CLI: ``python -m tab.maos_braco_ciclo {sortear,prever,medir} [--rodada 1026|1027]``
-(padrão 1026). Cada rodada tem canal, semente, pasta e gabarito na tabela ``RODADAS``.
+CLI: ``python -m tab.maos_braco_ciclo {sortear,prever,medir,escolher-pesos}
+[--rodada 1026|1027|1029]`` (padrão 1026). Cada rodada tem canal, semente, pasta e
+gabarito na tabela ``RODADAS``. A 1029 escolhe os pesos antes de prever (``escolher-pesos``,
+que roda a M11b na GPU) e pode ligar o P2 (um braço só) e o P3 (consenso S4).
 
 1. ``sortear``: 8 vídeos do canal da rodada fora das amostras anteriores (M3b, M21 R,
    M25 treino e prova, e as rodadas de ciclo já feitas), 8 instantes por vídeo entre
@@ -34,17 +37,24 @@ from pathlib import Path
 import numpy as np
 
 from .caminhos import (
+    GABARITO_BRACO_M11B,
     GABARITO_BRACO_M26,
     GABARITO_BRACO_M27,
+    GABARITO_BRACO_M29,
     MAOS_M3B,
+    MAOS_M11B,
     MAOS_M21,
     MAOS_M25,
     MAOS_M26,
     MAOS_M27,
+    MAOS_M29,
     acervo,
 )
+from .maos_braco_consenso import SINAL_S4, consenso
 from .maos_braco_detector import (
+    DIR_PESOS,
     PASSOS,
+    QUADROS_PROVA,
     _carregar_pesos,
     _imagem,
     _no_quadro,
@@ -57,7 +67,12 @@ from .maos_braco_gabarito import (
     numerar_trastes,
     tem_resposta,
 )
-from .maos_braco_localizador import _carregar_localizador, cadeia, sinalizado
+from .maos_braco_localizador import (
+    QUADRO_BRACO_NAO,
+    _carregar_localizador,
+    cadeia,
+    sinalizado,
+)
 from .maos_braco_tempo import Marcas, classificar, erros, marcas_do_registro
 from .maos_gabarito import gravar_atomico
 
@@ -97,10 +112,33 @@ RODADAS: dict[str, Rodada] = {
         gabarito=GABARITO_BRACO_M27,
         proxima="1028",
     ),
+    "1029": Rodada(
+        canal="pablo romé",
+        semente=20261029,
+        pasta=MAOS_M29,
+        gabarito=GABARITO_BRACO_M29,
+        proxima="rodada seguinte",
+    ),
 }
 
 #: Rodada usada quando a CLI não recebe ``--rodada``.
 RODADA_PADRAO = "1026"
+
+#: Rodadas com pesos escolhidos por ``escolher-pesos`` (a 1026 e a 1027 ficam com os fixos).
+RODADAS_COM_ESCOLHA = ("1029",)
+
+#: Sementes dos pesos L3 e A4 que a escolha considera (``*_todos_s<k>``).
+SEMENTES_PESOS = (1, 2, 3)
+#: Nomes dos pesos de cada estágio na escolha da 1029.
+PREFIXO_L3 = "L3_todos_s"
+PREFIXO_A4 = "A4_100_todos_s"
+#: Arquivo com a escolha de pesos da 1029 (dentro da pasta da rodada).
+ARQUIVO_ESCOLHA = "escolha_pesos.json"
+#: Previsão com os pesos antigos (L2_s1 + A3_s1), para a comparação da 1029.
+ARQUIVO_PREVISTO_ANTIGO = "previsto_antigo.json"
+#: Fontes de vídeos que a 1029 exclui além de ``arquivos_ja_usados``: a 1027 e a M11b.
+ARQUIVO_INDICE_M27 = MAOS_M27 / "indice.json"
+ARQUIVO_CHAVES_M11B = MAOS_M11B / "chaves.json"
 
 #: Vídeos do lote e quadros por vídeo.
 N_VIDEOS = 8
@@ -238,6 +276,38 @@ def arquivos_ja_usados() -> set[str]:
     return usados
 
 
+def arquivos_da_1027_e_m11b(
+    indice_m27: Path = ARQUIVO_INDICE_M27, chaves_m11b: Path = ARQUIVO_CHAVES_M11B
+) -> set[str]:
+    """Vídeos da 1027 (``m27/indice.json``) e da M11b (``m11b/chaves.json``).
+
+    Args:
+        indice_m27: ``indice.json`` da 1027 (campo ``arquivo`` de cada quadro).
+        chaves_m11b: ``chaves.json`` da M11b (campo ``arquivo`` de cada vídeo).
+
+    Returns:
+        Caminhos relativos ao acervo que a 1029 não pode sortear.
+    """
+    da_1027 = {item["arquivo"] for item in _ler_json(indice_m27)["quadros"]}
+    da_m11b = {item["arquivo"] for item in _ler_json(chaves_m11b)["videos"]}
+    return da_1027 | da_m11b
+
+
+def excluidos_da_rodada(numero: str) -> set[str]:
+    """Vídeos que a rodada não pode sortear: as amostras anteriores e, na 1029, a 1027 e a M11b.
+
+    Args:
+        numero: rodada (chave de ``RODADAS``).
+
+    Returns:
+        Caminhos relativos ao acervo excluídos do sorteio.
+    """
+    usados = arquivos_ja_usados()
+    if numero == "1029":
+        usados |= arquivos_da_1027_e_m11b()
+    return usados
+
+
 def _candidatos(raiz: Path, canal: str) -> list[str]:
     """Vídeos do canal do lote no acervo.
 
@@ -324,7 +394,7 @@ def sortear(numero: str = RODADA_PADRAO, raiz: Path | None = None) -> list[str]:
     raiz = raiz or acervo()
     if (pasta / ARQUIVO_INDICE).exists() or ouro.exists():
         raise FileExistsError(f"já existe índice ou gabarito em {pasta} / {ouro}")
-    usados = arquivos_ja_usados()
+    usados = excluidos_da_rodada(numero)
     candidatos = _candidatos(raiz, rodada.canal)
     videos = escolher_videos(candidatos, usados, rodada.semente)
     duracoes = {video: _duracao(raiz / video) for video in videos}
@@ -479,6 +549,7 @@ def registro_previsto(
     registro = copy.deepcopy(base)
     registro["braco"] = None
     registro["traste_referencia"] = None
+    registro["capo"] = None
     if not previsto["achou"]:
         for campo in CAMPOS_GEOMETRIA:
             registro[campo] = None
@@ -561,6 +632,149 @@ def _sem_resposta(gabarito: dict) -> None:
             )
 
 
+@dataclasses.dataclass(frozen=True)
+class Pesos:
+    """Pesos de uma rodada e as opções ligadas (P2 e P3).
+
+    Attributes:
+        estagio1: nome do localizador (estágio 1).
+        estagio2: nome do detector (estágio 2).
+        p2: se o estágio 1 usa o P2 (um braço só).
+        p3: se o consenso S4 (P3) entra no lote.
+    """
+
+    estagio1: str
+    estagio2: str
+    p2: bool = False
+    p3: bool = False
+
+
+def pesos_da_rodada(numero: str) -> Pesos:
+    """Pesos que a rodada usa: fixos na 1026 e na 1027, escolhidos na 1029.
+
+    Args:
+        numero: rodada (chave de ``RODADAS``).
+
+    Returns:
+        ``Pesos`` com os nomes dos estágios e as opções P2 e P3.
+
+    Raises:
+        ValueError: se a rodada escolhe os pesos e ``escolha_pesos.json`` não existe.
+    """
+    if numero not in RODADAS_COM_ESCOLHA:
+        return Pesos(ESTAGIO1, ESTAGIO2)
+    caminho = RODADAS[numero].pasta / ARQUIVO_ESCOLHA
+    if not caminho.exists():
+        raise ValueError(
+            f"falta {caminho}: rode `escolher-pesos --rodada {numero}` antes de `prever`"
+        )
+    escolha = _ler_json(caminho)
+    return Pesos(
+        estagio1=escolha["estagio1"],
+        estagio2=escolha["estagio2"],
+        p2=bool(escolha["p2"]),
+        p3=bool(escolha["p3"]),
+    )
+
+
+def pesos_do_documento(pesos: Pesos) -> dict:
+    """Bloco ``pesos`` do ``previsto.json``; P2 e P3 só aparecem quando ligados.
+
+    Args:
+        pesos: pesos da rodada.
+
+    Returns:
+        ``estagio1``, ``estagio2`` e ``conjunta``, com ``um_braco`` e ``consenso``
+        quando as opções estão ligadas.
+    """
+    doc: dict = {
+        "estagio1": pesos.estagio1,
+        "estagio2": pesos.estagio2,
+        "conjunta": True,
+    }
+    if pesos.p2:
+        doc["um_braco"] = True
+    if pesos.p3:
+        doc["consenso"] = SINAL_S4
+    return doc
+
+
+def _prever_quadros(
+    pasta: Path, indice: dict, estagio1: str, estagio2: str, um_braco: bool
+) -> dict[str, dict]:
+    """Roda a cadeia (GPU) em cada quadro do índice e devolve a previsão de cada um.
+
+    Args:
+        pasta: pasta da rodada (os quadros estão em ``pasta / item["png"]``).
+        indice: ``indice.json`` da rodada (``quadros`` com id, arquivo, png e t).
+        estagio1: nome do localizador.
+        estagio2: nome do detector.
+        um_braco: se True, o estágio 1 usa o P2 (um braço só).
+
+    Returns:
+        ``{id: entrada de previsto.json}``, na ordem do índice.
+    """
+    previstos: dict[str, dict] = {}
+    with _trava_gpu():
+        loc = _carregar_localizador(estagio1)
+        dois, _ = _carregar_pesos(estagio2, PASSOS)
+        for item in indice["quadros"]:
+            imagem = _imagem(pasta / item["png"])
+            resultado = cadeia(
+                loc, dois, imagem, item["id"], conjunta=True, um_braco=um_braco
+            )
+            sinal = sinalizado(resultado)
+            previstos[item["id"]] = previsto_do_resultado(item, resultado, sinal)
+            print(
+                f"{item['id']} {item['arquivo']} t={item['t']}: "
+                f"achou={previstos[item['id']]['achou']} sinalizado={sinal}",
+                flush=True,
+            )
+    return previstos
+
+
+def aplicar_consenso(doc: dict, dimensoes: dict[str, tuple[int, int]]) -> dict:
+    """Aplica o P3 a uma previsão: sinaliza os quadros com S4.
+
+    Movida de ``tab.maos_braco_p23`` (rodada 1028) para cá, para a 1029 usar o mesmo código.
+
+    Args:
+        doc: previsão no formato de ``previsto.json``.
+        dimensoes: ``{id: (largura, altura)}`` de cada quadro.
+
+    Returns:
+        Cópia de ``doc`` com ``sinalizado`` atualizado e ``S4`` (k e referência) por quadro.
+    """
+    lista = []
+    for id_q in doc["ordem"]:
+        previsto = doc["quadros"][id_q]
+        lista.append(
+            {
+                "id": id_q,
+                "arquivo": previsto["arquivo"],
+                "achou": previsto["achou"],
+                "sinalizado": previsto["sinalizado"],
+                "nut": previsto.get("nut"),
+                "corda1": previsto.get("corda1"),
+                "corda6": previsto.get("corda6"),
+                "trastes": trastes_visiveis(previsto, dimensoes[id_q])
+                if previsto["achou"]
+                else [],
+            }
+        )
+    sinais = consenso(lista)
+    novo = copy.deepcopy(doc)
+    for id_q in doc["ordem"]:
+        sinal = sinais.get(id_q)
+        if sinal is None:
+            continue
+        quadro = novo["quadros"][id_q]
+        quadro["S4"] = sinal
+        if sinal["S4"]:
+            quadro["sinalizado"] = True
+    return novo
+
+
 def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
     """Roda a cadeia em cada quadro e preenche o gabarito com a previsão (GPU).
 
@@ -589,20 +803,12 @@ def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
     if set(ids) != set(gabarito["quadros"]):
         raise ValueError("ids do indice.json e do gabarito não batem")
     dimensoes = {q["id"]: (q["largura"], q["altura"]) for q in indice["quadros"]}
-    previstos: dict[str, dict] = {}
-    with _trava_gpu():
-        loc = _carregar_localizador(ESTAGIO1)
-        dois, _ = _carregar_pesos(ESTAGIO2, PASSOS)
-        for item in indice["quadros"]:
-            imagem = _imagem(pasta / item["png"])
-            resultado = cadeia(loc, dois, imagem, item["id"], conjunta=True)
-            sinal = sinalizado(resultado)
-            previstos[item["id"]] = previsto_do_resultado(item, resultado, sinal)
-            print(
-                f"{item['id']} {item['arquivo']} t={item['t']}: "
-                f"achou={previstos[item['id']]['achou']} sinalizado={sinal}",
-                flush=True,
-            )
+    pesos = pesos_da_rodada(numero)
+    previstos = _prever_quadros(pasta, indice, pesos.estagio1, pesos.estagio2, pesos.p2)
+    if pesos.p3:
+        previstos = aplicar_consenso({"ordem": ids, "quadros": previstos}, dimensoes)[
+            "quadros"
+        ]
     sinalizados = {id_q: previstos[id_q]["sinalizado"] for id_q in ids}
     ordem = ordenar_por_sinalizado(ids, sinalizados)
     novo_gabarito = dict(gabarito, quadros={})
@@ -620,7 +826,7 @@ def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
     previsto_doc = {
         "formato": FORMATO_GABARITO,
         "semente": indice["semente"],
-        "pesos": {"estagio1": ESTAGIO1, "estagio2": ESTAGIO2, "conjunta": True},
+        "pesos": pesos_do_documento(pesos),
         "ordem": ordem,
         "quadros": {id_q: previstos[id_q] for id_q in ordem},
     }
@@ -628,6 +834,199 @@ def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
     gravar_atomico(ouro, novo_gabarito)
     gravar_atomico(pasta / ARQUIVO_INDICE, novo_indice)
     return sinalizados
+
+
+# ---------------------------------------------------------------------------------
+# Escolha de pesos (rodada 1029): GPU, rodar uma vez antes de `prever --rodada 1029`
+# ---------------------------------------------------------------------------------
+
+#: Critério de escolha, como ficou no pré-registro 1029 (registrado no json).
+CRITERIO_ESCOLHA = (
+    "menos falsos não sinalizados na M11b; desempates: mais certos não sinalizados, "
+    "menos sinalizados, menor soma de sementes"
+)
+
+
+def _peso_existe(nome: str, diretorio: Path) -> bool:
+    """Se um peso tem o ``.pt`` e o ``.json`` (metadados) no diretório.
+
+    Args:
+        nome: nome do peso, sem extensão.
+        diretorio: pasta dos pesos.
+
+    Returns:
+        True quando os dois arquivos existem.
+    """
+    return (diretorio / f"{nome}.pt").is_file() and (
+        diretorio / f"{nome}.json"
+    ).is_file()
+
+
+def _semente(nome: str) -> int:
+    """Semente de um peso ``*_s<k>``.
+
+    Args:
+        nome: nome do peso, como ``L3_todos_s2``.
+
+    Returns:
+        O ``k`` do sufixo.
+    """
+    return int(nome.rsplit("_s", 1)[1])
+
+
+def combinacoes_existentes(diretorio: Path = DIR_PESOS) -> list[tuple[str, str]]:
+    """Pares ``(L3, A4)`` das sementes cujos pesos existem (produto cartesiano).
+
+    Um peso que não existe (treino que falhou) sai da lista; as combinações restantes
+    entram normalmente.
+
+    Args:
+        diretorio: pasta dos pesos (``artefatos/m21``).
+
+    Returns:
+        Os pares de nomes, na ordem das sementes.
+    """
+    l3 = [
+        f"{PREFIXO_L3}{s}"
+        for s in SEMENTES_PESOS
+        if _peso_existe(f"{PREFIXO_L3}{s}", diretorio)
+    ]
+    a4 = [
+        f"{PREFIXO_A4}{s}"
+        for s in SEMENTES_PESOS
+        if _peso_existe(f"{PREFIXO_A4}{s}", diretorio)
+    ]
+    return [(i, j) for i in l3 for j in a4]
+
+
+def escolher_combinacao(tabela: list[dict]) -> dict:
+    """Linha vencedora pelo critério do pré-registro 1029.
+
+    Ordem das chaves: menos ``falsos_passam_n``; depois mais ``entregue_certo``; depois
+    menos ``sinalizados``; depois a menor ``soma_sementes``. Empate total fica com a
+    primeira linha.
+
+    Args:
+        tabela: uma linha por combinação, com as chaves acima.
+
+    Returns:
+        A linha escolhida.
+
+    Raises:
+        ValueError: se a tabela estiver vazia.
+    """
+    if not tabela:
+        raise ValueError("tabela de combinações vazia")
+    return min(
+        tabela,
+        key=lambda linha: (
+            linha["falsos_passam_n"],
+            -linha["entregue_certo"],
+            linha["sinalizados"],
+            linha["soma_sementes"],
+        ),
+    )
+
+
+def _quadros_m11b() -> tuple[list[dict], dict[str, dict]]:
+    """Quadros da M11b usados na escolha: os 28 do detector mais o q77 (braço "não").
+
+    Desenvolvimento, não prova: a M11b já foi muito vista e só serve para escolher os pesos.
+
+    Returns:
+        ``(itens, registros)``: itens do ``indice.json`` da M11b e os registros do gabarito
+        por id, na mesma ordem.
+
+    Raises:
+        ValueError: se algum quadro não estiver no índice ou no gabarito.
+    """
+    ids = (*QUADROS_PROVA, QUADRO_BRACO_NAO)
+    indice = {
+        item["id"]: item for item in _ler_json(MAOS_M11B / ARQUIVO_INDICE)["quadros"]
+    }
+    gabarito = _ler_json(GABARITO_BRACO_M11B)["quadros"]
+    faltam = [i for i in ids if i not in indice or i not in gabarito]
+    if faltam:
+        raise ValueError(f"quadros da M11b fora do índice ou do gabarito: {faltam}")
+    return [indice[i] for i in ids], {i: gabarito[i] for i in ids}
+
+
+def avaliar_combinacao(
+    estagio1: str, estagio2: str, itens: list[dict], registros: dict[str, dict]
+) -> dict:
+    """Mede uma combinação de pesos nos quadros da M11b (cadeia completa, GPU).
+
+    Args:
+        estagio1: nome do localizador (``L3_todos_s<k>``).
+        estagio2: nome do detector (``A4_100_todos_s<k>``).
+        itens: quadros da M11b (``indice.json``), na ordem da medida.
+        registros: resposta do dono por id (``braco_m11b.json``).
+
+    Returns:
+        Uma linha da tabela: os pesos, a soma das sementes e os totais da medida.
+    """
+    previstos: dict[str, dict] = {}
+    with _trava_gpu():
+        loc = _carregar_localizador(estagio1)
+        dois, _ = _carregar_pesos(estagio2, PASSOS)
+        for item in itens:
+            imagem = _imagem(MAOS_M11B / item["png"])
+            resultado = cadeia(loc, dois, imagem, item["id"], conjunta=True)
+            previstos[item["id"]] = previsto_do_resultado(
+                item, resultado, sinalizado(resultado)
+            )
+    doc = {"ordem": [i["id"] for i in itens], "quadros": previstos}
+    totais = medir_quadros(doc, {"quadros": registros}, RODADAS["1029"].proxima)[
+        "totais"
+    ]
+    return {
+        "estagio1": estagio1,
+        "estagio2": estagio2,
+        "soma_sementes": _semente(estagio1) + _semente(estagio2),
+        "medidos": totais["medidos"],
+        "falsos_passam_n": totais["falsos_passam_n"],
+        "entregue_certo": totais["entregue_certo"],
+        "sinalizados": totais["sinalizados"],
+    }
+
+
+def escolher_pesos(p2: bool, p3: bool, pasta: Path = MAOS_M29) -> dict:
+    """Escolhe os pesos da 1029 pela M11b e grava ``escolha_pesos.json`` (GPU).
+
+    Sem nenhum L3 ou A4 em ``artefatos/m21``, cai para ``L2_todos_s1`` + ``A3_100_todos_s1``
+    (os da 1026 e da 1027), sem rodar a GPU, e isso fica registrado no json.
+
+    Args:
+        p2: se o P2 (um braço só) entra no ciclo (decidido pelo dono com a 1028).
+        p3: se o P3 (consenso S4) entra no ciclo.
+        pasta: pasta da rodada, onde a escolha é gravada.
+
+    Returns:
+        O conteúdo gravado: ``estagio1``, ``estagio2``, ``p2``, ``p3``, ``fonte``,
+        ``criterio`` e ``tabela`` (uma linha por combinação avaliada).
+    """
+    combos = combinacoes_existentes()
+    if not combos:
+        escolha: dict = {
+            "estagio1": ESTAGIO1,
+            "estagio2": ESTAGIO2,
+            "fonte": "fallback: nenhum L3/A4 existe; pesos da 1026/1027",
+            "tabela": [],
+        }
+    else:
+        itens, registros = _quadros_m11b()
+        tabela = [avaliar_combinacao(l3, a4, itens, registros) for l3, a4 in combos]
+        vencedora = escolher_combinacao(tabela)
+        escolha = {
+            "estagio1": vencedora["estagio1"],
+            "estagio2": vencedora["estagio2"],
+            "fonte": f"tabela M11b ({len(combos)} combinações)",
+            "tabela": tabela,
+        }
+    escolha.update({"p2": bool(p2), "p3": bool(p3), "criterio": CRITERIO_ESCOLHA})
+    pasta.mkdir(parents=True, exist_ok=True)
+    gravar_atomico(pasta / ARQUIVO_ESCOLHA, escolha)
+    return escolha
 
 
 # ---------------------------------------------------------------------------------
@@ -799,11 +1198,50 @@ def _fracao(parte: int, todo: int) -> float | None:
     return None if todo == 0 else parte / todo
 
 
-def medir(numero: str = RODADA_PADRAO) -> dict:
+def medir_antigo(numero: str, previsto_doc: dict, gabarito: dict) -> dict:
+    """Mede os pesos antigos (``L2_todos_s1`` + ``A3_100_todos_s1``) nos mesmos quadros (GPU).
+
+    Sem P2 e sem P3: é a comparação pedida no pré-registro 1029 (o ganho do retreino num
+    canal pouco visto). Grava ``previsto_antigo.json`` na pasta da rodada.
+
+    Args:
+        numero: rodada (chave de ``RODADAS``).
+        previsto_doc: ``previsto.json`` da rodada (define a ordem dos quadros).
+        gabarito: gabarito final do dono.
+
+    Returns:
+        ``{"pesos", "totais"}``: os pesos usados e os totais da medida.
+    """
+    rodada = RODADAS[numero]
+    indice = _ler_json(rodada.pasta / ARQUIVO_INDICE)
+    por_id = {item["id"]: item for item in indice["quadros"]}
+    ordem = list(previsto_doc["ordem"])
+    previstos = _prever_quadros(
+        rodada.pasta,
+        {"quadros": [por_id[id_q] for id_q in ordem]},
+        ESTAGIO1,
+        ESTAGIO2,
+        False,
+    )
+    doc = {
+        "formato": FORMATO_GABARITO,
+        "semente": indice["semente"],
+        "pesos": pesos_do_documento(Pesos(ESTAGIO1, ESTAGIO2)),
+        "ordem": ordem,
+        "quadros": previstos,
+    }
+    gravar_atomico(rodada.pasta / ARQUIVO_PREVISTO_ANTIGO, doc)
+    medida = medir_quadros(doc, gabarito, rodada.proxima)
+    return {"pesos": doc["pesos"], "totais": medida["totais"]}
+
+
+def medir(numero: str = RODADA_PADRAO, comparar_antigo: bool = False) -> dict:
     """Compara ``previsto.json`` com o gabarito final e grava ``medida.json``.
 
     Args:
         numero: rodada (chave de ``RODADAS``).
+        comparar_antigo: se True, mede também os pesos antigos nos mesmos quadros
+            (``medir_antigo``, GPU) e grava o resultado em ``antigo``.
 
     Returns:
         O resultado gravado em ``medida.json``.
@@ -818,6 +1256,8 @@ def medir(numero: str = RODADA_PADRAO) -> dict:
     if gabarito.get("formato") != FORMATO_GABARITO:
         raise ValueError(f"gabarito fora do formato {FORMATO_GABARITO}")
     resultado = medir_quadros(previsto_doc, gabarito, rodada.proxima)
+    if comparar_antigo:
+        resultado["antigo"] = medir_antigo(numero, previsto_doc, gabarito)
     gravar_atomico(pasta / ARQUIVO_MEDIDA, resultado)
     return resultado
 
@@ -828,7 +1268,7 @@ def medir(numero: str = RODADA_PADRAO) -> dict:
 
 
 def main() -> int:
-    """Ponto de entrada: ``sortear``, ``prever`` e ``medir``, com ``--rodada``.
+    """Ponto de entrada: ``sortear``, ``escolher-pesos``, ``prever`` e ``medir``.
 
     Returns:
         Código de saída do processo.
@@ -838,6 +1278,7 @@ def main() -> int:
     ajuda_rodada = "rodada do ciclo (padrão 1026)"
     for nome, ajuda in (
         ("sortear", "sorteia o lote e acrescenta os quadros"),
+        ("escolher-pesos", "escolhe os pesos L3/A4 pela M11b (GPU; só 1029)"),
         ("prever", "roda a cadeia (GPU) e preenche o gabarito"),
         ("medir", "compara a previsão com o gabarito final do dono"),
     ):
@@ -845,12 +1286,30 @@ def main() -> int:
         sp.add_argument(
             "--rodada", choices=list(RODADAS), default=RODADA_PADRAO, help=ajuda_rodada
         )
+        if nome == "escolher-pesos":
+            sp.add_argument("--p2", action="store_true", help="liga o P2 (um braço só)")
+            sp.add_argument("--p3", action="store_true", help="liga o P3 (consenso S4)")
+        if nome == "medir":
+            sp.add_argument(
+                "--comparar-antigo",
+                action="store_true",
+                help="mede também os pesos antigos nos mesmos quadros (GPU)",
+            )
     args = ap.parse_args()
     numero = args.rodada
     try:
         if args.comando == "sortear":
             ids = sortear(numero)
             print(f"sorteados {len(ids)} quadros: {', '.join(ids)}")
+            return 0
+        if args.comando == "escolher-pesos":
+            if numero not in RODADAS_COM_ESCOLHA:
+                raise ValueError(f"escolher-pesos só existe para {RODADAS_COM_ESCOLHA}")
+            escolha = escolher_pesos(args.p2, args.p3, RODADAS[numero].pasta)
+            print(
+                f"escolhidos {escolha['estagio1']} + {escolha['estagio2']} "
+                f"(p2={escolha['p2']}, p3={escolha['p3']}); {escolha['fonte']}"
+            )
             return 0
         if args.comando == "prever":
             sinalizados = prever(numero)
@@ -861,9 +1320,14 @@ def main() -> int:
                 f"sinalizados {sum(sinalizados.values())}"
             )
             return 0
-        resultado = medir(numero)
+        resultado = medir(numero, comparar_antigo=args.comparar_antigo)
         totais = resultado["totais"]
         print(json.dumps(totais, ensure_ascii=False, indent=1))
+        if "antigo" in resultado:
+            print("antigo (L2_s1 + A3_s1, sem P2/P3):", file=sys.stderr)
+            print(
+                json.dumps(resultado["antigo"]["totais"], ensure_ascii=False, indent=1)
+            )
         return 0
     except (ValueError, FileExistsError, FileNotFoundError, RuntimeError) as erro:
         print(f"não rodou: {erro}", file=sys.stderr)

@@ -108,6 +108,17 @@ GABARITO_BRACO_M26 = RAIZ / "data" / "gold" / "maos" / "braco_m26.json"
 MAOS_M27 = SAIDA / "maos" / "m27"
 GABARITO_BRACO_M27 = RAIZ / "data" / "gold" / "maos" / "braco_m27.json"
 
+#: Terceiro ciclo de revisão do braço (rodada 1029, pablo romé: canal fora do treino).
+#: Além do ``indice.json`` e dos quadros, guarda ``escolha_pesos.json`` (a escolha dos
+#: pesos pela M11b) e ``previsto_antigo.json`` (os pesos antigos, para a comparação).
+MAOS_M29 = SAIDA / "maos" / "m29"
+GABARITO_BRACO_M29 = RAIZ / "data" / "gold" / "maos" / "braco_m29.json"
+
+#: Revisão do vídeo inteiro e numeração com o nut fora (rodada 1030, só desenvolvimento):
+#: ``parte_a.json``, ``parte_b.json`` e um ``video_<n>.jsonl`` por vídeo
+#: (``tab.maos_braco_video``).
+MAOS_M30 = SAIDA / "maos" / "m30"
+
 #: Pré-marcação do braço por consenso de modelos de visão (rodada 1019): respostas brutas
 #: por modelo, resultado e tabelas (``tab.maos_braco_vlm``).
 MAOS_M19 = SAIDA / "maos" / "m19"

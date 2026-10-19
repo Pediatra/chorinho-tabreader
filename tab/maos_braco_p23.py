@@ -9,7 +9,6 @@ CLI: ``python -m tab.maos_braco_p23 medir``. Grava ``data/saida/maos/m21/p23_cic
 
 from __future__ import annotations
 
-import copy
 import sys
 
 from .caminhos import MAOS_M21
@@ -20,11 +19,10 @@ from .maos_braco_ciclo import (
     FORMATO_GABARITO,
     RODADAS,
     _ler_json,
+    aplicar_consenso,
     medir_quadros,
     previsto_do_resultado,
-    trastes_visiveis,
 )
-from .maos_braco_consenso import consenso
 from .maos_braco_detector import (
     PASSOS,
     _carregar_pesos,
@@ -37,46 +35,6 @@ from .maos_braco_localizador import _carregar_localizador, cadeia, sinalizado
 ARQUIVO_P23 = MAOS_M21 / "p23_ciclos.json"
 #: Critério do pré-registro (P2 + P3, 1027): falsos que passam ≤ 1 de 64.
 LIMITE_FALSOS_1027 = 1
-
-
-def aplicar_consenso(doc: dict, dimensoes: dict[str, tuple[int, int]]) -> dict:
-    """Aplica o P3 a uma previsão: sinaliza os quadros com S4.
-
-    Args:
-        doc: previsão no formato de ``previsto.json``.
-        dimensoes: ``{id: (largura, altura)}`` de cada quadro.
-
-    Returns:
-        Cópia de ``doc`` com ``sinalizado`` atualizado e ``S4`` (k e referência) por quadro.
-    """
-    lista = []
-    for id_q in doc["ordem"]:
-        previsto = doc["quadros"][id_q]
-        lista.append(
-            {
-                "id": id_q,
-                "arquivo": previsto["arquivo"],
-                "achou": previsto["achou"],
-                "sinalizado": previsto["sinalizado"],
-                "nut": previsto.get("nut"),
-                "corda1": previsto.get("corda1"),
-                "corda6": previsto.get("corda6"),
-                "trastes": trastes_visiveis(previsto, dimensoes[id_q])
-                if previsto["achou"]
-                else [],
-            }
-        )
-    sinais = consenso(lista)
-    novo = copy.deepcopy(doc)
-    for id_q in doc["ordem"]:
-        sinal = sinais.get(id_q)
-        if sinal is None:
-            continue
-        quadro = novo["quadros"][id_q]
-        quadro["S4"] = sinal
-        if sinal["S4"]:
-            quadro["sinalizado"] = True
-    return novo
 
 
 def recalcular_p2(numero: str, indice: dict, ordem: list[str]) -> dict:

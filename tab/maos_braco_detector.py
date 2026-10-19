@@ -22,6 +22,7 @@ import concurrent.futures
 import fcntl
 import json
 import math
+import os
 import random
 import statistics
 import sys
@@ -147,6 +148,8 @@ ARQUIVO_V2 = MAOS_M21 / "v2_sobreajuste.json"
 ARQUIVO_V3 = MAOS_M21 / "v3_validacao_s.json"
 ARQUIVO_V4 = MAOS_M21 / "v4_tempo.json"
 ARQUIVO_TRAVA = SAIDA / "gpu.lock.maos"
+#: Variável de ambiente que manda a inferência para a CPU (GPU fora do ar).
+VARIAVEL_CPU = "CHORINHO_MAOS_CPU"
 #: Rodada 1022: portões de desenvolvimento, prova e semente da perturbação.
 ARQUIVO_D1 = MAOS_M21 / "d1_oraculo_v2.json"
 ARQUIVO_D2 = MAOS_M21 / "d2_r_fora.json"
@@ -193,9 +196,14 @@ _CONTEXTO: dict = {}
 def _dispositivo() -> torch.device:
     """Dispositivo do treino e da inferência (a GPU deste projeto).
 
+    Com ``CHORINHO_MAOS_CPU=1`` no ambiente, usa a CPU: só para inferência quando a
+    GPU caiu (os números podem diferir pouco dos da GPU, que usa fp16).
+
     Returns:
-        ``torch.device("cuda")``.
+        ``torch.device("cuda")``, ou ``cpu`` com a variável ligada.
     """
+    if os.environ.get(VARIAVEL_CPU) == "1":
+        return torch.device("cpu")
     return torch.device("cuda")
 
 
@@ -1450,7 +1458,7 @@ def _trava_gpu() -> Iterator[None]:
     with ARQUIVO_TRAVA.open("w") as trava:
         fcntl.flock(trava, fcntl.LOCK_EX)
         try:
-            while True:
+            while os.environ.get(VARIAVEL_CPU) != "1":
                 livre, _ = torch.cuda.mem_get_info()
                 if livre >= MEMORIA_LIVRE_MINIMA:
                     break
