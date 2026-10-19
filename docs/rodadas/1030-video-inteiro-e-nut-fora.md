@@ -124,3 +124,42 @@ reiniciado.
   canal do nut fraco, e não só a borda).
 - Isso precisa de mais casos. Os quadros da 1029 (pablo romé) vão somar casos quando o dono
   revisar.
+
+## Parte A: resultado (2026-10-19, GPU; `parte_a.json`)
+
+**Execução**: 16 vídeos a 2 quadros/s, num total de **9 034 quadros**, em 4 h 05 na GPU dividida
+(13h15 a 17h20). Os pesos são os dos ciclos (`L2_todos_s1` + `A3_100_todos_s1`).
+- O pré-registro estimava de 1 a 2 h; a estimativa ficou curta.
+- Os 128 quadros revisados acharam par denso (nenhum foi excluído).
+
+**Medida nos 128** (`sozinho` = a previsão do quadro denso a ±0,25 s do revisado):
+
+| modo | certos entregues | falsos que passam | sinalizados |
+| --- | --- | --- | --- |
+| sozinho | 89 | 2 | 33 |
+| S4 (só sinaliza) | 89 | 2 | 33 |
+| corrige | 89 | 2 | 33 |
+
+- **O consenso denso não agiu.** Em todos os 9 034 quadros, o deslocamento k da tomada foi sempre
+  0 ou "sem decisão", **nunca k ≠ 0**.
+- Pelo critério, a correção não vai a um ciclo (0 falsos viraram certos).
+
+**Por quê** (verificação depois da medida, `k_nos_revisados.json`):
+- Os erros do detector **não são deslocamentos inteiros limpos**. Quando um quadro erra, os
+  trastes não caem todos a ≤ 0,25 casa de um mesmo n + k da referência. O `deslocamento` devolve
+  "sem decisão" (k = None), e o S4 não dispara.
+- Dos 12 falsos revisados, **11 têm k = None** e 1 tem k = 0.
+  - Os 10 falsos sinalizados têm todos k = None.
+  - Dos 2 que passam, o 1027:q60 tem k = None e o 1027:q04 tem k = 0.
+- O nut fora da imagem num vídeo inteiro (v15, マリーゴールド) também não aparece como k ≠ 0.
+  Nesse vídeo, o braço só foi achado em 28 dos 248 quadros, e a tomada inteira erra junto, então
+  a referência erra igual.
+
+**Achado para a próxima rodada (não testado como regra; só registro)**: o próprio
+**"k = None"**, ou seja, o quadro discorda da tomada sem ser um deslocamento, funciona como sinal
+de revisão.
+- Entre os 95 não sinalizados, ele sinalizaria 6: 4 certos, 1 impreciso e **1 dos 2 falsos que
+  passam** (1027:q60).
+- Os sinalizados iriam de 33 para 39 (de 26 % para 30 %).
+- São 128 quadros já muito vistos, então é só direção. Se for adiante, entra como **S4b**, com
+  pré-registro próprio e medida num lote novo, por exemplo nos vídeos inteiros da 1029.
