@@ -73,3 +73,20 @@ quadros, contra as marcas do dono. É a medida do ganho do retreino num canal po
 - **A comparação "detector antigo × novo"** do pré-registro fica sem efeito enquanto não houver
   pesos novos. Quando a fila de GPU terminar o retreino, os pesos novos são medidos nos mesmos
   64 quadros, contra as marcas do dono (`medir --rodada 1029 --comparar-antigo`).
+
+## Emenda 1 (2026-10-19, 10h20, antes de o dono abrir o lote)
+
+O PC foi reiniciado, e a GPU voltou. O retreino da fila está rodando: `L3_todos_s1..3` já
+estão prontos, e os `A4` estão em treino.
+- O dono **não respondeu nenhum quadro** do lote (0 de 64), e o servidor da porta 8103 parou com
+  o reinício.
+- Por isso, o preenchimento feito com os pesos de reserva **é refeito com os pesos novos**, como o
+  pré-registro previa, assim que os 3 `A4` existirem: `escolher-pesos --rodada 1029` (na M11b,
+  com P2 e P3 desligados) e depois `prever --rodada 1029`.
+  - A previsão de reserva fica guardada em `m29/previsto_reserva.json`.
+- **Por quê**: revisar sobre o preenchimento antigo induz concordância com o detector antigo, e a
+  pergunta desta rodada é sobre o detector novo.
+- A ordem da fila muda: este preenchimento vem **antes** da Parte A da 1030. A Parte A só usa os
+  pesos antigos e não depende dele.
+- Se um `A4` falhar 3 vezes, a escolha usa as combinações que existirem, como já diz o
+  pré-registro.
