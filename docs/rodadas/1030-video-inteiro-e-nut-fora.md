@@ -94,3 +94,33 @@ reiniciado.
 - A Parte B e o P2/P3 da 1028 rodam na **CPU** (`CHORINHO_MAOS_CPU=1`), em fp32. Na GPU é fp16,
   e os números podem diferir um pouco.
 - A Parte A (vídeo inteiro) fica para quando a GPU voltar.
+
+## Parte B: resultado (2026-10-18, CPU; `parte_b.json`)
+
+9 casos com nut fora e referência do dono.
+
+| método | acertos | recusas | erros não sinalizados |
+| --- | --- | --- | --- |
+| 1, nut ausente (só detecta) | — | sinaliza 9/9 | — |
+| 2, b livre | 3 | 0 | 6 |
+| 3, fim do braço | **7** | 0 | 2 |
+| 4, tomada | 1 | 8 | 0 |
+
+- **Pelo critério**, o método 4 é o escolhido (0 erros não sinalizados), mas só acerta 1 de 9:
+  na prática ele só recusa.
+- O **método 3 (fim do braço)** é o mais promissor (7 de 9). Os 2 erros que deixa passar o
+  impedem de ir a um ciclo.
+- O método 2 confirma a emenda 1: sem âncora, ele erra 6 de 9.
+
+**Falso alarme do método 1** (verificação depois da medida, não prevista no pré-registro;
+`falso_alarme_nut.json`):
+- nos 117 quadros da 1026 e da 1027 **com nut visível**, ele dispara em **35 (30 %)**;
+- muitos vídeos cortam a imagem rente ao nut, e a regra de 2 % da borda pega esses quadros;
+- como sinal sozinho, ele mandaria para revisão quase um terço dos quadros bons.
+- **Não vai para a 1029.**
+
+**Conclusão**: nenhum método de nut fora está pronto.
+- A direção é o **fim do braço** (método 3), com uma regra de nut ausente mais estrita (o
+  canal do nut fraco, e não só a borda).
+- Isso precisa de mais casos. Os quadros da 1029 (pablo romé) vão somar casos quando o dono
+  revisar.

@@ -84,3 +84,30 @@ Se P2 ou P3 piorarem algo na 1026 ou na 1027, a parte sai antes do ciclo 1029.
   tomada em pedaços, e então o P3 só deixa de agir. Ele não erra por isso.
 - **O nut fora da imagem continua sem solução própria** nesta rodada (vem depois, apoiado no
   P3). O P3 pode pegar os casos em que outro quadro da tomada mostra o nut.
+
+## Resultado parcial (2026-10-18, noite)
+
+**P1, tecla `r`** (`p1_r.json`, 117 quadros da 1026 e da 1027):
+- previsão a partir dos trastes 5 e 12: mediana **0,015 casa**, p90 **0,072**. **Passa.**
+- Com o nut, a regra já era projetiva. O ganho novo é o caminho **sem nut** (3 âncoras).
+- O erro do q48 (1027) vinha de prever com âncoras numa tela dividida, não da regra.
+
+**P2 e P3 com os pesos atuais** (`p23_ciclos.json`, rodado na **CPU** porque a GPU caiu):
+
+| | 1026: certos entregues / falsos que passam / sinalizados | 1027: idem |
+| --- | --- | --- |
+| antes | 58 / 0 / 6 | 38 / 2 / 24 |
+| P3 (consenso) | 58 / 0 / 6 | 38 / 2 / 24 |
+| P2 (um braço) | 58 / 0 / 6 | 42 / **4** / 18 |
+| P2 + P3 | 58 / 0 / 6 | 42 / **4** / 18 |
+
+- **P2 reprova**: ele ganha 4 certos no guitarous, mas os falsos que passam vão de 2 para 4.
+  Ao escolher um braço, ele às vezes escolhe com confiança o braço errado. **Fica fora da
+  1029.**
+- **P3 não age** com 8 quadros por vídeo: o S4 nunca disparou. Ele não piora, mas também não
+  cumpre o critério (falsos que passam ≤ 1). **Fica fora da 1029.** O teste com o vídeo inteiro
+  (1030, Parte A) é o que pode mudar isso.
+
+**P4, retreino**: **não rodou.** A GPU caiu às 23h09, durante o treino `L3_todos_s1`, com
+"CUDA unspecified launch failure" e depois "No devices were found". Ela só volta quando o PC
+for reiniciado. A fila é retomável: pula os pesos que já existem.
