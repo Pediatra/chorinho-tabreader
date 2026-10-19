@@ -90,3 +90,18 @@ estão prontos, e os `A4` estão em treino.
   pesos antigos e não depende dele.
 - Se um `A4` falhar 3 vezes, a escolha usa as combinações que existirem, como já diz o
   pré-registro.
+
+**Execução da emenda 1** (2026-10-19, 13h15):
+- **Retreino**: os 6 pesos ficaram prontos (`L3_todos_s1..3` com cerca de 21 a 24 min cada, e
+  `A4_100_todos_s1..3` com cerca de 57 min cada, numa GPU dividida).
+  - O A4 **deixou de fora os 8 quadros com o nut "fora"** (`nut_fora_excluido: 8`), porque o
+    estágio 2 ainda não treina sem nut. A 1028 já previa esse caso.
+- **Escolha na M11b** (`m29/escolha_pesos.json`, 29 quadros medidos): **`L3_todos_s3` +
+  `A4_100_todos_s1`**.
+  - É a combinação com 0 falsos que passam e 16 certos entregues, com 12 sinalizados.
+  - 8 das 9 combinações tiveram 0 falsos que passam. A exceção, `L3_s1` + `A4_s3`, teve 1.
+  - Os certos entregues ficaram entre 12 e 16.
+- **Novo preenchimento**: 61 de 64 quadros com braço e **6 sinalizados**, os mesmos quadros do
+  preenchimento de reserva (q01, q03, q05, q21, q22 e q50).
+  - A diferença está nas marcas, que só a revisão do dono mede.
+- A ferramenta está no ar na porta 8103.
