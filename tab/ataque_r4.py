@@ -77,6 +77,13 @@ FOLGA = 0.5
 #: Limiares da técnica medidos além do 0,5 (rodada 0203): o escolhido sai dos ouros.
 LIMIARES = tuple(round(0.10 + 0.05 * i, 2) for i in range(9))
 
+#: Limiares baixos da faixa "não sei" (rodada 0205): a nota só é "sim" com todas as
+#: técnicas sem ataque abaixo do limiar; entre ele e o limiar da técnica, "não sei".
+LIMIARES_NAO_SEI = (0.01, 0.02, 0.03, 0.05, 0.07)
+
+#: Todos os limiares gravados em ``por_limiar``.
+LIMIARES_MEDIDOS = LIMIARES_NAO_SEI + LIMIARES
+
 #: Slide sem nota de origem na mesma corda até esta distância à esquerda (passos) é
 #: slide de entrada: a nota é atacada (regra do dono; rodada 0203, passo A).
 ORIGEM_SLIDE_MAX = 3.0
@@ -315,20 +322,20 @@ def medir(versao: str, semente: int) -> dict:
     dobra_de = {slug: d for d, slugs in DOBRAS.items() for slug in slugs}
     saida: dict = {}
     soma: Counter = Counter()
-    soma_l: dict[float, Counter] = {lim: Counter() for lim in LIMIARES}
+    soma_l: dict[float, Counter] = {lim: Counter() for lim in LIMIARES_MEDIDOS}
     for slug, (sub, fonte) in GABARITOS.items():
         modelo = detector_tab.carregar(modelo_da_dobra(versao, dobra_de[slug], semente))
         ouro = json.loads((r2 / sub / f"{slug}.json").read_text(encoding="utf-8"))
         video = caminhos.acervo() / ouro["video"]
         quadro = {int(t["id"]): float(t["quadro_ref_s"]) for t in ouro["telas"]}
         c: Counter = Counter()
-        por_l: dict[float, Counter] = {lim: Counter() for lim in LIMIARES}
+        por_l: dict[float, Counter] = {lim: Counter() for lim in LIMIARES_MEDIDOS}
         for tela, notas in sorted(
             gabarito_por_tela(r2 / sub / f"ataque_{fonte}.json").items()
         ):
             pred, passo = ler_tela(modelo, video, quadro[tela])
             c += contar(notas, pred, passo)
-            for lim in LIMIARES:
+            for lim in LIMIARES_MEDIDOS:
                 por_l[lim] += contar(notas, com_limiar(pred, lim), passo)
         saida[fonte] = {
             "matriz": dict(c),
@@ -337,7 +344,7 @@ def medir(versao: str, semente: int) -> dict:
             "por_limiar": {str(lim): dict(m) for lim, m in por_l.items()},
         }
         soma += c
-        for lim in LIMIARES:
+        for lim in LIMIARES_MEDIDOS:
             soma_l[lim] += por_l[lim]
         print(versao, semente, fonte, dict(c), flush=True)
     saida["ouros"] = {
@@ -353,13 +360,13 @@ def medir(versao: str, semente: int) -> dict:
     }
     modelo = detector_tab.carregar(modelo_da_dobra(versao, 0, semente))
     c = Counter()
-    por_l = {lim: Counter() for lim in LIMIARES}
+    por_l = {lim: Counter() for lim in LIMIARES_MEDIDOS}
     gab = gabarito_por_tela(r2 / "conferir_novos" / "ataque_t82.json")
     for tela, notas in sorted(gab.items()):
         r = indice[tela]
         pred, passo = ler_tela(modelo, caminhos.acervo() / r["video"], float(r["t"]))
         c += contar(notas, pred, passo)
-        for lim in LIMIARES:
+        for lim in LIMIARES_MEDIDOS:
             por_l[lim] += contar(notas, com_limiar(pred, lim), passo)
     saida["t82"] = {
         "matriz": dict(c),
@@ -384,6 +391,29 @@ def escolher_limiar(medidas: Sequence[dict], teto: float = 0.01) -> float:
         O limiar escolhido; 0,5 se nenhum menor serve.
     """
     for lim in LIMIARES:
+        soma: Counter = Counter()
+        for m in medidas:
+            soma.update(m["ouros"]["por_limiar"][str(lim)])
+        n, d = taxas(regra(soma))["nao_falso"]
+        if d and n / d <= teto:
+            return lim
+    return 0.5
+
+
+def escolher_nao_sei(medidas: Sequence[dict], teto: float = 0.05) -> float:
+    """O menor limiar do "sim" com "não" ou "não sei" em atacada até ``teto`` (0205).
+
+    Nota atacada lida acima do limiar baixo é "não" ou "não sei": as duas custam
+    cobertura. Escolhido só nos ouros, com as sementes somadas e a regra do slide.
+
+    Args:
+        medidas: saídas de ``medir`` de uma versão (uma por semente).
+        teto: fração máxima de notas atacadas sem "sim".
+
+    Returns:
+        O limiar escolhido; 0,5 se nenhum menor serve.
+    """
+    for lim in sorted(LIMIARES_MEDIDOS):
         soma: Counter = Counter()
         for m in medidas:
             soma.update(m["ouros"]["por_limiar"][str(lim)])

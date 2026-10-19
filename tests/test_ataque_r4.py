@@ -2,10 +2,12 @@
 
 from tab.ataque_r4 import (
     LIMIARES,
+    LIMIARES_MEDIDOS,
     alvos_da_tela,
     ataque_com_regra,
     com_limiar,
     escolher_limiar,
+    escolher_nao_sei,
     modelo_da_dobra,
     tecnica_alvo,
 )
@@ -90,3 +92,21 @@ def test_escolher_o_menor_limiar_que_cabe_no_teto() -> None:
         }
 
     assert escolher_limiar([medida({0.1: 5, 0.15: 2, 0.2: 1})]) == 0.2
+
+
+def test_nao_sei_escolhe_o_menor_limiar_com_cobertura_no_teto() -> None:
+    def medida(sem_sim: dict[float, int]) -> dict:
+        return {
+            "ouros": {
+                "por_limiar": {
+                    str(lim): {
+                        "regra:sim|nao": sem_sim.get(lim, 0),
+                        "regra:sim|sim": 100 - sem_sim.get(lim, 0),
+                    }
+                    for lim in LIMIARES_MEDIDOS
+                }
+            }
+        }
+
+    assert escolher_nao_sei([medida({0.01: 20, 0.02: 9, 0.03: 5, 0.05: 3})]) == 0.03
+    assert escolher_nao_sei([medida(dict.fromkeys(LIMIARES_MEDIDOS, 50))]) == 0.5
