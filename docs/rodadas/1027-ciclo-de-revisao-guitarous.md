@@ -60,3 +60,37 @@ O mesmo da 1026, sem nenhuma mudança: `L2_todos_s1` com a decodificação conju
   treino.
 - **A auditoria parte de marcas já preenchidas**, e o dono pode aceitar uma marca quase certa.
 - **64 quadros de um canal** dão a direção, não uma taxa firme.
+
+## Resultado (2026-10-18) — **o ciclo funciona**, com três falhas nomeadas
+
+O dono conferiu os 64 quadros e marcou "braço" em cada um: 62 sim e 2 não. Medida em
+`m27/medida.json`.
+
+| | resultado |
+| --- | --- |
+| entregue certo (não sinalizado e certo) | **38 de 62 (61 %)** |
+| falsos que passam | **2 de 64 (3,1 %)** |
+| sinalizados | 24 (37,5 %), 9 deles já vinham certos |
+
+**Critério**: 3,1 % ≤ 5 % e 37,5 % ≤ 50 %. **O ciclo funciona**, com margem bem menor que no
+sky guitar.
+
+**Por vídeo**: 4 vídeos tiveram 8/8 ou 7/8 certos sem revisão. Os erros se concentram em três
+vídeos, cada um com uma causa:
+
+| vídeo | o que aconteceu | causa |
+| --- | --- | --- |
+| 紅蓮華 (q41–q48) | 7 falsos e 1 não achou, **todos sinalizados**. O braço saiu "na vertical" ou "na diagonal" | **Tela dividida com dois violões**, um em cima do outro. O estágio 1 junta pontas dos dois braços |
+| マリーゴールド ソロギター (q49–q56) | 6 sem braço (sinalizados) e **os 2 falsos que passaram** (q51 e q56) | **Nut fora da imagem** e capotraste. O detector tomou o 1º traste como nut: o dono marcou nut "fora" e a referência do 1º traste exatamente onde o detector pôs o nut. Toda a numeração desloca uma casa. O S2 do q51 ficou exatamente no limiar (0,0952) |
+| under the sea (q17) | trastes errados num quadro, com os quadros vizinhos certos | instabilidade de um quadro isolado (capotraste na 1ª casa) |
+
+**Observações do dono** (resumo):
+- **q17**: "deveria ter alguma média ou controle para ajustar com base nos certos". É a proposta
+  de usar os outros quadros do mesmo vídeo.
+- **q41**: os dois violões; "marquei só o de cima".
+- **q48**: o botão `r` (prever trastes a partir de 2 âncoras) errou quase todos os trastes num
+  ângulo forte.
+- **q49 e q50**: "vieram sem marcas, esqueceu de marcar?". Não foi esquecimento: o detector
+  respondeu "sem braço", então não havia nada para preencher.
+- **q52**: o nut não é a única referência. A boca do violão e o fim do braço (último traste) e
+  as marcações (bolinhas) também numeram os trastes, contando de trás para frente.
