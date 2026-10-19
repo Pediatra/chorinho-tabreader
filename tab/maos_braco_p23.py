@@ -69,7 +69,9 @@ def aplicar_consenso(doc: dict, dimensoes: dict[str, tuple[int, int]]) -> dict:
     sinais = consenso(lista)
     novo = copy.deepcopy(doc)
     for id_q in doc["ordem"]:
-        sinal = sinais[id_q]
+        sinal = sinais.get(id_q)
+        if sinal is None:
+            continue
         quadro = novo["quadros"][id_q]
         quadro["S4"] = sinal
         if sinal["S4"]:

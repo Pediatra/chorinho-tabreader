@@ -58,6 +58,21 @@ def _eixo(quadro: dict) -> tuple[np.ndarray, np.ndarray, float]:
     return origem, u, largura
 
 
+def _tem_cordas(quadro: dict) -> bool:
+    """Se o quadro tem as cordas 1 e 6 com dois pontos cada (braço achado).
+
+    Args:
+        quadro: entrada com ``corda1`` e ``corda6`` (podem faltar).
+
+    Returns:
+        True quando as duas cordas têm dois pontos.
+    """
+    return all(
+        quadro.get(c) is not None and np.asarray(quadro[c]).shape == (2, 2)
+        for c in ("corda1", "corda6")
+    )
+
+
 def mesma_tomada(a: dict, b: dict) -> bool:
     """Se dois quadros do mesmo vídeo são da mesma tomada (regra do P3).
 
@@ -70,6 +85,8 @@ def mesma_tomada(a: dict, b: dict) -> bool:
         é de até 0,3 da largura média, e o eixo difere até 3 graus.
     """
     if a["arquivo"] != b["arquivo"]:
+        return False
+    if not (_tem_cordas(a) and _tem_cordas(b)):
         return False
     _, ua, la = _eixo(a)
     _, ub, lb = _eixo(b)
@@ -192,7 +209,7 @@ def consenso(quadros: list[dict]) -> dict[str, dict]:
     """
     saida: dict[str, dict] = {}
     for indice, grupo in enumerate(tomadas(quadros)):
-        com_braco = [q for q in grupo if q["achou"]]
+        com_braco = [q for q in grupo if q["achou"] and _tem_cordas(q)]
         referencias = [q for q in com_braco if not q["sinalizado"]]
         for quadro in com_braco:
             candidatas = [r for r in referencias if r["id"] != quadro["id"]]

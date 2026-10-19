@@ -1555,3 +1555,79 @@ def test_pagina_tem_a_tecla_r_e_a_acao_de_prever() -> None:
     assert 'ev.key === "r"' in PAGINA
     assert 'acao: "prever_trastes"' in PAGINA
     assert "#ff9f1c" in PAGINA
+
+
+def test_clique_capo_grava_um_ponto_e_o_segundo_troca_o_primeiro() -> None:
+    """Modo capo: um clique grava o ponto no quadro original; outro clique o troca."""
+    g = _gabarito_com(["q01"])
+    aplicar_acao(
+        g,
+        "q01",
+        {"acao": "clique", "modo": "capo", "ponto_img": [100, 100], "escala": 1.0},
+        DIMENSOES,
+        "t",
+    )
+    assert g["quadros"]["q01"]["capo"] == [100.0, 100.0]
+    assert g["quadros"]["q01"]["nut"] is None
+    aplicar_acao(
+        g,
+        "q01",
+        {"acao": "clique", "modo": "capo", "ponto_img": [300, 200], "escala": 2.0},
+        DIMENSOES,
+        "t",
+    )
+    assert g["quadros"]["q01"]["capo"] == [150.0, 100.0]
+
+
+def test_limpar_e_braco_nao_apagam_o_capo_e_o_desfazer_volta() -> None:
+    """Limpar marcas e braço "não" apagam o capo; o desfazer restaura o capo."""
+    g = _gabarito_com(["q01"])
+    g["quadros"]["q01"] = _completo()
+    aplicar_acao(
+        g,
+        "q01",
+        {"acao": "clique", "modo": "capo", "ponto_img": [50, 60], "escala": 1.0},
+        DIMENSOES,
+        "t",
+    )
+    aplicar_acao(g, "q01", {"acao": "limpar"}, DIMENSOES, "t")
+    assert g["quadros"]["q01"]["capo"] is None
+    aplicar_acao(g, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert g["quadros"]["q01"]["capo"] == [50.0, 60.0]
+    aplicar_acao(g, "q01", {"campo": "braco", "valor": "nao"}, DIMENSOES, "t")
+    assert g["quadros"]["q01"]["capo"] is None
+    aplicar_acao(g, "q01", {"acao": "desfazer"}, DIMENSOES, "t")
+    assert g["quadros"]["q01"]["capo"] == [50.0, 60.0]
+
+
+def test_registro_antigo_sem_capo_carrega_com_none() -> None:
+    """Registro gravado antes do capo: a chave entra com None e o resto não muda."""
+    antigo = registro_em_branco("c")
+    antigo["braco"] = "sim"
+    del antigo["capo"]
+    completar_campos(antigo)
+    assert antigo["capo"] is None
+    assert antigo["braco"] == "sim"
+
+
+def test_mesclagem_preserva_o_capo_do_disco_e_aceita_registro_sem_a_chave() -> None:
+    """O capo marcado no disco sobrevive à mesclagem; disco antigo sem a chave dá None."""
+    antigo = _gabarito_com(["q01", "q02"])
+    antigo["quadros"]["q01"]["capo"] = [70.0, 80.0]
+    antigo["quadros"]["q01"]["braco"] = "sim"
+    antigo["quadros"]["q01"]["respondido_em"] = "2026-10-18T10:00:00"
+    antigo["quadros"]["q02"]["braco"] = "nao"
+    antigo["quadros"]["q02"]["respondido_em"] = "2026-10-18T10:00:00"
+    del antigo["quadros"]["q02"]["capo"]
+    mesclado = mesclar_gabarito(_gabarito_com(["q01", "q02"]), antigo)
+    assert mesclado["quadros"]["q02"]["braco"] == "nao"
+    assert mesclado["quadros"]["q01"]["capo"] == [70.0, 80.0]
+    assert mesclado["quadros"]["q02"]["capo"] is None
+
+
+def test_pagina_tem_o_modo_capo_na_tecla_k_e_na_barra() -> None:
+    """A página tem a tecla k (livre antes), o botão "k capo" e a cor do capo."""
+    assert 'ev.key === "k"' in PAGINA
+    assert 'definirModo("capo")' in PAGINA
+    assert 'data-modo="capo"' in PAGINA
+    assert "#14b8a6" in PAGINA

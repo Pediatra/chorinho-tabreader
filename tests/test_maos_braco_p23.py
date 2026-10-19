@@ -137,3 +137,30 @@ def test_p3_deslocamento_k1_sinaliza_e_k0_nao():
     assert saida["d"]["S4"] is True
     # Com só dois quadros não sinalizados não há maioria: cada um é a referência do outro.
     assert saida["r"]["S4"] is True
+
+
+def test_consenso_ignora_quadro_sem_cordas() -> None:
+    """Quadro sem braço (cordas vazias) não entra em tomada nem quebra o consenso."""
+    sem = {
+        "id": "q9",
+        "arquivo": "v",
+        "achou": False,
+        "sinalizado": True,
+        "nut": None,
+        "corda1": None,
+        "corda6": None,
+        "trastes": [],
+    }
+    com = {
+        "id": "q1",
+        "arquivo": "v",
+        "achou": True,
+        "sinalizado": False,
+        "nut": [0.0, 0.0],
+        "corda1": [[0.0, 0.0], [100.0, 0.0]],
+        "corda6": [[0.0, 10.0], [100.0, 10.0]],
+        "trastes": [],
+    }
+    sinais = consenso([sem, com])
+    assert "q9" not in sinais
+    assert sinais["q1"]["S4"] is False

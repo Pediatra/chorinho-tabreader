@@ -86,6 +86,7 @@ MODOS_CLIQUE = (
     "cavalete",
     "boca",
     "paineis",
+    "capo",
 )
 
 #: Partes do violão e da tela além do braço. Cada uma começa ``None`` (= não respondida).
@@ -113,7 +114,8 @@ BOCA_MAXIMA = 8
 
 #: Campos de resposta do quadro (o que o desfazer restaura e o gabarito guarda).
 #: ``divisao`` é a linha antiga (refeita como ``paineis``): não é mais editável, mas
-#: o valor de quem já a marcou continua guardado e é mesclado.
+#: o valor de quem já a marcou continua guardado e é mesclado. ``capo`` é o ponto do
+#: capotraste (um só, no quadro original); a casa continua contada do nut.
 CAMPOS_RESPOSTA = (
     "braco",
     "corda1",
@@ -122,6 +124,7 @@ CAMPOS_RESPOSTA = (
     "trastes",
     "trastes_previstos",
     "traste_referencia",
+    "capo",
     *CAMPOS_PARTES,
     "divisao",
     "obs",
@@ -136,6 +139,7 @@ CAMPOS_LIMPAR = (
     "trastes",
     "trastes_previstos",
     "traste_referencia",
+    "capo",
 )
 
 #: Campos que o desfazer restaura (a observação fica de fora de propósito). A
@@ -148,6 +152,7 @@ CAMPOS_DESFAZER = (
     "trastes",
     "trastes_previstos",
     "traste_referencia",
+    "capo",
     *CAMPOS_PARTES,
 )
 
@@ -595,6 +600,7 @@ def registro_em_branco(chave: str) -> dict:
         "trastes": None,
         "trastes_previstos": None,
         "traste_referencia": None,
+        "capo": None,
         "saddle1": None,
         "saddle6": None,
         "cavalete": None,
@@ -637,7 +643,7 @@ def completar_campos(registro: dict) -> None:
     carregamento faria o ``"nao"`` antigo voltar sozinho.
 
     ``trastes_previstos`` também ganha ``None`` quando falta (registro antes da regra
-    das 12 notas).
+    das 12 notas). ``capo`` também ganha ``None`` quando falta (registro antes do capo).
 
     Args:
         registro: resposta de um quadro, alterada em lugar.
@@ -649,6 +655,8 @@ def completar_campos(registro: dict) -> None:
             registro[campo] = None
     if "trastes_previstos" not in registro:
         registro["trastes_previstos"] = None
+    if "capo" not in registro:
+        registro["capo"] = None
 
 
 def gabarito_novo(indice: list[dict], semente: int) -> dict:
@@ -1080,6 +1088,8 @@ def _clicar(
         registro[modo] = aplicar_par(registro[modo], ponto)
     elif modo == "nut":
         registro["nut"] = ponto
+    elif modo == "capo":
+        registro["capo"] = ponto
     elif modo in ("saddle1", "saddle6"):
         registro[modo] = ponto
     elif modo == "cavalete":
@@ -1131,6 +1141,7 @@ def _mudar_campo(registro: dict, dados: dict, agora: str) -> None:
         if valor in ("nao", "?"):
             for c in CAMPOS_GEOMETRIA:
                 registro[c] = None
+            registro["capo"] = None
     elif campo == "nut":
         if valor not in ("fora", None):
             raise ValueError("nut aceita 'fora' ou null (o ponto vem do clique)")
@@ -1591,7 +1602,8 @@ input[type=number] { width: 72px; }
     afastado possível; não no cavalete);
     <b>2</b> corda 6 (idem); <b>3</b> nut (1 clique no centro da pestana);
     <b>4</b> trastes (um clique no meio de cada traste visível; botão DIREITO em cima
-    de um marcado o remove); <b>f</b> nut fora da imagem. Braço: sim (<b>x</b>), parcial, não, ?.
+    de um marcado o remove); <b>f</b> nut fora da imagem; <b>k</b> capo (1 clique em cima
+    do capotraste, se houver; a casa segue contada do nut). Braço: sim (<b>x</b>), parcial, não, ?.
     <b>Tab</b> (ou &rarr;) vai ao próximo quadro; Shift+Tab (ou &larr;) volta. Nada avança
     sozinho.
     <br>Partes (opcionais): <b>s</b> saddle da corda 1 (1 clique no rastilho);
@@ -1616,6 +1628,7 @@ input[type=number] { width: 72px; }
     <button data-modo="nut">3 nut</button>
     <button data-modo="trastes">4 trastes</button>
     <button id="fora">f nut fora</button>
+    <button data-modo="capo">k capo</button>
     <button id="desfazer">desfazer último clique (espaço)</button>
     <button id="limpar-marcas">limpar marcas do quadro</button>
     <span class="prog" id="prog"></span>
@@ -1662,6 +1675,7 @@ input[type=number] { width: 72px; }
     <span style="color:#ff9f1c">&#9679; trastes previstos (conferir)</span>
     <span style="color:#2ecc71">&#9679; corda 1</span>
     <span style="color:#ff8c1a">&#9679; corda 6</span>
+    <span style="color:#14b8a6">&#9679; capo</span>
   </div>
   <div class="grupo" id="bloco-trastes"></div>
   <div class="grupo" id="bloco-partes"></div>
@@ -1789,7 +1803,16 @@ function desenhar() {
   } else if (r.nut === "fora") {
     svg.appendChild(texto(w * 0.01, w * 0.03, "nut fora", fonte, "#ffffff"));
   }
+  desenharCapo(svg, r, raio, fonte);
   desenharPartes(svg, r, w, raio, espessura, fonte);
+}
+
+// Capotraste: um ponto só (cor própria, teal), com a legenda "capo".
+function desenharCapo(svg, r, raio, fonte) {
+  const c = r.capo;
+  if (!Array.isArray(c)) return;
+  svg.appendChild(ponto(c[0], c[1], raio * 1.2, "#14b8a6", "#000"));
+  svg.appendChild(texto(c[0] + raio * 2, c[1] - raio * 2, "capo", fonte, "#14b8a6"));
 }
 
 // Cores das partes (distintas das do braço); a legenda da página mostra as mesmas.
@@ -2099,7 +2122,7 @@ $("img").addEventListener("click", (ev) => {
   const x = ev.clientX - bb.left;
   const y = ev.clientY - bb.top;
   if (x < 0 || y < 0 || x > bb.width || y > bb.height) return;
-  if (!modo) { msg("escolha um modo (1, 6, n, t, s, d, c, b ou v) antes de clicar", true); return; }
+  if (!modo) { msg("escolha um modo (1, 2, 3, 4, k, s, d, c, b ou p) antes de clicar", true); return; }
   const escala = bb.width / img.naturalWidth;
   enviar({ quadro: atual().id, acao: "clique", modo: modo, ponto_img: [x, y], escala: escala });
 });
@@ -2179,6 +2202,7 @@ document.addEventListener("keydown", (ev) => {
   else if (ev.key === "2") definirModo("corda6");
   else if (ev.key === "3") definirModo("nut");
   else if (ev.key === "4") definirModo("trastes");
+  else if (ev.key === "k") definirModo("capo");
   else if (ev.key === "x") enviar({ quadro: atual().id, campo: "braco", valor: "sim" });
   else if (ev.key === "v") enviar({ quadro: atual().id, campo: "paineis", valor: "nao" });
   else if (ev.key === "f") enviar({ quadro: atual().id, campo: "nut", valor: "fora" });
