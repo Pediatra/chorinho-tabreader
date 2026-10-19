@@ -59,3 +59,17 @@ quadros, contra as marcas do dono. É a medida do ganho do retreino num canal po
 - **A escolha de pesos na M11b** é feita em 28 quadros de canais já vistos pelo estágio 1 (no
   C). Ela pode não ser a melhor para o pablo romé.
 - **O pablo romé** pode ter capotraste e nut fora da imagem, a falha ainda sem solução própria.
+
+## Preparação (2026-10-18, 23h40)
+
+- **Pesos**: nenhum `L3` ou `A4` existe, porque a GPU caiu durante o primeiro treino. Pela regra
+  deste pré-registro, o ciclo usa `L2_todos_s1` + `A3_100_todos_s1` (`m29/escolha_pesos.json`).
+- **P2 e P3**: desligados. O P2 reprovou na 1028, e o P3 não agiu.
+- **Previsão rodada na CPU** (`CHORINHO_MAOS_CPU=1`): 61 de 64 com braço, **6 sinalizados**.
+- **Vídeos**: moliendo café, gabriel's oboe, "cuando te dicen…", preludio nº1 (villa-lobos),
+  gran vals (tárrega), lágrima (tárrega), dust in the wind e carcassi estudio 7.
+- **Ferramenta no ar** para o dono: porta 8103, já preenchida, sinalizados primeiro e com a
+  tecla `k` (capo).
+- **A comparação "detector antigo × novo"** do pré-registro fica sem efeito enquanto não houver
+  pesos novos. Quando a fila de GPU terminar o retreino, os pesos novos são medidos nos mesmos
+  64 quadros, contra as marcas do dono (`medir --rodada 1029 --comparar-antigo`).
