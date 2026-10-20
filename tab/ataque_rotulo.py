@@ -9,8 +9,8 @@ A partir das probabilidades das técnicas que o detector dá a cada nota
 - slide sem nota de origem na mesma corda até ``ORIGEM_SLIDE_MAX`` passos à esquerda é
   slide de entrada: "sim" (regra do dono, rodada 0203).
 
-Os limiares foram escolhidos nos ouros para os pesos ``_atqg`` (``DETECTOR_CALIBRADO``) e não
-valem para outros pesos.
+Os limiares foram escolhidos nos ouros para os pesos ``_atqg`` e, de novo, para os ``_atqt``
+(``DETECTOR_CALIBRADO``, rodada 0207), com o mesmo resultado. Não valem para outros pesos.
 """
 
 from collections.abc import Sequence
@@ -19,8 +19,8 @@ from tab import caminhos
 from tab.ataque_r4 import ORIGEM_SLIDE_MAX, TECNICAS_SUPERVISIONADAS
 from tab.detector_tab import TECNICAS_MODELO
 
-#: Pesos em que os limiares foram escolhidos (rodadas 0203 e 0205, dobra 0, semente 1).
-DETECTOR_CALIBRADO = caminhos.ARTEFATOS / "detector_tab_final_atqg_s1" / "modelo.pt"
+#: Pesos em que os limiares foram escolhidos (rodadas 0205 e 0207, dobra 0, semente 1).
+DETECTOR_CALIBRADO = caminhos.ARTEFATOS / "detector_tab_final_atqt_s1" / "modelo.pt"
 
 #: Acima disto, a técnica tira o ataque: "nao" (rodada 0203).
 LIMIAR_NAO = 0.15

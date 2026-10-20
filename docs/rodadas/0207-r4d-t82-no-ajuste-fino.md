@@ -48,3 +48,27 @@ Na T8.3:
 
 **Pare se** o "sim" falso na T8.3 não cair abaixo de 15/76. Nesse caso, mais gabarito do mesmo
 tipo não paga o treino, e a rota volta ao dono.
+
+## Resultado (2026-10-20)
+
+15 treinos, de 07h21 a 12h54, em `data/saida/tab_rotulo/r4d/` (de 788 s a 2216 s cada, com a GPU
+dividida). Medidas: `r4a/medida_atqt_s{1,2,3}.json` (ouros) e `r4c/medida_t83_atqt.json`
+(T8.3, `r4d/medida_t83_atqt.log`).
+
+**Limiares, escolhidos só nos ouros:** técnica 0,15 e `L` 0,02, os mesmos do `_atqg`.
+
+| | `_atqg` | `_atqt` |
+| --- | --- | --- |
+| ouros, "sim" falso a 0,15 (sem faixa) | 13 · 11 · 15 /85 | 8 · 11 · 7 /85 |
+| **T8.3, "sim" falso com a faixa** | 16 · 15 · 16 /76 | **15 · 15 · 16 /77** |
+| T8.3, custo (atacada sem "sim") | 37 · 38 · 32 /~1403 | 31 · 34 · 31 /~1410 (2,2–2,4 %) |
+| T8.3, casa certa | 1466–1472 /~1480 | **1480–1482 /1486–1487** |
+| T8.3, atacada não lida | 11–13 | 5–6 |
+
+- **A regra de parada dispara:** o "sim" falso na T8.3 não cai abaixo de 15/76. A T8.2 no
+  treino não ensina as notas não atacadas de canais novos. Mais gabarito do mesmo tipo não paga o
+  treino, e a rota da técnica volta ao dono.
+- O resto melhora: a casa sai da faixa do `_atqg` para cima, e as notas atacadas que o modelo não
+  lê caem para a metade. Os ouros também melhoram, mas eles estão no treino das outras dobras.
+- **Produto:** `ataque_rotulo.DETECTOR_CALIBRADO` passa para o `_atqt_s1` da dobra 0. Os limiares
+  são os mesmos, o "sim" falso empata e a casa e a leitura melhoram. O `DETECTOR_PADRAO` não muda.
