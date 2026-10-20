@@ -2084,6 +2084,7 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | **braço, nut fora: numerar pelos quadros vizinhos (V) ou pela junção braço-corpo (J)** | **reprova** (1031): 0 e 1 acerto em 16; a regra "nut visível" é enganada pelo próprio erro (o detector põe o nut no 1º traste longe da borda), e a junção por cor pula entre quadros (k = 4 e k = 1 no mesmo vídeo de 12 s) |
 | **braço, estágio 2 retreinado com os 8 quadros de nut fora (A5)** | ganho pequeno e instável entre sementes (2 a 4 erros que passam, contra 4 do A4, fora do treino); não ganha na M11b (1031) |
 | **braço, conferir a numeração pelas marcações com limiar 4 × mediana** | **0/6** (1034): o tampo claro e a mão sobem a mediana e apagam as marcações, que eram detectadas |
+| **braço, marcações com mancha compacta e limiar 4 × Q25** | seguro (510 decisões sem rótulo, 0 disparo), mas **não decide no 1027:q56** (1035): não ajustar de novo nos mesmos 6 falsos |
 
 ## Lições metodológicas (custaram rodadas)
 
