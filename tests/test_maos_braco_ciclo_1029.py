@@ -230,3 +230,35 @@ def test_1032_considera_a5_e_sinaliza_nut(tmp_path):
     longe["corda6"] = [[200.0, 390.0], [1200.0, 390.0]]
     assert not ciclo.nut_suspeito_previsto(longe, (1280, 720))
     assert not ciclo.nut_suspeito_previsto({"achou": False}, (1280, 720))
+
+
+def test_1036_herda_a_escolha_da_1032(tmp_path, monkeypatch):
+    """A 1036 lê o ``escolha_pesos.json`` da pasta da 1032, sem escolher de novo."""
+    monkeypatch.setitem(
+        RODADAS, "1032", dataclasses.replace(RODADAS["1032"], pasta=tmp_path)
+    )
+    escolha = {
+        "estagio1": "L3_todos_s3",
+        "estagio2": "A4_100_todos_s1",
+        "p2": False,
+        "p3": False,
+    }
+    (tmp_path / ARQUIVO_ESCOLHA).write_text(json.dumps(escolha), encoding="utf-8")
+    assert pesos_da_rodada("1036") == Pesos("L3_todos_s3", "A4_100_todos_s1")
+    assert "1036" in ciclo.RODADAS_SINAL_NUT_V2
+
+
+def test_1036_sorteia_8_videos_de_aula_com_4_quadros(tmp_path):
+    """O lote da 1036: só títulos de aula, 8 vídeos e 4 instantes de 0,15 a 0,85."""
+    rodada = RODADAS["1036"]
+    assert (rodada.n_videos, rodada.n_instantes) == (8, 4)
+    canal = tmp_path / rodada.canal
+    canal.mkdir()
+    for nome in ("aprenda no VIOLÃO [1].mp4", "vlog da neném [2].mp4", "solo [3].mp3"):
+        (canal / nome).write_bytes(b"")
+    assert ciclo._candidatos(tmp_path, rodada.canal, rodada.filtro_titulo) == [
+        f"{rodada.canal}/aprenda no VIOLÃO [1].mp4"
+    ]
+    assert ciclo.fracoes_instantes(4) == [0.15, 0.383333, 0.616667, 0.85]
+    itens = ciclo.itens_do_sorteio(["a.mp4"], {"a.mp4": 10.0}, 4)
+    assert [item["t"] for item in itens] == [1.5, 3.83, 6.17, 8.5]

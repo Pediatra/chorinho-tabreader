@@ -30,6 +30,7 @@ import json
 import math
 import os
 import random
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -42,6 +43,7 @@ from .caminhos import (
     GABARITO_BRACO_M27,
     GABARITO_BRACO_M29,
     GABARITO_BRACO_M32,
+    GABARITO_BRACO_M36,
     MAOS_M3B,
     MAOS_M11B,
     MAOS_M21,
@@ -50,6 +52,7 @@ from .caminhos import (
     MAOS_M27,
     MAOS_M29,
     MAOS_M32,
+    MAOS_M36,
     acervo,
 )
 from .maos_braco_consenso import SINAL_S4, consenso
@@ -95,6 +98,10 @@ class Rodada:
         pasta: pasta da rodada (``indice.json``, ``quadros/``, ``previsto.json``).
         gabarito: gabarito que o dono confere.
         proxima: rodada que vem depois, para a frase do critério.
+        n_videos: vídeos do lote.
+        n_instantes: quadros por vídeo.
+        filtro_titulo: expressão regular que o nome do arquivo precisa conter (sem
+            diferença de caixa); None aceita todos os vídeos do canal.
     """
 
     canal: str
@@ -102,7 +109,13 @@ class Rodada:
     pasta: Path
     gabarito: Path
     proxima: str
+    n_videos: int = 8
+    n_instantes: int = 8
+    filtro_titulo: str | None = None
 
+
+#: Títulos de aula de violão (a 1036 tira do sorteio os vlogs do canal).
+FILTRO_AULA = r"viol[aã]o|tab|solo|aprenda|fingerstyle"
 
 #: Uma linha por rodada. A 1026 é a primeira; a 1027 usa o mesmo detector, sem mudança.
 RODADAS: dict[str, Rodada] = {
@@ -134,6 +147,16 @@ RODADAS: dict[str, Rodada] = {
         gabarito=GABARITO_BRACO_M32,
         proxima="rodada seguinte",
     ),
+    "1036": Rodada(
+        canal="violaodecria",
+        semente=20261036,
+        pasta=MAOS_M36,
+        gabarito=GABARITO_BRACO_M36,
+        proxima="rodada seguinte",
+        n_videos=8,
+        n_instantes=4,
+        filtro_titulo=FILTRO_AULA,
+    ),
 }
 
 #: Rodada usada quando a CLI não recebe ``--rodada``.
@@ -148,7 +171,9 @@ RODADAS_COM_A5 = ("1032",)
 RODADAS_SINAL_NUT = ("1032",)
 #: Rodadas que usam o sinal v2 (bordas do quadro e linhas de painel; rodada 1033, que o pôs
 #: no lugar do v1 na 1032).
-RODADAS_SINAL_NUT_V2 = ("1032",)
+RODADAS_SINAL_NUT_V2 = ("1032", "1036")
+#: Rodadas que usam a escolha de pesos de outra (sem rodar ``escolher-pesos`` de novo).
+RODADAS_ESCOLHA_HERDADA = {"1036": "1032"}
 #: Nut suspeito: ponta das cordas do lado do nut a até esta fração da borda menor.
 FRACAO_BORDA_NUT_SUSPEITO = 0.02
 
@@ -220,15 +245,17 @@ def como_foi_rotulado(numero: str) -> str:
 # ---------------------------------------------------------------------------------
 
 
-def fracoes_instantes() -> list[float]:
-    """Frações da duração dos 8 instantes, igualmente espaçadas de 0,15 a 0,85.
+def fracoes_instantes(n: int = N_INSTANTES) -> list[float]:
+    """Frações da duração dos ``n`` instantes, igualmente espaçadas de 0,15 a 0,85.
+
+    Args:
+        n: quantos instantes (padrão ``N_INSTANTES``).
 
     Returns:
-        ``N_INSTANTES`` frações, a primeira em ``FRACAO_INICIO`` e a última em
-        ``FRACAO_FIM``.
+        ``n`` frações, a primeira em ``FRACAO_INICIO`` e a última em ``FRACAO_FIM``.
     """
-    passo = (FRACAO_FIM - FRACAO_INICIO) / (N_INSTANTES - 1)
-    return [round(FRACAO_INICIO + k * passo, 6) for k in range(N_INSTANTES)]
+    passo = (FRACAO_FIM - FRACAO_INICIO) / (n - 1)
+    return [round(FRACAO_INICIO + k * passo, 6) for k in range(n)]
 
 
 def escolher_videos(
@@ -257,12 +284,15 @@ def escolher_videos(
     return random.Random(semente).sample(livres, n)
 
 
-def itens_do_sorteio(videos: list[str], duracoes: dict[str, float]) -> list[dict]:
-    """Um item por quadro: cada vídeo nos ``N_INSTANTES`` instantes da janela.
+def itens_do_sorteio(
+    videos: list[str], duracoes: dict[str, float], n_instantes: int = N_INSTANTES
+) -> list[dict]:
+    """Um item por quadro: cada vídeo nos ``n_instantes`` instantes da janela.
 
     Args:
         videos: vídeos sorteados (caminhos relativos ao acervo).
         duracoes: duração de cada vídeo, em segundos.
+        n_instantes: quadros por vídeo.
 
     Returns:
         Itens ``{arquivo, t, tab}`` no formato de ``acrescentar``, vídeo a vídeo.
@@ -270,7 +300,7 @@ def itens_do_sorteio(videos: list[str], duracoes: dict[str, float]) -> list[dict
     return [
         {"arquivo": video, "t": round(fracao * duracoes[video], 2), "tab": None}
         for video in videos
-        for fracao in fracoes_instantes()
+        for fracao in fracoes_instantes(n_instantes)
     ]
 
 
@@ -340,19 +370,24 @@ def excluidos_da_rodada(numero: str) -> set[str]:
     return usados
 
 
-def _candidatos(raiz: Path, canal: str) -> list[str]:
+def _candidatos(raiz: Path, canal: str, filtro: str | None = None) -> list[str]:
     """Vídeos do canal do lote no acervo.
 
     Args:
         raiz: raiz do acervo (só leitura).
         canal: pasta do canal dentro do acervo.
+        filtro: expressão regular que o nome precisa conter (sem diferença de caixa);
+            None aceita todos.
 
     Returns:
         Caminhos relativos ao acervo, em ordem.
     """
     nomes = os.listdir(raiz / canal)
     return sorted(
-        f"{canal}/{nome}" for nome in nomes if nome.lower().endswith(EXTENSOES_VIDEO)
+        f"{canal}/{nome}"
+        for nome in nomes
+        if nome.lower().endswith(EXTENSOES_VIDEO)
+        and (filtro is None or re.search(filtro, nome, re.IGNORECASE))
     )
 
 
@@ -427,10 +462,10 @@ def sortear(numero: str = RODADA_PADRAO, raiz: Path | None = None) -> list[str]:
     if (pasta / ARQUIVO_INDICE).exists() or ouro.exists():
         raise FileExistsError(f"já existe índice ou gabarito em {pasta} / {ouro}")
     usados = excluidos_da_rodada(numero)
-    candidatos = _candidatos(raiz, rodada.canal)
-    videos = escolher_videos(candidatos, usados, rodada.semente)
+    candidatos = _candidatos(raiz, rodada.canal, rodada.filtro_titulo)
+    videos = escolher_videos(candidatos, usados, rodada.semente, rodada.n_videos)
     duracoes = {video: _duracao(raiz / video) for video in videos}
-    itens = itens_do_sorteio(videos, duracoes)
+    itens = itens_do_sorteio(videos, duracoes, rodada.n_instantes)
     pasta.mkdir(parents=True, exist_ok=True)
     gravar_atomico(pasta / ARQUIVO_INDICE, {"semente": rodada.semente, "quadros": []})
     gravar_atomico(ouro, gabarito_vazio(numero))
@@ -440,7 +475,8 @@ def sortear(numero: str = RODADA_PADRAO, raiz: Path | None = None) -> list[str]:
         {
             "semente": rodada.semente,
             "canal": rodada.canal,
-            "fracoes": fracoes_instantes(),
+            "fracoes": fracoes_instantes(rodada.n_instantes),
+            "filtro_titulo": rodada.filtro_titulo,
             "candidatos": len(candidatos),
             "excluidos": len(usados),
             "videos": [{"arquivo": v, "duracao_s": duracoes[v]} for v in videos],
@@ -682,7 +718,9 @@ class Pesos:
 
 
 def pesos_da_rodada(numero: str) -> Pesos:
-    """Pesos que a rodada usa: fixos na 1026 e na 1027, escolhidos na 1029.
+    """Pesos que a rodada usa: fixos na 1026 e na 1027, escolhidos da 1029 em diante.
+
+    A 1036 herda a escolha da 1032 (``RODADAS_ESCOLHA_HERDADA``).
 
     Args:
         numero: rodada (chave de ``RODADAS``).
@@ -693,12 +731,13 @@ def pesos_da_rodada(numero: str) -> Pesos:
     Raises:
         ValueError: se a rodada escolhe os pesos e ``escolha_pesos.json`` não existe.
     """
-    if numero not in RODADAS_COM_ESCOLHA:
+    origem = RODADAS_ESCOLHA_HERDADA.get(numero, numero)
+    if origem not in RODADAS_COM_ESCOLHA:
         return Pesos(ESTAGIO1, ESTAGIO2)
-    caminho = RODADAS[numero].pasta / ARQUIVO_ESCOLHA
+    caminho = RODADAS[origem].pasta / ARQUIVO_ESCOLHA
     if not caminho.exists():
         raise ValueError(
-            f"falta {caminho}: rode `escolher-pesos --rodada {numero}` antes de `prever`"
+            f"falta {caminho}: rode `escolher-pesos --rodada {origem}` antes de `prever`"
         )
     escolha = _ler_json(caminho)
     return Pesos(
