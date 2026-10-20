@@ -14,6 +14,7 @@ import random
 import numpy as np
 import pytest
 
+from tab import sintetico_sistema as ss
 from tab.sintetico import PRESETS_FONTES, _resolver_fontes
 from tab.sintetico_sistema import (
     ESTRUTURA_TIPOS,
@@ -287,8 +288,12 @@ def test_pausa_entre_cordas_e_cinzas_aparecem_em_300_sementes(
         assert vistos[variante] > 0, variante
 
 
-def test_cadeia_e_arco_alto_aparecem_em_100_sementes(fontes: list[str]) -> None:
-    """G11 e G12 (R4e): a cadeia sob um arco só, com e sem letras, e o arco alto."""
+def test_cadeia_e_arco_alto_aparecem_em_100_sementes(
+    fontes: list[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """G11 e G12 (R4e, desligados): ligados, a cadeia e o arco alto aparecem."""
+    monkeypatch.setattr(ss, "P_CADEIA", 0.25)
+    monkeypatch.setattr(ss, "P_ARCO_ALTO", 0.25)
     vistas: set[str] = set()
     for semente in range(100):
         _, info = gerar_sistema(random.Random(semente), fontes)

@@ -199,10 +199,11 @@ PAR_LONGO_MAX = 4
 #: Rodada 0204 (R4c): G8–G10. **Não adotados** (a casa piorou); desligados desde a 0207.
 #: G10: chance de o arco longo ser raso (pouca curva, afastado dos algarismos); R4c 0,5.
 P_ARCO_RASO = 0.0
-#: Rodada 0208 (R4e): G11–G12, medidos nos erros da T8.3 (0207).
+#: Rodada 0208 (R4e): G11–G12, medidos nos erros da T8.3 (0207). **Não adotados** (as
+#: notas-alvo não mudaram); desligados (no R4e: P_CADEIA 0,25 e P_ARCO_ALTO 0,25).
 #: G11: chance de o sistema ter uma cadeia de 3 a ``CADEIA_MAX`` notas sob um arco só
 #: (h/p em sequência, como ``6-8-6-5`` com "H P P" em cima).
-P_CADEIA = 0.25
+P_CADEIA = 0.0
 #: G11: chance de a cadeia ficar na corda 1, com o arco acima do sistema (como nos erros).
 P_CADEIA_CORDA_1 = 0.5
 #: G11: notas da cadeia, no máximo.
@@ -211,7 +212,7 @@ CADEIA_MAX = 5
 #: outras cordas elas cairiam sobre as linhas).
 P_LETRAS_CADEIA = 0.5
 #: G12: chance de um arco de h/p/tie ser alto e estreito (curva de 0,8 a 1,4 passo).
-P_ARCO_ALTO = 0.25
+P_ARCO_ALTO = 0.0
 #: G9: chance de o slide ser um risco curto e inclinado, deslocado para cima; R4c 0,5.
 P_SLIDE_CURTO = 0.0
 #: G8: chance de, nas colunas apertadas, os algarismos serem pequenos (a corda aparece
