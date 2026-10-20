@@ -28,3 +28,28 @@ são os da 1034.
 - **Teste**: os ciclos 1026, 1027 e 1029, com o critério da 1034.
   - Precisa pegar o 1027:q56 e disparar em ≤ 3 % dos 150 certos.
   - Se passar, vai ao ciclo seguinte à 1032, junto com o v2.
+
+## Resultado (2026-10-20; `m31/medida_1035.json`) — **reprova no teste**
+
+**Desenvolvimento sem rótulo** (1 095 quadros densos de aço com nut visível):
+
+| F | decisões | k = 0 | disparos |
+| --- | --- | --- | --- |
+| 2 | 72 | 72 | 0 |
+| 3 | 380 | 380 | 0 |
+| **4** | **510** | **510** | **0** |
+
+- F = 4 é o escolhido. A regra revisada é **segura**: decide em 47 % dos quadros e nunca dispara
+  em falso.
+
+**Teste nos ciclos**:
+- Nos 150 certos, decide em 16 e dispara em 0.
+- Nos 6 falsos, não decide em nenhum, **e o 1027:q56 também fica sem decisão**.
+- Pelo critério, não vai a ciclo.
+
+**Leitura**:
+- Como sinal, a regra não erra, mas decide pouco onde importa.
+- O padrão exige que todas as casas marcadas caiam no padrão. No 1027:q56, alguma casa marcada
+  a mais (por exemplo, perto da junção) basta para nenhum k caber.
+- Não ajusto de novo nos mesmos 6 falsos: isso seria ajustar no teste.
+- **Daqui em diante**, ela pode ser medida nas marcas que o dono fizer na 1032 (kenneth, aço).
