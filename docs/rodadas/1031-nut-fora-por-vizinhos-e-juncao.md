@@ -208,3 +208,28 @@ No controle, conta-se quantos quadros certos ficam errados.
   referência externa**, porque as próprias referências dependem de saber onde o nut está.
 - O que protege é **sinalizar o nut suspeito**: a 1032 mede quanto isso custa.
 - A outra frente é o **A5**: ensinar o estágio 2 que, sem nut na faixa, não existe nut.
+
+## A5: resultado (2026-10-20; `m31/medida_a5.json` e `m32/escolha_pesos.json`)
+
+**Treino**: `A5_100_todos_s1..3`, cerca de 59 min cada.
+- Os 8 quadros de nut fora da 1027 entraram (M27: 62 quadros, contra 54 no A4).
+- A folha `m21/a5_folha.jpg` foi conferida: as cristas dos trastes caem nos trastes, as cordas
+  começam na borda e não há canal de nut.
+
+**Nos 16 casos** (cadeia no quadro do ciclo, com `L3_todos_s3`):
+
+| estágio 2 | acertos | recusas | erros não sinalizados |
+| --- | --- | --- | --- |
+| A4_s1 (o do ciclo) | 2 | 9 | 5 |
+| A5_s1 | 1 | 11 | 4 |
+| A5_s2 | 0 | 12 | 4 |
+| A5_s3 | 0 (+1 acerto sinalizado) | 13 | 2 |
+
+- Nos 5 casos **fora do treino** (1029 e M11b), o A4 deixa passar 4 erros. O A5 deixa passar 4,
+  3 e 2, conforme a semente.
+- O 1029:q46 passa em todos. A amplitude entre as sementes é do tamanho do efeito.
+- **Na M11b** (escolha da 1032), as combinações com A5 não ganham: o melhor A5 entrega 14 certos
+  contra 16, e 4 das 9 combinações com A5 deixam 1 falso passar.
+- **Conclusão**: o A5 vai na direção certa, mas o ganho não é robusto em 3 sementes, e ele não
+  entra no ciclo.
+  - Com mais quadros de nut fora no treino (hoje são 8, de um vídeo só), vale repetir.
