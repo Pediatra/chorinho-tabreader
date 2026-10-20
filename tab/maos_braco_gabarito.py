@@ -1618,7 +1618,9 @@ input[type=number] { width: 72px; }
     afastado possível; não no cavalete);
     <b>2</b> corda 6 (idem); <b>3</b> nut (1 clique no centro da pestana);
     <b>4</b> trastes (um clique no meio de cada traste visível; botão DIREITO em cima
-    de um marcado o remove); <b>f</b> nut fora da imagem; <b>k</b> capo (1 clique em cima
+    de um marcado o remove); <b>f</b> nut fora da imagem (com o nut fora, os trastes
+    mostram a posição c1, c2…; botão direito escolhe o traste como referência, digite o
+    número e Enter; <b>Shift</b> + botão direito remove); <b>k</b> capo (1 clique em cima
     do capotraste, se houver; a casa segue contada do nut). Braço: sim (<b>x</b>), parcial, não, ?.
     Violão: <b>6</b> cordas é o padrão; <b>7</b> marca 7 cordas (a "corda 6" vira a da
     borda grave).
@@ -1708,6 +1710,8 @@ input[type=number] { width: 72px; }
 let estado = null;
 let idx = 0;
 let modo = null;
+// Traste escolhido (posição na lista) para a referência quando o nut está fora.
+let refEscolhido = null;
 const $ = (id) => document.getElementById(id);
 const NS = "http://www.w3.org/2000/svg";
 
@@ -1807,14 +1811,23 @@ function desenhar() {
   }
   const px = -uy, py = ux;
   const meio = w * 0.03;
-  visao().numeracao.forEach((item) => {
+  const ref = r.traste_referencia;
+  visao().numeracao.forEach((item, k) => {
     const [x, y] = item.ponto;
     const cor = ehPrevisto(item.ponto) ? "#ff9f1c" : "#ffe066";
     if (c1.length === 2) {
       svg.appendChild(linha(x + px * meio, y + py * meio, x - px * meio, y - py * meio, cor, espessura * 0.7));
     }
     svg.appendChild(ponto(x, y, raio * 0.6, cor, "#000"));
-    const rotulo = item.numero === null ? "?" : String(item.numero);
+    let rotulo = item.numero === null ? "?" : String(item.numero);
+    // Nut fora: o rótulo é a posição na lista da referência (c1, c2, ...), e o
+    // traste de referência mostra também o número que o dono deu a ele.
+    if (r.nut === "fora") {
+      rotulo = "c" + (k + 1);
+      const ehRef = ref && ref.ponto[0] === x && ref.ponto[1] === y;
+      if (ehRef) rotulo += " = " + ref.numero;
+      else if (k === refEscolhido) rotulo += " ◀";
+    }
     svg.appendChild(texto(x + meio * 0.5, y - meio * 0.5, rotulo, fonte, cor));
   });
   if (Array.isArray(r.nut)) {
@@ -1982,15 +1995,28 @@ function blocoTrastes() {
       op.textContent = "clique " + (k + 1) + " (" + item.ponto[0] + ", " + item.ponto[1] + ")";
       seletor.appendChild(op);
     });
+    if (refEscolhido !== null && refEscolhido < v.numeracao.length) {
+      seletor.value = String(refEscolhido);
+    }
+    seletor.addEventListener("change", () => {
+      refEscolhido = Number(seletor.value);
+      desenhar();
+    });
     const numero = document.createElement("input");
     numero.type = "number"; numero.min = "1"; numero.max = "30"; numero.value = "1";
+    numero.id = "numero-referencia";
     const botao = document.createElement("button");
     botao.textContent = "definir como traste de referência";
-    botao.addEventListener("click", () => {
+    const definir = () => {
       const k = Number(seletor.value);
       const n = Number(numero.value);
       enviar({ quadro: atual().id, campo: "traste_referencia",
                valor: { ponto: v.numeracao[k].ponto, numero: n } });
+    };
+    botao.addEventListener("click", definir);
+    // Enter no número define a referência (depois do botão direito no traste).
+    numero.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter") { ev.preventDefault(); definir(); }
     });
     const limpar = document.createElement("button");
     limpar.textContent = "tirar referência";
@@ -2035,7 +2061,7 @@ function render() {
       b.title = "partes do violão respondidas";
     }
     if (k === idx) b.classList.add("ativo");
-    b.addEventListener("click", () => { idx = k; render(); });
+    b.addEventListener("click", () => { idx = k; refEscolhido = null; render(); });
     lista.appendChild(b);
   });
   document.querySelectorAll("[data-modo]").forEach((b) => {
@@ -2062,6 +2088,7 @@ function trocar(delta) {
   const novo = idx + delta;
   if (novo < 0 || novo >= estado.indice.length) return;
   idx = novo;
+  refEscolhido = null;
   render();
 }
 
@@ -2152,12 +2179,32 @@ $("img").addEventListener("click", (ev) => {
 });
 
 // Botão direito no modo trastes remove o traste marcado mais perto do clique.
+// Com o nut fora, o botão direito (sem Shift) escolhe o traste mais perto como
+// referência na lista e põe o cursor no número; Shift + botão direito remove.
 $("img").addEventListener("contextmenu", (ev) => {
   ev.preventDefault();
-  if (!estado || modo !== "trastes") return;
+  if (!estado) return;
   const img = $("img");
   if (!img.complete || img.style.visibility === "hidden") return;
   const bb = img.getBoundingClientRect();
+  const v = visao();
+  if (v.registro.nut === "fora" && !ev.shiftKey && v.numeracao.length) {
+    const q = atual();
+    const x = (ev.clientX - bb.left) * q.largura / bb.width;
+    const y = (ev.clientY - bb.top) * q.altura / bb.height;
+    let melhor = 0;
+    let menor = Infinity;
+    v.numeracao.forEach((item, k) => {
+      const d = Math.hypot(item.ponto[0] - x, item.ponto[1] - y);
+      if (d < menor) { menor = d; melhor = k; }
+    });
+    refEscolhido = melhor;
+    render();
+    const campo = $("numero-referencia");
+    if (campo) { campo.focus(); campo.select(); }
+    return;
+  }
+  if (modo !== "trastes") return;
   const escala = bb.width / img.naturalWidth;
   enviar({
     quadro: atual().id, acao: "clique", modo: "trastes", remover: true,

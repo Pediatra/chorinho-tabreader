@@ -1678,3 +1678,11 @@ def test_pagina_tem_os_botoes_e_as_teclas_6_e_7_cordas() -> None:
     assert 'ev.key === "6"' in PAGINA
     assert 'ev.key === "7"' in PAGINA
     assert "(r.cordas ?? 6)" in PAGINA
+
+
+def test_pagina_com_nut_fora_mostra_a_posicao_e_escolhe_a_referencia() -> None:
+    """Nut fora: rótulos c1, c2…, botão direito escolhe a referência, Shift remove."""
+    assert 'rotulo = "c" + (k + 1)' in PAGINA
+    assert "refEscolhido = melhor" in PAGINA
+    assert "!ev.shiftKey" in PAGINA
+    assert 'ev.key === "Enter"' in PAGINA
