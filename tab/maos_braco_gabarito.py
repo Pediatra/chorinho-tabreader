@@ -1620,7 +1620,8 @@ input[type=number] { width: 72px; }
     <b>4</b> trastes (um clique no meio de cada traste visível; botão DIREITO em cima
     de um marcado o remove); <b>f</b> nut fora da imagem (com o nut fora, os trastes
     mostram a posição c1, c2…; botão direito escolhe o traste como referência, digite o
-    número e Enter; <b>Shift</b> + botão direito remove); <b>k</b> capo (1 clique em cima
+    número e Enter; <b>Shift</b> + botão direito remove); <b>Delete</b> remove o traste
+    embaixo do mouse (qualquer modo); <b>k</b> capo (1 clique em cima
     do capotraste, se houver; a casa segue contada do nut). Braço: sim (<b>x</b>), parcial, não, ?.
     Violão: <b>6</b> cordas é o padrão; <b>7</b> marca 7 cordas (a "corda 6" vira a da
     borda grave).
@@ -2204,13 +2205,30 @@ $("img").addEventListener("contextmenu", (ev) => {
     if (campo) { campo.focus(); campo.select(); }
     return;
   }
-  if (modo !== "trastes") return;
+  if (modo !== "trastes" && v.registro.nut !== "fora") return;
   const escala = bb.width / img.naturalWidth;
   enviar({
     quadro: atual().id, acao: "clique", modo: "trastes", remover: true,
     ponto_img: [ev.clientX - bb.left, ev.clientY - bb.top], escala: escala,
   });
 });
+
+// Delete (ou Backspace): remove o traste mais perto do mouse, em qualquer modo.
+let mouseImg = null;
+$("img").addEventListener("mousemove", (ev) => {
+  const bb = $("img").getBoundingClientRect();
+  mouseImg = [ev.clientX - bb.left, ev.clientY - bb.top];
+});
+$("img").addEventListener("mouseleave", () => { mouseImg = null; });
+function removerPertoDoMouse() {
+  const img = $("img");
+  if (!estado || !mouseImg || !img.complete || img.style.visibility === "hidden") return;
+  const escala = img.getBoundingClientRect().width / img.naturalWidth;
+  enviar({
+    quadro: atual().id, acao: "clique", modo: "trastes", remover: true,
+    ponto_img: mouseImg, escala: escala,
+  });
+}
 
 // Prevê os outros trastes a partir da pestana, das cordas e das 2 âncoras marcadas.
 function prever() {
@@ -2285,6 +2303,10 @@ document.addEventListener("keydown", (ev) => {
   else if (ev.key === "v") enviar({ quadro: atual().id, campo: "paineis", valor: "nao" });
   else if (ev.key === "f") enviar({ quadro: atual().id, campo: "nut", valor: "fora" });
   else if (ev.key === "r") prever();
+  else if (ev.key === "Delete" || ev.key === "Backspace") {
+    ev.preventDefault();
+    removerPertoDoMouse();
+  }
   else if (
     ev.shiftKey && TECLAS_PARTE.has(ev.key.toLowerCase())
     && TECLAS_PARTE.get(ev.key.toLowerCase()) !== "paineis"

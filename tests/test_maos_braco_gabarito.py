@@ -1686,3 +1686,9 @@ def test_pagina_com_nut_fora_mostra_a_posicao_e_escolhe_a_referencia() -> None:
     assert "refEscolhido = melhor" in PAGINA
     assert "!ev.shiftKey" in PAGINA
     assert 'ev.key === "Enter"' in PAGINA
+
+
+def test_pagina_tem_delete_para_remover_o_traste_embaixo_do_mouse() -> None:
+    """Delete/Backspace remove o traste mais perto do mouse, em qualquer modo."""
+    assert 'ev.key === "Delete"' in PAGINA
+    assert "removerPertoDoMouse()" in PAGINA
