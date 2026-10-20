@@ -712,6 +712,27 @@ def _pontos_arco(
     ]
 
 
+def _registrar_arco(
+    arcos: list[dict] | None, corda: int, x_ini: float, caixa_fim: tuple[float, ...]
+) -> None:
+    """Guarda um arco desenhado em ``arcos`` (rodada 0206): corda e x das pontas.
+
+    Args:
+        arcos: lista de saída (``info["arcos"]``); ``None`` não guarda nada.
+        corda: corda do arco, de 1 a 6.
+        x_ini: x do centro da nota (ou do enfeite) onde o arco começa.
+        caixa_fim: caixa da nota onde o arco termina.
+    """
+    if arcos is not None:
+        arcos.append(
+            {
+                "corda": corda,
+                "x_ini": round(float(x_ini), 1),
+                "x_fim": round((caixa_fim[0] + caixa_fim[2]) / 2, 1),
+            }
+        )
+
+
 def _desenhar_tecnicas_pares(
     d: ImageDraw.ImageDraw,
     rng: random.Random,
@@ -723,6 +744,7 @@ def _desenhar_tecnicas_pares(
     tinta: tuple[int, int, int],
     fontes: list[str],
     marcas: list[str],
+    arcos: list[dict] | None = None,
 ) -> None:
     """Desenha a ligação de cada par de técnica (letra e arco, ou diagonal).
 
@@ -739,6 +761,7 @@ def _desenhar_tecnicas_pares(
         tinta: cor da tinta.
         fontes: caminhos das fontes.
         marcas: lista onde se registram as variantes desenhadas.
+        arcos: onde guardar cada arco desenhado (``_registrar_arco``).
     """
     espessura_traco = max(1, espessura - 1)
     tamanho_letra = max(6, round(0.5 * passo / DIGITO_ALTURA_EM))
@@ -762,6 +785,7 @@ def _desenhar_tecnicas_pares(
                     marcas.append("arco_raso")
                 pontos = _pontos_arco(rng, origem, destino, y, passo, marcas, raso=raso)
                 d.line(pontos, fill=tinta, width=espessura_traco)
+                _registrar_arco(arcos, s + 1, (origem[0] + origem[2]) / 2, destino)
                 if not com_letra:
                     marcas.append("legato_sem_letra")
             if com_letra:
@@ -1413,6 +1437,8 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
             "notas": lista de {"corda" (1-6), "rotulo", "tecnica", "x" (centro),
             "caixa" ([x0, y0, x1, y1])}, na ordem coluna a coluna; inclui os
             enfeites ("tecnica": "enfeite") depois das notas.
+            "arcos": lista de {"corda", "x_ini", "x_fim"} de cada arco desenhado (h/p,
+            tie, mordente de três notas, enfeite), com o x do centro das pontas.
             "regioes": lista de {"tecnica" (código de REGIOES), "cordas": [a, b],
             "caixa"}.
             "estrutura": lista de {"tipo" (ESTRUTURA_TIPOS), "x", "caixa"} e, nas
@@ -1634,12 +1660,15 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
     _desenhar_tecnicas_notas(
         d, rng, grade, medidas, ys, passo, espessura, tinta, list(fontes)
     )
+    arcos: list[dict] = []
     _desenhar_tecnicas_pares(
-        d, rng, grade, medidas, ys, passo, espessura, tinta, list(fontes), marcas
+        d, rng, grade, medidas, ys, passo, espessura, tinta, list(fontes), marcas, arcos
     )
-    _desenhar_ligaduras(d, rng, grade, medidas, ys, passo, espessura, tinta, marcas)
+    _desenhar_ligaduras(
+        d, rng, grade, medidas, ys, passo, espessura, tinta, marcas, arcos
+    )
     _desenhar_mordentes_tres(
-        d, rng, grade, medidas, ys, passo, espessura, tinta, marcas
+        d, rng, grade, medidas, ys, passo, espessura, tinta, marcas, arcos
     )
     _desenhar_zigues(d, grade, medidas, passo, espessura, tinta, marcas)
     _desenhar_slides_soltos(d, grade, medidas, ys, passo, espessura, tinta, marcas)
@@ -1656,6 +1685,7 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
         largura,
         altura,
         marcas,
+        arcos,
     )
     regioes = _desenhar_regioes(
         d,
@@ -1824,6 +1854,7 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
         "linhas_y": ys,
         "barlines_x": barlines_x,
         "notas": notas,
+        "arcos": arcos,
         "regioes": regioes,
         "estrutura": estrutura,
         "variantes": sorted(set(marcas)),
@@ -1985,6 +2016,7 @@ def _desenhar_mordentes_tres(
     espessura: int,
     tinta: tuple[int, int, int],
     marcas: list[str],
+    arcos: list[dict] | None = None,
 ) -> None:
     """Desenha o arco único de cada mordente de três notas (G4).
 
@@ -2013,6 +2045,8 @@ def _desenhar_mordentes_tres(
         )
         d.line(pontos, fill=tinta, width=max(1, espessura - 1))
         marcas.append("mordente_tres")
+        a = medidas[(c - 2, s)]["caixa"]
+        _registrar_arco(arcos, s + 1, (a[0] + a[2]) / 2, medidas[(c, s)]["caixa"])
 
 
 def _desenhar_zigues(
@@ -2147,6 +2181,7 @@ def _desenhar_ligaduras(
     espessura: int,
     tinta: tuple[int, int, int],
     marcas: list[str],
+    arcos: list[dict] | None = None,
 ) -> None:
     """Desenha o arco de cada ligadura de prolongamento (sem letra e sem parênteses).
 
@@ -2175,6 +2210,8 @@ def _desenhar_ligaduras(
         )
         d.line(pontos, fill=tinta, width=espessura_traco)
         marcas.append("ligadura")
+        a = medidas[(c - 1, s)]["caixa"]
+        _registrar_arco(arcos, s + 1, (a[0] + a[2]) / 2, medidas[(c, s)]["caixa"])
 
 
 def _desenhar_enfeites(
@@ -2190,6 +2227,7 @@ def _desenhar_enfeites(
     largura: int,
     altura: int,
     marcas: list[str],
+    arcos: list[dict] | None = None,
 ) -> list[dict]:
     """Desenha o enfeite (algarismo pequeno ligado à nota) e o mordente de cada `orn`.
 
@@ -2234,6 +2272,9 @@ def _desenhar_enfeites(
                 for i in range(11)
             ]
             d.line(pontos, fill=tinta, width=espessura_traco)
+            _registrar_arco(
+                arcos, s + 1, (caixa[0] + caixa[2]) / 2, medidas[(c, s)]["caixa"]
+            )
         else:  # traço curto, acima da linha da corda
             ya = round(y - 0.3 * passo)
             d.line(

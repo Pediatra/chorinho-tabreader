@@ -27,6 +27,7 @@ from tab.detector_tab import (
     _amostra_treino,
     _parser,
     alvos_do_sistema,
+    carregar,
     detectar,
     normalizar_sistema,
     x_para_original,
@@ -182,3 +183,31 @@ def test_gerar_alvos_e_deterministico() -> None:
         assert np.array_equal(parte_a, parte_b)
     assert a[0].shape == (160, 512)
     assert a[1].shape == (6, 128)
+
+
+def test_alvo_de_arco_cobre_os_bins_entre_as_pontas() -> None:
+    """O alvo "arco" é 1 entre as pontas, na corda do arco, e 0 no resto (0206)."""
+    arcos = [{"corda": 2, "x_ini": 40.0, "x_fim": 80.0}]
+    alvos = alvos_do_sistema([], 1.0, 160, arcos)
+    marcados = np.flatnonzero(alvos["arco"][1])
+    assert marcados.min() >= (40 - 1.5) / 4 and marcados.max() <= (80 - 1.5) / 4
+    assert len(marcados) >= 9
+    assert alvos["arco"][[0, 2, 3, 4, 5]].sum() == 0
+
+
+def test_amostra_de_treino_traz_o_arco(sistema) -> None:
+    """A amostra de treino tem o quinto alvo, o arco, na grade de saída."""
+    a = _amostra_treino(7)
+    assert a[4].shape == (6, 128)
+    assert set(np.unique(a[4])) <= {0.0, 1.0}
+
+
+def test_carregar_aceita_pesos_sem_a_cabeca_de_arco(tmp_path) -> None:
+    """Pesos de antes da 0206 carregam; a cabeça de arco fica com o valor inicial."""
+    estado = {k: v for k, v in DetectorTab().state_dict().items() if "h_arco" not in k}
+    torch.save(estado, tmp_path / "m.pt")
+    assert isinstance(carregar(tmp_path / "m.pt"), DetectorTab)
+    estado["sobra.weight"] = torch.zeros(1)
+    torch.save(estado, tmp_path / "m2.pt")
+    with pytest.raises(RuntimeError, match="incompatíveis"):
+        carregar(tmp_path / "m2.pt")

@@ -175,7 +175,10 @@ def x_para_original(x_norm: float | np.ndarray, escala: float) -> float | np.nda
 
 
 def alvos_do_sistema(
-    notas: Sequence[dict], escala: float, largura_norm: int
+    notas: Sequence[dict],
+    escala: float,
+    largura_norm: int,
+    arcos: Sequence[dict] = (),
 ) -> dict[str, np.ndarray]:
     """Monta os alvos de treino de um sistema, na grade de saída.
 
@@ -189,10 +192,13 @@ def alvos_do_sistema(
             px da imagem original).
         escala: escala de `normalizar_sistema`.
         largura_norm: largura do array normalizado (múltiplo de 4).
+        arcos: ``info["arcos"]`` do gerador ({"corda", "x_ini", "x_fim"}, px da imagem
+            original). O alvo "arco" é 1 nos bins entre as duas pontas (rodada 0206).
 
     Returns:
         Dict com "centro" (6, L) float32, "classe" (6, L) int64 (-1 onde não há
-        supervisão) e "tecnica" (6, L, 10) float32, com L = largura_norm // 4.
+        supervisão), "tecnica" (6, L, 10) float32 e "arco" (6, L) float32, com
+        L = largura_norm // 4.
     """
     comprimento = largura_norm // STRIDE
     centro = np.zeros((N_CORDAS, comprimento), dtype=np.float32)
@@ -211,7 +217,15 @@ def alvos_do_sistema(
         classe[k, sup] = ROTULO_IDX[str(nota["rotulo"])]
         if nota["tecnica"] is not None:
             tecnica[k, sup, TECNICA_IDX[nota["tecnica"]]] = 1.0
-    return {"centro": centro, "classe": classe, "tecnica": tecnica}
+    arco = np.zeros((N_CORDAS, comprimento), dtype=np.float32)
+    for a in arcos:
+        ua = (float(a["x_ini"]) * escala - DESLOC) / STRIDE
+        ub = (float(a["x_fim"]) * escala - DESLOC) / STRIDE
+        ja = max(0, math.ceil(min(ua, ub)))
+        jb = min(comprimento - 1, math.floor(max(ua, ub)))
+        if ja <= jb:
+            arco[int(a["corda"]) - 1, ja : jb + 1] = 1.0
+    return {"centro": centro, "classe": classe, "tecnica": tecnica, "arco": arco}
 
 
 def _bloco2d(c_in: int, c_out: int, stride: int = 1, dilacao: int = 1) -> nn.Sequential:
@@ -263,7 +277,8 @@ class DetectorTab(nn.Module):
 
     Para cada corda k, a linha de features na altura (2,5 + k) * 16 / 4 é amostrada
     com os vizinhos de ±1 linha (concatenados), projetada para D canais e somada a um
-    embedding da corda. As cabeças são: centro (1), classe (26) e técnica (10).
+    embedding da corda. As cabeças são: centro (1), classe (26), técnica (10) e arco (1,
+    "bin debaixo de um arco desta corda", rodada 0206).
     """
 
     def __init__(self, c_back: int = 64, d: int = 128) -> None:
@@ -299,16 +314,17 @@ class DetectorTab(nn.Module):
         self.h_centro = nn.Conv1d(d, 1, 1)
         self.h_classe = nn.Conv1d(d, len(ROTULOS), 1)
         self.h_tecnica = nn.Conv1d(d, len(TECNICAS_MODELO), 1)
+        self.h_arco = nn.Conv1d(d, 1, 1)
 
     def forward(self, x: torch.Tensor) -> dict[str, torch.Tensor]:
-        """Calcula os três mapas de saída.
+        """Calcula os quatro mapas de saída.
 
         Args:
             x: lote (B, 1, 160, W) float em [0, 1], com W múltiplo de 4.
 
         Returns:
-            Dict com "centro" (B, 6, L) logits, "classe" (B, 6, L, 26) logits e
-            "tecnica" (B, 6, L, 10) logits, com L = W // 4.
+            Dict com "centro" (B, 6, L) logits, "classe" (B, 6, L, 26) logits,
+            "tecnica" (B, 6, L, 10) logits e "arco" (B, 6, L) logits, com L = W // 4.
 
         Raises:
             ValueError: se W não for múltiplo de 4.
@@ -329,10 +345,12 @@ class DetectorTab(nn.Module):
         centro = self.h_centro(h).view(b, N_CORDAS, comprimento)
         classe = self.h_classe(h).view(b, N_CORDAS, len(ROTULOS), comprimento)
         tecnica = self.h_tecnica(h).view(b, N_CORDAS, len(TECNICAS_MODELO), comprimento)
+        arco = self.h_arco(h).view(b, N_CORDAS, comprimento)
         return {
             "centro": centro,
             "classe": classe.permute(0, 1, 3, 2),
             "tecnica": tecnica.permute(0, 1, 3, 2),
+            "arco": arco,
         }
 
 
@@ -357,9 +375,10 @@ def perda_centro(logits: torch.Tensor, alvo: torch.Tensor) -> torch.Tensor:
 def perda_total(
     saida: dict[str, torch.Tensor], alvos: dict[str, torch.Tensor]
 ) -> tuple[torch.Tensor, dict[str, float]]:
-    """Soma as três perdas: centro (focal), classe (CE) e técnica (BCE).
+    """Soma as perdas: centro (focal), classe (CE), técnica (BCE) e arco (BCE).
 
-    Classe e técnica só contam onde há supervisão (`classe >= 0`).
+    Classe e técnica só contam onde há supervisão (`classe >= 0`). O arco conta em
+    todos os bins, e só quando os alvos trazem "arco".
 
     Args:
         saida: saída de `DetectorTab.forward`.
@@ -378,11 +397,16 @@ def perda_total(
     else:
         l_classe = l_tecnica = saida["centro"].sum() * 0.0
     total = l_centro + l_classe + l_tecnica
-    return total, {
+    parcelas = {
         "centro": float(l_centro.detach()),
         "classe": float(l_classe.detach()),
         "tecnica": float(l_tecnica.detach()),
     }
+    if "arco" in alvos and "arco" in saida:
+        l_arco = F.binary_cross_entropy_with_logits(saida["arco"], alvos["arco"])
+        total = total + l_arco
+        parcelas["arco"] = float(l_arco.detach())
+    return total, parcelas
 
 
 def _amostra_treino(semente: int) -> tuple[np.ndarray, ...]:
@@ -396,13 +420,13 @@ def _amostra_treino(semente: int) -> tuple[np.ndarray, ...]:
 
     Returns:
         Tupla (imagem (160, 512) float32, centro (6, 128) float32, classe (6, 128)
-        int64, técnica (6, 128, 10) float32).
+        int64, técnica (6, 128, 10) float32, arco (6, 128) float32).
     """
     rng = random.Random(semente)
     img, info = gerar_sistema(rng, FONTES_TREINO)
     arr, escala, _ = normalizar_sistema(img, info["linhas_y"], info["passo"])
     largura = arr.shape[1]
-    alvos = alvos_do_sistema(info["notas"], escala, largura)
+    alvos = alvos_do_sistema(info["notas"], escala, largura, info["arcos"])
     b0 = rng.randint(0, max(0, largura - LARGURA_TREINO) // STRIDE)
     x0 = b0 * STRIDE
     comp = LARGURA_TREINO // STRIDE
@@ -413,12 +437,14 @@ def _amostra_treino(semente: int) -> tuple[np.ndarray, ...]:
     centro = np.zeros((N_CORDAS, comp), dtype=np.float32)
     classe = np.full((N_CORDAS, comp), -1, dtype=np.int64)
     tecnica = np.zeros((N_CORDAS, comp, len(TECNICAS_MODELO)), dtype=np.float32)
+    arco = np.zeros((N_CORDAS, comp), dtype=np.float32)
     n = min(comp, alvos["centro"].shape[1] - b0)
     if n > 0:
         centro[:, :n] = alvos["centro"][:, b0 : b0 + n]
         classe[:, :n] = alvos["classe"][:, b0 : b0 + n]
         tecnica[:, :n] = alvos["tecnica"][:, b0 : b0 + n]
-    return recorte, centro, classe, tecnica
+        arco[:, :n] = alvos["arco"][:, b0 : b0 + n]
+    return recorte, centro, classe, tecnica, arco
 
 
 def _iniciar_trabalhador() -> None:
@@ -450,7 +476,9 @@ def _decodificar(
         arr: sistema normalizado (160, W), W múltiplo de 4.
         escala: escala de `normalizar_sistema`.
         com_escores: inclui "tecnica_p", a probabilidade de cada técnica
-            (``TECNICAS_MODELO``), para medir outro limiar sem reler (rodada 0203).
+            (``TECNICAS_MODELO``), para medir outro limiar sem reler (rodada 0203), e
+            "arco_esq", a média do arco entre a nota anterior da mesma corda e esta
+            (``None`` na primeira nota da corda; rodada 0206).
 
     Returns:
         Lista de {"corda", "rotulo", "tecnica", "x", "confianca"}, ordenada por corda
@@ -467,6 +495,7 @@ def _decodificar(
     centro = torch.sigmoid(saida["centro"][0]).cpu().numpy()
     classe = saida["classe"][0].cpu().numpy()
     tecnica = torch.sigmoid(saida["tecnica"][0]).cpu().numpy()
+    arco = torch.sigmoid(saida["arco"][0]).cpu().numpy() if "arco" in saida else None
     notas: list[dict] = []
     for k in range(N_CORDAS):
         probs = centro[k]
@@ -479,6 +508,7 @@ def _decodificar(
                 for a in aceitos
             ):
                 aceitos.append(int(j))
+        anterior = None
         for j in sorted(aceitos):
             notas.append(
                 {
@@ -494,6 +524,12 @@ def _decodificar(
             )
             if com_escores:
                 notas[-1]["tecnica_p"] = [round(float(v), 4) for v in tecnica[k, j]]
+                notas[-1]["arco_esq"] = (
+                    None
+                    if anterior is None or arco is None
+                    else round(float(arco[k, anterior : j + 1].mean()), 4)
+                )
+            anterior = j
     return notas
 
 
@@ -698,6 +734,7 @@ def treinar(
                 "centro": torch.from_numpy(np.stack([a[1] for a in amostras])),
                 "classe": torch.from_numpy(np.stack([a[2] for a in amostras])),
                 "tecnica": torch.from_numpy(np.stack([a[3] for a in amostras])),
+                "arco": torch.from_numpy(np.stack([a[4] for a in amostras])),
             }
             alvos = {k: v.to(dispositivo) for k, v in alvos.items()}
             saida_modelo = modelo(imgs.to(dispositivo))
@@ -752,12 +789,26 @@ def carregar(caminho: Path) -> DetectorTab:
     Args:
         caminho: arquivo `modelo.pt` (state_dict).
 
+    Pesos de antes da rodada 0206 não têm a cabeça de arco: ela fica com o valor inicial
+    (e o "arco" que ela devolve não significa nada).
+
     Returns:
         Modelo em modo de avaliação, no dispositivo disponível.
+
+    Raises:
+        RuntimeError: se faltar ou sobrar algum peso além da cabeça de arco.
     """
     dispositivo = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     modelo = DetectorTab()
-    modelo.load_state_dict(torch.load(caminho, map_location=dispositivo))
+    r = modelo.load_state_dict(
+        torch.load(caminho, map_location=dispositivo), strict=False
+    )
+    faltam = [k for k in r.missing_keys if not k.startswith("h_arco.")]
+    if faltam or r.unexpected_keys:
+        raise RuntimeError(
+            f"pesos incompatíveis em {caminho}: faltam {faltam}, "
+            f"sobram {r.unexpected_keys}"
+        )
     return modelo.to(dispositivo).eval()
 
 
