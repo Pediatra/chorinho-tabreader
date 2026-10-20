@@ -93,3 +93,54 @@ No controle, conta-se quantos quadros certos ficam errados.
   Nesses casos, o método tem de recusar.
 - **Os vizinhos** dependem de o vídeo mostrar o nut em algum momento perto do quadro. Num vídeo
   que nunca mostra o nut, só a junção pode ajudar.
+
+## Emenda 1 (2026-10-20, antes de ver o resultado de qualquer método nos casos)
+
+**Vídeos inteiros e detector**:
+- Os quatro vídeos dos casos rodam inteiros, a 2 quadros/s, com o **detector do ciclo 1029**
+  (`L3_todos_s3` + `A4_100_todos_s1`), que é o que vai à 1032:
+  - "cuando te dicen…" e "lágrima" (1029);
+  - "valsa sem nome" (M11b, q34);
+  - マリーゴールド solo (1027 e 1031).
+- O マリーゴールド **roda de novo**. Na Parte A da 1030 (pesos antigos), o braço só foi achado
+  em 28 de 248 quadros, e os 8 casos da 1027 ficavam quase todos sem par denso.
+  - Esse vídeo está no treino da `L3`/`A4` (marcas da 1027). Isso é desenvolvimento, não prova.
+- Código: `tab/maos_braco_nut_fora.py` (`videos`, `medir`), `tab/maos_braco_vizinhos.py` (V) e
+  `tab/maos_braco_juncao.py` (J).
+
+**Regra J, fixada no desenvolvimento**:
+- O desenvolvimento usou os vídeos da 1030 **sem casos** (v01 a v16, menos o v15), só nos
+  quadros com o nut visível com confiança.
+- A faixa do braço é retificada. Por fora da escala, de 0,6 a 0,9 largura do eixo, de cada
+  lado, lê-se a cor média (Lab) de cada coluna. A junção é o ponto de mudança desse sinal: o
+  corte em dois segmentos com a menor soma de quadrados.
+  - A busca vai do traste 5 do detector ao último traste.
+  - A junção conta como achada com contraste ≥ 3.
+  - O traste da junção é o traste previsto mais perto do corte.
+- O que o desenvolvimento mostrou (`m31/dev_j.json`):
+  - **Vídeos com número consistente**: v02, v05, v06 e v08 dão 12 em 96 a 100 % dos quadros;
+    o v07 dá 12 em 72 %; o v09 (aço) dá 14 em 100 %.
+  - **Vídeos rejeitados** (moda fora de 12 ou 14, ou concordância < 70 %): v01, v03 e v04 dão
+    **13** de forma estável. É um violão clássico; a curva do bojo põe o corte 1 traste
+    depois. Os v10, v12 e v13 dão mão ou braço (7 a 11).
+  - Nesses vídeos, o J não decide, e isso é recusa.
+- **Tentativas descartadas no desenvolvimento**:
+  - bandas mais longe (0,65 a 1,4 largura): mesmo 13 nos v01, v03 e v04;
+  - busca a partir do traste 9: o v06 caiu de 99 % para 57 %.
+
+**Leitura dos casos, fixada agora**:
+- Cada caso recebe o quadro denso a até 0,25 s.
+- O número do método é o do traste previsto mais perto do ponto de referência do dono, desde
+  que esteja a até 0,5 do espaço local. Se não estiver, é "sem número".
+- Classes de um caso, por modo (`sozinho`, `V`, `J`, `VJ`):
+  - **acerto**: número certo e quadro não sinalizado;
+  - **acerto sinalizado**: número certo, mas o quadro vai à revisão;
+  - **recusa**: sinalizado e sem número certo (inclui braço não achado);
+  - **erro não sinalizado**: número errado e quadro não sinalizado.
+- O critério conta como acerto só o **acerto não sinalizado**, porque é o que o ciclo entrega
+  sem revisão.
+- Nos modos V e J sozinhos, um quadro sem decisão (k vazio) é sinalizado. No V+J vale a regra
+  da combinação.
+- **Controle**: os quadros revisados dos mesmos vídeos, sem nut fora e com marcas completas.
+  - "Estragado" é o quadro certo no detector sozinho que deixa de ser certo no modo.
+  - O critério exige 0 estragados.
