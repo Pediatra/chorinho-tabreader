@@ -69,3 +69,30 @@ fora (o dono marcou o traste de referência).
   (linhas de painel).
 - **O nut pode estar fora sem que a corda encoste numa borda**, por exemplo com a mão na frente
   ou com capo. Esse é o caso que o v2 não pega, e é a fonte provável de um falso que passa.
+
+## Preparação (2026-10-20, antes da revisão do dono)
+
+**Lote sorteado** (`m36/sorteio.json`): 986 candidatos e 201 vídeos excluídos. Os 8 vídeos são
+bola uma vela, indiretas com a voz, mc breno b, terapia, modo esquece, frequência, carrinho de
+madeira e novinha brota no baile. Têm de 8 s a 165 s, todos verticais (1080×1920).
+
+**Folha** (`m36/amostra.jpg`), vista antes da previsão:
+- o braço sai pela borda de cima ou pela da direita em quase todos os quadros;
+- q09–q12 têm a tela dividida, com o violão pequeno embaixo.
+
+**Previsão** (L3_todos_s3 + A4_100_todos_s1, sinal v2):
+
+| | quadros |
+| --- | --- |
+| braço achado | 29 de 32 |
+| sinalizados | 22 (9 deles pelo v2) |
+| entregues sem sinal | 10: q10, q18, q19, q20, q25–q28, q31, q32 |
+
+**Olhado antes da revisão** (`m36/passam.jpg` e `m36/zoom.jpg`). Não é rótulo: quem decide é o
+dono.
+- Em q18 e q19, a cabeça do violão aparece e o nut previsto parece estar no nut de verdade.
+- **Em q25, q28 e q31 há um capotraste**, preso na borda da direita, e o nut previsto está
+  junto dele. É o mesmo padrão "capo tomado por nut" da 1032 (q43), só que aqui **sem sinal**.
+- Se o dono confirmar o capo nesses quadros, a numeração do detector conta a partir do capo, e
+  não do nut (regra da casa real). Seriam até 6 falsos que passam (q25–q28, q31 e q32), e o
+  ciclo reprova pelo capo, não pelo nut fora.
