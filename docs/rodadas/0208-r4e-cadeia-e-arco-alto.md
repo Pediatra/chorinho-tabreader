@@ -62,3 +62,5 @@ nome `_atqe_s<semente>`, no roteiro `data/saida/tab_rotulo/r4e/rodar.sh`.
   - as 7 dúvidas de gabarito da 0207;
   - um rótulo de ataque que não dependa de ver o arco nesses canais, por exemplo "nao_sei" para
     os canais com arco acima do sistema.
+
+**Adendo (2026-10-20): conclusão invalidada pela [0210](0210-diagnostico-recorte-do-painel.md).** O recorte do painel apagava os arcos acima da corda 1. Com o recorte alto, os mesmos pesos veem os símbolos.

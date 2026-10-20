@@ -58,3 +58,5 @@ Falta saber se **exemplos reais do mesmo canal** ensinam esses desenhos.
   - **Fica como está:** `_atqt` com a faixa, 11–13 % de "sim" falso e custo de 2–2,4 %.
   - **Mexer no modelo:** o que resta é mudar a arquitetura, não o dado. Um exemplo é a técnica
     olhar o sistema inteiro acima da corda 1 com mais contexto. Isso é uma pesquisa à parte.
+
+**Adendo (2026-10-20): conclusão invalidada pela [0210](0210-diagnostico-recorte-do-painel.md).** O recorte do painel apagava os arcos acima da corda 1. Com o recorte alto, os mesmos pesos veem os símbolos.
