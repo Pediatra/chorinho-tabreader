@@ -53,3 +53,30 @@ Nos ouros e na T8.2, separados:
 - a casa não piora além da amplitude do `_atqg`.
 
 **Pare se** o "sim" falso na T8.2 não cair além da faixa do `_atqg` com a faixa "não sei" (7–8/45).
+
+## Piloto (2026-10-19)
+
+Treino: `--ataque --arco`, dobra 0, semente 1, 3000 passos, 788 s
+(`data/saida/tab_rotulo/a2/treino_arcop_d0_s1.log`). A perda do arco no sintético cai de 0,17
+para 0,014. Medida: `a2/medir_piloto.py`, saída em `a2/piloto.json`, na T8.2.
+
+As 7 notas "não" que a faixa da 0205 lê como "sim", com o `arco_esq` do piloto:
+
+| canal | nota | motivo | arco |
+| --- | --- | --- | --- |
+| guitar dell'arte | t4-n47 | p | 0,02 |
+| kenneth acoustic | t8-n10 | p | 0,04 |
+| lonelypicker | t13-n8 | prolongamento | 0,50 |
+| robert lunn | t22-n6 | mordente | 0,03 |
+| shin izumi | t26-n7 | mordente | 0,75 |
+| sky guitar | t28-n8 | slide | 0,50 |
+| yunus guitarist | t34-n13 | slide | 0,25 |
+
+- O arco passa de 0,5 em **2 das 7** notas. Contando só as que não são slide, são 1 ou 2 das 5.
+- O arco também não separa os dois grupos. Nas 45 notas "não", a mediana é 0,82. Nas 1287
+  notas "sim", a mediana é 0,38, e 34 % delas passam de 0,5.
+
+**A regra de parada dispara.** O piloto não vê o arco nessas notas, e ainda acende em um terço
+das notas atacadas. Os 15 treinos não são feitos. Pelo pré-registro, o próximo passo é mais
+gabarito de canais novos: a T8.3 (33 telas, 17 canais, em `data/saida/t83/`), que o dono está
+conferindo. A cabeça de arco fica no código, sem uso no produto.
