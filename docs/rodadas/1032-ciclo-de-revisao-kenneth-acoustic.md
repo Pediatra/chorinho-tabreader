@@ -89,3 +89,16 @@ A regra é a mesma, sem mudança (`m31/sinal_1029.py`), aplicada às previsões 
 - O que escapa (1027:q56 e 1029:q46) é o nut previsto no 1º traste longe da borda, que nenhuma
   regra de borda vê.
 - São ciclos já vistos, então isso é direção, não prova. A 1032 é a medida.
+
+## Preparação (2026-10-20, 11h45)
+
+- **Pesos** (`m32/escolha_pesos.json`, M11b, 18 combinações: 3 L3 × 3 A4 e 3 A5): **`L3_todos_s3`
+  + `A4_100_todos_s1`**, os mesmos da 1029.
+  - 0 falsos que passam, 16 entregues certos e 12 sinalizados.
+  - O melhor com A5 (`L3_s2` + `A5_s1`) dá 0 falsos e 14 certos. 4 das 9 combinações com A5
+    têm 1 falso que passa.
+- **Previsão**: 64 de 64 quadros com braço e **1 sinalizado** (q43, S1 = 2,05).
+  - O sinal de nut suspeito disparou em **0** quadros: o canal mostra a cabeça do violão.
+- **Conferido numa folha de 8 quadros** (`m32/conf1.jpg`): o nut ficou no nut, e o capo (casas
+  6, 2, 4, 3, 3 e 1, como diz a tela) não foi tomado como nut.
+- **A ferramenta está no ar** na porta 8103, com os quadros já preenchidos.
