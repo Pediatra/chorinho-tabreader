@@ -37,7 +37,7 @@ from pathlib import Path
 
 import numpy as np
 
-from . import detector_tab, leitor
+from . import ataque_rotulo, detector_tab, leitor
 from .caminhos import DETECTOR_PADRAO, MODELO_PADRAO, RAIZ, SAIDA, acervo
 from .colunas import agrupar_colunas
 from .digito import carregar
@@ -213,6 +213,8 @@ def tokens_da_rede(
                 "casa_recuperada": None,
             }
         )
+        if "tecnica_p" in n:
+            tokens[-1]["tecnica_p"] = n["tecnica_p"]
     return tokens
 
 
@@ -579,6 +581,7 @@ def ler_tela(
     dir_simbolos: str,
     video: str | None = None,
     detector=None,
+    rotulo_ataque: bool = False,
 ) -> tuple[dict, list[dict], list[dict]]:
     """Lê uma tela: painel, tokens, colunas, compasso e tempo por exibição.
 
@@ -594,6 +597,8 @@ def ler_tela(
             tempo, com o motivo.
         detector: ``DetectorTab`` carregado (leitor ``rede``); ``None`` usa o leitor
             ``glifos`` (``modelo``, ``rotulos``, ``discriminador``).
+        rotulo_ataque: grava ``ataque``, ``ataque_motivo`` e ``nivel_rotulo`` "prata" em
+            cada nota (``tab.ataque_rotulo``; só com ``detector``).
 
     Returns:
         ``(entrada da tela, notas, nao_notas)``. Sem painel legível, as listas saem vazias
@@ -620,7 +625,10 @@ def ler_tela(
 
     altura, largura = m.roi.shape[:2]
     if detector is not None:
-        lidas = detector_tab.detectar(detector, m.roi, m.grade.linhas_y, m.passo)
+        extra = {"com_escores": True} if rotulo_ataque else {}
+        lidas = detector_tab.detectar(
+            detector, m.roi, m.grade.linhas_y, m.passo, **extra
+        )
         tokens = tokens_da_rede(lidas, m.grade.glifos, m.x0, m.passo)
         barlines_roi = m.grade.barlines_x
     else:
@@ -676,7 +684,12 @@ def ler_tela(
     }
     notas: list[dict] = []
     nao_notas: list[dict] = []
-    for tk, coluna in zip(tokens, colunas, strict=True):
+    rotulos_ataque = (
+        ataque_rotulo.rotular(tokens, m.passo)
+        if rotulo_ataque and detector is not None
+        else [None] * len(tokens)
+    )
+    for tk, coluna, rot in zip(tokens, colunas, rotulos_ataque, strict=True):
         comum = {
             "tela": tela.id,
             "coluna": coluna,
@@ -693,6 +706,9 @@ def ler_tela(
                 "tecnica": tk["tecnica"] if detector is not None else None,
                 "confianca": confianca,
             }
+            if rot is not None:
+                base["ataque"], base["ataque_motivo"] = rot
+                base["nivel_rotulo"] = "prata"
             notas.extend(entradas_da_nota(base, medidas))
             continue
         registro = {**comum, "classe": tk["classe"], "confianca": confianca}
@@ -711,6 +727,7 @@ def transcrever_video(
     telas_lidas: list[Tela] | None = None,
     leitor_notas: str = LEITOR_PADRAO,
     detector: str | Path = DETECTOR_PADRAO,
+    rotulo_ataque: bool = False,
 ) -> dict:
     """Lê todas as telas de um vídeo e devolve o JSON v1, com o tempo por exibição.
 
@@ -722,12 +739,26 @@ def transcrever_video(
             aqui. Serve para medir variantes sem refazer a presença.
         leitor_notas: ``"rede"`` ou ``"glifos"`` (``LEITORES``).
         detector: pesos do ``DetectorTab`` (leitor ``rede``).
+        rotulo_ataque: rótulo de ataque por nota com a faixa "não sei" (rodada 0205). Só
+            com o leitor ``rede`` e os pesos ``ataque_rotulo.DETECTOR_CALIBRADO``.
 
     Returns:
         O dicionário do esquema ``chorinho/video@1``.
+
+    Raises:
+        ValueError: leitor desconhecido, ou rótulo de ataque com leitor ou pesos para os
+            quais os limiares não foram escolhidos.
     """
     if leitor_notas not in LEITORES:
         raise ValueError(f"leitor desconhecido: {leitor_notas!r}")
+    if rotulo_ataque and (
+        leitor_notas != "rede"
+        or Path(detector).resolve() != ataque_rotulo.DETECTOR_CALIBRADO.resolve()
+    ):
+        raise ValueError(
+            "rotulo_ataque exige o leitor rede com os pesos "
+            f"{ataque_rotulo.DETECTOR_CALIBRADO}"
+        )
     if leitor_notas == "rede":
         rede_tab = detector_tab.carregar(Path(detector))
         rede, rotulos, dev, discriminador = None, None, None, None
@@ -754,6 +785,7 @@ def transcrever_video(
             dir_simbolos,
             video=caminho,
             detector=rede_tab,
+            rotulo_ataque=rotulo_ataque,
         )
         telas_v1.append(entrada)
         notas.extend(nts)
@@ -861,6 +893,11 @@ def main() -> int:
     ap.add_argument("--modelo", default=str(MODELO_PADRAO), help="leitor glifos")
     ap.add_argument("--detector", default=str(DETECTOR_PADRAO), help="leitor rede")
     ap.add_argument("--imagem", choices=IMAGENS, default=IMAGEM_PADRAO)
+    ap.add_argument(
+        "--rotulo-ataque",
+        action="store_true",
+        help="ataque por nota com a faixa nao_sei (exige --detector calibrado)",
+    )
     args = ap.parse_args()
     dados = transcrever_video(
         args.video,
@@ -868,6 +905,7 @@ def main() -> int:
         imagem=args.imagem,
         leitor_notas=args.leitor,
         detector=args.detector,
+        rotulo_ataque=args.rotulo_ataque,
     )
     destino = Path(args.json)
     destino.parent.mkdir(parents=True, exist_ok=True)

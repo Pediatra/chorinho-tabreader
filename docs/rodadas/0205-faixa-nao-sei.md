@@ -77,3 +77,15 @@ custo de 42–47 (~3 %). Os 7 ou 8 que sobram têm sinal abaixo de 0,01. O model
 - A faixa ainda **não está no produto** (`tab.video` só grava a técnica). Pô-la no rótulo de
   ataque da base é o próximo passo barato. Ela vale com os pesos `_atqg`, que não são o
   `DETECTOR_PADRAO`.
+
+## No produto (2026-10-19)
+
+- `tab.ataque_rotulo.rotular` aplica a regra.
+- `python -m tab.video ... --leitor rede --detector artefatos/detector_tab_final_atqg_s1/modelo.pt
+  --rotulo-ataque` grava `ataque`, `ataque_motivo` e `nivel_rotulo: "prata"` em cada nota. O
+  "não sei" sai com o motivo `tinta_sem_explicacao`.
+- Sem o flag, nada muda. Com outros pesos, o flag é recusado, porque os limiares só valem para
+  o `_atqg`.
+- O `DETECTOR_PADRAO` não muda.
+- Prova de fumaça num vídeo da T8.2 (Serge Kottelat, *The Winner Takes It All*): 238 notas, o
+  esquema sem erro, 219 "sim" (3 delas por slide de entrada), 13 "não" e 6 "não sei".
