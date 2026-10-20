@@ -29,9 +29,10 @@ Isso pedia ao detector uma coisa que não serve ao casamento com a tab:
 **Opção 2.**
 
 - **No gabarito do braço**, com capo:
-  - o nut marcado é o capo;
-  - os trastes contam a partir dele;
-  - a tecla `k` marca o capo, para registrar que ali não é o nut de verdade;
+  - o nut marcado é **o traste logo à frente do capo** (do lado do corpo), onde a corda para
+    de vibrar, e não o corpo do capo;
+  - os trastes contam a partir dele (o traste 1 é o seguinte);
+  - a tecla `k` marca o capo **no corpo dele**, para registrar que ali não é o nut de verdade;
   - a casa do capo vai na observação ("capotraste casa N").
 - **No dataset**, nada muda: a casa real continua sendo o que se guarda
   ([1007](1007-formato-da-base-das-maos.md), `violao.capotraste`). Ela é a casa relativa mais
