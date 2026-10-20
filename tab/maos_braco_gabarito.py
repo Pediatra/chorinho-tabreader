@@ -115,7 +115,8 @@ BOCA_MAXIMA = 8
 #: Campos de resposta do quadro (o que o desfazer restaura e o gabarito guarda).
 #: ``divisao`` é a linha antiga (refeita como ``paineis``): não é mais editável, mas
 #: o valor de quem já a marcou continua guardado e é mesclado. ``capo`` é o ponto do
-#: capotraste (um só, no quadro original); a casa continua contada do nut. ``cordas``
+#: capotraste (um só, no quadro original); com capo, o nut do braço é o capo e a casa
+#: conta a partir dele (decisão 1010; a casa do capo vai na observação). ``cordas``
 #: é quantas cordas o violão tem (6 ou 7), marcado pelo dono no lote de 7 cordas;
 #: ``None`` vale 6 (o padrão, a pedido do dono): só o 7 precisa ser marcado.
 CAMPOS_RESPOSTA = (
@@ -1624,7 +1625,8 @@ input[type=number] { width: 72px; }
     mostram a posição c1, c2…; botão direito escolhe o traste como referência, digite o
     número e Enter; <b>Shift</b> + botão direito remove); <b>Delete</b> remove o traste
     embaixo do mouse (qualquer modo); <b>k</b> capo (1 clique em cima
-    do capotraste, se houver; a casa segue contada do nut). Braço: sim (<b>x</b>), parcial, não, ?.
+    do capotraste, se houver; com capo, o nut é o capo e os trastes contam a partir dele;
+    a casa do capo vai na observação, ex. "capo 2"). Braço: sim (<b>x</b>), parcial, não, ?.
     Violão: <b>6</b> cordas é o padrão; <b>7</b> marca 7 cordas (a "corda 6" vira a da
     borda grave).
     <b>Tab</b> (ou &rarr;) vai ao próximo quadro; Shift+Tab (ou &larr;) volta. Nada avança

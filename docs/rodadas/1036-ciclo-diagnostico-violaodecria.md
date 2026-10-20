@@ -96,3 +96,45 @@ dono.
 - Se o dono confirmar o capo nesses quadros, a numeração do detector conta a partir do capo, e
   não do nut (regra da casa real). Seriam até 6 falsos que passam (q25–q28, q31 e q32), e o
   ciclo reprova pelo capo, não pelo nut fora.
+
+## Emenda (2026-10-20, durante a revisão): capo como nut
+
+O dono decidiu, durante a revisão, que **com capotraste o nut do braço é o capo**
+([decisão 1010](../decisoes/1010-capotraste-como-nut-do-braco.md)), e marcou os 32 quadros
+assim. A medida abaixo usa essa regra: com capo, o certo é o nut no capo.
+
+## Resultado (`maos_braco_ciclo medir --rodada 1036`; detalhe em `m36/det36.py`)
+
+| medida | valor | critério |
+| --- | --- | --- |
+| falsos que passam | **1 de 32 (3,1 %)**: q10 | ≤ 5 % ✓ |
+| sinalizados | 22 de 32 (68,8 %) | > 50 %: seguro, mas caro (era o esperado) |
+| entregues certos | 3 (q18–q20) | |
+
+**Por tipo**:
+
+| tipo | quadros | o que aconteceu |
+| --- | --- | --- |
+| certo | q13–q15, q18–q23 (9) | q15 tem o nut fora (traste de referência 1): certo, e sinalizado |
+| capo, numeração certa | q25–q32 (8; 6 sem sinal) | os trastes batem com os do dono (0,0 casa). Só o ponto do nut fica a ~0,3 casa da marca do dono (limite do certo: 0,25), e por isso a classe é "impreciso" |
+| 2 câmeras | q01–q04 (4) | o braço junta as duas vistas (cordas a 26 vãos); todos sinalizados |
+| capo, nut errado | q05, q07 (capo 3; 1,4 casa), q09, q11, q12 (capo 4; 3,5 casas) | todos sinalizados. Em q09–q12, o detector achou o **nut verdadeiro** atrás do capo |
+| **falso que passa** | **q10** | o mesmo vídeo de q09–q12 (tela dividida, violão pequeno, capo na 4). O nut verdadeiro é previsto sem sinal. Pela regra antiga, estaria certo |
+| outros falsos | q17 (cordas a 1,7 vão), q24 (corda 6 vibrando) | sinalizados |
+| não achou | q06, q08 (braço sim), q16 (braço não, certo) | |
+
+**Leitura**:
+- **O nut fora quase não apareceu**: só q15. Nestes vídeos, o que fica na borda é o **capo**
+  (4 de 8 vídeos têm capo), e não um traste qualquer.
+- **Com a regra nova, o capo deixa de ser fonte de erro silencioso**: em q25–q32, o detector
+  já põe o nut no capo e numera certo.
+- **O erro que passa é o caso contrário**: o detector vê o nut verdadeiro e ignora o capo
+  (q10). Isso é exatamente o caso "nut e capo juntos" da decisão 1010.
+- O "impreciso" de ~0,3 casa no capo deve ser a diferença entre onde o dono clica (no corpo do
+  capo) e onde a corda para (o detector põe a linha de contato). Não é rótulo para corrigir.
+  Mas, antes de treinar com capo, vale fixar a convenção: o nut marcado na linha onde a corda
+  encosta.
+
+**Decisão**: o ciclo passa no critério de segurança. As marcas da 1036 entram no próximo
+retreino, junto com as da 1029 e da 1032. Antes disso, o dono revê os 14 quadros antigos com
+capo (decisão 1010).
