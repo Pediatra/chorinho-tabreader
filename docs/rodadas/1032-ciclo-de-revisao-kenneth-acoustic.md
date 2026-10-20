@@ -73,3 +73,19 @@ deles estavam certos. Essa é a medida do custo do sinal.
   e a regra "casa contada do nut" valem.
 - **O braço é longo na imagem e a cabeça aparece.** O nut quase sempre está visível, e por
   isso este lote quase não testa o nut fora.
+
+## Verificação retroativa do sinal de nut suspeito (2026-10-20, antes da previsão da 1032)
+
+A regra é a mesma, sem mudança (`m31/sinal_1029.py`), aplicada às previsões já revisadas:
+
+| ciclo | falsos que passavam | o sinal pega | sinalizados a mais (todos os do sinal) |
+| --- | --- | --- | --- |
+| 1026 | 0 | — | 0 |
+| 1027 | 2 (q51 e q56) | q51 | 5 (q51, q57, q60, q61 e q64) |
+| 1029 | 4 (q19, q20, q24 e q46) | q19, q20 e q24 | 6 (os 3 falsos e mais q17, q18 e q23) |
+
+- Com o sinal, a 1029 teria **1 falso que passa em 63 (1,6 %)**, e não 4 (6,3 %). A 1027 teria 1
+  em 64.
+- O que escapa (1027:q56 e 1029:q46) é o nut previsto no 1º traste longe da borda, que nenhuma
+  regra de borda vê.
+- São ciclos já vistos, então isso é direção, não prova. A 1032 é a medida.
