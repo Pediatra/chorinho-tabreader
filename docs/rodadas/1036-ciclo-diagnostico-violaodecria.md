@@ -138,3 +138,44 @@ assim. A medida abaixo usa essa regra: com capo, o certo é o nut no capo.
 **Decisão**: o ciclo passa no critério de segurança. As marcas da 1036 entram no próximo
 retreino, junto com as da 1029 e da 1032. Antes disso, o dono revê os 14 quadros antigos com
 capo (decisão 1010).
+
+## Remarcação pela decisão 1010 e nova medida (2026-10-20)
+
+O dono marcou o capo (`k`) em todos os gabaritos do braço com capo. O nut foi para o traste à
+frente do capo.
+
+| gabarito | quadros com capo |
+| --- | --- |
+| `braco.json` (M3b) | 8 de 66 |
+| `braco_m11b.json` | 6 de 77 |
+| `braco_m32.json` (1032) | 48 de 64 |
+| `braco_m36.json` (1036) | 16 de 32 |
+
+Nos quadros com capo, o capo fica a ~0,5 casa atrás do nut marcado, que é a convenção.
+Três quadros fogem disso e ficam para o dono conferir: m32 q14 (+0,52, o capo à frente), m32
+q45 (+0,17) e M3b q10 (−1,36).
+
+**Nova medida com as marcas novas e a mesma previsão**:
+
+| rodada | entregues certos | falsos que passam | antes da regra 1010 |
+| --- | --- | --- | --- |
+| 1036 | 9 | 1 (q10) | — |
+| **1032** | **16** | **46 de 64** | 63 certos, 0 falsos |
+
+**Leitura**: no kenneth acoustic, a cabeça do violão aparece e o detector acha o **nut
+verdadeiro**. Pela regra 1010, isso agora é erro de numeração, deslocado pela casa do capo, e
+**sem sinal**. Eu tinha dito que a mudança tinha custo zero, e errei: o custo está no detector,
+não no gabarito. O detector atual foi treinado (G, R) com o nut verdadeiro e **não serve para
+vídeos com capo** até o retreino com as marcas novas.
+
+**Consequências**:
+1. O retreino precisa dos quadros com capo pela regra 1010 (são 78 quadros do dono). As fontes
+   R e G, e o M25, podem ter quadros com capo contados do nut verdadeiro. Eles não têm `k`, e
+   precisam ser achados e revistos antes do treino. Senão, o treino recebe as duas regras ao
+   mesmo tempo.
+2. A M11b mudou (6 quadros), e por isso a escolha de pesos da 1032 não vale mais como está.
+3. Enquanto isso, vídeo com capo visível deve ir para revisão (a detecção do capo vem abaixo).
+
+**Detecção do capo** (direção do dono): não depender de cor nem de tamanho, e sim do objeto
+sobre o braço, de forma consistente entre os quadros. O capo fica na mesma casa durante o
+vídeo, ou em trechos longos. A proposta está na rodada seguinte.
