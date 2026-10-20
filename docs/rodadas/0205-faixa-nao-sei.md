@@ -89,3 +89,23 @@ custo de 42–47 (~3 %). Os 7 ou 8 que sobram têm sinal abaixo de 0,01. O model
 - O `DETECTOR_PADRAO` não muda.
 - Prova de fumaça num vídeo da T8.2 (Serge Kottelat, *The Winner Takes It All*): 238 notas, o
   esquema sem erro, 219 "sim" (3 delas por slide de entrada), 13 "não" e 6 "não sei".
+
+## Fora de amostra: a T8.3 (2026-10-19)
+
+A T8.3 tem 33 telas de 17 canais, de vídeos que não estão na T8.2 nem nos ouros
+(`data/saida/t83/`, semente 1). O dono marcou as regiões e conferiu o ataque nas 33. O
+conversor deu 1491 notas, 73 delas não atacadas (`r2/conferir_t83/`). Leitura pela dobra 0
+(`r4c/medir_t83.py`), com os mesmos limiares, sem mudança.
+
+| versão | medida | L = 0,02 (faixa) | 0,15 | 0,5 |
+| --- | --- | --- | --- | --- |
+| `_atqg` | "sim" falso | **16 · 15 · 16 /76** (20–21 %) | 24 · 21 · 23 | 46 · 44 · 42 |
+| `_atqg` | custo | 37 · 38 · 32 /~1403 (2,3–2,7 %) | 18 · 18 · 11 | 8 · 8 · 8 |
+| `_atq` | "sim" falso | 36 · 34 · 37 /78 | 45 · 41 · 44 | 53 · 50 · 48 |
+| `_atq` | custo | 31 · 30 · 31 | 12 · 15 · 16 | 6 · 9 · 11 |
+
+- A faixa se mantém fora de amostra: 20–21 % na T8.3, contra 16–18 % na T8.2. O custo fica
+  abaixo de 3 %.
+- O gerador do R4b (`_atqg`) pesa muito fora de amostra: com a mesma faixa, o `_atq` deixa
+  passar mais que o dobro.
+- O aceite (≤ 5 %) continua longe.
