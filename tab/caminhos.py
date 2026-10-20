@@ -124,6 +124,10 @@ MAOS_M30 = SAIDA / "maos" / "m30"
 MAOS_M31 = SAIDA / "maos" / "m31"
 GABARITO_BRACO_M31 = RAIZ / "data" / "gold" / "maos" / "braco_m31_nut_fora.json"
 
+#: Quarto ciclo de revisão do braço (rodada 1032, canal kenneth acoustic, escolha do dono).
+MAOS_M32 = SAIDA / "maos" / "m32"
+GABARITO_BRACO_M32 = RAIZ / "data" / "gold" / "maos" / "braco_m32.json"
+
 #: Pré-marcação do braço por consenso de modelos de visão (rodada 1019): respostas brutas
 #: por modelo, resultado e tabelas (``tab.maos_braco_vlm``).
 MAOS_M19 = SAIDA / "maos" / "m19"

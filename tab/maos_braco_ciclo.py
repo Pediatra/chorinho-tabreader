@@ -41,6 +41,7 @@ from .caminhos import (
     GABARITO_BRACO_M26,
     GABARITO_BRACO_M27,
     GABARITO_BRACO_M29,
+    GABARITO_BRACO_M32,
     MAOS_M3B,
     MAOS_M11B,
     MAOS_M21,
@@ -48,6 +49,7 @@ from .caminhos import (
     MAOS_M26,
     MAOS_M27,
     MAOS_M29,
+    MAOS_M32,
     acervo,
 )
 from .maos_braco_consenso import SINAL_S4, consenso
@@ -119,19 +121,34 @@ RODADAS: dict[str, Rodada] = {
         gabarito=GABARITO_BRACO_M29,
         proxima="rodada seguinte",
     ),
+    "1032": Rodada(
+        canal="kenneth acoustic",
+        semente=20261032,
+        pasta=MAOS_M32,
+        gabarito=GABARITO_BRACO_M32,
+        proxima="rodada seguinte",
+    ),
 }
 
 #: Rodada usada quando a CLI não recebe ``--rodada``.
 RODADA_PADRAO = "1026"
 
 #: Rodadas com pesos escolhidos por ``escolher-pesos`` (a 1026 e a 1027 ficam com os fixos).
-RODADAS_COM_ESCOLHA = ("1029",)
+RODADAS_COM_ESCOLHA = ("1029", "1032")
+#: Rodadas cuja escolha considera também os pesos A5 do estágio 2 (rodada 1031).
+RODADAS_COM_A5 = ("1032",)
+#: Rodadas que sinalizam o quadro com o nut suspeito de estar fora da imagem (a regra de
+#: borda da 1030, só como sinal; pré-registro da 1031).
+RODADAS_SINAL_NUT = ("1032",)
+#: Nut suspeito: ponta das cordas do lado do nut a até esta fração da borda menor.
+FRACAO_BORDA_NUT_SUSPEITO = 0.02
 
 #: Sementes dos pesos L3 e A4 que a escolha considera (``*_todos_s<k>``).
 SEMENTES_PESOS = (1, 2, 3)
 #: Nomes dos pesos de cada estágio na escolha da 1029.
 PREFIXO_L3 = "L3_todos_s"
 PREFIXO_A4 = "A4_100_todos_s"
+PREFIXO_A5 = "A5_100_todos_s"
 #: Arquivo com a escolha de pesos da 1029 (dentro da pasta da rodada).
 ARQUIVO_ESCOLHA = "escolha_pesos.json"
 #: Previsão com os pesos antigos (L2_s1 + A3_s1), para a comparação da 1029.
@@ -294,7 +311,9 @@ def arquivos_da_1027_e_m11b(
 
 
 def excluidos_da_rodada(numero: str) -> set[str]:
-    """Vídeos que a rodada não pode sortear: as amostras anteriores e, na 1029, a 1027 e a M11b.
+    """Vídeos que a rodada não pode sortear: as amostras anteriores e os ciclos já feitos.
+
+    A partir da 1029 saem também a 1027 e a M11b; a partir da 1032, também a 1029.
 
     Args:
         numero: rodada (chave de ``RODADAS``).
@@ -303,8 +322,12 @@ def excluidos_da_rodada(numero: str) -> set[str]:
         Caminhos relativos ao acervo excluídos do sorteio.
     """
     usados = arquivos_ja_usados()
-    if numero == "1029":
+    if numero not in ("1026", "1027"):
         usados |= arquivos_da_1027_e_m11b()
+    if numero not in ("1026", "1027", "1029"):
+        usados |= {
+            item["arquivo"] for item in _ler_json(MAOS_M29 / ARQUIVO_INDICE)["quadros"]
+        }
     return usados
 
 
@@ -775,6 +798,32 @@ def aplicar_consenso(doc: dict, dimensoes: dict[str, tuple[int, int]]) -> dict:
     return novo
 
 
+def nut_suspeito_previsto(previsto: dict, dimensoes: tuple[int, int] | None) -> bool:
+    """Regra de borda da 1030 (só sinal): nut ausente ou ponta das cordas rente à borda.
+
+    Args:
+        previsto: entrada de ``previsto.json`` (``nut``, ``corda1``, ``corda6``).
+        dimensoes: ``(largura, altura)`` do quadro, ou None.
+
+    Returns:
+        True se o braço foi achado e o nut é suspeito de estar fora da imagem.
+    """
+    if not previsto.get("achou"):
+        return False
+    nut = previsto.get("nut")
+    if nut is None or not dimensoes:
+        return True
+    largura, altura = dimensoes
+    margem = FRACAO_BORDA_NUT_SUSPEITO * min(largura, altura)
+    alvo = np.asarray(nut, dtype=float)
+    for corda in (previsto["corda1"], previsto["corda6"]):
+        pontas = np.asarray(corda, dtype=float)
+        x, y = pontas[int(np.argmin(np.linalg.norm(pontas - alvo, axis=1)))]
+        if min(x, y, largura - x, altura - y) <= margem:
+            return True
+    return False
+
+
 def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
     """Roda a cadeia em cada quadro e preenche o gabarito com a previsão (GPU).
 
@@ -809,6 +858,11 @@ def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
         previstos = aplicar_consenso({"ordem": ids, "quadros": previstos}, dimensoes)[
             "quadros"
         ]
+    if numero in RODADAS_SINAL_NUT:
+        for id_q in ids:
+            if nut_suspeito_previsto(previstos[id_q], dimensoes[id_q]):
+                previstos[id_q]["nut_suspeito"] = True
+                previstos[id_q]["sinalizado"] = True
     sinalizados = {id_q: previstos[id_q]["sinalizado"] for id_q in ids}
     ordem = ordenar_por_sinalizado(ids, sinalizados)
     novo_gabarito = dict(gabarito, quadros={})
@@ -874,14 +928,17 @@ def _semente(nome: str) -> int:
     return int(nome.rsplit("_s", 1)[1])
 
 
-def combinacoes_existentes(diretorio: Path = DIR_PESOS) -> list[tuple[str, str]]:
+def combinacoes_existentes(
+    diretorio: Path = DIR_PESOS, com_a5: bool = False
+) -> list[tuple[str, str]]:
     """Pares ``(L3, A4)`` das sementes cujos pesos existem (produto cartesiano).
 
     Um peso que não existe (treino que falhou) sai da lista; as combinações restantes
-    entram normalmente.
+    entram normalmente. Com ``com_a5``, os A5 que existirem entram depois dos A4.
 
     Args:
         diretorio: pasta dos pesos (``artefatos/m21``).
+        com_a5: se os pesos A5 (rodada 1031) também são candidatos.
 
     Returns:
         Os pares de nomes, na ordem das sementes.
@@ -891,10 +948,12 @@ def combinacoes_existentes(diretorio: Path = DIR_PESOS) -> list[tuple[str, str]]
         for s in SEMENTES_PESOS
         if _peso_existe(f"{PREFIXO_L3}{s}", diretorio)
     ]
+    prefixos = (PREFIXO_A4, PREFIXO_A5) if com_a5 else (PREFIXO_A4,)
     a4 = [
-        f"{PREFIXO_A4}{s}"
+        f"{prefixo}{s}"
+        for prefixo in prefixos
         for s in SEMENTES_PESOS
-        if _peso_existe(f"{PREFIXO_A4}{s}", diretorio)
+        if _peso_existe(f"{prefixo}{s}", diretorio)
     ]
     return [(i, j) for i in l3 for j in a4]
 
@@ -990,7 +1049,9 @@ def avaliar_combinacao(
     }
 
 
-def escolher_pesos(p2: bool, p3: bool, pasta: Path = MAOS_M29) -> dict:
+def escolher_pesos(
+    p2: bool, p3: bool, pasta: Path = MAOS_M29, com_a5: bool = False
+) -> dict:
     """Escolhe os pesos da 1029 pela M11b e grava ``escolha_pesos.json`` (GPU).
 
     Sem nenhum L3 ou A4 em ``artefatos/m21``, cai para ``L2_todos_s1`` + ``A3_100_todos_s1``
@@ -1000,12 +1061,13 @@ def escolher_pesos(p2: bool, p3: bool, pasta: Path = MAOS_M29) -> dict:
         p2: se o P2 (um braço só) entra no ciclo (decidido pelo dono com a 1028).
         p3: se o P3 (consenso S4) entra no ciclo.
         pasta: pasta da rodada, onde a escolha é gravada.
+        com_a5: se os pesos A5 entram como candidatos do estágio 2 (rodada 1032).
 
     Returns:
         O conteúdo gravado: ``estagio1``, ``estagio2``, ``p2``, ``p3``, ``fonte``,
         ``criterio`` e ``tabela`` (uma linha por combinação avaliada).
     """
-    combos = combinacoes_existentes()
+    combos = combinacoes_existentes(com_a5=True) if com_a5 else combinacoes_existentes()
     if not combos:
         escolha: dict = {
             "estagio1": ESTAGIO1,
@@ -1305,7 +1367,9 @@ def main() -> int:
         if args.comando == "escolher-pesos":
             if numero not in RODADAS_COM_ESCOLHA:
                 raise ValueError(f"escolher-pesos só existe para {RODADAS_COM_ESCOLHA}")
-            escolha = escolher_pesos(args.p2, args.p3, RODADAS[numero].pasta)
+            escolha = escolher_pesos(
+                args.p2, args.p3, RODADAS[numero].pasta, numero in RODADAS_COM_A5
+            )
             print(
                 f"escolhidos {escolha['estagio1']} + {escolha['estagio2']} "
                 f"(p2={escolha['p2']}, p3={escolha['p3']}); {escolha['fonte']}"

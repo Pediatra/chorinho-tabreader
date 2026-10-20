@@ -43,6 +43,7 @@ from .maos_braco_ciclo import (
     _ler_json,
     classe_do_quadro,
     marcas_do_registro,
+    nut_suspeito_previsto,
 )
 from .maos_braco_detector import PASSOS, _carregar_pesos, _trava_gpu
 from .maos_braco_juncao import metodo_j
@@ -56,7 +57,7 @@ from .maos_braco_video import (
     processar_video,
     videos_revisados,
 )
-from .maos_braco_vizinhos import _extremo_mais_perto, metodo_v
+from .maos_braco_vizinhos import metodo_v
 from .maos_gabarito import gravar_atomico
 
 #: Detector do ciclo 1029 (escolhido na M11b; ``m29/escolha_pesos.json``).
@@ -91,9 +92,6 @@ RODADAS_DOS_VIDEOS = {
 }
 #: Um quadro revisado recebe o quadro denso a até este tempo (como na 1030).
 TOLERANCIA_REVISADO_S = 0.25
-#: Nut suspeito (regra de borda da 1030, só como sinal): ponta das cordas do lado do nut a
-#: até esta fração da borda menor.
-FRACAO_BORDA_SUSPEITO = 0.02
 #: O traste previsto vale para a referência do dono se estiver a até esta fração do
 #: espaço local entre trastes.
 TOLERANCIA_REFERENCIA = 0.5
@@ -242,7 +240,7 @@ def guardar_quadros_1030() -> None:
 
 
 def nut_suspeito(registro: dict) -> bool:
-    """Regra de borda da 1030 (só sinal): sem nut, ou a ponta das cordas rente à borda.
+    """Regra de borda da 1030 (só sinal), num quadro denso.
 
     Args:
         registro: quadro denso com ``previsto`` e ``dimensoes``.
@@ -250,19 +248,10 @@ def nut_suspeito(registro: dict) -> bool:
     Returns:
         True se o braço foi achado e o nut é suspeito de estar fora da imagem.
     """
-    previsto = registro["previsto"]
-    if not previsto.get("achou"):
-        return False
-    nut = previsto.get("nut")
-    if nut is None or not registro.get("dimensoes"):
-        return True
-    largura, altura = registro["dimensoes"]
-    margem = FRACAO_BORDA_SUSPEITO * min(largura, altura)
-    for corda in (previsto["corda1"], previsto["corda6"]):
-        x, y = (float(v) for v in _extremo_mais_perto(corda, nut))
-        if min(x, y, largura - x, altura - y) <= margem:
-            return True
-    return False
+    dimensoes = registro.get("dimensoes")
+    return nut_suspeito_previsto(
+        registro["previsto"], tuple(dimensoes) if dimensoes else None
+    )
 
 
 def combinar(v: dict | None, j: dict | None, suspeito: bool) -> dict:

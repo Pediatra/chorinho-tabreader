@@ -202,3 +202,31 @@ def test_registro_previsto_zera_o_capotraste():
     registro = registro_previsto(base, previsto, False, (1280, 720))
     assert registro["capo"] is None
     assert base["capo"] == [10.0, 20.0]
+
+
+def test_1032_considera_a5_e_sinaliza_nut(tmp_path):
+    """A 1032 escolhe também entre os A5 e sinaliza o nut suspeito."""
+    for nome in ("L3_todos_s1", "A4_100_todos_s2", "A5_100_todos_s1"):
+        (tmp_path / f"{nome}.pt").write_bytes(b"x")
+        (tmp_path / f"{nome}.json").write_text("{}")
+    assert ciclo.combinacoes_existentes(tmp_path) == [
+        ("L3_todos_s1", "A4_100_todos_s2")
+    ]
+    assert ciclo.combinacoes_existentes(tmp_path, com_a5=True) == [
+        ("L3_todos_s1", "A4_100_todos_s2"),
+        ("L3_todos_s1", "A5_100_todos_s1"),
+    ]
+    assert "1032" in ciclo.RODADAS_COM_ESCOLHA
+    assert "1032" in ciclo.RODADAS_SINAL_NUT
+    previsto = {
+        "achou": True,
+        "nut": [10.0, 360.0],
+        "corda1": [[10.0, 330.0], [1200.0, 330.0]],
+        "corda6": [[10.0, 390.0], [1200.0, 390.0]],
+    }
+    assert ciclo.nut_suspeito_previsto(previsto, (1280, 720))
+    longe = dict(previsto, nut=[200.0, 360.0])
+    longe["corda1"] = [[200.0, 330.0], [1200.0, 330.0]]
+    longe["corda6"] = [[200.0, 390.0], [1200.0, 390.0]]
+    assert not ciclo.nut_suspeito_previsto(longe, (1280, 720))
+    assert not ciclo.nut_suspeito_previsto({"achou": False}, (1280, 720))
