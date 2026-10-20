@@ -54,3 +54,25 @@ disparos).
 - **Kenneth** usa pontos pequenos, alguns quase invisíveis. Muitos quadros vão ficar sem
   decisão, o que é seguro.
 - Os 6 falsos já foram vistos: é direção, não prova.
+
+## Resultado (2026-10-20; `m31/medida_1034.json`) — **reprova**
+
+- **Falsos**: o sinal pega 0 de 6. Nenhum deles teve marcação detectada.
+- **Certos**: a regra decide em 6 dos 150 certos, todos com k = 0, e não dispara em nenhum.
+- **1032**: decide em 16 de 64, sem disparo.
+- O 1027:q56 não é pego, e por isso a regra não vai a ciclo.
+
+**Por quê** (diagnóstico depois da medida, `m31/dbg_1034.py`; não muda o resultado):
+- No 1027:q56, as marcações **são detectadas** no resíduo. Os espaços 6, 8 e 11 do detector
+  pontuam 190, 193 e 212, contra cerca de 20 nos espaços vazios. Isso é exatamente 7, 9 e 12
+  com k = +1.
+- Mas os espaços sobre o corpo (13 a 19) pontuam de 124 a 176, porque o tampo claro aparece na
+  borda da escala.
+- Isso sobe a mediana (cerca de 100), e o limiar de 4 × mediana apaga tudo. No 1027:q10, a mão
+  faz o mesmo nos espaços 2 a 4.
+- **Proposta para uma próxima rodada**, a medir em dados novos (as marcas do dono na 1032) e não
+  nestes:
+  - limiar pelo quartil inferior;
+  - ou exigir uma mancha compacta (a marcação é um disco, e o tampo e a mão são regiões
+    largas);
+  - e só contar os espaços antes da junção.
