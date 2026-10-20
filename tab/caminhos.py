@@ -119,6 +119,11 @@ GABARITO_BRACO_M29 = RAIZ / "data" / "gold" / "maos" / "braco_m29.json"
 #: (``tab.maos_braco_video``).
 MAOS_M30 = SAIDA / "maos" / "m30"
 
+#: Lote de quadros com o nut fora da imagem (rodada 1031, desenvolvimento): candidatos
+#: tirados dos vídeos inteiros da 1030; o dono marca só o traste de referência.
+MAOS_M31 = SAIDA / "maos" / "m31"
+GABARITO_BRACO_M31 = RAIZ / "data" / "gold" / "maos" / "braco_m31_nut_fora.json"
+
 #: Pré-marcação do braço por consenso de modelos de visão (rodada 1019): respostas brutas
 #: por modelo, resultado e tabelas (``tab.maos_braco_vlm``).
 MAOS_M19 = SAIDA / "maos" / "m19"
