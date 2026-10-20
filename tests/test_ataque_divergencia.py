@@ -44,7 +44,7 @@ def test_onde_ler_sem_indice_usa_pre(tmp_path, monkeypatch) -> None:
 
 
 def test_pagina_busca_a_leitura_do_modelo() -> None:
-    """A página busca o arquivo que o módulo grava e espelha os três tipos."""
+    """A página busca o arquivo que o módulo grava e mostra só o "nao_viu"."""
     assert f'fetch("/{ad.ARQUIVO}")' in ouro_video.PAGINA
-    for tipo in ("nao_viu", "viu_mais", "duvida"):
-        assert tipo in ouro_video.PAGINA
+    assert "nao_viu" in ouro_video.PAGINA
+    assert "viu_mais" not in ouro_video.PAGINA

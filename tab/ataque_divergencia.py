@@ -2,14 +2,16 @@
 
 Lê cada tela da pasta da ferramenta (``tab.ouro_video``) com o detector e a faixa de
 ``tab.ataque_rotulo``, pareia com as notas do arquivo do ataque e grava
-``<pasta>/modelo_ataque.json``. No modo ataque, a página marca as divergências
+``<pasta>/modelo_ataque.json``. As divergências entre o dono e o modelo
 (``divergencia``):
 
 - "nao_viu": o dono diz que a nota não é atacada e o modelo lê "sim" (não viu o símbolo);
 - "viu_mais": o dono diz "sim" e o modelo lê "nao" (vê um símbolo que talvez falte marcar);
 - "duvida": o dono diz "sim" e o modelo fica no "nao_sei".
 
-O arquivo é só leitura do modelo: não muda o ouro nem o arquivo do ataque.
+A página mostra só o "nao_viu" (o pedido do dono: sinalizar o símbolo que o modelo não
+identificou); os outros dois saem na contagem do terminal. O arquivo é só leitura do modelo:
+não muda o ouro nem o arquivo do ataque.
 
 Uso (container)::
 

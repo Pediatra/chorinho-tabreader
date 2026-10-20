@@ -2543,8 +2543,8 @@ function desenharTela() {
         onclick: () => { MODO_REGIAO = !MODO_REGIAO; desenhar(); }}, MODO_REGIAO ? "▭ modo região LIGADO (clique para sair)" : "▭ marcar região de técnica"),
       ATAQUE && MODO_ATAQUE ? h("button", {class: ataqueConferida(te.id) ? "ok" : "", onclick: () => marcarTelaAtaque(te.id, !ataqueConferida(te.id))},
         ataqueConferida(te.id) ? "✓ tela de ataque conferida" : "tela de ataque conferida") : null,
-      ATAQUE && MODO_ATAQUE && MODELO ? h("button", {title: "roxo: onde o modelo discorda do que está marcado", onclick: () => proximaDivergencia(te)},
-        "próxima divergência do modelo (" + divergenciasDaTela(te).length + " nesta tela)") : null),
+      ATAQUE && MODO_ATAQUE && MODELO ? h("button", {title: "roxo: símbolo marcado que o modelo não viu", onclick: () => proximaDivergencia(te)},
+        "próximo símbolo que o modelo não viu (" + divergenciasDaTela(te).length + " nesta tela)") : null),
     h("div", {class: "suave"}, "Clique numa caixa vermelha para corrigir a casa (Enter ou clique fora fecha). Técnica (opcional, em roxo): h, p, slide e ligada vão na nota de CHEGADA, a que não é atacada de novo; marque o que está desenhado. Técnica que cobre várias cordas ou colunas (arpejo, pestana, rasgueado, let ring...): ligue ▭ marcar região de técnica e arraste um retângulo. Clique fora das caixas para acrescentar uma nota que faltou (a corda sai da linha mais próxima)."),
     mold, copia, sem ? h("div", {class: "linha", style: "color:var(--ruim)"}, sem + " nota(s) sem casa não serão gravadas") : "", tabela);
   if (ESCOLHA !== null && ATAQUE && MODO_ATAQUE) {
@@ -2589,18 +2589,15 @@ function regiaoDoAmbiguo(tp, a) {  /* região do dono (x_quadro e cordas) em % d
   const c0 = Math.min(...a.cordas), c1 = Math.max(...a.cordas);
   return pctRegiao(tp, {x0: a.x_quadro[0], x1: a.x_quadro[1], y0: tp.linhas_y[c0 - 1] - tp.passo / 2, y1: tp.linhas_y[c1 - 1] + tp.passo / 2});
 }
-/* Espelho de tab.ataque_divergencia.divergencia(): onde a leitura do modelo discorda do dono. */
-const TEXTO_DIVERGENCIA = {nao_viu: "modelo: sim", viu_mais: "modelo: não", duvida: "modelo: ?"};
-const DICA_DIVERGENCIA = {nao_viu: "o modelo não viu o símbolo desta nota (lê como atacada)",
-  viu_mais: "o modelo vê um símbolo sem ataque aqui: falta marcar?", duvida: "o modelo ficou em dúvida (não sei) nesta nota"};
+/* Só o caso "nao_viu" de tab.ataque_divergencia.divergencia(): o dono marcou um símbolo que
+   tira o ataque e o modelo lê a nota como atacada (não viu o símbolo). Só mostra; não pede nada. */
+const TEXTO_DIVERGENCIA = {nao_viu: "modelo não viu"};
+const DICA_DIVERGENCIA = {nao_viu: "o modelo não viu o símbolo desta nota (lê como atacada)"};
 function divergenciaDe(chave) {
   const leitura = MODELO && MODELO.notas[chave];
   if (!leitura) return null;
-  const dono = (ATAQUE.notas.find(x => x.nota === chave) || {}).ataque, m = leitura.modelo;
-  if (dono === "nao" && m === "sim") return "nao_viu";
-  if (dono === "sim" && m === "nao") return "viu_mais";
-  if (dono === "sim" && m === "nao_sei") return "duvida";
-  return null;
+  const dono = (ATAQUE.notas.find(x => x.nota === chave) || {}).ataque;
+  return dono === "nao" && leitura.modelo === "sim" ? "nao_viu" : null;
 }
 function divergenciasDaTela(te) {  /* chaves com divergência numa tela */
   return [...mapaChaves(te).values()].filter(chave => divergenciaDe(chave));
@@ -2611,7 +2608,7 @@ function proximaDivergencia(te) {  /* vai para a próxima tela (em ordem, dando 
     const t = E.telas[(k + i) % ids.length];
     if (divergenciasDaTela(t).length) { E.tela_atual = t.id; ESCOLHA = null; desenhar(); return; }
   }
-  setStatus("nenhuma divergência do modelo", "ok");
+  setStatus("o modelo viu todos os símbolos marcados", "ok");
 }
 function desenharAtaque(mold, tp, te) {  /* marcas do ataque sobre a imagem (só no modo ataque) */
   ATAQUE.ambiguos.filter(a => a.tela === te.id).forEach(a => {
@@ -2663,7 +2660,7 @@ function atualizarAtaque() {  /* botão e contador do modo ataque no topo */
   const conferidas = Object.values(ATAQUE.telas_conferidas || {}).filter(Boolean).length;
   const discorda = MODELO ? E.telas.reduce((soma, t) => soma + divergenciasDaTela(t).length, 0) : null;
   CONTADOR_ATAQUE.textContent = "nao " + nao + " · ? " + duvidas + " · telas de ataque conferidas " + conferidas + "/" + PRE.telas.length +
-    (discorda === null ? "" : " · modelo discorda " + discorda);
+    (discorda === null ? "" : " · símbolos que o modelo não viu " + discorda);
 }
 async function carregarAtaque() {  /* sem --ataque o servidor responde 404 e nada aparece */
   const r = await fetch("/ataque.json");
