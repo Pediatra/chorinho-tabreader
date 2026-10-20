@@ -2407,6 +2407,7 @@ function pctRegiao(tp, r) {  /* região (px do quadro) em % da imagem */
   const x0 = Math.min(r.x0, r.x1), x1 = Math.max(r.x0, r.x1), y0 = Math.min(r.y0, r.y1), y1 = Math.max(r.y0, r.y1);
   return {left: (x0 - rx0) / w * 100, top: (y0 - ry0) / hh * 100, width: (x1 - x0) / w * 100, height: (y1 - y0) / hh * 100};
 }
+const OBS_ATALHOS = [["lig. prolongamento", "ligadura de prolongamento"], ["lig. slide", "ligadura slide"]];
 function rotuloRegiao(r) { return (r.tecnica && r.tecnica.length ? r.tecnica.join(" ") : "?") + (r.obs ? " · " + r.obs : ""); }
 function abrirEditorRegiao(mold, tp, te, r) {
   const div = mold.querySelector(`[data-regiao="${r.id}"]`); if (div) div.classList.add("editando");
@@ -2420,9 +2421,17 @@ function abrirEditorRegiao(mold, tp, te, r) {
     }}, k));
   const obs = h("input", {value: r.obs || "", placeholder: "observação", style: "width:10em", oninput: ev => { r.obs = ev.target.value; atualizar(); },
     onkeydown: ev => { if (ev.key === "Enter" || ev.key === "Escape") fecharEditor(); }});
+  /* atalhos de observação que o conversor do ataque reconhece (r2/converter.py) */
+  const atalhos = OBS_ATALHOS.map(([rot, texto]) => h("button", {class: "tec" + (r.obs === texto ? " ligado" : ""), title: texto,
+    onclick: ev => {
+      r.obs = r.obs === texto ? "" : texto; obs.value = r.obs;
+      ev.currentTarget.parentNode.querySelectorAll("button.atalho").forEach(b => b.classList.toggle("ligado", b.title === r.obs));
+      atualizar();
+    }}, rot));
+  atalhos.forEach(b => b.classList.add("atalho"));
   const apagar = h("button", {onclick: () => { te.regioes.splice(te.regioes.indexOf(r), 1); mudou(); fecharEditor(); }}, "apagar região");
   mold.append(h("div", {class: "editor", style: `${posicaoEditor(p)}top:calc(${p.top + p.height}% + 8px)`},
-    h("span", {class: "suave"}, `cordas ${Math.min(r.corda_ini, r.corda_fim)}–${Math.max(r.corda_ini, r.corda_fim)}`), tecs, obs, apagar));
+    h("span", {class: "suave"}, `cordas ${Math.min(r.corda_ini, r.corda_fim)}–${Math.max(r.corda_ini, r.corda_fim)}`), tecs, ...atalhos, obs, apagar));
 }
 
 function desenharTela() {
