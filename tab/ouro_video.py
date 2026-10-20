@@ -2224,6 +2224,8 @@ td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.rem
 .ataque-marca{position:absolute;transform:translate(-50%,-100%);font:700 11px/1 system-ui,sans-serif;padding:1px 3px;border-radius:3px;pointer-events:none;white-space:nowrap;z-index:3}
 .ataque-marca.nao{background:#d84315;color:#fff}.ataque-marca.sim{background:#1565c0;color:#fff}.ataque-marca.duvida{background:#ffeb3b;color:#000}
 .ataque-regiao{position:absolute;border:1px solid #f9a825;background:rgba(249,168,37,.10);pointer-events:none;z-index:2}
+.diverge-nota{position:absolute;border:2px dashed #8e24aa;border-radius:4px;pointer-events:none;z-index:3;margin:-4px;padding:2px}
+.diverge-marca{position:absolute;transform:translate(-50%,4px);font:700 10px/1 system-ui,sans-serif;padding:1px 3px;border-radius:3px;background:#8e24aa;color:#fff;pointer-events:none;white-space:nowrap;z-index:3}
 @media (max-width:700px){main{flex-direction:column}#lista{flex:none;flex-direction:row;max-height:none}}
 </style></head><body>
 <header>
@@ -2238,7 +2240,7 @@ td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.rem
 const TECNICAS = __TECNICAS__;
 const TECNICAS_REGIAO = __TECNICAS_REGIAO__;
 let MODO_REGIAO = false;  /* arrastar na página desenha uma região de técnica */
-let ATAQUE = null, MODO_ATAQUE = false, ESCOLHA = null, BOTAO_ATAQUE = null, CONTADOR_ATAQUE = null;
+let ATAQUE = null, MODO_ATAQUE = false, ESCOLHA = null, BOTAO_ATAQUE = null, CONTADOR_ATAQUE = null, MODELO = null;
 let PRE = null, E = null, SO_ROTULAR = false, EMPILHAR = false, OUTRA = false, ABA = "telas", sujo = false, versao = 0, ultimoOuro = null, temporizador = null;
 
 function h(tag, attrs, ...filhos) {
@@ -2540,7 +2542,9 @@ function desenharTela() {
       h("button", {class: MODO_REGIAO ? "regiao-ligado" : "", title: "arraste um retângulo sobre as cordas/colunas que a técnica cobre",
         onclick: () => { MODO_REGIAO = !MODO_REGIAO; desenhar(); }}, MODO_REGIAO ? "▭ modo região LIGADO (clique para sair)" : "▭ marcar região de técnica"),
       ATAQUE && MODO_ATAQUE ? h("button", {class: ataqueConferida(te.id) ? "ok" : "", onclick: () => marcarTelaAtaque(te.id, !ataqueConferida(te.id))},
-        ataqueConferida(te.id) ? "✓ tela de ataque conferida" : "tela de ataque conferida") : null),
+        ataqueConferida(te.id) ? "✓ tela de ataque conferida" : "tela de ataque conferida") : null,
+      ATAQUE && MODO_ATAQUE && MODELO ? h("button", {title: "roxo: onde o modelo discorda do que está marcado", onclick: () => proximaDivergencia(te)},
+        "próxima divergência do modelo (" + divergenciasDaTela(te).length + " nesta tela)") : null),
     h("div", {class: "suave"}, "Clique numa caixa vermelha para corrigir a casa (Enter ou clique fora fecha). Técnica (opcional, em roxo): h, p, slide e ligada vão na nota de CHEGADA, a que não é atacada de novo; marque o que está desenhado. Técnica que cobre várias cordas ou colunas (arpejo, pestana, rasgueado, let ring...): ligue ▭ marcar região de técnica e arraste um retângulo. Clique fora das caixas para acrescentar uma nota que faltou (a corda sai da linha mais próxima)."),
     mold, copia, sem ? h("div", {class: "linha", style: "color:var(--ruim)"}, sem + " nota(s) sem casa não serão gravadas") : "", tabela);
   if (ESCOLHA !== null && ATAQUE && MODO_ATAQUE) {
@@ -2557,6 +2561,7 @@ function desenharTela() {
 /* ---- modo ATAQUE: o ataque de cada nota (só o arquivo do --ataque; nunca o ouro) ---- */
 const ROTULO_MOTIVO = {normal: "normal", h: "h", p: "p", mordente: "mordente", prolongamento: "prolongamento", slide_ligado: "slide ligado", slide_entrada: "slide de entrada", x: "X", harmonico: "harmônico", nao_sei: "não sei"};
 const MOTIVOS_SELETOR = __MOTIVOS_SELETOR__;
+const ROTULO_LEITURA = {sim: "atacada", nao: "não atacada", nao_sei: "não sei"};
 function ataqueConferida(id) { return !!(ATAQUE && ATAQUE.telas_conferidas && ATAQUE.telas_conferidas[String(id)]); }
 /* Espelho de montar_ouro(): a nota de índice k no ouro da tela é "t<id>-n<k>" (sem removidas
    e sem casa vazia; ordenadas por x_quadro arredondado a 0,1 e depois pela corda). */
@@ -2584,6 +2589,30 @@ function regiaoDoAmbiguo(tp, a) {  /* região do dono (x_quadro e cordas) em % d
   const c0 = Math.min(...a.cordas), c1 = Math.max(...a.cordas);
   return pctRegiao(tp, {x0: a.x_quadro[0], x1: a.x_quadro[1], y0: tp.linhas_y[c0 - 1] - tp.passo / 2, y1: tp.linhas_y[c1 - 1] + tp.passo / 2});
 }
+/* Espelho de tab.ataque_divergencia.divergencia(): onde a leitura do modelo discorda do dono. */
+const TEXTO_DIVERGENCIA = {nao_viu: "modelo: sim", viu_mais: "modelo: não", duvida: "modelo: ?"};
+const DICA_DIVERGENCIA = {nao_viu: "o modelo não viu o símbolo desta nota (lê como atacada)",
+  viu_mais: "o modelo vê um símbolo sem ataque aqui: falta marcar?", duvida: "o modelo ficou em dúvida (não sei) nesta nota"};
+function divergenciaDe(chave) {
+  const leitura = MODELO && MODELO.notas[chave];
+  if (!leitura) return null;
+  const dono = (ATAQUE.notas.find(x => x.nota === chave) || {}).ataque, m = leitura.modelo;
+  if (dono === "nao" && m === "sim") return "nao_viu";
+  if (dono === "sim" && m === "nao") return "viu_mais";
+  if (dono === "sim" && m === "nao_sei") return "duvida";
+  return null;
+}
+function divergenciasDaTela(te) {  /* chaves com divergência numa tela */
+  return [...mapaChaves(te).values()].filter(chave => divergenciaDe(chave));
+}
+function proximaDivergencia(te) {  /* vai para a próxima tela (em ordem, dando a volta) com divergência */
+  const ids = E.telas.map(t => t.id), k = ids.indexOf(te.id);
+  for (let i = 1; i <= ids.length; i++) {
+    const t = E.telas[(k + i) % ids.length];
+    if (divergenciasDaTela(t).length) { E.tela_atual = t.id; ESCOLHA = null; desenhar(); return; }
+  }
+  setStatus("nenhuma divergência do modelo", "ok");
+}
 function desenharAtaque(mold, tp, te) {  /* marcas do ataque sobre a imagem (só no modo ataque) */
   ATAQUE.ambiguos.filter(a => a.tela === te.id).forEach(a => {
     mold.append(h("div", {class: "ataque-regiao", style: estiloCaixa(regiaoDoAmbiguo(tp, a)), title: a.tipo + " · " + a.regiao}));
@@ -2596,6 +2625,14 @@ function desenharAtaque(mold, tp, te) {  /* marcas do ataque sobre a imagem (só
     mold.append(h("div", {class: "ataque-nota " + rot[1], style: estiloCaixa(r), title: chave}));  /* contorno em cima do número */
     mold.append(h("span", {class: "ataque-marca " + rot[1], style: `left:${r.left + r.width / 2}%;top:${r.top}%`, title: chave}, rot[0]));
   });
+  if (!MODELO) return;
+  te.notas.forEach(n => {  /* onde o modelo discorda do dono (modelo_ataque.json) */
+    const chave = mapa.get(n.id), tipo = chave && divergenciaDe(chave);
+    if (!tipo) return;
+    const r = caixaDe(tp, n);
+    mold.append(h("div", {class: "diverge-nota", style: estiloCaixa(r)}));
+    mold.append(h("span", {class: "diverge-marca", style: `left:${r.left + r.width / 2}%;top:${r.top + r.height}%`, title: DICA_DIVERGENCIA[tipo]}, TEXTO_DIVERGENCIA[tipo]));
+  });
 }
 function abrirSeletorAtaque(mold, tp, te, n, chave) {  /* seletor pequeno: escolhe o motivo da nota */
   const atual = ATAQUE.notas.find(x => x.nota === chave);
@@ -2604,8 +2641,10 @@ function abrirSeletorAtaque(mold, tp, te, n, chave) {  /* seletor pequeno: escol
     return h("button", {class: marcado ? "on" : "", onclick: () => { ESCOLHA = null; enviarAtaque({acao: "escolha", tela: te.id, nota: chave, motivo: m, corda: n.corda, casa: n.casa, x_centro_quadro: n.x_centro_quadro ?? n.x_quadro}); }}, ROTULO_MOTIVO[m]);
   });
   const r = caixaDe(tp, n);
+  const leitura = MODELO && MODELO.notas[chave];
+  const doModelo = leitura ? " · modelo: " + ROTULO_LEITURA[leitura.modelo] + " (técnica " + leitura.p + ")" : "";
   mold.append(h("div", {class: "editor", style: `${posicaoEditor(r)}top:calc(${r.top + r.height}% + 8px)`},
-    h("span", {class: "suave"}, chave + " · corda " + n.corda + " · casa " + n.casa), botoes,
+    h("span", {class: "suave"}, chave + " · corda " + n.corda + " · casa " + n.casa + doModelo), botoes,
     h("button", {onclick: () => { ESCOLHA = null; desenhar(); }}, "fechar")));
 }
 function alternarAtaque() {
@@ -2622,12 +2661,16 @@ function atualizarAtaque() {  /* botão e contador do modo ataque no topo */
   const nao = ATAQUE.notas.filter(n => n.ataque === "nao").length;
   const duvidas = Object.values(ATAQUE.rotulos).filter(r => r[1] === "duvida").length;
   const conferidas = Object.values(ATAQUE.telas_conferidas || {}).filter(Boolean).length;
-  CONTADOR_ATAQUE.textContent = "nao " + nao + " · ? " + duvidas + " · telas de ataque conferidas " + conferidas + "/" + PRE.telas.length;
+  const discorda = MODELO ? E.telas.reduce((soma, t) => soma + divergenciasDaTela(t).length, 0) : null;
+  CONTADOR_ATAQUE.textContent = "nao " + nao + " · ? " + duvidas + " · telas de ataque conferidas " + conferidas + "/" + PRE.telas.length +
+    (discorda === null ? "" : " · modelo discorda " + discorda);
 }
 async function carregarAtaque() {  /* sem --ataque o servidor responde 404 e nada aparece */
   const r = await fetch("/ataque.json");
   if (!r.ok) return;
   ATAQUE = await r.json();
+  const rm = await fetch("/modelo_ataque.json");  /* leitura do modelo (tab.ataque_divergencia), se existir */
+  if (rm.ok) MODELO = await rm.json();
   const cab = document.querySelector("header"), status = document.getElementById("status");
   BOTAO_ATAQUE = h("button", {onclick: alternarAtaque}, "modo ataque (A)");
   CONTADOR_ATAQUE = h("span", {class: "suave"});

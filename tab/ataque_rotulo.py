@@ -42,6 +42,19 @@ MOTIVO_DA_TECNICA = {
 _SLIDES = {"/", "\\"}
 
 
+def probabilidades(nota: dict) -> dict[str, float]:
+    """A probabilidade de cada técnica sem ataque da nota.
+
+    Args:
+        nota: com ``tecnica_p`` na ordem de ``TECNICAS_MODELO``.
+
+    Returns:
+        Técnica -> probabilidade, só as de ``TECNICAS_SUPERVISIONADAS``.
+    """
+    p = dict(zip(TECNICAS_MODELO, nota["tecnica_p"], strict=True))
+    return {t: p[t] for t in TECNICAS_SUPERVISIONADAS}
+
+
 def _acima(nota: dict, limiar: float) -> dict[str, float]:
     """As técnicas sem ataque da nota com probabilidade acima do limiar.
 
@@ -52,8 +65,7 @@ def _acima(nota: dict, limiar: float) -> dict[str, float]:
     Returns:
         Técnica -> probabilidade.
     """
-    p = dict(zip(TECNICAS_MODELO, nota["tecnica_p"], strict=True))
-    return {t: p[t] for t in TECNICAS_SUPERVISIONADAS if p[t] > limiar}
+    return {t: v for t, v in probabilidades(nota).items() if v > limiar}
 
 
 def _tem_origem(notas: Sequence[dict], j: int, passo: float) -> bool:
