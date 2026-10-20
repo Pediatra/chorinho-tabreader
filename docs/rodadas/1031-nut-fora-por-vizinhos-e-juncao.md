@@ -144,3 +144,67 @@ No controle, conta-se quantos quadros certos ficam errados.
 - **Controle**: os quadros revisados dos mesmos vídeos, sem nut fora e com marcas completas.
   - "Estragado" é o quadro certo no detector sozinho que deixa de ser certo no modo.
   - O critério exige 0 estragados.
+
+## Resultado (2026-10-20) — **nenhum método passa**; a 1032 sai com o sinal de nut suspeito
+
+**Execução**:
+- Vídeos inteiros com o detector do ciclo 1029: "cuando" (24 quadros), "lágrima" (1 762, GPU),
+  "valsa" (362, CPU) e マリーゴールド (248, CPU).
+- A CPU usa fp32 e a GPU, fp16. Os números podem diferir um pouco.
+- Resultado gravado em `m31/medida_1031.json`.
+
+| modo | acertos | recusas | erros não sinalizados | certos estragados no controle (17) |
+| --- | --- | --- | --- | --- |
+| detector sozinho | 0 | 13 | 3 | — |
+| V | 0 | 15 | 1 | 0 |
+| J | 1 | 13 | 2 | 1 (1029:q18) |
+| V+J | 1 | 13 | 2 | 1 (1029:q18) |
+
+- **Critério**: 0 erros não sinalizados, 0 estragados e ≥ 8 acertos. Nenhum modo passa.
+- Pela tabela, **a 1032 sai com o detector atual e com o sinal de nut suspeito** (regra de
+  borda da 1030). Isso já está no código da 1032 (cd0824d2).
+
+**Por que falhou, caso a caso**:
+- **11 dos 16 casos (マリーゴールド, 1027 e 1031)**: o detector **não acha o braço** nesses
+  instantes.
+  - Também não achava no quadro do ciclo (o `m27/previsto.json` do q49 tem `achou` falso e está
+    sinalizado).
+  - No vídeo inteiro, o braço só aparece em 42 de 248 quadros, e em nenhum deles o nut é visto
+    com confiança.
+  - Esses casos já eram recusa sem método nenhum. **Eles não eram o problema**: os falsos que
+    passam estavam em outros vídeos.
+- **"cuando te dicen…" (q19, q20 e q24)**: o vídeo tem 12 s e **nunca mostra o nut**.
+  - O V não tem vizinho com nut ("sem nut a até 30 s").
+  - O J cai na contagem de trastes (18, portanto 12).
+  - **A junção detectada pula entre os quadros**: k = 4 em 4 s e em 5,5 s, e k = 1 em 10 s.
+    Com k = 4, o J errou o q19 e estragou o q18 do controle. Com k = 1, acertou o q24.
+- **"lágrima" q46**: o detector vê um "nut" com confiança. A ponta das cordas fica a mais de
+  5 % da borda e S1 = 0,12, mas o dono diz que o nut está fora.
+  - V e J aceitam esse falso nut ("nut visível", k = 0).
+  - **A regra de nut confiante é enganada pelo próprio erro que devia pegar**: o detector põe o
+    nut no 1º traste longe da borda.
+  - Isso já tinha aparecido no desenvolvimento, nos pesos antigos do v15, quando o nut foi
+    previsto longe da borda em todos os quadros.
+- **"valsa" (M11b q34)**: o detector já sinaliza (recusa em todos os modos).
+  - O vídeo mostra o nut em só 1 quadro, e o J não aprende o número.
+
+**Achados para registro (depois da medida, não testados como regra)**:
+- **Quadro denso ≠ quadro do ciclo**: até 0,25 s de distância muda a previsão em vídeos com
+  movimento rápido.
+  - Os 1029:q17, q22 e q48 eram certos no ciclo e saem "falso" no quadro denso. O q23 sai
+    sinalizado.
+  - A medida pelo vídeo denso tem esse ruído, que é o mesmo da Parte A da 1030.
+- **A junção por cor serve para aprender o número do vídeo**: no "lágrima", a moda foi 12 em
+  87 % de 1 463 quadros com nut.
+  - Num quadro isolado ela erra muito, porque a mão e o bojo mudam o corte. Para usá-la por
+    quadro, ela precisaria de consistência na tomada, o que é uma regra nova.
+- **Âncora absoluta que o dono não citou e que o desenvolvimento mostrou**: a **marcação dupla
+  da casa 12** nos violões de aço.
+  - No v15, ela fica entre os trastes 10 e 11 do detector, o que mostra o deslocamento de 1.
+  - Os clássicos não têm marcação, e por isso ela não resolve o pablo romé.
+
+**Leitura**:
+- O erro que deixa falso passar (o nut no 1º traste, com confiança) **não é corrigido por
+  referência externa**, porque as próprias referências dependem de saber onde o nut está.
+- O que protege é **sinalizar o nut suspeito**: a 1032 mede quanto isso custa.
+- A outra frente é o **A5**: ensinar o estágio 2 que, sem nut na faixa, não existe nut.
