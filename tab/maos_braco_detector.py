@@ -639,6 +639,7 @@ def _treinar(
     semente: int,
     constante: bool = False,
     trabalhadores: int = PROCESSOS_DADOS,
+    classe_itens: type = _Itens,
 ) -> tuple[UNetBraco, list[float], float]:
     """Treina a rede por ``passos`` passos sobre a sequência de itens.
 
@@ -646,9 +647,13 @@ def _treinar(
     há parada antecipada nem escolha de época.
 
     Args:
-        itens: sequência de itens de ``_Itens``.
+        itens: sequência de itens da classe ``classe_itens``.
         passos: número de passos.
         semente: semente fixa (``fixar_semente``).
+        constante: se True, a taxa de aprendizado fica constante (sem cosseno).
+        trabalhadores: processos de leitura de dados.
+        classe_itens: classe ``Dataset`` que lê os itens (padrão ``_Itens``; a 1031
+            usa ``ItensA5``, que aceita quadros com o nut fora da imagem).
 
     Returns:
         ``(modelo, perdas, segundos)``: a rede treinada, a perda de cada passo e o tempo
@@ -683,7 +688,7 @@ def _treinar(
     criterio = nn.BCEWithLogitsLoss(pos_weight=torch.tensor(PESO_POSITIVO, device=dev))
     escala = torch.amp.GradScaler("cuda")
     carga = DataLoader(
-        _Itens(itens),
+        classe_itens(itens),
         batch_size=LOTE,
         shuffle=False,
         num_workers=trabalhadores,

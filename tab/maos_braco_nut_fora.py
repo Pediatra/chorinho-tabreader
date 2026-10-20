@@ -41,13 +41,21 @@ from .maos_braco_ciclo import (
     ARQUIVO_INDICE,
     ARQUIVO_SORTEIO,
     _ler_json,
+    _peso_existe,
     classe_do_quadro,
     marcas_do_registro,
     nut_suspeito_previsto,
+    previsto_do_resultado,
 )
-from .maos_braco_detector import PASSOS, _carregar_pesos, _trava_gpu
+from .maos_braco_detector import (
+    DIR_PESOS,
+    PASSOS,
+    _carregar_pesos,
+    _imagem,
+    _trava_gpu,
+)
 from .maos_braco_juncao import metodo_j
-from .maos_braco_localizador import _carregar_localizador
+from .maos_braco_localizador import _carregar_localizador, cadeia, sinalizado
 from .maos_braco_video import (
     PASSO_S,
     VideoRevisado,
@@ -98,6 +106,22 @@ TOLERANCIA_REFERENCIA = 0.5
 #: Critério do pré-registro.
 MIN_ACERTOS = 8
 ARQUIVO_MEDIDA = MAOS_M31 / "medida_1031.json"
+
+#: A5 (desenvolvimento): fontes dos 16 casos, ``(rodada, gabarito, pasta com quadros)``.
+FONTES_CASOS = (
+    ("1027", GABARITO_BRACO_M27, MAOS_M27),
+    ("M11B", GABARITO_BRACO_M11B, MAOS_M11B),
+    ("1029", GABARITO_BRACO_M29, MAOS_M29),
+    ("1031", GABARITO_BRACO_M31, MAOS_M31),
+)
+#: A5: estágio 2 de comparação (o do ciclo) e os candidatos A5.
+ESTAGIOS2_A5 = (
+    "A4_100_todos_s1",
+    "A5_100_todos_s1",
+    "A5_100_todos_s2",
+    "A5_100_todos_s3",
+)
+ARQUIVO_MEDIDA_A5 = MAOS_M31 / "medida_a5.json"
 
 
 def _nfc(texto: str) -> str:
@@ -511,6 +535,70 @@ def _totais(casos: list[dict], controles: list[dict], modo: str) -> dict:
     }
 
 
+def casos_nut_fora() -> list[tuple[str, dict, dict, Path]]:
+    """Os quadros revisados com nut fora e referência do dono (os casos da 1031).
+
+    Returns:
+        ``(chave, item do índice, registro do dono, pasta)``, por fonte.
+    """
+    saida = []
+    for rodada, gabarito, pasta in FONTES_CASOS:
+        respostas = _ler_json(gabarito)["quadros"]
+        for item in _ler_json(pasta / ARQUIVO_INDICE)["quadros"]:
+            registro = respostas.get(item["id"])
+            if (
+                registro
+                and registro.get("braco") == "sim"
+                and registro.get("nut") == "fora"
+                and registro.get("traste_referencia")
+            ):
+                saida.append((f"{rodada}:{item['id']}", item, registro, pasta))
+    return saida
+
+
+def medir_a5() -> dict:
+    """A5 nos 16 casos: cadeia no quadro revisado com ``L3_todos_s3`` e cada estágio 2.
+
+    Pesos que não existem saem da medida. Só desenvolvimento: os 8 casos da 1027 estão no
+    treino do A5.
+
+    Returns:
+        O resultado gravado em ``medida_a5.json``.
+    """
+    casos = casos_nut_fora()
+    linhas: dict[str, dict] = {chave: {} for chave, *_ in casos}
+    totais: dict[str, dict] = {}
+    for estagio2 in ESTAGIOS2_A5:
+        if not _peso_existe(estagio2, DIR_PESOS):
+            continue
+        with _trava_gpu():
+            loc = _carregar_localizador(ESTAGIO1_1031)
+            dois, _ = _carregar_pesos(estagio2, PASSOS)
+            previstos = {}
+            for chave, item, _, pasta in casos:
+                resultado = cadeia(
+                    loc, dois, _imagem(pasta / item["png"]), item["id"], conjunta=True
+                )
+                previstos[chave] = previsto_do_resultado(
+                    item, resultado, sinalizado(resultado)
+                )
+        contagem: dict[str, int] = {}
+        for chave, _, registro, _ in casos:
+            classe, numero = classe_do_caso(previstos[chave], registro)
+            linhas[chave][estagio2] = {
+                "classe": classe,
+                "numero": numero,
+                "dono": int(registro["traste_referencia"]["numero"]),
+                "S1": previstos[chave]["S1"],
+                "S2": previstos[chave]["S2"],
+            }
+            contagem[classe] = contagem.get(classe, 0) + 1
+        totais[estagio2] = contagem
+    resultado = {"rodada": 1031, "parte": "A5", "casos": linhas, "totais": totais}
+    gravar_atomico(ARQUIVO_MEDIDA_A5, resultado)
+    return resultado
+
+
 def main() -> int:
     """Ponto de entrada: ``videos`` (GPU), ``quadros`` ou ``medir`` (CPU).
 
@@ -522,11 +610,14 @@ def main() -> int:
     sub.add_parser("videos", help="roda inteiros os vídeos da 1031 (GPU)")
     sub.add_parser("quadros", help="guarda os quadros dos vídeos da 1030 (CPU)")
     sub.add_parser("medir", help="mede V, J e V+J nos casos e nos controles (CPU)")
+    sub.add_parser("medir-a5", help="mede A4 e A5 nos 16 casos (GPU)")
     args = parser.parse_args()
     if args.parte == "videos":
         rodar_videos()
     elif args.parte == "quadros":
         guardar_quadros_1030()
+    elif args.parte == "medir-a5":
+        print(json.dumps(medir_a5()["totais"], ensure_ascii=False, indent=1))
     else:
         totais = medir()["totais"]
         print(json.dumps(totais, ensure_ascii=False, indent=1))
