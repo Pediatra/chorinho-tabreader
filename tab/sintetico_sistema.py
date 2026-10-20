@@ -190,22 +190,25 @@ P_LETRA_LEGATO = 0.6
 P_ARCO_ABAIXO = 0.4
 #: G3: chance de o arco partir do centro das notas (por cima ou por baixo do algarismo).
 P_ARCO_CENTRO = 0.4
-#: G2: chance de um par h/p ligar notas a 2-6 colunas, com a corda vazia no meio.
+#: G2: chance de um par h/p ligar notas a 2 até ``PAR_LONGO_MAX`` colunas, com a corda
+#: vazia no meio.
 P_PAR_LONGO = 0.3
-#: Rodada 0204 (R4c): o que ainda escapava no R4b.
-#: G10: chance de o arco longo ser raso (pouca curva, afastado dos algarismos).
-P_ARCO_RASO = 0.5
-#: G9: chance de o slide ser um risco curto e inclinado, deslocado para cima da corda.
-P_SLIDE_CURTO = 0.5
+#: G2: distância máxima do par longo, em colunas (4 no R4b; 6 no R4c, não adotado).
+PAR_LONGO_MAX = 4
+#: Rodada 0204 (R4c): G8–G10. **Não adotados** (a casa piorou); desligados desde a 0207.
+#: G10: chance de o arco longo ser raso (pouca curva, afastado dos algarismos); R4c 0,5.
+P_ARCO_RASO = 0.0
+#: G9: chance de o slide ser um risco curto e inclinado, deslocado para cima; R4c 0,5.
+P_SLIDE_CURTO = 0.0
 #: G8: chance de, nas colunas apertadas, os algarismos serem pequenos (a corda aparece
-#: como um traço entre eles: ``3-0-3``).
-P_TRACO = 0.5
+#: como um traço entre eles: ``3-0-3``); R4c 0,5.
+P_TRACO = 0.0
 #: G4: chance de o sistema ter um mordente de três notas (a-b-a sob um arco só).
 P_MORDENTE_TRES = 0.15
 #: G5: chance de uma nota sem técnica ter o zigue-zague de mordente sozinho (atacada).
 P_ZIGUE_SOZINHO = 0.03
-#: G6: chance de o sistema ter colunas apertadas (algarismos quase encostados).
-P_APERTADO = 0.3
+#: G6: chance de o sistema ter colunas apertadas (algarismos quase encostados); R4c 0,3.
+P_APERTADO = 0.2
 #: Chance de um grupo de 2 ou mais colcheias ter viga dupla (semicolcheias).
 P_VIGA_DUPLA = 0.3
 #: Chance de uma barline virar ritornelo (barra dupla com dois pontos).
@@ -407,7 +410,7 @@ def _tecnicas_pares(
             continue
         col_origem = c - 1
         if tipo in ("h", "p") and rng.random() < P_PAR_LONGO:  # G2: arco longo
-            k = rng.randint(2, 6)
+            k = rng.randint(2, PAR_LONGO_MAX)
             meio = [(cc, s) for cc in range(c - k + 1, c)]
             if c - k >= 0 and all(
                 grade[m]["tecnica"] is None and len(grade[m]) == 2
