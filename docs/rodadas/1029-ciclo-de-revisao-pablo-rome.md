@@ -105,3 +105,43 @@ estão prontos, e os `A4` estão em treino.
   preenchimento de reserva (q01, q03, q05, q21, q22 e q50).
   - A diferença está nas marcas, que só a revisão do dono mede.
 - A ferramenta está no ar na porta 8103.
+
+## Resultado (2026-10-20) — **falsos que passam acima do limite: todos com o nut fora da imagem**
+
+O dono conferiu os 64 quadros ("conferi tudo, absurdamente bom") e depois marcou o traste de
+referência nos 5 quadros com nut "fora".
+- Para isso, a ferramenta ganhou rótulos c1, c2… e o botão direito para escolher a referência
+  (c658d30f).
+- No q50, o dono não tem confiança ("a imagem tá péssima… a mão ainda tá em cima"). O "braço"
+  desse quadro ficou vazio, e ele sai da medida.
+
+**Medida** (`m29/medida.json`, 63 quadros):
+
+| | detector novo (L3_s3 + A4_s1) | detector antigo (L2_s1 + A3_s1) |
+| --- | --- | --- |
+| entregue certo (não sinalizado e certo) | **54 de 60 (90 %)** | 54 de 60 |
+| falsos que passam | **4 de 63 (6,3 %)** | 4 de 63 |
+| sinalizados | 5 (8 %), todos já certos | 5 |
+
+- **Critério**: 6,3 % > 5 %. Pela tabela do pré-registro, o ciclo **para para investigar por
+  tipo de erro**.
+- O retreino não mudou nada neste lote: os dois detectores têm os mesmos números.
+
+**Tipo de erro** (os 4 falsos são o mesmo erro):
+
+| quadro | vídeo | traste do dono | número do detector no mesmo traste | S1 / S2 |
+| --- | --- | --- | --- | --- |
+| q19 | cuando te dicen… | 12 | 11 | 0,26 / 0 |
+| q20 | cuando te dicen… | 12 | 11 | 0,29 / 0 |
+| q24 | cuando te dicen… | 12 | 11 | 0,27 / 0 |
+| q46 | lágrima | 2 | 1 | 0,16 / 0 |
+
+- Com o **nut fora da imagem**, o detector toma o **1º traste como nut**. A numeração inteira
+  desloca **exatamente 1 casa**, com confiança total (S2 = 0), então a regra 1023 não pega. É o
+  mesmo erro dos 2 falsos da 1027.
+- O q50 (excluído) foi sinalizado pelo detector (S1 = 30,8).
+- Nos outros 59 quadros, com nut visível ou sem braço, não houve **nenhum erro**.
+
+**Próximo passo**: a [1031](1031-nut-fora-por-vizinhos-e-juncao.md) ataca esse erro com as
+referências propostas pelo dono: os quadros vizinhos que mostram o nut, e a junção do braço com o
+corpo (casa 12 no nylon, 14 no aço).
