@@ -2407,7 +2407,16 @@ function pctRegiao(tp, r) {  /* região (px do quadro) em % da imagem */
   const x0 = Math.min(r.x0, r.x1), x1 = Math.max(r.x0, r.x1), y0 = Math.min(r.y0, r.y1), y1 = Math.max(r.y0, r.y1);
   return {left: (x0 - rx0) / w * 100, top: (y0 - ry0) / hh * 100, width: (x1 - x0) / w * 100, height: (y1 - y0) / hh * 100};
 }
-const OBS_ATALHOS = [["lig. prolongamento", "ligadura de prolongamento"], ["lig. slide", "ligadura slide"]];
+/* [rótulo, observação, técnicas que o botão liga (null: não mexe)]. O mordente de arco
+   leva h e p (o conversor lê o grupo pelo arco); o de zigue-zague não (nota atacada). */
+const OBS_ATALHOS = [["lig. prolongamento", "ligadura de prolongamento", null], ["lig. slide", "ligadura slide", null],
+  ["mordente (arco)", "mordente", ["h", "p"]], ["mordente (zigue-zague)", "mordente", []]];
+function atalhoLigado(r, texto, tecs) {
+  if (r.obs !== texto) return false;
+  if (tecs === null) return true;
+  const hp = (r.tecnica || []).filter(t => t === "h" || t === "p");
+  return tecs.length ? hp.length === 2 : hp.length === 0;
+}
 function rotuloRegiao(r) { return (r.tecnica && r.tecnica.length ? r.tecnica.join(" ") : "?") + (r.obs ? " · " + r.obs : ""); }
 function abrirEditorRegiao(mold, tp, te, r) {
   const div = mold.querySelector(`[data-regiao="${r.id}"]`); if (div) div.classList.add("editando");
@@ -2422,10 +2431,18 @@ function abrirEditorRegiao(mold, tp, te, r) {
   const obs = h("input", {value: r.obs || "", placeholder: "observação", style: "width:10em", oninput: ev => { r.obs = ev.target.value; atualizar(); },
     onkeydown: ev => { if (ev.key === "Enter" || ev.key === "Escape") fecharEditor(); }});
   /* atalhos de observação que o conversor do ataque reconhece (r2/converter.py) */
-  const atalhos = OBS_ATALHOS.map(([rot, texto]) => h("button", {class: "tec" + (r.obs === texto ? " ligado" : ""), title: texto,
+  const atalhos = OBS_ATALHOS.map(([rot, texto, tecs]) => h("button", {class: "tec" + (atalhoLigado(r, texto, tecs) ? " ligado" : ""), title: texto,
     onclick: ev => {
-      r.obs = r.obs === texto ? "" : texto; obs.value = r.obs;
-      ev.currentTarget.parentNode.querySelectorAll("button.atalho").forEach(b => b.classList.toggle("ligado", b.title === r.obs));
+      const desligar = atalhoLigado(r, texto, tecs);
+      r.obs = desligar ? "" : texto; obs.value = r.obs;
+      if (tecs !== null) {  /* o mordente troca h e p junto */
+        const l = new Set((r.tecnica || []).filter(t => t !== "h" && t !== "p"));
+        if (!desligar) tecs.forEach(t => l.add(t));
+        r.tecnica = Object.keys(TECNICAS_REGIAO).filter(c => l.has(c));
+      }
+      const caixa = ev.currentTarget.parentNode;
+      caixa.querySelectorAll("button.atalho").forEach((b, i) => b.classList.toggle("ligado", atalhoLigado(r, OBS_ATALHOS[i][1], OBS_ATALHOS[i][2])));
+      caixa.querySelectorAll("button.tec:not(.atalho)").forEach(b => b.classList.toggle("ligado", (r.tecnica || []).includes(b.textContent)));
       atualizar();
     }}, rot));
   atalhos.forEach(b => b.classList.add("atalho"));
