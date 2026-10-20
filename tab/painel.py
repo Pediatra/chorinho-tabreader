@@ -27,6 +27,7 @@ Uso:
 from __future__ import annotations
 
 import itertools
+import math
 from dataclasses import dataclass
 
 import cv2
@@ -59,6 +60,10 @@ MIN_GLIFOS = 5
 #: 59,2 px era nome de acorde em texto (`violaodecria`).
 PASSO_MINIMO_PX = 14.0
 PASSO_MAXIMO_PX = 55.0
+
+#: Folga, em passos, acima da corda 1 e abaixo da 6 que o detector de TAB lê
+#: (``detector_tab.normalizar_sistema``). O candidato só guarda 1 passo (rodada 0210).
+FOLGA_DETECTOR_PASSOS = 2.5
 
 
 @dataclass
@@ -821,6 +826,36 @@ def _tablatura_no_lugar_do_braco(
         candidatos_quadro(frame, min_glifos=min_glifos), key=lambda c: c.score
     )[::-1]
     return _primeira_tablatura([do_quadro, _por_mascara(frame)])
+
+
+def recorte_alto(
+    quadro: np.ndarray, c: Candidato, folga: float = FOLGA_DETECTOR_PASSOS
+) -> tuple[np.ndarray, list[float]]:
+    """O recorte do candidato aumentado no quadro até ``folga`` passos de cada lado.
+
+    O candidato guarda 1 passo acima da corda 1 e abaixo da 6, e o detector lê 2,5: o resto
+    chegava preenchido com a cor da borda e apagava arcos e símbolos acima do sistema
+    (rodada 0210). As colunas (``c.x0``) e as cordas são as mesmas; só cresce na vertical,
+    até a borda do quadro. Se o ``roi`` não é um recorte cru do quadro (via por máscara),
+    devolve o ``roi`` como está.
+
+    Args:
+        quadro: o quadro de onde o candidato saiu.
+        c: o candidato (``escolher_ou_mascara``).
+        folga: passos desejados acima da corda 1 e abaixo da 6.
+
+    Returns:
+        ``(roi, linhas_y)``, com as linhas no novo recorte.
+    """
+    linhas = [float(y) for y in c.grade.linhas_y]
+    altura, largura = c.roi.shape[:2]
+    if not np.array_equal(quadro[c.y0 : c.y0 + altura, c.x0 : c.x0 + largura], c.roi):
+        return c.roi, linhas
+    cima = max(0, math.ceil(folga * c.passo - linhas[0]))
+    baixo = max(0, math.ceil(linhas[-1] + folga * c.passo - altura))
+    topo = max(0, c.y0 - cima)
+    fim = min(quadro.shape[0], c.y0 + altura + baixo)
+    return quadro[topo:fim, c.x0 : c.x0 + largura], [y + c.y0 - topo for y in linhas]
 
 
 def escolher_ou_mascara(frame: np.ndarray) -> Candidato | None:

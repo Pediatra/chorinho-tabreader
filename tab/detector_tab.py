@@ -44,6 +44,8 @@ from .sintetico_sistema import ROTULOS, TECNICAS, gerar_sistema
 #: Passo do sistema depois da normalização, em px.
 PASSO_NORM = 16
 
+#: Passos lidos acima da corda 1 e abaixo da 6 (``painel.FOLGA_DETECTOR_PASSOS`` igual).
+MARGEM_PASSOS = 2.5
 #: Altura do sistema normalizado: 10 passos (2,5 acima da corda 1 e 2,5 abaixo da 6).
 ALTURA_NORM = 10 * PASSO_NORM
 
@@ -144,7 +146,7 @@ def normalizar_sistema(
     if float(np.median(cinza)) < 128:
         cinza = 255 - cinza
     escala = PASSO_NORM / passo
-    y_topo = float(linhas_y[0]) - 2.5 * passo
+    y_topo = float(linhas_y[0]) - MARGEM_PASSOS * passo
     largura = math.ceil(cinza.shape[1] * escala / STRIDE) * STRIDE
     borda = np.concatenate([cinza[0], cinza[-1], cinza[:, 0], cinza[:, -1]])
     matriz = np.float32([[escala, 0, 0], [0, escala, -escala * y_topo]])

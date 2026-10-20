@@ -52,7 +52,12 @@ from .estado import (
     passagens_de,
     refinar_inicios,
 )
-from .painel import PASSO_MAXIMO_PX, PASSO_MINIMO_PX, escolher_ou_mascara
+from .painel import (
+    PASSO_MAXIMO_PX,
+    PASSO_MINIMO_PX,
+    escolher_ou_mascara,
+    recorte_alto,
+)
 from .reconhecer import ALGARISMOS, carregar_modelo, reconhecer_linha
 from .telas import Tela, telas
 
@@ -626,9 +631,11 @@ def ler_tela(
     altura, largura = m.roi.shape[:2]
     if detector is not None:
         extra = {"com_escores": True} if rotulo_ataque else {}
-        lidas = detector_tab.detectar(
-            detector, m.roi, m.grade.linhas_y, m.passo, **extra
+        # o rótulo de ataque lê com o recorte alto (rodada 0210); o resto, como sempre
+        roi, linhas_y = (
+            recorte_alto(imagem, m) if rotulo_ataque else (m.roi, m.grade.linhas_y)
         )
+        lidas = detector_tab.detectar(detector, roi, linhas_y, m.passo, **extra)
         tokens = tokens_da_rede(lidas, m.grade.glifos, m.x0, m.passo)
         barlines_roi = m.grade.barlines_x
     else:

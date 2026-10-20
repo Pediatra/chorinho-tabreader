@@ -88,6 +88,9 @@ LIMIARES_MEDIDOS = LIMIARES_NAO_SEI + LIMIARES
 #: slide de entrada: a nota é atacada (regra do dono; rodada 0203, passo A).
 ORIGEM_SLIDE_MAX = 3.0
 
+#: Recortes de ``ler_tela``: "alto" (desde a 0210) e "painel" (até a 0209).
+RECORTES = ("alto", "painel")
+
 
 def tecnica_alvo(nota: dict) -> str | None:
     """Técnica que a nota do gabarito ensina ao modelo (na nota de chegada).
@@ -181,21 +184,35 @@ def modelo_da_dobra(versao: str, dobra: int, semente: int) -> Path:
     return caminhos.ARTEFATOS / nome / "modelo.pt"
 
 
-def ler_tela(modelo: detector_tab.DetectorTab, video: Path, t_s: float) -> tuple:
+def ler_tela(
+    modelo: detector_tab.DetectorTab, video: Path, t_s: float, recorte: str = "alto"
+) -> tuple:
     """Lê uma tela: quadro, painel do produto e detector.
 
     Args:
         modelo: detector carregado.
         video: caminho do vídeo.
         t_s: instante do quadro.
+        recorte: "alto" (``painel.recorte_alto``, rodada 0210) ou "painel" (o ``roi`` do
+            candidato, como até a 0209).
 
     Returns:
         ``(notas previstas com x_centro_quadro, passo)`` ou ``([], 0.0)`` sem painel.
+
+    Raises:
+        ValueError: recorte desconhecido.
     """
+    if recorte not in RECORTES:
+        raise ValueError(f"recorte desconhecido: {recorte!r}")
     quadro = leitor.quadro_em(str(video), t_s)
     c = painel.escolher_ou_mascara(quadro) if quadro is not None else None
     if c is None:
         return [], 0.0
+    roi, linhas_y = (
+        painel.recorte_alto(quadro, c)
+        if recorte == "alto"
+        else (c.roi, c.grade.linhas_y)
+    )
     pred = [
         {
             "corda": int(d["corda"]),
@@ -204,9 +221,7 @@ def ler_tela(modelo: detector_tab.DetectorTab, video: Path, t_s: float) -> tuple
             "x_centro_quadro": float(d["x"]) + c.x0,
             "tecnica_p": d["tecnica_p"],
         }
-        for d in detector_tab.detectar(
-            modelo, c.roi, c.grade.linhas_y, c.passo, com_escores=True
-        )
+        for d in detector_tab.detectar(modelo, roi, linhas_y, c.passo, com_escores=True)
     ]
     return pred, float(c.passo)
 
@@ -307,12 +322,13 @@ def regra(matriz: Counter) -> Counter:
     )
 
 
-def medir(versao: str, semente: int) -> dict:
+def medir(versao: str, semente: int, recorte: str = "alto") -> dict:
     """Mede uma versão e semente nos 8 ouros (dobra fora) e na T8.2 (dobra 0).
 
     Args:
-        versao: "ger", "atq", "atqg", "atqc", "atqt" ou "atqe".
+        versao: "ger", "atq", "atqg", "atqc", "atqt", "atqe" ou "atqa".
         semente: 1, 2 ou 3.
+        recorte: o de ``ler_tela``.
 
     Returns:
         Dict fonte -> matriz e taxas (no limiar 0,5 e em ``por_limiar``), mais ``ouros``
@@ -333,7 +349,7 @@ def medir(versao: str, semente: int) -> dict:
         for tela, notas in sorted(
             gabarito_por_tela(r2 / sub / f"ataque_{fonte}.json").items()
         ):
-            pred, passo = ler_tela(modelo, video, quadro[tela])
+            pred, passo = ler_tela(modelo, video, quadro[tela], recorte)
             c += contar(notas, pred, passo)
             for lim in LIMIARES_MEDIDOS:
                 por_l[lim] += contar(notas, com_limiar(pred, lim), passo)
@@ -364,7 +380,9 @@ def medir(versao: str, semente: int) -> dict:
     gab = gabarito_por_tela(r2 / "conferir_novos" / "ataque_t82.json")
     for tela, notas in sorted(gab.items()):
         r = indice[tela]
-        pred, passo = ler_tela(modelo, caminhos.acervo() / r["video"], float(r["t"]))
+        pred, passo = ler_tela(
+            modelo, caminhos.acervo() / r["video"], float(r["t"]), recorte
+        )
         c += contar(notas, pred, passo)
         for lim in LIMIARES_MEDIDOS:
             por_l[lim] += contar(notas, com_limiar(pred, lim), passo)
@@ -434,15 +452,22 @@ def main() -> int:
     m = sub.add_parser("medir", help="mede uma versão e semente")
     m.add_argument(
         "--versao",
-        choices=("ger", "atq", "atqg", "atqc", "atqt", "atqe"),
+        choices=("ger", "atq", "atqg", "atqc", "atqt", "atqe", "atqa"),
         required=True,
     )
     m.add_argument("--semente", type=int, required=True)
+    m.add_argument(
+        "--recorte",
+        choices=RECORTES,
+        default="alto",
+        help='"painel" refaz as medidas até a 0209 (arquivo sem o sufixo "_alto")',
+    )
     args = ap.parse_args()
-    resultado = medir(args.versao, args.semente)
+    resultado = medir(args.versao, args.semente, args.recorte)
     pasta = caminhos.TAB_ROTULO / "r4a"
     pasta.mkdir(parents=True, exist_ok=True)
-    (pasta / f"medida_{args.versao}_s{args.semente}.json").write_text(
+    sufixo = "_alto" if args.recorte == "alto" else ""
+    (pasta / f"medida_{args.versao}_s{args.semente}{sufixo}.json").write_text(
         json.dumps(resultado, ensure_ascii=False, indent=1, sort_keys=True) + "\n",
         encoding="utf-8",
     )
