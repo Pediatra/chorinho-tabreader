@@ -179,3 +179,17 @@ vídeos com capo** até o retreino com as marcas novas.
 **Detecção do capo** (direção do dono): não depender de cor nem de tamanho, e sim do objeto
 sobre o braço, de forma consistente entre os quadros. O capo fica na mesma casa durante o
 vídeo, ou em trechos longos. A proposta está na rodada seguinte.
+
+**Auditoria de capo nos gabaritos sem `k`**. As folhas estão em `data/saida/maos/capo_auditoria/`,
+com 349 quadros de M25 treino e prova, 1026, 1027 e 1029. Os candidatos são meu palpite, e
+quem confirma é o dono:
+
+| gabarito | candidatos com capo |
+| --- | --- |
+| M25 treino | q28–q36, q102, q106; talvez q44, q92, q103 |
+| M25 prova | q09, q10, q11, q21, q22, q24; talvez q23 |
+| 1027 (guitarous) | q17–q24, q49–q64 |
+| 1026 e 1029 | nenhum visto |
+
+As fontes R (`m21/R`) são propagadas a partir das chaves da M3b pelo rastreador. Depois da
+remarcação, elas precisam ser geradas de novo antes do retreino.
