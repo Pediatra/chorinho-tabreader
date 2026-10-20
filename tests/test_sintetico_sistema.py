@@ -285,3 +285,12 @@ def test_pausa_entre_cordas_e_cinzas_aparecem_em_300_sementes(
         vistos.update(info["variantes"])
     for variante in ("pausa_entre_cordas", "tab_cinza", "formula_cinza"):
         assert vistos[variante] > 0, variante
+
+
+def test_cadeia_e_arco_alto_aparecem_em_100_sementes(fontes: list[str]) -> None:
+    """G11 e G12 (R4e): a cadeia sob um arco só, com e sem letras, e o arco alto."""
+    vistas: set[str] = set()
+    for semente in range(100):
+        _, info = gerar_sistema(random.Random(semente), fontes)
+        vistas.update(info["variantes"])
+    assert {"cadeia", "cadeia_letras", "arco_alto"} <= vistas

@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import argparse
 import functools
+import itertools
 import math
 import random
 from pathlib import Path
@@ -198,6 +199,19 @@ PAR_LONGO_MAX = 4
 #: Rodada 0204 (R4c): G8–G10. **Não adotados** (a casa piorou); desligados desde a 0207.
 #: G10: chance de o arco longo ser raso (pouca curva, afastado dos algarismos); R4c 0,5.
 P_ARCO_RASO = 0.0
+#: Rodada 0208 (R4e): G11–G12, medidos nos erros da T8.3 (0207).
+#: G11: chance de o sistema ter uma cadeia de 3 a ``CADEIA_MAX`` notas sob um arco só
+#: (h/p em sequência, como ``6-8-6-5`` com "H P P" em cima).
+P_CADEIA = 0.25
+#: G11: chance de a cadeia ficar na corda 1, com o arco acima do sistema (como nos erros).
+P_CADEIA_CORDA_1 = 0.5
+#: G11: notas da cadeia, no máximo.
+CADEIA_MAX = 5
+#: G11: chance de a cadeia na corda 1 ter as letras H/P maiúsculas acima do arco (nas
+#: outras cordas elas cairiam sobre as linhas).
+P_LETRAS_CADEIA = 0.5
+#: G12: chance de um arco de h/p/tie ser alto e estreito (curva de 0,8 a 1,4 passo).
+P_ARCO_ALTO = 0.25
 #: G9: chance de o slide ser um risco curto e inclinado, deslocado para cima; R4c 0,5.
 P_SLIDE_CURTO = 0.0
 #: G8: chance de, nas colunas apertadas, os algarismos serem pequenos (a corda aparece
@@ -698,6 +712,9 @@ def _pontos_arco(
         xa, xb = caixa_a[2] + 0.1 * passo, caixa_b[0] - 0.1 * passo
         base = rng.uniform(0.1, 0.6) * passo
     altura = rng.uniform(0.15, 0.7) * passo
+    if not raso and rng.random() < P_ARCO_ALTO:  # G12 (R4e): arco alto e estreito
+        altura = rng.uniform(0.8, 1.4) * passo
+        marcas.append("arco_alto")
     if raso:  # G10: longe dos algarismos, com pouca curva (nunca colado na corda)
         base = max(base, rng.uniform(0.45, 0.65) * passo)
         altura = rng.uniform(0.15, 0.4) * passo
@@ -1486,6 +1503,7 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
     _tecnicas_bend_vib(rng, grade)
     _sortear_orn(rng, grade)
     _sortear_mordente_tres(rng, grade, n_col)
+    _sortear_cadeia(rng, grade, n_col)
     _sortear_ligaduras(rng, grade, n_col)
     _sortear_slides_soltos(rng, grade)
     _tecnicas_pares(rng, grade, n_col)
@@ -1672,6 +1690,9 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
     )
     _desenhar_mordentes_tres(
         d, rng, grade, medidas, ys, passo, espessura, tinta, marcas, arcos
+    )
+    _desenhar_cadeias(
+        d, rng, grade, medidas, ys, passo, espessura, tinta, list(fontes), marcas, arcos
     )
     _desenhar_zigues(d, grade, medidas, passo, espessura, tinta, marcas)
     _desenhar_slides_soltos(d, grade, medidas, ys, passo, espessura, tinta, marcas)
@@ -2007,6 +2028,115 @@ def _zigue(
             fill=tinta,
             width=espessura,
         )
+
+
+def _sortear_cadeia(
+    rng: random.Random, grade: dict[tuple[int, int], dict], n_col: int
+) -> None:
+    """G11 (R4e): cadeia de 3 a ``CADEIA_MAX`` notas na mesma corda sob um arco só.
+
+    Da 2ª nota em diante, "orn" (sem ataque: o conversor do gabarito do dono chama de
+    mordente a região de legato com 3 notas ou mais) e a marca ``cadeia`` ("meio" ou
+    "fim"). A última guarda a coluna da primeira (``cadeia_ini``) e as letras H/P (``cadeia_letras``,
+    vazia se a cadeia não tem letras).
+
+    Args:
+        rng: gerador aleatório.
+        grade: notas, alteradas no lugar.
+        n_col: número de colunas.
+    """
+    if n_col < 3 or rng.random() >= P_CADEIA:
+        return
+    k = rng.randint(3, min(CADEIA_MAX, n_col))
+    c = rng.randrange(n_col - k + 1)
+    s = 0 if rng.random() < P_CADEIA_CORDA_1 else rng.randrange(6)
+    chaves = [(c + i, s) for i in range(k)]
+    if any(
+        q in grade and (grade[q]["tecnica"] is not None or "parenteses" in grade[q])
+        for q in chaves
+    ):
+        return
+    casas = [rng.randint(0, 12)]
+    for _ in range(k - 1):
+        nova = max(0, casas[-1] + rng.choice((-3, -2, -1, 1, 2, 3)))
+        casas.append(nova if nova != casas[-1] else nova + 1)
+    for q, casa in zip(chaves, casas, strict=True):
+        grade[q] = {"rotulo": str(casa), "tecnica": None}
+    for q in chaves[1:-1]:
+        grade[q].update(tecnica="orn", cadeia="meio")
+    grade[chaves[-1]].update(
+        tecnica="orn",
+        cadeia="fim",
+        cadeia_ini=c,
+        cadeia_letras=(
+            ["H" if y > x else "P" for x, y in itertools.pairwise(casas)]
+            if s == 0 and rng.random() < P_LETRAS_CADEIA
+            else []
+        ),
+    )
+
+
+def _desenhar_cadeias(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    grade: dict[tuple[int, int], dict],
+    medidas: dict[tuple[int, int], dict],
+    ys: list[int],
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    fontes: list[str],
+    marcas: list[str],
+    arcos: list[dict] | None = None,
+) -> None:
+    """Desenha o arco único (acima da corda) e as letras H/P de cada cadeia (G11).
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        grade: notas (a última da cadeia tem ``cadeia`` "fim").
+        medidas: saída de `_medir_notas`.
+        ys: linha de cada corda.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        fontes: caminhos das fontes.
+        marcas: lista onde se registram as variantes desenhadas.
+        arcos: onde guardar cada arco desenhado (``_registrar_arco``).
+    """
+    for (c, s), nota in sorted(grade.items()):
+        if nota.get("cadeia") != "fim":
+            continue
+        ini = nota["cadeia_ini"]
+        a, b = medidas[(ini, s)]["caixa"], medidas[(c, s)]["caixa"]
+        xa, xb = (a[0] + a[2]) / 2, (b[0] + b[2]) / 2
+        base = rng.uniform(0.6, 1.1) * passo
+        curva = rng.uniform(0.2, 0.7) * passo
+        y = ys[s]
+        pontos = [
+            (
+                round(xa + (xb - xa) * i / 20),
+                round(y - base - curva * math.sin(math.pi * i / 20)),
+            )
+            for i in range(21)
+        ]
+        d.line(pontos, fill=tinta, width=max(1, espessura - 1))
+        marcas.append("cadeia")
+        _registrar_arco(arcos, s + 1, xa, b)
+        if not nota["cadeia_letras"]:
+            continue
+        marcas.append("cadeia_letras")
+        fonte = _carregar_fonte(
+            rng.choice(fontes), max(6, round(0.6 * passo / DIGITO_ALTURA_EM))
+        )
+        y_letra = max(0.4 * passo, y - base - curva - 0.6 * passo)
+        for col, letra in zip(
+            range(ini + 1, c + 1), nota["cadeia_letras"], strict=True
+        ):
+            caixa = medidas[(col, s)]["caixa"]
+            cx = (caixa[0] + caixa[2]) / 2
+            px, py, _ = _posicionar(d, letra, cx, y_letra, fonte, 10**6, 10**6)
+            d.text((px, py), letra, font=fonte, fill=tinta)
 
 
 def _desenhar_mordentes_tres(

@@ -311,7 +311,7 @@ def medir(versao: str, semente: int) -> dict:
     """Mede uma versão e semente nos 8 ouros (dobra fora) e na T8.2 (dobra 0).
 
     Args:
-        versao: "ger", "atq", "atqg", "atqc" ou "atqt".
+        versao: "ger", "atq", "atqg", "atqc", "atqt" ou "atqe".
         semente: 1, 2 ou 3.
 
     Returns:
@@ -433,7 +433,9 @@ def main() -> int:
     sub = ap.add_subparsers(dest="comando", required=True)
     m = sub.add_parser("medir", help="mede uma versão e semente")
     m.add_argument(
-        "--versao", choices=("ger", "atq", "atqg", "atqc", "atqt"), required=True
+        "--versao",
+        choices=("ger", "atq", "atqg", "atqc", "atqt", "atqe"),
+        required=True,
     )
     m.add_argument("--semente", type=int, required=True)
     args = ap.parse_args()

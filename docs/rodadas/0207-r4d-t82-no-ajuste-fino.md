@@ -72,3 +72,25 @@ dividida). Medidas: `r4a/medida_atqt_s{1,2,3}.json` (ouros) e `r4c/medida_t83_at
   lê caem para a metade. Os ouros também melhoram, mas eles estão no treino das outras dobras.
 - **Produto:** `ataque_rotulo.DETECTOR_CALIBRADO` passa para o `_atqt_s1` da dobra 0. Os limiares
   são os mesmos, o "sim" falso empata e a casa e a leitura melhoram. O `DETECTOR_PADRAO` não muda.
+
+## Onde estão os erros que sobram (2026-10-20)
+
+`data/saida/tab_rotulo/r4d/folha_erros_t83.py`: as notas "não" da T8.3 que a faixa lê como "sim" em
+2 sementes ou mais. São 15, as mesmas no `_atqg` e no `_atqt` (`r4d/erros_t83/`, folhas em
+`folha_escapa_1.png`, `folha_dono_prolongamento.png` e `folha_resto.png`).
+
+- **7 são dúvida de gabarito.** São `t14-n10`, `t14-n27` e `t32-n7`, `n8`, `n9`, `n10`, `n24`.
+  - O dono as mudou no modo ataque para "não, prolongamento".
+  - Em todas, o arco **sai** da nota para a direita e não chega em outra nota. Pela regra do
+    dono, isso é sustentada, ou seja, atacada.
+  - Na Room 335, o dono marcou 25 notas assim como "sim, sustentada". Fica para o dono decidir.
+- Sem essas 7: o `_atqg` deixa passar 9 · 8 · 9 /69–70 e o `_atqt` 8 · 8 · 9 /70 (11–13 %).
+- **Das 8 que sobram, 6 têm o arco acima do sistema** (sinal da técnica abaixo de 0,01).
+  - Em 3 delas, um arco só cobre uma cadeia de 4 notas, com "H P P" em cima (Shin Izumi,
+    `t24-n13`, `t24-n14`, `t25-n16`).
+  - Em 3 delas, o arco é alto e estreito, acima da corda 1 (Transcriptor, `t28-n17`, `n49`, `n50`).
+  - O gerador não tem nenhum dos dois: cada par h/p tem o seu arco, e a curva vai até 0,7
+    passo. Isso é testado na [0208](0208-r4e-cadeia-e-arco-alto.md).
+- As outras 2:
+  - `t13-n20`: um tie que chega numa nota entre parênteses `(1)`.
+  - `t22-n56`: um "gliss." cujo slide é lido, mas a regra do slide sem origem o põe como "sim".
