@@ -2366,7 +2366,6 @@ function fecharEditor(redesenhar = true) {
     document.querySelectorAll(".editor").forEach(e => e.remove());
     document.querySelectorAll(".caixa.editando").forEach(e => e.classList.remove("editando"));
   }
-  window.scrollTo({top: 0});
 }
 document.addEventListener("mousedown", ev => {
   IGNORAR_CLIQUE = false;
@@ -2683,6 +2682,10 @@ document.addEventListener("keydown", ev => {
 });
 
 function desenhar(focarUltima) {
+  const rolagem = [window.scrollX, window.scrollY];  /* redesenhar não rola a página */
+  try { desenharSemRolar(focarUltima); } finally { window.scrollTo(rolagem[0], rolagem[1]); }
+}
+function desenharSemRolar(focarUltima) {
   document.getElementById("aba-telas").className = ABA === "telas" ? "on" : "";
   document.getElementById("aba-inst").className = ABA === "instantes" ? "on" : "";
   atualizarAtaque();
