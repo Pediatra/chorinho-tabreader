@@ -75,6 +75,12 @@ from .maos_braco_localizador import (
     cadeia,
     sinalizado,
 )
+from .maos_braco_sinal_nut import (
+    FRACAO_V2,
+    distancia_da_ponta,
+    linhas_de_painel,
+    suspeito,
+)
 from .maos_braco_tempo import Marcas, classificar, erros, marcas_do_registro
 from .maos_gabarito import gravar_atomico
 
@@ -140,6 +146,9 @@ RODADAS_COM_A5 = ("1032",)
 #: Rodadas que sinalizam o quadro com o nut suspeito de estar fora da imagem (a regra de
 #: borda da 1030, só como sinal; pré-registro da 1031).
 RODADAS_SINAL_NUT = ("1032",)
+#: Rodadas que usam o sinal v2 (bordas do quadro e linhas de painel; rodada 1033, que o pôs
+#: no lugar do v1 na 1032).
+RODADAS_SINAL_NUT_V2 = ("1032",)
 #: Nut suspeito: ponta das cordas do lado do nut a até esta fração da borda menor.
 FRACAO_BORDA_NUT_SUSPEITO = 0.02
 
@@ -858,7 +867,17 @@ def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
         previstos = aplicar_consenso({"ordem": ids, "quadros": previstos}, dimensoes)[
             "quadros"
         ]
-    if numero in RODADAS_SINAL_NUT:
+    if numero in RODADAS_SINAL_NUT_V2:
+        por_id_indice = {item["id"]: item for item in indice["quadros"]}
+        for id_q in ids:
+            if not previstos[id_q]["achou"]:
+                continue
+            paineis = linhas_de_painel(_imagem(pasta / por_id_indice[id_q]["png"]))
+            distancia = distancia_da_ponta(previstos[id_q], dimensoes[id_q], paineis)
+            if suspeito(distancia, dimensoes[id_q], FRACAO_V2):
+                previstos[id_q]["nut_suspeito"] = True
+                previstos[id_q]["sinalizado"] = True
+    elif numero in RODADAS_SINAL_NUT:
         for id_q in ids:
             if nut_suspeito_previsto(previstos[id_q], dimensoes[id_q]):
                 previstos[id_q]["nut_suspeito"] = True

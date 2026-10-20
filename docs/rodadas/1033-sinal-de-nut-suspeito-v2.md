@@ -49,3 +49,28 @@ Olhando os 2 que escapam (`m31/escapam.jpg`):
 - **6 falsos, todos já vistos**: é direção, não prova. A medida de verdade é a 1032.
 - **Tablatura, legenda e logotipo também fazem linhas retas.** O sinal só olha a linha perto da
   ponta das cordas, mas pode disparar quando o violão encosta numa delas.
+
+## Resultado (2026-10-20; `m31/medida_1033.json`) — **passa com f = 2 %**
+
+Nos 3 ciclos revisados há **6 falsos que passaram** e **150 certos não sinalizados**.
+
+| f | falsos pegos | certos a mais | disparos na 1032 (64) |
+| --- | --- | --- | --- |
+| 2 % | **5** (1027:q51; 1029:q19, q20, q24 e **q46**) | **10 (6,7 %)** | 0 |
+| 3 % | 5 | 12 | 0 |
+| 4 % | 6 (mais o 1027:q56) | 14 | 0 |
+| 5 % | 6 | 16 | 0 |
+
+- Pela regra, vale o menor f que pega ≥ 5, que é **2 %**. Ele manda 6,7 % dos certos a mais,
+  dentro do limite de 10 %. **O v2 passa e substitui o v1 na 1032.**
+- **A linha de painel é que pega o 1029:q46**. Com só as bordas do quadro (v1), ele passava.
+- O que ainda escapa é o 1027:q56: o nut no 1º traste depois do capo, a 2,4 % da borda.
+- **Na 1032, o v2 dispara 0 vezes**, igual ao v1. O lote foi preenchido de novo com o v2 antes
+  de o dono abrir (64 com braço, 1 sinalizado, o mesmo q43), e nada mudou.
+- **Com o v2, os ciclos passados teriam**:
+  - 1027: 1 falso que passa (era 2);
+  - 1029: 0 falsos que passam (eram 4).
+  - Os dois ficam abaixo de 5 %. Os 6 falsos já tinham sido vistos, então isso é direção, não
+    prova.
+
+**Código**: `tab/maos_braco_sinal_nut.py`, ligado no `prever` por `RODADAS_SINAL_NUT_V2`.
