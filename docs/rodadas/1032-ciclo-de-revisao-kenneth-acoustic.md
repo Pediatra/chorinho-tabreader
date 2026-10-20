@@ -102,3 +102,27 @@ A regra é a mesma, sem mudança (`m31/sinal_1029.py`), aplicada às previsões 
 - **Conferido numa folha de 8 quadros** (`m32/conf1.jpg`): o nut ficou no nut, e o capo (casas
   6, 2, 4, 3, 3 e 1, como diz a tela) não foi tomado como nut.
 - **A ferramenta está no ar** na porta 8103, com os quadros já preenchidos.
+
+## Resultado (2026-10-20, noite; `m32/medida.json`) — **o ciclo funciona**
+
+O dono revisou os 64 quadros.
+
+| | 1032 (kenneth) | 1029 (pablo romé) |
+| --- | --- | --- |
+| entregue certo | **63 de 64 (98,4 %)** | 54 de 60 (90 %) |
+| falsos que passam | **0 de 64 (0 %)** | 4 de 63 (6,3 %) |
+| sinalizados | 1 (1,6 %) | 5 (8 %) |
+
+- **Critério**: 0 % ≤ 5 % e 1,6 % ≤ 50 %. **O ciclo segue**, e as marcas da 1032 entram no próximo
+  retreino.
+- **O único erro foi sinalizado**: o q43 (smooth criminal, S1 = 2,05). Segundo o dono, o detector
+  "confundiu um capotraste com o nut".
+- **O dono também anotou o q11** (canon in d), que está certo e não foi sinalizado: "é o mesmo
+  ângulo que ele confundiu o nut com o capotraste, acho que tá faltando um controle maior e
+  validação entre os quadros".
+  - Fica como proposta: conferir a posição do nut entre quadros da mesma tomada. A 1030 já
+    mostrou que o consenso por deslocamento não age, então teria de ser uma regra nova.
+- **O sinal de nut suspeito (v2) não disparou**: 0 quadros, o que é coerente com um canal que
+  mostra o braço inteiro. O custo dele nesse canal foi zero.
+- **O dono não usou a marca de capo** (`capo` vazio nos 64 quadros), embora o canal use capo na
+  maioria dos vídeos. A casa do capo aparece escrita na tela ("Capo: Fret N").
