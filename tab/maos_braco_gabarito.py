@@ -1577,6 +1577,7 @@ PAGINA = r"""<!doctype html>
 body { margin: 0; font-family: system-ui, sans-serif; background: #1b1d22; color: #eee; }
 header { position: sticky; top: 0; z-index: 5; background: #24272e; padding: 10px 16px; }
 h1 { font-size: 17px; margin: 0 0 6px; }
+.video { margin: 0 0 6px; font-size: 14px; word-break: break-word; }
 .instr { font-size: 13px; color: #c4c8d0; line-height: 1.45; }
 .barra { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
 button { background: #3a3f49; color: #eee; border: 1px solid #5a606c; border-radius: 6px;
@@ -1613,6 +1614,7 @@ input[type=number] { width: 72px; }
 <body>
 <header>
   <h1>Gabarito do braço do violão (M3b): quadro <span id="pos"></span></h1>
+  <p id="video" class="video"></p>
   <div class="instr">
     Modo: <b>1</b> corda 1 (2 cliques nas pontas do trecho visível <i>no braço</i>, o mais
     afastado possível; não no cavalete);
@@ -2042,6 +2044,7 @@ function render() {
   if (!estado || !estado.indice.length) return;
   const q = atual();
   $("pos").textContent = (idx + 1) + "/" + estado.indice.length + " (" + q.id + ", " + q.canal + ")";
+  $("video").textContent = "vídeo: " + q.arquivo.slice(q.arquivo.indexOf("/") + 1) + " · t = " + q.t + " s";
   $("prog").textContent = estado.concluidos + "/" + estado.total + " braço completos · partes " + estado.partes_concluidas + "/" + estado.total;
   const img = $("img");
   const destino = "/" + q.png;
