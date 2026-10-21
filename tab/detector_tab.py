@@ -37,7 +37,7 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
-from .caminhos import ARTEFATOS
+from .caminhos import PESOS_TABLATURA
 from .sintetico import _resolver_fontes, fixar_semente
 from .sintetico_sistema import ROTULOS, TECNICAS, gerar_sistema
 
@@ -705,7 +705,7 @@ def treinar(
     Returns:
         Caminho do `modelo.pt` gravado.
     """
-    pasta = saida or ARTEFATOS / f"detector_tab_s{semente}"
+    pasta = saida or PESOS_TABLATURA / f"detector_tab_s{semente}"
     pasta.mkdir(parents=True, exist_ok=True)
     base = (semente + 1) * 10**9
     dispositivo = torch.device("cuda" if torch.cuda.is_available() else "cpu")

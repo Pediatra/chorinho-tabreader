@@ -38,7 +38,15 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .caminhos import ARTEFATOS, GABARITO, SAIDA
+from .caminhos import (
+    FRAMES_GOLD,
+    GABARITO,
+    GOLD_SIMBOLOS,
+    GOLD_SIMBOLOS_2,
+    GOLD_SIMBOLOS_CROPS,
+    PESOS_TABLATURA,
+    SAIDA,
+)
 from .reconhecer import _recortar
 from .sintetico import fixar_semente
 from .tabseg import segmentar
@@ -47,13 +55,11 @@ from .tabseg import segmentar
 ALTURA, LARGURA = 32, 32
 
 #: Diretório dos recortes rotulados no gabarito de símbolos, na convenção do modelo.
-CROPS_SIMBOLOS = SAIDA.parent / "gold" / "simbolos_crops"
+CROPS_SIMBOLOS = GOLD_SIMBOLOS_CROPS
 
 #: Gabarito de símbolos (rótulos lidos no olho).
-GOLD_SIMBOLOS = SAIDA.parent / "gold" / "simbolos.json"
 
 #: Segunda folha de símbolos (amostra estratificada por canal, 17 canais).
-GOLD_SIMBOLOS_2 = SAIDA.parent / "gold" / "simbolos_2.json"
 
 #: O que é LIXO na taxonomia auditada pelo dono do projeto. As três classes vêm da
 #: leitura dele: `nada` (pedaço cinza/foto), `tablatura` (material de linha, incluindo
@@ -110,7 +116,7 @@ def montar_conjunto(tarefa: str = "digito") -> tuple[np.ndarray, np.ndarray, lis
     for am in dados["amostras"]:
         if am.get("descartada"):
             continue
-        cache = SAIDA / "frames" / "gold" / f"{am['canal']}.png"
+        cache = FRAMES_GOLD / f"{am['canal']}.png"
         if not cache.exists():
             continue
         img = cv2.imread(str(cache), cv2.IMREAD_UNCHANGED)
@@ -242,7 +248,7 @@ def carregar(caminho: str | None = None):
     Returns:
         Callable que recebe uma lista de recortes e devolve um array de probabilidades.
     """
-    alvo = caminho or str(ARTEFATOS / "digito_2" / "digito.pt")
+    alvo = caminho or str(PESOS_TABLATURA / "digito_2" / "digito.pt")
     ck = torch.load(alvo, map_location="cpu")
     modelo = DigitoCNN()
     modelo.load_state_dict(ck["state_dict"])
@@ -274,7 +280,7 @@ def main() -> int:
     if args.acao == "treinar":
         for seed in args.sementes:
             modelo, _dev = treinar(X, y, list(range(len(y))), seed, args.epocas)
-            destino = ARTEFATOS / f"{args.tarefa}_{seed}"
+            destino = PESOS_TABLATURA / f"{args.tarefa}_{seed}"
             os.makedirs(destino, exist_ok=True)
             torch.save(
                 {"state_dict": modelo.state_dict(), "seed": seed}, destino / "digito.pt"

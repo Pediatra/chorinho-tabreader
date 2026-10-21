@@ -47,7 +47,15 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .caminhos import ARTEFATOS, GABARITO, SAIDA, acervo
+from .caminhos import (
+    FRAMES,
+    GOLD_PORTAO,
+    OURO_NOVOS,
+    PESOS_TABLATURA,
+    RAIZ,
+    SAIDA,
+    acervo,
+)
 from .inventario import ler_quadro
 from .painel import FAIXAS, candidatos, escolher, refinar
 from .sintetico import fixar_semente, gerar_linha
@@ -58,15 +66,15 @@ ALTURA, LARGURA = 64, 256
 
 #: Casos reais conferidos no olho — viram teste permanente.
 POSITIVOS_REAIS: tuple[str, ...] = (
-    "data/saida/frames/sky4_t88.png",
-    "data/saida/frames/sky4_t120.png",
-    "data/saida/frames/asturias_t417.png",
+    str((FRAMES / "sky4_t88.png").relative_to(RAIZ)),
+    str((FRAMES / "sky4_t120.png").relative_to(RAIZ)),
+    str((FRAMES / "asturias_t417.png").relative_to(RAIZ)),
 )
 NEGATIVOS_REAIS: tuple[tuple[str, float], ...] = (
-    ("data/saida/ouro_novos/03_violaodecria/auto.json", 0.0),
-    ("data/saida/ouro_novos/02_shin izumi/auto.json", 0.0),
-    ("data/saida/ouro_novos/00_cifra club/auto.json", 0.0),
-    ("data/saida/ouro_novos/01_guitar dell ́a/auto.json", 0.0),
+    (str((OURO_NOVOS / "03_violaodecria" / "auto.json").relative_to(RAIZ)), 0.0),
+    (str((OURO_NOVOS / "02_shin izumi" / "auto.json").relative_to(RAIZ)), 0.0),
+    (str((OURO_NOVOS / "00_cifra club" / "auto.json").relative_to(RAIZ)), 0.0),
+    (str((OURO_NOVOS / "01_guitar dell ́a" / "auto.json").relative_to(RAIZ)), 0.0),
 )
 
 #: Vídeos que COMPÕEM o conjunto de aceitação — ficam fora do treino e da validação.
@@ -86,10 +94,9 @@ VIDEOS_DE_ACEITACAO: tuple[str, ...] = (
 CASOS_PORTAO = SAIDA / "portao_casos"
 
 #: Gabarito do portão, acrescentado rodada a rodada; os casos antigos nunca são reescritos.
-GOLD_PORTAO = GABARITO.with_name("portao.json")
 
 #: Folhas de leitura no olho (PNG com o índice desenhado em cada célula).
-FOLHAS_PORTAO = SAIDA / "frames"
+FOLHAS_PORTAO = FRAMES
 
 #: Rótulos aceitos.
 ROTULOS = ("tablatura", "nao_tablatura", "duvida")
@@ -802,8 +809,8 @@ def main() -> int:
     )
     ap.add_argument("--epocas", type=int, default=12)
     ap.add_argument("--seed", type=int, default=1)
-    ap.add_argument("--saida", default=str(ARTEFATOS / "portao"))
-    ap.add_argument("--modelo", default=str(ARTEFATOS / "portao" / "portao.pt"))
+    ap.add_argument("--saida", default=str(PESOS_TABLATURA / "portao"))
+    ap.add_argument("--modelo", default=str(PESOS_TABLATURA / "portao" / "portao.pt"))
     ap.add_argument(
         "--gold", action="store_true", help="inclui os recortes reais rotulados"
     )

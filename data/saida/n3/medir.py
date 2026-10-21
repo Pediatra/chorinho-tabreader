@@ -17,7 +17,6 @@ from __future__ import annotations
 
 import json
 import os
-import shlex
 import sys
 import traceback
 from collections import Counter
@@ -30,7 +29,7 @@ sys.path.insert(0, "/app")
 
 import cv2  # noqa: E402
 
-from tab import detector_tab, leitor  # noqa: E402
+from tab import caminhos, detector_tab, leitor  # noqa: E402
 from tab.avaliar_video import (  # noqa: E402
     FRACAO_PASSO,
     NotaPrevista,
@@ -43,20 +42,20 @@ from tab.painel import escolher_ou_mascara  # noqa: E402
 from tab.reconhecer import ALGARISMOS, carregar_modelo  # noqa: E402
 from tab.tabseg import segmentar  # noqa: E402
 
-RAIZ = Path("/app")
-SAIDA = RAIZ / "data/saida/n3"
-OURO = RAIZ / "data/gold/ouro_video"
-MODELO_BASE = RAIZ / "artefatos/oficial_3/glifo_sint.pt"
+RAIZ = caminhos.RAIZ
+SAIDA = caminhos.SAIDA / "n3"
+OURO = caminhos.OURO_VIDEO
+MODELO_BASE = caminhos.MODELO_PADRAO
 DETECTORES_CAMINHO = {
-    "s1": RAIZ / "artefatos/detector_tab_s1/modelo.pt",
-    "s2": RAIZ / "artefatos/detector_tab_s2/modelo.pt",
-    "s3": RAIZ / "artefatos/detector_tab_s3/modelo.pt",
-    "v2_s1": RAIZ / "artefatos/detector_tab_v2_s1/modelo.pt",
-    "v2_s2": RAIZ / "artefatos/detector_tab_v2_s2/modelo.pt",
-    "v2_s3": RAIZ / "artefatos/detector_tab_v2_s3/modelo.pt",
-    "v3_s1": RAIZ / "artefatos/detector_tab_v3_s1/modelo.pt",
-    "v3_s2": RAIZ / "artefatos/detector_tab_v3_s2/modelo.pt",
-    "v3_s3": RAIZ / "artefatos/detector_tab_v3_s3/modelo.pt",
+    "s1": caminhos.PESOS_TABLATURA / "detector_tab_s1" / "modelo.pt",
+    "s2": caminhos.PESOS_TABLATURA / "detector_tab_s2" / "modelo.pt",
+    "s3": caminhos.PESOS_TABLATURA / "detector_tab_s3" / "modelo.pt",
+    "v2_s1": caminhos.PESOS_TABLATURA / "detector_tab_v2_s1" / "modelo.pt",
+    "v2_s2": caminhos.PESOS_TABLATURA / "detector_tab_v2_s2" / "modelo.pt",
+    "v2_s3": caminhos.PESOS_TABLATURA / "detector_tab_v2_s3" / "modelo.pt",
+    "v3_s1": caminhos.PESOS_TABLATURA / "detector_tab_v3_s1" / "modelo.pt",
+    "v3_s2": caminhos.PESOS_TABLATURA / "detector_tab_v3_s2" / "modelo.pt",
+    "v3_s3": caminhos.PESOS_TABLATURA / "detector_tab_v3_s3" / "modelo.pt",
 }
 SAIDA_TABELA = "tabela_v3.txt"
 COR_OURO = (0, 200, 0)  # verde (BGR)
@@ -72,15 +71,26 @@ def log(msg: str) -> None:
     print(msg, flush=True)
 
 
+#: Os 7 ouros das linhas `rodada` de barline_fina/run.sh, na ordem de lá (decisão 9001,
+#: fase 1b: o vídeo vem do campo `video` do próprio ouro, e o run.sh deixa de ser lido).
+SLUGS_DO_RUN = (
+    "retrato_brasileiro_v2",
+    "greensleeves_guia_de_estudio_partitura_tab_pdf",
+    "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar",
+    "south_american_music_easy_guitar_tutorial_with_sheet_and_tab",
+    "tab_from_this_place_pat_metheny_fingerstyle_guitar_cover",
+    "la_vie_en_rose_edith_piaf_tab",
+    "end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics",
+)
+
+
 def videos_do_run() -> dict[str, str]:
-    """Lê slug -> caminho do vídeo das linhas `rodada` de barline_fina/run.sh."""
-    mapa: dict[str, str] = {}
-    texto = (RAIZ / "data/saida/barline_fina/run.sh").read_text(encoding="utf-8")
-    for linha in texto.splitlines():
-        if linha.startswith("rodada "):
-            _, _nome, video, _fps, slug = shlex.split(linha)
-            mapa[slug] = video
-    return mapa
+    """Slug -> caminho do vídeo no container, pelo campo `video` de cada ouro."""
+    return {
+        slug: "/acervo/"
+        + json.loads((OURO / f"{slug}.json").read_text(encoding="utf-8"))["video"]
+        for slug in SLUGS_DO_RUN
+    }
 
 
 def carregar_detectores() -> dict[int, object]:

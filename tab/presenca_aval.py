@@ -32,11 +32,11 @@ import cv2
 import numpy as np
 
 from . import leitor
-from .caminhos import SAIDA, acervo
+from .caminhos import GOLD_PRESENCA_QUADROS, SAIDA, acervo
 from .telas import painel_do_quadro
 
 #: Gabarito por quadro (dono, 2026-10-10), versionado em ``data/gold``.
-GOLD_QUADROS = SAIDA.parent / "gold" / "presenca_quadros.json"
+GOLD_QUADROS = GOLD_PRESENCA_QUADROS
 
 #: Duas caixas são "a mesma" se a interseção sobre a união for pelo menos isto.
 LIMIAR_IOU_CAIXA = 0.9

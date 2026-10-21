@@ -15,13 +15,9 @@ import json
 import cv2
 import numpy as np
 
-from .caminhos import GABARITO, MODELO_PADRAO, PARTES, SAIDA, acervo
+from .caminhos import FRAMES_GOLD, GABARITO, MODELO_PADRAO, PARTES, acervo
 from .inventario import ler_quadro
 from .reconhecer import carregar_modelo, reconhecer_linha
-
-#: Quadros do gabarito cacheados: a métrica não pode depender de vídeo que pode sumir
-#: (medido: o vídeo do `raman korshun` foi apagado e 24 dos 96 glifos ficaram sem quadro).
-FRAMES_GOLD = SAIDA / "frames" / "gold"
 
 #: Recorte de onde a amostra da `sky guitar` foi rotulada.
 RECORTE_SKY = PARTES / "clipes" / "-6rawhontyg_000120_000200" / "linha_01_tablatura.png"

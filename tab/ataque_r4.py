@@ -182,7 +182,7 @@ def modelo_da_dobra(versao: str, dobra: int, semente: int) -> Path:
         nome = f"detector_tab_v3ft_d{dobra}_ger" + (
             "" if semente == 1 else f"_s{semente}"
         )
-    return caminhos.ARTEFATOS / nome / "modelo.pt"
+    return caminhos.PESOS_TABLATURA / nome / "modelo.pt"
 
 
 def ler_tela(

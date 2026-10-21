@@ -29,7 +29,7 @@ import torch.nn.functional as F
 from PIL import Image, ImageDraw, ImageFont
 
 from .avaliar import avaliar_com_modelo
-from .caminhos import ARTEFATOS, GABARITO
+from .caminhos import GABARITO, PESOS_TABLATURA
 from .glyph_bench import GlifoCNN
 from .glyphset import normalizar
 from .tabseg import segmentar
@@ -539,7 +539,7 @@ def _parser() -> argparse.ArgumentParser:
     ap.add_argument("--n-linhas", type=int, default=400)
     ap.add_argument("--epocas", type=int, default=25)
     ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--saida", default=str(ARTEFATOS))
+    ap.add_argument("--saida", default=str(PESOS_TABLATURA))
     ap.add_argument("--gabarito", default=str(GABARITO))
     ap.add_argument(
         "--casas",

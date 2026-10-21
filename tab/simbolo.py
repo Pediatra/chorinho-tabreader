@@ -39,12 +39,16 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from tab.caminhos import ARTEFATOS
+from tab.caminhos import (
+    GOLD_SIMBOLOS_MARCADOS,
+    GOLD_SIMBOLOS_MARCADOS_PASTA,
+    PESOS_TABLATURA,
+)
 from tab.digito import DigitoCNN, preparar
 from tab.sintetico import fixar_semente
 
-GOLD_MARCADOS = ARTEFATOS.parent / "data" / "gold" / "simbolos_marcados.json"
-PASTA = ARTEFATOS.parent / "data" / "gold" / "simbolos_marcados"
+GOLD_MARCADOS = GOLD_SIMBOLOS_MARCADOS
+PASTA = GOLD_SIMBOLOS_MARCADOS_PASTA
 
 
 def montar_conjunto(
@@ -178,7 +182,8 @@ def treinar(sementes: list[int] | None = None) -> None:
         # root-owned no host (armadilha do AGENTS.md: o container escreve como root e o host
         # não altera; com podman mapeado, o container também não). O padrão não muda.
         destino = (
-            pathlib.Path(os.environ.get("SAIDA_SIMBOLO", ARTEFATOS)) / f"simbolo_{seed}"
+            pathlib.Path(os.environ.get("SAIDA_SIMBOLO", PESOS_TABLATURA))
+            / f"simbolo_{seed}"
         )
         os.makedirs(destino, exist_ok=True)
         torch.save(
@@ -200,7 +205,7 @@ def carregar(caminho: str | None = None):
         centrado): a moldura é entrada do modelo, não detalhe de implementação.
     """
     destino = caminho or str(
-        pathlib.Path(os.environ.get("SAIDA_SIMBOLO", ARTEFATOS))
+        pathlib.Path(os.environ.get("SAIDA_SIMBOLO", PESOS_TABLATURA))
         / "simbolo_2"
         / "simbolo.pt"
     )

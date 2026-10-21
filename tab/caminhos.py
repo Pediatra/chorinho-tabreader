@@ -180,6 +180,33 @@ TAB_ROTULO = SAIDA / "tab_rotulo"
 #: Saída do produto nos ouros, cada vídeo lido pela dobra que não o viu (fase 8).
 FASE8_GER = SAIDA / "fase8" / "ger" / "ger"
 
+#: Ouro da tablatura que mora solto na raiz de ``data/gold`` (decisão 9001: na fase 4 vai
+#: para ``data/gold/tablatura/``, e só esta constante muda).
+GOLD_TABLATURA = RAIZ / "data" / "gold"
+#: Rótulos de símbolo do dono: os recortes e as duas leituras do discriminador (``digito``),
+#: as marcas do filtro (``simbolo``) e as marcas da folha 6 (``fimafim``, ``folha_simbolos``).
+GOLD_SIMBOLOS_CROPS = GOLD_TABLATURA / "simbolos_crops"
+GOLD_SIMBOLOS = GOLD_TABLATURA / "simbolos.json"
+GOLD_SIMBOLOS_2 = GOLD_TABLATURA / "simbolos_2.json"
+GOLD_SIMBOLOS_MARCADOS = GOLD_TABLATURA / "simbolos_marcados.json"
+GOLD_SIMBOLOS_MARCADOS_PASTA = GOLD_TABLATURA / "simbolos_marcados"
+GOLD_MARCAS_SIMBOLOS_6 = GOLD_TABLATURA / "marcas_simbolos_6.json"
+#: Rótulos do portão (``tab.portao``) e da presença por quadro (``tab.presenca_aval``).
+GOLD_PORTAO = GOLD_TABLATURA / "portao.json"
+GOLD_PRESENCA_QUADROS = GOLD_TABLATURA / "presenca_quadros.json"
+#: Quadros e folhas da tablatura. O ``frames/gold`` guarda, cacheado, o quadro de cada
+#: glifo do gabarito: a métrica não pode depender de vídeo que pode sumir (o do
+#: ``raman korshun`` foi apagado, e 24 dos 96 glifos ficaram sem quadro).
+FRAMES = SAIDA / "frames"
+FRAMES_GOLD = FRAMES / "gold"
+#: Índice da coleta de símbolos marcada pelo dono e a folha inteira (``fimafim``).
+COLETA_MARCAR = SAIDA / "coleta_marcar"
+FOLHA_INTEIRA = SAIDA / "folha_inteira"
+#: Casos negativos do portão (``tab.portao``): vídeos sem tablatura de imagem.
+OURO_NOVOS = SAIDA / "ouro_novos"
+#: Recortes de símbolo que o ``tab.video`` grava, uma pasta por vídeo.
+VIDEO_SIMBOLOS = SAIDA / "video"
+
 #: Frentes de teste da pesquisa da partitura (``docs/pesquisa/partitura-frentes.md``): uma
 #: pasta de saída por frente (os pesos treinados por elas ficam em ``PART_FRENTES_PESOS``).
 PART_FRENTE_0 = SAIDA / "part_frentes" / "f0_regua"
@@ -238,13 +265,17 @@ ARTEFATOS = RAIZ / "artefatos"
 #: Recortes de amostra do acervo.
 PARTES = RAIZ / "parts"
 
+#: Pesos da tablatura (uma pasta por peso, com ``modelo.pt`` e ``config.json``). Hoje é a
+#: raiz de ``artefatos``; na fase 4 da decisão 9001, só esta constante muda.
+PESOS_TABLATURA = ARTEFATOS
+
 #: Modelo de glifos usado por padrão no ponta a ponta.
 # PROCEDÊNCIA MEDIDA (Fase 0 / T0.2). O `glifo_sint.pt` daqui dava **72/72 = 1,000** no próprio
 # gabarito que serve de régua — perfeição na régua é sinal de sobreajuste a ela, não de qualidade —
 # e ele NÃO está na tabela de procedência do `artefatos/LEIA-ME.md`. Passa a valer a semente
 # MEDIANA (oficial_3, 68/72 = 0,944), e não a melhor (oficial_2, 0,986): escolher a melhor pelo
 # gabarito de 72 glifos é sobreajustar a régua. Ver docs/decisoes/0008-modelo-do-produto.md.
-MODELO_PADRAO = ARTEFATOS / "oficial_3" / "glifo_sint.pt"
+MODELO_PADRAO = PESOS_TABLATURA / "oficial_3" / "glifo_sint.pt"
 
 #: Detector de notas (rede de sistema inteiro) usado pelo leitor ``rede`` do produto.
 # Ajuste fino com os 8 gabaritos + sintético (``data/saida/n4/treinar_ft.py --dobra 0``).
@@ -253,10 +284,10 @@ MODELO_PADRAO = ARTEFATOS / "oficial_3" / "glifo_sint.pt"
 # Desde 2026-10-15, com o gerador de pausa entre cordas e cinza (``_s1_ger``): nas dobras, 3
 # sementes, a precisão passou de 0,970-0,977 para 0,978-0,981; nas 35 telas da T8.2 (fora do
 # treino) ficou igual ao anterior (casa 0,996, revocação 0,990). Ver ESTADO.md, fase 8.
-DETECTOR_PADRAO = ARTEFATOS / "detector_tab_final_s1_ger" / "modelo.pt"
+DETECTOR_PADRAO = PESOS_TABLATURA / "detector_tab_final_s1_ger" / "modelo.pt"
 
 #: Pesos treinados pelas frentes da pesquisa da tablatura, uma pasta por frente.
-TAB_FRENTES_PESOS = ARTEFATOS / "tab_frentes"
+TAB_FRENTES_PESOS = PESOS_TABLATURA / "tab_frentes"
 
 #: Pesos treinados pelas frentes da pesquisa da partitura, uma pasta por frente.
 PART_FRENTES_PESOS = ARTEFATOS / "part_frentes"

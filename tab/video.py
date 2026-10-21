@@ -38,7 +38,7 @@ from pathlib import Path
 import numpy as np
 
 from . import ataque_rotulo, detector_tab, leitor
-from .caminhos import DETECTOR_PADRAO, MODELO_PADRAO, RAIZ, SAIDA, acervo
+from .caminhos import DETECTOR_PADRAO, MODELO_PADRAO, RAIZ, VIDEO_SIMBOLOS, acervo
 from .colunas import agrupar_colunas
 from .digito import carregar
 from .estado import (
@@ -775,7 +775,7 @@ def transcrever_video(
         rede, rotulos, dev = carregar_modelo(str(modelo))
         discriminador = carregar()
         modelo_usado = modelo
-    dir_simbolos = str(SAIDA / "video" / _slug(caminho))
+    dir_simbolos = str(VIDEO_SIMBOLOS / _slug(caminho))
     lista = telas_lidas if telas_lidas is not None else telas(caminho)
     telas_v1: list[dict] = []
     notas: list[dict] = []

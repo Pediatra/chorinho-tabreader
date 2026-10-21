@@ -11,13 +11,12 @@ ponta a ponta com o modelo real fica em `integration`, porque `artefatos/` não 
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import numpy as np
 import pytest
 from PIL import Image, ImageDraw, ImageFont
 
 from tab import reconhecer
+from tab.caminhos import PESOS_TABLATURA
 from tab.reconhecer import (
     _casa_das_partes,
     _fundir_pares_de_digitos,
@@ -41,7 +40,7 @@ ROTULOS = [str(n) for n in range(10)] + [
     "tecnica",
 ]
 PASSO = 20.0
-MODELO_OFICIAL = Path("artefatos/oficial_3/glifo_sint.pt")
+MODELO_OFICIAL = PESOS_TABLATURA / "oficial_3" / "glifo_sint.pt"
 
 
 def _vetor(pesos: dict[str, float]) -> np.ndarray:

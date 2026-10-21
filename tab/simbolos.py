@@ -47,7 +47,7 @@ from datetime import UTC, datetime
 import cv2
 import numpy as np
 
-from tab.caminhos import ARTEFATOS, SAIDA, acervo
+from tab.caminhos import PESOS_TABLATURA, SAIDA, acervo
 from tab.digito import carregar
 from tab.inventario import ler_quadro
 from tab.painel import escolher
@@ -63,7 +63,7 @@ cv2.utils.logging.setLogLevel(cv2.utils.logging.LOG_LEVEL_SILENT)
 FRACOES_PADRAO = (0.65, 0.85)
 
 #: Modelo oficial (0,889 de média em 3 sementes) — o mesmo do ponta a ponta.
-MODELO_OFICIAL = ARTEFATOS / "oficial_2" / "glifo_sint.pt"
+MODELO_OFICIAL = PESOS_TABLATURA / "oficial_2" / "glifo_sint.pt"
 
 #: Recortes crus de símbolo, uma pasta por canal (`reconhecer_linha` escreve aqui).
 DIR_SIMBOLOS = SAIDA / "simbolos"

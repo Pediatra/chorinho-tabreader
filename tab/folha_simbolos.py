@@ -28,6 +28,7 @@ import sys
 import cv2
 import numpy as np
 
+from .caminhos import COLETA_MARCAR, FOLHA_INTEIRA, GOLD_MARCAS_SIMBOLOS_6
 from .inventario import ler_quadro
 from .painel import escolher
 from .pipeline import roi_das_cordas
@@ -95,9 +96,9 @@ def _caixa_do_simbolo(
 def main() -> int:
     """Recorta cada marca do dono pela caixa dos componentes vizinhos e escreve folhas de 24."""
     ap = argparse.ArgumentParser()
-    ap.add_argument("--marca", default="data/gold/marcas_simbolos_6.json")
-    ap.add_argument("--indice", default="data/saida/coleta_marcar/indice.json")
-    ap.add_argument("--saida", default="data/saida/folha_inteira")
+    ap.add_argument("--marca", default=str(GOLD_MARCAS_SIMBOLOS_6))
+    ap.add_argument("--indice", default=str(COLETA_MARCAR / "indice.json"))
+    ap.add_argument("--saida", default=str(FOLHA_INTEIRA))
     ap.add_argument("--altura", type=int, default=96)
     args = ap.parse_args()
 

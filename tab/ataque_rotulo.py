@@ -20,7 +20,9 @@ from tab.ataque_r4 import ORIGEM_SLIDE_MAX, TECNICAS_SUPERVISIONADAS
 from tab.detector_tab import TECNICAS_MODELO
 
 #: Pesos em que os limiares foram escolhidos (rodadas 0205 e 0207, dobra 0, semente 1).
-DETECTOR_CALIBRADO = caminhos.ARTEFATOS / "detector_tab_final_atqt_s1" / "modelo.pt"
+DETECTOR_CALIBRADO = (
+    caminhos.PESOS_TABLATURA / "detector_tab_final_atqt_s1" / "modelo.pt"
+)
 
 #: Acima disto, a técnica tira o ataque: "nao" (rodada 0203).
 LIMIAR_NAO = 0.15

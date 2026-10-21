@@ -30,11 +30,11 @@ import sys
 
 import cv2
 
-from .caminhos import ARTEFATOS
+from .caminhos import GOLD_SIMBOLOS_MARCADOS, GOLD_TABLATURA, RAIZ
 from .inventario import ler_quadro
 from .painel import escolher
 
-GOLD = ARTEFATOS.parent / "data" / "gold" / "simbolos_marcados.json"
+GOLD = GOLD_SIMBOLOS_MARCADOS
 
 
 def _painel(canal: str, frac: float, cache: dict):
@@ -99,7 +99,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--jx", type=float, default=1.5)
     ap.add_argument("--jy", type=float, default=1.25)
-    ap.add_argument("--saida", default=str(GOLD.parent / "simbolos_marcados_j25"))
+    ap.add_argument("--saida", default=str(GOLD_TABLATURA / "simbolos_marcados_j25"))
     args = ap.parse_args()
 
     dados = json.loads(GOLD.read_text(encoding="utf-8"))
@@ -164,7 +164,7 @@ def main() -> int:
         cv2.imwrite(f"{args.saida}/negativos/{nome}", rec)
         novos_neg.append({**caso, "arquivo": nome})
 
-    (ARTEFATOS.parent / args.saida / "simbolos_marcados.json").write_text(
+    (RAIZ / args.saida / "simbolos_marcados.json").write_text(
         json.dumps(
             {
                 "origem": dados.get("origem"),

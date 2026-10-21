@@ -27,6 +27,7 @@ import os
 import pathlib
 import sys
 
+from .caminhos import COLETA_MARCAR, GOLD_MARCAS_SIMBOLOS_6, PESOS_TABLATURA
 from .digito import carregar as carregar_discriminador
 from .inventario import ler_quadro
 from .painel import escolher
@@ -38,16 +39,18 @@ from .simbolo import carregar as carregar_simbolo
 def main() -> int:
     """Mede precisão e recall de ponta a frente contra as marcas e imprime o resumo."""
     ap = argparse.ArgumentParser()
-    ap.add_argument("--marca", default="data/gold/marcas_simbolos_6.json")
-    ap.add_argument("--indice", default="data/saida/coleta_marcar/indice.json")
-    ap.add_argument("--modelo", default="artefatos/oficial_2/glifo_sint.pt")
+    ap.add_argument("--marca", default=str(GOLD_MARCAS_SIMBOLOS_6))
+    ap.add_argument("--indice", default=str(COLETA_MARCAR / "indice.json"))
+    ap.add_argument(
+        "--modelo", default=str(PESOS_TABLATURA / "oficial_2" / "glifo_sint.pt")
+    )
     ap.add_argument("--jx", type=float, default=1.2)
     ap.add_argument("--jy", type=float, default=0.8)
     ap.add_argument("--limiar2", type=float, default=0.5)
     args = ap.parse_args()
 
     arq_simbolo = (
-        pathlib.Path(os.environ.get("SAIDA_SIMBOLO", "artefatos"))
+        pathlib.Path(os.environ.get("SAIDA_SIMBOLO", PESOS_TABLATURA))
         / "simbolo_2"
         / "simbolo.pt"
     )
