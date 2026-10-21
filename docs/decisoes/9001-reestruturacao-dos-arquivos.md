@@ -221,9 +221,178 @@ Cada trilha escreve só na sua seção, com data.
 
 (sem resposta ainda)
 
-### Áudio
+### Áudio (2026-10-21)
 
-(sem resposta ainda)
+**Conferência dos números que tocam o áudio** (`wc`, `grep`, `du` e `git ls-files`, rodados em
+2026-10-21):
+
+| item | na proposta | medido | nota |
+| --- | --- | --- | --- |
+| `tab/audio_*.py` | 11 módulos | **11 módulos, 7.793 linhas** | o áudio também escreveu `tab/cruzar_fontes.py` (241 linhas, neutro, rodada 2020): são **12** módulos a mover |
+| testes | — | **8 arquivos**: 7 `test_audio_*` e `test_cruzar_fontes` | os 2 `test_maos_direita_audio*` são das mãos. Ficam sem teste 4 módulos: `alinhar_avaliar`, `figuras` e os 2 transcritores |
+| áudio → tablatura | 1 | **1**: `audio_extrair` → `censo.chave_do_arquivo` | `caminhos` entra em 3 módulos; `gpu` e `leitor`, em 0 |
+| outra trilha → áudio | — | por import em `tab/` e `tests/`: **0** | por CLI, 1 script das mãos (`data/saida/maos/m7/audio/rodar_alinhar.sh`, 4× `python -m tab.audio_alinhar`). Num rascunho da tablatura (`data/saida/tab_frentes/fd_som/scratch/`), há import de `audio_extrair.ler` e `audio_onsets.MIDI_CORDA`. O `maos_direita_audio` só lê o JSON do alinhador |
+| imports relativos | — | **14 linhas em 9 módulos** | na fase 3 viram absolutos, como pede o §3 |
+| JSON atômico | `gravar_atomico` em 2 | no áudio: **6 lugares em 5 módulos** | `audio_extrair` (2), `audio_produto`, `audio_folha._gravar_json` e os 2 transcritores, em linha. Há ainda 2 gravadores de WAV (`audio_folha`, `audio_figuras`) |
+| `_nfc` e trava da GPU | — | **0** no áudio | o áudio não usa GPU hoje: o transcritor roda em CPU |
+| `Dockerfile.audio` e `Dockerfile.som` → `docker/` | — | **nada quebra** | nenhum dos dois tem `COPY` ou `ADD`, o build é por stdin (`podman build -t chorinho-som:dev - < Dockerfile.som`), e nem `compose*.yaml` nem o `Makefile` os citam. Mudam só os comandos de build escritos nas docstrings e nos guias. O `.audio` é `FROM chorinho:dev` (3.14); o **`.som` é `FROM python:3.10-slim`** (objeção 5a) |
+
+**Os dados e os pesos do áudio:**
+
+| onde | tamanho | no git | uso | classe |
+| --- | --- | --- | --- | --- |
+| `data/saida/audio/a2` | 78 MB | não | 157 clipes `.mp4` das folhas; rodadas 2004–2013 | manter (citada) |
+| `data/saida/audio/a4` | 27 MB | não | rodadas 2004 e 2009–2013 | manter |
+| `data/saida/audio/a1` | 21 MB | não | rodadas 2002–2004 | manter |
+| `data/saida/audio/r2017` | 13 MB | não | rodadas 2017–2020; os produtos que o `audio_som_medir` lê | manter |
+| `data/saida/audio/r2018` | 13 MB | não | rodada 2018; `ferramenta_acordes/` é o material de onde saiu o gabarito `acordes_2018` | manter |
+| `data/saida/audio/a1b` | 7,6 MB | não | só a rodada 2003 | arquivar |
+| `data/saida/audio/r2019` | 2,9 MB | não | rodada 2019; `som_fl/` entra na 2020 | manter |
+| `data/saida/audio/a0` | 1,4 MB | não | só a rodada 2001 | arquivar |
+| `data/saida/audio/a5` | 0,6 MB | não | rodadas 2004 e 2011 | manter |
+| `data/saida/audio/r2020` | 0,5 MB | não | rodada em andamento | manter |
+| `data/gold/audio/` | 120 KB | 4 arquivos | os 4 em uso | manter (é gabarito) |
+| `artefatos/riley_guitar/guitar-fl.pth` | 95 MB | não (a procedência `.md` está) | **em uso**: é o `chorinho/som@1` (decisão 2006) | manter |
+| `artefatos/riley_guitar/guitar-gaps.pth` | 95 MB | não | só a comparação da rodada 2019 | arquivar |
+
+- **Total**: `data/saida/audio` tem 162 MB em 10 pastas, todas citadas por rodada. Por isso não
+  há nada a apagar. Lixo de verdade são só logs de mensagem e de gate, com menos de 1 MB.
+  Arquivar `a0`, `a1b` e `guitar-gaps` libera ~104 MB. É pouco, e eu faria só se o dono quiser.
+- **O que dá para regenerar**: os clipes e as folhas, pelo `tab.audio_folha`, e o FLAC, pelo
+  `tab.audio_extrair`. A regeneração relê o HD. Os 2 `.pth` voltam por download (revisão e
+  sha256 na procedência), com o aval do dono.
+- **Fora do repositório**: as imagens `chorinho-audio:dev` (6,6 GB) e `chorinho-som:dev`
+  (1,5 GB) ficam no armazenamento do podman e não entram nos 27 GB. Os pesos do Basic Pitch
+  vêm dentro do pacote pip da imagem.
+
+**Respostas às 5 perguntas:**
+
+1. **Candidatos ao `comum`:**
+   - **A física do violão** (corda solta + casa + capo = a altura). Ela existe em 3 cópias:
+     - `audio_onsets.midi_da_nota` e `MIDI_CORDA`;
+     - `audio_som_medir.midi_da_nota`, uma cópia minha que eu tiro;
+     - `musicxml.midi_da_corda`, da tablatura, que a partitura importa 3 vezes.
+
+     Junto, vai a leitura do `capo_por_video.json` das mãos (`audio_som_medir.capo_do_video`).
+     Proponho um `tab/comum/violao.py`, já que 3 trilhas a usam.
+   - **O JSON atômico**: são 6 lugares no áudio, e o mesmo padrão aparece nas outras 3 trilhas.
+     A exceção são os 2 transcritores, que rodam em Python 3.10 (objeção 5a). Eles só passam a
+     usar o `comum` se ele for compatível com 3.10 e só de stdlib.
+   - **O `audio_extrair` não vai para o `comum` agora.** Fora do áudio, só um rascunho da
+     tablatura o importa. Ele fica em `tab/audio/extrair.py`, com o apelido, e vai para o
+     `comum` quando um módulo de outra trilha em `tab/` precisar dele.
+   - `_nfc` e a trava da GPU: o áudio não tem nenhum dos dois.
+   - **O que eu uso de outras trilhas:**
+     - `censo.chave_do_arquivo` (tablatura, por import);
+     - o `capo_por_video.json` (mãos, por dado, com o caminho montado no módulo);
+     - `tab.avaliar_video` (tablatura), só nos scripts de rodada (`data/saida/audio/r2020/`).
+2. **Janela**:
+   - Hoje à noite, depois da medida da rodada 2020. São minutos de CPU no container base, sem
+     GPU, e os produtos dela já estão prontos.
+   - Daí em diante, o áudio não tem treino, fila nem ferramenta rodando. A ferramenta e o túnel
+     dos acordes já estão fechados.
+   - O próximo lote grande (os 35 vídeos da T8.2, no HD) só começa com horário combinado com o
+     dono, e eu o seguro até a fase 3 do áudio fechar.
+   - **Para quem fizer a fase 2**: às 18h30, havia 1 ferramenta da tablatura rodando
+     (`tab.ouro_video servir` da t84, porta 8126, há 5 h) e um container das mãos. A fase 2 muda
+     o `tab/__init__.py`, e isso atinge esses processos (regra 6 do §2).
+3. **Caminhos fixos fora do `caminhos.py`**:
+   - `audio_som_medir` monta à mão:
+     - `GOLD = RAIZ / "data" / "gold"`, usado para `ouro_video/` da tablatura e para `audio/`;
+       o `caminhos.OURO_VIDEO` já existe e eu não o uso;
+     - `SAIDA / "ouro_video" / <nome> / "pre.json"`, da tablatura;
+     - `SAIDA / "maos" / "capo_por_video.json"`, das mãos;
+     - `SAIDA / "audio" / "r2017"` e `r2018`.
+   - `audio_produto.GABARITO_AUDIO` monta o caminho a partir de `RAIZ`.
+   - `audio_folha.PREFIXO_ACERVO = "/acervo/"` é a convenção do container. Vira o
+     `caminhos.acervo()`.
+   - **Scripts**:
+     - **60 arquivos** em `data/saida/audio/` chamam módulos de `tab` pelo nome antigo, quase
+       todos do áudio, nas 3 formas:
+       `python -m tab.audio_alinhar`, `from tab.audio_extrair import ler` e
+       `from tab import audio_som_medir`. Os apelidos cobrem esses casos se o teste cobrir as
+       3 formas (objeção 5b). Há também o `.sh` da M7, das mãos.
+     - Os caminhos de dado nesses scripts são relativos a `/app`. Os de `data/saida/audio/`
+       não mudam.
+     - **Quebram** os que apontam para dados de outras trilhas (`data/saida/produto/mvp.json`,
+       `data/gold/ouro_video/`, `data/saida/maos/…`), se a trilha dona mover a pasta sem link.
+   - **Correção na minha fase 1**:
+     - `audio_som_medir` e `audio_produto` passam a ler só pelo `caminhos.py`;
+     - eu acrescento `GABARITO_AUDIO` e `SAIDA_AUDIO`;
+     - peço às donas uma constante para o `capo_por_video.json` (mãos) e outra para
+       `data/saida/ouro_video/` (tablatura).
+4. **Pesos em uso**:
+   - Só o `artefatos/riley_guitar/guitar-fl.pth` (sha256 `50d93dba…`).
+     - O transcritor recebe o peso por `--pesos` e não tem caminho no código.
+     - Mover para `artefatos/audio/riley_guitar/` muda só os comandos dos scripts e da
+       procedência. Faço isso com um link relativo na fase 4.
+     - O `caminhos.peso` não serve dentro do transcritor, porque ele não importa nada de `tab`.
+       Ele serve no script que o chama.
+   - `guitar-gaps.pth`: histórico, para arquivar.
+   - O alinhador não usa peso.
+   - O meu `EM_USO.json` vai ter 1 linha.
+5. **Objeções, cada uma com a alternativa:**
+   - **a. A imagem `chorinho-som` é Python 3.10**, e o gate não pega isso.
+     - O que acontece: ela roda `python -m tab.audio_transcrever_riley` com o repositório
+       montado, e o `import tab` executa o `tab/__init__.py`. Se o localizador, o
+       `_apelidos.py` ou o que eles importam usar sintaxe 3.11+ (`except*`, `type X = …`,
+       `class A[T]`) ou `tomllib`, o transcritor quebra no import.
+     - Por que o gate não vê: ele roda no 3.14, e o protótipo do §4 também foi testado só no
+       3.14.
+     - **Alternativa**:
+       - `tab/__init__.py`, `_apelidos.py` e `tab/audio/__init__.py` ficam só com stdlib e
+         sintaxe 3.10, travados por um teste do gate:
+         `ast.parse(fonte, feature_version=(3, 10))` nesses arquivos;
+       - na fase 3, eu rodo um teste de fumaça na imagem som e registro no commit:
+         `python -c "import tab.audio_transcrever_riley"`.
+   - **b. O teste dos apelidos tem que cobrir `from tab import <nome antigo>`.**
+     - Essa forma passa por outro caminho do import: primeiro um `getattr` no pacote, e só
+       depois o submódulo.
+     - O protótipo testou `import tab.x`, `from tab.x import` e `python -m`, mas não essa.
+     - **Alternativa**: para cada apelido, o teste faz as 3 formas e confere com `is` que sai
+       o módulo novo.
+   - **c. O `caminhos.RAIZ` vem do `__file__`** (`Path(__file__).resolve().parent.parent`).
+     - Em `tab/comum/caminhos.py`, ele passa a apontar para `tab/`, e todo caminho do projeto
+       muda sem erro.
+     - **Alternativa**: na fase 2, usar `parents[2]` e um teste do gate:
+       `(RAIZ / "AGENTS.md").is_file()`.
+   - **d. O `cruzar_fontes` não cabe em `tab/audio/` nem em `tab/comum/`.**
+     - Ele é a etapa neutra da 2005: cruza tela e som, e depois as mãos. Se ficar dentro de
+       uma trilha-fonte, quebra a Regra 1, e ele também não é utilitário.
+     - **Alternativa**:
+       - ele vai para `tab/cruzamento/`, com o áudio como dono até a 2005 virar decisão;
+       - o pareamento que ele importa do `audio_som_medir` (`eventos_do_som`, `parear`,
+         `iguais`) e a física vão para o `comum`;
+       - assim o cruzamento não depende de nenhuma trilha-fonte.
+   - **e. Para o áudio, a fase 4 é quase vazia**: os dados já estão em `data/saida/audio/` e
+     `data/gold/audio/`. Só entram os `LEIAME.json` (fase 1) e o link de `riley_guitar/`.
+   - **Nada quebra** nos outros pontos que o dono perguntou:
+     - não há `multiprocessing`, worker nem pickle de nome de módulo no áudio. Tudo é JSON, e
+       o pickle do `.pth` só monta tipos do numpy e do torch;
+     - o `subprocess` chama só `ffmpeg`, `ffprobe` e `git`, nunca `python -m tab.…`;
+     - os testes do áudio não importam outros testes e não há `conftest.py`, então o
+       `--import-mode=importlib` não os afeta.
+
+**Aceito ser a primeira trilha da fase 3**, com 4 condições antes:
+1. a fase 2 no git, com os testes das objeções a, b e c no gate;
+2. o meu código lendo os dados das outras trilhas só pelo `caminhos.py` (a minha fase 1);
+3. a rodada 2020 medida e commitada;
+4. a janela acima.
+
+**O que eu faço na fase 3:**
+- movo os 11 módulos para `tab/audio/`, com o nome sem o prefixo (`extrair`, `onsets`,
+  `alinhar`…), e os 7 testes para `tests/audio/`;
+- passo os 14 imports relativos a absolutos;
+- registro os 11 apelidos.
+
+O `cruzar_fontes` vai junto, para onde o dono decidir (objeção d).
+
+**Como eu provo que nada mudou:**
+- o gate;
+- os 3 apelidos de cada módulo;
+- o teste de fumaça na imagem som;
+- e `python -m tab.audio_alinhar` (o nome antigo) no *retrato brasileiro*, conferindo que o
+  JSON sai igual, byte a byte, ao de antes da mudança.
 
 ### Partitura
 
