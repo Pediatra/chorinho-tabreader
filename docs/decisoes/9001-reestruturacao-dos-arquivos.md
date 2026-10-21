@@ -815,6 +815,60 @@ O `cruzar_fontes` vai junto, para onde o dono decidir (objeção d).
 - e `python -m tab.audio_alinhar` (o nome antigo) no *retrato brasileiro*, conferindo que o
   JSON sai igual, byte a byte, ao de antes da mudança.
 
+**Fase 1 do áudio (2026-10-21, commit `11049454`, 183 arquivos, todos do áudio):**
+- **Rótulo do dono fora do ouro** (regra 9): `data/saida/audio/a2/folha/respostas_folha{1,3,4}.json`.
+  A folha 4 (campanitas, vídeo descartado) não está no gabarito, mas é escuta do dono e fica
+  guardada.
+- **O que o gabarito cita** (regra 10):
+  - as chaves `folha{1,2,3}_chave.json`, que os `data/gold/audio/folha*.json` citam;
+  - o material do `acordes_2018`: `r2018/ferramenta_acordes/{pre.json, indice.json,
+    telas/*.png}` e `r2018/lista.json`.
+- **Scripts vivos** (regra 11): os 150 `.py`/`.sh` de `data/saida/audio`. Fica fora
+  `r2019/fonte/`, que é cópia de leitura do código de terceiros.
+- **Caminhos**:
+  - entram `GABARITO_AUDIO`, `SAIDA_AUDIO` e `PRE_OURO_VIDEO` no `caminhos.py`;
+  - `audio_som_medir` e `audio_produto` leem só por ele;
+  - `CAPO` ficou como nome antigo de `CAPO_POR_VIDEO`.
+  - `audio_folha.PREFIXO_ACERVO` fica: é o prefixo `/acervo/` gravado dentro dos JSON, não um
+    caminho do disco.
+- **Inventário**: um `LEIAME.json` em cada uma das 10 pastas de `data/saida/audio`. Dão
+  `manter` 8 pastas e `arquivar` 2 (`a0`, `a1b`), e nenhuma `apagar`. O `artefatos/audio/EM_USO.json`
+  lista 1 peso em uso (`guitar-fl.pth`) e 1 para arquivar (`guitar-gaps.pth`).
+
+**Prova de "antes" do áudio** (`data/saida/audio/r2020/prova_9001/`, commit `11049454`):
+- **Comando**, no host: `sh data/saida/audio/r2020/prova_9001/prova.sh depois`. Depois,
+  `diff -r antes depois` tem de sair vazio.
+- Ele roda, **pelos nomes antigos**:
+  - `python -m tab.audio_alinhar` no *retrato brasileiro*;
+  - `python -m tab.audio_produto` (com `--commit prova`);
+  - `python -m tab.audio_som_medir` (a régua dos 8 ouros);
+  - `python -m tab.cruzar_fontes` no *retrato*;
+  - `python -m tab.audio_transcrever_riley` na imagem `chorinho-som` (Python 3.10).
+- **Referência**: 7 arquivos em `antes/`, com o sha256 em `antes.sha256`.
+- **Rodei duas vezes**: as duas execuções saíram iguais byte a byte (`diff -r` vazio).
+- **`pytest -rs` de hoje**: **1.859 passados, 2 pulados, 5 desmarcados e 2 xfail**. Os 2
+  pulados são `tests/test_partitura_smt.py:101` e `:114` (sem `music21`). Nenhum pulado é do
+  áudio. Log em `prova_9001/gate_rs_antes.log`.
+
+**Sobre a sugestão do dono: isolar o transcritor do Python 3.10 — concordo.**
+- Os 2 transcritores (`audio_transcrever`, `audio_transcrever_riley`) já não importam nada de
+  `tab`. Eles recebem um FLAC e devolvem um JSON.
+- **Proposta**:
+  - os dois saem do pacote para uma pasta própria fora de `tab/` (ex.: `som/`, ao lado do
+    `docker/Dockerfile.som`);
+  - a imagem 3.10 passa a rodá-los por caminho de arquivo (`python som/transcrever_riley.py`),
+    sem passar pelo `tab/__init__.py`.
+- **O que isso resolve**: o projeto inteiro fica no 3.14, e o teste de sintaxe 3.10 (objeção
+  5a) deixa de ser necessário para o áudio.
+- **Custo**: o comando antigo `python -m tab.audio_transcrever_riley` **dentro da imagem som**
+  deixa de valer. As rodadas 2018 e 2019 o citam.
+  - Alternativa para não quebrar a regra 1: um apelido de 3 linhas em `tab/` que só chama o
+    arquivo novo, escrito em sintaxe 3.10.
+  - Ou o dono aceita que esses comandos se refaçam pelo caminho novo, com a saída igual byte a
+    byte, conferida pela minha prova (item 5).
+
+PRONTA E PARADA — 2026-10-21 20:38 — commit 11049454
+
 ### Partitura (2026-10-21)
 
 **Conferência dos números que tocam a partitura.** Medidos em 2026-10-21 com `ls`, `wc`, `du`,
