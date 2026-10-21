@@ -29,6 +29,9 @@ OURO_VIDEO = RAIZ / "data" / "gold" / "ouro_video"
 #: Saídas geradas (visíveis no host, ao contrário de /tmp do container).
 SAIDA = RAIZ / "data" / "saida"
 
+#: Trava da GPU compartilhada entre as trilhas (protocolo do ``gpu.lock``; ``tab.gpu``).
+TRAVA_GPU = SAIDA / "gpu.lock"
+
 #: Notas do produto (uma lista ``notas`` com ``t_ini``, ``corda``, ``casa``...).
 MVP = SAIDA / "produto" / "mvp.json"
 

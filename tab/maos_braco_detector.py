@@ -19,7 +19,6 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
-import fcntl
 import json
 import math
 import os
@@ -44,8 +43,8 @@ from .caminhos import (
     GABARITO_BRACO_M11B,
     MAOS_M11B,
     MAOS_M21,
-    SAIDA,
 )
+from .gpu import trava_gpu
 from .maos_braco_faixa import (
     ALTURA_FAIXA,
     LARGURA_FAIXA,
@@ -118,9 +117,6 @@ LIMITE_V2_QUEDA = 10.0  # Emenda 3: (perda - piso) cai pelo menos 10 vezes
 LIMITE_V2_CERTO = 0.90
 LIMITE_V3_CERTO = 0.50
 ORCAMENTO_HORAS = 10.0
-#: Trava de GPU: memória livre mínima e espera entre tentativas.
-MEMORIA_LIVRE_MINIMA = 3 * 2**30
-ESPERA_GPU_S = 60
 #: Processos de leitura de dados por treino.
 PROCESSOS_DADOS = 6
 #: Processos que geram o S de validação: o gerador desenha em 4x e 6 estouram a memória.
@@ -147,7 +143,6 @@ ARQUIVO_V1 = MAOS_M21 / "v1_oraculo.json"
 ARQUIVO_V2 = MAOS_M21 / "v2_sobreajuste.json"
 ARQUIVO_V3 = MAOS_M21 / "v3_validacao_s.json"
 ARQUIVO_V4 = MAOS_M21 / "v4_tempo.json"
-ARQUIVO_TRAVA = SAIDA / "gpu.lock.maos"
 #: Variável de ambiente que manda a inferência para a CPU (GPU fora do ar).
 VARIAVEL_CPU = "CHORINHO_MAOS_CPU"
 #: Rodada 1022: portões de desenvolvimento, prova e semente da perturbação.
@@ -1451,30 +1446,19 @@ def _sequencia(
 
 @contextmanager
 def _trava_gpu() -> Iterator[None]:
-    """Trava exclusiva da GPU, com pelo menos 3 GB livres antes de cada treino.
+    """Reserva a GPU para a trilha mãos (``tab.gpu.trava_gpu``, protocolo ``gpu.lock``).
 
-    Segura ``fcntl.flock`` exclusivo em ``data/saida/gpu.lock.maos``. Se não há 3 GB
-    livres, espera 60 s e confere de novo.
+    Na CPU (``CHORINHO_MAOS_CPU=1``) não trava nada: a GPU fica livre para as outras
+    trilhas.
 
     Yields:
         Nada; o bloco roda com a GPU reservada.
     """
-    ARQUIVO_TRAVA.parent.mkdir(parents=True, exist_ok=True)
-    with ARQUIVO_TRAVA.open("w") as trava:
-        fcntl.flock(trava, fcntl.LOCK_EX)
-        try:
-            while os.environ.get(VARIAVEL_CPU) != "1":
-                livre, _ = torch.cuda.mem_get_info()
-                if livre >= MEMORIA_LIVRE_MINIMA:
-                    break
-                print(
-                    f"GPU com {livre / 2**30:.1f} GB livres; espero 60 s",
-                    file=sys.stderr,
-                )
-                time.sleep(ESPERA_GPU_S)
-            yield
-        finally:
-            fcntl.flock(trava, fcntl.LOCK_UN)
+    if os.environ.get(VARIAVEL_CPU) == "1":
+        yield
+        return
+    with trava_gpu("maos"):
+        yield
 
 
 def _nome_unidade(exp: str, fracao: str, dobra: str | int, semente: int) -> str:
