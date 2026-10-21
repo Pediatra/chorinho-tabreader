@@ -290,3 +290,26 @@ def test_rodada_1039_usa_triagem():
     rodada = ciclo.RODADAS["1039"]
     assert rodada.canal == "shin izumi"
     assert rodada.triagem
+
+
+def _grava(caminho, dados):
+    caminho.write_text(json.dumps(dados), encoding="utf-8")
+    return caminho
+
+
+def test_pesos_da_1039_dependem_da_1037(tmp_path, monkeypatch):
+    escolha = _grava(
+        tmp_path / "escolha.json",
+        {"estagio1": "L4_capo_s2", "estagio2": "A6_capo_s1"},
+    )
+    passou = {"seguranca": True, "capo": True, "sem_capo": True}
+    medida = _grava(tmp_path / "medida.json", {"criterios": passou})
+    assert ciclo.pesos_condicionais_1037(medida, escolha) == ciclo.Pesos(
+        "L4_capo_s2", "A6_capo_s1"
+    )
+    antigo = ciclo.Pesos("L3_todos_s3", "A4_100_todos_s1")
+    monkeypatch.setattr(ciclo, "pesos_da_rodada", lambda numero: antigo)
+    _grava(medida, {"criterios": dict(passou, capo=False)})
+    assert ciclo.pesos_condicionais_1037(medida, escolha) == antigo
+    with pytest.raises(ValueError, match="1037 precisa medir"):
+        ciclo.pesos_condicionais_1037(tmp_path / "falta.json", escolha)

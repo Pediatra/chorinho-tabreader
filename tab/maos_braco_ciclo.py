@@ -55,6 +55,7 @@ from .caminhos import (
     MAOS_M29,
     MAOS_M32,
     MAOS_M36,
+    MAOS_M37,
     MAOS_M39,
     acervo,
 )
@@ -186,9 +187,14 @@ RODADAS_COM_A5 = ("1032",)
 RODADAS_SINAL_NUT = ("1032",)
 #: Rodadas que usam o sinal v2 (bordas do quadro e linhas de painel; rodada 1033, que o pôs
 #: no lugar do v1 na 1032).
-RODADAS_SINAL_NUT_V2 = ("1032", "1036")
+RODADAS_SINAL_NUT_V2 = ("1032", "1036", "1039")
 #: Rodadas que usam a escolha de pesos de outra (sem rodar ``escolher-pesos`` de novo).
 RODADAS_ESCOLHA_HERDADA = {"1036": "1032"}
+#: Rodadas cujos pesos dependem da 1037 (pré-registro da 1039): o par novo se a 1037 passou
+#: nos três critérios, senão a escolha da 1032.
+RODADAS_PESOS_DA_1037 = ("1039",)
+ARQUIVO_MEDIDA_1037 = MAOS_M37 / "medida.json"
+ARQUIVO_ESCOLHA_1037 = MAOS_M37 / "escolha_pesos.json"
 #: Nut suspeito: ponta das cordas do lado do nut a até esta fração da borda menor.
 FRACAO_BORDA_NUT_SUSPEITO = 0.02
 
@@ -856,7 +862,8 @@ class Pesos:
 def pesos_da_rodada(numero: str) -> Pesos:
     """Pesos que a rodada usa: fixos na 1026 e na 1027, escolhidos da 1029 em diante.
 
-    A 1036 herda a escolha da 1032 (``RODADAS_ESCOLHA_HERDADA``).
+    A 1036 herda a escolha da 1032 (``RODADAS_ESCOLHA_HERDADA``), e a 1039 depende da 1037
+    (``pesos_condicionais_1037``).
 
     Args:
         numero: rodada (chave de ``RODADAS``).
@@ -867,6 +874,8 @@ def pesos_da_rodada(numero: str) -> Pesos:
     Raises:
         ValueError: se a rodada escolhe os pesos e ``escolha_pesos.json`` não existe.
     """
+    if numero in RODADAS_PESOS_DA_1037:
+        return pesos_condicionais_1037(ARQUIVO_MEDIDA_1037, ARQUIVO_ESCOLHA_1037)
     origem = RODADAS_ESCOLHA_HERDADA.get(numero, numero)
     if origem not in RODADAS_COM_ESCOLHA:
         return Pesos(ESTAGIO1, ESTAGIO2)
@@ -882,6 +891,28 @@ def pesos_da_rodada(numero: str) -> Pesos:
         p2=bool(escolha["p2"]),
         p3=bool(escolha["p3"]),
     )
+
+
+def pesos_condicionais_1037(medida: Path, escolha: Path) -> Pesos:
+    """Pesos da 1039: o par da 1037 se ele passou nos três critérios, senão o da 1032.
+
+    Args:
+        medida: ``medida.json`` da 1037 (com ``criterios``).
+        escolha: ``escolha_pesos.json`` da 1037.
+
+    Returns:
+        ``Pesos`` sem P2 e sem P3.
+
+    Raises:
+        ValueError: se a medida da 1037 ainda não existe.
+    """
+    if not medida.exists():
+        raise ValueError(f"falta {medida}: a 1037 precisa medir antes da 1039")
+    criterios = _ler_json(medida)["criterios"]
+    if criterios["seguranca"] and criterios["capo"] and criterios["sem_capo"]:
+        par = _ler_json(escolha)
+        return Pesos(par["estagio1"], par["estagio2"])
+    return pesos_da_rodada("1032")
 
 
 def pesos_do_documento(pesos: Pesos) -> dict:
