@@ -46,3 +46,42 @@ O recorte alto passa se, ao mesmo tempo:
     7.6).
 - **Não passa:** a leitura comum fica como está e o resultado vai para a tabela "não
   repetir".
+
+## Resultado (2026-10-21)
+
+Script `diag/recorte_comum.py`, que grava `diag/recorte_comum.json`. São 2687 notas do ouro,
+por semente.
+
+| semente | recorte | perdidas | inventadas | casa errada |
+| --- | --- | --- | --- | --- |
+| s1 | antigo | 12 | 42 | 20 |
+| s1 | alto | 10 | 45 | 19 |
+| s2 | antigo | 13 | 42 | 25 |
+| s2 | alto | 11 | 48 | 25 |
+| s3 | antigo | 10 | 47 | 27 |
+| s3 | alto | 12 | 54 | 26 |
+| **soma** | **antigo** | **35** | **131** | **72** |
+| **soma** | **alto** | **33** | **147** | **70** |
+
+- **Não passa.** As inventadas sobem 16, e o critério 2 cai.
+  - Quase todo o aumento está no *room 335*: o s1 vai de 25 para 28, o s2 de 25 para 29 e o
+    s3 de 28 para 33.
+  - O s3 ainda perde 2 a mais lá.
+- **Leitura:** os pesos `_ger` foram treinados no recorte antigo, e o recorte alto mostra a
+  eles o que fica acima da corda 1 (letras, ornamentos, números de compasso), que eles nunca
+  viram. O pedido 14 melhora na tela 20, mas no vídeo inteiro o saldo é pior.
+- **A leitura comum fica como está.** Entra na tabela "não repetir": recorte alto com os
+  pesos `_ger`.
+
+## Seguimento, escrito antes de medir: um modelo treinado no recorte alto
+
+- **A pergunta:** os pesos `_atqa`, treinados no recorte alto (0211), leem os 8 ouros melhor
+  que os `_ger` no recorte antigo?
+- **O método:** a mesma régua, os mesmos quadros e a validação cruzada:
+  `detector_tab_v3ft_d<d>_atqa_s<s>`, só no recorte alto, comparado com a linha "soma,
+  antigo" de cima.
+- **O critério** é o mesmo: as perdidas caem, e as inventadas e a casa errada não sobem.
+- **Se passar,** é uma recomendação ao dono: um modelo só, o `_atqa` no recorte alto, para a
+  leitura comum e para o ataque.
+  - Isso troca o `DETECTOR_PADRAO`, então só com o OK dele.
+  - Antes da troca, refazer a medida do histórico (0010) e o tempo pelo marcador.

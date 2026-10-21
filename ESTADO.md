@@ -2088,6 +2088,7 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | **braço, numerar sem o nut pela régua largura do braço ÷ abertura** | **reprova** (1040): 316/382 (82,7 %) calibrada por vídeo, contra 95 %; sem calibração, 36,7 %. Só a câmera fixa do sky guitar fecha (63/63) |
 | **braço, escolher o par só por "menos falsos que passam" (critério da 1029)** | **escolhe o modelo que sinaliza tudo** (1037): o `L4_capo_s2` inverte o braço (nut na boca do violão), erra 28 de 32 na M36, sinaliza 28 de 33 na escolha e por isso "vence" com 0 falsos. A escolha precisa de piso de entregues certos |
 | **braço, retreino L4 + A6 com a regra do capo, sem sobreamostrar o capo** | **reprova** (1037): nenhum dos 9 pares passa os três critérios. Os pares sãos levam o capo de 4 para 1–2 falsos que passam e de 6 para 9 certos, mas perdem 1 a 3 certos sem capo |
+| **tablatura, recorte alto com os pesos `_ger` da leitura comum** | **reprova** (0212): nos 8 ouros, as perdidas vão de 35 para 33, mas as inventadas sobem de 131 para 147 (quase todas no *room 335*); os pesos nunca viram o que fica acima da corda 1 |
 
 ## Lições metodológicas (custaram rodadas)
 
