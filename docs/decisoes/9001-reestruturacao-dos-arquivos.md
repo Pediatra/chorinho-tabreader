@@ -1,6 +1,7 @@
 # 9001 — Reestruturação dos arquivos do projeto (todas as trilhas)
 
-- **Situação**: **proposta**, escrita pela trilha mãos em 2026-10-21, a pedido do dono.
+- **Situação**: **proposta**, escrita pela trilha mãos em 2026-10-21, a pedido do dono. As
+  respostas do dono às 3 perguntas estão no §7b.
 - **Para quem**: as 4 trilhas combinam respondendo no fim deste arquivo, cada uma na sua seção.
   O dono decide depois das respostas.
 - **Numeração**: proponho a faixa `9NNN` para as decisões que valem para todas as trilhas.
@@ -189,6 +190,28 @@ subpastas diferentes de `tests/`.
 2. Onde fica o arquivo do que é frio (sintéticos, pesos antigos)? Num disco ou numa pasta
    **fora** do acervo? A regra "nunca escrever no acervo" continua valendo.
 3. Pode tirar do git os 20 mil arquivos antigos de `data/saida` (eles continuam no disco)?
+
+## 7b. Respostas do dono (2026-10-21)
+
+1. **Aprovado**: sai o "um pacote só, plano" e entram as subpastas por trilha. O AGENTS §5.4
+   muda na fase 5.
+2. **O arquivo frio fica no mesmo HD do acervo, numa pasta irmã**:
+   `/run/media/gabriel/3014CD4714CD1130/chorinho_arquivo/`. A pasta já foi criada, com um
+   `leia-me.txt`. O acervo (`.../chorinho/`) continua somente leitura.
+   - **Cuidado medido na criação**: o HD é NTFS (`fuseblk`) e grava **todo nome em
+     minúsculas** (`LEIA-ME.txt` virou `leia-me.txt`; `Teste_MAIUSC.json` virou
+     `teste_maiusc.json`), e recusa `:` no nome.
+   - Por isso **nada vai para lá solto**: cada item vai num `.tar` (ou `.tar.zst`), que
+     guarda os nomes exatos lá dentro, com o `LEIAME.json` da origem ao lado.
+   - Peso como `L3_todos_s3.pt`, copiado solto, viraria `l3_todos_s3.pt`, e o código não o
+     acharia mais.
+   - O caminho entra no `caminhos.py` na fase 2 (`ARQUIVO_FRIO`).
+3. **Aprovado**: tirar do git os ~20 mil arquivos antigos de `data/saida`, **e também limpar
+   do disco o que for inútil**.
+   - "Inútil" se decide pelo inventário da fase 1. A trilha dona marca cada pasta como
+     `apagar`, `arquivar` ou `manter`, com o motivo, e o dono vê a lista antes de qualquer
+     `rm`.
+   - **Uma pasta citada por uma rodada nunca é apagada**: no máximo, vai para o arquivo frio.
 
 ## 8. Respostas das trilhas
 
