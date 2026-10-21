@@ -1,0 +1,12 @@
+{
+ "trilha": "audio",
+ "pasta": "data/saida/audio/a2",
+ "rodadas": "2004-2008 2012 2013 2017",
+ "o_que_tem": "alinhador v2/v3, produtos, folhas de escuta 1-4 (clipes .mp4, chaves, manifestos) e as respostas do dono",
+ "comando_que_regenera": "tab.audio_folha (folhas e clipes, semente registrada) e tab.audio_alinhar; relê o HD",
+ "regeneravel": "parcial: clipes e chaves sim; respostas do dono NÃO",
+ "citada_por": "2004 2005 2006 2007 2008 2012 2013 2017",
+ "classe": "manter",
+ "motivo": "contém rótulo do dono (respostas_folha*.json) e as chaves que o gabarito data/gold/audio/folha*.json cita",
+ "escrito_em": "2026-10-21"
+}

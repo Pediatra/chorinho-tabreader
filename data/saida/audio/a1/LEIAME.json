@@ -1,0 +1,12 @@
+{
+ "trilha": "audio",
+ "pasta": "data/saida/audio/a1",
+ "rodadas": "2002 2003 2004",
+ "o_que_tem": "atraso marcador × som no MVP, alinhador v1",
+ "comando_que_regenera": "scripts da pasta, tab.audio_atraso / tab.audio_alinhar",
+ "regeneravel": true,
+ "citada_por": "2002 2003 2004; módulos audio_alinhar_avaliar, audio_atraso, audio_figuras, audio_onsets (docstrings)",
+ "classe": "manter",
+ "motivo": "citada por 3 rodadas e por docstrings de 4 módulos",
+ "escrito_em": "2026-10-21"
+}

@@ -1,0 +1,12 @@
+{
+ "trilha": "audio",
+ "pasta": "data/saida/audio/a5",
+ "rodadas": "2004 2011",
+ "o_que_tem": "alarme de leitura v2.1",
+ "comando_que_regenera": "scripts da pasta",
+ "regeneravel": true,
+ "citada_por": "2004 2011",
+ "classe": "manter",
+ "motivo": "citada por 2 rodadas; 0,6 MB",
+ "escrito_em": "2026-10-21"
+}

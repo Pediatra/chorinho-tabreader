@@ -1,0 +1,12 @@
+{
+ "trilha": "audio",
+ "pasta": "data/saida/audio/a1b",
+ "rodadas": "2003",
+ "o_que_tem": "o degrau de 448 s (diagnóstico)",
+ "comando_que_regenera": "scripts da pasta",
+ "regeneravel": true,
+ "citada_por": "2003",
+ "classe": "arquivar",
+ "motivo": "só a rodada 2003 cita; 7,6 MB",
+ "escrito_em": "2026-10-21"
+}

@@ -1,0 +1,12 @@
+{
+ "trilha": "audio",
+ "pasta": "data/saida/audio/a0",
+ "rodadas": "2001",
+ "o_que_tem": "extração do áudio e sincronia: custo de 20 vídeos, determinismo, experimentos de sync",
+ "comando_que_regenera": "scripts da pasta (run_custo20.sh, mvp.sh, exp_sync.sh) na imagem base; relê o HD",
+ "regeneravel": true,
+ "citada_por": "2001",
+ "classe": "arquivar",
+ "motivo": "só a rodada 2001 cita; 1,4 MB; resultado já está no documento da rodada",
+ "escrito_em": "2026-10-21"
+}

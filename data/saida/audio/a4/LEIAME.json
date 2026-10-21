@@ -1,0 +1,12 @@
+{
+ "trilha": "audio",
+ "pasta": "data/saida/audio/a4",
+ "rodadas": "2009-2017",
+ "o_que_tem": "lotes 1 e 2, alarmes de leitura, rasgueado, campanitas, andamento com lacunas",
+ "comando_que_regenera": "scripts da pasta; tab.audio_alinhar / tab.audio_produto; relê o HD",
+ "regeneravel": true,
+ "citada_por": "2004 2009-2017; módulo audio_alinhar (docstring)",
+ "classe": "manter",
+ "motivo": "citada por 9 rodadas",
+ "escrito_em": "2026-10-21"
+}

@@ -1,0 +1,7439 @@
+{
+ "esquema": "chorinho/audio@1",
+ "produto": "data/saida/produto/mvp.json",
+ "produto_sha256": "6edb49290fcf86608912a1c3743f695e1b12c73f71361111f4d10942d713203e",
+ "video": {
+  "arquivo": "/acervo/sky guitar/retrato brasileiro - tab & lesson.mp4",
+  "t_amostra0": 0.0
+ },
+ "gerado_por": {
+  "metodo": "onsets_v2",
+  "alinhamento": "data/saida/audio/r2020/prova_9001/atual/alinhado_retrato.json",
+  "alinhamento_sha256": "dff361be8ed39bd7d00ed1fa81b7635ac9bbae0ef5e571d770fff10e7acd8c53",
+  "parametros": {
+   "BASE_COS": 0.35,
+   "COS_ABAFADA": 0.5,
+   "CUSTO_PULAR_PICO": 0.05,
+   "CUSTO_SEM_ATAQUE": 0.2,
+   "CUSTO_SEM_ATAQUE_V1": 0.5,
+   "DESLOCAMENTOS_MOLDE": [
+    0,
+    12,
+    19,
+    24
+   ],
+   "JANELA_ANTES_S": 0.1,
+   "JANELA_DEPOIS_S": 0.15,
+   "LAMBDA_ANDAMENTO": 0.5,
+   "LIMIAR_COSSENO_COLUNA": 0.3,
+   "LIMIAR_COSSENO_EXIBICAO": 0.4,
+   "LIMIAR_RASGUEADO": 0.2,
+   "MARGEM_ANALISE_S": 0.8,
+   "MARGEM_CONFIANCA": 0.2,
+   "MARGEM_JANELA_S": 0.5,
+   "MAX_ITER_T": 4,
+   "MIDI_MAX": 96,
+   "MIDI_MIN": 36,
+   "MIN_COLUNAS_CASADAS": 4,
+   "MIN_CORDAS_ABAFADA": 4,
+   "MIN_INTERVALOS_PERIODO": 3,
+   "MIN_QUINZE_ABAFADA": 4,
+   "N_FFT_ALTURA": 4096,
+   "PASSO_ALTURA": 256,
+   "PERIODO_MAX_S": 2.0,
+   "PERIODO_MIN_S": 0.2,
+   "PESOS_MOLDE": [
+    1.0,
+    0.5,
+    0.33,
+    0.25
+   ],
+   "QUANTIL_PICO_FORTE": 0.75,
+   "RAIO_ENCAIXE_S": 0.06,
+   "RAIO_VIZINHANCA_S": 0.3,
+   "TOLERANCIA_CENTS": 30.0,
+   "TOL_T_ITERACAO": 0.02,
+   "TOP1_ABAFADA": "15"
+  },
+  "transposicao": 0,
+  "commit": "prova",
+  "passagens": "so_primeira"
+ },
+ "exibicoes": [
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "trecho_colunas": [
+    1,
+    32
+   ],
+   "T_s": 0.650159,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8384,
+   "n_casadas": 31,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "trecho_colunas": [
+    1,
+    32
+   ],
+   "T_s": 0.655964,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8584,
+   "n_casadas": 31,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "trecho_colunas": [
+    1,
+    34
+   ],
+   "T_s": 0.638549,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8289,
+   "n_casadas": 33,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "trecho_colunas": [
+    1,
+    34
+   ],
+   "T_s": 0.650159,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.824,
+   "n_casadas": 33,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "trecho_colunas": [
+    1,
+    31
+   ],
+   "T_s": 0.650159,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8451,
+   "n_casadas": 31,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "trecho_colunas": [
+    1,
+    31
+   ],
+   "T_s": 0.661769,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8169,
+   "n_casadas": 31,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "trecho_colunas": [
+    1,
+    34
+   ],
+   "T_s": 0.650159,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8372,
+   "n_casadas": 32,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "trecho_colunas": [
+    1,
+    27
+   ],
+   "T_s": 0.644354,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8418,
+   "n_casadas": 25,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "trecho_colunas": [
+    1,
+    35
+   ],
+   "T_s": 0.632744,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8603,
+   "n_casadas": 33,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "trecho_colunas": [
+    9,
+    35
+   ],
+   "T_s": 0.632744,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8794,
+   "n_casadas": 25,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "trecho_colunas": [
+    1,
+    31
+   ],
+   "T_s": 0.655964,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8736,
+   "n_casadas": 31,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "trecho_colunas": [
+    1,
+    31
+   ],
+   "T_s": 0.650159,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8787,
+   "n_casadas": 31,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "trecho_colunas": [
+    1,
+    32
+   ],
+   "T_s": 0.650159,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8777,
+   "n_casadas": 32,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "trecho_colunas": [
+    1,
+    32
+   ],
+   "T_s": 0.650159,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8678,
+   "n_casadas": 32,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "trecho_colunas": [
+    1,
+    34
+   ],
+   "T_s": 0.650159,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.877,
+   "n_casadas": 32,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "trecho_colunas": [
+    1,
+    34
+   ],
+   "T_s": 0.650159,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8747,
+   "n_casadas": 32,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "trecho_colunas": [
+    1,
+    9
+   ],
+   "T_s": 0.632744,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8268,
+   "n_casadas": 9,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "trecho_colunas": [
+    9,
+    33
+   ],
+   "T_s": 0.638549,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8387,
+   "n_casadas": 23,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "trecho_colunas": [
+    1,
+    31
+   ],
+   "T_s": 0.650159,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8304,
+   "n_casadas": 31,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "trecho_colunas": [
+    2,
+    34
+   ],
+   "T_s": 0.650159,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8553,
+   "n_casadas": 33,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "trecho_colunas": [
+    1,
+    34
+   ],
+   "T_s": 0.661769,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8747,
+   "n_casadas": 29,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "trecho_colunas": [
+    1,
+    25
+   ],
+   "T_s": 0.638549,
+   "recusada": false,
+   "motivo": null,
+   "cos_medio": 0.8464,
+   "n_casadas": 25,
+   "n_abafadas_casadas": 0,
+   "rasgueado": false,
+   "fora_da_pagina": false,
+   "alarme_leitura": false
+  }
+ ],
+ "colunas": [
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": 245.179229,
+   "confianca": 0.1427,
+   "cos": 0.819,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 245.864218,
+   "confianca": 0.6192,
+   "cos": 0.6192,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 246.444717,
+   "confianca": 0.5954,
+   "cos": 0.7674,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 247.106485,
+   "confianca": 0.9001,
+   "cos": 0.9001,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 247.756644,
+   "confianca": 0.5843,
+   "cos": 0.5843,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 248.453243,
+   "confianca": 0.8341,
+   "cos": 0.8341,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 249.149841,
+   "confianca": 0.5515,
+   "cos": 0.9484,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 249.77678,
+   "confianca": 0.8687,
+   "cos": 0.8687,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 9,
+   "t_audio": 250.473379,
+   "confianca": 0.9231,
+   "cos": 0.9231,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 10,
+   "t_audio": 251.100317,
+   "confianca": 0.718,
+   "cos": 0.718,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": 251.738866,
+   "confianca": 0.387,
+   "cos": 0.8512,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 12,
+   "t_audio": 252.319365,
+   "confianca": 0.8948,
+   "cos": 0.8948,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 13,
+   "t_audio": 252.969524,
+   "confianca": 0.9083,
+   "cos": 0.9083,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": 253.677732,
+   "confianca": 0.8878,
+   "cos": 0.8878,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": 254.281451,
+   "confianca": 0.802,
+   "cos": 0.9357,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 16,
+   "t_audio": 254.87356,
+   "confianca": 0.9207,
+   "cos": 0.9207,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 17,
+   "t_audio": 255.570159,
+   "confianca": 0.9348,
+   "cos": 0.9348,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 18,
+   "t_audio": 256.197098,
+   "confianca": 0.6566,
+   "cos": 0.6566,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": 256.882086,
+   "confianca": 0.8035,
+   "cos": 0.8035,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": 257.555465,
+   "confianca": 0.8565,
+   "cos": 0.8565,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 22,
+   "t_audio": 258.240454,
+   "confianca": 0.6868,
+   "cos": 0.6952,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": 259.494331,
+   "confianca": 0.4713,
+   "cos": 0.94,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": 260.12127,
+   "confianca": 0.8857,
+   "cos": 0.8857,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": 260.806259,
+   "confianca": 0.6165,
+   "cos": 0.8456,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 26,
+   "t_audio": 261.491247,
+   "confianca": 0.7476,
+   "cos": 0.7476,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 27,
+   "t_audio": 262.106576,
+   "confianca": 0.8892,
+   "cos": 0.8892,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 28,
+   "t_audio": 262.756735,
+   "confianca": 0.5205,
+   "cos": 0.9229,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 29,
+   "t_audio": 263.453333,
+   "confianca": 0.7402,
+   "cos": 0.8541,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 30,
+   "t_audio": 264.068662,
+   "confianca": 0.8517,
+   "cos": 0.8517,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 31,
+   "t_audio": 264.707211,
+   "confianca": 0.9,
+   "cos": 0.9,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 0,
+   "coluna": 32,
+   "t_audio": 265.35737,
+   "confianca": 0.23,
+   "cos": 0.8276,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 1,
+   "t_audio": 328.59483,
+   "confianca": 0.4426,
+   "cos": 0.8126,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 2,
+   "t_audio": 329.268209,
+   "confianca": 0.7777,
+   "cos": 0.7777,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 3,
+   "t_audio": 329.929977,
+   "confianca": 0.0586,
+   "cos": 0.8248,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 4,
+   "t_audio": 330.498866,
+   "confianca": 0.8946,
+   "cos": 0.8946,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 5,
+   "t_audio": 331.230295,
+   "confianca": 0.4844,
+   "cos": 0.7652,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 6,
+   "t_audio": 331.845624,
+   "confianca": 0.8261,
+   "cos": 0.8261,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 7,
+   "t_audio": 332.484172,
+   "confianca": 0.0,
+   "cos": 0.9556,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 8,
+   "t_audio": 333.134331,
+   "confianca": 0.8915,
+   "cos": 0.8915,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 9,
+   "t_audio": 333.83093,
+   "confianca": 0.9203,
+   "cos": 0.9203,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 10,
+   "t_audio": 334.434649,
+   "confianca": 0.6826,
+   "cos": 0.7316,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 11,
+   "t_audio": 335.096417,
+   "confianca": 0.0,
+   "cos": 0.8915,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 12,
+   "t_audio": 335.734966,
+   "confianca": 0.8617,
+   "cos": 0.8617,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 13,
+   "t_audio": 336.454785,
+   "confianca": 0.0925,
+   "cos": 0.9122,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 14,
+   "t_audio": 337.116553,
+   "confianca": 0.8868,
+   "cos": 0.8868,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 15,
+   "t_audio": 337.731882,
+   "confianca": 0.949,
+   "cos": 0.949,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 16,
+   "t_audio": 338.370431,
+   "confianca": 0.8984,
+   "cos": 0.8984,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 17,
+   "t_audio": 339.05542,
+   "confianca": 0.8902,
+   "cos": 0.8902,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 18,
+   "t_audio": 339.740408,
+   "confianca": 0.7009,
+   "cos": 0.7009,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 19,
+   "t_audio": 340.437007,
+   "confianca": 0.2401,
+   "cos": 0.725,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 20,
+   "t_audio": 341.017506,
+   "confianca": 0.859,
+   "cos": 0.859,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 22,
+   "t_audio": 341.667664,
+   "confianca": 0.7636,
+   "cos": 0.7636,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 23,
+   "t_audio": 342.886712,
+   "confianca": 0.0,
+   "cos": 0.9393,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 24,
+   "t_audio": 343.548481,
+   "confianca": 0.8482,
+   "cos": 0.8482,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 25,
+   "t_audio": 344.279909,
+   "confianca": 0.3105,
+   "cos": 0.929,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 26,
+   "t_audio": 344.906848,
+   "confianca": 0.3146,
+   "cos": 0.764,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 27,
+   "t_audio": 345.580227,
+   "confianca": 0.9106,
+   "cos": 0.9106,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 28,
+   "t_audio": 346.195556,
+   "confianca": 0.44,
+   "cos": 0.9231,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 29,
+   "t_audio": 346.880544,
+   "confianca": 0.3241,
+   "cos": 0.8616,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 30,
+   "t_audio": 347.530703,
+   "confianca": 0.8836,
+   "cos": 0.8836,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 31,
+   "t_audio": 348.192472,
+   "confianca": 0.1019,
+   "cos": 0.918,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 1,
+   "exibicao": 1,
+   "coluna": 32,
+   "t_audio": 348.83102,
+   "confianca": 0.1474,
+   "cos": 0.8952,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": 266.00195,
+   "confianca": 0.671,
+   "cos": 0.8221,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 266.675329,
+   "confianca": 0.7345,
+   "cos": 0.7345,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 267.313878,
+   "confianca": 0.8326,
+   "cos": 0.8326,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 268.010476,
+   "confianca": 0.8546,
+   "cos": 0.8546,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 268.625805,
+   "confianca": 0.6945,
+   "cos": 0.6945,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 269.275964,
+   "confianca": 0.2454,
+   "cos": 0.7202,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 269.937732,
+   "confianca": 0.0634,
+   "cos": 0.9391,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 270.553061,
+   "confianca": 0.8853,
+   "cos": 0.8853,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 9,
+   "t_audio": 271.20322,
+   "confianca": 0.7193,
+   "cos": 0.7193,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 10,
+   "t_audio": 271.864989,
+   "confianca": 0.6937,
+   "cos": 0.6937,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": 272.503537,
+   "confianca": 0.0,
+   "cos": 0.8749,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 12,
+   "t_audio": 273.153696,
+   "confianca": 0.8441,
+   "cos": 0.8441,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 13,
+   "t_audio": 273.792245,
+   "confianca": 0.0959,
+   "cos": 0.6606,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": 274.535283,
+   "confianca": 0.2358,
+   "cos": 0.873,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": 275.173832,
+   "confianca": 0.0382,
+   "cos": 0.9534,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 16,
+   "t_audio": 275.823991,
+   "confianca": 0.3502,
+   "cos": 0.9499,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 17,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "sem_ataque_casado",
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 18,
+   "t_audio": 276.50898,
+   "confianca": 0.8925,
+   "cos": 0.8925,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": 276.636689,
+   "confianca": 0.0,
+   "cos": 0.7343,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": 277.147528,
+   "confianca": 0.5651,
+   "cos": 0.7929,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 21,
+   "t_audio": 277.751247,
+   "confianca": 0.8574,
+   "cos": 0.8574,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 22,
+   "t_audio": 278.366576,
+   "confianca": 0.9069,
+   "cos": 0.9069,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": 279.005125,
+   "confianca": 0.0,
+   "cos": 0.6585,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": 279.666893,
+   "confianca": 0.8892,
+   "cos": 0.8892,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": 280.363492,
+   "confianca": 0.8898,
+   "cos": 0.8898,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 26,
+   "t_audio": 280.967211,
+   "confianca": 0.8922,
+   "cos": 0.8922,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 27,
+   "t_audio": 281.64059,
+   "confianca": 0.6211,
+   "cos": 0.6211,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 28,
+   "t_audio": 282.337188,
+   "confianca": 0.0648,
+   "cos": 0.9051,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 29,
+   "t_audio": 282.975737,
+   "confianca": 0.2259,
+   "cos": 0.9332,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 30,
+   "t_audio": 283.544626,
+   "confianca": 0.09,
+   "cos": 0.9535,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 31,
+   "t_audio": 284.171565,
+   "confianca": 0.92,
+   "cos": 0.92,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 32,
+   "t_audio": 284.844943,
+   "confianca": 0.787,
+   "cos": 0.787,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 33,
+   "t_audio": 285.518322,
+   "confianca": 0.0193,
+   "cos": 0.8212,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 0,
+   "coluna": 34,
+   "t_audio": 286.214921,
+   "confianca": 0.7371,
+   "cos": 0.8464,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 1,
+   "t_audio": 349.47873,
+   "confianca": 0.8123,
+   "cos": 0.8123,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 2,
+   "t_audio": 350.128889,
+   "confianca": 0.798,
+   "cos": 0.798,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 3,
+   "t_audio": 350.790658,
+   "confianca": 0.7531,
+   "cos": 0.7531,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 4,
+   "t_audio": 351.487256,
+   "confianca": 0.0846,
+   "cos": 0.8913,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 5,
+   "t_audio": 352.125805,
+   "confianca": 0.0727,
+   "cos": 0.7286,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 6,
+   "t_audio": 352.729524,
+   "confianca": 0.7043,
+   "cos": 0.7043,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 7,
+   "t_audio": 353.379683,
+   "confianca": 0.9234,
+   "cos": 0.9234,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 8,
+   "t_audio": 354.041451,
+   "confianca": 0.8275,
+   "cos": 0.8275,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 9,
+   "t_audio": 354.68,
+   "confianca": 0.4831,
+   "cos": 0.7438,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 10,
+   "t_audio": 355.330159,
+   "confianca": 0.7298,
+   "cos": 0.7298,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 11,
+   "t_audio": 356.015147,
+   "confianca": 0.8214,
+   "cos": 0.8214,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 12,
+   "t_audio": 356.630476,
+   "confianca": 0.8338,
+   "cos": 0.8338,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 13,
+   "t_audio": 357.315465,
+   "confianca": 0.0,
+   "cos": 0.3708,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 14,
+   "t_audio": 357.954014,
+   "confianca": 0.8899,
+   "cos": 0.8899,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 15,
+   "t_audio": 358.464853,
+   "confianca": 0.0,
+   "cos": 0.8362,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 16,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "sem_ataque_casado",
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 17,
+   "t_audio": 358.639002,
+   "confianca": 0.0,
+   "cos": 0.9594,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 18,
+   "t_audio": 359.196281,
+   "confianca": 0.1113,
+   "cos": 0.9337,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 19,
+   "t_audio": 359.8,
+   "confianca": 0.5051,
+   "cos": 0.8314,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 20,
+   "t_audio": 360.519819,
+   "confianca": 0.7161,
+   "cos": 0.7451,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 21,
+   "t_audio": 361.169977,
+   "confianca": 0.0,
+   "cos": 0.8703,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 22,
+   "t_audio": 361.785306,
+   "confianca": 0.8944,
+   "cos": 0.8944,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 23,
+   "t_audio": 362.447075,
+   "confianca": 0.0018,
+   "cos": 0.6389,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 24,
+   "t_audio": 363.097234,
+   "confianca": 0.8884,
+   "cos": 0.8884,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 25,
+   "t_audio": 363.759002,
+   "confianca": 0.0,
+   "cos": 0.8794,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 26,
+   "t_audio": 364.409161,
+   "confianca": 0.8979,
+   "cos": 0.8979,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 27,
+   "t_audio": 365.1522,
+   "confianca": 0.8266,
+   "cos": 0.8532,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 28,
+   "t_audio": 365.755918,
+   "confianca": 0.8758,
+   "cos": 0.8758,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 29,
+   "t_audio": 366.394467,
+   "confianca": 0.0,
+   "cos": 0.8865,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 30,
+   "t_audio": 367.033016,
+   "confianca": 0.2517,
+   "cos": 0.9481,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 31,
+   "t_audio": 367.683175,
+   "confianca": 0.0168,
+   "cos": 0.8723,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 32,
+   "t_audio": 368.344943,
+   "confianca": 0.8093,
+   "cos": 0.8093,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 33,
+   "t_audio": 368.983492,
+   "confianca": 0.0402,
+   "cos": 0.8202,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 2,
+   "exibicao": 1,
+   "coluna": 34,
+   "t_audio": 369.668481,
+   "confianca": 0.924,
+   "cos": 0.924,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": 286.892517,
+   "confianca": 0.8249,
+   "cos": 0.8249,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 287.554286,
+   "confianca": 0.7238,
+   "cos": 0.7238,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 288.192834,
+   "confianca": 0.1655,
+   "cos": 0.8429,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 288.738503,
+   "confianca": 0.896,
+   "cos": 0.896,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 289.388662,
+   "confianca": 0.0,
+   "cos": 0.6903,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 290.073651,
+   "confianca": 0.7711,
+   "cos": 0.7711,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 290.72381,
+   "confianca": 0.0,
+   "cos": 0.9475,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 291.420408,
+   "confianca": 0.8954,
+   "cos": 0.8954,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 9,
+   "t_audio": 292.105397,
+   "confianca": 0.5542,
+   "cos": 0.9229,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 10,
+   "t_audio": 292.743946,
+   "confianca": 0.2416,
+   "cos": 0.7231,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": 293.405714,
+   "confianca": 0.8985,
+   "cos": 0.8985,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 12,
+   "t_audio": 294.021043,
+   "confianca": 0.8883,
+   "cos": 0.8883,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 13,
+   "t_audio": 294.706032,
+   "confianca": 0.9128,
+   "cos": 0.9128,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": 295.39102,
+   "confianca": 0.8663,
+   "cos": 0.8663,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": 296.006349,
+   "confianca": 0.9544,
+   "cos": 0.9544,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 16,
+   "t_audio": 296.656508,
+   "confianca": 0.109,
+   "cos": 0.9262,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 17,
+   "t_audio": 297.306667,
+   "confianca": 0.9112,
+   "cos": 0.9112,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 18,
+   "t_audio": 297.968435,
+   "confianca": 0.6903,
+   "cos": 0.6903,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": 298.618594,
+   "confianca": 0.7691,
+   "cos": 0.7691,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": 299.257143,
+   "confianca": 0.8622,
+   "cos": 0.8622,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 21,
+   "t_audio": 299.918912,
+   "confianca": 0.3687,
+   "cos": 0.3687,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 22,
+   "t_audio": 301.126349,
+   "confianca": 0.0,
+   "cos": 0.9446,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": 301.811338,
+   "confianca": 0.0374,
+   "cos": 0.8829,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": 302.461497,
+   "confianca": 0.0,
+   "cos": 0.9187,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": 303.100045,
+   "confianca": 0.7893,
+   "cos": 0.7893,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 26,
+   "t_audio": 303.750204,
+   "confianca": 0.8992,
+   "cos": 0.8992,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 27,
+   "t_audio": 304.400363,
+   "confianca": 0.3193,
+   "cos": 0.9239,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 28,
+   "t_audio": 305.155011,
+   "confianca": 0.4875,
+   "cos": 0.867,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 29,
+   "t_audio": 305.79356,
+   "confianca": 0.885,
+   "cos": 0.885,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 30,
+   "t_audio": 306.443719,
+   "confianca": 0.895,
+   "cos": 0.895,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 0,
+   "coluna": 31,
+   "t_audio": 307.140317,
+   "confianca": 0.9052,
+   "cos": 0.9052,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 1,
+   "t_audio": 370.357687,
+   "confianca": 0.7556,
+   "cos": 0.8193,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 2,
+   "t_audio": 371.065896,
+   "confianca": 0.7522,
+   "cos": 0.7522,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 3,
+   "t_audio": 371.669615,
+   "confianca": 0.3531,
+   "cos": 0.3531,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 4,
+   "t_audio": 372.273333,
+   "confianca": 0.8962,
+   "cos": 0.8962,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 5,
+   "t_audio": 372.969932,
+   "confianca": 0.1262,
+   "cos": 0.7063,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 6,
+   "t_audio": 373.620091,
+   "confianca": 0.6023,
+   "cos": 0.6023,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 7,
+   "t_audio": 374.281859,
+   "confianca": 0.1285,
+   "cos": 0.9767,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 8,
+   "t_audio": 374.932018,
+   "confianca": 0.8996,
+   "cos": 0.8996,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 9,
+   "t_audio": 375.582177,
+   "confianca": 0.9124,
+   "cos": 0.9124,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 10,
+   "t_audio": 376.209116,
+   "confianca": 0.7292,
+   "cos": 0.7292,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 11,
+   "t_audio": 376.882494,
+   "confianca": 0.8479,
+   "cos": 0.8479,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 12,
+   "t_audio": 377.509433,
+   "confianca": 0.8648,
+   "cos": 0.8648,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 13,
+   "t_audio": 378.182812,
+   "confianca": 0.882,
+   "cos": 0.882,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 14,
+   "t_audio": 378.87941,
+   "confianca": 0.8691,
+   "cos": 0.8691,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 15,
+   "t_audio": 379.506349,
+   "confianca": 0.6977,
+   "cos": 0.9393,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 16,
+   "t_audio": 380.086848,
+   "confianca": 0.9185,
+   "cos": 0.9185,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 17,
+   "t_audio": 380.760227,
+   "confianca": 0.4646,
+   "cos": 0.9078,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 18,
+   "t_audio": 381.445215,
+   "confianca": 0.5144,
+   "cos": 0.6798,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 19,
+   "t_audio": 382.106984,
+   "confianca": 0.7237,
+   "cos": 0.7237,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 20,
+   "t_audio": 382.768753,
+   "confianca": 0.8619,
+   "cos": 0.8619,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 21,
+   "t_audio": 383.453741,
+   "confianca": 0.3734,
+   "cos": 0.4132,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 22,
+   "t_audio": 384.649569,
+   "confianca": 0.0,
+   "cos": 0.9463,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 23,
+   "t_audio": 385.288118,
+   "confianca": 0.8916,
+   "cos": 0.8916,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 24,
+   "t_audio": 385.926667,
+   "confianca": 0.0,
+   "cos": 0.844,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 25,
+   "t_audio": 386.588435,
+   "confianca": 0.2691,
+   "cos": 0.8627,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 26,
+   "t_audio": 387.215374,
+   "confianca": 0.8998,
+   "cos": 0.8998,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 27,
+   "t_audio": 387.888753,
+   "confianca": 0.4137,
+   "cos": 0.9212,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 28,
+   "t_audio": 388.608571,
+   "confianca": 0.7895,
+   "cos": 0.7895,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 29,
+   "t_audio": 389.30517,
+   "confianca": 0.8587,
+   "cos": 0.8587,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 30,
+   "t_audio": 389.932109,
+   "confianca": 0.8877,
+   "cos": 0.8877,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 3,
+   "exibicao": 1,
+   "coluna": 31,
+   "t_audio": 390.605488,
+   "confianca": 0.8684,
+   "cos": 0.8684,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": 307.803311,
+   "confianca": 0.4032,
+   "cos": 0.6916,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 308.407029,
+   "confianca": 0.7684,
+   "cos": 0.7684,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 309.057188,
+   "confianca": 0.9007,
+   "cos": 0.9007,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 309.753787,
+   "confianca": 0.8536,
+   "cos": 0.8536,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 310.415556,
+   "confianca": 0.1657,
+   "cos": 0.7184,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 311.030884,
+   "confianca": 0.4211,
+   "cos": 0.8777,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 311.634603,
+   "confianca": 0.1077,
+   "cos": 0.9346,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 312.226712,
+   "confianca": 0.0,
+   "cos": 0.9179,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 9,
+   "t_audio": 312.656281,
+   "confianca": 0.5462,
+   "cos": 0.7631,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 10,
+   "t_audio": 312.981361,
+   "confianca": 0.9182,
+   "cos": 0.9182,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "sem_ataque_casado",
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 12,
+   "t_audio": 313.50381,
+   "confianca": 0.4647,
+   "cos": 0.8809,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 13,
+   "t_audio": 314.142358,
+   "confianca": 0.934,
+   "cos": 0.934,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": 314.804127,
+   "confianca": 0.8894,
+   "cos": 0.8894,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": 315.477506,
+   "confianca": 0.0236,
+   "cos": 0.8622,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 16,
+   "t_audio": 316.174104,
+   "confianca": 0.7174,
+   "cos": 0.7174,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 17,
+   "t_audio": 316.882313,
+   "confianca": 0.1431,
+   "cos": 0.8322,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 18,
+   "t_audio": 317.555692,
+   "confianca": 0.9438,
+   "cos": 0.9438,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": 318.19424,
+   "confianca": 0.3553,
+   "cos": 0.9096,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": 318.844399,
+   "confianca": 0.7267,
+   "cos": 0.7267,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 21,
+   "t_audio": 319.494558,
+   "confianca": 0.8257,
+   "cos": 0.8257,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 22,
+   "t_audio": 320.167937,
+   "confianca": 0.8529,
+   "cos": 0.8529,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": 320.806485,
+   "confianca": 0.8932,
+   "cos": 0.8932,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": 321.421814,
+   "confianca": 0.7989,
+   "cos": 0.7989,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "sem_ataque_casado",
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 26,
+   "t_audio": 322.780181,
+   "confianca": 0.8155,
+   "cos": 0.8155,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 27,
+   "t_audio": 323.43034,
+   "confianca": 0.7788,
+   "cos": 0.7788,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 28,
+   "t_audio": 324.103719,
+   "confianca": 0.7053,
+   "cos": 0.7053,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 29,
+   "t_audio": 324.777098,
+   "confianca": 0.2041,
+   "cos": 0.8877,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 30,
+   "t_audio": 325.404036,
+   "confianca": 0.0955,
+   "cos": 0.9432,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 31,
+   "t_audio": 326.019365,
+   "confianca": 0.1464,
+   "cos": 0.6961,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 32,
+   "t_audio": 326.669524,
+   "confianca": 0.7679,
+   "cos": 0.7679,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 33,
+   "t_audio": 327.296463,
+   "confianca": 0.9111,
+   "cos": 0.9111,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 0,
+   "coluna": 34,
+   "t_audio": 327.958231,
+   "confianca": 0.8749,
+   "cos": 0.8749,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 1,
+   "t_audio": 391.263537,
+   "confianca": 0.6627,
+   "cos": 0.6627,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 2,
+   "t_audio": 391.890476,
+   "confianca": 0.847,
+   "cos": 0.847,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 3,
+   "t_audio": 392.517415,
+   "confianca": 0.8982,
+   "cos": 0.8982,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 4,
+   "t_audio": 393.167574,
+   "confianca": 0.8529,
+   "cos": 0.8529,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 5,
+   "t_audio": 393.840952,
+   "confianca": 0.4391,
+   "cos": 0.7712,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 6,
+   "t_audio": 394.456281,
+   "confianca": 0.8873,
+   "cos": 0.8873,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 7,
+   "t_audio": 395.01356,
+   "confianca": 0.0,
+   "cos": 0.8511,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 8,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "sem_ataque_casado",
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 9,
+   "t_audio": 395.15288,
+   "confianca": 0.0,
+   "cos": 0.9121,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 10,
+   "t_audio": 395.744989,
+   "confianca": 0.1821,
+   "cos": 0.9549,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 11,
+   "t_audio": 396.313878,
+   "confianca": 0.6786,
+   "cos": 0.8211,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 12,
+   "t_audio": 396.964036,
+   "confianca": 0.8306,
+   "cos": 0.8306,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 13,
+   "t_audio": 397.625805,
+   "confianca": 0.9319,
+   "cos": 0.9319,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 14,
+   "t_audio": 398.287574,
+   "confianca": 0.8667,
+   "cos": 0.8667,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 15,
+   "t_audio": 398.926122,
+   "confianca": 0.0,
+   "cos": 0.8442,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 16,
+   "t_audio": 399.645941,
+   "confianca": 0.7364,
+   "cos": 0.7364,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 17,
+   "t_audio": 400.34254,
+   "confianca": 0.887,
+   "cos": 0.887,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 18,
+   "t_audio": 400.957868,
+   "confianca": 0.9517,
+   "cos": 0.9517,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 19,
+   "t_audio": 401.631247,
+   "confianca": 0.7044,
+   "cos": 0.942,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 20,
+   "t_audio": 402.281406,
+   "confianca": 0.0,
+   "cos": 0.7243,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 21,
+   "t_audio": 402.954785,
+   "confianca": 0.8924,
+   "cos": 0.8924,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 22,
+   "t_audio": 403.604943,
+   "confianca": 0.8379,
+   "cos": 0.8379,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 23,
+   "t_audio": 404.266712,
+   "confianca": 0.9008,
+   "cos": 0.9008,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 24,
+   "t_audio": 404.870431,
+   "confianca": 0.7839,
+   "cos": 0.7839,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 25,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "sem_ataque_casado",
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 26,
+   "t_audio": 406.170748,
+   "confianca": 0.8005,
+   "cos": 0.8005,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 27,
+   "t_audio": 406.809297,
+   "confianca": 0.0,
+   "cos": 0.6558,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 28,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 29,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 30,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 31,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 32,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 33,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 4,
+   "exibicao": 1,
+   "coluna": 34,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": 406.865306,
+   "confianca": 0.6887,
+   "cos": 0.6887,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 407.515465,
+   "confianca": 0.4578,
+   "cos": 0.6992,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 408.177234,
+   "confianca": 0.9063,
+   "cos": 0.9063,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 408.792562,
+   "confianca": 0.9355,
+   "cos": 0.9355,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 409.442721,
+   "confianca": 0.0,
+   "cos": 0.8951,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 410.08127,
+   "confianca": 0.2326,
+   "cos": 0.7071,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 410.743039,
+   "confianca": 0.0,
+   "cos": 0.8618,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 411.369977,
+   "confianca": 0.832,
+   "cos": 0.832,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 9,
+   "t_audio": 411.985306,
+   "confianca": 0.0,
+   "cos": 0.7374,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": 412.670295,
+   "confianca": 0.8334,
+   "cos": 0.8334,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 12,
+   "t_audio": 413.332063,
+   "confianca": 0.0,
+   "cos": 0.9018,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 13,
+   "t_audio": 413.993832,
+   "confianca": 0.9232,
+   "cos": 0.9232,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": 414.702041,
+   "confianca": 0.8708,
+   "cos": 0.8708,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": 415.3522,
+   "confianca": 0.8192,
+   "cos": 0.8192,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 16,
+   "t_audio": 415.979138,
+   "confianca": 0.9268,
+   "cos": 0.9268,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 17,
+   "t_audio": 416.606077,
+   "confianca": 0.9113,
+   "cos": 0.9113,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": 416.791837,
+   "confianca": 0.7906,
+   "cos": 0.8778,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": 417.325896,
+   "confianca": 0.4273,
+   "cos": 0.8633,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 21,
+   "t_audio": 417.952834,
+   "confianca": 0.8887,
+   "cos": 0.8887,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 22,
+   "t_audio": 418.614603,
+   "confianca": 0.2678,
+   "cos": 0.9477,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": 419.160272,
+   "confianca": 0.3656,
+   "cos": 0.8843,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": 419.845261,
+   "confianca": 0.0,
+   "cos": 0.7375,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": 420.518639,
+   "confianca": 0.8959,
+   "cos": 0.8959,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 26,
+   "t_audio": 421.226848,
+   "confianca": 0.2284,
+   "cos": 0.9556,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 27,
+   "t_audio": 421.830567,
+   "confianca": 0.4954,
+   "cos": 0.9327,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 28,
+   "t_audio": 422.515556,
+   "confianca": 0.7556,
+   "cos": 0.8022,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 29,
+   "t_audio": 423.154104,
+   "confianca": 0.8803,
+   "cos": 0.8803,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 30,
+   "t_audio": 423.804263,
+   "confianca": 0.4988,
+   "cos": 0.8978,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 31,
+   "t_audio": 424.431202,
+   "confianca": 0.2779,
+   "cos": 0.8893,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 32,
+   "t_audio": 425.069751,
+   "confianca": 0.0,
+   "cos": 0.7441,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 33,
+   "t_audio": 425.685079,
+   "confianca": 0.8885,
+   "cos": 0.8885,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 34,
+   "t_audio": 426.358458,
+   "confianca": 0.0,
+   "cos": 0.8927,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 0,
+   "coluna": 35,
+   "t_audio": 426.985397,
+   "confianca": 0.6415,
+   "cos": 0.9617,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 1,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 2,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 3,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 4,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 5,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 6,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 7,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 8,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 9,
+   "t_audio": 495.6761,
+   "confianca": 0.3118,
+   "cos": 0.7227,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 11,
+   "t_audio": 496.372698,
+   "confianca": 0.907,
+   "cos": 0.907,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 12,
+   "t_audio": 496.999637,
+   "confianca": 0.0,
+   "cos": 0.8852,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 13,
+   "t_audio": 497.638186,
+   "confianca": 0.2892,
+   "cos": 0.9364,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 14,
+   "t_audio": 498.288345,
+   "confianca": 0.0,
+   "cos": 0.8529,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 15,
+   "t_audio": 498.915283,
+   "confianca": 0.841,
+   "cos": 0.841,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 16,
+   "t_audio": 499.600272,
+   "confianca": 0.0,
+   "cos": 0.9389,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 17,
+   "t_audio": 500.076281,
+   "confianca": 0.0,
+   "cos": 0.8307,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 19,
+   "t_audio": 500.354921,
+   "confianca": 0.8678,
+   "cos": 0.8678,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 20,
+   "t_audio": 500.958639,
+   "confianca": 0.2316,
+   "cos": 0.9314,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 21,
+   "t_audio": 501.515918,
+   "confianca": 0.3321,
+   "cos": 0.8938,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 22,
+   "t_audio": 502.177687,
+   "confianca": 0.0,
+   "cos": 0.8974,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 23,
+   "t_audio": 502.793016,
+   "confianca": 0.876,
+   "cos": 0.876,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 24,
+   "t_audio": 503.454785,
+   "confianca": 0.5541,
+   "cos": 0.8327,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 25,
+   "t_audio": 504.116553,
+   "confianca": 0.8837,
+   "cos": 0.8837,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 26,
+   "t_audio": 504.801542,
+   "confianca": 0.0,
+   "cos": 0.9081,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 27,
+   "t_audio": 505.451701,
+   "confianca": 0.9538,
+   "cos": 0.9538,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 28,
+   "t_audio": 506.148299,
+   "confianca": 0.7837,
+   "cos": 0.7837,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 29,
+   "t_audio": 506.752018,
+   "confianca": 0.889,
+   "cos": 0.889,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 30,
+   "t_audio": 507.378957,
+   "confianca": 0.0,
+   "cos": 0.9148,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 31,
+   "t_audio": 508.005896,
+   "confianca": 0.8972,
+   "cos": 0.8972,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 32,
+   "t_audio": 508.679274,
+   "confianca": 0.0,
+   "cos": 0.787,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 33,
+   "t_audio": 509.341043,
+   "confianca": 0.8963,
+   "cos": 0.8963,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 34,
+   "t_audio": 509.967982,
+   "confianca": 0.8903,
+   "cos": 0.8903,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 5,
+   "exibicao": 1,
+   "coluna": 35,
+   "t_audio": 510.641361,
+   "confianca": 0.5212,
+   "cos": 0.9661,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": 427.745261,
+   "confianca": 0.3838,
+   "cos": 0.8513,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 428.33737,
+   "confianca": 0.8808,
+   "cos": 0.8808,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 429.045578,
+   "confianca": 0.948,
+   "cos": 0.948,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 429.695737,
+   "confianca": 0.8627,
+   "cos": 0.8627,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 430.357506,
+   "confianca": 0.7393,
+   "cos": 0.8165,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 430.996054,
+   "confianca": 0.8673,
+   "cos": 0.8673,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 431.634603,
+   "confianca": 0.335,
+   "cos": 0.9491,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 432.296372,
+   "confianca": 0.8583,
+   "cos": 0.8583,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 9,
+   "t_audio": 433.01619,
+   "confianca": 0.9159,
+   "cos": 0.9159,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 10,
+   "t_audio": 433.596689,
+   "confianca": 0.7894,
+   "cos": 0.7894,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": 434.223628,
+   "confianca": 0.8838,
+   "cos": 0.9076,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 12,
+   "t_audio": 434.827347,
+   "confianca": 0.2491,
+   "cos": 0.8971,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 13,
+   "t_audio": 435.489116,
+   "confianca": 0.3703,
+   "cos": 0.9406,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": 436.406304,
+   "confianca": 0.9201,
+   "cos": 0.9201,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": 437.323492,
+   "confianca": 0.5689,
+   "cos": 0.9392,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 16,
+   "t_audio": 438.031701,
+   "confianca": 0.7137,
+   "cos": 0.7137,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 17,
+   "t_audio": 438.681859,
+   "confianca": 0.3056,
+   "cos": 0.7435,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 18,
+   "t_audio": 439.413288,
+   "confianca": 0.7024,
+   "cos": 0.8215,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": 440.040227,
+   "confianca": 0.9007,
+   "cos": 0.9007,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": 440.771655,
+   "confianca": 0.0,
+   "cos": 0.9657,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 21,
+   "t_audio": 441.433424,
+   "confianca": 0.9055,
+   "cos": 0.9055,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 22,
+   "t_audio": 442.071973,
+   "confianca": 0.0084,
+   "cos": 0.8888,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": 442.745351,
+   "confianca": 0.8711,
+   "cos": 0.8711,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": 443.45356,
+   "confianca": 0.0,
+   "cos": 0.6992,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": 444.068889,
+   "confianca": 0.3713,
+   "cos": 0.9536,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 26,
+   "t_audio": 444.777098,
+   "confianca": 0.065,
+   "cos": 0.858,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 27,
+   "t_audio": 445.392426,
+   "confianca": 0.9028,
+   "cos": 0.9028,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 28,
+   "t_audio": 446.065805,
+   "confianca": 0.2238,
+   "cos": 0.925,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 29,
+   "t_audio": 446.750794,
+   "confianca": 0.8323,
+   "cos": 0.8323,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 30,
+   "t_audio": 447.400952,
+   "confianca": 0.5395,
+   "cos": 0.8965,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 0,
+   "coluna": 31,
+   "t_audio": 448.016281,
+   "confianca": 0.6788,
+   "cos": 0.8609,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 1,
+   "t_audio": 511.385079,
+   "confianca": 0.0478,
+   "cos": 0.8366,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 2,
+   "t_audio": 511.965578,
+   "confianca": 0.8886,
+   "cos": 0.8886,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 3,
+   "t_audio": 512.604127,
+   "confianca": 0.2395,
+   "cos": 0.9471,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 4,
+   "t_audio": 513.231066,
+   "confianca": 0.8613,
+   "cos": 0.8613,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 5,
+   "t_audio": 513.939274,
+   "confianca": 0.0,
+   "cos": 0.8765,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 6,
+   "t_audio": 514.566213,
+   "confianca": 0.848,
+   "cos": 0.848,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 7,
+   "t_audio": 515.204762,
+   "confianca": 0.2451,
+   "cos": 0.9412,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 8,
+   "t_audio": 515.889751,
+   "confianca": 0.8559,
+   "cos": 0.8559,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 9,
+   "t_audio": 516.609569,
+   "confianca": 0.9144,
+   "cos": 0.9144,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 10,
+   "t_audio": 517.190068,
+   "confianca": 0.7913,
+   "cos": 0.7913,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 11,
+   "t_audio": 517.817007,
+   "confianca": 0.7398,
+   "cos": 0.9055,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 12,
+   "t_audio": 518.420726,
+   "confianca": 0.2706,
+   "cos": 0.8977,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 13,
+   "t_audio": 519.094104,
+   "confianca": 0.4098,
+   "cos": 0.9471,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 14,
+   "t_audio": 519.999683,
+   "confianca": 0.9189,
+   "cos": 0.9189,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 15,
+   "t_audio": 520.916871,
+   "confianca": 0.573,
+   "cos": 0.9401,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 16,
+   "t_audio": 521.625079,
+   "confianca": 0.7119,
+   "cos": 0.7119,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 17,
+   "t_audio": 522.275238,
+   "confianca": 0.2591,
+   "cos": 0.7463,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 18,
+   "t_audio": 523.006667,
+   "confianca": 0.7005,
+   "cos": 0.8271,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 19,
+   "t_audio": 523.633605,
+   "confianca": 0.9001,
+   "cos": 0.9001,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 20,
+   "t_audio": 524.365034,
+   "confianca": 0.0,
+   "cos": 0.9653,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 21,
+   "t_audio": 525.026803,
+   "confianca": 0.9059,
+   "cos": 0.9059,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 22,
+   "t_audio": 525.665351,
+   "confianca": 0.0,
+   "cos": 0.8898,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 23,
+   "t_audio": 526.33873,
+   "confianca": 0.8686,
+   "cos": 0.8686,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 24,
+   "t_audio": 527.035329,
+   "confianca": 0.475,
+   "cos": 0.716,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 25,
+   "t_audio": 527.650658,
+   "confianca": 0.1168,
+   "cos": 0.9616,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 26,
+   "t_audio": 528.312426,
+   "confianca": 0.8597,
+   "cos": 0.8597,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 27,
+   "t_audio": 528.962585,
+   "confianca": 0.8761,
+   "cos": 0.8761,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 28,
+   "t_audio": 529.612744,
+   "confianca": 0.9526,
+   "cos": 0.9526,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 29,
+   "t_audio": 530.262902,
+   "confianca": 0.3768,
+   "cos": 0.8661,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 30,
+   "t_audio": 530.924671,
+   "confianca": 0.0,
+   "cos": 0.8958,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 6,
+   "exibicao": 1,
+   "coluna": 31,
+   "t_audio": 531.55161,
+   "confianca": 0.9267,
+   "cos": 0.9267,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": 448.78059,
+   "confianca": 0.5208,
+   "cos": 0.8349,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 449.349478,
+   "confianca": 0.8067,
+   "cos": 0.8067,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 449.999637,
+   "confianca": 0.0,
+   "cos": 0.8891,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 450.626576,
+   "confianca": 0.8967,
+   "cos": 0.8967,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 451.392834,
+   "confianca": 0.4453,
+   "cos": 0.9291,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 451.996553,
+   "confianca": 0.8113,
+   "cos": 0.8113,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 452.693152,
+   "confianca": 0.0439,
+   "cos": 0.8854,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 453.366531,
+   "confianca": 0.3822,
+   "cos": 0.744,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 9,
+   "t_audio": 453.970249,
+   "confianca": 0.7186,
+   "cos": 0.7186,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 10,
+   "t_audio": 454.608798,
+   "confianca": 0.8922,
+   "cos": 0.8922,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": 455.258957,
+   "confianca": 0.0,
+   "cos": 0.8779,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 12,
+   "t_audio": 455.932336,
+   "confianca": 0.3401,
+   "cos": 0.9514,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 13,
+   "t_audio": 456.605714,
+   "confianca": 0.8313,
+   "cos": 0.8313,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": 457.255873,
+   "confianca": 0.8174,
+   "cos": 0.8174,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": 457.882812,
+   "confianca": 0.6308,
+   "cos": 0.9329,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 16,
+   "t_audio": 458.509751,
+   "confianca": 0.7512,
+   "cos": 0.962,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 17,
+   "t_audio": 459.159909,
+   "confianca": 0.0,
+   "cos": 0.8828,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 18,
+   "t_audio": 459.798458,
+   "confianca": 0.895,
+   "cos": 0.895,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": 460.437007,
+   "confianca": 0.0,
+   "cos": 0.9057,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": 461.098776,
+   "confianca": 0.8865,
+   "cos": 0.8865,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 21,
+   "t_audio": 461.783764,
+   "confianca": 0.4061,
+   "cos": 0.8674,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 22,
+   "t_audio": 462.422313,
+   "confianca": 0.896,
+   "cos": 0.896,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": 463.130522,
+   "confianca": 0.3105,
+   "cos": 0.9475,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": 463.73424,
+   "confianca": 0.8393,
+   "cos": 0.9419,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": 464.396009,
+   "confianca": 0.7589,
+   "cos": 0.7589,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 26,
+   "t_audio": 465.069388,
+   "confianca": 0.8998,
+   "cos": 0.8998,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 27,
+   "t_audio": 465.696327,
+   "confianca": 0.0,
+   "cos": 0.9115,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 28,
+   "t_audio": 466.346485,
+   "confianca": 0.915,
+   "cos": 0.915,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 29,
+   "t_audio": 466.996644,
+   "confianca": 0.0,
+   "cos": 0.8384,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 30,
+   "t_audio": 467.623583,
+   "confianca": 0.9272,
+   "cos": 0.9272,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 31,
+   "t_audio": 468.273741,
+   "confianca": 0.0,
+   "cos": 0.9022,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 0,
+   "coluna": 32,
+   "t_audio": 468.88907,
+   "confianca": 0.0,
+   "cos": 0.9308,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 1,
+   "t_audio": 532.25737,
+   "confianca": 0.4146,
+   "cos": 0.7177,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 2,
+   "t_audio": 532.849478,
+   "confianca": 0.8033,
+   "cos": 0.8033,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 3,
+   "t_audio": 533.476417,
+   "confianca": 0.0,
+   "cos": 0.8799,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 4,
+   "t_audio": 534.080136,
+   "confianca": 0.8989,
+   "cos": 0.8989,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 5,
+   "t_audio": 534.730295,
+   "confianca": 0.8606,
+   "cos": 0.8606,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 6,
+   "t_audio": 535.438503,
+   "confianca": 0.8103,
+   "cos": 0.8103,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 7,
+   "t_audio": 536.111882,
+   "confianca": 0.0,
+   "cos": 0.8721,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 8,
+   "t_audio": 536.808481,
+   "confianca": 0.7714,
+   "cos": 0.7714,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 9,
+   "t_audio": 537.470249,
+   "confianca": 0.2969,
+   "cos": 0.7416,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 10,
+   "t_audio": 538.120408,
+   "confianca": 0.9196,
+   "cos": 0.9196,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 11,
+   "t_audio": 538.782177,
+   "confianca": 0.1241,
+   "cos": 0.8859,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 12,
+   "t_audio": 539.432336,
+   "confianca": 0.1664,
+   "cos": 0.958,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 13,
+   "t_audio": 540.082494,
+   "confianca": 0.8133,
+   "cos": 0.8133,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 14,
+   "t_audio": 540.709433,
+   "confianca": 0.8466,
+   "cos": 0.8466,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 15,
+   "t_audio": 541.336372,
+   "confianca": 0.0,
+   "cos": 0.9354,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 16,
+   "t_audio": 541.963311,
+   "confianca": 0.9651,
+   "cos": 0.9651,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 17,
+   "t_audio": 542.625079,
+   "confianca": 0.0,
+   "cos": 0.862,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 18,
+   "t_audio": 543.286848,
+   "confianca": 0.8852,
+   "cos": 0.8852,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 19,
+   "t_audio": 543.937007,
+   "confianca": 0.0,
+   "cos": 0.9046,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 20,
+   "t_audio": 544.552336,
+   "confianca": 0.877,
+   "cos": 0.877,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 21,
+   "t_audio": 545.225714,
+   "confianca": 0.3506,
+   "cos": 0.8872,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 22,
+   "t_audio": 545.864263,
+   "confianca": 0.8848,
+   "cos": 0.8848,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 23,
+   "t_audio": 546.560862,
+   "confianca": 0.0,
+   "cos": 0.9067,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 24,
+   "t_audio": 547.19941,
+   "confianca": 0.9308,
+   "cos": 0.9308,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 25,
+   "t_audio": 547.919229,
+   "confianca": 0.606,
+   "cos": 0.7773,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 26,
+   "t_audio": 548.546168,
+   "confianca": 0.7813,
+   "cos": 0.7813,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 27,
+   "t_audio": 549.219546,
+   "confianca": 0.9073,
+   "cos": 0.9073,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 28,
+   "t_audio": 549.869705,
+   "confianca": 0.8745,
+   "cos": 0.8745,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 29,
+   "t_audio": 550.519864,
+   "confianca": 0.0898,
+   "cos": 0.8761,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 30,
+   "t_audio": 551.088753,
+   "confianca": 0.8931,
+   "cos": 0.8931,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 31,
+   "t_audio": 551.750522,
+   "confianca": 0.0,
+   "cos": 0.9116,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 7,
+   "exibicao": 1,
+   "coluna": 32,
+   "t_audio": 552.40068,
+   "confianca": 0.9314,
+   "cos": 0.9314,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": 469.60644,
+   "confianca": 0.7972,
+   "cos": 0.7972,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 470.291429,
+   "confianca": 0.8581,
+   "cos": 0.8581,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 470.941587,
+   "confianca": 0.9326,
+   "cos": 0.9326,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 471.568526,
+   "confianca": 0.8199,
+   "cos": 0.8199,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 472.218685,
+   "confianca": 0.8059,
+   "cos": 0.8059,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 472.892063,
+   "confianca": 0.868,
+   "cos": 0.868,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 473.553832,
+   "confianca": 0.8764,
+   "cos": 0.9437,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 474.169161,
+   "confianca": 0.9442,
+   "cos": 0.9442,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": 474.389751,
+   "confianca": 0.3416,
+   "cos": 0.8722,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 12,
+   "t_audio": 474.83093,
+   "confianca": 0.2242,
+   "cos": 0.7143,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 13,
+   "t_audio": 475.434649,
+   "confianca": 0.8678,
+   "cos": 0.8678,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": 476.108027,
+   "confianca": 0.0,
+   "cos": 0.9128,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": 476.746576,
+   "confianca": 0.8603,
+   "cos": 0.8603,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 16,
+   "t_audio": 477.466395,
+   "confianca": 0.2984,
+   "cos": 0.8409,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 17,
+   "t_audio": 478.058503,
+   "confianca": 0.9236,
+   "cos": 0.9236,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 18,
+   "t_audio": 478.755102,
+   "confianca": 0.7039,
+   "cos": 0.908,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": 479.382041,
+   "confianca": 0.9203,
+   "cos": 0.9203,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": 480.04381,
+   "confianca": 0.4501,
+   "cos": 0.8185,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 21,
+   "t_audio": 480.705578,
+   "confianca": 0.9265,
+   "cos": 0.9265,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 22,
+   "t_audio": 482.040726,
+   "confianca": 0.8938,
+   "cos": 0.8938,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": 482.690884,
+   "confianca": 0.0677,
+   "cos": 0.8974,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": 483.329433,
+   "confianca": 0.733,
+   "cos": 0.8769,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": 483.967982,
+   "confianca": 0.6018,
+   "cos": 0.8877,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 26,
+   "t_audio": 484.594921,
+   "confianca": 0.7503,
+   "cos": 0.9456,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 27,
+   "t_audio": 485.221859,
+   "confianca": 0.1287,
+   "cos": 0.7803,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 28,
+   "t_audio": 485.895238,
+   "confianca": 0.8976,
+   "cos": 0.8976,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 29,
+   "t_audio": 486.568617,
+   "confianca": 0.0,
+   "cos": 0.9228,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 30,
+   "t_audio": 487.207166,
+   "confianca": 0.8756,
+   "cos": 0.8756,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 31,
+   "t_audio": 487.868934,
+   "confianca": 0.0,
+   "cos": 0.8706,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 32,
+   "t_audio": 488.542313,
+   "confianca": 0.9183,
+   "cos": 0.9183,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 33,
+   "t_audio": 489.204082,
+   "confianca": 0.8804,
+   "cos": 0.8804,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 0,
+   "coluna": 34,
+   "t_audio": 489.83102,
+   "confianca": 0.8832,
+   "cos": 0.8832,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 1,
+   "t_audio": 553.04839,
+   "confianca": 0.1359,
+   "cos": 0.8229,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 2,
+   "t_audio": 553.686939,
+   "confianca": 0.8408,
+   "cos": 0.8408,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 3,
+   "t_audio": 554.337098,
+   "confianca": 0.1829,
+   "cos": 0.94,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 4,
+   "t_audio": 555.022086,
+   "confianca": 0.8495,
+   "cos": 0.8495,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 5,
+   "t_audio": 555.672245,
+   "confianca": 0.0,
+   "cos": 0.7931,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 6,
+   "t_audio": 556.287574,
+   "confianca": 0.8583,
+   "cos": 0.8583,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 7,
+   "t_audio": 556.972562,
+   "confianca": 0.0048,
+   "cos": 0.9434,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 8,
+   "t_audio": 557.622721,
+   "confianca": 0.9379,
+   "cos": 0.9379,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 11,
+   "t_audio": 557.843311,
+   "confianca": 0.6823,
+   "cos": 0.9203,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 12,
+   "t_audio": 558.34254,
+   "confianca": 0.1314,
+   "cos": 0.7459,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 13,
+   "t_audio": 558.934649,
+   "confianca": 0.8708,
+   "cos": 0.8708,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 14,
+   "t_audio": 559.584807,
+   "confianca": 0.0,
+   "cos": 0.9119,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 15,
+   "t_audio": 560.234966,
+   "confianca": 0.8472,
+   "cos": 0.8472,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 16,
+   "t_audio": 560.954785,
+   "confianca": 0.0,
+   "cos": 0.7101,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 17,
+   "t_audio": 561.616553,
+   "confianca": 0.928,
+   "cos": 0.928,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 18,
+   "t_audio": 562.255102,
+   "confianca": 0.8574,
+   "cos": 0.8574,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 19,
+   "t_audio": 562.870431,
+   "confianca": 0.908,
+   "cos": 0.908,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 20,
+   "t_audio": 563.5322,
+   "confianca": 0.728,
+   "cos": 0.8136,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 21,
+   "t_audio": 564.159138,
+   "confianca": 0.9319,
+   "cos": 0.9319,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 22,
+   "t_audio": 565.459456,
+   "confianca": 0.864,
+   "cos": 0.864,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 23,
+   "t_audio": 566.109615,
+   "confianca": 0.0,
+   "cos": 0.8891,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 24,
+   "t_audio": 566.771383,
+   "confianca": 0.8994,
+   "cos": 0.8994,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 25,
+   "t_audio": 567.444762,
+   "confianca": 0.0,
+   "cos": 0.9036,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 26,
+   "t_audio": 568.071701,
+   "confianca": 0.8889,
+   "cos": 0.9218,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 27,
+   "t_audio": 568.721859,
+   "confianca": 0.2226,
+   "cos": 0.8212,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 28,
+   "t_audio": 569.372018,
+   "confianca": 0.8908,
+   "cos": 0.8908,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 29,
+   "t_audio": 570.033787,
+   "confianca": 0.0,
+   "cos": 0.9134,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 30,
+   "t_audio": 570.660726,
+   "confianca": 0.8771,
+   "cos": 0.8771,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 31,
+   "t_audio": 571.322494,
+   "confianca": 0.5571,
+   "cos": 0.871,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 32,
+   "t_audio": 571.995873,
+   "confianca": 0.9238,
+   "cos": 0.9238,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 33,
+   "t_audio": 572.657642,
+   "confianca": 0.8839,
+   "cos": 0.8839,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 8,
+   "exibicao": 1,
+   "coluna": 34,
+   "t_audio": 573.28458,
+   "confianca": 0.9003,
+   "cos": 0.9003,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": 490.520227,
+   "confianca": 0.3105,
+   "cos": 0.8217,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 491.135556,
+   "confianca": 0.1417,
+   "cos": 0.7263,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 491.820544,
+   "confianca": 0.2492,
+   "cos": 0.8638,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 492.424263,
+   "confianca": 0.8591,
+   "cos": 0.8591,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 493.120862,
+   "confianca": 0.0537,
+   "cos": 0.9446,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 493.75941,
+   "confianca": 0.8093,
+   "cos": 0.8093,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 494.432789,
+   "confianca": 0.2114,
+   "cos": 0.8892,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 495.059728,
+   "confianca": 0.9468,
+   "cos": 0.9468,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 9,
+   "t_audio": 495.675057,
+   "confianca": 0.0,
+   "cos": 0.5805,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 10,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 12,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 13,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 18,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 21,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 22,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 26,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 27,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 28,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 29,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 30,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 31,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 32,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 0,
+   "coluna": 33,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 1,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 2,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 3,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 4,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 5,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 6,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 7,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 8,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 9,
+   "t_audio": 573.900136,
+   "confianca": 0.1304,
+   "cos": 0.7799,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 10,
+   "t_audio": 574.527075,
+   "confianca": 0.7345,
+   "cos": 0.7345,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 11,
+   "t_audio": 575.212063,
+   "confianca": 0.0,
+   "cos": 0.825,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 12,
+   "t_audio": 575.850612,
+   "confianca": 0.894,
+   "cos": 0.894,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 13,
+   "t_audio": 576.523991,
+   "confianca": 0.0,
+   "cos": 0.7385,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 14,
+   "t_audio": 577.15093,
+   "confianca": 0.5795,
+   "cos": 0.8795,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 15,
+   "t_audio": 577.847528,
+   "confianca": 0.0416,
+   "cos": 0.914,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 18,
+   "t_audio": 579.217506,
+   "confianca": 0.8415,
+   "cos": 0.8415,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 19,
+   "t_audio": 579.879274,
+   "confianca": 0.6539,
+   "cos": 0.6539,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 20,
+   "t_audio": 580.517823,
+   "confianca": 0.8022,
+   "cos": 0.8022,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 21,
+   "t_audio": 581.133152,
+   "confianca": 0.8997,
+   "cos": 0.8997,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 22,
+   "t_audio": 581.89941,
+   "confianca": 0.3067,
+   "cos": 0.7338,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 23,
+   "t_audio": 582.491519,
+   "confianca": 0.7488,
+   "cos": 0.7488,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 24,
+   "t_audio": 583.130068,
+   "confianca": 0.0,
+   "cos": 0.9495,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 25,
+   "t_audio": 583.757007,
+   "confianca": 0.9071,
+   "cos": 0.9071,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 26,
+   "t_audio": 584.465215,
+   "confianca": 0.9055,
+   "cos": 0.9055,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 27,
+   "t_audio": 585.103764,
+   "confianca": 0.7396,
+   "cos": 0.7396,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 28,
+   "t_audio": 585.800363,
+   "confianca": 0.3072,
+   "cos": 0.9031,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 29,
+   "t_audio": 586.404082,
+   "confianca": 0.86,
+   "cos": 0.86,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 30,
+   "t_audio": 587.07746,
+   "confianca": 0.8715,
+   "cos": 0.8715,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 31,
+   "t_audio": 587.762449,
+   "confianca": 0.8631,
+   "cos": 0.8631,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 32,
+   "t_audio": 588.377778,
+   "confianca": 0.6886,
+   "cos": 0.9509,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 9,
+   "exibicao": 1,
+   "coluna": 33,
+   "t_audio": 589.016327,
+   "confianca": 0.8935,
+   "cos": 0.8935,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": 589.68771,
+   "confianca": 0.5531,
+   "cos": 0.9159,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 590.361088,
+   "confianca": 0.4632,
+   "cos": 0.631,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 591.011247,
+   "confianca": 0.7408,
+   "cos": 0.7408,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 591.649796,
+   "confianca": 0.8671,
+   "cos": 0.8671,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 592.334785,
+   "confianca": 0.2075,
+   "cos": 0.7603,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 593.635102,
+   "confianca": 0.1254,
+   "cos": 0.9796,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 594.296871,
+   "confianca": 0.8526,
+   "cos": 0.8526,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 594.93542,
+   "confianca": 0.1401,
+   "cos": 0.9241,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 9,
+   "t_audio": 595.550748,
+   "confianca": 0.852,
+   "cos": 0.852,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 10,
+   "t_audio": 596.166077,
+   "confianca": 0.0884,
+   "cos": 0.895,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": 596.793016,
+   "confianca": 0.7265,
+   "cos": 0.9254,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 12,
+   "t_audio": 597.547664,
+   "confianca": 0.2429,
+   "cos": 0.8679,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 13,
+   "t_audio": 598.186213,
+   "confianca": 0.8471,
+   "cos": 0.8471,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": 598.836372,
+   "confianca": 0.9081,
+   "cos": 0.9081,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": 599.521361,
+   "confianca": 0.8883,
+   "cos": 0.8883,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 16,
+   "t_audio": 600.125079,
+   "confianca": 0.7862,
+   "cos": 0.7862,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 17,
+   "t_audio": 600.786848,
+   "confianca": 0.7834,
+   "cos": 0.7834,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 18,
+   "t_audio": 601.448617,
+   "confianca": 0.8505,
+   "cos": 0.8505,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": 602.098776,
+   "confianca": 0.8175,
+   "cos": 0.8175,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": 602.737324,
+   "confianca": 0.5574,
+   "cos": 0.7461,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 21,
+   "t_audio": 603.375873,
+   "confianca": 0.3626,
+   "cos": 0.6893,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 22,
+   "t_audio": 604.037642,
+   "confianca": 0.9338,
+   "cos": 0.9338,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": 604.72263,
+   "confianca": 0.8968,
+   "cos": 0.8968,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": 605.372789,
+   "confianca": 0.6944,
+   "cos": 0.6944,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": 606.034558,
+   "confianca": 0.7059,
+   "cos": 0.7059,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 26,
+   "t_audio": 606.673107,
+   "confianca": 0.7124,
+   "cos": 0.7124,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 27,
+   "t_audio": 607.241995,
+   "confianca": 0.8415,
+   "cos": 0.8415,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 28,
+   "t_audio": 607.903764,
+   "confianca": 0.0,
+   "cos": 0.6592,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 29,
+   "t_audio": 608.553923,
+   "confianca": 0.3882,
+   "cos": 0.8638,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 30,
+   "t_audio": 609.180862,
+   "confianca": 0.5364,
+   "cos": 0.9593,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 10,
+   "exibicao": 0,
+   "coluna": 31,
+   "t_audio": 609.84263,
+   "confianca": 0.3539,
+   "cos": 0.9482,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "fora_do_trecho",
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 609.846848,
+   "confianca": 0.9495,
+   "cos": 0.9495,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 610.473787,
+   "confianca": 0.216,
+   "cos": 0.8038,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 611.205215,
+   "confianca": 0.7466,
+   "cos": 0.7495,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 611.843764,
+   "confianca": 0.0,
+   "cos": 0.8786,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 612.447483,
+   "confianca": 0.4242,
+   "cos": 0.9126,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 613.086032,
+   "confianca": 0.0,
+   "cos": 0.6385,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 613.712971,
+   "confianca": 0.8914,
+   "cos": 0.8914,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 9,
+   "t_audio": 614.374739,
+   "confianca": 0.894,
+   "cos": 0.894,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 10,
+   "t_audio": 615.059728,
+   "confianca": 0.903,
+   "cos": 0.903,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": 615.721497,
+   "confianca": 0.0,
+   "cos": 0.686,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 12,
+   "t_audio": 616.360045,
+   "confianca": 0.8958,
+   "cos": 0.8958,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 13,
+   "t_audio": 617.021814,
+   "confianca": 0.0,
+   "cos": 0.9008,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": 617.637143,
+   "confianca": 0.9523,
+   "cos": 0.9523,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": 618.287302,
+   "confianca": 0.8925,
+   "cos": 0.8925,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 16,
+   "t_audio": 618.9839,
+   "confianca": 0.8123,
+   "cos": 0.8123,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 17,
+   "t_audio": 619.610839,
+   "confianca": 0.449,
+   "cos": 0.8378,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 18,
+   "t_audio": 620.342268,
+   "confianca": 0.9364,
+   "cos": 0.9364,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": 621.027256,
+   "confianca": 0.3779,
+   "cos": 0.6833,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": 621.677415,
+   "confianca": 0.8884,
+   "cos": 0.8884,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 21,
+   "t_audio": 622.327574,
+   "confianca": 0.9232,
+   "cos": 0.9232,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 22,
+   "t_audio": 622.942902,
+   "confianca": 0.483,
+   "cos": 0.8943,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": 623.581451,
+   "confianca": 0.0,
+   "cos": 0.5389,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": 624.19678,
+   "confianca": 0.8847,
+   "cos": 0.8847,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": 624.870159,
+   "confianca": 0.0,
+   "cos": 0.9495,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 26,
+   "t_audio": 625.520317,
+   "confianca": 0.4426,
+   "cos": 0.9432,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 27,
+   "t_audio": 626.182086,
+   "confianca": 0.0,
+   "cos": 0.7445,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 28,
+   "t_audio": 626.820635,
+   "confianca": 0.8772,
+   "cos": 0.8772,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 29,
+   "t_audio": 627.459184,
+   "confianca": 0.0,
+   "cos": 0.8904,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 30,
+   "t_audio": 628.109342,
+   "confianca": 0.8814,
+   "cos": 0.8814,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 31,
+   "t_audio": 628.747891,
+   "confianca": 0.0,
+   "cos": 0.8059,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 32,
+   "t_audio": 629.36322,
+   "confianca": 0.9095,
+   "cos": 0.9095,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 33,
+   "t_audio": 629.955329,
+   "confianca": 0.9338,
+   "cos": 0.9338,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 11,
+   "exibicao": 0,
+   "coluna": 34,
+   "t_audio": 630.640317,
+   "confianca": 0.6239,
+   "cos": 0.943,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": 631.291701,
+   "confianca": 0.9047,
+   "cos": 0.9047,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 631.965079,
+   "confianca": 0.7979,
+   "cos": 0.7979,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 632.626848,
+   "confianca": 0.1248,
+   "cos": 0.8556,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 633.265397,
+   "confianca": 0.9455,
+   "cos": 0.9455,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 633.927166,
+   "confianca": 0.8745,
+   "cos": 0.8745,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 635.227483,
+   "confianca": 0.9355,
+   "cos": 0.9355,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 635.877642,
+   "confianca": 0.0,
+   "cos": 0.9105,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 636.56263,
+   "confianca": 0.8104,
+   "cos": 0.8104,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 9,
+   "t_audio": 637.224399,
+   "confianca": 0.8673,
+   "cos": 0.8673,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 10,
+   "t_audio": 637.851338,
+   "confianca": 0.8893,
+   "cos": 0.8893,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": 638.489887,
+   "confianca": 0.9471,
+   "cos": 0.9471,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": 639.825034,
+   "confianca": 0.8998,
+   "cos": 0.8998,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": 640.510023,
+   "confianca": 0.0689,
+   "cos": 0.953,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 16,
+   "t_audio": 641.183401,
+   "confianca": 0.5401,
+   "cos": 0.8941,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 17,
+   "t_audio": 641.88,
+   "confianca": 0.2066,
+   "cos": 0.7137,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 18,
+   "t_audio": 642.541769,
+   "confianca": 0.8272,
+   "cos": 0.8272,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": 643.191927,
+   "confianca": 0.0905,
+   "cos": 0.9176,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": 643.795646,
+   "confianca": 0.8364,
+   "cos": 0.8364,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 21,
+   "t_audio": 644.503855,
+   "confianca": 0.366,
+   "cos": 0.776,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "sem_ataque_casado",
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": null,
+   "confianca": null,
+   "cos": null,
+   "motivo": "sem_ataque_casado",
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": 645.804172,
+   "confianca": 0.9416,
+   "cos": 0.9416,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 26,
+   "t_audio": 646.465941,
+   "confianca": 0.1773,
+   "cos": 0.951,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 27,
+   "t_audio": 647.04644,
+   "confianca": 0.4899,
+   "cos": 0.8286,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 28,
+   "t_audio": 647.684989,
+   "confianca": 0.8811,
+   "cos": 0.8811,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 29,
+   "t_audio": 648.311927,
+   "confianca": 0.3984,
+   "cos": 0.9371,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 30,
+   "t_audio": 648.973696,
+   "confianca": 0.9014,
+   "cos": 0.9014,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 31,
+   "t_audio": 649.577415,
+   "confianca": 0.8393,
+   "cos": 0.8393,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 32,
+   "t_audio": 650.239184,
+   "confianca": 0.7032,
+   "cos": 0.7032,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 33,
+   "t_audio": 650.924172,
+   "confianca": 0.2508,
+   "cos": 0.869,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 12,
+   "exibicao": 0,
+   "coluna": 34,
+   "t_audio": 651.585941,
+   "confianca": 0.9576,
+   "cos": 0.9576,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 1,
+   "t_audio": 652.23415,
+   "confianca": 0.0263,
+   "cos": 0.9272,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 2,
+   "t_audio": 652.849478,
+   "confianca": 0.6055,
+   "cos": 0.7195,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 3,
+   "t_audio": 653.488027,
+   "confianca": 0.8675,
+   "cos": 0.8675,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 4,
+   "t_audio": 654.114966,
+   "confianca": 0.8497,
+   "cos": 0.8497,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 5,
+   "t_audio": 654.811565,
+   "confianca": 0.1867,
+   "cos": 0.9027,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 6,
+   "t_audio": 655.438503,
+   "confianca": 0.7836,
+   "cos": 0.7836,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 7,
+   "t_audio": 656.111882,
+   "confianca": 0.925,
+   "cos": 0.925,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 8,
+   "t_audio": 656.785261,
+   "confianca": 0.4559,
+   "cos": 0.8243,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 9,
+   "t_audio": 657.470249,
+   "confianca": 0.0,
+   "cos": 0.8101,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 10,
+   "t_audio": 658.166848,
+   "confianca": 0.7493,
+   "cos": 0.7493,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 11,
+   "t_audio": 658.817007,
+   "confianca": 0.8919,
+   "cos": 0.8919,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 12,
+   "t_audio": 659.455556,
+   "confianca": 0.6385,
+   "cos": 0.9009,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 13,
+   "t_audio": 660.152154,
+   "confianca": 0.0,
+   "cos": 0.6349,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 14,
+   "t_audio": 660.813923,
+   "confianca": 0.965,
+   "cos": 0.965,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 15,
+   "t_audio": 661.452472,
+   "confianca": 0.0,
+   "cos": 0.8274,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 16,
+   "t_audio": 662.11424,
+   "confianca": 0.9243,
+   "cos": 0.9243,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 17,
+   "t_audio": 662.729569,
+   "confianca": 0.8455,
+   "cos": 0.9173,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 18,
+   "t_audio": 663.356508,
+   "confianca": 0.6736,
+   "cos": 0.6736,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 19,
+   "t_audio": 664.029887,
+   "confianca": 0.0,
+   "cos": 0.7576,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 20,
+   "t_audio": 664.656825,
+   "confianca": 0.2629,
+   "cos": 0.8598,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 21,
+   "t_audio": 665.260544,
+   "confianca": 0.0,
+   "cos": 0.8908,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 22,
+   "t_audio": 665.910703,
+   "confianca": 0.1623,
+   "cos": 0.9434,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 23,
+   "t_audio": 666.560862,
+   "confianca": 0.9486,
+   "cos": 0.9486,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 24,
+   "t_audio": 667.19941,
+   "confianca": 0.695,
+   "cos": 0.9467,
+   "motivo": null,
+   "tipo": "nota"
+  },
+  {
+   "tela": 13,
+   "exibicao": 0,
+   "coluna": 25,
+   "t_audio": 667.814739,
+   "confianca": 0.3253,
+   "cos": 0.7183,
+   "motivo": null,
+   "tipo": "nota"
+  }
+ ],
+ "afericao": {
+  "gabarito": [
+   "data/gold/audio/folha1.json",
+   "data/gold/audio/folha2.json",
+   "data/gold/audio/folha3.json"
+  ],
+  "nivel": "ms",
+  "resolucao_escuta_ms": 100
+ }
+}

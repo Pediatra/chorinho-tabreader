@@ -1,0 +1,1 @@
+sh /var/home/gabriel/Projects/chorinho-dataset/data/saida/audio/a1/base.sh 'python -m pytest tests/test_audio_atraso.py tests/test_audio_onsets.py -q -p no:cacheprovider -m "not integration" 2>&1 | tail -6'

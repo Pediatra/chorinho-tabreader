@@ -1,0 +1,12 @@
+{
+ "trilha": "audio",
+ "pasta": "data/saida/audio/r2019",
+ "rodadas": "2019",
+ "o_que_tem": "transcritor do Riley: som_fl/ (guitar-fl) e som_gaps/; fonte/ é cópia de leitura do código de terceiros",
+ "comando_que_regenera": "tab.audio_transcrever_riley na imagem chorinho-som (determinístico, ~1,65× o tempo real)",
+ "regeneravel": true,
+ "citada_por": "2019 2020",
+ "classe": "manter",
+ "motivo": "som_fl entra na rodada 2020; fonte/ é código de terceiros, fora do git",
+ "escrito_em": "2026-10-21"
+}

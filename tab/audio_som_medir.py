@@ -26,7 +26,13 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from .caminhos import RAIZ, SAIDA
+from .caminhos import (
+    CAPO_POR_VIDEO,
+    GABARITO_AUDIO,
+    OURO_VIDEO,
+    PRE_OURO_VIDEO,
+    SAIDA_AUDIO,
+)
 
 #: Altura MIDI de cada corda solta, afinação padrão (E4 B3 G3 D3 A2 E2).
 ALTURA_SOLTA = {1: 64, 2: 59, 3: 55, 4: 50, 5: 45, 6: 40}
@@ -48,8 +54,8 @@ AMPLITUDE_MINIMA = 0.50
 #: Coluna de acorde cheio: pelo menos estas cordas.
 CORDAS_ACORDE_CHEIO = 5
 
-GOLD = RAIZ / "data" / "gold"
-CAPO = SAIDA / "maos" / "capo_por_video.json"
+#: Casa do capo por vídeo (dado das mãos; nome antigo mantido para quem importa).
+CAPO = CAPO_POR_VIDEO
 
 
 def midi_da_nota(corda: int, casa: int, capo: int = 0) -> int:
@@ -352,12 +358,10 @@ def telas_do_ouro(nome: str) -> tuple[list[dict], dict[int, dict]]:
     Returns:
         ``(telas_conferidas, pre_por_id)``.
     """
-    ouro = json.loads((GOLD / "ouro_video" / f"{nome}.json").read_text("utf-8"))
+    ouro = json.loads((OURO_VIDEO / f"{nome}.json").read_text("utf-8"))
     if ouro.get("juntadas"):
         raise ValueError(f"{nome}: telas juntadas não previstas no pré-registro")
-    pre = json.loads(
-        (SAIDA / "ouro_video" / nome / "pre.json").read_text(encoding="utf-8")
-    )
+    pre = json.loads((PRE_OURO_VIDEO / nome / "pre.json").read_text(encoding="utf-8"))
     return [t for t in ouro["telas"] if t.get("conferida")], {
         t["id"]: t for t in pre["telas"]
     }
@@ -372,7 +376,7 @@ def telas_dos_acordes(pasta: Path) -> list[tuple[str, dict, dict, list]]:
     Returns:
         ``(nome_do_produto, tela_do_ouro, tela_do_pre, exibicoes)`` por tela conferida.
     """
-    ouro = json.loads((GOLD / "audio" / "acordes_2018.json").read_text("utf-8"))
+    ouro = json.loads((GABARITO_AUDIO / "acordes_2018.json").read_text("utf-8"))
     indice = {
         i["id"]: i
         for i in json.loads((pasta / "indice.json").read_text(encoding="utf-8"))
@@ -387,9 +391,9 @@ def telas_dos_acordes(pasta: Path) -> list[tuple[str, dict, dict, list]]:
             continue
         ind = indice[t["id"]]
         prod = json.loads(
-            (
-                SAIDA / "audio" / "r2017" / "produtos" / f"{ind['produto']}.json"
-            ).read_text(encoding="utf-8")
+            (SAIDA_AUDIO / "r2017" / "produtos" / f"{ind['produto']}.json").read_text(
+                encoding="utf-8"
+            )
         )
         tela_p = next(x for x in prod["telas"] if x["id"] == ind["tela_produto"])
         exib = [(e["t0"], e["t1"]) for e in tela_p["exibicoes"]]
@@ -486,7 +490,7 @@ def medir(
             "telas": real,
         }
     pontos = []
-    for p in pontos_de_escuta(GOLD / "audio"):
+    for p in pontos_de_escuta(GABARITO_AUDIO):
         if p["video"] in som_por_video:
             p["acertado"] = instante_acertado(p["t"], som_por_video[p["video"]])
             pontos.append(p)
@@ -557,7 +561,7 @@ def main() -> int:
     ap.add_argument(
         "--acordes",
         type=Path,
-        default=SAIDA / "audio" / "r2018" / "ferramenta_acordes",
+        default=SAIDA_AUDIO / "r2018" / "ferramenta_acordes",
         help="material do gabarito de acorde cheio",
     )
     ap.add_argument("--so", nargs="*", default=None, help="só estes nomes da lista")

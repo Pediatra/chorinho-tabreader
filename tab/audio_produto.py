@@ -28,7 +28,7 @@ from collections import Counter
 from itertools import pairwise
 from pathlib import Path
 
-from .caminhos import RAIZ
+from .caminhos import GABARITO_AUDIO, RAIZ
 
 #: Esquema do arquivo irmão.
 ESQUEMA = "chorinho/audio@1"
@@ -48,9 +48,6 @@ RESOLUCAO_ESCUTA_MS = 100
 #: Cosseno médio a partir do qual uma exibição recusada vira alarme de leitura (rodada 2009:
 #: as notas que casam, casam bem, mas casam poucas; aponta colunas faltando ou erradas).
 LIMIAR_ALARME_COS = 0.7
-
-#: Pasta das folhas de escuta do dono (gabarito do tempo do som).
-GABARITO_AUDIO = RAIZ / "data" / "gold" / "audio"
 
 #: Chaves obrigatórias no topo do arquivo.
 CHAVES_TOPO = (

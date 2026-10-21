@@ -1,0 +1,23 @@
+{
+ "trilha": "audio",
+ "escrito_em": "2026-10-21",
+ "em_uso": [
+  {
+   "peso": "artefatos/riley_guitar/guitar-fl.pth",
+   "sha256": "50d93dba89bdd3401849bc735614478e83d9f46d21fa3f71d8aca5acc0a52028",
+   "uso": "chorinho/som@1 (decisão 2006), tab.audio_transcrever_riley --pesos",
+   "procedencia": "artefatos/riley_guitar.md"
+  }
+ ],
+ "historico": [
+  {
+   "peso": "artefatos/riley_guitar/guitar-gaps.pth",
+   "uso": "só a comparação da rodada 2019",
+   "classe": "arquivar"
+  }
+ ],
+ "fora_de_artefatos": [
+  "pesos do Basic Pitch: dentro do pacote pip da imagem chorinho-som:dev",
+  "o alinhador não usa peso"
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "trilha": "audio",
+ "pasta": "data/saida/audio/r2017",
+ "rodadas": "2017",
+ "o_que_tem": "regressão do alinhador com o leitor rede: produtos dos 14 vídeos bons + alinhados",
+ "comando_que_regenera": "data/saida/audio/r2017/*.sh (tab.video + tab.audio_alinhar); GPU para o produto, relê o HD",
+ "regeneravel": true,
+ "citada_por": "2004 2017 2018 2020",
+ "classe": "manter",
+ "motivo": "os produtos alimentam 2018-2020 (audio_som_medir, medir.py da 2020)",
+ "escrito_em": "2026-10-21"
+}

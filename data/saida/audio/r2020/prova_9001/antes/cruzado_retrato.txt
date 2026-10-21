@@ -1,0 +1,1 @@
+{"confirma": 456, "nao_confirma": 24, "coluna_sem_par": 11, "sem_dado": 0, "som_sem_tela": 40}

@@ -1,0 +1,5101 @@
+{
+ "esquema": "chorinho/cruzamento@0",
+ "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+ "capo": {
+  "casa": 0,
+  "fonte": "observações do dono nos gabaritos do braço (decisão 1010)"
+ },
+ "fontes": {
+  "tela": "artefatos/detector_tab_final_s1_ger/modelo.pt",
+  "som": "guitar-fl.pth"
+ },
+ "resumo": {
+  "confirma": 456,
+  "nao_confirma": 24,
+  "coluna_sem_par": 11,
+  "sem_dado": 0,
+  "som_sem_tela": 40
+ },
+ "telas": [
+  {
+   "exibicao": 0,
+   "t0": 239.375,
+   "t1": 265.875,
+   "notas": [
+    {
+     "tela": 1,
+     "coluna": 1,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 233.0,
+     "veredito": "confirma",
+     "t_som": 245.2032
+    },
+    {
+     "tela": 1,
+     "coluna": 1,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 227.6,
+     "veredito": "confirma",
+     "t_som": 245.2002
+    },
+    {
+     "tela": 1,
+     "coluna": 2,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 276.2,
+     "veredito": "confirma",
+     "t_som": 245.8822
+    },
+    {
+     "tela": 1,
+     "coluna": 3,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 324.8,
+     "veredito": "confirma",
+     "t_som": 246.5062
+    },
+    {
+     "tela": 1,
+     "coluna": 4,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 368.0,
+     "veredito": "confirma",
+     "t_som": 247.1241
+    },
+    {
+     "tela": 1,
+     "coluna": 5,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 416.6,
+     "veredito": "confirma",
+     "t_som": 247.7827
+    },
+    {
+     "tela": 1,
+     "coluna": 6,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 459.8,
+     "veredito": "confirma",
+     "t_som": 248.476
+    },
+    {
+     "tela": 1,
+     "coluna": 7,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 508.4,
+     "veredito": "confirma",
+     "t_som": 249.163
+    },
+    {
+     "tela": 1,
+     "coluna": 8,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 557.0,
+     "veredito": "confirma",
+     "t_som": 249.7981
+    },
+    {
+     "tela": 1,
+     "coluna": 9,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 627.2,
+     "veredito": "confirma",
+     "t_som": 250.4832
+    },
+    {
+     "tela": 1,
+     "coluna": 10,
+     "corda": 6,
+     "casa": 2,
+     "midi": 42,
+     "x": 675.8,
+     "veredito": "confirma",
+     "t_som": 251.1174
+    },
+    {
+     "tela": 1,
+     "coluna": 11,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 724.4,
+     "veredito": "confirma",
+     "t_som": 251.7456
+    },
+    {
+     "tela": 1,
+     "coluna": 12,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 773.0,
+     "veredito": "confirma",
+     "t_som": 252.3355
+    },
+    {
+     "tela": 1,
+     "coluna": 13,
+     "corda": 4,
+     "casa": 1,
+     "midi": 51,
+     "x": 821.6,
+     "veredito": "confirma",
+     "t_som": 252.9915
+    },
+    {
+     "tela": 1,
+     "coluna": 14,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 870.2,
+     "veredito": "confirma",
+     "t_som": 253.6996
+    },
+    {
+     "tela": 1,
+     "coluna": 15,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 918.8,
+     "veredito": "confirma",
+     "t_som": 254.3127
+    },
+    {
+     "tela": 1,
+     "coluna": 16,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 972.8,
+     "veredito": "confirma",
+     "t_som": 254.8967
+    },
+    {
+     "tela": 1,
+     "coluna": 17,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1048.4,
+     "veredito": "confirma",
+     "t_som": 255.5855
+    },
+    {
+     "tela": 1,
+     "coluna": 18,
+     "corda": 6,
+     "casa": 1,
+     "midi": 41,
+     "x": 1097.0,
+     "veredito": "confirma",
+     "t_som": 256.2154
+    },
+    {
+     "tela": 1,
+     "coluna": 19,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 1151.0,
+     "veredito": "confirma",
+     "t_som": 256.8798
+    },
+    {
+     "tela": 1,
+     "coluna": 20,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1205.0,
+     "veredito": "confirma",
+     "t_som": 257.5812
+    },
+    {
+     "tela": 1,
+     "coluna": 21,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 1259.0,
+     "veredito": "confirma",
+     "t_som": 258.2517
+    },
+    {
+     "tela": 1,
+     "coluna": 21,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 1259.0,
+     "veredito": "confirma",
+     "t_som": 258.2538
+    },
+    {
+     "tela": 1,
+     "coluna": 21,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 1259.0,
+     "veredito": "confirma",
+     "t_som": 258.2535
+    },
+    {
+     "tela": 1,
+     "coluna": 22,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 1340.0,
+     "veredito": "confirma",
+     "t_som": 259.5214
+    },
+    {
+     "tela": 1,
+     "coluna": 23,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1394.0,
+     "veredito": "confirma",
+     "t_som": 260.1408
+    },
+    {
+     "tela": 1,
+     "coluna": 24,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 1480.4,
+     "veredito": "confirma",
+     "t_som": 260.8239
+    },
+    {
+     "tela": 1,
+     "coluna": 24,
+     "corda": 5,
+     "casa": 4,
+     "midi": 49,
+     "x": 1480.4,
+     "veredito": "confirma",
+     "t_som": 260.8224
+    },
+    {
+     "tela": 1,
+     "coluna": 25,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1529.0,
+     "veredito": "confirma",
+     "t_som": 261.5047
+    },
+    {
+     "tela": 1,
+     "coluna": 26,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1572.2,
+     "veredito": "confirma",
+     "t_som": 262.134
+    },
+    {
+     "tela": 1,
+     "coluna": 27,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1620.8,
+     "veredito": "confirma",
+     "t_som": 262.7757
+    },
+    {
+     "tela": 1,
+     "coluna": 28,
+     "corda": 5,
+     "casa": 4,
+     "midi": 49,
+     "x": 1664.0,
+     "veredito": "confirma",
+     "t_som": 263.459
+    },
+    {
+     "tela": 1,
+     "coluna": 29,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1712.6,
+     "veredito": "confirma",
+     "t_som": 264.0756
+    },
+    {
+     "tela": 1,
+     "coluna": 30,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1755.8,
+     "veredito": "confirma",
+     "t_som": 264.7283
+    },
+    {
+     "tela": 1,
+     "coluna": 31,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1804.4,
+     "veredito": "confirma",
+     "t_som": 265.3679
+    }
+   ],
+   "som_sem_tela": 0,
+   "tela": 1
+  },
+  {
+   "exibicao": 0,
+   "t0": 265.875,
+   "t1": 286.812,
+   "notas": [
+    {
+     "tela": 2,
+     "coluna": 1,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 200.6,
+     "veredito": "confirma",
+     "t_som": 266.0195
+    },
+    {
+     "tela": 2,
+     "coluna": 1,
+     "corda": 5,
+     "casa": 0,
+     "midi": 45,
+     "x": 200.6,
+     "veredito": "confirma",
+     "t_som": 266.021
+    },
+    {
+     "tela": 2,
+     "coluna": 2,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 243.8,
+     "veredito": "confirma",
+     "t_som": 266.6864
+    },
+    {
+     "tela": 2,
+     "coluna": 3,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 287.0,
+     "veredito": "confirma",
+     "t_som": 267.3398
+    },
+    {
+     "tela": 2,
+     "coluna": 4,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 330.2,
+     "veredito": "confirma",
+     "t_som": 268.0156
+    },
+    {
+     "tela": 2,
+     "coluna": 5,
+     "corda": 6,
+     "casa": 2,
+     "midi": 42,
+     "x": 373.4,
+     "veredito": "confirma",
+     "t_som": 268.6579
+    },
+    {
+     "tela": 2,
+     "coluna": 6,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 416.6,
+     "veredito": "confirma",
+     "t_som": 269.2834
+    },
+    {
+     "tela": 2,
+     "coluna": 7,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 459.8,
+     "veredito": "confirma",
+     "t_som": 269.9085
+    },
+    {
+     "tela": 2,
+     "coluna": 8,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 503.0,
+     "veredito": "confirma",
+     "t_som": 270.5701
+    },
+    {
+     "tela": 2,
+     "coluna": 9,
+     "corda": 2,
+     "casa": 3,
+     "midi": 62,
+     "x": 573.2,
+     "veredito": "confirma",
+     "t_som": 271.2223
+    },
+    {
+     "tela": 2,
+     "coluna": 9,
+     "corda": 6,
+     "casa": 3,
+     "midi": 43,
+     "x": 573.2,
+     "veredito": "confirma",
+     "t_som": 271.228
+    },
+    {
+     "tela": 2,
+     "coluna": 10,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 616.4,
+     "veredito": "confirma",
+     "t_som": 271.8852
+    },
+    {
+     "tela": 2,
+     "coluna": 11,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 665.0,
+     "veredito": "confirma",
+     "t_som": 272.515
+    },
+    {
+     "tela": 2,
+     "coluna": 12,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 708.2,
+     "veredito": "confirma",
+     "t_som": 273.1729
+    },
+    {
+     "tela": 2,
+     "coluna": 13,
+     "corda": 2,
+     "casa": 3,
+     "midi": 62,
+     "x": 756.8,
+     "veredito": "confirma",
+     "t_som": 273.8569
+    },
+    {
+     "tela": 2,
+     "coluna": 13,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 756.8,
+     "veredito": "confirma",
+     "t_som": 273.7979
+    },
+    {
+     "tela": 2,
+     "coluna": 13,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 756.8,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      55,
+      62
+     ]
+    },
+    {
+     "tela": 2,
+     "coluna": 13,
+     "corda": 6,
+     "casa": 2,
+     "midi": 42,
+     "x": 756.8,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      55,
+      62
+     ]
+    },
+    {
+     "tela": 2,
+     "coluna": 14,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 800.0,
+     "veredito": "confirma",
+     "t_som": 274.5457
+    },
+    {
+     "tela": 2,
+     "coluna": 15,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 843.2,
+     "veredito": "confirma",
+     "t_som": 275.1856
+    },
+    {
+     "tela": 2,
+     "coluna": 16,
+     "corda": 1,
+     "casa": 3,
+     "midi": 67,
+     "x": 891.8,
+     "veredito": "confirma",
+     "t_som": 275.8392
+    },
+    {
+     "tela": 2,
+     "coluna": 17,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 951.2,
+     "veredito": "confirma",
+     "t_som": 276.4273
+    },
+    {
+     "tela": 2,
+     "coluna": 18,
+     "corda": 1,
+     "casa": 3,
+     "midi": 67,
+     "x": 978.2,
+     "veredito": "confirma",
+     "t_som": 276.5246
+    },
+    {
+     "tela": 2,
+     "coluna": 19,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 999.8,
+     "veredito": "confirma",
+     "t_som": 276.6537
+    },
+    {
+     "tela": 2,
+     "coluna": 19,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 999.8,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      66
+     ]
+    },
+    {
+     "tela": 2,
+     "coluna": 20,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 1053.8,
+     "veredito": "confirma",
+     "t_som": 277.1519
+    },
+    {
+     "tela": 2,
+     "coluna": 21,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 1107.8,
+     "veredito": "confirma",
+     "t_som": 277.7775
+    },
+    {
+     "tela": 2,
+     "coluna": 22,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 1161.8,
+     "veredito": "confirma",
+     "t_som": 278.3828
+    },
+    {
+     "tela": 2,
+     "coluna": 23,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 1215.8,
+     "veredito": "confirma",
+     "t_som": 279.0249
+    },
+    {
+     "tela": 2,
+     "coluna": 23,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 1215.8,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      42,
+      63
+     ]
+    },
+    {
+     "tela": 2,
+     "coluna": 24,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1269.8,
+     "veredito": "confirma",
+     "t_som": 279.6852
+    },
+    {
+     "tela": 2,
+     "coluna": 25,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 1323.8,
+     "veredito": "confirma",
+     "t_som": 280.3749
+    },
+    {
+     "tela": 2,
+     "coluna": 26,
+     "corda": 2,
+     "casa": 2,
+     "midi": 61,
+     "x": 1377.8,
+     "veredito": "confirma",
+     "t_som": 280.9901
+    },
+    {
+     "tela": 2,
+     "coluna": 27,
+     "corda": 2,
+     "casa": 2,
+     "midi": 61,
+     "x": 1458.8,
+     "veredito": "confirma",
+     "t_som": 281.6555
+    },
+    {
+     "tela": 2,
+     "coluna": 27,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 1458.8,
+     "veredito": "confirma",
+     "t_som": 281.6553
+    },
+    {
+     "tela": 2,
+     "coluna": 28,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 1507.4,
+     "veredito": "confirma",
+     "t_som": 282.3252
+    },
+    {
+     "tela": 2,
+     "coluna": 29,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 1556.0,
+     "veredito": "confirma",
+     "t_som": 282.962
+    },
+    {
+     "tela": 2,
+     "coluna": 30,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 1604.6,
+     "veredito": "confirma",
+     "t_som": 283.565
+    },
+    {
+     "tela": 2,
+     "coluna": 31,
+     "corda": 1,
+     "casa": 7,
+     "midi": 71,
+     "x": 1653.2,
+     "veredito": "confirma",
+     "t_som": 284.1997
+    },
+    {
+     "tela": 2,
+     "coluna": 32,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 1701.8,
+     "veredito": "confirma",
+     "t_som": 284.8644
+    },
+    {
+     "tela": 2,
+     "coluna": 33,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 1750.4,
+     "veredito": "confirma",
+     "t_som": 285.5377
+    },
+    {
+     "tela": 2,
+     "coluna": 33,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 1750.4,
+     "veredito": "confirma",
+     "t_som": 285.537
+    },
+    {
+     "tela": 2,
+     "coluna": 34,
+     "corda": 1,
+     "casa": 7,
+     "midi": 71,
+     "x": 1799.0,
+     "veredito": "confirma",
+     "t_som": 286.2296
+    }
+   ],
+   "som_sem_tela": 5,
+   "tela": 2
+  },
+  {
+   "exibicao": 0,
+   "t0": 286.812,
+   "t1": 307.688,
+   "notas": [
+    {
+     "tela": 3,
+     "coluna": 1,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 201.8,
+     "veredito": "confirma",
+     "t_som": 286.9048
+    },
+    {
+     "tela": 3,
+     "coluna": 1,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 201.8,
+     "veredito": "confirma",
+     "t_som": 286.9055
+    },
+    {
+     "tela": 3,
+     "coluna": 2,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 245.4,
+     "veredito": "confirma",
+     "t_som": 287.5635
+    },
+    {
+     "tela": 3,
+     "coluna": 3,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 294.5,
+     "veredito": "confirma",
+     "t_som": 288.1451
+    },
+    {
+     "tela": 3,
+     "coluna": 4,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 343.5,
+     "veredito": "confirma",
+     "t_som": 288.7566
+    },
+    {
+     "tela": 3,
+     "coluna": 5,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 387.1,
+     "veredito": "confirma",
+     "t_som": 289.4031
+    },
+    {
+     "tela": 3,
+     "coluna": 6,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 436.2,
+     "veredito": "confirma",
+     "t_som": 290.0982
+    },
+    {
+     "tela": 3,
+     "coluna": 7,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 479.8,
+     "veredito": "confirma",
+     "t_som": 290.7483
+    },
+    {
+     "tela": 3,
+     "coluna": 8,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 528.8,
+     "veredito": "confirma",
+     "t_som": 291.4431
+    },
+    {
+     "tela": 3,
+     "coluna": 9,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 605.1,
+     "veredito": "confirma",
+     "t_som": 292.1126
+    },
+    {
+     "tela": 3,
+     "coluna": 10,
+     "corda": 6,
+     "casa": 2,
+     "midi": 42,
+     "x": 654.2,
+     "veredito": "confirma",
+     "t_som": 292.7655
+    },
+    {
+     "tela": 3,
+     "coluna": 11,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 703.2,
+     "veredito": "confirma",
+     "t_som": 293.4173
+    },
+    {
+     "tela": 3,
+     "coluna": 12,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 752.3,
+     "veredito": "confirma",
+     "t_som": 294.0345
+    },
+    {
+     "tela": 3,
+     "coluna": 13,
+     "corda": 4,
+     "casa": 1,
+     "midi": 51,
+     "x": 801.3,
+     "veredito": "confirma",
+     "t_som": 294.7057
+    },
+    {
+     "tela": 3,
+     "coluna": 14,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 855.8,
+     "veredito": "confirma",
+     "t_som": 295.4066
+    },
+    {
+     "tela": 3,
+     "coluna": 15,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 904.9,
+     "veredito": "confirma",
+     "t_som": 296.025
+    },
+    {
+     "tela": 3,
+     "coluna": 16,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 953.9,
+     "veredito": "confirma",
+     "t_som": 296.6751
+    },
+    {
+     "tela": 3,
+     "coluna": 17,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1030.2,
+     "veredito": "confirma",
+     "t_som": 297.331
+    },
+    {
+     "tela": 3,
+     "coluna": 18,
+     "corda": 6,
+     "casa": 1,
+     "midi": 41,
+     "x": 1084.7,
+     "veredito": "confirma",
+     "t_som": 297.9814
+    },
+    {
+     "tela": 3,
+     "coluna": 19,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 1139.2,
+     "veredito": "confirma",
+     "t_som": 298.6354
+    },
+    {
+     "tela": 3,
+     "coluna": 20,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1193.7,
+     "veredito": "confirma",
+     "t_som": 299.2763
+    },
+    {
+     "tela": 3,
+     "coluna": 21,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 1248.2,
+     "veredito": "confirma",
+     "t_som": 299.9238
+    },
+    {
+     "tela": 3,
+     "coluna": 21,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 1248.2,
+     "veredito": "confirma",
+     "t_som": 299.9238
+    },
+    {
+     "tela": 3,
+     "coluna": 21,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 1248.2,
+     "veredito": "confirma",
+     "t_som": 299.9247
+    },
+    {
+     "tela": 3,
+     "coluna": 22,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 1330.0,
+     "veredito": "confirma",
+     "t_som": 301.1519
+    },
+    {
+     "tela": 3,
+     "coluna": 23,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1384.5,
+     "veredito": "confirma",
+     "t_som": 301.8253
+    },
+    {
+     "tela": 3,
+     "coluna": 24,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 1471.7,
+     "veredito": "confirma",
+     "t_som": 302.4718
+    },
+    {
+     "tela": 3,
+     "coluna": 24,
+     "corda": 5,
+     "casa": 4,
+     "midi": 49,
+     "x": 1471.7,
+     "veredito": "confirma",
+     "t_som": 302.4701
+    },
+    {
+     "tela": 3,
+     "coluna": 25,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1520.7,
+     "veredito": "confirma",
+     "t_som": 303.1311
+    },
+    {
+     "tela": 3,
+     "coluna": 26,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1569.8,
+     "veredito": "confirma",
+     "t_som": 303.7676
+    },
+    {
+     "tela": 3,
+     "coluna": 27,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1613.4,
+     "veredito": "confirma",
+     "t_som": 304.4229
+    },
+    {
+     "tela": 3,
+     "coluna": 28,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 1662.4,
+     "veredito": "confirma",
+     "t_som": 305.1087
+    },
+    {
+     "tela": 3,
+     "coluna": 28,
+     "corda": 5,
+     "casa": 4,
+     "midi": 49,
+     "x": 1662.4,
+     "veredito": "confirma",
+     "t_som": 305.1119
+    },
+    {
+     "tela": 3,
+     "coluna": 29,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1711.5,
+     "veredito": "confirma",
+     "t_som": 305.7953
+    },
+    {
+     "tela": 3,
+     "coluna": 30,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1755.1,
+     "veredito": "confirma",
+     "t_som": 306.4718
+    },
+    {
+     "tela": 3,
+     "coluna": 31,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1804.1,
+     "veredito": "confirma",
+     "t_som": 307.1453
+    }
+   ],
+   "som_sem_tela": 0,
+   "tela": 3
+  },
+  {
+   "exibicao": 0,
+   "t0": 307.688,
+   "t1": 328.375,
+   "notas": [
+    {
+     "tela": 4,
+     "coluna": 1,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 200.6,
+     "veredito": "confirma",
+     "t_som": 307.8083
+    },
+    {
+     "tela": 4,
+     "coluna": 1,
+     "corda": 5,
+     "casa": 0,
+     "midi": 45,
+     "x": 200.6,
+     "veredito": "confirma",
+     "t_som": 307.8123
+    },
+    {
+     "tela": 4,
+     "coluna": 2,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 243.8,
+     "veredito": "confirma",
+     "t_som": 308.4171
+    },
+    {
+     "tela": 4,
+     "coluna": 3,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 292.4,
+     "veredito": "confirma",
+     "t_som": 309.076
+    },
+    {
+     "tela": 4,
+     "coluna": 4,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 335.6,
+     "veredito": "confirma",
+     "t_som": 309.7685
+    },
+    {
+     "tela": 4,
+     "coluna": 5,
+     "corda": 5,
+     "casa": 1,
+     "midi": 46,
+     "x": 384.2,
+     "veredito": "confirma",
+     "t_som": 310.4198
+    },
+    {
+     "tela": 4,
+     "coluna": 6,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 432.8,
+     "veredito": "confirma",
+     "t_som": 311.0407
+    },
+    {
+     "tela": 4,
+     "coluna": 7,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 476.0,
+     "veredito": "confirma",
+     "t_som": 311.6657
+    },
+    {
+     "tela": 4,
+     "coluna": 8,
+     "corda": 1,
+     "casa": 3,
+     "midi": 67,
+     "x": 524.6,
+     "veredito": "confirma",
+     "t_som": 312.3268
+    },
+    {
+     "tela": 4,
+     "coluna": 9,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 589.4,
+     "veredito": "confirma",
+     "t_som": 312.8765
+    },
+    {
+     "tela": 4,
+     "coluna": 10,
+     "corda": 1,
+     "casa": 3,
+     "midi": 67,
+     "x": 611.0,
+     "veredito": "confirma",
+     "t_som": 312.952
+    },
+    {
+     "tela": 4,
+     "coluna": 11,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 632.6,
+     "veredito": "confirma",
+     "t_som": 313.0743
+    },
+    {
+     "tela": 4,
+     "coluna": 11,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 632.6,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      66
+     ]
+    },
+    {
+     "tela": 4,
+     "coluna": 12,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 681.2,
+     "veredito": "confirma",
+     "t_som": 313.5296
+    },
+    {
+     "tela": 4,
+     "coluna": 13,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 724.4,
+     "veredito": "confirma",
+     "t_som": 314.1715
+    },
+    {
+     "tela": 4,
+     "coluna": 14,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 773.0,
+     "veredito": "confirma",
+     "t_som": 314.8278
+    },
+    {
+     "tela": 4,
+     "coluna": 15,
+     "corda": 2,
+     "casa": 3,
+     "midi": 62,
+     "x": 816.2,
+     "veredito": "confirma",
+     "t_som": 315.5055
+    },
+    {
+     "tela": 4,
+     "coluna": 16,
+     "corda": 5,
+     "casa": 3,
+     "midi": 48,
+     "x": 859.4,
+     "veredito": "confirma",
+     "t_som": 316.1921
+    },
+    {
+     "tela": 4,
+     "coluna": 17,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 908.0,
+     "veredito": "confirma",
+     "t_som": 316.8934
+    },
+    {
+     "tela": 4,
+     "coluna": 18,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 951.2,
+     "veredito": "confirma",
+     "t_som": 317.5826
+    },
+    {
+     "tela": 4,
+     "coluna": 19,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1021.4,
+     "veredito": "confirma",
+     "t_som": 318.234
+    },
+    {
+     "tela": 4,
+     "coluna": 20,
+     "corda": 6,
+     "casa": 2,
+     "midi": 42,
+     "x": 1070.0,
+     "veredito": "confirma",
+     "t_som": 318.8615
+    },
+    {
+     "tela": 4,
+     "coluna": 21,
+     "corda": 4,
+     "casa": 1,
+     "midi": 51,
+     "x": 1118.6,
+     "veredito": "confirma",
+     "t_som": 319.5222
+    },
+    {
+     "tela": 4,
+     "coluna": 22,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1172.6,
+     "veredito": "confirma",
+     "t_som": 320.1857
+    },
+    {
+     "tela": 4,
+     "coluna": 23,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1221.2,
+     "veredito": "confirma",
+     "t_som": 320.8305
+    },
+    {
+     "tela": 4,
+     "coluna": 24,
+     "corda": 6,
+     "casa": 7,
+     "midi": 47,
+     "x": 1269.8,
+     "veredito": "confirma",
+     "t_som": 321.4386
+    },
+    {
+     "tela": 4,
+     "coluna": 25,
+     "corda": 5,
+     "casa": 6,
+     "midi": 51,
+     "x": 1318.4,
+     "veredito": "confirma",
+     "t_som": 322.1057
+    },
+    {
+     "tela": 4,
+     "coluna": 26,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 1367.0,
+     "veredito": "confirma",
+     "t_som": 322.7893
+    },
+    {
+     "tela": 4,
+     "coluna": 27,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1442.6,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      40
+     ]
+    },
+    {
+     "tela": 4,
+     "coluna": 27,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 1442.6,
+     "veredito": "confirma",
+     "t_som": 323.4467
+    },
+    {
+     "tela": 4,
+     "coluna": 28,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 1485.8,
+     "veredito": "confirma",
+     "t_som": 324.1234
+    },
+    {
+     "tela": 4,
+     "coluna": 29,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1539.8,
+     "veredito": "confirma",
+     "t_som": 324.794
+    },
+    {
+     "tela": 4,
+     "coluna": 30,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1583.0,
+     "veredito": "confirma",
+     "t_som": 325.4168
+    },
+    {
+     "tela": 4,
+     "coluna": 31,
+     "corda": 6,
+     "casa": 2,
+     "midi": 42,
+     "x": 1631.6,
+     "veredito": "confirma",
+     "t_som": 326.0625
+    },
+    {
+     "tela": 4,
+     "coluna": 32,
+     "corda": 4,
+     "casa": 1,
+     "midi": 51,
+     "x": 1680.2,
+     "veredito": "confirma",
+     "t_som": 326.6765
+    },
+    {
+     "tela": 4,
+     "coluna": 33,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 1728.8,
+     "veredito": "confirma",
+     "t_som": 327.3231
+    },
+    {
+     "tela": 4,
+     "coluna": 33,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1728.8,
+     "veredito": "confirma",
+     "t_som": 327.3193
+    },
+    {
+     "tela": 4,
+     "coluna": 34,
+     "corda": 4,
+     "casa": 1,
+     "midi": 51,
+     "x": 1777.4,
+     "veredito": "confirma",
+     "t_som": 327.9777
+    }
+   ],
+   "som_sem_tela": 2,
+   "tela": 4
+  },
+  {
+   "exibicao": 0,
+   "t0": 406.75,
+   "t1": 427.688,
+   "notas": [
+    {
+     "tela": 5,
+     "coluna": 1,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 200.6,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      40
+     ]
+    },
+    {
+     "tela": 5,
+     "coluna": 1,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 200.6,
+     "veredito": "confirma",
+     "t_som": 406.862
+    },
+    {
+     "tela": 5,
+     "coluna": 2,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 249.2,
+     "veredito": "confirma",
+     "t_som": 407.5285
+    },
+    {
+     "tela": 5,
+     "coluna": 3,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 297.8,
+     "veredito": "confirma",
+     "t_som": 408.1764
+    },
+    {
+     "tela": 5,
+     "coluna": 4,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 346.4,
+     "veredito": "confirma",
+     "t_som": 408.8045
+    },
+    {
+     "tela": 5,
+     "coluna": 5,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 389.6,
+     "veredito": "confirma",
+     "t_som": 409.463
+    },
+    {
+     "tela": 5,
+     "coluna": 6,
+     "corda": 6,
+     "casa": 2,
+     "midi": 42,
+     "x": 438.2,
+     "veredito": "confirma",
+     "t_som": 410.1019
+    },
+    {
+     "tela": 5,
+     "coluna": 7,
+     "corda": 4,
+     "casa": 1,
+     "midi": 51,
+     "x": 486.8,
+     "veredito": "confirma",
+     "t_som": 410.7567
+    },
+    {
+     "tela": 5,
+     "coluna": 8,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 535.4,
+     "veredito": "confirma",
+     "t_som": 411.3932
+    },
+    {
+     "tela": 5,
+     "coluna": 9,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 702.8,
+     "veredito": "confirma",
+     "t_som": 412.1425
+    },
+    {
+     "tela": 5,
+     "coluna": 9,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 702.8,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      56
+     ]
+    },
+    {
+     "tela": 5,
+     "coluna": 9,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 702.8,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      56
+     ]
+    },
+    {
+     "tela": 5,
+     "coluna": 10,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 751.4,
+     "veredito": "confirma",
+     "t_som": 412.6956
+    },
+    {
+     "tela": 5,
+     "coluna": 11,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 794.6,
+     "veredito": "confirma",
+     "t_som": 413.3543
+    },
+    {
+     "tela": 5,
+     "coluna": 12,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 843.2,
+     "veredito": "confirma",
+     "t_som": 414.0178
+    },
+    {
+     "tela": 5,
+     "coluna": 13,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 891.8,
+     "veredito": "confirma",
+     "t_som": 414.7132
+    },
+    {
+     "tela": 5,
+     "coluna": 14,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 935.0,
+     "veredito": "confirma",
+     "t_som": 415.3683
+    },
+    {
+     "tela": 5,
+     "coluna": 15,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 983.6,
+     "veredito": "confirma",
+     "t_som": 416.0064
+    },
+    {
+     "tela": 5,
+     "coluna": 16,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 1021.4,
+     "veredito": "confirma",
+     "t_som": 416.6232
+    },
+    {
+     "tela": 5,
+     "coluna": 17,
+     "corda": 1,
+     "casa": 4,
+     "midi": 68,
+     "x": 1059.2,
+     "veredito": "confirma",
+     "t_som": 416.7849
+    },
+    {
+     "tela": 5,
+     "coluna": 18,
+     "corda": 1,
+     "casa": 4,
+     "midi": 68,
+     "x": 1129.4,
+     "veredito": "confirma",
+     "t_som": 417.3531
+    },
+    {
+     "tela": 5,
+     "coluna": 18,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1129.4,
+     "veredito": "confirma",
+     "t_som": 417.3494
+    },
+    {
+     "tela": 5,
+     "coluna": 19,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 1178.0,
+     "veredito": "confirma",
+     "t_som": 417.9654
+    },
+    {
+     "tela": 5,
+     "coluna": 20,
+     "corda": 2,
+     "casa": 2,
+     "midi": 61,
+     "x": 1221.2,
+     "veredito": "confirma",
+     "t_som": 418.5963
+    },
+    {
+     "tela": 5,
+     "coluna": 21,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 1264.4,
+     "veredito": "confirma",
+     "t_som": 419.1819
+    },
+    {
+     "tela": 5,
+     "coluna": 22,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 1307.6,
+     "veredito": "confirma",
+     "t_som": 419.8686
+    },
+    {
+     "tela": 5,
+     "coluna": 22,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1307.6,
+     "veredito": "confirma",
+     "t_som": 419.8645
+    },
+    {
+     "tela": 5,
+     "coluna": 23,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 1356.2,
+     "veredito": "confirma",
+     "t_som": 420.5335
+    },
+    {
+     "tela": 5,
+     "coluna": 24,
+     "corda": 2,
+     "casa": 2,
+     "midi": 61,
+     "x": 1399.4,
+     "veredito": "confirma",
+     "t_som": 421.1738
+    },
+    {
+     "tela": 5,
+     "coluna": 25,
+     "corda": 1,
+     "casa": 4,
+     "midi": 68,
+     "x": 1442.6,
+     "veredito": "confirma",
+     "t_som": 421.8554
+    },
+    {
+     "tela": 5,
+     "coluna": 26,
+     "corda": 1,
+     "casa": 4,
+     "midi": 68,
+     "x": 1512.8,
+     "veredito": "confirma",
+     "t_som": 422.5357
+    },
+    {
+     "tela": 5,
+     "coluna": 26,
+     "corda": 5,
+     "casa": 0,
+     "midi": 45,
+     "x": 1512.8,
+     "veredito": "confirma",
+     "t_som": 422.5333
+    },
+    {
+     "tela": 5,
+     "coluna": 27,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 1556.0,
+     "veredito": "confirma",
+     "t_som": 423.1714
+    },
+    {
+     "tela": 5,
+     "coluna": 28,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 1599.2,
+     "veredito": "confirma",
+     "t_som": 423.8256
+    },
+    {
+     "tela": 5,
+     "coluna": 29,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 1642.4,
+     "veredito": "confirma",
+     "t_som": 424.4476
+    },
+    {
+     "tela": 5,
+     "coluna": 30,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 1680.2,
+     "veredito": "confirma",
+     "t_som": 425.0928
+    },
+    {
+     "tela": 5,
+     "coluna": 30,
+     "corda": 5,
+     "casa": 0,
+     "midi": 45,
+     "x": 1680.2,
+     "veredito": "confirma",
+     "t_som": 425.0892
+    },
+    {
+     "tela": 5,
+     "coluna": 31,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 1723.4,
+     "veredito": "confirma",
+     "t_som": 425.699
+    },
+    {
+     "tela": 5,
+     "coluna": 32,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 1766.6,
+     "veredito": "confirma",
+     "t_som": 426.3781
+    },
+    {
+     "tela": 5,
+     "coluna": 33,
+     "corda": 1,
+     "casa": 4,
+     "midi": 68,
+     "x": 1809.8,
+     "veredito": "confirma",
+     "t_som": 427.003
+    }
+   ],
+   "som_sem_tela": 4,
+   "tela": 5
+  },
+  {
+   "exibicao": 0,
+   "t0": 427.688,
+   "t1": 448.375,
+   "notas": [
+    {
+     "tela": 6,
+     "coluna": 1,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 243.8,
+     "veredito": "confirma",
+     "t_som": 427.6638
+    },
+    {
+     "tela": 6,
+     "coluna": 1,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 243.8,
+     "veredito": "confirma",
+     "t_som": 427.6646
+    },
+    {
+     "tela": 6,
+     "coluna": 2,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 281.6,
+     "veredito": "confirma",
+     "t_som": 428.3562
+    },
+    {
+     "tela": 6,
+     "coluna": 3,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 330.2,
+     "veredito": "confirma",
+     "t_som": 429.0532
+    },
+    {
+     "tela": 6,
+     "coluna": 4,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 368.0,
+     "veredito": "confirma",
+     "t_som": 429.7211
+    },
+    {
+     "tela": 6,
+     "coluna": 5,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 411.2,
+     "veredito": "confirma",
+     "t_som": 430.404
+    },
+    {
+     "tela": 6,
+     "coluna": 6,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 454.4,
+     "veredito": "confirma",
+     "t_som": 431.011
+    },
+    {
+     "tela": 6,
+     "coluna": 7,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 497.6,
+     "veredito": "confirma",
+     "t_som": 431.6548
+    },
+    {
+     "tela": 6,
+     "coluna": 8,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 540.8,
+     "veredito": "confirma",
+     "t_som": 432.3127
+    },
+    {
+     "tela": 6,
+     "coluna": 9,
+     "corda": 6,
+     "casa": 1,
+     "midi": 41,
+     "x": 611.0,
+     "veredito": "confirma",
+     "t_som": 432.946
+    },
+    {
+     "tela": 6,
+     "coluna": 10,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 659.6,
+     "veredito": "confirma",
+     "t_som": 433.6095
+    },
+    {
+     "tela": 6,
+     "coluna": 11,
+     "corda": 4,
+     "casa": 3,
+     "midi": 53,
+     "x": 708.2,
+     "veredito": "confirma",
+     "t_som": 434.2233
+    },
+    {
+     "tela": 6,
+     "coluna": 12,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 756.8,
+     "veredito": "confirma",
+     "t_som": 434.8453
+    },
+    {
+     "tela": 6,
+     "coluna": 13,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 805.4,
+     "veredito": "confirma",
+     "t_som": 435.5171
+    },
+    {
+     "tela": 6,
+     "coluna": 14,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 864.8,
+     "veredito": "confirma",
+     "t_som": 436.4315
+    },
+    {
+     "tela": 6,
+     "coluna": 15,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 924.2,
+     "veredito": "confirma",
+     "t_som": 437.3466
+    },
+    {
+     "tela": 6,
+     "coluna": 16,
+     "corda": 2,
+     "casa": 3,
+     "midi": 62,
+     "x": 1010.6,
+     "veredito": "confirma",
+     "t_som": 438.0526
+    },
+    {
+     "tela": 6,
+     "coluna": 16,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 1010.6,
+     "veredito": "confirma",
+     "t_som": 438.0547
+    },
+    {
+     "tela": 6,
+     "coluna": 17,
+     "corda": 5,
+     "casa": 3,
+     "midi": 48,
+     "x": 1064.6,
+     "veredito": "confirma",
+     "t_som": 438.7019
+    },
+    {
+     "tela": 6,
+     "coluna": 18,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1113.2,
+     "veredito": "confirma",
+     "t_som": 439.4233
+    },
+    {
+     "tela": 6,
+     "coluna": 19,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1161.8,
+     "veredito": "confirma",
+     "t_som": 440.0626
+    },
+    {
+     "tela": 6,
+     "coluna": 20,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 1210.4,
+     "veredito": "confirma",
+     "t_som": 440.7934
+    },
+    {
+     "tela": 6,
+     "coluna": 21,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1259.0,
+     "veredito": "confirma",
+     "t_som": 441.4391
+    },
+    {
+     "tela": 6,
+     "coluna": 22,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1313.0,
+     "veredito": "confirma",
+     "t_som": 442.0907
+    },
+    {
+     "tela": 6,
+     "coluna": 23,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1361.6,
+     "veredito": "confirma",
+     "t_som": 442.7472
+    },
+    {
+     "tela": 6,
+     "coluna": 24,
+     "corda": 5,
+     "casa": 1,
+     "midi": 46,
+     "x": 1442.6,
+     "veredito": "confirma",
+     "t_som": 443.4636
+    },
+    {
+     "tela": 6,
+     "coluna": 25,
+     "corda": 1,
+     "casa": 3,
+     "midi": 67,
+     "x": 1496.6,
+     "veredito": "confirma",
+     "t_som": 444.0928
+    },
+    {
+     "tela": 6,
+     "coluna": 26,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1545.2,
+     "veredito": "confirma",
+     "t_som": 444.795
+    },
+    {
+     "tela": 6,
+     "coluna": 27,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1593.8,
+     "veredito": "confirma",
+     "t_som": 445.4112
+    },
+    {
+     "tela": 6,
+     "coluna": 28,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 1647.8,
+     "veredito": "confirma",
+     "t_som": 446.0865
+    },
+    {
+     "tela": 6,
+     "coluna": 29,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1696.4,
+     "veredito": "confirma",
+     "t_som": 446.7588
+    },
+    {
+     "tela": 6,
+     "coluna": 30,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1750.4,
+     "veredito": "confirma",
+     "t_som": 447.4149
+    },
+    {
+     "tela": 6,
+     "coluna": 31,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 1799.0,
+     "veredito": "confirma",
+     "t_som": 448.042
+    }
+   ],
+   "som_sem_tela": 0,
+   "tela": 6
+  },
+  {
+   "exibicao": 0,
+   "t0": 448.375,
+   "t1": 469.375,
+   "notas": [
+    {
+     "tela": 7,
+     "coluna": 1,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 261.8,
+     "veredito": "confirma",
+     "t_som": 448.7296
+    },
+    {
+     "tela": 7,
+     "coluna": 1,
+     "corda": 5,
+     "casa": 0,
+     "midi": 45,
+     "x": 261.8,
+     "veredito": "confirma",
+     "t_som": 448.7313
+    },
+    {
+     "tela": 7,
+     "coluna": 2,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 305.4,
+     "veredito": "confirma",
+     "t_som": 449.3666
+    },
+    {
+     "tela": 7,
+     "coluna": 3,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 349.0,
+     "veredito": "confirma",
+     "t_som": 450.0152
+    },
+    {
+     "tela": 7,
+     "coluna": 4,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 392.6,
+     "veredito": "confirma",
+     "t_som": 450.6451
+    },
+    {
+     "tela": 7,
+     "coluna": 5,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 436.2,
+     "veredito": "confirma",
+     "t_som": 451.3459
+    },
+    {
+     "tela": 7,
+     "coluna": 6,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 479.8,
+     "veredito": "confirma",
+     "t_som": 452.0068
+    },
+    {
+     "tela": 7,
+     "coluna": 7,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 523.4,
+     "veredito": "confirma",
+     "t_som": 452.6809
+    },
+    {
+     "tela": 7,
+     "coluna": 8,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 567.0,
+     "veredito": "confirma",
+     "t_som": 453.3742
+    },
+    {
+     "tela": 7,
+     "coluna": 9,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 632.4,
+     "veredito": "confirma",
+     "t_som": 453.985
+    },
+    {
+     "tela": 7,
+     "coluna": 9,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 632.4,
+     "veredito": "confirma",
+     "t_som": 453.9852
+    },
+    {
+     "tela": 7,
+     "coluna": 10,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 681.4,
+     "veredito": "confirma",
+     "t_som": 454.6255
+    },
+    {
+     "tela": 7,
+     "coluna": 11,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 735.9,
+     "veredito": "confirma",
+     "t_som": 455.2848
+    },
+    {
+     "tela": 7,
+     "coluna": 12,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 785.0,
+     "veredito": "confirma",
+     "t_som": 455.9479
+    },
+    {
+     "tela": 7,
+     "coluna": 13,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 834.0,
+     "veredito": "confirma",
+     "t_som": 456.6299
+    },
+    {
+     "tela": 7,
+     "coluna": 14,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 883.1,
+     "veredito": "confirma",
+     "t_som": 457.2778
+    },
+    {
+     "tela": 7,
+     "coluna": 15,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 937.6,
+     "veredito": "confirma",
+     "t_som": 457.9065
+    },
+    {
+     "tela": 7,
+     "coluna": 16,
+     "corda": 1,
+     "casa": 4,
+     "midi": 68,
+     "x": 986.6,
+     "veredito": "confirma",
+     "t_som": 458.5304
+    },
+    {
+     "tela": 7,
+     "coluna": 17,
+     "corda": 1,
+     "casa": 4,
+     "midi": 68,
+     "x": 1062.9,
+     "veredito": "confirma",
+     "t_som": 459.1762
+    },
+    {
+     "tela": 7,
+     "coluna": 17,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1062.9,
+     "veredito": "confirma",
+     "t_som": 459.1729
+    },
+    {
+     "tela": 7,
+     "coluna": 18,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 1112.0,
+     "veredito": "confirma",
+     "t_som": 459.8166
+    },
+    {
+     "tela": 7,
+     "coluna": 19,
+     "corda": 2,
+     "casa": 2,
+     "midi": 61,
+     "x": 1161.0,
+     "veredito": "confirma",
+     "t_som": 460.458
+    },
+    {
+     "tela": 7,
+     "coluna": 20,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 1204.6,
+     "veredito": "confirma",
+     "t_som": 461.1158
+    },
+    {
+     "tela": 7,
+     "coluna": 21,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 1253.7,
+     "veredito": "confirma",
+     "t_som": 461.8055
+    },
+    {
+     "tela": 7,
+     "coluna": 21,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1253.7,
+     "veredito": "confirma",
+     "t_som": 461.8017
+    },
+    {
+     "tela": 7,
+     "coluna": 22,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 1302.7,
+     "veredito": "confirma",
+     "t_som": 462.4435
+    },
+    {
+     "tela": 7,
+     "coluna": 23,
+     "corda": 2,
+     "casa": 2,
+     "midi": 61,
+     "x": 1351.8,
+     "veredito": "confirma",
+     "t_som": 463.0853
+    },
+    {
+     "tela": 7,
+     "coluna": 24,
+     "corda": 1,
+     "casa": 5,
+     "midi": 69,
+     "x": 1400.8,
+     "veredito": "confirma",
+     "t_som": 463.7508
+    },
+    {
+     "tela": 7,
+     "coluna": 25,
+     "corda": 1,
+     "casa": 5,
+     "midi": 69,
+     "x": 1471.7,
+     "veredito": "confirma",
+     "t_som": 464.4142
+    },
+    {
+     "tela": 7,
+     "coluna": 25,
+     "corda": 5,
+     "casa": 3,
+     "midi": 48,
+     "x": 1471.7,
+     "veredito": "confirma",
+     "t_som": 464.412
+    },
+    {
+     "tela": 7,
+     "coluna": 26,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1520.7,
+     "veredito": "confirma",
+     "t_som": 465.0812
+    },
+    {
+     "tela": 7,
+     "coluna": 27,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 1564.3,
+     "veredito": "confirma",
+     "t_som": 465.715
+    },
+    {
+     "tela": 7,
+     "coluna": 28,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1613.4,
+     "veredito": "confirma",
+     "t_som": 466.3564
+    },
+    {
+     "tela": 7,
+     "coluna": 29,
+     "corda": 1,
+     "casa": 4,
+     "midi": 68,
+     "x": 1662.4,
+     "veredito": "confirma",
+     "t_som": 467.0147
+    },
+    {
+     "tela": 7,
+     "coluna": 29,
+     "corda": 5,
+     "casa": 3,
+     "midi": 48,
+     "x": 1662.4,
+     "veredito": "confirma",
+     "t_som": 467.0127
+    },
+    {
+     "tela": 7,
+     "coluna": 30,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1706.0,
+     "veredito": "confirma",
+     "t_som": 467.6337
+    },
+    {
+     "tela": 7,
+     "coluna": 31,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 1755.1,
+     "veredito": "confirma",
+     "t_som": 468.2921
+    },
+    {
+     "tela": 7,
+     "coluna": 32,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 1804.1,
+     "veredito": "confirma",
+     "t_som": 468.9548
+    }
+   ],
+   "som_sem_tela": 3,
+   "tela": 7
+  },
+  {
+   "exibicao": 0,
+   "t0": 469.375,
+   "t1": 490.312,
+   "notas": [
+    {
+     "tela": 8,
+     "coluna": 1,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 260.0,
+     "veredito": "confirma",
+     "t_som": 469.6314
+    },
+    {
+     "tela": 8,
+     "coluna": 1,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 260.0,
+     "veredito": "confirma",
+     "t_som": 469.6297
+    },
+    {
+     "tela": 8,
+     "coluna": 2,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 303.2,
+     "veredito": "confirma",
+     "t_som": 470.3045
+    },
+    {
+     "tela": 8,
+     "coluna": 3,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 357.2,
+     "veredito": "confirma",
+     "t_som": 470.9657
+    },
+    {
+     "tela": 8,
+     "coluna": 4,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 400.4,
+     "veredito": "confirma",
+     "t_som": 471.5923
+    },
+    {
+     "tela": 8,
+     "coluna": 5,
+     "corda": 1,
+     "casa": 1,
+     "midi": 65,
+     "x": 449.0,
+     "veredito": "confirma",
+     "t_som": 472.2437
+    },
+    {
+     "tela": 8,
+     "coluna": 5,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 449.0,
+     "veredito": "confirma",
+     "t_som": 472.235
+    },
+    {
+     "tela": 8,
+     "coluna": 6,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 497.6,
+     "veredito": "confirma",
+     "t_som": 472.9066
+    },
+    {
+     "tela": 8,
+     "coluna": 7,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 546.2,
+     "veredito": "confirma",
+     "t_som": 473.5693
+    },
+    {
+     "tela": 8,
+     "coluna": 8,
+     "corda": 1,
+     "casa": 5,
+     "midi": 69,
+     "x": 578.6,
+     "veredito": "confirma",
+     "t_som": 474.1864
+    },
+    {
+     "tela": 8,
+     "coluna": 9,
+     "corda": 1,
+     "casa": 7,
+     "midi": 71,
+     "x": 621.8,
+     "veredito": "confirma",
+     "t_som": 474.3762
+    },
+    {
+     "tela": 8,
+     "coluna": 10,
+     "corda": 1,
+     "casa": 7,
+     "midi": 71,
+     "x": 697.4,
+     "veredito": "confirma",
+     "t_som": 474.8478
+    },
+    {
+     "tela": 8,
+     "coluna": 10,
+     "corda": 5,
+     "casa": 0,
+     "midi": 45,
+     "x": 697.4,
+     "veredito": "confirma",
+     "t_som": 474.8466
+    },
+    {
+     "tela": 8,
+     "coluna": 11,
+     "corda": 3,
+     "casa": 6,
+     "midi": 61,
+     "x": 740.6,
+     "veredito": "confirma",
+     "t_som": 475.4552
+    },
+    {
+     "tela": 8,
+     "coluna": 12,
+     "corda": 2,
+     "casa": 5,
+     "midi": 64,
+     "x": 789.2,
+     "veredito": "confirma",
+     "t_som": 476.1226
+    },
+    {
+     "tela": 8,
+     "coluna": 13,
+     "corda": 3,
+     "casa": 6,
+     "midi": 61,
+     "x": 832.4,
+     "veredito": "confirma",
+     "t_som": 476.7646
+    },
+    {
+     "tela": 8,
+     "coluna": 14,
+     "corda": 1,
+     "casa": 5,
+     "midi": 69,
+     "x": 875.6,
+     "veredito": "confirma",
+     "t_som": 477.5161
+    },
+    {
+     "tela": 8,
+     "coluna": 14,
+     "corda": 2,
+     "casa": 5,
+     "midi": 64,
+     "x": 881.0,
+     "veredito": "confirma",
+     "t_som": 477.4813
+    },
+    {
+     "tela": 8,
+     "coluna": 14,
+     "corda": 3,
+     "casa": 5,
+     "midi": 60,
+     "x": 881.0,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      64,
+      69
+     ]
+    },
+    {
+     "tela": 8,
+     "coluna": 14,
+     "corda": 5,
+     "casa": 0,
+     "midi": 45,
+     "x": 881.0,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      64,
+      69
+     ]
+    },
+    {
+     "tela": 8,
+     "coluna": 15,
+     "corda": 3,
+     "casa": 5,
+     "midi": 60,
+     "x": 924.2,
+     "veredito": "confirma",
+     "t_som": 478.076
+    },
+    {
+     "tela": 8,
+     "coluna": 16,
+     "corda": 2,
+     "casa": 5,
+     "midi": 64,
+     "x": 967.4,
+     "veredito": "confirma",
+     "t_som": 478.7734
+    },
+    {
+     "tela": 8,
+     "coluna": 17,
+     "corda": 3,
+     "casa": 5,
+     "midi": 60,
+     "x": 1016.0,
+     "veredito": "confirma",
+     "t_som": 479.3955
+    },
+    {
+     "tela": 8,
+     "coluna": 18,
+     "corda": 1,
+     "casa": 4,
+     "midi": 68,
+     "x": 1086.2,
+     "veredito": "confirma",
+     "t_som": 480.0927
+    },
+    {
+     "tela": 8,
+     "coluna": 18,
+     "corda": 2,
+     "casa": 5,
+     "midi": 64,
+     "x": 1086.2,
+     "veredito": "confirma",
+     "t_som": 480.0701
+    },
+    {
+     "tela": 8,
+     "coluna": 18,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 1086.2,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      64,
+      68
+     ]
+    },
+    {
+     "tela": 8,
+     "coluna": 18,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 1086.2,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      64,
+      68
+     ]
+    },
+    {
+     "tela": 8,
+     "coluna": 19,
+     "corda": 2,
+     "casa": 14,
+     "midi": 73,
+     "x": 1134.8,
+     "veredito": "confirma",
+     "t_som": 480.7258
+    },
+    {
+     "tela": 8,
+     "coluna": 20,
+     "corda": 2,
+     "casa": 12,
+     "midi": 71,
+     "x": 1210.4,
+     "veredito": "confirma",
+     "t_som": 482.0656
+    },
+    {
+     "tela": 8,
+     "coluna": 21,
+     "corda": 3,
+     "casa": 13,
+     "midi": 68,
+     "x": 1253.6,
+     "veredito": "confirma",
+     "t_som": 482.6756
+    },
+    {
+     "tela": 8,
+     "coluna": 22,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 1302.2,
+     "veredito": "confirma",
+     "t_som": 483.3452
+    },
+    {
+     "tela": 8,
+     "coluna": 23,
+     "corda": 2,
+     "casa": 2,
+     "midi": 61,
+     "x": 1345.4,
+     "veredito": "confirma",
+     "t_som": 483.9907
+    },
+    {
+     "tela": 8,
+     "coluna": 24,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1394.0,
+     "veredito": "confirma",
+     "t_som": 484.6022
+    },
+    {
+     "tela": 8,
+     "coluna": 25,
+     "corda": 1,
+     "casa": 4,
+     "midi": 68,
+     "x": 1464.2,
+     "veredito": "confirma",
+     "t_som": 485.2445
+    },
+    {
+     "tela": 8,
+     "coluna": 25,
+     "corda": 6,
+     "casa": 2,
+     "midi": 42,
+     "x": 1464.2,
+     "veredito": "confirma",
+     "t_som": 485.244
+    },
+    {
+     "tela": 8,
+     "coluna": 26,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 1512.8,
+     "veredito": "confirma",
+     "t_som": 485.9088
+    },
+    {
+     "tela": 8,
+     "coluna": 27,
+     "corda": 2,
+     "casa": 2,
+     "midi": 61,
+     "x": 1561.4,
+     "veredito": "confirma",
+     "t_som": 486.5841
+    },
+    {
+     "tela": 8,
+     "coluna": 28,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 1610.0,
+     "veredito": "confirma",
+     "t_som": 487.2257
+    },
+    {
+     "tela": 8,
+     "coluna": 29,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 1658.6,
+     "veredito": "confirma",
+     "t_som": 487.8919
+    },
+    {
+     "tela": 8,
+     "coluna": 29,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 1658.6,
+     "veredito": "confirma",
+     "t_som": 487.885
+    },
+    {
+     "tela": 8,
+     "coluna": 30,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1707.2,
+     "veredito": "confirma",
+     "t_som": 488.5587
+    },
+    {
+     "tela": 8,
+     "coluna": 31,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 1755.8,
+     "veredito": "confirma",
+     "t_som": 489.2273
+    },
+    {
+     "tela": 8,
+     "coluna": 32,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1799.0,
+     "veredito": "confirma",
+     "t_som": 489.843
+    }
+   ],
+   "som_sem_tela": 4,
+   "tela": 8
+  },
+  {
+   "exibicao": 1,
+   "t0": 573.75,
+   "t1": 589.375,
+   "notas": [
+    {
+     "tela": 9,
+     "coluna": 1,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 245.4,
+     "veredito": "coluna_sem_par"
+    },
+    {
+     "tela": 9,
+     "coluna": 1,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 245.4,
+     "veredito": "coluna_sem_par"
+    },
+    {
+     "tela": 9,
+     "coluna": 2,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 283.6,
+     "veredito": "coluna_sem_par"
+    },
+    {
+     "tela": 9,
+     "coluna": 3,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 327.2,
+     "veredito": "coluna_sem_par"
+    },
+    {
+     "tela": 9,
+     "coluna": 4,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 365.3,
+     "veredito": "coluna_sem_par"
+    },
+    {
+     "tela": 9,
+     "coluna": 5,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 408.9,
+     "veredito": "coluna_sem_par"
+    },
+    {
+     "tela": 9,
+     "coluna": 6,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 452.5,
+     "veredito": "coluna_sem_par"
+    },
+    {
+     "tela": 9,
+     "coluna": 7,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 490.7,
+     "veredito": "coluna_sem_par"
+    },
+    {
+     "tela": 9,
+     "coluna": 8,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 534.3,
+     "veredito": "coluna_sem_par"
+    },
+    {
+     "tela": 9,
+     "coluna": 9,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 632.4,
+     "veredito": "confirma",
+     "t_som": 573.9045
+    },
+    {
+     "tela": 9,
+     "coluna": 9,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 632.4,
+     "veredito": "confirma",
+     "t_som": 573.9027
+    },
+    {
+     "tela": 9,
+     "coluna": 10,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 676.0,
+     "veredito": "confirma",
+     "t_som": 574.537
+    },
+    {
+     "tela": 9,
+     "coluna": 11,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 725.0,
+     "veredito": "confirma",
+     "t_som": 575.2295
+    },
+    {
+     "tela": 9,
+     "coluna": 12,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 768.6,
+     "veredito": "confirma",
+     "t_som": 575.8684
+    },
+    {
+     "tela": 9,
+     "coluna": 13,
+     "corda": 6,
+     "casa": 2,
+     "midi": 42,
+     "x": 817.7,
+     "veredito": "confirma",
+     "t_som": 576.5317
+    },
+    {
+     "tela": 9,
+     "coluna": 14,
+     "corda": 4,
+     "casa": 1,
+     "midi": 51,
+     "x": 861.3,
+     "veredito": "confirma",
+     "t_som": 577.1658
+    },
+    {
+     "tela": 9,
+     "coluna": 15,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 910.3,
+     "veredito": "confirma",
+     "t_som": 577.867
+    },
+    {
+     "tela": 9,
+     "coluna": 15,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 910.3,
+     "veredito": "confirma",
+     "t_som": 577.866
+    },
+    {
+     "tela": 9,
+     "coluna": 16,
+     "corda": 4,
+     "casa": 1,
+     "midi": 51,
+     "x": 959.4,
+     "veredito": "confirma",
+     "t_som": 578.6033
+    },
+    {
+     "tela": 9,
+     "coluna": 17,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1106.5,
+     "veredito": "confirma",
+     "t_som": 579.2414
+    },
+    {
+     "tela": 9,
+     "coluna": 17,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 1106.5,
+     "veredito": "confirma",
+     "t_som": 579.2402
+    },
+    {
+     "tela": 9,
+     "coluna": 18,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 1155.6,
+     "veredito": "confirma",
+     "t_som": 579.8944
+    },
+    {
+     "tela": 9,
+     "coluna": 19,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1199.2,
+     "veredito": "confirma",
+     "t_som": 580.5359
+    },
+    {
+     "tela": 9,
+     "coluna": 20,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1242.8,
+     "veredito": "confirma",
+     "t_som": 581.1568
+    },
+    {
+     "tela": 9,
+     "coluna": 21,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 1280.9,
+     "veredito": "confirma",
+     "t_som": 581.8474
+    },
+    {
+     "tela": 9,
+     "coluna": 22,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1324.5,
+     "veredito": "confirma",
+     "t_som": 582.5049
+    },
+    {
+     "tela": 9,
+     "coluna": 23,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 1368.1,
+     "veredito": "confirma",
+     "t_som": 583.1568
+    },
+    {
+     "tela": 9,
+     "coluna": 24,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1411.7,
+     "veredito": "confirma",
+     "t_som": 583.7825
+    },
+    {
+     "tela": 9,
+     "coluna": 25,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1482.6,
+     "veredito": "confirma",
+     "t_som": 584.4866
+    },
+    {
+     "tela": 9,
+     "coluna": 26,
+     "corda": 6,
+     "casa": 2,
+     "midi": 42,
+     "x": 1526.2,
+     "veredito": "confirma",
+     "t_som": 585.1184
+    },
+    {
+     "tela": 9,
+     "coluna": 27,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1575.2,
+     "veredito": "confirma",
+     "t_som": 585.7982
+    },
+    {
+     "tela": 9,
+     "coluna": 28,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1618.8,
+     "veredito": "confirma",
+     "t_som": 586.43
+    },
+    {
+     "tela": 9,
+     "coluna": 29,
+     "corda": 4,
+     "casa": 1,
+     "midi": 51,
+     "x": 1662.4,
+     "veredito": "confirma",
+     "t_som": 587.0965
+    },
+    {
+     "tela": 9,
+     "coluna": 30,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1711.5,
+     "veredito": "confirma",
+     "t_som": 587.7781
+    },
+    {
+     "tela": 9,
+     "coluna": 31,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 1755.1,
+     "veredito": "confirma",
+     "t_som": 588.405
+    },
+    {
+     "tela": 9,
+     "coluna": 32,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1804.1,
+     "veredito": "confirma",
+     "t_som": 589.0362
+    }
+   ],
+   "som_sem_tela": 1,
+   "tela": 9
+  },
+  {
+   "exibicao": 0,
+   "t0": 589.375,
+   "t1": 610.312,
+   "notas": [
+    {
+     "tela": 10,
+     "coluna": 1,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 201.8,
+     "veredito": "confirma",
+     "t_som": 589.7076
+    },
+    {
+     "tela": 10,
+     "coluna": 2,
+     "corda": 6,
+     "casa": 1,
+     "midi": 41,
+     "x": 250.9,
+     "veredito": "confirma",
+     "t_som": 590.3838
+    },
+    {
+     "tela": 10,
+     "coluna": 3,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 305.4,
+     "veredito": "confirma",
+     "t_som": 591.0186
+    },
+    {
+     "tela": 10,
+     "coluna": 4,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 359.9,
+     "veredito": "confirma",
+     "t_som": 591.6675
+    },
+    {
+     "tela": 10,
+     "coluna": 5,
+     "corda": 3,
+     "casa": 1,
+     "midi": 56,
+     "x": 408.9,
+     "veredito": "confirma",
+     "t_som": 592.2929
+    },
+    {
+     "tela": 10,
+     "coluna": 5,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 408.9,
+     "veredito": "confirma",
+     "t_som": 592.2937
+    },
+    {
+     "tela": 10,
+     "coluna": 5,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 408.9,
+     "veredito": "confirma",
+     "t_som": 592.2922
+    },
+    {
+     "tela": 10,
+     "coluna": 6,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 496.1,
+     "veredito": "confirma",
+     "t_som": 593.5884
+    },
+    {
+     "tela": 10,
+     "coluna": 7,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 550.6,
+     "veredito": "confirma",
+     "t_som": 594.3157
+    },
+    {
+     "tela": 10,
+     "coluna": 8,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 632.4,
+     "veredito": "confirma",
+     "t_som": 594.91
+    },
+    {
+     "tela": 10,
+     "coluna": 8,
+     "corda": 5,
+     "casa": 4,
+     "midi": 49,
+     "x": 632.4,
+     "veredito": "confirma",
+     "t_som": 594.9111
+    },
+    {
+     "tela": 10,
+     "coluna": 9,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 681.4,
+     "veredito": "confirma",
+     "t_som": 595.5571
+    },
+    {
+     "tela": 10,
+     "coluna": 10,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 730.5,
+     "veredito": "confirma",
+     "t_som": 596.1913
+    },
+    {
+     "tela": 10,
+     "coluna": 11,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 779.5,
+     "veredito": "confirma",
+     "t_som": 596.807
+    },
+    {
+     "tela": 10,
+     "coluna": 12,
+     "corda": 5,
+     "casa": 4,
+     "midi": 49,
+     "x": 828.6,
+     "veredito": "confirma",
+     "t_som": 597.5193
+    },
+    {
+     "tela": 10,
+     "coluna": 13,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 872.2,
+     "veredito": "confirma",
+     "t_som": 598.1884
+    },
+    {
+     "tela": 10,
+     "coluna": 14,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 921.2,
+     "veredito": "confirma",
+     "t_som": 598.8536
+    },
+    {
+     "tela": 10,
+     "coluna": 15,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 970.3,
+     "veredito": "confirma",
+     "t_som": 599.5144
+    },
+    {
+     "tela": 10,
+     "coluna": 16,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1041.1,
+     "veredito": "confirma",
+     "t_som": 600.1464
+    },
+    {
+     "tela": 10,
+     "coluna": 16,
+     "corda": 5,
+     "casa": 0,
+     "midi": 45,
+     "x": 1046.6,
+     "veredito": "confirma",
+     "t_som": 600.1467
+    },
+    {
+     "tela": 10,
+     "coluna": 17,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1095.6,
+     "veredito": "confirma",
+     "t_som": 600.794
+    },
+    {
+     "tela": 10,
+     "coluna": 18,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1139.2,
+     "veredito": "confirma",
+     "t_som": 601.4653
+    },
+    {
+     "tela": 10,
+     "coluna": 19,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1188.3,
+     "veredito": "confirma",
+     "t_som": 602.1064
+    },
+    {
+     "tela": 10,
+     "coluna": 20,
+     "corda": 6,
+     "casa": 2,
+     "midi": 42,
+     "x": 1237.3,
+     "veredito": "confirma",
+     "t_som": 602.746
+    },
+    {
+     "tela": 10,
+     "coluna": 21,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 1286.4,
+     "veredito": "confirma",
+     "t_som": 603.3857
+    },
+    {
+     "tela": 10,
+     "coluna": 22,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1335.4,
+     "veredito": "confirma",
+     "t_som": 604.0574
+    },
+    {
+     "tela": 10,
+     "coluna": 23,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1384.5,
+     "veredito": "confirma",
+     "t_som": 604.7389
+    },
+    {
+     "tela": 10,
+     "coluna": 24,
+     "corda": 2,
+     "casa": 3,
+     "midi": 62,
+     "x": 1460.8,
+     "veredito": "confirma",
+     "t_som": 605.3956
+    },
+    {
+     "tela": 10,
+     "coluna": 24,
+     "corda": 6,
+     "casa": 3,
+     "midi": 43,
+     "x": 1460.8,
+     "veredito": "confirma",
+     "t_som": 605.3997
+    },
+    {
+     "tela": 10,
+     "coluna": 25,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 1509.8,
+     "veredito": "confirma",
+     "t_som": 606.048
+    },
+    {
+     "tela": 10,
+     "coluna": 26,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 1558.9,
+     "veredito": "confirma",
+     "t_som": 606.6747
+    },
+    {
+     "tela": 10,
+     "coluna": 27,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1607.9,
+     "veredito": "confirma",
+     "t_som": 607.2598
+    },
+    {
+     "tela": 10,
+     "coluna": 28,
+     "corda": 2,
+     "casa": 3,
+     "midi": 62,
+     "x": 1657.0,
+     "veredito": "confirma",
+     "t_som": 607.9563
+    },
+    {
+     "tela": 10,
+     "coluna": 28,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1657.0,
+     "veredito": "confirma",
+     "t_som": 607.9236
+    },
+    {
+     "tela": 10,
+     "coluna": 28,
+     "corda": 4,
+     "casa": 0,
+     "midi": 50,
+     "x": 1657.0,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      55,
+      62
+     ]
+    },
+    {
+     "tela": 10,
+     "coluna": 28,
+     "corda": 6,
+     "casa": 3,
+     "midi": 43,
+     "x": 1657.0,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      55,
+      62
+     ]
+    },
+    {
+     "tela": 10,
+     "coluna": 29,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 1706.0,
+     "veredito": "confirma",
+     "t_som": 608.5688
+    },
+    {
+     "tela": 10,
+     "coluna": 30,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 1749.6,
+     "veredito": "confirma",
+     "t_som": 609.2025
+    },
+    {
+     "tela": 10,
+     "coluna": 31,
+     "corda": 1,
+     "casa": 3,
+     "midi": 67,
+     "x": 1804.1,
+     "veredito": "confirma",
+     "t_som": 609.8627
+    }
+   ],
+   "som_sem_tela": 6,
+   "tela": 10
+  },
+  {
+   "exibicao": 0,
+   "t0": 610.312,
+   "t1": 631.188,
+   "notas": [
+    {
+     "tela": 11,
+     "coluna": 1,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 189.8,
+     "veredito": "confirma",
+     "t_som": 610.4963
+    },
+    {
+     "tela": 11,
+     "coluna": 2,
+     "corda": 1,
+     "casa": 3,
+     "midi": 67,
+     "x": 216.8,
+     "veredito": "confirma",
+     "t_som": 610.5975
+    },
+    {
+     "tela": 11,
+     "coluna": 3,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 238.4,
+     "veredito": "confirma",
+     "t_som": 610.6925
+    },
+    {
+     "tela": 11,
+     "coluna": 3,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 238.4,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      66
+     ]
+    },
+    {
+     "tela": 11,
+     "coluna": 4,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 287.0,
+     "veredito": "confirma",
+     "t_som": 611.2122
+    },
+    {
+     "tela": 11,
+     "coluna": 5,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 335.6,
+     "veredito": "confirma",
+     "t_som": 611.8639
+    },
+    {
+     "tela": 11,
+     "coluna": 6,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 389.6,
+     "veredito": "confirma",
+     "t_som": 612.463
+    },
+    {
+     "tela": 11,
+     "coluna": 7,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 438.2,
+     "veredito": "confirma",
+     "t_som": 613.0995
+    },
+    {
+     "tela": 11,
+     "coluna": 7,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 438.2,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      42,
+      63
+     ]
+    },
+    {
+     "tela": 11,
+     "coluna": 8,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 492.2,
+     "veredito": "confirma",
+     "t_som": 613.7288
+    },
+    {
+     "tela": 11,
+     "coluna": 9,
+     "corda": 3,
+     "casa": 3,
+     "midi": 58,
+     "x": 540.8,
+     "veredito": "confirma",
+     "t_som": 614.4036
+    },
+    {
+     "tela": 11,
+     "coluna": 10,
+     "corda": 2,
+     "casa": 2,
+     "midi": 61,
+     "x": 589.4,
+     "veredito": "confirma",
+     "t_som": 615.0772
+    },
+    {
+     "tela": 11,
+     "coluna": 11,
+     "corda": 2,
+     "casa": 2,
+     "midi": 61,
+     "x": 670.4,
+     "veredito": "confirma",
+     "t_som": 615.7355
+    },
+    {
+     "tela": 11,
+     "coluna": 11,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 670.4,
+     "veredito": "confirma",
+     "t_som": 615.7351
+    },
+    {
+     "tela": 11,
+     "coluna": 12,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 719.0,
+     "veredito": "confirma",
+     "t_som": 616.3729
+    },
+    {
+     "tela": 11,
+     "coluna": 13,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 767.6,
+     "veredito": "confirma",
+     "t_som": 617.0414
+    },
+    {
+     "tela": 11,
+     "coluna": 14,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 816.2,
+     "veredito": "confirma",
+     "t_som": 617.6603
+    },
+    {
+     "tela": 11,
+     "coluna": 15,
+     "corda": 1,
+     "casa": 7,
+     "midi": 71,
+     "x": 864.8,
+     "veredito": "confirma",
+     "t_som": 618.3098
+    },
+    {
+     "tela": 11,
+     "coluna": 16,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 913.4,
+     "veredito": "confirma",
+     "t_som": 618.9958
+    },
+    {
+     "tela": 11,
+     "coluna": 17,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 956.6,
+     "veredito": "confirma",
+     "t_som": 619.6266
+    },
+    {
+     "tela": 11,
+     "coluna": 17,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 956.6,
+     "veredito": "confirma",
+     "t_som": 619.6256
+    },
+    {
+     "tela": 11,
+     "coluna": 18,
+     "corda": 1,
+     "casa": 7,
+     "midi": 71,
+     "x": 1005.2,
+     "veredito": "confirma",
+     "t_som": 620.3655
+    },
+    {
+     "tela": 11,
+     "coluna": 19,
+     "corda": 1,
+     "casa": 7,
+     "midi": 71,
+     "x": 1080.8,
+     "veredito": "confirma",
+     "t_som": 621.0382
+    },
+    {
+     "tela": 11,
+     "coluna": 19,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 1080.8,
+     "veredito": "confirma",
+     "t_som": 621.0345
+    },
+    {
+     "tela": 11,
+     "coluna": 20,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1124.0,
+     "veredito": "confirma",
+     "t_som": 621.6898
+    },
+    {
+     "tela": 11,
+     "coluna": 21,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1167.2,
+     "veredito": "confirma",
+     "t_som": 622.3375
+    },
+    {
+     "tela": 11,
+     "coluna": 22,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1215.8,
+     "veredito": "confirma",
+     "t_som": 622.9559
+    },
+    {
+     "tela": 11,
+     "coluna": 23,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 1259.0,
+     "veredito": "confirma",
+     "t_som": 623.5942
+    },
+    {
+     "tela": 11,
+     "coluna": 24,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1307.6,
+     "veredito": "confirma",
+     "t_som": 624.2144
+    },
+    {
+     "tela": 11,
+     "coluna": 25,
+     "corda": 1,
+     "casa": 8,
+     "midi": 72,
+     "x": 1350.8,
+     "veredito": "confirma",
+     "t_som": 624.886
+    },
+    {
+     "tela": 11,
+     "coluna": 26,
+     "corda": 1,
+     "casa": 7,
+     "midi": 71,
+     "x": 1399.4,
+     "veredito": "confirma",
+     "t_som": 625.5454
+    },
+    {
+     "tela": 11,
+     "coluna": 27,
+     "corda": 1,
+     "casa": 7,
+     "midi": 71,
+     "x": 1469.6,
+     "veredito": "confirma",
+     "t_som": 626.2062
+    },
+    {
+     "tela": 11,
+     "coluna": 27,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 1469.6,
+     "veredito": "confirma",
+     "t_som": 626.2035
+    },
+    {
+     "tela": 11,
+     "coluna": 28,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 1512.8,
+     "veredito": "confirma",
+     "t_som": 626.8393
+    },
+    {
+     "tela": 11,
+     "coluna": 29,
+     "corda": 2,
+     "casa": 4,
+     "midi": 63,
+     "x": 1561.4,
+     "veredito": "confirma",
+     "t_som": 627.4848
+    },
+    {
+     "tela": 11,
+     "coluna": 30,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 1610.0,
+     "veredito": "confirma",
+     "t_som": 628.1221
+    },
+    {
+     "tela": 11,
+     "coluna": 31,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 1658.6,
+     "veredito": "confirma",
+     "t_som": 628.7565
+    },
+    {
+     "tela": 11,
+     "coluna": 32,
+     "corda": 3,
+     "casa": 4,
+     "midi": 59,
+     "x": 1707.2,
+     "veredito": "confirma",
+     "t_som": 629.3754
+    },
+    {
+     "tela": 11,
+     "coluna": 33,
+     "corda": 1,
+     "casa": 8,
+     "midi": 72,
+     "x": 1755.8,
+     "veredito": "confirma",
+     "t_som": 629.9822
+    },
+    {
+     "tela": 11,
+     "coluna": 34,
+     "corda": 1,
+     "casa": 7,
+     "midi": 71,
+     "x": 1804.4,
+     "veredito": "confirma",
+     "t_som": 631.317
+    }
+   ],
+   "som_sem_tela": 4,
+   "tela": 11
+  },
+  {
+   "exibicao": 0,
+   "t0": 631.188,
+   "t1": 651.875,
+   "notas": [
+    {
+     "tela": 12,
+     "coluna": 1,
+     "corda": 1,
+     "casa": 7,
+     "midi": 71,
+     "x": 201.8,
+     "veredito": "confirma",
+     "t_som": 631.317
+    },
+    {
+     "tela": 12,
+     "coluna": 2,
+     "corda": 5,
+     "casa": 8,
+     "midi": 53,
+     "x": 250.9,
+     "veredito": "confirma",
+     "t_som": 631.9882
+    },
+    {
+     "tela": 12,
+     "coluna": 3,
+     "corda": 3,
+     "casa": 7,
+     "midi": 62,
+     "x": 299.9,
+     "veredito": "confirma",
+     "t_som": 632.6547
+    },
+    {
+     "tela": 12,
+     "coluna": 4,
+     "corda": 2,
+     "casa": 10,
+     "midi": 69,
+     "x": 354.4,
+     "veredito": "confirma",
+     "t_som": 633.2847
+    },
+    {
+     "tela": 12,
+     "coluna": 5,
+     "corda": 2,
+     "casa": 9,
+     "midi": 68,
+     "x": 398.0,
+     "veredito": "confirma",
+     "t_som": 633.9583
+    },
+    {
+     "tela": 12,
+     "coluna": 5,
+     "corda": 3,
+     "casa": 7,
+     "midi": 62,
+     "x": 398.0,
+     "veredito": "confirma",
+     "t_som": 633.9549
+    },
+    {
+     "tela": 12,
+     "coluna": 5,
+     "corda": 5,
+     "casa": 7,
+     "midi": 52,
+     "x": 398.0,
+     "veredito": "confirma",
+     "t_som": 633.9445
+    },
+    {
+     "tela": 12,
+     "coluna": 6,
+     "corda": 1,
+     "casa": 8,
+     "midi": 72,
+     "x": 474.3,
+     "veredito": "confirma",
+     "t_som": 635.2559
+    },
+    {
+     "tela": 12,
+     "coluna": 7,
+     "corda": 1,
+     "casa": 7,
+     "midi": 71,
+     "x": 528.8,
+     "veredito": "confirma",
+     "t_som": 635.9589
+    },
+    {
+     "tela": 12,
+     "coluna": 8,
+     "corda": 1,
+     "casa": 12,
+     "midi": 76,
+     "x": 599.7,
+     "veredito": "confirma",
+     "t_som": 636.5877
+    },
+    {
+     "tela": 12,
+     "coluna": 9,
+     "corda": 6,
+     "casa": 9,
+     "midi": 49,
+     "x": 648.7,
+     "veredito": "confirma",
+     "t_som": 637.2411
+    },
+    {
+     "tela": 12,
+     "coluna": 10,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 697.8,
+     "veredito": "confirma",
+     "t_som": 637.8802
+    },
+    {
+     "tela": 12,
+     "coluna": 11,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 746.8,
+     "veredito": "confirma",
+     "t_som": 638.5157
+    },
+    {
+     "tela": 12,
+     "coluna": 12,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 844.9,
+     "veredito": "confirma",
+     "t_som": 639.842
+    },
+    {
+     "tela": 12,
+     "coluna": 13,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 894.0,
+     "veredito": "confirma",
+     "t_som": 640.5281
+    },
+    {
+     "tela": 12,
+     "coluna": 14,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 943.0,
+     "veredito": "confirma",
+     "t_som": 641.2051
+    },
+    {
+     "tela": 12,
+     "coluna": 15,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 1019.3,
+     "veredito": "confirma",
+     "t_som": 641.8972
+    },
+    {
+     "tela": 12,
+     "coluna": 15,
+     "corda": 5,
+     "casa": 0,
+     "midi": 45,
+     "x": 1019.3,
+     "veredito": "confirma",
+     "t_som": 641.8951
+    },
+    {
+     "tela": 12,
+     "coluna": 16,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1068.4,
+     "veredito": "confirma",
+     "t_som": 642.5532
+    },
+    {
+     "tela": 12,
+     "coluna": 17,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1117.4,
+     "veredito": "confirma",
+     "t_som": 643.1937
+    },
+    {
+     "tela": 12,
+     "coluna": 18,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1166.5,
+     "veredito": "confirma",
+     "t_som": 643.8114
+    },
+    {
+     "tela": 12,
+     "coluna": 19,
+     "corda": 5,
+     "casa": 1,
+     "midi": 46,
+     "x": 1215.5,
+     "veredito": "confirma",
+     "t_som": 644.4756
+    },
+    {
+     "tela": 12,
+     "coluna": 20,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1264.6,
+     "veredito": "confirma",
+     "t_som": 645.1362
+    },
+    {
+     "tela": 12,
+     "coluna": 21,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 1313.6,
+     "veredito": "confirma",
+     "t_som": 645.8254
+    },
+    {
+     "tela": 12,
+     "coluna": 22,
+     "corda": 1,
+     "casa": 3,
+     "midi": 67,
+     "x": 1362.7,
+     "veredito": "confirma",
+     "t_som": 646.4846
+    },
+    {
+     "tela": 12,
+     "coluna": 23,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 1433.5,
+     "veredito": "confirma",
+     "t_som": 647.0731
+    },
+    {
+     "tela": 12,
+     "coluna": 24,
+     "corda": 1,
+     "casa": 3,
+     "midi": 67,
+     "x": 1455.3,
+     "veredito": "confirma",
+     "t_som": 647.184
+    },
+    {
+     "tela": 12,
+     "coluna": 25,
+     "corda": 1,
+     "casa": 2,
+     "midi": 66,
+     "x": 1477.1,
+     "veredito": "coluna_sem_par"
+    },
+    {
+     "tela": 12,
+     "coluna": 25,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 1477.1,
+     "veredito": "coluna_sem_par"
+    },
+    {
+     "tela": 12,
+     "coluna": 26,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 1526.2,
+     "veredito": "confirma",
+     "t_som": 647.7102
+    },
+    {
+     "tela": 12,
+     "coluna": 27,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1569.8,
+     "veredito": "confirma",
+     "t_som": 648.3354
+    },
+    {
+     "tela": 12,
+     "coluna": 28,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1618.8,
+     "veredito": "confirma",
+     "t_som": 648.9857
+    },
+    {
+     "tela": 12,
+     "coluna": 29,
+     "corda": 2,
+     "casa": 3,
+     "midi": 62,
+     "x": 1662.4,
+     "veredito": "confirma",
+     "t_som": 649.6011
+    },
+    {
+     "tela": 12,
+     "coluna": 30,
+     "corda": 5,
+     "casa": 3,
+     "midi": 48,
+     "x": 1711.5,
+     "veredito": "confirma",
+     "t_som": 650.2538
+    },
+    {
+     "tela": 12,
+     "coluna": 31,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1755.1,
+     "veredito": "confirma",
+     "t_som": 650.9343
+    },
+    {
+     "tela": 12,
+     "coluna": 32,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 1804.1,
+     "veredito": "confirma",
+     "t_som": 651.606
+    }
+   ],
+   "som_sem_tela": 4,
+   "tela": 12
+  },
+  {
+   "exibicao": 0,
+   "t0": 651.875,
+   "t1": 673.75,
+   "notas": [
+    {
+     "tela": 13,
+     "coluna": 1,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 200.6,
+     "veredito": "confirma",
+     "t_som": 652.2507
+    },
+    {
+     "tela": 13,
+     "coluna": 2,
+     "corda": 6,
+     "casa": 2,
+     "midi": 42,
+     "x": 254.6,
+     "veredito": "confirma",
+     "t_som": 652.864
+    },
+    {
+     "tela": 13,
+     "coluna": 3,
+     "corda": 4,
+     "casa": 1,
+     "midi": 51,
+     "x": 314.0,
+     "veredito": "confirma",
+     "t_som": 653.4973
+    },
+    {
+     "tela": 13,
+     "coluna": 4,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 368.0,
+     "veredito": "confirma",
+     "t_som": 654.1348
+    },
+    {
+     "tela": 13,
+     "coluna": 5,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 427.4,
+     "veredito": "confirma",
+     "t_som": 654.8229
+    },
+    {
+     "tela": 13,
+     "coluna": 6,
+     "corda": 6,
+     "casa": 7,
+     "midi": 47,
+     "x": 486.8,
+     "veredito": "confirma",
+     "t_som": 655.4581
+    },
+    {
+     "tela": 13,
+     "coluna": 7,
+     "corda": 5,
+     "casa": 6,
+     "midi": 51,
+     "x": 540.8,
+     "veredito": "confirma",
+     "t_som": 656.1257
+    },
+    {
+     "tela": 13,
+     "coluna": 8,
+     "corda": 4,
+     "casa": 4,
+     "midi": 54,
+     "x": 600.2,
+     "veredito": "confirma",
+     "t_som": 656.7974
+    },
+    {
+     "tela": 13,
+     "coluna": 9,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 681.2,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      40
+     ]
+    },
+    {
+     "tela": 13,
+     "coluna": 9,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 681.2,
+     "veredito": "confirma",
+     "t_som": 657.4844
+    },
+    {
+     "tela": 13,
+     "coluna": 10,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 735.2,
+     "veredito": "confirma",
+     "t_som": 658.1837
+    },
+    {
+     "tela": 13,
+     "coluna": 11,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 789.2,
+     "veredito": "confirma",
+     "t_som": 658.8509
+    },
+    {
+     "tela": 13,
+     "coluna": 12,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 843.2,
+     "veredito": "confirma",
+     "t_som": 659.4953
+    },
+    {
+     "tela": 13,
+     "coluna": 13,
+     "corda": 2,
+     "casa": 3,
+     "midi": 62,
+     "x": 902.6,
+     "veredito": "confirma",
+     "t_som": 660.2328
+    },
+    {
+     "tela": 13,
+     "coluna": 13,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 902.6,
+     "veredito": "confirma",
+     "t_som": 660.1754
+    },
+    {
+     "tela": 13,
+     "coluna": 13,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 902.6,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      55,
+      62
+     ]
+    },
+    {
+     "tela": 13,
+     "coluna": 13,
+     "corda": 5,
+     "casa": 3,
+     "midi": 48,
+     "x": 902.6,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      55,
+      62
+     ]
+    },
+    {
+     "tela": 13,
+     "coluna": 14,
+     "corda": 2,
+     "casa": 1,
+     "midi": 60,
+     "x": 951.2,
+     "veredito": "confirma",
+     "t_som": 660.8359
+    },
+    {
+     "tela": 13,
+     "coluna": 15,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1010.6,
+     "veredito": "confirma",
+     "t_som": 661.5244
+    },
+    {
+     "tela": 13,
+     "coluna": 16,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1064.6,
+     "veredito": "confirma",
+     "t_som": 662.1314
+    },
+    {
+     "tela": 13,
+     "coluna": 17,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1145.6,
+     "veredito": "confirma",
+     "t_som": 662.7443
+    },
+    {
+     "tela": 13,
+     "coluna": 18,
+     "corda": 6,
+     "casa": 1,
+     "midi": 41,
+     "x": 1205.0,
+     "veredito": "confirma",
+     "t_som": 663.3807
+    },
+    {
+     "tela": 13,
+     "coluna": 19,
+     "corda": 5,
+     "casa": 3,
+     "midi": 48,
+     "x": 1269.8,
+     "veredito": "confirma",
+     "t_som": 664.0481
+    },
+    {
+     "tela": 13,
+     "coluna": 20,
+     "corda": 4,
+     "casa": 3,
+     "midi": 53,
+     "x": 1329.2,
+     "veredito": "confirma",
+     "t_som": 664.6622
+    },
+    {
+     "tela": 13,
+     "coluna": 21,
+     "corda": 3,
+     "casa": 2,
+     "midi": 57,
+     "x": 1388.6,
+     "veredito": "confirma",
+     "t_som": 665.2866
+    },
+    {
+     "tela": 13,
+     "coluna": 22,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1448.0,
+     "veredito": "confirma",
+     "t_som": 665.9255
+    },
+    {
+     "tela": 13,
+     "coluna": 23,
+     "corda": 1,
+     "casa": 3,
+     "midi": 67,
+     "x": 1512.8,
+     "veredito": "confirma",
+     "t_som": 666.5914
+    },
+    {
+     "tela": 13,
+     "coluna": 24,
+     "corda": 1,
+     "casa": 1,
+     "midi": 65,
+     "x": 1572.2,
+     "veredito": "confirma",
+     "t_som": 667.2158
+    },
+    {
+     "tela": 13,
+     "coluna": 25,
+     "corda": 1,
+     "casa": 0,
+     "midi": 64,
+     "x": 1680.2,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      40,
+      47
+     ]
+    },
+    {
+     "tela": 13,
+     "coluna": 25,
+     "corda": 2,
+     "casa": 0,
+     "midi": 59,
+     "x": 1680.2,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      40,
+      47
+     ]
+    },
+    {
+     "tela": 13,
+     "coluna": 25,
+     "corda": 3,
+     "casa": 0,
+     "midi": 55,
+     "x": 1680.2,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      40,
+      47
+     ]
+    },
+    {
+     "tela": 13,
+     "coluna": 25,
+     "corda": 4,
+     "casa": 2,
+     "midi": 52,
+     "x": 1680.2,
+     "veredito": "nao_confirma",
+     "ouvidas_no_evento": [
+      40,
+      47
+     ]
+    },
+    {
+     "tela": 13,
+     "coluna": 25,
+     "corda": 5,
+     "casa": 2,
+     "midi": 47,
+     "x": 1680.2,
+     "veredito": "confirma",
+     "t_som": 668.0837
+    },
+    {
+     "tela": 13,
+     "coluna": 25,
+     "corda": 6,
+     "casa": 0,
+     "midi": 40,
+     "x": 1680.2,
+     "veredito": "confirma",
+     "t_som": 668.086
+    }
+   ],
+   "som_sem_tela": 7,
+   "tela": 13
+  }
+ ]
+}

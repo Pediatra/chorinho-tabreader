@@ -1,0 +1,1 @@
+sh /var/home/gabriel/Projects/chorinho-dataset/data/saida/audio/a1/base.sh 'ruff check --output-format concise tab/audio_onsets.py tab/audio_atraso.py tab/audio_figuras.py tests/test_audio_onsets.py tests/test_audio_atraso.py'

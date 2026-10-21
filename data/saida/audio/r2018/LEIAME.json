@@ -1,0 +1,12 @@
+{
+ "trilha": "audio",
+ "pasta": "data/saida/audio/r2018",
+ "rodadas": "2018",
+ "o_que_tem": "transcritor Basic Pitch e o material da ferramenta dos acordes (ferramenta_acordes/)",
+ "comando_que_regenera": "material_acordes.py; tab.audio_transcrever na imagem chorinho-som",
+ "regeneravel": "parcial: telas e pre.json sim; o gabarito que saiu dele é do dono (data/gold/audio/acordes_2018.json)",
+ "citada_por": "2018 2020; módulo audio_som_medir (padrão --acordes)",
+ "classe": "manter",
+ "motivo": "ferramenta_acordes é o material de onde saiu o gabarito acordes_2018 e o indice.json liga gabarito → produto",
+ "escrito_em": "2026-10-21"
+}

@@ -241,6 +241,14 @@ GOLD_PARTITURA = RAIZ / "data" / "gold" / "partitura"
 FASE8_REDE = SAIDA / "fase8" / "rede"
 CENSO_V2 = SAIDA / "censo" / "v2"
 
+#: Gabaritos do áudio conferidos pelo dono: folhas de escuta e acordes cheios (2018).
+GABARITO_AUDIO = RAIZ / "data" / "gold" / "audio"
+#: Saída da trilha áudio (uma pasta por rodada: ``a0``…``a5``, ``r2017``…).
+SAIDA_AUDIO = SAIDA / "audio"
+#: Pré-leitura de cada ouro de vídeo (``<slug>/pre.json``), da ferramenta da tablatura
+#: (``tab.ouro_video``); o áudio a lê para achar o instante de cada tela.
+PRE_OURO_VIDEO = SAIDA / "ouro_video"
+
 #: Perfil dos canais (o que foi medido, e quais canais estão fora do rollout).
 CANAIS = RAIZ / "configs" / "canais.yaml"
 

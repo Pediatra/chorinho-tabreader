@@ -1,0 +1,1562 @@
+{
+ "amplitude_minima": 0.5,
+ "por_video": {
+  "end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics": {
+   "papel": "ouro",
+   "video": "kenneth acoustic/end of beginning - djo ｜ fingerstyle guitar ｜ tab + chords + lyrics.mp4",
+   "capo": 2,
+   "real": {
+    "telas": 7,
+    "n_gabarito": 303,
+    "n_pareadas": 204,
+    "n_som_trecho": 234,
+    "revocacao": 0.6733,
+    "precisao": 0.8718,
+    "oitava": 7,
+    "semitom": 0
+   },
+   "controle": {
+    "telas": 7,
+    "n_gabarito": 303,
+    "n_pareadas": 34,
+    "n_som_trecho": 188,
+    "revocacao": 0.1122,
+    "precisao": 0.1809,
+    "oitava": 0,
+    "semitom": 5
+   },
+   "telas": [
+    {
+     "t0": 5.0,
+     "t1": 12.0,
+     "n_gabarito": 25,
+     "n_pareadas": 14,
+     "n_som_trecho": 15,
+     "n_som_pareadas": 14,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 1
+    },
+    {
+     "t0": 12.0,
+     "t1": 19.0,
+     "n_gabarito": 43,
+     "n_pareadas": 27,
+     "n_som_trecho": 32,
+     "n_som_pareadas": 27,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 2
+    },
+    {
+     "t0": 19.0,
+     "t1": 26.9375,
+     "n_gabarito": 43,
+     "n_pareadas": 33,
+     "n_som_trecho": 37,
+     "n_som_pareadas": 33,
+     "acordes": [],
+     "oitava": 2,
+     "semitom": 0,
+     "tela": 3
+    },
+    {
+     "t0": 26.9375,
+     "t1": 33.5,
+     "n_gabarito": 45,
+     "n_pareadas": 30,
+     "n_som_trecho": 34,
+     "n_som_pareadas": 30,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 4
+    },
+    {
+     "t0": 33.5,
+     "t1": 41.0,
+     "n_gabarito": 42,
+     "n_pareadas": 30,
+     "n_som_trecho": 35,
+     "n_som_pareadas": 30,
+     "acordes": [
+      0.0
+     ],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 5
+    },
+    {
+     "t0": 41.0,
+     "t1": 48.25,
+     "n_gabarito": 50,
+     "n_pareadas": 35,
+     "n_som_trecho": 40,
+     "n_som_pareadas": 35,
+     "acordes": [
+      0.6
+     ],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 6
+    },
+    {
+     "t0": 48.25,
+     "t1": 55.5,
+     "n_gabarito": 55,
+     "n_pareadas": 35,
+     "n_som_trecho": 41,
+     "n_som_pareadas": 35,
+     "acordes": [],
+     "oitava": 2,
+     "semitom": 0,
+     "tela": 7
+    }
+   ]
+  },
+  "greensleeves_guia_de_estudio_partitura_tab_pdf": {
+   "papel": "ouro",
+   "video": "pablo romé/greensleeves 💚 guía de estudio 👌 partitura + tab + pdf.mp4",
+   "capo": 0,
+   "real": {
+    "telas": 4,
+    "n_gabarito": 106,
+    "n_pareadas": 102,
+    "n_som_trecho": 113,
+    "revocacao": 0.9623,
+    "precisao": 0.9027,
+    "oitava": 1,
+    "semitom": 0
+   },
+   "controle": {
+    "telas": 4,
+    "n_gabarito": 106,
+    "n_pareadas": 16,
+    "n_som_trecho": 71,
+    "revocacao": 0.1509,
+    "precisao": 0.2254,
+    "oitava": 4,
+    "semitom": 0
+   },
+   "telas": [
+    {
+     "t0": 72.5,
+     "t1": 91.75,
+     "n_gabarito": 28,
+     "n_pareadas": 28,
+     "n_som_trecho": 31,
+     "n_som_pareadas": 28,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 1
+    },
+    {
+     "t0": 23.875,
+     "t1": 38.375,
+     "n_gabarito": 27,
+     "n_pareadas": 27,
+     "n_som_trecho": 28,
+     "n_som_pareadas": 27,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 2
+    },
+    {
+     "t0": 38.375,
+     "t1": 52.875,
+     "n_gabarito": 25,
+     "n_pareadas": 24,
+     "n_som_trecho": 26,
+     "n_som_pareadas": 24,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 3
+    },
+    {
+     "t0": 52.875,
+     "t1": 64.375,
+     "n_gabarito": 26,
+     "n_pareadas": 23,
+     "n_som_trecho": 28,
+     "n_som_pareadas": 23,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 4
+    }
+   ]
+  },
+  "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar": {
+   "papel": "ouro",
+   "video": "robert lunn/gymnopédie no.1 (erik satie) - includes sheet music⧸tab - classical guitar.mp4",
+   "capo": 0,
+   "real": {
+    "telas": 12,
+    "n_gabarito": 392,
+    "n_pareadas": 285,
+    "n_som_trecho": 379,
+    "revocacao": 0.727,
+    "precisao": 0.752,
+    "oitava": 6,
+    "semitom": 0
+   },
+   "controle": {
+    "telas": 12,
+    "n_gabarito": 392,
+    "n_pareadas": 45,
+    "n_som_trecho": 262,
+    "revocacao": 0.1148,
+    "precisao": 0.1718,
+    "oitava": 2,
+    "semitom": 14
+   },
+   "telas": [
+    {
+     "t0": 0.0,
+     "t1": 15.3125,
+     "n_gabarito": 32,
+     "n_pareadas": 23,
+     "n_som_trecho": 32,
+     "n_som_pareadas": 23,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 1
+    },
+    {
+     "t0": 15.3125,
+     "t1": 30.5,
+     "n_gabarito": 32,
+     "n_pareadas": 23,
+     "n_som_trecho": 29,
+     "n_som_pareadas": 23,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 2
+    },
+    {
+     "t0": 30.5,
+     "t1": 45.4375,
+     "n_gabarito": 33,
+     "n_pareadas": 23,
+     "n_som_trecho": 29,
+     "n_som_pareadas": 23,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 3
+    },
+    {
+     "t0": 45.4375,
+     "t1": 59.4375,
+     "n_gabarito": 40,
+     "n_pareadas": 30,
+     "n_som_trecho": 38,
+     "n_som_pareadas": 30,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 4
+    },
+    {
+     "t0": 59.4375,
+     "t1": 73.25,
+     "n_gabarito": 38,
+     "n_pareadas": 28,
+     "n_som_trecho": 39,
+     "n_som_pareadas": 28,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 5
+    },
+    {
+     "t0": 73.25,
+     "t1": 89.0,
+     "n_gabarito": 32,
+     "n_pareadas": 21,
+     "n_som_trecho": 33,
+     "n_som_pareadas": 21,
+     "acordes": [
+      0.5
+     ],
+     "oitava": 2,
+     "semitom": 0,
+     "tela": 6
+    },
+    {
+     "t0": 89.0,
+     "t1": 103.8125,
+     "n_gabarito": 33,
+     "n_pareadas": 26,
+     "n_som_trecho": 34,
+     "n_som_pareadas": 26,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 7
+    },
+    {
+     "t0": 103.8125,
+     "t1": 118.5,
+     "n_gabarito": 34,
+     "n_pareadas": 28,
+     "n_som_trecho": 34,
+     "n_som_pareadas": 28,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 8
+    },
+    {
+     "t0": 118.5,
+     "t1": 133.0,
+     "n_gabarito": 35,
+     "n_pareadas": 25,
+     "n_som_trecho": 34,
+     "n_som_pareadas": 25,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 9
+    },
+    {
+     "t0": 133.0,
+     "t1": 146.75,
+     "n_gabarito": 39,
+     "n_pareadas": 30,
+     "n_som_trecho": 38,
+     "n_som_pareadas": 30,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 10
+    },
+    {
+     "t0": 146.75,
+     "t1": 162.25,
+     "n_gabarito": 38,
+     "n_pareadas": 27,
+     "n_som_trecho": 38,
+     "n_som_pareadas": 27,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 11
+    },
+    {
+     "t0": 162.25,
+     "t1": 167.994,
+     "n_gabarito": 6,
+     "n_pareadas": 1,
+     "n_som_trecho": 1,
+     "n_som_pareadas": 1,
+     "acordes": [
+      0.1667
+     ],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 12
+    }
+   ]
+  },
+  "la_vie_en_rose_edith_piaf_tab": {
+   "papel": "ouro",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "capo": 0,
+   "real": {
+    "telas": 8,
+    "n_gabarito": 425,
+    "n_pareadas": 386,
+    "n_som_trecho": 402,
+    "revocacao": 0.9082,
+    "precisao": 0.9602,
+    "oitava": 10,
+    "semitom": 1
+   },
+   "controle": {
+    "telas": 8,
+    "n_gabarito": 425,
+    "n_pareadas": 77,
+    "n_som_trecho": 375,
+    "revocacao": 0.1812,
+    "precisao": 0.2053,
+    "oitava": 1,
+    "semitom": 22
+   },
+   "telas": [
+    {
+     "t0": 0.0,
+     "t1": 15.375,
+     "n_gabarito": 45,
+     "n_pareadas": 43,
+     "n_som_trecho": 44,
+     "n_som_pareadas": 43,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 1,
+     "tela": 1
+    },
+    {
+     "t0": 15.375,
+     "t1": 29.875,
+     "n_gabarito": 38,
+     "n_pareadas": 36,
+     "n_som_trecho": 37,
+     "n_som_pareadas": 36,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 2
+    },
+    {
+     "t0": 29.875,
+     "t1": 42.0,
+     "n_gabarito": 53,
+     "n_pareadas": 47,
+     "n_som_trecho": 48,
+     "n_som_pareadas": 47,
+     "acordes": [],
+     "oitava": 3,
+     "semitom": 0,
+     "tela": 3
+    },
+    {
+     "t0": 42.0,
+     "t1": 54.4375,
+     "n_gabarito": 56,
+     "n_pareadas": 54,
+     "n_som_trecho": 55,
+     "n_som_pareadas": 54,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 4
+    },
+    {
+     "t0": 121.3125,
+     "t1": 133.5,
+     "n_gabarito": 50,
+     "n_pareadas": 46,
+     "n_som_trecho": 47,
+     "n_som_pareadas": 46,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 5
+    },
+    {
+     "t0": 66.8125,
+     "t1": 81.0,
+     "n_gabarito": 59,
+     "n_pareadas": 57,
+     "n_som_trecho": 59,
+     "n_som_pareadas": 57,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 6
+    },
+    {
+     "t0": 81.0,
+     "t1": 96.75,
+     "n_gabarito": 62,
+     "n_pareadas": 56,
+     "n_som_trecho": 57,
+     "n_som_pareadas": 56,
+     "acordes": [],
+     "oitava": 2,
+     "semitom": 0,
+     "tela": 7
+    },
+    {
+     "t0": 164.0,
+     "t1": 189.214,
+     "n_gabarito": 62,
+     "n_pareadas": 47,
+     "n_som_trecho": 55,
+     "n_som_pareadas": 47,
+     "acordes": [
+      0.4
+     ],
+     "oitava": 4,
+     "semitom": 0,
+     "tela": 8
+    }
+   ]
+  },
+  "retrato_brasileiro_v2": {
+   "papel": "ouro",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "capo": 0,
+   "real": {
+    "telas": 13,
+    "n_gabarito": 491,
+    "n_pareadas": 458,
+    "n_som_trecho": 496,
+    "revocacao": 0.9328,
+    "precisao": 0.9234,
+    "oitava": 8,
+    "semitom": 0
+   },
+   "controle": {
+    "telas": 13,
+    "n_gabarito": 491,
+    "n_pareadas": 98,
+    "n_som_trecho": 376,
+    "revocacao": 0.1996,
+    "precisao": 0.2606,
+    "oitava": 2,
+    "semitom": 2
+   },
+   "telas": [
+    {
+     "t0": 239.375,
+     "t1": 265.875,
+     "n_gabarito": 35,
+     "n_pareadas": 35,
+     "n_som_trecho": 35,
+     "n_som_pareadas": 35,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 1
+    },
+    {
+     "t0": 265.875,
+     "t1": 286.8125,
+     "n_gabarito": 43,
+     "n_pareadas": 40,
+     "n_som_trecho": 44,
+     "n_som_pareadas": 40,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 2
+    },
+    {
+     "t0": 286.8125,
+     "t1": 307.6875,
+     "n_gabarito": 36,
+     "n_pareadas": 36,
+     "n_som_trecho": 36,
+     "n_som_pareadas": 36,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 3
+    },
+    {
+     "t0": 307.6875,
+     "t1": 328.375,
+     "n_gabarito": 38,
+     "n_pareadas": 36,
+     "n_som_trecho": 38,
+     "n_som_pareadas": 36,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 4
+    },
+    {
+     "t0": 406.75,
+     "t1": 427.6875,
+     "n_gabarito": 40,
+     "n_pareadas": 37,
+     "n_som_trecho": 41,
+     "n_som_pareadas": 37,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 5
+    },
+    {
+     "t0": 427.6875,
+     "t1": 448.375,
+     "n_gabarito": 33,
+     "n_pareadas": 33,
+     "n_som_trecho": 33,
+     "n_som_pareadas": 33,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 6
+    },
+    {
+     "t0": 448.375,
+     "t1": 469.375,
+     "n_gabarito": 38,
+     "n_pareadas": 38,
+     "n_som_trecho": 41,
+     "n_som_pareadas": 38,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 7
+    },
+    {
+     "t0": 469.375,
+     "t1": 490.3125,
+     "n_gabarito": 43,
+     "n_pareadas": 39,
+     "n_som_trecho": 43,
+     "n_som_pareadas": 39,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 8
+    },
+    {
+     "t0": 573.75,
+     "t1": 589.375,
+     "n_gabarito": 36,
+     "n_pareadas": 27,
+     "n_som_trecho": 28,
+     "n_som_pareadas": 27,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 9
+    },
+    {
+     "t0": 589.375,
+     "t1": 610.3125,
+     "n_gabarito": 39,
+     "n_pareadas": 37,
+     "n_som_trecho": 43,
+     "n_som_pareadas": 37,
+     "acordes": [],
+     "oitava": 2,
+     "semitom": 0,
+     "tela": 10
+    },
+    {
+     "t0": 610.3125,
+     "t1": 631.1875,
+     "n_gabarito": 40,
+     "n_pareadas": 39,
+     "n_som_trecho": 42,
+     "n_som_pareadas": 39,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 11
+    },
+    {
+     "t0": 631.1875,
+     "t1": 651.875,
+     "n_gabarito": 36,
+     "n_pareadas": 34,
+     "n_som_trecho": 38,
+     "n_som_pareadas": 34,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 12
+    },
+    {
+     "t0": 651.875,
+     "t1": 673.75,
+     "n_gabarito": 34,
+     "n_pareadas": 27,
+     "n_som_trecho": 34,
+     "n_som_pareadas": 27,
+     "acordes": [
+      0.3333
+     ],
+     "oitava": 3,
+     "semitom": 0,
+     "tela": 13
+    }
+   ]
+  },
+  "south_american_music_easy_guitar_tutorial_with_sheet_and_tab": {
+   "papel": "ouro",
+   "video": "guitar dell ́arte/south american music (easy), guitar tutorial with sheet and tab.mp4",
+   "capo": 0,
+   "real": {
+    "telas": 3,
+    "n_gabarito": 269,
+    "n_pareadas": 206,
+    "n_som_trecho": 217,
+    "revocacao": 0.7658,
+    "precisao": 0.9493,
+    "oitava": 3,
+    "semitom": 0
+   },
+   "controle": {
+    "telas": 3,
+    "n_gabarito": 269,
+    "n_pareadas": 15,
+    "n_som_trecho": 149,
+    "revocacao": 0.0558,
+    "precisao": 0.1007,
+    "oitava": 1,
+    "semitom": 0
+   },
+   "telas": [
+    {
+     "t0": 75.0,
+     "t1": 118.0,
+     "n_gabarito": 85,
+     "n_pareadas": 78,
+     "n_som_trecho": 81,
+     "n_som_pareadas": 78,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 1
+    },
+    {
+     "t0": 118.0,
+     "t1": 156.875,
+     "n_gabarito": 88,
+     "n_pareadas": 79,
+     "n_som_trecho": 84,
+     "n_som_pareadas": 79,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 2
+    },
+    {
+     "t0": 156.875,
+     "t1": 183.75,
+     "n_gabarito": 96,
+     "n_pareadas": 49,
+     "n_som_trecho": 52,
+     "n_som_pareadas": 49,
+     "acordes": [
+      0.8333
+     ],
+     "oitava": 2,
+     "semitom": 0,
+     "tela": 3
+    }
+   ]
+  },
+  "tab_from_this_place_pat_metheny_fingerstyle_guitar_cover": {
+   "papel": "ouro",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "capo": 0,
+   "real": {
+    "telas": 5,
+    "n_gabarito": 381,
+    "n_pareadas": 304,
+    "n_som_trecho": 343,
+    "revocacao": 0.7979,
+    "precisao": 0.8863,
+    "oitava": 5,
+    "semitom": 0
+   },
+   "controle": {
+    "telas": 5,
+    "n_gabarito": 381,
+    "n_pareadas": 58,
+    "n_som_trecho": 278,
+    "revocacao": 0.1522,
+    "precisao": 0.2086,
+    "oitava": 5,
+    "semitom": 22
+   },
+   "telas": [
+    {
+     "t0": 3.75,
+     "t1": 38.25,
+     "n_gabarito": 79,
+     "n_pareadas": 67,
+     "n_som_trecho": 73,
+     "n_som_pareadas": 67,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 1
+    },
+    {
+     "t0": 38.25,
+     "t1": 67.75,
+     "n_gabarito": 99,
+     "n_pareadas": 82,
+     "n_som_trecho": 89,
+     "n_som_pareadas": 82,
+     "acordes": [],
+     "oitava": 2,
+     "semitom": 0,
+     "tela": 2
+    },
+    {
+     "t0": 67.75,
+     "t1": 99.125,
+     "n_gabarito": 80,
+     "n_pareadas": 60,
+     "n_som_trecho": 71,
+     "n_som_pareadas": 60,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 3
+    },
+    {
+     "t0": 99.125,
+     "t1": 128.25,
+     "n_gabarito": 80,
+     "n_pareadas": 63,
+     "n_som_trecho": 71,
+     "n_som_pareadas": 63,
+     "acordes": [],
+     "oitava": 2,
+     "semitom": 0,
+     "tela": 4
+    },
+    {
+     "t0": 128.25,
+     "t1": 164.375,
+     "n_gabarito": 43,
+     "n_pareadas": 32,
+     "n_som_trecho": 39,
+     "n_som_pareadas": 32,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 5
+    }
+   ]
+  },
+  "tabroom_335_larry_carlton_fingerstyle_guitar": {
+   "papel": "ouro",
+   "video": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
+   "capo": 0,
+   "real": {
+    "telas": 11,
+    "n_gabarito": 320,
+    "n_pareadas": 279,
+    "n_som_trecho": 326,
+    "revocacao": 0.8719,
+    "precisao": 0.8558,
+    "oitava": 5,
+    "semitom": 4
+   },
+   "controle": {
+    "telas": 11,
+    "n_gabarito": 320,
+    "n_pareadas": 57,
+    "n_som_trecho": 216,
+    "revocacao": 0.1781,
+    "precisao": 0.2639,
+    "oitava": 2,
+    "semitom": 22
+   },
+   "telas": [
+    {
+     "t0": 0.0,
+     "t1": 4.5,
+     "n_gabarito": 28,
+     "n_pareadas": 24,
+     "n_som_trecho": 31,
+     "n_som_pareadas": 24,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 3,
+     "tela": 1
+    },
+    {
+     "t0": 4.5,
+     "t1": 8.5,
+     "n_gabarito": 28,
+     "n_pareadas": 27,
+     "n_som_trecho": 33,
+     "n_som_pareadas": 27,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 2
+    },
+    {
+     "t0": 8.5,
+     "t1": 12.3125,
+     "n_gabarito": 28,
+     "n_pareadas": 26,
+     "n_som_trecho": 31,
+     "n_som_pareadas": 26,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 3
+    },
+    {
+     "t0": 12.3125,
+     "t1": 16.0,
+     "n_gabarito": 30,
+     "n_pareadas": 28,
+     "n_som_trecho": 33,
+     "n_som_pareadas": 28,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 4
+    },
+    {
+     "t0": 16.0,
+     "t1": 19.9375,
+     "n_gabarito": 29,
+     "n_pareadas": 24,
+     "n_som_trecho": 26,
+     "n_som_pareadas": 24,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 5
+    },
+    {
+     "t0": 19.9375,
+     "t1": 23.75,
+     "n_gabarito": 18,
+     "n_pareadas": 17,
+     "n_som_trecho": 21,
+     "n_som_pareadas": 17,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 6
+    },
+    {
+     "t0": 23.75,
+     "t1": 27.5,
+     "n_gabarito": 29,
+     "n_pareadas": 26,
+     "n_som_trecho": 30,
+     "n_som_pareadas": 26,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 7
+    },
+    {
+     "t0": 52.5,
+     "t1": 56.3125,
+     "n_gabarito": 26,
+     "n_pareadas": 21,
+     "n_som_trecho": 27,
+     "n_som_pareadas": 21,
+     "acordes": [],
+     "oitava": 1,
+     "semitom": 0,
+     "tela": 15
+    },
+    {
+     "t0": 56.3125,
+     "t1": 60.0,
+     "n_gabarito": 25,
+     "n_pareadas": 22,
+     "n_som_trecho": 25,
+     "n_som_pareadas": 22,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 16
+    },
+    {
+     "t0": 87.0,
+     "t1": 90.8125,
+     "n_gabarito": 40,
+     "n_pareadas": 33,
+     "n_som_trecho": 37,
+     "n_som_pareadas": 33,
+     "acordes": [],
+     "oitava": 3,
+     "semitom": 1,
+     "tela": 24
+    },
+    {
+     "t0": 98.4375,
+     "t1": 102.0,
+     "n_gabarito": 39,
+     "n_pareadas": 31,
+     "n_som_trecho": 32,
+     "n_som_pareadas": 31,
+     "acordes": [],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 27
+    }
+   ]
+  },
+  "paolo_those_who_wait": {
+   "papel": "acordes",
+   "video": "paolo d'angelo/those who wait ｜ tommy emmanuel ｜ guitar tab ｜ fingerstyle tutorial.mp4",
+   "capo": 0,
+   "real": {
+    "telas": 1,
+    "n_gabarito": 78,
+    "n_pareadas": 58,
+    "n_som_trecho": 67,
+    "revocacao": 0.7436,
+    "precisao": 0.8657,
+    "oitava": 5,
+    "semitom": 0
+   },
+   "controle": {
+    "telas": 1,
+    "n_gabarito": 78,
+    "n_pareadas": 5,
+    "n_som_trecho": 37,
+    "revocacao": 0.0641,
+    "precisao": 0.1351,
+    "oitava": 0,
+    "semitom": 0
+   },
+   "telas": [
+    {
+     "t0": 51.25,
+     "t1": 64.812,
+     "n_gabarito": 78,
+     "n_pareadas": 58,
+     "n_som_trecho": 67,
+     "n_som_pareadas": 58,
+     "acordes": [
+      1.0,
+      0.4,
+      0.4,
+      0.4,
+      0.5,
+      0.4
+     ],
+     "oitava": 5,
+     "semitom": 0,
+     "tela": 1
+    }
+   ]
+  },
+  "robert_lunn_5_beautiful_easy": {
+   "papel": "acordes",
+   "video": "robert lunn/5 beautiful easy guitar pieces (with sheet music & tab) - robert lunn.mp4",
+   "capo": 0,
+   "real": {
+    "telas": 1,
+    "n_gabarito": 62,
+    "n_pareadas": 51,
+    "n_som_trecho": 57,
+    "revocacao": 0.8226,
+    "precisao": 0.8947,
+    "oitava": 4,
+    "semitom": 0
+   },
+   "controle": {
+    "telas": 1,
+    "n_gabarito": 62,
+    "n_pareadas": 7,
+    "n_som_trecho": 26,
+    "revocacao": 0.1129,
+    "precisao": 0.2692,
+    "oitava": 6,
+    "semitom": 2
+   },
+   "telas": [
+    {
+     "t0": 47.938,
+     "t1": 59.375,
+     "n_gabarito": 62,
+     "n_pareadas": 51,
+     "n_som_trecho": 57,
+     "n_som_pareadas": 51,
+     "acordes": [
+      1.0,
+      0.6667,
+      0.6667,
+      0.6667,
+      0.6667,
+      0.8333
+     ],
+     "oitava": 4,
+     "semitom": 0,
+     "tela": 2
+    }
+   ]
+  },
+  "transcriptor_charagua": {
+   "papel": "acordes",
+   "video": "transcriptor/charagua - victor jara -  2＊ guitarra - partitura ⧸ tablatura..mp4",
+   "capo": 0,
+   "real": {
+    "telas": 1,
+    "n_gabarito": 35,
+    "n_pareadas": 29,
+    "n_som_trecho": 279,
+    "revocacao": 0.8286,
+    "precisao": 0.1039,
+    "oitava": 6,
+    "semitom": 0
+   },
+   "controle": {
+    "telas": 1,
+    "n_gabarito": 35,
+    "n_pareadas": 9,
+    "n_som_trecho": 205,
+    "revocacao": 0.2571,
+    "precisao": 0.0439,
+    "oitava": 3,
+    "semitom": 5
+   },
+   "telas": [
+    {
+     "t0": 39.0,
+     "t1": 53.5,
+     "n_gabarito": 35,
+     "n_pareadas": 29,
+     "n_som_trecho": 279,
+     "n_som_pareadas": 29,
+     "acordes": [
+      0.8,
+      1.0,
+      0.8333,
+      0.8333,
+      0.8333,
+      0.6667
+     ],
+     "oitava": 6,
+     "semitom": 0,
+     "tela": 3
+    }
+   ]
+  },
+  "guitarous_sakura": {
+   "papel": "acordes",
+   "video": "ギタロー ⧸ guitarous/sakuraドロップス ソロギター 初心者向け タブ譜.mp4",
+   "capo": 3,
+   "real": {
+    "telas": 1,
+    "n_gabarito": 45,
+    "n_pareadas": 45,
+    "n_som_trecho": 48,
+    "revocacao": 1.0,
+    "precisao": 0.9375,
+    "oitava": 0,
+    "semitom": 0
+   },
+   "controle": {
+    "telas": 1,
+    "n_gabarito": 45,
+    "n_pareadas": 7,
+    "n_som_trecho": 42,
+    "revocacao": 0.1556,
+    "precisao": 0.1667,
+    "oitava": 0,
+    "semitom": 6
+   },
+   "telas": [
+    {
+     "t0": 48.5,
+     "t1": 60.5,
+     "n_gabarito": 45,
+     "n_pareadas": 45,
+     "n_som_trecho": 48,
+     "n_som_pareadas": 45,
+     "acordes": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ],
+     "oitava": 0,
+     "semitom": 0,
+     "tela": 4
+    }
+   ]
+  }
+ },
+ "acordes": [
+  {
+   "video": "end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics",
+   "tela": 5,
+   "fracao": 0.0
+  },
+  {
+   "video": "end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics",
+   "tela": 6,
+   "fracao": 0.6
+  },
+  {
+   "video": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar",
+   "tela": 6,
+   "fracao": 0.5
+  },
+  {
+   "video": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar",
+   "tela": 12,
+   "fracao": 0.1667
+  },
+  {
+   "video": "la_vie_en_rose_edith_piaf_tab",
+   "tela": 8,
+   "fracao": 0.4
+  },
+  {
+   "video": "retrato_brasileiro_v2",
+   "tela": 13,
+   "fracao": 0.3333
+  },
+  {
+   "video": "south_american_music_easy_guitar_tutorial_with_sheet_and_tab",
+   "tela": 3,
+   "fracao": 0.8333
+  },
+  {
+   "video": "paolo_those_who_wait",
+   "tela": 1,
+   "fracao": 1.0
+  },
+  {
+   "video": "paolo_those_who_wait",
+   "tela": 1,
+   "fracao": 0.4
+  },
+  {
+   "video": "paolo_those_who_wait",
+   "tela": 1,
+   "fracao": 0.4
+  },
+  {
+   "video": "paolo_those_who_wait",
+   "tela": 1,
+   "fracao": 0.4
+  },
+  {
+   "video": "paolo_those_who_wait",
+   "tela": 1,
+   "fracao": 0.5
+  },
+  {
+   "video": "paolo_those_who_wait",
+   "tela": 1,
+   "fracao": 0.4
+  },
+  {
+   "video": "robert_lunn_5_beautiful_easy",
+   "tela": 2,
+   "fracao": 1.0
+  },
+  {
+   "video": "robert_lunn_5_beautiful_easy",
+   "tela": 2,
+   "fracao": 0.6667
+  },
+  {
+   "video": "robert_lunn_5_beautiful_easy",
+   "tela": 2,
+   "fracao": 0.6667
+  },
+  {
+   "video": "robert_lunn_5_beautiful_easy",
+   "tela": 2,
+   "fracao": 0.6667
+  },
+  {
+   "video": "robert_lunn_5_beautiful_easy",
+   "tela": 2,
+   "fracao": 0.6667
+  },
+  {
+   "video": "robert_lunn_5_beautiful_easy",
+   "tela": 2,
+   "fracao": 0.8333
+  },
+  {
+   "video": "transcriptor_charagua",
+   "tela": 3,
+   "fracao": 0.8
+  },
+  {
+   "video": "transcriptor_charagua",
+   "tela": 3,
+   "fracao": 1.0
+  },
+  {
+   "video": "transcriptor_charagua",
+   "tela": 3,
+   "fracao": 0.8333
+  },
+  {
+   "video": "transcriptor_charagua",
+   "tela": 3,
+   "fracao": 0.8333
+  },
+  {
+   "video": "transcriptor_charagua",
+   "tela": 3,
+   "fracao": 0.8333
+  },
+  {
+   "video": "transcriptor_charagua",
+   "tela": 3,
+   "fracao": 0.6667
+  },
+  {
+   "video": "guitarous_sakura",
+   "tela": 4,
+   "fracao": 1.0
+  },
+  {
+   "video": "guitarous_sakura",
+   "tela": 4,
+   "fracao": 1.0
+  },
+  {
+   "video": "guitarous_sakura",
+   "tela": 4,
+   "fracao": 1.0
+  },
+  {
+   "video": "guitarous_sakura",
+   "tela": 4,
+   "fracao": 1.0
+  }
+ ],
+ "pontos": [
+  {
+   "id": "f01",
+   "video": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
+   "t": 121.56127,
+   "acertado": true
+  },
+  {
+   "id": "f02",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "t": 615.059728,
+   "acertado": true
+  },
+  {
+   "id": "f04",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "t": 392.517415,
+   "acertado": true
+  },
+  {
+   "id": "f05",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "t": 458.509751,
+   "acertado": true
+  },
+  {
+   "id": "f06",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "t": 180.113878,
+   "acertado": true
+  },
+  {
+   "id": "f07",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "t": 131.639365,
+   "acertado": true
+  },
+  {
+   "id": "f08",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "t": 474.389751,
+   "acertado": true
+  },
+  {
+   "id": "f10",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "t": 20.165714,
+   "acertado": true
+  },
+  {
+   "id": "f12",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "t": 276.636689,
+   "acertado": true
+  },
+  {
+   "id": "f13",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "t": 495.675057,
+   "acertado": true
+  },
+  {
+   "id": "f16",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "t": 557.843311,
+   "acertado": true
+  },
+  {
+   "id": "f17",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "t": 8.811156,
+   "acertado": true
+  },
+  {
+   "id": "f18",
+   "video": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
+   "t": 30.982222,
+   "acertado": true
+  },
+  {
+   "id": "f21",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "t": 557.622721,
+   "acertado": true
+  },
+  {
+   "id": "f22",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "t": 121.787256,
+   "acertado": true
+  },
+  {
+   "id": "f24",
+   "video": "sky guitar/retrato brasileiro - tab & lesson.mp4",
+   "t": 254.87356,
+   "acertado": true
+  },
+  {
+   "id": "f25",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "t": 11.273288,
+   "acertado": true
+  },
+  {
+   "id": "g01",
+   "video": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
+   "t": 140.438503,
+   "acertado": true
+  },
+  {
+   "id": "g02",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "t": 153.465306,
+   "acertado": true
+  },
+  {
+   "id": "g03",
+   "video": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
+   "t": 121.178141,
+   "acertado": true
+  },
+  {
+   "id": "g04",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "t": 113.302585,
+   "acertado": true
+  },
+  {
+   "id": "g05",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "t": 109.666077,
+   "acertado": true
+  },
+  {
+   "id": "g06",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "t": 126.349977,
+   "acertado": true
+  },
+  {
+   "id": "g07",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "t": 64.92898,
+   "acertado": true
+  },
+  {
+   "id": "g08",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "t": 80.357642,
+   "acertado": true
+  },
+  {
+   "id": "g09",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "t": 89.869252,
+   "acertado": true
+  },
+  {
+   "id": "g10",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "t": 62.514104,
+   "acertado": true
+  },
+  {
+   "id": "g11",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "t": 34.167347,
+   "acertado": true
+  },
+  {
+   "id": "g12",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "t": 47.154104,
+   "acertado": true
+  },
+  {
+   "id": "g13",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "t": 62.471338,
+   "acertado": true
+  },
+  {
+   "id": "g15",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "t": 37.118866,
+   "acertado": true
+  },
+  {
+   "id": "g18",
+   "video": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
+   "t": 73.194286,
+   "acertado": true
+  },
+  {
+   "id": "g19",
+   "video": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
+   "t": 159.214422,
+   "acertado": true
+  },
+  {
+   "id": "g22",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "t": 168.027891,
+   "acertado": true
+  },
+  {
+   "id": "g23",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "t": 49.835964,
+   "acertado": true
+  },
+  {
+   "id": "g25",
+   "video": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
+   "t": 39.951247,
+   "acertado": true
+  },
+  {
+   "id": "g26",
+   "video": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
+   "t": 97.065034,
+   "acertado": true
+  },
+  {
+   "id": "g28",
+   "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+   "t": 96.40263,
+   "acertado": true
+  },
+  {
+   "id": "g29",
+   "video": "iwaki/la vie en rose - edith piaf ｜ tab.mp4",
+   "t": 12.910295,
+   "acertado": true
+  },
+  {
+   "id": "g30",
+   "video": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
+   "t": 73.937324,
+   "acertado": false
+  }
+ ]
+}
