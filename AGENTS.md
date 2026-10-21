@@ -126,8 +126,11 @@ executa o pipeline.
     quebrou uma trilha.
 - **GPU**: uma RTX 3060 Ti de 8 GB, dividida entre as trilhas.
   - Use **`tab.gpu.trava_gpu("trilha", "estimativa")`** em todo uso da GPU. Ela segue o
-    protocolo `data/saida/gpu.lock`: espera se outra trilha estiver usando, retoma trava de
-    processo morto e confere se há ≥ 3 GB livres.
+    protocolo `data/saida/gpu.lock`, retoma trava de processo morto e confere se há ≥ 3 GB
+    livres.
+  - **A GPU se divide pela memória** (dono, 2026-10-21): com outra trilha usando, a trava
+    entra assim que houver ≥ 3 GB livres, em vez de esperar a outra terminar. Só com
+    `checar_memoria=False` ela segue exclusiva.
   - Quem usa a GPU sem o código também cria o `gpu.lock` à mão: "trilha, início,
     estimativa".
   - Nunca pare o container de outra trilha.

@@ -11,7 +11,12 @@ trilha, espera ele sumir. Este módulo faz o protocolo pelo código:
   processo morto, e é retomado. Trilha que cria o ``gpu.lock`` à mão (sem esse arquivo) é
   respeitada: espera-se o arquivo sumir;
 - com o ``gpu.lock`` na mão, confere ≥ 3 GB livres, porque alguém pode usar a GPU sem o
-  protocolo.
+  protocolo;
+- **a GPU se divide pela memória** (dono, 2026-10-21): com a checagem de memória ligada, a
+  trilha que acha o ``gpu.lock`` de outra trilha viva não espera ela soltar. Entra quando
+  houver ≥ 3 GB livres, sem gravar o ``gpu.lock`` (ele continua da trilha que o pegou). Com
+  ``checar_memoria=False`` a trava segue exclusiva, porque sem medir a memória não há como
+  saber se cabe.
 
 Uso: ``with trava_gpu("audio", "40 min"): ...``. O ``flock`` vale entre containers, porque
 ``data/saida`` é o mesmo diretório do host em todos.
@@ -167,7 +172,15 @@ def trava_gpu(
         inicio = datetime.datetime.now().isoformat(timespec="seconds")
         conteudo = f"{trilha}, {inicio}, {estimativa}\n"
         dono_anterior = None
+        pegou = True
         while (dono := _tentar_pegar(arquivo, trilha, conteudo)) is not None:
+            if checar_memoria:
+                print(
+                    f"GPU com a trava da trilha {dono!r}; divido pela memória livre",
+                    file=sys.stderr,
+                )
+                pegou = False
+                break
             if dono != dono_anterior:
                 print(
                     f"GPU com a trava da trilha {dono!r}; espero (a cada {espera_s:.0f} s)",
@@ -187,5 +200,6 @@ def trava_gpu(
                 time.sleep(espera_s)
             yield
         finally:
-            _soltar(arquivo, conteudo)
+            if pegou:
+                _soltar(arquivo, conteudo)
             fcntl.flock(propria, fcntl.LOCK_UN)

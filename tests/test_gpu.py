@@ -8,6 +8,7 @@ import time
 
 import pytest
 
+from tab import gpu
 from tab.gpu import arquivo_da_trilha, dono_da_trava, trava_gpu, trilha_viva
 
 
@@ -98,3 +99,30 @@ def test_trilha_com_virgula_recusa(tmp_path):
         trava_gpu("a,b", checar_memoria=False, arquivo=tmp_path / "gpu.lock"),
     ):
         pass
+
+
+def test_divide_pela_memoria_sem_tocar_a_trava_da_outra(tmp_path, monkeypatch):
+    arquivo = tmp_path / "gpu.lock"
+    arquivo.write_text("tablatura, 2026-10-21T09:00:00, treino\n", encoding="utf-8")
+    monkeypatch.setattr(gpu.torch.cuda, "mem_get_info", lambda: (5 * 2**30, 8 * 2**30))
+    with arquivo_da_trilha(arquivo, "tablatura").open("a") as segurado:
+        fcntl.flock(segurado, fcntl.LOCK_EX)
+        with trava_gpu("maos", arquivo=arquivo, espera_s=0.01):
+            assert dono_da_trava(arquivo) == "tablatura"
+        assert dono_da_trava(arquivo) == "tablatura"
+
+
+def test_dividindo_espera_memoria_livre(tmp_path, monkeypatch):
+    arquivo = tmp_path / "gpu.lock"
+    arquivo.write_text("tablatura, 2026-10-21T09:00:00, treino\n", encoding="utf-8")
+    livres = iter([1 * 2**30, 2 * 2**30, 4 * 2**30])
+    chamadas = []
+
+    def memoria() -> tuple[int, int]:
+        """Memória livre que sobe a cada consulta."""
+        chamadas.append(1)
+        return next(livres), 8 * 2**30
+
+    monkeypatch.setattr(gpu.torch.cuda, "mem_get_info", memoria)
+    with trava_gpu("maos", arquivo=arquivo, espera_s=0.01):
+        assert len(chamadas) == 3
