@@ -1,4 +1,4 @@
-"""Abre uma ferramenta de gabarito no celular, pela rede privada do Tailscale.
+"""Abre uma ferramenta de gabarito fora de casa: Tailscale (privado) ou Cloudflare.
 
 Serve para qualquer ferramenta que já esteja rodando numa porta local do PC
 (``tab.ouro_video servir``, ``tab.maos_braco_gabarito servir``...). O
@@ -12,23 +12,45 @@ ferramenta + ``DESLOCAMENTO``) que reescreve esses cabeçalhos para ``127.0.0.1`
 ``tailscale serve`` chega nele. O ``subir`` fica rodando: Ctrl-C (ou o fim do processo)
 fecha a porta no celular.
 
+``subir --cloudflare`` (pedido do dono, 2026-10-21): para um aparelho fora do Tailscale
+(ex.: o PC da empresa). Abre um túnel rápido da Cloudflare (``cloudflared``, sem conta e
+sem sudo, em ``~/.local/bin``) para o intermediário. O endereço é **público**, então o
+intermediário exige uma chave aleatória: o link com ``?chave=`` grava um cookie, e pedido
+sem a chave certa leva 403 (não chega à ferramenta, nem lê, nem grava). Cada ``subir``
+gera endereço e chave novos; Ctrl-C fecha o túnel.
+
 Uso (host, na raiz do repositório)::
 
     python3 -m tab.celular subir 8126      # mostra o endereço; deixe rodando
+    python3 -m tab.celular subir 8126 --cloudflare   # link público com chave
     python3 -m tab.celular listar          # o que está aberto no celular
     python3 -m tab.celular descer 8126     # fecha (se o subir morreu sem fechar)
 """
 
 import argparse
+import hmac
 import http.client
+import http.cookies
 import http.server
 import json
+import re
+import secrets
+import shutil
 import signal
 import subprocess
 import sys
+import threading
+import urllib.parse
+from pathlib import Path
 
-#: Porta do intermediário = porta da ferramenta + isto.
+#: Porta do intermediário = porta da ferramenta + isto (Tailscale).
 DESLOCAMENTO = 10000
+#: Porta do intermediário do túnel da Cloudflare = porta da ferramenta + isto.
+DESLOCAMENTO_CLOUDFLARE = 20000
+#: Onde o ``cloudflared`` foi instalado (binário oficial, sem sudo).
+CLOUDFLARED = Path.home() / ".local" / "bin" / "cloudflared"
+#: Nome do parâmetro e do cookie da chave.
+CHAVE = "chave"
 #: Cabeçalhos que não se repassam (de uma conexão só).
 SALTO = {"connection", "keep-alive", "transfer-encoding", "upgrade", "proxy-connection"}
 
@@ -79,20 +101,100 @@ def cabecalhos_locais(cabecalhos: list[tuple[str, str]], porta: int) -> dict[str
     return saida
 
 
-def intermediario(porta: int) -> http.server.ThreadingHTTPServer:
+def chave_do_pedido(caminho: str, cookie: str | None) -> tuple[str | None, bool]:
+    """A chave que o pedido traz, e se ela veio no link.
+
+    Args:
+        caminho: caminho do pedido, com a consulta (``/x?chave=...``).
+        cookie: cabeçalho ``Cookie`` do pedido.
+
+    Returns:
+        (chave ou None, True se veio em ``?chave=`` no link).
+    """
+    consulta = urllib.parse.parse_qs(urllib.parse.urlsplit(caminho).query)
+    if consulta.get(CHAVE):
+        return consulta[CHAVE][0], True
+    biscoitos = http.cookies.SimpleCookie()
+    try:
+        biscoitos.load(cookie or "")
+    except http.cookies.CookieError:
+        return None, False
+    return (biscoitos[CHAVE].value if CHAVE in biscoitos else None), False
+
+
+def sem_chave(caminho: str) -> str:
+    """O caminho sem o parâmetro da chave (para não ficar na barra do navegador).
+
+    Args:
+        caminho: caminho do pedido, com a consulta.
+
+    Returns:
+        O caminho com a consulta sem ``chave``.
+    """
+    partes = urllib.parse.urlsplit(caminho)
+    resto = [(k, v) for k, v in urllib.parse.parse_qsl(partes.query) if k != CHAVE]
+    consulta = urllib.parse.urlencode(resto)
+    return (partes.path or "/") + (f"?{consulta}" if consulta else "")
+
+
+def url_do_tunel(linha: str) -> str | None:
+    """O endereço do túnel rápido numa linha do log do ``cloudflared``.
+
+    Args:
+        linha: uma linha do log.
+
+    Returns:
+        ``https://<nome>.trycloudflare.com`` ou None.
+    """
+    achado = re.search(r"https://[a-z0-9-]+\.trycloudflare\.com", linha)
+    return achado.group(0) if achado else None
+
+
+def intermediario(
+    porta: int, chave: str | None = None, deslocamento: int = DESLOCAMENTO
+) -> http.server.ThreadingHTTPServer:
     """Servidor em 127.0.0.1 que repassa à ferramenta com os cabeçalhos locais.
 
     Args:
         porta: porta da ferramenta.
+        chave: se dada, todo pedido precisa dela (no link ou no cookie); sem ela, 403.
+        deslocamento: porta do intermediário = ``porta`` + isto.
 
     Returns:
-        O servidor (não iniciado), na porta ``porta + DESLOCAMENTO``.
+        O servidor (não iniciado), na porta ``porta + deslocamento``.
     """
 
     class Repasse(http.server.BaseHTTPRequestHandler):
         """Repassa cada pedido à ferramenta e devolve a resposta dela."""
 
+        def _chave_ok(self) -> bool:
+            """Confere a chave; no link certo, grava o cookie e tira a chave da barra."""
+            if chave is None:
+                return True
+            dada, no_link = chave_do_pedido(self.path, self.headers.get("Cookie"))
+            if dada is None or not hmac.compare_digest(dada, chave):
+                corpo = b"chave ausente ou errada\n"
+                self.send_response(403)
+                self.send_header("Content-Type", "text/plain; charset=utf-8")
+                self.send_header("Content-Length", str(len(corpo)))
+                self.end_headers()
+                self.wfile.write(corpo)
+                return False
+            if no_link:
+                self.send_response(303)
+                self.send_header(
+                    "Set-Cookie",
+                    f"{CHAVE}={chave}; Path=/; HttpOnly; Secure; SameSite=Strict",
+                )
+                self.send_header("Location", sem_chave(self.path))
+                self.send_header("Content-Length", "0")
+                self.end_headers()
+                return False
+            return True
+
         def _repassar(self) -> None:
+            if not self._chave_ok():
+                return
             tamanho = int(self.headers.get("Content-Length") or 0)
             corpo = self.rfile.read(tamanho) if tamanho else None
             conexao = http.client.HTTPConnection("127.0.0.1", porta, timeout=60)
@@ -123,7 +225,7 @@ def intermediario(porta: int) -> http.server.ThreadingHTTPServer:
         def log_message(self, formato: str, *args: object) -> None:
             """Silencia o log por pedido."""
 
-    return http.server.ThreadingHTTPServer(("127.0.0.1", porta + DESLOCAMENTO), Repasse)
+    return http.server.ThreadingHTTPServer(("127.0.0.1", porta + deslocamento), Repasse)
 
 
 def comando_descer(porta: int) -> list[str]:
@@ -188,6 +290,57 @@ def _porta_responde(porta: int) -> bool:
     return r.stdout.strip().startswith(("2", "3"))
 
 
+def _subir_cloudflare(porta: int) -> int:
+    """Abre o túnel rápido da Cloudflare com chave e fica rodando até Ctrl-C.
+
+    Args:
+        porta: porta da ferramenta.
+
+    Returns:
+        Código de saída.
+    """
+    binario = shutil.which("cloudflared") or str(CLOUDFLARED)
+    if not Path(binario).exists():
+        raise SystemExit(f"cloudflared não encontrado (esperado em {CLOUDFLARED})")
+    chave = secrets.token_urlsafe(18)
+    servidor = intermediario(porta, chave, DESLOCAMENTO_CLOUDFLARE)
+    threading.Thread(target=servidor.serve_forever, daemon=True).start()
+    tunel = subprocess.Popen(
+        [
+            binario,
+            "tunnel",
+            "--no-autoupdate",
+            "--url",
+            f"http://127.0.0.1:{porta + DESLOCAMENTO_CLOUDFLARE}",
+        ],
+        stderr=subprocess.PIPE,
+        stdout=subprocess.DEVNULL,
+        text=True,
+    )
+    signal.signal(signal.SIGTERM, _parar)
+    try:
+        url = None
+        for linha in tunel.stderr:
+            url = url_do_tunel(linha)
+            if url:
+                break
+        if url is None:
+            print("o cloudflared saiu sem dar endereço", file=sys.stderr)
+            return 1
+        print("Abra no navegador (link com a chave; não compartilhe):", flush=True)
+        print(f"  {url}/?{CHAVE}={chave}", flush=True)
+        print("Deixe rodando; Ctrl-C fecha.", flush=True)
+        for _ in tunel.stderr:  # drena o log até o túnel acabar
+            pass
+        return tunel.wait()
+    except KeyboardInterrupt:
+        return 0
+    finally:
+        tunel.terminate()
+        servidor.shutdown()
+        print("túnel fechado", flush=True)
+
+
 def _parar(*_: object) -> None:
     """Trata o SIGTERM como Ctrl-C, para o ``finally`` fechar a porta."""
     raise KeyboardInterrupt
@@ -199,10 +352,19 @@ def main() -> int:
     sub = ap.add_subparsers(dest="acao", required=True)
     s = sub.add_parser("subir", help="abre a ferramenta da porta no celular")
     s.add_argument("porta", type=int)
+    s.add_argument(
+        "--cloudflare",
+        action="store_true",
+        help="link público com chave (fora do Tailscale)",
+    )
     d = sub.add_parser("descer", help="fecha a porta no celular")
     d.add_argument("porta", type=int)
     sub.add_parser("listar", help="mostra o que está aberto no celular")
     args = ap.parse_args()
+    if args.acao == "subir" and args.cloudflare:
+        if not _porta_responde(args.porta):
+            print(f"aviso: nada responde em 127.0.0.1:{args.porta}", file=sys.stderr)
+        return _subir_cloudflare(args.porta)
     status = _status()
     if args.acao == "listar":
         print(_rodar(["tailscale", "serve", "status"]).stdout.strip() or "nada aberto")

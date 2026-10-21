@@ -1,6 +1,14 @@
 """Testes do utilitário que abre uma ferramenta no celular pelo Tailscale."""
 
-from tab.celular import cabecalhos_locais, comando_descer, comando_subir, enderecos
+from tab.celular import (
+    cabecalhos_locais,
+    chave_do_pedido,
+    comando_descer,
+    comando_subir,
+    enderecos,
+    sem_chave,
+    url_do_tunel,
+)
 
 
 def test_comando_subir_repassa_a_porta_local() -> None:
@@ -48,3 +56,23 @@ def test_cabecalhos_locais_reescreve_host_origin_e_referer() -> None:
         "Referer": "http://127.0.0.1:8126/telas/001.png?x=1",
         "Content-Type": "application/json",
     }
+
+
+def test_chave_vem_do_link_ou_do_cookie() -> None:
+    """A chave do link vale (e é marcada como do link); senão, a do cookie."""
+    assert chave_do_pedido("/?chave=abc", None) == ("abc", True)
+    assert chave_do_pedido("/pre.json", "x=1; chave=abc") == ("abc", False)
+    assert chave_do_pedido("/pre.json", None) == (None, False)
+
+
+def test_sem_chave_tira_so_o_parametro_da_chave() -> None:
+    """O resto da consulta fica; sem consulta, sai o caminho puro."""
+    assert sem_chave("/?chave=abc") == "/"
+    assert sem_chave("/telas/1.png?chave=abc&v=2") == "/telas/1.png?v=2"
+
+
+def test_url_do_tunel_no_log_do_cloudflared() -> None:
+    """O endereço sai da caixa que o cloudflared imprime."""
+    linha = "2026-10-21T13:00:00Z INF |  https://abc-def-12.trycloudflare.com  |"
+    assert url_do_tunel(linha) == "https://abc-def-12.trycloudflare.com"
+    assert url_do_tunel("INF Requesting new quick Tunnel on trycloudflare.com") is None
