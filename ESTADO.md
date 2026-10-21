@@ -5833,6 +5833,13 @@ Decisão do dono: a trilha das mãos **grava as mãos de cada nota** (base de tr
 - Nenhuma faixa de confiança chega a precisão ≥ 0,90 com revocação ≥ 0,50. Próximo candidato: o MuScriptor, que espera duas decisões do dono (licença CC BY-NC e login no Hugging Face).
 - **Não repetir**: corte absoluto de confiança escolhido num vídeo de desenvolvimento quase só melódico (o *retrato*) e aplicado a vídeos de acordes. Ele apaga as notas internas do acorde: na prova, a coluna de 3 notas caiu de 0,709 para 0,511.
 
+## Áudio — 2026-10-21 — transcritor de violão do Riley (rodada 2019): passa
+
+- Pesos MIT (`xavriley/midi-transcription-models`, `guitar-fl.pth`, procedência em `artefatos/riley_guitar.md`), sem ajuste, na imagem `chorinho-som:dev` (torch CPU). É determinístico e roda a 1,65 vez o tempo real.
+- Prova da 2018 (7 vídeos, 2.196 notas): revocação **1.766/2.196 = 0,804** (6 de 7 vídeos ≥ 0,70), precisão **0,877**, acorde cheio mediana **4/6** (28 colunas), escuta **30/31** e controle 0,138. **Passa**, com C1 e C3 no limite.
+- Diferença para o Basic Pitch cru: quase a mesma revocação (0,794), e precisão muito maior (0,591 → 0,877).
+- É a fonte "som" da triangulação (decisão 2005). A olhar: o *charagua* tem 8 vezes mais notas no som que na tela; o *end of beginning* fica em 0,673.
+
 ## Mãos — 2026-10-21 — braço: estado consolidado (rodadas 1016–1036, decisões 1009 e 1010)
 
 Estas rodadas estavam só nos documentos de rodada. Esta seção junta o estado, e o detalhe está
