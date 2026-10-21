@@ -85,3 +85,33 @@ por semente.
   leitura comum e para o ataque.
   - Isso troca o `DETECTOR_PADRAO`, então só com o OK dele.
   - Antes da troca, refazer a medida do histórico (0010) e o tempo pelo marcador.
+
+## Resultado do seguimento (2026-10-21)
+
+Pesos `detector_tab_v3ft_d<d>_atqa_s<s>`, recorte alto, a mesma régua. O resultado está em
+`diag/recorte_comum_atqa.json`.
+
+| semente | perdidas | inventadas | casa errada |
+| --- | --- | --- | --- |
+| s1 | 9 | 31 | 16 |
+| s2 | 9 | 29 | 15 |
+| s3 | 10 | 29 | 16 |
+| **soma `_atqa`, alto** | **28** | **89** | **47** |
+| soma `_ger`, antigo (o produto hoje) | 35 | 131 | 72 |
+
+- **Passa nos três critérios:**
+  - as perdidas caem 20 %;
+  - as inventadas caem 32 %;
+  - a casa errada cai 35 %.
+  - As 3 sementes vão no mesmo sentido.
+- **O ganho vem de duas mudanças juntas:** o recorte alto e as 34 telas da T8.2, que o
+  `_atqa` tem no treino e o `_ger` não tem. Esta medida não separa as duas. Para o produto,
+  isso não importa: é o mesmo modelo que já vai para o rótulo de ataque.
+- **Por vídeo:**
+  - O maior ganho está no *room 335*, com as inventadas indo de 25–28 para 12–14.
+  - O *gymnopedie* vai de 11–18 casas erradas para 8–10.
+  - O *la vie en rose* piora 1 nota perdida e 2 inventadas por semente.
+- **Recomendação ao dono:** trocar a leitura comum pelo `_atqa_s1` com o recorte alto, um
+  modelo só para a casa e para o ataque.
+  - Isso troca o `DETECTOR_PADRAO`, então espera o OK dele.
+  - Antes, refazer a medida do histórico (0010) e o tempo pelo marcador nos 3 vídeos.
