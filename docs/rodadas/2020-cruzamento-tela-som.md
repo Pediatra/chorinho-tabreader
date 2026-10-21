@@ -83,3 +83,68 @@ As notas do gabarito que o produto perdeu ficam fora desta medida, que é sobre 
   "3" no som).
 - As notas do som sem nota na tela (ornamento, nota perdida, repetição de rasgueado): elas
   são contadas, mas não julgadas.
+
+## Resultado (medido em 2026-10-21)
+
+- **Código**: `tab/cruzar_fontes.py` de 7daccef0; medida no commit 0f713333
+  (`data/saida/audio/r2020/medir.py`, saída `medida.json` e `medida.txt`).
+- **Produtos**: os da rodada 2017, mais 4 novos do mesmo leitor para os 8 do gabarito
+  (commit 738f8e8e, `data/saida/audio/r2020/produtos/`).
+- **Som**: `data/saida/audio/r2019/som_fl/` (Riley `guitar-fl`, rodada 2019).
+- Nenhuma tela ficou `sem_dado`.
+
+| amostra | notas da tela julgadas | `confirma` (erradas) | não confirmadas (erradas) | K1 | K2 |
+| --- | --- | --- | --- | --- | --- |
+| fora do treino (principal) | 214 | 184 (7) | 30 (0) | 7/184 = 3,8 % | 0/7 |
+| dentro do treino | 2.692 | 2.225 (7) | 467 (7) | 7/2.225 = 0,31 % | 7/14 |
+| **somadas (critério)** | 2.906 | 2.409 (14) | 497 (7) | **14/2.409 = 0,58 %** | **7/21 = 33 %** |
+
+- **K1 passa** pela regra pré-registrada (somadas, ≤ 1 %).
+- **K2 reprova**: 33 % < 50 %, com 21 erros (≥ 20, então decide).
+- Precisão do alarme: **7/497 = 1,4 %**. Quase toda nota não confirmada está certa, e foi o
+  som que não a ouviu.
+
+## Leitura
+
+1. **O K1 passa só na soma.** A amostra principal, fora do treino, dá **7/184 = 3,8 %**. A
+   soma é puxada pela amostra dentro do treino (2.225 das 2.409 confirmadas), que este
+   pré-registro já chamava de otimista. Pôr o critério na soma foi um erro do pré-registro.
+   O limiar não muda depois da medida, mas o "confirma" **não sobe nota a ouro**: o veredito
+   por nota segue gravado no `chorinho/cruzamento@0`, e o nível só vale depois de uma rodada
+   nova com o critério só na amostra fora do treino (T8.2).
+2. **As 7 erradas confirmadas da amostra principal, olhadas na imagem da tela:**
+   - **paolo, 4 notas** (tela 4 do produto, colunas 45, 46, 47 e 49, corda 2). O produto lê
+     casa 3, e o gabarito diz 0.
+     - A tela mostra "3" na corda 2 nos 5 rasgueados do fim
+       (`data/saida/audio/r2020/paolo_tela1_final.png`).
+     - O som ouve 62 (ré = corda 2, casa 3) nos 5 e nunca 59 (si = corda 2 solta).
+     - Na coluna 48, o gabarito tem duas notas na corda 2 (casa 3 em x 1829 e casa 0 em
+       x 1833).
+     - Parece deslize de marcação no gabarito. O gabarito é do dono: vai para ele rever, e o
+       agente não muda nada. Mesmo que o dono confirme, o K1 principal fica em 3/184 = 1,6 %,
+       ainda acima de 1 %.
+   - **charagua, 3 notas** (tela 6, colunas 2, 4 e 7, corda 1, casa 4). O leitor `rede` leu a
+     ponta da seta de rasgueado como "4" na corda 1 (3 das 6 setas;
+     `data/saida/audio/r2020/charagua_tela3_setas.png`).
+     - O som "confirma" porque o violonista repete o rasgueado, e 68 (corda 1, casa 4) está
+       no acorde de dó# menor que soa (corda 2, casa 9).
+     - **A confirmação não é independente.** Uma coluna de nota única, encostada num acorde
+       cheio, pareia com a repetição desse acorde. É um furo do cruzamento, não acaso.
+3. **Dentro do treino**: 7 notas inventadas confirmadas (end of beginning 2, from this place
+   2, room 335 2, la vie en rose 1), ainda não olhadas.
+4. **K2**: o som perde nota de verdade (a revocação da 2019 é 0,804, e os bordões caem mais).
+   Por isso "não confirma" quase sempre é nota certa que o som não ouviu: 490 das 497. Os 7
+   erros acusados incluem 2 do *retrato*, em que o som ouviu 42 (corda 6, casa 2) onde a tela
+   leu 0.
+
+## Consequências
+
+- **K1**: o veredito por nota continua sendo gravado, mas o `confirma` não promove nota.
+- **A próxima rodada** usa a amostra da T8.2, com o critério só nela. Ela leva uma regra
+  contra a confirmação por rasgueado repetido: o evento pareado que repete o acorde da coluna
+  vizinha vira `ambigua`, não `confirma`.
+- **K2 reprovado**: a lista de não confirmadas **não** vai à tablatura como alarme. Entra no
+  "não repetir".
+- **Para a tablatura**: pedido 15 na decisão 2004 (a seta de rasgueado lida como "4").
+- **Para o dono**: rever a corda 2 dos 5 rasgueados do fim da tela 1 do `acordes_2018`
+  (paolo).

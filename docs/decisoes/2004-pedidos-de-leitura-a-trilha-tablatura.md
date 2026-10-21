@@ -32,6 +32,7 @@ documento.
 | 12 | **Padrão de ritmo** (pausas e X, sem casa) classificado como tablatura | kenneth acoustic *believer* | rodada 2016; `data/saida/audio/a4/lote2/quadros/kenneth_acoustic_t1.png` |
 | 13 | **Leitor `rede`: dois algarismos ligados por tracinho viram um número** ("2·3" → 23, "2·4" → 24, visto no quadro da tela 5): casa errada afirmada. O vídeo tem 32 notas com casa ≥ 13 no `rede` (24 no leitor de glifos); nem todas foram olhadas | kimny *bach prelude* (passo 20,6; telas 1, 3, 5, 6) | rodada 2017; `data/saida/audio/r2017/quadros/bach_t5_zoom.png` |
 | 14 | **Leitor `rede`: "10" da corda 1 perdido e nota pequena de ornamento (o 10 do ligado H) lida como coluna** | shin izumi *room 335*, tela 20 (x ≈ 365 e 595 perdidos; x ≈ 455 e 958 são ornamento) | rodada 2017; `data/saida/audio/r2017/quadros/room335_t20_a.png`, `_b.png` |
+| 15 | **Leitor `rede`: a ponta da seta de rasgueado é lida como "4" na corda 1** (3 de 6 setas da tela). O som não pega: o 4 da corda 1 está no acorde que se repete | transcriptor *charagua*, tela 6 (x ≈ 392, 743 e 1452) | rodada 2020; `data/saida/audio/r2020/charagua_tela3_setas.png` |
 
 ## Como medir o efeito
 

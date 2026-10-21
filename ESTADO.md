@@ -5841,6 +5841,13 @@ Decisão do dono: a trilha das mãos **grava as mãos de cada nota** (base de tr
 - Diferença para o Basic Pitch cru: quase a mesma revocação (0,794), e precisão muito maior (0,591 → 0,877).
 - É a fonte "som" da triangulação (decisão 2005). A olhar: o *charagua* tem 8 vezes mais notas no som que na tela; o *end of beginning* fica em 0,673.
 
+## Áudio — 2026-10-21 — cruzamento tela × som (rodada 2020): K1 passa só na soma, K2 reprova
+
+- Cada nota da tela (leitor `rede`) recebe um veredito do som do Riley (`tab.cruzar_fontes`). Ele é medido contra o gabarito do dono em 2.906 notas.
+- **K1** (erradas entre as confirmadas): **14/2.409 = 0,58 %** na soma, o que **passa**. Mas a amostra fora do treino do leitor dá **7/184 = 3,8 %**. Das 7, 4 parecem deslize no gabarito do *paolo* (a tela e o som dizem casa 3), e o dono vai rever. As outras 3 são setas de rasgueado lidas como "4", "confirmadas" pela repetição do acorde. Por isso o `confirma` não promove nota a ouro até a rodada na T8.2.
+- **K2** (erros acusados): **7/21 = 33 %**, **reprova**. A precisão do alarme é 7/497 = 1,4 %.
+- **Não repetir**: usar "o som não confirma" como alarme de erro da tela, porque o som perde nota de verdade (490 das 497 não confirmadas estão certas). E não pôr critério na soma de uma amostra dentro do treino com outra fora: a de dentro domina.
+
 ## Mãos — 2026-10-21 — braço: estado consolidado (rodadas 1016–1036, decisões 1009 e 1010)
 
 Estas rodadas estavam só nos documentos de rodada. Esta seção junta o estado, e o detalhe está
