@@ -134,6 +134,8 @@ MAOS_M36 = SAIDA / "maos" / "m36"
 GABARITO_BRACO_M36 = RAIZ / "data" / "gold" / "maos" / "braco_m36.json"
 #: Retreino do braço com a regra do capo (rodada 1037): contagem, escolha e medida.
 MAOS_M37 = SAIDA / "maos" / "m37"
+#: Régua de casas, numerar sem o nut (rodada 1040).
+MAOS_M40 = SAIDA / "maos" / "m40"
 
 #: Pré-marcação do braço por consenso de modelos de visão (rodada 1019): respostas brutas
 #: por modelo, resultado e tabelas (``tab.maos_braco_vlm``).

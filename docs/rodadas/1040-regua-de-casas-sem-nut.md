@@ -57,3 +57,45 @@ casas). Por isso a medida principal calibra por vídeo.
   posição ao longo do eixo.
 - **Com o braço muito inclinado em relação à câmera**, a perspectiva ao longo do braço e através
   dele não se cancela. O ruído (c) mostra o tamanho disso.
+
+## Resultado (2026-10-21; `python -m tab.maos_braco_regua`, `m40/regua.json`)
+
+São 417 quadros utilizáveis (nut marcado, ≥ 3 casas medidas).
+
+| medida | acertos (s = 0) | erros | critério |
+| --- | --- | --- | --- |
+| **(a) calibrada por vídeo** | **316 de 382 (82,7 %)** | −2: 8, −1: 33, +1: 19, +2: 6 | ≥ 95 % ✗ |
+| (b) sem calibração | 153 de 417 (36,7 %) | −2: 102, −1: 78, +1: 26, +2: 58 | só reportado |
+
+**(c) Ruído**: o desvio mediano de log r em torno da reta do vídeo é **0,035**. O passo de uma
+casa é **0,073** (β mediano, 58 grupos). Com 3 casas por quadro, o ruído independente daria
+~0,02, e quase não erraria. Os erros vêm de **desvios do quadro inteiro**: a perspectiva muda
+de um quadro para outro, e o traste é marcado com imprecisão. Não é ruído que se média.
+
+**(a) por gabarito**:
+
+| gabarito | acertos |
+| --- | --- |
+| m26 (sky guitar, câmera fixa) | 63 de 63 |
+| m11b | 53 de 59 |
+| m27 | 55 de 62 |
+| m29 | 44 de 56 |
+| m36 | 21 de 28 |
+| m32 (kenneth, capo) | 45 de 61 |
+| m3b | 30 de 47 |
+| n | 5 de 6 |
+
+**Leitura**:
+- **A régua não serve como sinal geral de numeração deslocada.** Ela erra o deslocamento em
+  17 % dos quadros, e um sinal assim mandaria para revisão muitos quadros certos.
+- **Sem calibração ela não numera** (37 %). A diferença entre violões (aço e clássico) e entre
+  câmeras pesa mais que o passo de uma casa. No kenneth (m32), ela acerta 0 de 61, com e sem
+  capo (45 e 16): é um desvio sistemático do violão ou da câmera, e não do capo.
+- **Ela funciona na câmera fixa** (sky guitar, 63 de 63). Fica como observação para um canal de
+  câmera fixa, não como regra.
+
+**Decisão**: arquivar, conforme o critério. Vai para o "não repetir" do `ESTADO.md`: "régua
+largura ÷ abertura para numerar sem nut ou pegar numeração deslocada (1040: 82,7 % calibrada
+por vídeo, 36,7 % sem calibração)". Numerar sem o nut fica para um modelo que veja as
+marcações do braço com dado novo do dono, se algum dia valer o custo. Hoje o sinal v2 (1033)
+manda esses quadros para revisão.
