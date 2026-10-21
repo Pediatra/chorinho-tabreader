@@ -59,3 +59,26 @@ RUN pip install --no-cache-dir --no-deps \
         urllib3==2.8.0 \
     && pip check \
     && python -c "import numpy, tflite_runtime.interpreter as t; from basic_pitch import ICASSP_2022_MODEL_PATH as m; t.Interpreter(str(m)); print('modelo ok, numpy', numpy.__version__)"
+
+# Transcritor de violão do Riley (rodada 2019; download aprovado pelo dono em 2026-10-21):
+# torch CPU e a biblioteca `piano_transcription_inference` (fork de xavriley, MIT, commit
+# fixado), que tem o modelo CRNN e o pós-processamento. Os pesos NÃO vêm na imagem: ficam em
+# artefatos/riley_guitar/ (procedência em artefatos/riley_guitar.md) e são lidos com
+# torch.load(weights_only=True) por tab.audio_transcrever_riley.
+# O `pip check` roda antes do fork: o pyproject dele declara resampy>=0.4.3, que conflita com
+# o basic-pitch (resampy<0.4.3), mas o fork só usa resampy em load_audio, que não usamos.
+RUN pip install --no-cache-dir torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu \
+    && pip install --no-cache-dir --no-deps \
+        torchlibrosa==0.1.0 \
+        matplotlib==3.10.9 \
+        contourpy==1.3.2 \
+        cycler==0.12.1 \
+        fonttools==4.65.0 \
+        kiwisolver==1.5.1 \
+        pillow==12.3.0 \
+        pyparsing==3.3.3 \
+        python-dateutil==2.9.0.post0 \
+    && pip check \
+    && pip install --no-cache-dir --no-deps \
+        https://github.com/xavriley/piano_transcription_inference/archive/7568dc7f78b625e40cf9776e2806d164006610e3.tar.gz \
+    && python -c "import torch, numpy, piano_transcription_inference; print('riley ok, torch', torch.__version__, 'numpy', numpy.__version__)"
