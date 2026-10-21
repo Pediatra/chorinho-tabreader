@@ -1,181 +1,362 @@
 # AGENTS.md — chorinho
 
-> Contrato de trabalho deste projeto. Leia **inteiro** antes de rodar qualquer coisa.
+> Contrato de trabalho deste projeto, para toda sessão e todo agente. Leia **inteiro** antes
+> de rodar qualquer coisa. Revisado em 2026-10-21.
 >
-> **Este arquivo substitui a versão anterior**, que era um template herdado de outro
-> projeto e descrevia arquivos que não existiam (`Dockerfile`, `compose.yaml`,
-> `Makefile`, `pyproject.toml`, `tests/`, pacote `chorinho`). Agora eles existem.
+> - **Números medidos** ficam no [`ESTADO.md`](ESTADO.md), em seções por trilha, e nas rodadas
+>   (`docs/rodadas/`).
+> - **Decisões** ficam em `docs/decisoes/`.
+> - **O contexto de cada trilha** fica em `docs/guias/contexto-*.md`.
+>
+> Este arquivo diz o objetivo, o ambiente e as regras. Quando um número daqui divergir do
+> `ESTADO.md`, vale o `ESTADO.md`.
 
-## O que é o projeto
+## 1. O objetivo
 
-Transcrever, de forma estruturada, a **tablatura de violão que aparece na tela** de
-milhares de vídeos-aula, associando cada nota ao **instante do vídeo** em que ela é
-executada. O produto é um **JSON por vídeo**: corda, casa, coluna, compasso, técnica
-e tempo.
+O dono quer uma **base de dados de violão** em que cada nota tocada nos vídeos-aula do acervo
+tenha, juntos:
 
-Arquitetura decidida por medição: **geometria determinística + classificador de glifos
-de ~74 mil parâmetros, treinado só em dado sintético**. Não é VLM — a alternativa foi
-testada e perdeu (GOT-OCR2.0, 580 M, acertou **0 de 15** algarismos numa linha com
-gabarito verificado à mão).
+| camada | o que é | de onde vem |
+| --- | --- | --- |
+| **rótulo** | corda, casa e técnica de ataque (h, p, slide, X, harmônico…) | a **tablatura da tela** |
+| **tempo** | quando a nota é marcada na tela (`t_ini`) e quando ela soa (`t_audio`) | o marcador da tela, e o som |
+| **braço** | cordas, trastes e nut do violão, quadro a quadro | a imagem |
+| **mãos** | as duas mãos, quadro a quadro, ligadas a cada nota | a imagem |
+| **partitura** | ritmo e altura escrita, quando o vídeo tem pauta | a pauta da tela |
 
-**Número oficial: 0,949** (66/72, 71/72, 68/72) em **72 glifos / 3 canais**
-(`raman korshun` descartado em 2026-10-09: guitarra elétrica), casas 0–7, **reprodutível** — cada semente dá o mesmo total em execuções
-repetidas. Ver [`ESTADO.md`](ESTADO.md), [`docs/HISTORICO.md`](docs/HISTORICO.md) e
-[`docs/decisoes/0001-determinismo-do-treino.md`](docs/decisoes/0001-determinismo-do-treino.md).
+Com essa base, um modelo futuro vai receber **só vídeo e som** de alguém tocando e devolver
+tablatura e partitura. Os vídeos têm tablatura na tela, e o dono afirma que ela é exatamente o
+que é tocado. Por isso ela é o rótulo grátis, e todo o resto é a entrada que o modelo vai
+aprender a ler.
 
-## Ambiente
+**Três princípios que decidem quase tudo:**
 
-**Tudo roda dentro do container.** O host tem um `.venv` (5,8 GB) apenas para o editor
-ler o código — ele **não** executa o pipeline.
+1. **O rótulo vem só da tela** (decisão [0011](docs/decisoes/0011-tablatura-vira-rotulo-da-base.md)).
+   O som, as mãos e a partitura **conferem** o rótulo, mas nunca o criam. Nada que o modelo
+   futuro vai ver como entrada pode ser calculado a partir do gabarito.
+2. **Falso positivo é o pior erro.** Uma casa vizinha errada afirmada contamina a base. Um "não
+   sei" declarado só tira a nota do nível ouro. Toda etapa precisa saber **recusar**, ou
+   **sinalizar** o caso para o dono revisar, em vez de chutar.
+3. **Fontes independentes, cruzadas no fim** (decisão
+   [2005](docs/decisoes/2005-validacao-cruzada-tela-som-maos.md), triangulação, proposta da
+   trilha áudio).
+   - Tela, som e mãos calculam cada uma a sua versão da nota, sem usar a resposta da outra.
+   - Uma etapa final compara: 3/3, 2/3 apontando qual fonte errou, ou "sem dado".
+   - A concordância só vale como número depois de calibrada numa amostra conferida pelo dono.
 
-```bash
-cd /var/home/gabriel/Projects/chorinho-dataset
-make build            # constrói a imagem
-make verify-install   # confere torch+CUDA+ffmpeg DENTRO do container
-docker compose run --rm chorinho python -m tab.avaliar
-```
+## 2. As trilhas
 
-- Imagem `chorinho:dev`, base `python:3.14-slim`, venv em `/opt/venv` (fora de `/app`,
-  para o bind-mount do código não esconder os pacotes);
-- **GPU por CDI**: o daemon deste host **não** tem o runtime `nvidia` registrado, e
-  registrar exigiria `sudo`. `gpus: all` no `compose.yaml` funciona assim mesmo —
-  verificado: `torch.cuda.is_available() == True` na RTX 3060 Ti;
-- **acervo** montado em `/acervo`, **somente leitura**: **3.899 vídeos / 255 GB / 17
-  canais** em `/run/media/gabriel/3014CD4714CD1130/chorinho`, e **ainda crescendo** (o
-  dono do projeto segue baixando). Nunca escreva lá; para varrer, use `tab.varredura`,
-  que lê por instante e é retomável;
-- **`ffmpeg` e `fonts-liberation` são dependências de trabalho, não enfeite**:
-  `ffmpeg` porque **44% do acervo é AV1** e o OpenCV não decodifica (sem ele quase
-  metade do acervo passa em branco); as fontes porque são o **dado** do gerador
-  sintético — trocar de fonte muda a métrica.
+O trabalho é dividido em trilhas, e cada uma é tocada por uma sessão própria. As sessões **não
+se falam direto**: o dono é a ponte. Uma decisão que afete outra trilha vira um arquivo em
+`docs/decisoes/`, e a trilha dona dos arquivos decide o que muda neles.
 
-**Armadilha do bind-mount:** `/tmp` dentro do container **não** aparece no host.
-Artefato que precisa ser visto/inspecionado vai para `data/saida/` ou `artefatos/`.
-Modelo treinado em `/tmp` é modelo perdido (já aconteceu).
+| trilha | entrega | módulos e dados dela | rodadas e decisões | guia |
+| --- | --- | --- | --- | --- |
+| **tablatura** | o produto `chorinho/video@1` (`tab.video`): corda, casa, coluna, compasso, técnica e `t_ini` por nota. É o rótulo da base | `painel`, `telas`, `video`, `estado`, `reconhecer`, `leitor`, `censo`, `cache`, `esquema`, `sintetico*`, `detector_tab`, `avaliar*`, `conferir`, `musicxml`, `ouro_video`, `afinacao`; `data/gold/ouro_video/`; `data/saida/n4/` | `0NNN` | [`plano-do-produto.md`](docs/guias/plano-do-produto.md), [`plano-rotulo-tablatura.md`](docs/guias/plano-rotulo-tablatura.md) |
+| **mãos e braço** | a base `chorinho/maos@1` (decisão 1007): o braço e as mãos quadro a quadro, e a ligação de cada nota às mãos | `tab/maos_*.py`, `data/gold/maos/`, `data/saida/maos/`, `Dockerfile.maos` | `1NNN` | [`contexto-maos.md`](docs/guias/contexto-maos.md), [`plano-dataset-maos.md`](docs/guias/plano-dataset-maos.md) |
+| **áudio** | `chorinho/audio@1` (`t_audio` por coluna, decisão 2003); em estudo, um transcritor que ouve sozinho (`chorinho/som@1`) | `tab/audio_*.py`, `data/gold/audio/`, `data/saida/audio/`, `Dockerfile.audio` | `2NNN` | [`contexto-audio-retomada.md`](docs/guias/contexto-audio-retomada.md), [`contexto-audio-triangulacao.md`](docs/guias/contexto-audio-triangulacao.md) |
+| **partitura** | `chorinho/partitura@1` (decisão 3002): ritmo e altura da pauta, pareados com a tab | `tab/partitura_*.py`, `data/gold/partitura/`, `data/saida/partitura/`, `Dockerfile.partitura` | `3NNN` | [`contexto-partitura.md`](docs/guias/contexto-partitura.md) |
 
-**O que o container escreve sai como `root`:** o serviço não roda com o seu uid, então
-`data/saida/` e `artefatos/` ficam com dono root e o seu usuário não apaga direto. Use
-`docker compose run --rm chorinho rm -rf <caminho>`. (Rodar com `user:` no compose é uma
-decisão em aberto; ver `PERGUNTAS.md`.)
+- **Os módulos da tablatura** estão em `tab/` (ex.: `tab/painel.py`) e os testes de cada
+  trilha seguem o prefixo dela (`tests/test_maos_*`…).
+- **Importar de outra trilha é livre. Editar o arquivo dela, não:** peça pelo dono.
+- **Arquivos compartilhados:** `tab/caminhos.py` (todos acrescentam os seus caminhos),
+  `tab/gpu.py` (a trava da GPU) e este `AGENTS.md`. No `ESTADO.md`, cada trilha escreve só nas
+  seções que começam pelo nome dela ("Tablatura —", "Mãos —", "Áudio —", "Partitura —").
 
-## Árvore
+## 3. Onde o projeto está (2026-10-21)
+
+São só os números de referência, com a fonte de cada um. O resto está no `ESTADO.md`.
+
+- **Acervo**: **4.096 vídeos em 21 canais, 215 GiB**, contados em 2026-10-21, e ainda
+  crescendo, porque o dono segue baixando. Os canais com `rollout: fora` em
+  `configs/canais.yaml` (decisão 0009) ficam fora da leitura de tablatura. Hoje, do acervo, é o
+  `violaodecria`, que tem a tab em texto ASCII.
+- **Leitura da tablatura**: o leitor do produto é a rede de sistema inteiro (decisão
+  [0010](docs/decisoes/0010-leitor-rede.md)). Medido com validação cruzada por vídeo nos 8
+  gabaritos (2.689 notas): **precisão 0,974, revocação 0,949, casa 0,987**.
+  - O número antigo, 0,949 em 72 glifos e 3 canais, era do classificador de glifos
+    (2026-10-09). Hoje ele é só histórico.
+- **Tempo pelo marcador**: no vídeo do MVP (*retrato brasileiro*), **39 de 40 instantes
+  certos e 0 tempos falsos** (Fase 5, 2026-10-10).
+- **Tempo pelo som**: o tempo bate com a escuta do dono a ~100 ms (rodada 2008). Com o leitor
+  `rede`, 0,858 das colunas recebem tempo nos 14 vídeos bons (rodada 2017).
+- **Braço**: o ciclo de revisão funciona. Na 1032, medida pela regra antiga do capo, 63 de 64
+  quadros saíram certos, e nenhum erro passou sem sinal.
+  - Pela regra nova (decisão [1010](docs/decisoes/1010-capotraste-como-nut-do-braco.md)), o
+    detector atual **erra o capo sem sinalizar** (16 de 64 certos na mesma 1032), até o
+    retreino.
+- **Partitura**: o dono conferiu a leitura da pauta, e **852 de 873 símbolos estão certos
+  (97,6 %)**. Nas 12 telas da P1, **527 de 546 notas** saem certas quando a pauta é pareada com
+  o produto.
+
+## 4. Ambiente: como rodar de verdade
+
+**Tudo roda em container.** O host tem um `.venv` só para o editor ler o código, e ele não
+executa o pipeline.
+
+- **O host** é um Bazzite (Fedora atômico) com **podman rootless**.
+  - O daemon do docker não roda. O CLI `docker` fala com o socket do podman
+    (`DOCKER_HOST=unix:///run/user/1000/podman/podman.sock`), com o override
+    `compose.podman.yaml`. O `Makefile` já usa os dois arquivos.
+- **A sessão do agente roda dentro de um distrobox**, sem `git`, `podman` nem `make`. Esses
+  rodam no host, por `host-spawn`:
+
+  ```bash
+  host-spawn -no-pty -cwd "$PWD" git status
+  host-spawn -no-pty podman run --rm --security-opt label=disable \
+      --device nvidia.com/gpu=all \
+      -v "$PWD":/app -v /run/media/gabriel/3014CD4714CD1130/chorinho:/acervo:ro \
+      -w /app -e PYTHONPATH=/app docker.io/library/chorinho:dev python -m tab.x ...
+  ```
+
+  - Sem GPU, tire o `--device`.
+  - `--security-opt label=disable` é obrigatório. Sem ele, o SELinux nega o bind-mount.
+- **As imagens:**
+  - **base**: `docker.io/library/chorinho:dev`, Python 3.14, venv em `/opt/venv` (fora de
+    `/app`, para o bind-mount não esconder os pacotes);
+  - **derivadas por trilha**: `localhost/chorinho-maos:dev`, `chorinho-audio:dev` e
+    `chorinho-partitura:dev`.
+  - **Dependência nova vai só na imagem derivada da trilha**, nunca na base. Use versão fixa,
+    `--no-deps` quando a instalação tentar trocar `torch`, `numpy` ou `opencv`, e confira as
+    versões antes e depois (decisões 1001, 2001 e 3001). Um pacote já trocou o `cv2` da base e
+    quebrou uma trilha.
+- **GPU**: uma RTX 3060 Ti de 8 GB, dividida entre as trilhas.
+  - Use **`tab.gpu.trava_gpu("trilha", "estimativa")`** em todo uso da GPU. Ela segue o
+    protocolo `data/saida/gpu.lock`: espera se outra trilha estiver usando, retoma trava de
+    processo morto e confere se há ≥ 3 GB livres.
+  - Quem usa a GPU sem o código também cria o `gpu.lock` à mão: "trilha, início,
+    estimativa".
+  - Nunca pare o container de outra trilha.
+  - A GPU no podman é por CDI (`/var/run/cdi/nvidia.yaml`, recriado no boot). Se ele sumir, o
+    dono regenera com `sudo nvidia-ctk cdi generate`. **Agente não usa `sudo`.**
+- **O acervo** fica em `/acervo`, **somente leitura**. No host, está em
+  `/run/media/gabriel/3014CD4714CD1130/chorinho`, num HD externo.
+  - **O HD é o gargalo de leitura**: duas leituras longas ao mesmo tempo dobram o tempo das
+    duas. Leia uma vez para o cache (`tab.cache`, `tab.audio_extrair`).
+  - **Para um lote grande, combine o horário com o dono.**
+- **Vídeo se lê por `tab/leitor.py`.** 44 % do acervo é AV1, e o OpenCV não decodifica AV1:
+  ele falha **em silêncio**, sem erro. O `ffmpeg` da imagem é o que lê.
+  - Nomes com kana e acento precisam de normalização NFC na comparação.
+- **`/tmp` do container não aparece no host.** O que precisa ser visto vai para
+  `data/saida/`, e pesos vão para `artefatos/`. Modelo treinado em `/tmp` é modelo perdido, e
+  isso já aconteceu.
+- **Os arquivos escritos pelo container** (podman rootless) saem com o uid do usuário.
+- **Cache dentro do container:** o ruff precisa de `--no-cache` (ou de `RUFF_CACHE_DIR=/tmp/…`),
+  e o pytest, de `-p no:cacheprovider`. O `make gate` já faz isso.
+
+## 5. Árvore e arrumação
 
 ```
 chorinho-dataset/
-├── AGENTS.md  README.md  ESTADO.md  PERGUNTAS.md
-├── Dockerfile  compose.yaml  requirements.txt  Makefile  pyproject.toml
-├── tab/            # o motor, flat: caminhos tabseg cursor sintetico reconhecer
-│                   # transcrever avaliar inventario ouro glyphset glyph_bench
-├── tests/          # gate: unitários, sem GPU e sem acervo
-├── configs/        # canais.yaml, simbolos.yaml (mapa de símbolo POR CANAL)
-├── data/gold/      # gabarito rotulado à mão
-├── data/saida/     # artefatos gerados (visíveis no host)
-├── artefatos/      # pesos .pt — NUNCA em /tmp
-├── parts/clipes/   # 18 recortes de amostra
-└── docs/{HISTORICO.md, rodadas/, decisoes/, guias/}
+├── AGENTS.md  README.md  ESTADO.md  PERGUNTAS.md  CONTEXTO.md
+├── Dockerfile  Dockerfile.{maos,audio,partitura}  compose.yaml  compose.podman.yaml
+├── Makefile  pyproject.toml  requirements.txt
+├── tab/          # o pacote único e plano: módulos com prefixo por trilha
+├── tests/        # o gate: sem GPU e sem acervo (os de acervo levam a marca integration)
+├── configs/      # canais.yaml (perfil e rollout por canal), simbolos.yaml (símbolo POR CANAL)
+├── data/gold/    # gabaritos do dono: contrato
+├── data/saida/   # o que é gerado (ignorado pelo git, salvo exceções antigas)
+├── artefatos/    # pesos (.pt fora do git; a procedência .md entra)
+├── parts/        # recortes de amostra
+└── docs/{HISTORICO.md, rodadas/, decisoes/, guias/, pesquisa/}
 ```
 
-Regras de arrumação:
+1. **Sem `.md` solto na raiz** além dos cinco acima. O `CONTEXTO.md` é o handoff de
+   2026-10-10 e fica na raiz a pedido do dono.
+2. **Um documento por rodada** em `docs/rodadas/NNNN-titulo-curto.md`, com o número da faixa
+   da trilha. **Nunca apague documento de rodada.** Uma conclusão errada se corrige numa rodada
+   nova.
+3. **Uma decisão por arquivo** em `docs/decisoes/`: contexto, opções, decisão e
+   consequências, com quem decidiu e quando.
+4. **Um pacote só** (`tab/`), plano. Sem `src/` e sem subpacote.
+5. **Modelo treinado vai para `artefatos/`**, com o comando, a semente e o commit registrados.
+6. **Caminho não se espalha.** Acervo, gabarito, saída e artefatos vêm de `tab/caminhos.py`.
+   Caminho absoluto novo no meio de um módulo é bug de revisão.
 
-1. **Nada de `.md` solto na raiz** além dos quatro do topo.
-2. **Um documento por rodada** em `docs/rodadas/`, nome `NNNN-titulo-curto.md`. Nunca
-   apague documento de rodada — é o registro das medições.
-3. **Uma decisão por arquivo** em `docs/decisoes/`: contexto, opções, decisão, consequência.
-4. **Sem `src/` e sem pacote dentro de pacote.** Um pacote só, na raiz, nome curto.
-5. **Modelo treinado vai para `artefatos/`**, com o comando e a semente registrados.
-6. **Caminho não se espalha**: acervo, gabarito, saída e artefatos vêm de
-   `tab/caminhos.py`. Caminho absoluto novo no meio de um módulo é bug de revisão.
+## 6. Como uma rodada funciona
 
-## Regras de trabalho (custaram rodadas — não repita)
+Toda medida que decide alguma coisa segue este ciclo:
 
-1. **Semente fixa + determinismo + ≥3 execuções; reporte média e amplitude.** Semente
-   sozinha não significa nada: com o cuDNN padrão a **mesma** semente deu 0,927, 0,896 e
-   0,948 (amplitude 0,052) — e o projeto tratou diferenças desse tamanho como ganho. O
-   determinismo está em `tab.sintetico.fixar_semente` e é travado por teste.
-2. **Meça a amostra antes de gastar treino.** Três retreinos foram queimados
-   descobrindo que a classe não nascia.
-3. **Confira o significado do número.** "323 notas com tempo" eram **3 instantes**;
-   "41 notas com duração" eram **8 ataques sem duração**. Conte instantes distintos — e
-   confira o **modo do modelo**: com o `Dropout` ativo, os mesmos pesos deram 0,812 onde
-   em `eval()` davam 0,865.
-4. **Olhe o quadro antes de teorizar.** Duas vezes medi o violão achando que era a
-   tablatura — o braço tem 6 cordas e engana o detector.
-5. **Rótulo de gabarito só por leitura visual.** Relabelar por proxy geométrico
-   (`partes>=2`) piorou duas vezes e foi revertido.
-6. **O gargalo histórico é cobertura do gerador, não regra de visão** — medido 6 vezes:
-   3 regras geométricas deram 0, uma deu −0,166; as duas mudanças de dado deram +0,05.
-7. **Depois de editar gerador ou treino, valide `ast.parse` + `import`** antes de rodar,
-   e depois **rode de verdade**. Sintaxe válida não é import válido: na reestruturação um
-   import de pacote ficou errado e passou pelo `ast.parse`.
-8. **Antes de remover um `int()`/`round()`, meça o tipo real.** RUF046 sugeria remover
-   `int(round(...))`; só é seguro porque medi que `round()` de escalar numpy devolve
-   `int` neste numpy. Índice de matriz e JSON dependem disso.
-9. **O recorte é parte da medição.** Troquei a margem do recorte do classificador (de 1 px só
-   em cima/à esquerda para simétrica) e os **mesmos pesos** passaram a dar 0,844 onde davam
-   0,865. Pré-processamento não é detalhe de implementação: é **entrada do modelo**, e mexer
-   nele invalida comparação com o histórico.
-10. **Um instante não responde "tem tablatura?"** A tablatura aparece e desaparece, e no
-    `sky guitar` ela só aparece da **metade para o fim** do vídeo: dos 20 vídeos que um scan de
-    1 instante (em 0,35 da duração) chamou de "sem tablatura", **20 de 20 têm** em algum
-    instante. Presença se mede **ao longo do tempo**, e a janela amostrada importa
-    (`tab.varredura --frac-inicio/--frac-fim`).
-11. **Registre o que falhou** na tabela "não repetir" do `ESTADO.md`, para não gastar de novo.
+1. **Pré-registro, commitado antes de medir.** O documento da rodada diz:
+   - a pergunta;
+   - a amostra;
+   - o que fica de fora;
+   - o critério, com números;
+   - o que fazer em cada resultado.
+2. **Emenda só antes de medir**, registrada no documento, com o motivo. **Limiar não se muda
+   depois de ver o resultado.**
+3. **Prova lacrada.** Dado que já foi visto, ou usado para escolher algo, não é prova. Uma
+   prova gasta se registra como gasta.
+4. **Medida e leitura** vão no mesmo documento, com denominadores ("X de Y") e o commit do
+   código.
+5. **O que reprovou** vai para a tabela "não repetir" do `ESTADO.md`, com o motivo.
 
-## Decisão de dado: símbolo NÃO se descarta
+## 7. Regras de trabalho (cada uma custou rodadas)
 
-O extrator lia o número e **jogava fora** o símbolo em volta: um `7` com barra de slide
-virava `{"casa": "7"}` e o slide desaparecia. Direção definida pelo dono do projeto:
-**guardar o glifo cru, sempre, e classificar/significar depois** — cada canal tem seu
-próprio vocabulário (`h`, `p`, `/`, `\`, `<7>`, `(6)`, trêmolo), e o significado é
-mapeado **por canal** em `configs/simbolos.yaml`. Perder informação é o único erro
-inaceitável aqui; símbolo ainda não classificado é dívida, não erro.
+1. **Semente fixa, determinismo e ≥ 3 execuções; reporte a média e a amplitude.** Com o cuDNN
+   padrão, a **mesma** semente deu 0,927, 0,896 e 0,948, e o projeto tratou diferenças desse
+   tamanho como ganho. O determinismo está em `tab.sintetico.fixar_semente`, travado por teste.
+2. **Meça a amostra antes de gastar treino.** Três retreinos foram queimados até descobrir que
+   a classe nem nascia no gerador.
+3. **Confira o significado do número.**
+   - "323 notas com tempo" eram 3 instantes.
+   - Com o `Dropout` ligado (`train()`), os mesmos pesos deram 0,812 onde em `eval()` davam
+     0,865.
+   - Uma fração entre dois leitores diferentes não se compara sem olhar o denominador, porque
+     o leitor novo muda as colunas (rodada 2017).
+4. **Olhe o quadro antes de teorizar.** Por duas vezes o violão foi medido como se fosse a
+   tablatura: o braço tem 6 linhas e engana.
+5. **Olhe a entrada real do modelo** antes de concluir que ele "não aprende". Três rodadas
+   (~9 h de GPU) puseram mais dado para os arcos acima da corda 1, mas o recorte do painel
+   apagava os arcos antes de chegarem ao modelo (rodada 0210). Desenhe o array normalizado.
+6. **O pré-processamento é parte da medição.** Mudar a margem do recorte levou os **mesmos
+   pesos** de 0,865 a 0,844. Mexeu no recorte, na taxa de amostragem ou na janela? A
+   comparação com o histórico deixou de valer.
+7. **Abra a folha inteira antes de endossar** uma conclusão visual. Uma rolagem por saltos foi
+   rotulada "paginação" porque só a primeira linha da folha foi vista (C1, 2026-10-16).
+8. **Rótulo de gabarito só por leitura (ou escuta) humana.** Relabelar por proxy geométrico
+   piorou duas vezes. Um VLM marcando o braço reprovou em três rodadas (1016, 1019 e 1020).
+9. **O gargalo histórico da leitura é a cobertura do gerador, não a regra de visão.** Foi
+   medido 6 vezes: três regras geométricas deram 0, uma deu −0,166, e as duas mudanças de dado
+   deram +0,05.
+10. **Um instante não responde "tem tablatura?".** A tablatura aparece e some: dos 20 vídeos
+    que um scan de 1 instante chamou de "sem tablatura", os 20 têm. Presença se mede ao longo
+    do tempo (`tab.varredura --frac-inicio/--frac-fim`).
+11. **Não valide uma fonte com ela mesma.** Usar a tab para numerar o braço e depois conferir o
+    braço pela tab concorda por construção. O mesmo vale para as mãos achadas pelo tempo do som
+    e depois conferidas pelo som (decisão 2005, Regra 1).
+12. **Depois de editar gerador ou treino, valide o `import`, não só o `ast.parse`, e depois
+    rode de verdade.** Um import de pacote errado já passou pelo `ast.parse`.
+13. **Antes de remover um `int()` ou `round()`, meça o tipo real.** Índice de matriz e JSON
+    dependem disso (RUF046).
 
-## Regras de código
+## 8. O dono e o gabarito
 
-- Python 3.14, **sem import dentro de função** (a regra existe em `pyproject.toml` via
-  `PLC0415` — não é opcional);
-- aspas duplas, **88 colunas**, imports no topo em 3 blocos (stdlib / terceiros /
-  locais) ordenados;
-- type hints nas assinaturas; **docstring estilo Google** em toda função, método e
-  classe pública;
-- **nomes em português** (`binarizar`, `achar_cordas`, `passo`, `glifo`);
-- módulo de CLI: `main()` + `if __name__ == "__main__"`, invocado como `python -m tab.x`.
-  Nada de código solto no nível do módulo (foi assim que `avaliar.py` virou script).
+- **O rótulo do dono é contrato.** Agente nunca altera nem infere rótulo dele, nem por
+  conversão "óbvia". O agente não grava em `data/gold/`: só a ferramenta grava, quando o dono
+  clica. Rótulo provisório de agente vai para `data/saida/`, marcado como tal.
+- **O tempo do dono é o recurso mais escasso do projeto.** Ele marca ~50 quadros por hora.
+  - Antes de pedir rótulo, diga para que serve e quanto custa.
+  - Prefira **palpite por regra do domínio, pré-preenchido**, para ele só confirmar ou
+    corrigir.
+  - Use as ferramentas que já existem: `tab.ouro_video servir` (notas) e
+    `tab.maos_braco_gabarito servir` (braço). Não crie página nova.
+- **Ferramenta de rotular se testa numa cópia**, nunca no gabarito ao vivo, porque ela grava a
+  cada clique.
+- **Decisão de gabarito é do dono.** Fora isso, ele confia na recomendação do agente. Para
+  decisões que não são de gabarito, recomende uma opção e siga.
+- **Janela longa sem o dono** (PC livre por horas):
+  - siga a sua recomendação sem parar para perguntar;
+  - se algo falhar, aprenda, revise e tente de novo;
+  - **interrompa só por algo sério**;
+  - no fim, entregue um relatório em português com o que deu certo, o que falhou e por quê.
+  - Pré-registro, gate, a intocabilidade do gabarito e o "sem download sem aval" continuam
+    valendo.
+- **Pergunte antes** de qualquer download, dependência nova, ou ação fora do repositório.
+  **Nunca escreva no acervo.**
+- **Com o dono:**
+  - fale em **português**, de forma simples, com números e denominadores;
+  - mostre a imagem quando falar de um erro visual;
+  - não mande status vazio ("ainda rodando"): fale quando houver resultado;
+  - não o faça escolher de uma lista sem mostrar a lista.
+- **Delegar a subagente: sempre Haiku 5.5**, com briefing fechado:
+  - contexto, arquivos exatos, comandos, o que não tocar, critério e formato do relato;
+  - depois, **revise o diff e meça de novo você mesmo**: o número que vai ao dono é o seu;
+  - subagente não commita.
+- **Nunca imprima, registre em log ou commite** a chave da API DeepSeek.
 
-## Gate (antes de todo commit — sempre)
+## 9. Git e gate
 
-```bash
-make lint     # ruff check . + ruff format --check .
-make test     # pytest tests/ -q
-```
+- **Git:**
+  - `git add` só por nome;
+  - **nunca** `add -A`, `reset`, `commit --amend`, `stash` ou `checkout --`, porque há outras
+    trilhas no mesmo repositório;
+  - mensagem por arquivo (`git commit -F arq`), com a linha de coautoria que a sessão pedir;
+  - **um commit por tarefa**, com o número medido quando houver;
+  - antes de commitar o `ESTADO.md`, confira `git diff ESTADO.md`: só as suas linhas entram.
+- **Nunca commite** `data/gold/partitura/compassos_homr.json` nem
+  `data/gold/partitura/figura_e1.json`.
+- **Gate antes de todo commit, sempre:**
 
-- Só commite com **`All checks passed!`** e os testes passando.
-- Testes que exigem acervo levam a marca `integration` e ficam fora do gate padrão
-  (`make test-integration`).
-- **Um commit por tarefa**, com a descrição do que foi feito e com o número medido
-  quando houver medição.
-- Se você não conseguiu rodar o gate, **diga isso explicitamente** — não finja que rodou.
+  ```bash
+  make gate   # no host, com DOCKER_HOST apontando para o podman; ou, no container:
+  ruff check --no-cache . && ruff format --no-cache --check . && pytest tests/ -q -p no:cacheprovider
+  ```
 
-## Vocabulário
+  - **Julgue pelo código de saída**, e nunca escreva `gate | tail && git commit`: o `tail`
+    engole a falha. Isso já deixou passar um commit quebrado (b2904b05).
+  - O gate roda na **imagem base**. Teste que importa biblioteca só de imagem derivada usa
+    `pytest.importorskip`. Teste que lê o acervo leva a marca `integration`
+    (`make test-integration`).
+  - Um arquivo quebrado deixa o gate vermelho para todas as trilhas.
+  - Se você não conseguiu rodar o gate, **diga isso explicitamente**.
+
+## 10. Regras de código
+
+- Python 3.14, **sem import dentro de função** (`PLC0415` no `pyproject.toml`).
+- Aspas duplas, **88 colunas**, imports no topo em 3 blocos (stdlib / terceiros / locais).
+- Type hints nas assinaturas e **docstring estilo Google** em toda função, método e classe
+  pública.
+- **Nomes em português** (`binarizar`, `achar_cordas`, `passo`, `glifo`).
+- Módulo de CLI: `main()` + `if __name__ == "__main__"`, chamado como `python -m tab.x`. Nada
+  de código solto no nível do módulo.
+- **Determinismo:** a mesma entrada dá o mesmo JSON. Toda aleatoriedade tem semente fixa e
+  registrada.
+
+## 11. Decisões de dado que valem para todas as trilhas
+
+- **Símbolo não se descarta.** Guarde o glifo cru, sempre, e classifique depois: cada canal tem
+  o seu vocabulário (`h`, `p`, `/`, `\`, `<7>`, `(6)`, trêmolo), mapeado **por canal** em
+  `configs/simbolos.yaml`. Perder informação é o único erro inaceitável. Símbolo ainda não
+  classificado é dívida, não erro.
+- **Técnica que importa é a que muda o ataque** (decisão 0011): h, p, mordente, ligadura de
+  prolongamento, slide, X e harmônico. Na dúvida, o rótulo é "não sei", nunca "sim".
+- **Capotraste** (decisões [1010](docs/decisoes/1010-capotraste-como-nut-do-braco.md) e 1007):
+  - a tab da tela e o braço contam as casas **a partir do capo**;
+  - a base guarda a casa real, que é a casa da tab mais a casa do capo, e grava a casa do capo
+    à parte (`violao.capotraste`, com a fonte);
+  - a física liga tudo: **corda solta + casa da tab + casa do capo = a altura que soa**.
+- **Cru, confiança e nível; nunca exclusão calada.** O que não passou numa checagem fica
+  marcado (ouro / prata / recusado), com o motivo, e não some.
+
+## 12. Vocabulário
 
 | termo | significado exato |
 | --- | --- |
-| **grade** | resultado da segmentação: linhas de corda, barlines, passo, glifos |
-| **passo** | distância vertical entre duas cordas, em px (14–45 no acervo) |
-| **glifo** | componente conectado de tinta, antes de agrupar |
-| **token** | glifo(s) da mesma corda já agrupados = uma nota (ou um símbolo) |
-| **painel** | a região da tela com a tablatura (varia por vídeo: topo/meio/base) |
-| **marcador** | o que indica a nota tocada: **faixa vertical** que passa, ou **cor** no algarismo |
-| **casa** | o número na corda (a pestana pisada) |
-| **ligada** | nota presa/ligada, desenhada como `(6)` ou arco |
-| **harmônico** | `<7>` ou losango |
-| **acervo** | os 3.899 vídeos (crescendo), 255 GB, 17 canais, montados em `/acervo` |
+| **acervo** | os vídeos-aula do dono, em `/acervo` (somente leitura); ver a seção 3 |
+| **canal** | uma pasta do acervo (um professor ou um site); o perfil fica em `configs/canais.yaml` |
+| **produto** | o JSON `chorinho/video@1` de um vídeo (`tab.video`) |
+| **painel** | a região da tela com a tablatura (varia por vídeo: topo, meio ou base) |
+| **tela / exibição / passagem** | uma página de tablatura / um intervalo em que ela fica na tela / uma vez que ela é tocada |
+| **coluna** | um instante da tablatura; um acorde é uma coluna com várias notas |
+| **marcador** | o que indica a nota tocada na tela: uma **faixa** que passa, ou uma **cor** no algarismo; dá o `t_ini` |
+| **`t_ini` / `t_audio`** | o tempo da coluna pelo marcador / pelo som. O atraso entre os dois é quase fixo dentro de um canal e muda entre canais (de −115 a +178 ms na rodada 2016) |
+| **grade, passo, glifo** | a segmentação das cordas da tablatura; a distância entre cordas em px (14–45); um componente de tinta |
+| **casa** | o número escrito na corda; no braço, o espaço entre dois trastes, contado a partir do nut (ou do capo) |
+| **nut** | a pestana: a barra onde as cordas começam a vibrar. Com capo, o nut do braço é o capo |
+| **braço** | o detector do braço do violão (cordas 1 e 6, trastes e nut), quadro a quadro |
+| **sinalizado** | um quadro ou uma nota que a etapa manda para revisão em vez de afirmar |
+| **falso que passa** | um erro entregue **sem** sinal; é a medida de segurança de toda etapa |
+| **gabarito / ouro** | o rótulo conferido pelo dono, em `data/gold/` |
+| **rodada** | uma medida pré-registrada, um documento em `docs/rodadas/` |
 | **rollout** | rodar o pipeline em muitos vídeos, com decisão por vídeo |
+| **triangulação** | o cruzamento tela × som × mãos (decisão 2005) |
 
-## Limites conhecidos (não prometa além disto)
+## 13. Limites conhecidos (não prometa além disto)
 
-**72 glifos, 3 canais** (`raman korshun` fora), **casas 0–7**; aferição **glifo a glifo**, não da música inteira.
-A **casa** dos canais fora do gabarito (ex.: `cifra club` — tem corda e tempo, casa não)
-**não está validada**. A métrica **não cobre** técnica nem símbolo. **Tab ASCII**
-(Ultimate Guitar) e **partitura de 5 linhas** exigem leitor próprio e estão **fora**
-desta cadeia. Perguntas abertas para o dono: [`PERGUNTAS.md`](PERGUNTAS.md).
+- **Leitura da tablatura**: medida em 8 vídeos com gabarito (2.689 notas). A casa dos canais
+  sem gabarito não está validada nota a nota. **Tab em texto ASCII** (ex.: `violaodecria`) e a
+  **pauta** (essa é da trilha partitura) não passam por este leitor.
+- **Técnica**: só a que muda o ataque está em medição (plano de rótulo da tablatura). O resto
+  é guardado cru.
+- **Tempo**: vídeos sem marcador só têm tempo pelo som, e o som tem resolução de ~100 ms. Tab
+  só de ritmo, sem casa, não dá altura para alinhar.
+- **Braço**:
+  - sem capo, o ciclo de revisão é seguro nos canais medidos;
+  - **com capo, espere o retreino (rodada 1037)**;
+  - com o nut fora da imagem, o quadro vai para revisão em vez de ser numerado;
+  - violão de 7 cordas só se marca à mão (botão `7`): o detector é de 6 cordas.
+- **Validação cruzada (2005)**: é proposta. As fontes independentes do som (transcritor livre)
+  e das mãos (corda e casa por quadro) ainda não existem.
+- Perguntas abertas para o dono: [`PERGUNTAS.md`](PERGUNTAS.md).

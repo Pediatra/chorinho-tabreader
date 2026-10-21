@@ -5821,3 +5821,42 @@ Decisão do dono: a trilha das mãos **grava as mãos de cada nota** (base de tr
 - 14 vídeos bons: colunas com tempo **4707/5666 (0,831) → 5337/6220 (0,858)**; *room 335* 114/552 → 357/603. Colunas presentes nos dois: **4516 de 4648 (97,2 %) a ≤ 30 ms**. Som × marcador: queda máxima 1,6 pp. Gabarito de escuta: 37 de 40 pontos certos mantidos, 1 recusado, 2 fora (104 e 116 ms).
 - **Critério 1 reprovado em 2 de 14** (*michelle* −2,9 pp, *bach prelude* −2,6 pp), e as causas são de leitura, vistas no quadro: o acorde final que o `rede` passa a ler encurta o trecho no *ritardando* (limite da rodada 2014); o `rede` junta "2·3" em "23" (casa errada); o `rede` perde "10" na corda 1 do *room 335* e lê ornamento como coluna. Pedidos 13 e 14 na decisão 2004.
 - **Não repetir**: comparar fração de colunas com tempo entre leitores sem olhar o denominador: a leitura nova muda as colunas (acorde final, algarismos juntados), e a fração cai sem o alinhador mudar.
+
+## Mãos — 2026-10-21 — braço: estado consolidado (rodadas 1016–1036, decisões 1009 e 1010)
+
+Estas rodadas estavam só nos documentos de rodada. Esta seção junta o estado, e o detalhe está
+em `docs/rodadas/10NN-*`.
+
+- **Como o braço é feito hoje (decisão 1009, ciclo de revisão).**
+  - Estágio 1: localizador do braço, `L3_todos_s*`, que acha 4 pontos.
+  - Estágio 2: U-Net na faixa retificada, `A4_100_todos_s*`, que dá cordas, trastes e nut.
+  - Decodificação conjunta, regra de revisão da 1023 (S1/S2) e sinal de nut suspeito v2 da
+    1033 (bordas do quadro e linhas de painel, 2 %).
+  - O dono confere só os sinalizados, em `tab.maos_braco_gabarito servir`. A CLI do ciclo é
+    `python -m tab.maos_braco_ciclo {sortear,escolher-pesos,prever,medir} --rodada N`.
+- **Ciclos medidos contra o dono:**
+  - 1026 (sky guitar): 92 % certos sem revisão, 0 falsos que passam;
+  - 1029 (pablo romé): 54/60 certos e 4/63 falsos que passam, todos com o nut fora da
+    imagem: o 1º traste é tomado por nut, e a numeração desloca 1 casa;
+  - 1032 (kenneth): 63/64 certos e 0 falsos, medido **antes** da regra do capo;
+  - 1036 (violaodecria, cortes verticais): 1/32 falso que passa e 22/32 sinalizados.
+- **Capo é o nut (decisão 1010, 2026-10-20).**
+  - Com capo, o gabarito numera os trastes a partir do traste à frente do capo, e `k` marca o
+    capo. A casa do capo fica na observação, e `python -m tab.maos_braco_capo` junta as casas
+    por vídeo: 33 vídeos, 0 conflitos.
+  - O dono remarcou 125 quadros com capo em 7 gabaritos.
+  - Com a regra nova, a 1032 dá **16/64 certos e 46 falsos que passam**: o detector acha o nut
+    verdadeiro atrás do capo. **O detector atual não serve para vídeo com capo até o
+    retreino.**
+- **Nut fora da imagem, sem capo:** os vizinhos (V), a junção (J) e o A5 (1031) reprovaram, e
+  as marcações do braço (1034 e 1035) também. O que protege hoje é o sinal v2: ele pega 5 dos 6
+  falsos antigos e manda o quadro para revisão.
+- **Pedido da trilha áudio** (decisão 2005, triangulação): uma camada por quadro com (corda,
+  casa) pressionada e corda atacada, com probabilidade calibrada, e uma saída que não dependa
+  do `t_audio`. Entra quando o M11 (braço) e o M12 (mãos) existirem.
+- **Próximo:**
+  - 1037: retreino dos dois estágios com a regra do capo;
+  - 1038: a casa do capo consistente entre os quadros do vídeo;
+  - numerar sem o nut: o afinamento do braço contra a largura da casa, mais as marcações.
+- **Não repetir**: medir o detector com a regra do capo usando pesos treinados com a regra
+  antiga (o capo vira erro silencioso).
