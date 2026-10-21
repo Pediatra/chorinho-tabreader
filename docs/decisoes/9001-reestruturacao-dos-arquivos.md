@@ -217,9 +217,294 @@ subpastas diferentes de `tests/`.
 
 Cada trilha escreve só na sua seção, com data.
 
-### Tablatura
+### Tablatura (2026-10-21)
 
-(sem resposta ainda)
+**Conferência dos números que tocam a tablatura.** Medi com `ls`, `wc`, `du`, `git ls-files`,
+e com um grafo de imports por `ast` no Python 3.14 do container, em 2026-10-21:
+
+| item | na proposta | medido | nota |
+| --- | --- | --- | --- |
+| módulos sem prefixo em `tab/` | ~51 | **51** (sem o `__init__`) | são da tablatura **48 módulos, 28.610 linhas**. Os outros 3: `caminhos` e `gpu` (comuns) e `cruzar_fontes` (áudio, rodada 2020) |
+| imports relativos na tablatura | — | **136 linhas em 34 dos 48** | no projeto inteiro: **425 linhas em 117 arquivos**. Todas viram absolutas na fase 3 (§3) |
+| testes da tablatura | — | **51 de 53** `tests/test_*.py` sem prefixo | os outros: `test_cruzar_fontes` (áudio) e `test_gpu` (comum) |
+| outra trilha → tablatura | mãos 9, partitura 10, áudio 1 | por arquivo: **mãos 8, partitura 10, áudio 1** | detalhe na pergunta 1 |
+| `data/gold/` solto na raiz | ~17 arquivos | **15 arquivos + 3 pastas** (4.678 arquivos nas pastas), **todos da tablatura** e todos no git | 18 das 22 entradas do `data/gold/`. Leitores na tabela abaixo |
+| `simbolos_*` no git | 18 mil | **18.372 arquivos em 8 pastas, 79,5 MB** (+18 da `simbolos/`) | **nenhum código nem teste lê** essas 8 pastas. O `ESTADO.md` cita 2 (`_antes` e `_tamanho`, linhas 294 e 358). São a coleta de símbolos de 2026-10-09 (commit `6875b13a`) |
+| `data/saida` rastreado | 20.104 | **20.104**, e **20.102 são da tablatura** | os 2 restantes são de `part_frentes` |
+| tablatura em `data/saida` | — | **3,9 GB em 158 entradas** (97 pastas + 61 arquivos soltos) | o `gpu.lock` é comum. 575 scripts `.py` fora das cópias de código |
+| pesos da tablatura | — | **188 `.pt`, 339,5 MB**: 145 pastas `detector_tab_*` (312 MB) e 51 pastas pequenas | de 231 `.pt` em `artefatos/`. Dos 3,1 GB, as mãos têm 2,6 GB (`m21`) e o áudio 189 MB. O `artefatos/torch/` (45 MB, resnet18) é das mãos |
+
+**Os 15 arquivos e 3 pastas soltos em `data/gold/`** (todos rótulo do dono, de 2026-10-09 a 12):
+
+| entrada | quem lê |
+| --- | --- |
+| `gabarito.json` (96 glifos) | `caminhos.GABARITO`: `sintetico`, `avaliar`, `digito` e o teste `test_gabarito` (gate) |
+| `portao.json` | `portao.GOLD_PORTAO`; as imagens dos casos ficam em `data/saida/portao_casos` |
+| `simbolos.json`, `simbolos_2.json`, pasta `simbolos_crops/` (49) | `digito` (treino do discriminador do leitor `glifos`) |
+| `simbolos_marcados.json`, pasta `simbolos_marcados/` (3.208) | `simbolo` |
+| pasta `simbolos_marcados_j25/` (1.421) | é **saída** do `regerar_janela` (recortes refeitos a partir das marcas). É derivado, não rótulo |
+| `marcas_simbolos_6.json` | `fimafim` e `folha_simbolos`, por caminho relativo ao diretório atual |
+| `presenca_quadros.json` | `presenca_aval` e 12 scripts em `data/saida` |
+| `simbolos_3.json`, `marcas_simbolos{,_2..._5}.json`, `auditoria_simbolo_rotulada.json`, `folha_labels.json` | **nenhum leitor**. São rótulos históricos, ficam no ouro |
+
+**Respostas às 5 perguntas:**
+
+1. **Candidatos ao `comum`** (o que outra trilha importa da tablatura, por arquivo):
+   - `leitor`: partitura 3. As mãos repetem o leitor em `maos_braco_sintetico.quadro_em`.
+     Vai para o `comum`.
+   - `cache`: mãos 4, partitura 2. Vai para o `comum`.
+   - `censo`: só `chave_do_arquivo` (áudio 1, mãos 1) e `canais_fora`/`ler_rollout` (mãos 1)
+     vão para o `comum` (`comum/acervo.py`). O resto do `censo` (938 linhas) fica na
+     tablatura.
+   - `sintetico.fixar_semente`: mãos 2. Vai para o `comum` (a semente fixa de §10). O gerador
+     fica na tablatura.
+   - `video._slug`: partitura 4, importando uma função **privada**. Vira pública no `comum`.
+   - `musicxml.midi_da_corda`: partitura 4. Apoio o `comum/violao.py` do áudio. A tabela das
+     cordas soltas (64, 59, 55, 50, 45, 40) existe em **5 cópias**: `musicxml.AFINACAO_PADRAO`,
+     `audio_onsets.MIDI_CORDA`, `audio_som_medir.ALTURA_SOLTA`,
+     `maos_corda_sem_direita.AFINACAO_MIDI` e `maos_direita_desempate.AFINACAO_MIDI`.
+   - `ouro_video.gravar_atomico`: vai para o `comum/arquivos.py`, com o das mãos.
+   - **`celular` também é comum**: abre no celular as ferramentas de todas as trilhas
+     (`ouro_video servir`, `maos_braco_gabarito servir`). Ele **roda no host**, com o
+     `python3` 3.14.8 do Bazzite e fora do container. Por isso o `tab/__init__.py` e o
+     `_apelidos.py` têm de importar só a stdlib (é a objeção a do áudio, agora também no host).
+   - `tabseg.segmentar` (mãos 1) fica na tablatura, importado pelo nome público.
+2. **Janela**: ver a proposta no fim desta seção.
+3. **Caminhos fixos fora do `caminhos.py`, e scripts que quebram:**
+   - **Em `tab/`**:
+     - o caminho do ouro é montado à mão em `digito` (`SAIDA.parent / "gold" / ...` e
+       `SAIDA / "frames" / "gold"`), `simbolo` e `regerar_janela`
+       (`ARTEFATOS.parent / "data" / "gold" / ...`), `portao` (`GABARITO.with_name(...)` e
+       literais `"data/saida/frames/..."`), `presenca_aval` e `avaliar`;
+     - `fimafim` e `folha_simbolos` usam o padrão `"data/gold/marcas_simbolos_6.json"`,
+       relativo ao diretório atual;
+     - os pesos são montados por nome em `ataque_rotulo.DETECTOR_CALIBRADO`,
+       `ataque_r4.modelo_da_dobra`, `detector_tab` (`detector_tab_s<n>`), `digito`
+       (`digito_2`), `simbolo` (`simbolo_2`, ou pela variável `SAIDA_SIMBOLO`) e `simbolos`
+       (`oficial_2`);
+     - o `video` grava os recortes em `SAIDA / "video"`.
+
+     Corrijo tudo isso na minha fase 1: cada um passa a ler uma constante do `caminhos.py`.
+   - **Os scripts vivos de `data/saida`** chamam a tablatura nas três formas:
+     - **107** fazem `sys.path.insert(0, "/app")`;
+     - `from tab import detector_tab as D` e funções privadas (`D._amostra_treino`,
+       `D._iniciar_trabalhador`) aparecem no `n4/treinar_ft.py`;
+     - **10** fazem `sys.path.insert(0, "/app/data/saida/n3")` e `import medir`. Entre eles
+       estão `tab_rotulo/diag/painel_0213.py` e `diag/recorte_comum.py`, da 0212 e da 0213;
+     - **3** importam o `n4`.
+
+     Os apelidos cobrem os imports. Os links de dado cobrem os caminhos absolutos
+     (`treinar_ft.py`: `CACHE`, `CACHE_T82`, `PARTIDA` e `OURO_VIDEO` em `/app/...`).
+   - **O que quebra mesmo com os apelidos:**
+     - **4 scripts antigos importam testes pelo nome** (`fase4_digitos/probe_*.py` ×3 e
+       `painel_braco/dbg_test.py`, com `sys.path.insert(0, "/app/tests")`). Eles quebram
+       quando os testes forem para `tests/tablatura/`. São históricos, e eu aceito a quebra.
+     - **`n3/medir.videos_do_run()` lê `data/saida/barline_fina/run.sh`** para saber o vídeo
+       de cada ouro. Mas o ouro já tem o campo `video`. Na fase 1, eu passo o `medir` a ler o
+       ouro, e o `barline_fina` deixa de ser dependência viva.
+     - **Os 145 `config.json` dos pesos** registram
+       `"comando": "python /app/data/saida/n4/treinar_ft.py ..."`. O link de `n4` mantém
+       esse caminho válido. **O conteúdo deles não se edita.**
+4. **Pesos em uso** (61 das 145 pastas `detector_tab_*`, ~134 MB):
+
+   | uso | pastas |
+   | --- | --- |
+   | o produto, leitura comum (`DETECTOR_PADRAO`) | `detector_tab_final_s1_ger` |
+   | o rótulo de ataque (`DETECTOR_CALIBRADO`) | `detector_tab_final_atqt_s1` |
+   | a validação **pendente** da 0211 na T8.4 | as 45 de `_atqa`, `_atqt` e `_atqe` (`final_*_s{1,2,3}` e `v3ft_d{1..4}_*_s{1,2,3}`) |
+   | a comparação da 0212 | as 14 de `_ger` (`v3ft_d{1..4}_ger`, `_ger_s2`, `_ger_s3`, `final_s{2,3}_ger`) |
+   | a partida do ajuste fino (`PARTIDA`) | `detector_tab_v3_s1` |
+   | o leitor `glifos` e as ferramentas antigas | `oficial_3` (`MODELO_PADRAO`, também no teste `test_casa_dois_digitos`), `oficial_2` (`simbolos`), `digito_2` e `simbolo_2` |
+
+   - **Histórico**: são 84 pastas `detector_tab_*` (~181 MB): `_atq`, `_atqg`, `_atqc`,
+     `_atqma`, `_atqmb`, `_arcop`, `_gerx`, `v3ft_d*` sem sufixo, `final_s{1,2,3}`, `s1`,
+     `s2`, `v2_*`, `v3_s2` e `v3_s3`. Somam-se ~20 MB de pesos pequenos: `serif*` 12,
+     `portao*` 11, `candidato_*`, `casas24_*`, `det_C`, `j25`, `oficial_1`, `digito_{1,3}`,
+     `simbolo_{1,3}`, os `simbolo_j25_*` (vazios) e o `glifo_sint.pt` solto na raiz.
+   - **Só arquivo esses pesos depois que a 0211 fechar.** A família vencedora entra no
+     `EM_USO.json`.
+   - **Não há risco de pickle**: os 231 `.pt` de `artefatos/` só guardam `OrderedDict` e
+     tensores (medido com `pickletools`). Nenhum cita um módulo `tab.*`. O único `.pkl` da
+     tablatura (`serif/cache_rois.pkl`) só cita o numpy.
+5. **Objeções, cada uma com a alternativa** (em ordem de gravidade):
+   - **a. Há rótulo do dono em `data/saida`, e fora do git.** Esta é a mais grave. A
+     `.gitignore` ignora `data/saida/`, e tudo isto existe numa cópia só, no disco:
+     - as conferências que a ferramenta grava a cada clique:
+       `t82/ferramenta/conferencia_t82.json`, `t83/ferramenta/conferencia_t83.json` e
+       `t84/ferramenta/conferencia_t84.json`. A última está sendo gravada agora: o
+       `ouro_video servir --ouro data/saida/t84/...` roda desde as 13:18;
+     - **três versões diferentes da T8.2**: `t82/ferramenta` (15/10, 15:50), `t82/erros`
+       (15/10, 15:34) e `tab_rotulo/r2/conferir_novos` (18/10, que tem o passe do modo
+       ataque). O `cmp` diz que as três diferem;
+     - **correções que o dono deu no chat, escritas como constantes de script**:
+       `tab_rotulo/r2/novos_t84.py` (`CORRECOES_DO_DONO`, `NOTAS_DO_DONO` e
+       `ATAQUE_DO_DONO`);
+     - os gabaritos de ataque convertidos (`tab_rotulo/r2/conferir*/ataque_*.json`). O treino
+       lê esses arquivos (`treinar_ft.py`, `ataque_r4.GABARITOS`), e a 0211 os chama de
+       "Gabarito".
+
+     **Alternativa:**
+     - **Na fase 1, antes de qualquer outra coisa**, eu versiono esses arquivos onde estão, com
+       `git add -f` por nome. São ~6 MB. O conteúdo não muda.
+     - Na minha fase 4, com a ferramenta parada, as conferências vão para
+       `data/gold/tablatura/conferencias/t8x/`, e as três versões da T8.2 vão juntas, sem
+       escolher uma. Os scripts com as correções do chat também vão para lá.
+     - O próximo lote já serve a ferramenta com `--ouro` dentro do `data/gold/`.
+     - **Nenhuma dessas pastas** (`t82`, `t83`, `t84` e `tab_rotulo`) entra no arquivo frio
+       nem no "apagar".
+   - **b. O ouro cita imagens de `data/saida`.** O `git rm --cached` dos 20.104 e a limpeza têm
+     que poupar essas imagens.
+     - **25 caminhos** citados dentro de `data/gold` existem hoje, e todos estão no disco:
+       - `frames/folha_{A..N}.png` e `folha_simbolos_{1,2,3}.png` (do `portao.json` e dos
+         `simbolos*.json`). Estes estão no `.gitignore`, então **não estão no git**;
+       - `c1b/folha_novas.jpg`, `cifra/vn_suspeitos.jpg`, `diag_v2/gold2/`,
+         `fn05/folha_novas.jpg`, `presenca/` e `presenca_7_1/revisao_FN05.jpg` (do
+         `presenca_quadros.json`);
+       - `t500/quadros_500.jpg` (do `ouro_video/retrato_brasileiro_v2.json`).
+     - **São a imagem do rótulo**:
+       - `frames/gold/` (3 PNGs, lidos pelo `avaliar` e pelo `digito`);
+       - `portao_casos/` (122 de 290 PNGs no git);
+       - `auditoria_simbolo/` (248, as janelas que o dono auditou).
+
+     **Alternativa:**
+     - essas entradas ficam **no git**, e o resto dos 20.104 sai do índice (cerca de 19.700
+       arquivos);
+     - as `simbolos_*` saem do índice e podem sair do disco depois do `.tar`, porque o
+       histórico do git já as guarda;
+     - o ouro não se edita, então o caminho antigo continua valendo, pelo arquivo no lugar ou
+       por link.
+   - **c. Código vivo e procedência fora do git.** Os scripts de treino e de medida da
+     tablatura moram em `data/saida` e não estão versionados:
+     - `n4/treinar_ft.py`, que gerou o `DETECTOR_PADRAO`;
+     - `n4/extrair*.py`, `n4/cache_alto.py` e `n3/medir*.py`;
+     - `tab_rotulo/r2/*.py`, `r4g/decidir.py` e `t84/gerar.py`.
+
+     São **~66 `.py`**. As rodadas citam "o commit do código", mas esse código não está em
+     commit nenhum. Os 145 `config.json` dos pesos (140 KB) também ficam fora, porque só
+     `artefatos/*.md` entra.
+
+     **Alternativa:**
+     - na fase 1, versionar esses scripts e os `config.json` (exceções na `.gitignore`);
+     - na fase 3, o `treinar_ft.py` vira módulo (`tab/tablatura/treino/ajuste_fino.py`), e no
+       lugar dele fica um script de 3 linhas, para os comandos dos `config.json` continuarem
+       valendo.
+   - **d. Não achatar o peso em `<familia>/<peso>.pt`** (o §3 mostra
+     `<familia>/<peso>.pt + .json`).
+     - Hoje cada peso é uma pasta com `modelo.pt` e `config.json`.
+     - O `test_ataque_r4` confere o `parent.name` da pasta.
+     - O `tab.video` compara `Path(detector).resolve()` com `DETECTOR_CALIBRADO.resolve()`.
+       Uma cópia no lugar de um link reprova essa comparação.
+
+     **Alternativa:**
+     - `artefatos/tablatura/detector_tab/<nome de hoje>/modelo.pt`, mantendo o nome exato da
+       pasta;
+     - `caminhos.peso` antes de mover, usado também pelo `ataque_r4.modelo_da_dobra`, pelo
+       `treinar_ft.py` e pelo `n3/medir.DETECTORES_CAMINHO`;
+     - o arquivo frio só por `.tar`, porque `det_C` tem maiúscula.
+   - **e. Testes que, depois da mudança, passam vazios ou pulam calados**, e o gate continua
+     verde:
+     - **`test_sem_videocapture`** faz `(RAIZ / "tab").glob("*.py")` sem recursão, com
+       `RAIZ = parents[1]`. Com os módulos em subpastas, ou com o teste em `tests/comum/`,
+       ele confere 0 arquivos e passa. A trava do AV1 (AGENTS §4) morre calada;
+     - `test_casa_dois_digitos` usa `Path("artefatos/oficial_3/glifo_sint.pt")` e vira
+       `skip` se o peso se mover;
+     - `test_esquema::test_saida_real_do_motor_valida` vira `skip` sem a
+       `data/saida/fase5/mvp.json`.
+
+     **Alternativa:**
+     - `rglob`, com um mínimo de arquivos conferidos (≥ 140);
+     - o caminho do peso pelo `caminhos`;
+     - `fase5/` em "manter";
+     - e em cada fase, comparar o resumo do `pytest -rs` (passados e pulados) antes e depois.
+       O número de `skip` não pode subir.
+   - **f. Os apelidos do §4: o que medi que não quebra na tablatura.**
+     - O multiprocessing é só `fork`: `detector_tab` e `treinar_ft` usam
+       `mp.get_context("fork")`, e o `Pool` manda a função pelo `__module__`, que o
+       processo filho já tem.
+     - Não há `spawn`, `forkserver`, `__module__`/`__qualname__` em JSON, cache indexado por
+       nome de módulo, `importlib` nem `monkeypatch` por string nos testes da tablatura.
+     - O `tab.cache` usa a chave `relativo|tamanho|mtime` do vídeo, sem nada do código.
+     - A forma `from tab import X as D` (objeção b do áudio) é a dos scripts de treino: o
+       teste dos apelidos precisa dela.
+     - O `gerado_por.modelo` do produto é o caminho do peso relativo à raiz. Ele muda quando o
+       peso se mover. Ninguém compara esse campo, mas a regra "mesma entrada, mesmo JSON"
+       passa a valer só com o peso no mesmo lugar. Registro isso na rodada que mover os
+       pesos.
+   - **g. Os ramos não juntados da tablatura**, que vão dar conflito de renome:
+     - `tab/c1-rolagem` tem 14 commits fora da main, e `tab/f0-regua-tecnica`, 10;
+     - `tab/e-sondas` tem 2, e `tab/d1-som-casa` e `dsh-tablatura`, 1 cada;
+     - todos são de 15 a 16/10, e as worktrees deles estão `prunable`.
+
+     **Alternativa:** antes da minha fase 3, eu listo para o dono o que cada ramo tem, e ele
+     decide juntar ou arquivar o ramo (`git tag`). Nada se apaga.
+   - **h. O `ESTADO.md`**: dos 268 títulos `##`, só 12 começam por "Tablatura", e a maior parte
+     dos 231 sem trilha é da tablatura (fases 0 a 8).
+     - **Alternativa**: o `docs/estado/tablatura.md` recebe essas seções **inteiras, sem
+       reescrever**, na ordem de hoje.
+     - O índice fica com os números oficiais (0,974 · 0,949 · 0,987 em 2.689 notas; 39 de 40
+       instantes) e com a tabela "não repetir" comum.
+
+**A árvore que proponho para os 48 módulos da tablatura:**
+
+```
+tab/tablatura/
+├── produto/   video, telas, estado, esquema, colunas, tempo, destaque, musicxml,
+│              transcrever, pipeline
+├── leitura/   painel, tabseg, cursor, reconhecer, detector_tab, digito, simbolo, portao,
+│              inventario, glyphset, glyph_bench, marcador, formas_do_marcador
+├── treino/    sintetico, sintetico_sistema (+ o ajuste_fino, vindo do n4/treinar_ft.py)
+├── ataque/    ataque_base, ataque_rotulo, ataque_r4, ataque_pares, ataque_divergencia
+├── ouro/      ouro_video, ouro, conferir, avaliar, avaliar_video, auditoria, presenca_aval
+└── censo/     censo, varredura, afinacao, simbolos, folha_simbolos, fimafim,
+               regerar_janela, exp_binarizacao
+```
+
+- Vão para o `comum`: `leitor`, `cache` e `celular`.
+- **O produto depende do gerador**: o `tab.video` puxa 27 módulos, entre eles o
+  `sintetico_sistema` (3.513 linhas, via `detector_tab`). Por isso o `treino/` não pode ser
+  tratado como "fora do produto".
+- **O nome perde só o prefixo de grupo**: `ataque_r4` vira `ataque/r4`. Os outros nomes ficam
+  iguais, para o apelido ser óbvio.
+
+**O disco da tablatura (3,9 GB em `data/saida` e 0,34 GB em `artefatos`):**
+
+| classe | o quê | MB | por quê |
+| --- | --- | --- | --- |
+| **manter** | `t82` 178, `t83` 77, `t84` 72, `tab_rotulo` 105 | 432 | rótulo do dono e gabarito de ataque (objeção a) |
+| manter | `n4` 60, `n3` 37, `barline_fina` 4 | 101 | treino e medida vivos (0211 a 0213) |
+| manter | `ouro_video` 158, `censo` 48, `produto` 13, `fase8` 25, `conserto_v2` 19, `fase5` 5 | 268 | ferramenta dos 8 ouros, o censo, o `MVP` e o `FASE8_GER` (lidos pelas mãos, pelo áudio e pela partitura), um teste |
+| manter | `frames` 67, `portao_casos` 118, `auditoria_simbolo` 7, `simbolos` 24, `paineis` 15 e os citados pelo ouro (`c1b`, `diag_v2`, `presenca`, `presenca_7_1`, `t500`) | ~270 | a imagem do rótulo (objeção b); o treino do `digito` lê a `simbolos` |
+| manter | `tab_frentes` 70 | 70 | `TAB_FRENTE_*` e as rodadas 0101–0170 |
+| **arquivar** (`.tar` no frio, depois sai do disco) | 6 cópias inteiras do repositório: `fase4_13` 1.129, `cifra` 788, `fn05` 308 | 2.225 | snapshots de 10/10 para comparar versões do código. Medido: nos `data/` delas, só 38 arquivos não têm par no repositório principal (26 na `cifra/copia`, 12 na `fn05/copia`), e o resto é duplicata. Como a 0008 cita a `fase4_13`, vai para o frio, não para o lixo. Ficam no lugar `cifra/vn_suspeitos.jpg` e `fn05/folha_novas.jpg`, que o ouro cita |
+| arquivar | `painel_braco` 191, `video` 53 (12.908 recortes de glifo do `tab.video`, que nenhum JSON cita), `simbolos_*` 80, `afinacao` 31, `serif` 18, `fase5_moldura` 18, `n1` 17, `fase4_arco` 14 | 422 | histórico citado no `ESTADO.md`, regenerável só relendo o HD |
+| arquivar | ~45 pastas e arquivos pequenos de 08 a 14/10 (`fase4*`, `fase5b`, `fase6_*`, `haiku_*`, `tempo_gs*`, `limiar_tinta`, `n2`, `intervalos*`, `novas*`, `coleta_tab`, `tablaturas`, os `.txt`/`.json` soltos…) | ~110 | histórico. Antes de cada `rm`, a lista vai item a item para o dono (regra 7) |
+| arquivar | 84 pastas `detector_tab_*` e ~20 MB de pesos pequenos | ~200 | histórico, **só depois de a 0211 fechar** |
+| **apagar** sem arquivar | `__pycache__` dentro de `data/saida` e a pasta vazia `presenca_v2` | ~2 | regenerável e sem valor |
+
+- **Somas**: manter ~1,15 GB; arquivar ~2,95 GB (2,75 de saída + 0,2 de pesos), que saem do
+  SSD; apagar ~0,002 GB.
+- **Apagar de verdade quase nada**, porque cada pasta grande da tablatura é citada ou guarda
+  rótulo. O espaço vem do arquivo frio. O HD tem 575 GB livres (medido com `df`).
+- **Alternativa mais agressiva**, se o dono quiser: apagar sem `.tar` as duplicatas dentro das
+  6 cópias (~2,1 GB), arquivando só os 38 arquivos únicos, o `_diag` da `cifra/copia` (64 MB)
+  e os `tab/` copiados.
+
+**A janela da tablatura** (para as fases 3 e 4; a fase 2 também precisa dela, porque muda o
+`tab/__init__.py`):
+- **Hoje, rodando**:
+  - a ferramenta da T8.4 (`ouro_video servir`, porta 8126, desde as 13:18), que espera o passe
+    do dono no modo ataque;
+  - o `celular` no host (desde as 09:52);
+  - e ainda falta a medida da 0213 (~1 h).
+- **Depois do passe do dono**, há ~10 min de GPU para fechar a 0211. Os treinos de hoje já
+  acabaram.
+- **Proposta**: a janela da tablatura abre quando a 0211 e a 0213 estiverem medidas e
+  commitadas e a ferramenta e o `celular` estiverem parados. Pela ordem do §6, a tablatura é
+  a última, e isso deve cair a partir de 2026-10-22.
+- **Até lá, nenhum lote novo da tablatura** (T8.5) começa, e eu aviso o dono quando a janela
+  abrir.
+- **A minha fase 1 começa já**: o versionamento da objeção a só acrescenta arquivos. Os
+  caminhos do item 3 ficam para depois do passe do dono.
 
 ### Áudio (2026-10-21)
 
