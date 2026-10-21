@@ -121,3 +121,36 @@ Medidas:
 - Corda e casa: o som não sabe a corda (decisão 2005); a rodada mede só altura e instante.
 - Técnica (h, p, slide, harmônico) e duração da nota.
 - Ajuste de parâmetro, afinação ou capo pelo resultado: tudo isso é rodada nova.
+
+## Emenda 1 — corte de confiança (2026-10-21, antes de medir a prova)
+
+Feita só com o vídeo de desenvolvimento, como o pré-registro prevê. Nenhum vídeo de prova
+foi medido; os JSONs do transcritor dos vídeos de prova foram gerados, mas não comparados
+com o gabarito.
+
+**O que se viu** no *retrato brasileiro* (13 telas, 491 notas), com o transcritor cru
+(determinístico: duas execuções, JSON idêntico, 206 s cada):
+- revocação **470/491 = 0,957**, mas precisão **470/1.144 = 0,411**, e o controle (+1
+  semitom) em **0,263**, acima do limite V de 0,25;
+- das 674 notas a mais no trecho pareado, **554 têm a altura de uma nota da própria tela**:
+  é a música ouvida de novo (corda que continua soando, redisparo), e não ruído;
+- elas são **mais fracas**: amplitude mediana 0,42 contra 0,65 das pareadas, e duração
+  mediana 0,45 s contra 0,73 s.
+
+**Curva do corte por amplitude** (só no desenvolvimento):
+
+| corte | notas | revocação | precisão | controle |
+| --- | --- | --- | --- | --- |
+| 0 (cru) | 3.371 | 0,957 | 0,411 | 0,263 |
+| 0,40 | 2.547 | 0,949 | 0,555 | 0,224 |
+| 0,45 | 2.130 | 0,943 | 0,657 | 0,218 |
+| **0,50** | **1.744** | **0,904** | **0,765** | **0,204** |
+| 0,55 | 1.417 | 0,827 | 0,837 | 0,191 |
+| 0,60 | 1.036 | 0,690 | 0,878 | 0,175 |
+
+**Emenda**: a nota ouvida só entra na comparação com **amplitude ≥ 0,50**. A regra foi o
+menor corte com precisão ≥ 0,70 e revocação ≥ 0,90 no desenvolvimento.
+- **Os critérios C1–C4 e V não mudam.**
+- O transcritor cru (corte 0) também é medido na prova e vai no resultado como linha
+  secundária, para nada ficar escondido.
+- O corte vale para C1, C2, C3 e C4.

@@ -19,7 +19,9 @@
 
 FROM docker.io/library/python:3.10-slim@sha256:7b6bd969dda3ecfca0655524e338b57a8b8cd692a9362e3d55b5a3ef49b07256
 
-# Versões exatas, as que o resolvedor escolheu para basic-pitch==0.4.0 em 2026-10-21.
+# Versões exatas, as que o resolvedor escolheu para basic-pitch==0.4.0 em 2026-10-21, com
+# uma troca: numpy 1.26.4 no lugar de 2.2.6. O tflite-runtime 2.14 foi compilado contra o
+# numpy 1.x e, com o 2.x, não carrega o modelo (medido: SystemError no Interpreter).
 RUN pip install --no-cache-dir --no-deps \
         basic-pitch==0.4.0 \
         tflite-runtime==2.14.0 \
@@ -39,7 +41,7 @@ RUN pip install --no-cache-dir --no-deps \
         mir_eval==0.8.2 \
         msgpack==1.2.3 \
         numba==0.68.0 \
-        numpy==2.2.6 \
+        numpy==1.26.4 \
         packaging==26.3 \
         platformdirs==4.12.4 \
         pooch==1.9.0 \
@@ -56,4 +58,4 @@ RUN pip install --no-cache-dir --no-deps \
         typing_extensions==4.16.0 \
         urllib3==2.8.0 \
     && pip check \
-    && python -c "import basic_pitch, numpy; print('basic_pitch ok, numpy', numpy.__version__)"
+    && python -c "import numpy, tflite_runtime.interpreter as t; from basic_pitch import ICASSP_2022_MODEL_PATH as m; t.Interpreter(str(m)); print('modelo ok, numpy', numpy.__version__)"
