@@ -1,0 +1,24 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "tab/estado.py"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/limiar_tinta/__init__.py",
+  "python data/saida/limiar_tinta/classes.py",
+  "python data/saida/limiar_tinta/espiar.py",
+  "python data/saida/limiar_tinta/imagens.py",
+  "python data/saida/limiar_tinta/mudancas.py",
+  "python data/saida/limiar_tinta/rodar.py",
+  "sh data/saida/limiar_tinta/run.sh",
+  "python data/saida/limiar_tinta/tinta.py"
+ ],
+ "modificado": "2026-10-13",
+ "motivo": "lido pelo código",
+ "nome": "limiar_tinta",
+ "regeneravel": "caro",
+ "rodadas": [],
+ "tamanho_mb": 6,
+ "trilha": "tablatura"
+}

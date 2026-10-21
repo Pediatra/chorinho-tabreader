@@ -1,0 +1,23 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "tab/audio_atraso.py"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/conserto_v2/comparar_piloto.py",
+  "sh data/saida/conserto_v2/run.sh",
+  "python data/saida/conserto_v2/zoom.py"
+ ],
+ "modificado": "2026-10-12",
+ "motivo": "ferramenta dos 8 ouros, censo, MVP e FASE8_GER lidos por outras trilhas, um teste",
+ "nome": "conserto_v2",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/rodadas/2002-atraso-marcador-som-mvp.md",
+  "docs/rodadas/2004-alinhador-v1-v2.md",
+  "docs/rodadas/2017-regressao-com-o-leitor-rede.md"
+ ],
+ "tamanho_mb": 20,
+ "trilha": "tablatura"
+}

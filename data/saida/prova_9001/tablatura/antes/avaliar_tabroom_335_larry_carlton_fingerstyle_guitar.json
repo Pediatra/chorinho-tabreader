@@ -1,0 +1,363 @@
+{
+ "formato_predicao": "chorinho/video@1",
+ "modelo": "artefatos/detector_tab_v3ft_d4_ger/modelo.pt",
+ "commit": "desconhecido",
+ "video": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
+ "video_predicao": "shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4",
+ "quadro_lido_s": null,
+ "exibicao_previsao": "exibicoes de cada tela (v1)",
+ "tolerancia_s": 0.2,
+ "fps": 30.0,
+ "quadro_s": 0.033333,
+ "quadros_antes": 1,
+ "fracao_passo": 0.5,
+ "x_fallback": {
+  "ouro": 0,
+  "ouro_total": 320,
+  "previsao": 0,
+  "previsao_total": 1200
+ },
+ "telas": {
+  "ouro": 11,
+  "casadas": 11,
+  "previstas": 42,
+  "sem_par_no_ouro": 31,
+  "pareamento": "por instantes (v1); sem instante, por quadro_ref_s",
+  "mapa": {
+   "1": 1,
+   "2": 2,
+   "3": 3,
+   "4": 4,
+   "5": 5,
+   "6": 6,
+   "7": 7,
+   "15": 15,
+   "16": 16,
+   "24": 24,
+   "27": 27
+  },
+  "criterio": {
+   "1": "quadro_ref_s",
+   "2": "instantes",
+   "3": "instantes",
+   "4": "quadro_ref_s",
+   "5": "quadro_ref_s",
+   "6": "quadro_ref_s",
+   "7": "instantes",
+   "15": "instantes",
+   "16": "quadro_ref_s",
+   "24": "instantes",
+   "27": "quadro_ref_s"
+  }
+ },
+ "notas": {
+  "avaliavel": true,
+  "motivo": null,
+  "por_tela": [
+   {
+    "ouro_tela": 1,
+    "previsao_tela": 1,
+    "notas_ouro": 28,
+    "entregues": 30,
+    "casadas": 28,
+    "casa_certa": 28,
+    "inventadas": 2,
+    "perdidas": 0,
+    "precisao": 0.9333333333333333,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 2,
+    "previsao_tela": 2,
+    "notas_ouro": 28,
+    "entregues": 29,
+    "casadas": 28,
+    "casa_certa": 28,
+    "inventadas": 1,
+    "perdidas": 0,
+    "precisao": 0.9655172413793104,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 3,
+    "previsao_tela": 3,
+    "notas_ouro": 28,
+    "entregues": 28,
+    "casadas": 28,
+    "casa_certa": 28,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 4,
+    "previsao_tela": 4,
+    "notas_ouro": 30,
+    "entregues": 33,
+    "casadas": 30,
+    "casa_certa": 30,
+    "inventadas": 3,
+    "perdidas": 0,
+    "precisao": 0.9090909090909091,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 5,
+    "previsao_tela": 5,
+    "notas_ouro": 29,
+    "entregues": 31,
+    "casadas": 29,
+    "casa_certa": 29,
+    "inventadas": 2,
+    "perdidas": 0,
+    "precisao": 0.9354838709677419,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 6,
+    "previsao_tela": 6,
+    "notas_ouro": 18,
+    "entregues": 22,
+    "casadas": 18,
+    "casa_certa": 18,
+    "inventadas": 4,
+    "perdidas": 0,
+    "precisao": 0.8181818181818182,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 7,
+    "previsao_tela": 7,
+    "notas_ouro": 29,
+    "entregues": 32,
+    "casadas": 28,
+    "casa_certa": 28,
+    "inventadas": 4,
+    "perdidas": 1,
+    "precisao": 0.875,
+    "revocacao": 0.9655172413793104,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 15,
+    "previsao_tela": 15,
+    "notas_ouro": 26,
+    "entregues": 29,
+    "casadas": 26,
+    "casa_certa": 24,
+    "inventadas": 3,
+    "perdidas": 0,
+    "precisao": 0.896551724137931,
+    "revocacao": 1.0,
+    "acerto_casa": 0.9230769230769231
+   },
+   {
+    "ouro_tela": 16,
+    "previsao_tela": 16,
+    "notas_ouro": 25,
+    "entregues": 24,
+    "casadas": 23,
+    "casa_certa": 22,
+    "inventadas": 1,
+    "perdidas": 2,
+    "precisao": 0.9583333333333334,
+    "revocacao": 0.92,
+    "acerto_casa": 0.9565217391304348
+   },
+   {
+    "ouro_tela": 24,
+    "previsao_tela": 24,
+    "notas_ouro": 40,
+    "entregues": 43,
+    "casadas": 40,
+    "casa_certa": 40,
+    "inventadas": 3,
+    "perdidas": 0,
+    "precisao": 0.9302325581395349,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 27,
+    "previsao_tela": 27,
+    "notas_ouro": 39,
+    "entregues": 41,
+    "casadas": 39,
+    "casa_certa": 39,
+    "inventadas": 2,
+    "perdidas": 0,
+    "precisao": 0.9512195121951219,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   }
+  ],
+  "previsoes_sem_par": [
+   {
+    "previsao_tela": 8,
+    "entregues": 22
+   },
+   {
+    "previsao_tela": 9,
+    "entregues": 31
+   },
+   {
+    "previsao_tela": 10,
+    "entregues": 28
+   },
+   {
+    "previsao_tela": 11,
+    "entregues": 27
+   },
+   {
+    "previsao_tela": 12,
+    "entregues": 14
+   },
+   {
+    "previsao_tela": 13,
+    "entregues": 15
+   },
+   {
+    "previsao_tela": 14,
+    "entregues": 31
+   },
+   {
+    "previsao_tela": 17,
+    "entregues": 41
+   },
+   {
+    "previsao_tela": 18,
+    "entregues": 28
+   },
+   {
+    "previsao_tela": 19,
+    "entregues": 28
+   },
+   {
+    "previsao_tela": 20,
+    "entregues": 24
+   },
+   {
+    "previsao_tela": 21,
+    "entregues": 28
+   },
+   {
+    "previsao_tela": 22,
+    "entregues": 37
+   },
+   {
+    "previsao_tela": 23,
+    "entregues": 29
+   },
+   {
+    "previsao_tela": 25,
+    "entregues": 30
+   },
+   {
+    "previsao_tela": 26,
+    "entregues": 32
+   },
+   {
+    "previsao_tela": 28,
+    "entregues": 31
+   },
+   {
+    "previsao_tela": 29,
+    "entregues": 29
+   },
+   {
+    "previsao_tela": 30,
+    "entregues": 24
+   },
+   {
+    "previsao_tela": 31,
+    "entregues": 32
+   },
+   {
+    "previsao_tela": 32,
+    "entregues": 35
+   },
+   {
+    "previsao_tela": 33,
+    "entregues": 31
+   },
+   {
+    "previsao_tela": 34,
+    "entregues": 22
+   },
+   {
+    "previsao_tela": 35,
+    "entregues": 31
+   },
+   {
+    "previsao_tela": 36,
+    "entregues": 23
+   },
+   {
+    "previsao_tela": 37,
+    "entregues": 31
+   },
+   {
+    "previsao_tela": 38,
+    "entregues": 27
+   },
+   {
+    "previsao_tela": 39,
+    "entregues": 31
+   },
+   {
+    "previsao_tela": 40,
+    "entregues": 18
+   },
+   {
+    "previsao_tela": 41,
+    "entregues": 16
+   },
+   {
+    "previsao_tela": 42,
+    "entregues": 32
+   }
+  ],
+  "total": {
+   "notas_ouro": 320,
+   "entregues": 342,
+   "casadas": 317,
+   "casa_certa": 314,
+   "inventadas": 25,
+   "perdidas": 3,
+   "precisao": 0.9269005847953217,
+   "revocacao": 0.990625,
+   "acerto_casa": 0.9905362776025236,
+   "entregues_sem_par_no_ouro": 0,
+   "entregues_fora_do_recorte": 858
+  }
+ },
+ "tempo": {
+  "avaliavel": true,
+  "motivo": null,
+  "instantes": 8,
+  "com_coluna": 0,
+  "sem_coluna": 8,
+  "classes": {
+   "acerto": 0,
+   "acerto_quadro": 0,
+   "acerto_tolerancia": 0,
+   "erro": 0,
+   "json_sem_tempo": 0,
+   "tempo_falso": 0,
+   "ausencia_certa": 8
+  },
+  "estado_certo": 0,
+  "ausencia_certa": 8,
+  "colunas_ajustadas": 0
+ },
+ "pre_caminho": "/app/data/saida/ouro_video/tabroom_335_larry_carlton_fingerstyle_guitar/pre.json",
+ "ouro_caminho": "data/gold/ouro_video/tabroom_335_larry_carlton_fingerstyle_guitar.json",
+ "predicao_caminho": "data/saida/fase8/ger/ger/tabroom_335_larry_carlton_fingerstyle_guitar.json"
+}

@@ -1,0 +1,18 @@
+{
+ "citado_por": [],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/marcador_pulado/__init__.py",
+  "python data/saida/marcador_pulado/diag_quadros.py",
+  "python data/saida/marcador_pulado/medir.py",
+  "sh data/saida/marcador_pulado/run.sh",
+  "sh data/saida/marcador_pulado/run_quadros.sh"
+ ],
+ "modificado": "2026-10-13",
+ "motivo": "histórico de 08–14/10",
+ "nome": "marcador_pulado",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 1,
+ "trilha": "tablatura"
+}

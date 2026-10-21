@@ -1,0 +1,19 @@
+{
+ "citado_por": [],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/sakura_cordas/cobertura_barlines.py",
+  "python data/saida/sakura_cordas/diagnostico.py",
+  "python data/saida/sakura_cordas/diagnostico_perdidos.py",
+  "python data/saida/sakura_cordas/glifos_t30.py"
+ ],
+ "modificado": "2026-10-13",
+ "motivo": "histórico de 08–14/10; citada por rodada: nunca apagar, só arquivar",
+ "nome": "sakura_cordas",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [
+  "docs/decisoes/2004-pedidos-de-leitura-a-trilha-tablatura.md"
+ ],
+ "tamanho_mb": 2,
+ "trilha": "tablatura"
+}

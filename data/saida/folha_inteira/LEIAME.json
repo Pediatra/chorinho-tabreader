@@ -1,0 +1,16 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "tab/caminhos.py",
+  "tab/folha_simbolos.py"
+ ],
+ "classe": "manter",
+ "comando": "não registrado",
+ "modificado": "2026-10-10",
+ "motivo": "lido pelo código",
+ "nome": "folha_inteira",
+ "regeneravel": "caro",
+ "rodadas": [],
+ "tamanho_mb": 3,
+ "trilha": "tablatura"
+}

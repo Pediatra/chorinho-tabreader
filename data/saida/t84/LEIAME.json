@@ -1,0 +1,21 @@
+{
+ "citado_por": [],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/t84/ambiguos.py",
+  "python data/saida/t84/folha.py",
+  "python data/saida/t84/gerar.py",
+  "python data/saida/t84/material_ferramenta.py",
+  "python data/saida/t84/proposta_t21.py"
+ ],
+ "modificado": "2026-10-21",
+ "motivo": "rótulo do dono e gabarito de ataque",
+ "nome": "t84",
+ "regeneravel": "nao",
+ "rodadas": [
+  "docs/decisoes/9001-reestruturacao-dos-arquivos.md",
+  "docs/rodadas/0211-recorte-alto.md"
+ ],
+ "tamanho_mb": 73,
+ "trilha": "tablatura"
+}

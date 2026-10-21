@@ -1,0 +1,15 @@
+ouro:     data/gold/ouro_video/tabroom_335_larry_carlton_fingerstyle_guitar.json  (vídeo: shin izumi/【tab】room 335 - larry carlton  - fingerstyle guitar ソロギター【タブ】.mp4)
+predição: data/saida/fase8/ger/ger/tabroom_335_larry_carlton_fingerstyle_guitar.json  (formato: chorinho/video@1; modelo: artefatos/detector_tab_v3ft_d4_ger/modelo.pt; commit: desconhecido)
+telas: 11 de 11 telas do ouro com par previsto (previstas: 42; sem par no ouro: 31)
+pareamento: por instantes (v1); sem instante, por quadro_ref_s; exibição prevista: exibicoes de cada tela (v1); quadro lido: não consta
+notas (total): precisão 317 de 342 entregues = 0,927
+  revocação 317 de 320 do ouro = 0,991
+  inventadas 25 de 342 entregues
+  perdidas 3 de 320 do ouro
+  acerto de casa 314 de 317 casadas = 0,991
+  ouro parcial: 858 notas entregues em telas sem página conferida ficaram FORA da conta
+tempo: 0 de 0 instantes com coluna acesa com o estado certo (acerto 0, 1 quadro antes 0, tolerância 0, erro 0, json sem tempo 0)
+  sem coluna acesa: ausência certa 8 de 8 instantes; tempo falso 0 de 8
+x: comparado pelo centro do token; sem x_centro_quadro (usou x_quadro, borda): ouro 0 de 320 notas, predição 0 de 1200 notas
+tolerância: 0.2 s (coluna imediatamente anterior); rótulo até 1 quadro antes da coluna (0.033333 s, fps 30.0000); casamento de x: 0.5 * passo
+relatório salvo em /app/data/saida/prova_9001/tablatura/antes/avaliar_tabroom_335_larry_carlton_fingerstyle_guitar.json

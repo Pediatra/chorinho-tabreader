@@ -1,0 +1,28 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "tab/caminhos.py",
+  "tab/partitura_regua_tempo.py"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/fase8/candidatos.py",
+  "python data/saida/fase8/regerar.py",
+  "python data/saida/fase8/regerar3.py",
+  "sh data/saida/fase8/regerar_kenneth.sh",
+  "sh data/saida/fase8/regerar_sa.sh"
+ ],
+ "modificado": "2026-10-15",
+ "motivo": "ferramenta dos 8 ouros, censo, MVP e FASE8_GER lidos por outras trilhas, um teste",
+ "nome": "fase8",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/rodadas/0101-regua-de-tecnica.md",
+  "docs/rodadas/0150-rolagem-censo-nao-rola.md",
+  "docs/rodadas/0200-r3-linha-de-base-do-ataque.md",
+  "docs/rodadas/3014-partitura-pareada-com-o-produto.md",
+  "docs/rodadas/3027-partitura-documento-final.md"
+ ],
+ "tamanho_mb": 25,
+ "trilha": "tablatura"
+}

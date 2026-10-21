@@ -1,0 +1,14 @@
+{
+ "citado_por": [],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/fase4_perdidas/diag.py"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "histórico de 08–14/10",
+ "nome": "fase4_perdidas",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 2,
+ "trilha": "tablatura"
+}

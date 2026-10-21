@@ -1,0 +1,118 @@
+{
+ "formato_predicao": "chorinho/video@1",
+ "modelo": "artefatos/detector_tab_v3ft_d3_ger/modelo.pt",
+ "commit": "desconhecido",
+ "video": "guitar dell ́arte/south american music (easy), guitar tutorial with sheet and tab.mp4",
+ "video_predicao": "guitar dell ́arte/south american music (easy), guitar tutorial with sheet and tab.mp4",
+ "quadro_lido_s": null,
+ "exibicao_previsao": "exibicoes de cada tela (v1)",
+ "tolerancia_s": 0.2,
+ "fps": 59.94005994005994,
+ "quadro_s": 0.016683,
+ "quadros_antes": 1,
+ "fracao_passo": 0.5,
+ "x_fallback": {
+  "ouro": 0,
+  "ouro_total": 269,
+  "previsao": 0,
+  "previsao_total": 269
+ },
+ "telas": {
+  "ouro": 3,
+  "casadas": 3,
+  "previstas": 3,
+  "sem_par_no_ouro": 0,
+  "pareamento": "por instantes (v1)",
+  "mapa": {
+   "1": 1,
+   "2": 2,
+   "3": 3
+  },
+  "criterio": {
+   "1": "instantes",
+   "2": "instantes",
+   "3": "instantes"
+  }
+ },
+ "notas": {
+  "avaliavel": true,
+  "motivo": null,
+  "por_tela": [
+   {
+    "ouro_tela": 1,
+    "previsao_tela": 1,
+    "notas_ouro": 85,
+    "entregues": 85,
+    "casadas": 85,
+    "casa_certa": 85,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 2,
+    "previsao_tela": 2,
+    "notas_ouro": 88,
+    "entregues": 88,
+    "casadas": 88,
+    "casa_certa": 88,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 3,
+    "previsao_tela": 3,
+    "notas_ouro": 96,
+    "entregues": 96,
+    "casadas": 96,
+    "casa_certa": 96,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   }
+  ],
+  "previsoes_sem_par": [],
+  "total": {
+   "notas_ouro": 269,
+   "entregues": 269,
+   "casadas": 269,
+   "casa_certa": 269,
+   "inventadas": 0,
+   "perdidas": 0,
+   "precisao": 1.0,
+   "revocacao": 1.0,
+   "acerto_casa": 1.0,
+   "entregues_sem_par_no_ouro": 0,
+   "entregues_fora_do_recorte": 0
+  }
+ },
+ "tempo": {
+  "avaliavel": true,
+  "motivo": null,
+  "instantes": 40,
+  "com_coluna": 40,
+  "sem_coluna": 0,
+  "classes": {
+   "acerto": 36,
+   "acerto_quadro": 2,
+   "acerto_tolerancia": 0,
+   "erro": 1,
+   "json_sem_tempo": 1,
+   "tempo_falso": 0,
+   "ausencia_certa": 0
+  },
+  "estado_certo": 38,
+  "ausencia_certa": 0,
+  "colunas_ajustadas": 40
+ },
+ "pre_caminho": "/app/data/saida/ouro_video/south_american_music_easy_guitar_tutorial_with_sheet_and_tab/pre.json",
+ "ouro_caminho": "data/gold/ouro_video/south_american_music_easy_guitar_tutorial_with_sheet_and_tab.json",
+ "predicao_caminho": "data/saida/fase8/ger/ger/south_american_music_easy_guitar_tutorial_with_sheet_and_tab.json"
+}

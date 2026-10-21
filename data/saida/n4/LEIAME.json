@@ -1,0 +1,32 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "tab/ataque_r4.py",
+  "tab/caminhos.py"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/n4/avaliar_n4.py",
+  "python data/saida/n4/avaliar_seeds.py",
+  "python data/saida/n4/cache_alto.py",
+  "python data/saida/n4/extrair.py",
+  "python data/saida/n4/extrair_t82.py",
+  "python data/saida/n4/extrair_t83.py",
+  "sh data/saida/n4/rodar_final.sh",
+  "sh data/saida/n4/rodar_n4.sh",
+  "sh data/saida/n4/rodar_seeds.sh",
+  "python data/saida/n4/treinar_ft.py"
+ ],
+ "modificado": "2026-10-21",
+ "motivo": "treino e medida vivos (rodadas 0211–0213)",
+ "nome": "n4",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/decisoes/0010-leitor-rede.md",
+  "docs/decisoes/9001-reestruturacao-dos-arquivos.md",
+  "docs/rodadas/0202-r4a-arco-real-no-ajuste-fino.md",
+  "docs/rodadas/0207-r4d-t82-no-ajuste-fino.md"
+ ],
+ "tamanho_mb": 61,
+ "trilha": "tablatura"
+}

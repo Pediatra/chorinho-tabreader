@@ -1,0 +1,19 @@
+{
+ "citado_por": [],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/tempo_gs2/__init__.py",
+  "python data/saida/tempo_gs2/diag.py",
+  "python data/saida/tempo_gs2/marcador.py",
+  "python data/saida/tempo_gs2/ocorr.py",
+  "sh data/saida/tempo_gs2/run.sh",
+  "sh data/saida/tempo_gs2/run_marcador.sh"
+ ],
+ "modificado": "2026-10-13",
+ "motivo": "histórico de 08–14/10",
+ "nome": "tempo_gs2",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 5,
+ "trilha": "tablatura"
+}

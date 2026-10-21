@@ -1,0 +1,22 @@
+{
+ "citado_por": [
+  "ESTADO.md"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/fase5_moldura/estrutura.py",
+  "python data/saida/fase5_moldura/feicoes.py",
+  "python data/saida/fase5_moldura/medir_banda.py",
+  "python data/saida/fase5_moldura/mrtabs_sheet.py",
+  "python data/saida/fase5_moldura/quadro_mrtabs.py",
+  "python data/saida/fase5_moldura/solido_canais.py",
+  "python data/saida/fase5_moldura/zoom.py"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+ "nome": "fase5_moldura",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 18,
+ "trilha": "tablatura"
+}

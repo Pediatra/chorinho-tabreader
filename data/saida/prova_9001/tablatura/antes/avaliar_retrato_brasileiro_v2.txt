@@ -1,0 +1,14 @@
+ouro:     data/gold/ouro_video/retrato_brasileiro_v2.json  (vídeo: sky guitar/retrato brasileiro - tab & lesson.mp4)
+predição: data/saida/fase8/rede/retrato_brasileiro_v2.json  (formato: chorinho/video@1; modelo: artefatos/detector_tab_v3ft_d1/modelo.pt; commit: desconhecido)
+telas: 13 de 13 telas do ouro com par previsto (previstas: 13; sem par no ouro: 0)
+pareamento: por instantes (v1); sem instante, por quadro_ref_s; exibição prevista: exibicoes de cada tela (v1); quadro lido: não consta
+notas (total): precisão 488 de 489 entregues = 0,998
+  revocação 488 de 491 do ouro = 0,994
+  inventadas 1 de 489 entregues
+  perdidas 3 de 491 do ouro
+  acerto de casa 487 de 488 casadas = 0,998
+tempo: 40 de 40 instantes com coluna acesa com o estado certo (acerto 39, 1 quadro antes 1, tolerância 0, erro 0, json sem tempo 0)
+  sem coluna acesa: ausência certa 0 de 0 instantes; tempo falso 0 de 0
+x: comparado pelo centro do token; sem x_centro_quadro (usou x_quadro, borda): ouro 0 de 491 notas, predição 0 de 768 notas
+tolerância: 0.2 s (coluna imediatamente anterior); rótulo até 1 quadro antes da coluna (0.033367 s, fps 29.9700); casamento de x: 0.5 * passo
+relatório salvo em /app/data/saida/prova_9001/tablatura/antes/avaliar_retrato_brasileiro_v2.json

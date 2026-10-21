@@ -1,0 +1,24 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "tab/caminhos.py",
+  "tab/censo.py",
+  "tab/maos_censo.py",
+  "tab/maos_detector.py"
+ ],
+ "classe": "manter",
+ "comando": "não registrado",
+ "modificado": "2026-10-12",
+ "motivo": "ferramenta dos 8 ouros, censo, MVP e FASE8_GER lidos por outras trilhas, um teste",
+ "nome": "censo",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/decisoes/0009-canais-fora-da-fase-8.md",
+  "docs/rodadas/1001-censo-de-maos.md",
+  "docs/rodadas/1002-escolha-do-detector.md",
+  "docs/rodadas/2010-lote1-dez-videos-sem-marcador.md",
+  "docs/rodadas/3001-quantos-videos-tem-pauta.md"
+ ],
+ "tamanho_mb": 49,
+ "trilha": "tablatura"
+}

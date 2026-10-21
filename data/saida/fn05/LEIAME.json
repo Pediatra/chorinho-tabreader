@@ -1,0 +1,18 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "data/gold/presenca_quadros.json"
+ ],
+ "classe": "arquivar",
+ "comando": "não registrado",
+ "ficam_no_lugar": [
+  "fn05/folha_novas.jpg"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "cópia inteira do repositório de 10/10 (snapshot); vai em .tar para o frio. Ficam no lugar os arquivos que o ouro cita: fn05/folha_novas.jpg.",
+ "nome": "fn05",
+ "regeneravel": "nao (cópia de código de 10/10; os arquivos únicos só existem lá)",
+ "rodadas": [],
+ "tamanho_mb": 309,
+ "trilha": "tablatura"
+}

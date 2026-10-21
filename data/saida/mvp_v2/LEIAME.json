@@ -1,0 +1,16 @@
+{
+ "citado_por": [
+  "ESTADO.md"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "sh data/saida/mvp_v2/run.sh"
+ ],
+ "modificado": "2026-10-13",
+ "motivo": "histórico de 08–14/10",
+ "nome": "mvp_v2",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 1,
+ "trilha": "tablatura"
+}

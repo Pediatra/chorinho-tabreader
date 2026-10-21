@@ -1,0 +1,27 @@
+{
+ "citado_por": [
+  "tab/ataque_divergencia.py",
+  "tab/caminhos.py"
+ ],
+ "classe": "manter",
+ "comando": "python -m tab.ataque_base",
+ "modificado": "2026-10-21",
+ "motivo": "rótulo do dono e gabarito de ataque",
+ "nome": "tab_rotulo",
+ "regeneravel": "nao",
+ "rodadas": [
+  "docs/rodadas/0200-r3-linha-de-base-do-ataque.md",
+  "docs/rodadas/0201-pre-rotulo-do-ataque-por-par.md",
+  "docs/rodadas/0202-r4a-arco-real-no-ajuste-fino.md",
+  "docs/rodadas/0203-r4b-arco-no-gerador.md",
+  "docs/rodadas/0204-r4c-traco-slide-curto-arco-raso.md",
+  "docs/rodadas/0206-a2-arco-como-objeto.md",
+  "docs/rodadas/0207-r4d-t82-no-ajuste-fino.md",
+  "docs/rodadas/0208-r4e-cadeia-e-arco-alto.md",
+  "docs/rodadas/0209-r4f-metade-da-t83.md",
+  "docs/rodadas/0210-diagnostico-recorte-do-painel.md",
+  "docs/rodadas/0211-recorte-alto.md"
+ ],
+ "tamanho_mb": 110,
+ "trilha": "tablatura"
+}

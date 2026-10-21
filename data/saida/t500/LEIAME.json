@@ -1,0 +1,16 @@
+{
+ "citado_por": [
+  "data/gold/ouro_video/retrato_brasileiro_v2.json"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/t500/folha.py"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "imagem do rótulo ou citada pelo ouro",
+ "nome": "t500",
+ "regeneravel": "caro",
+ "rodadas": [],
+ "tamanho_mb": 1,
+ "trilha": "tablatura"
+}

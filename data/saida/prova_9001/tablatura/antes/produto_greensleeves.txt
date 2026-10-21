@@ -1,0 +1,3 @@
+modelo artefatos/detector_tab_final_s1_ger/modelo.pt | commit desconhecido | imagem quadro
+4 telas, 209 notas, 0 nao-notas -> /app/data/saida/prova_9001/tablatura/antes/produto_greensleeves.json
+tempo: 206 notas com t_ini, 142 instantes, telas sem tempo 0 | invariantes: ok

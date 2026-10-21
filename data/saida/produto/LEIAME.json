@@ -1,0 +1,28 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "tab/caminhos.py"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/produto/conferir_musicxml.py",
+  "python data/saida/produto/diag_cursor_tela1.py",
+  "python data/saida/produto/diag_inicio_falso.py",
+  "python data/saida/produto/diag_perdidas.py",
+  "python data/saida/produto/diag_trecho.py",
+  "python data/saida/produto/diag_trecho2.py",
+  "python data/saida/produto/previa_musicxml.py",
+  "python data/saida/produto/previa_trecho.py"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "ferramenta dos 8 ouros, censo, MVP e FASE8_GER lidos por outras trilhas, um teste",
+ "nome": "produto",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/decisoes/9001-reestruturacao-dos-arquivos.md",
+  "docs/rodadas/0004-mvp-video-inteiro.md",
+  "docs/rodadas/1006-braco-calibrado-pela-musica.md"
+ ],
+ "tamanho_mb": 13,
+ "trilha": "tablatura"
+}

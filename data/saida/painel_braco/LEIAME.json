@@ -1,0 +1,35 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "tests/test_cordas_continuas.py"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/painel_braco/antes_depois.py",
+  "python data/saida/painel_braco/censo_antes_depois.py",
+  "python data/saida/painel_braco/dbg1.py",
+  "python data/saida/painel_braco/dbg_test.py",
+  "sh data/saida/painel_braco/dc.sh",
+  "python data/saida/painel_braco/fp02.py",
+  "python data/saida/painel_braco/frames.py",
+  "python data/saida/painel_braco/gold_antes_depois.py",
+  "python data/saida/painel_braco/gold_metrica.py",
+  "python data/saida/painel_braco/ken88.py",
+  "python data/saida/painel_braco/ken_escolher.py",
+  "python data/saida/painel_braco/medir.py",
+  "python data/saida/painel_braco/n_tier3.py",
+  "sh data/saida/painel_braco/retomar.sh",
+  "python data/saida/painel_braco/sa_mudou.py",
+  "sh data/saida/painel_braco/tudo.sh",
+  "python data/saida/painel_braco/varrer.py",
+  "python data/saida/painel_braco/ver0.py",
+  "python data/saida/painel_braco/ver3.py"
+ ],
+ "modificado": "2026-10-13",
+ "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+ "nome": "painel_braco",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 192,
+ "trilha": "tablatura"
+}

@@ -1,0 +1,27 @@
+{
+ "citado_por": [
+  "ESTADO.md"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/fase4_arco/alturas.py",
+  "python data/saida/fase4_arco/analise.py",
+  "sh data/saida/fase4_arco/cadeia.sh",
+  "python data/saida/fase4_arco/contexto.py",
+  "python data/saida/fase4_arco/extrair.py",
+  "python data/saida/fase4_arco/inventadas.py",
+  "sh data/saida/fase4_arco/listar_videos.sh",
+  "sh data/saida/fase4_arco/medir.sh",
+  "python data/saida/fase4_arco/montagem.py",
+  "sh data/saida/fase4_arco/reavaliar.sh",
+  "python data/saida/fase4_arco/rodar_alturas.py",
+  "sh data/saida/fase4_arco/rodar_alturas.sh"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+ "nome": "fase4_arco",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 15,
+ "trilha": "tablatura"
+}

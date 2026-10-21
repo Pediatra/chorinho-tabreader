@@ -1,0 +1,16 @@
+{
+ "citado_por": [],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/rodada0009/medir_amostra.py"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "histórico de 08–14/10; citada por rodada: nunca apagar, só arquivar",
+ "nome": "rodada0009",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [
+  "docs/rodadas/0009-zero-nas-cordas-internas.md"
+ ],
+ "tamanho_mb": 1,
+ "trilha": "tablatura"
+}

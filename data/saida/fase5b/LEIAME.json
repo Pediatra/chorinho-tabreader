@@ -1,0 +1,37 @@
+{
+ "citado_por": [
+  "ESTADO.md"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/fase5b/caminhos_raw.py",
+  "python data/saida/fase5b/deslocamento_quadros.py",
+  "python data/saida/fase5b/diag_casos.py",
+  "python data/saida/fase5b/editar_regua.py",
+  "python data/saida/fase5b/editar_regua2.py",
+  "python data/saida/fase5b/erros_tempo.py",
+  "python data/saida/fase5b/estatico_quadros.py",
+  "python data/saida/fase5b/par_242.py",
+  "python data/saida/fase5b/par_quadros.py",
+  "sh data/saida/fase5b/pts_compara.sh",
+  "sh data/saida/fase5b/pts_fps.sh",
+  "python data/saida/fase5b/quadro_a_quadro.py",
+  "python data/saida/fase5b/quadros_vs_quadro_em.py",
+  "python data/saida/fase5b/quadros_vs_seek.py",
+  "python data/saida/fase5b/recorte_quadros.py",
+  "python data/saida/fase5b/refino_onset.py",
+  "python data/saida/fase5b/refino_onset_det.py",
+  "python data/saida/fase5b/rotulo_vs_quadro.py",
+  "python data/saida/fase5b/saturacao_faixa.py",
+  "python data/saida/fase5b/teste_bgr_antes_crop.py",
+  "python data/saida/fase5b/teste_corpo.py",
+  "python data/saida/fase5b/teste_sintetico_recorte.py"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "histórico de 08–14/10",
+ "nome": "fase5b",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 6,
+ "trilha": "tablatura"
+}

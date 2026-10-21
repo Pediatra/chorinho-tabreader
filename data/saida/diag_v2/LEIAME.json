@@ -1,0 +1,34 @@
+{
+ "citado_por": [
+  "data/gold/presenca_quadros.json"
+ ],
+ "classe": "manter",
+ "comando": [
+  "sh data/saida/diag_v2/censo_shards.sh",
+  "python data/saida/diag_v2/diag_casos.py",
+  "python data/saida/diag_v2/diag_deriva.py",
+  "python data/saida/diag_v2/diag_figs.py",
+  "python data/saida/diag_v2/diag_gold.py",
+  "python data/saida/diag_v2/diag_gold2.py",
+  "python data/saida/diag_v2/diag_grupos.py",
+  "python data/saida/diag_v2/diag_mascara.py",
+  "python data/saida/diag_v2/diag_n10.py",
+  "python data/saida/diag_v2/diag_n10b.py",
+  "python data/saida/diag_v2/diag_paolo.py",
+  "python data/saida/diag_v2/diag_perfil.py",
+  "python data/saida/diag_v2/diag_piloto_head.py",
+  "python data/saida/diag_v2/diag_portao.py",
+  "python data/saida/diag_v2/diag_rect.py",
+  "python data/saida/diag_v2/diag_sem.py",
+  "python data/saida/diag_v2/diag_t35.py",
+  "python data/saida/diag_v2/diag_tempo.py",
+  "python data/saida/diag_v2/folha_sem_rotulo.py"
+ ],
+ "modificado": "2026-10-11",
+ "motivo": "imagem do rótulo ou citada pelo ouro",
+ "nome": "diag_v2",
+ "regeneravel": "caro",
+ "rodadas": [],
+ "tamanho_mb": 11,
+ "trilha": "tablatura"
+}

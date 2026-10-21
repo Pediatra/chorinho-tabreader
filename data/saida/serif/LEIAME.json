@@ -1,0 +1,32 @@
+{
+ "citado_por": [
+  "ESTADO.md"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/serif/amostra_gerador.py",
+  "python data/saida/serif/dbg.py",
+  "sh data/saida/serif/dc.sh",
+  "python data/saida/serif/diag_gen2.py",
+  "python data/saida/serif/diag_norm.py",
+  "python data/saida/serif/diag_tecnica.py",
+  "python data/saida/serif/exp_linha.py",
+  "python data/saida/serif/glifo_gymno.py",
+  "sh data/saida/serif/medir.sh",
+  "sh data/saida/serif/medir3.sh",
+  "sh data/saida/serif/medir_s1.sh",
+  "python data/saida/serif/montagem.py",
+  "sh data/saida/serif/retomar.sh",
+  "sh data/saida/serif/treinar.sh",
+  "sh data/saida/serif/treinar2.sh",
+  "sh data/saida/serif/treinar3.sh",
+  "sh data/saida/serif/treinar4.sh"
+ ],
+ "modificado": "2026-10-13",
+ "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+ "nome": "serif",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 19,
+ "trilha": "tablatura"
+}

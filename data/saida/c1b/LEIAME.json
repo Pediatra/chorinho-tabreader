@@ -1,0 +1,25 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "data/gold/presenca_quadros.json"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/c1b/crop.py",
+  "python data/saida/c1b/diag_forca.py",
+  "python data/saida/c1b/diag_loc.py",
+  "python data/saida/c1b/diag_pauta.py",
+  "python data/saida/c1b/diag_prog.py",
+  "python data/saida/c1b/folha.py",
+  "python data/saida/c1b/novas_sem_rotulo.py"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "imagem do rótulo ou citada pelo ouro",
+ "nome": "c1b",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/rodadas/0007-presenca-caixa-por-quadro.md"
+ ],
+ "tamanho_mb": 3,
+ "trilha": "tablatura"
+}

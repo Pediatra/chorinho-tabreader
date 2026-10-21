@@ -1,0 +1,21 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "tab/ataque_pares.py",
+  "tab/avaliar_video.py",
+  "tab/caminhos.py",
+  "tab/ouro_video.py"
+ ],
+ "classe": "manter",
+ "comando": "não registrado",
+ "modificado": "2026-10-13",
+ "motivo": "ferramenta dos 8 ouros, censo, MVP e FASE8_GER lidos por outras trilhas, um teste",
+ "nome": "ouro_video",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/decisoes/9001-reestruturacao-dos-arquivos.md",
+  "docs/rodadas/2018-transcritor-livre-basic-pitch.md"
+ ],
+ "tamanho_mb": 159,
+ "trilha": "tablatura"
+}

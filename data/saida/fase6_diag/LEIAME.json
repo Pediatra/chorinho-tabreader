@@ -1,0 +1,28 @@
+{
+ "citado_por": [
+  "ESTADO.md"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "sh data/saida/fase6_diag/avaliar_seeds.sh",
+  "python data/saida/fase6_diag/contar.py",
+  "sh data/saida/fase6_diag/final.sh",
+  "sh data/saida/fase6_diag/fmt.sh",
+  "sh data/saida/fase6_diag/gate.sh",
+  "python data/saida/fase6_diag/janela.py",
+  "sh data/saida/fase6_diag/lint.sh",
+  "sh data/saida/fase6_diag/medidas_depois.sh",
+  "python data/saida/fase6_diag/medir.py",
+  "sh data/saida/fase6_diag/regua_json.sh",
+  "python data/saida/fase6_diag/rotulo.py",
+  "python data/saida/fase6_diag/validar_pts.py",
+  "python data/saida/fase6_diag/vizinhos.py"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "histórico de 08–14/10",
+ "nome": "fase6_diag",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 2,
+ "trilha": "tablatura"
+}

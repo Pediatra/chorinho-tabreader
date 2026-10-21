@@ -1,0 +1,148 @@
+{
+ "formato_predicao": "chorinho/video@1",
+ "modelo": "artefatos/detector_tab_v3ft_d3_ger/modelo.pt",
+ "commit": "desconhecido",
+ "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+ "video_predicao": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
+ "quadro_lido_s": null,
+ "exibicao_previsao": "exibicoes de cada tela (v1)",
+ "tolerancia_s": 0.2,
+ "fps": 30.0,
+ "quadro_s": 0.033333,
+ "quadros_antes": 1,
+ "fracao_passo": 0.5,
+ "x_fallback": {
+  "ouro": 0,
+  "ouro_total": 381,
+  "previsao": 0,
+  "previsao_total": 383
+ },
+ "telas": {
+  "ouro": 5,
+  "casadas": 5,
+  "previstas": 5,
+  "sem_par_no_ouro": 0,
+  "pareamento": "por instantes (v1)",
+  "mapa": {
+   "1": 1,
+   "2": 2,
+   "3": 3,
+   "4": 4,
+   "5": 5
+  },
+  "criterio": {
+   "1": "instantes",
+   "2": "instantes",
+   "3": "instantes",
+   "4": "instantes",
+   "5": "instantes"
+  }
+ },
+ "notas": {
+  "avaliavel": true,
+  "motivo": null,
+  "por_tela": [
+   {
+    "ouro_tela": 1,
+    "previsao_tela": 1,
+    "notas_ouro": 79,
+    "entregues": 79,
+    "casadas": 79,
+    "casa_certa": 79,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 2,
+    "previsao_tela": 2,
+    "notas_ouro": 99,
+    "entregues": 99,
+    "casadas": 99,
+    "casa_certa": 98,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 0.98989898989899
+   },
+   {
+    "ouro_tela": 3,
+    "previsao_tela": 3,
+    "notas_ouro": 80,
+    "entregues": 80,
+    "casadas": 76,
+    "casa_certa": 75,
+    "inventadas": 4,
+    "perdidas": 4,
+    "precisao": 0.95,
+    "revocacao": 0.95,
+    "acerto_casa": 0.9868421052631579
+   },
+   {
+    "ouro_tela": 4,
+    "previsao_tela": 4,
+    "notas_ouro": 80,
+    "entregues": 83,
+    "casadas": 79,
+    "casa_certa": 79,
+    "inventadas": 4,
+    "perdidas": 1,
+    "precisao": 0.9518072289156626,
+    "revocacao": 0.9875,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 5,
+    "previsao_tela": 5,
+    "notas_ouro": 43,
+    "entregues": 42,
+    "casadas": 42,
+    "casa_certa": 42,
+    "inventadas": 0,
+    "perdidas": 1,
+    "precisao": 1.0,
+    "revocacao": 0.9767441860465116,
+    "acerto_casa": 1.0
+   }
+  ],
+  "previsoes_sem_par": [],
+  "total": {
+   "notas_ouro": 381,
+   "entregues": 383,
+   "casadas": 375,
+   "casa_certa": 373,
+   "inventadas": 8,
+   "perdidas": 6,
+   "precisao": 0.97911227154047,
+   "revocacao": 0.984251968503937,
+   "acerto_casa": 0.9946666666666667,
+   "entregues_sem_par_no_ouro": 0,
+   "entregues_fora_do_recorte": 0
+  }
+ },
+ "tempo": {
+  "avaliavel": true,
+  "motivo": null,
+  "instantes": 40,
+  "com_coluna": 0,
+  "sem_coluna": 40,
+  "classes": {
+   "acerto": 0,
+   "acerto_quadro": 0,
+   "acerto_tolerancia": 0,
+   "erro": 0,
+   "json_sem_tempo": 0,
+   "tempo_falso": 0,
+   "ausencia_certa": 40
+  },
+  "estado_certo": 0,
+  "ausencia_certa": 40,
+  "colunas_ajustadas": 0
+ },
+ "pre_caminho": "/app/data/saida/ouro_video/tab_from_this_place_pat_metheny_fingerstyle_guitar_cover/pre.json",
+ "ouro_caminho": "data/gold/ouro_video/tab_from_this_place_pat_metheny_fingerstyle_guitar_cover.json",
+ "predicao_caminho": "data/saida/fase8/ger/ger/tab_from_this_place_pat_metheny_fingerstyle_guitar_cover.json"
+}

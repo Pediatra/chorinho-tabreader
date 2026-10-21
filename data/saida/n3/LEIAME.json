@@ -1,0 +1,22 @@
+{
+ "citado_por": [
+  "ESTADO.md"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/n3/medir.py",
+  "python data/saida/n3/medir2.py",
+  "python data/saida/n3/medir3.py",
+  "python data/saida/n3/medir4.py",
+  "python data/saida/n3/medir5.py"
+ ],
+ "modificado": "2026-10-21",
+ "motivo": "treino e medida vivos (rodadas 0211–0213)",
+ "nome": "n3",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/decisoes/9001-reestruturacao-dos-arquivos.md"
+ ],
+ "tamanho_mb": 37,
+ "trilha": "tablatura"
+}

@@ -1,0 +1,14 @@
+ouro:     data/gold/ouro_video/south_american_music_easy_guitar_tutorial_with_sheet_and_tab.json  (vídeo: guitar dell ́arte/south american music (easy), guitar tutorial with sheet and tab.mp4)
+predição: data/saida/fase8/ger/ger/south_american_music_easy_guitar_tutorial_with_sheet_and_tab.json  (formato: chorinho/video@1; modelo: artefatos/detector_tab_v3ft_d3_ger/modelo.pt; commit: desconhecido)
+telas: 3 de 3 telas do ouro com par previsto (previstas: 3; sem par no ouro: 0)
+pareamento: por instantes (v1); exibição prevista: exibicoes de cada tela (v1); quadro lido: não consta
+notas (total): precisão 269 de 269 entregues = 1,000
+  revocação 269 de 269 do ouro = 1,000
+  inventadas 0 de 269 entregues
+  perdidas 0 de 269 do ouro
+  acerto de casa 269 de 269 casadas = 1,000
+tempo: 38 de 40 instantes com coluna acesa com o estado certo (acerto 36, 1 quadro antes 2, tolerância 0, erro 1, json sem tempo 1)
+  sem coluna acesa: ausência certa 0 de 0 instantes; tempo falso 0 de 0
+x: comparado pelo centro do token; sem x_centro_quadro (usou x_quadro, borda): ouro 0 de 269 notas, predição 0 de 269 notas
+tolerância: 0.2 s (coluna imediatamente anterior); rótulo até 1 quadro antes da coluna (0.016683 s, fps 59.9401); casamento de x: 0.5 * passo
+relatório salvo em /app/data/saida/prova_9001/tablatura/antes/avaliar_south_american_music_easy_guitar_tutorial_with_sheet_and_tab.json

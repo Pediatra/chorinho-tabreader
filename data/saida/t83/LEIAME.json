@@ -1,0 +1,20 @@
+{
+ "citado_por": [
+  "tab/ataque_divergencia.py"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/t83/gerar.py",
+  "python data/saida/t83/material_ferramenta.py"
+ ],
+ "modificado": "2026-10-20",
+ "motivo": "rótulo do dono e gabarito de ataque",
+ "nome": "t83",
+ "regeneravel": "nao",
+ "rodadas": [
+  "docs/rodadas/0205-faixa-nao-sei.md",
+  "docs/rodadas/0206-a2-arco-como-objeto.md"
+ ],
+ "tamanho_mb": 77,
+ "trilha": "tablatura"
+}

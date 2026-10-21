@@ -1,0 +1,17 @@
+{
+ "citado_por": [
+  "tab/sintetico_sistema.py"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/n1/individuais.py",
+  "python data/saida/n1/medir_alturas.py"
+ ],
+ "modificado": "2026-10-13",
+ "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+ "nome": "n1",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 17,
+ "trilha": "tablatura"
+}

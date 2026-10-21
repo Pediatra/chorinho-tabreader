@@ -1,0 +1,22 @@
+{
+ "citado_por": [],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/fase4_13/candidatos_pares.py",
+  "python data/saida/fase4_13/diag_tela8.py",
+  "python data/saida/fase4_13/harness_quadros.py",
+  "python data/saida/fase4_13/por_amostra.py",
+  "sh data/saida/fase4_13/rodar_arvore.sh",
+  "sh data/saida/fase4_13/rodar_limpo.sh"
+ ],
+ "ficam_no_lugar": [],
+ "modificado": "2026-10-10",
+ "motivo": "cópia inteira do repositório de 10/10 (snapshot); vai em .tar para o frio. Nenhum arquivo do ouro fica no lugar; citada por rodada: nunca apagar, só arquivar",
+ "nome": "fase4_13",
+ "regeneravel": "nao (cópia de código de 10/10; os arquivos únicos só existem lá)",
+ "rodadas": [
+  "docs/rodadas/0008-casa-13-par-de-algarismos.md"
+ ],
+ "tamanho_mb": 1129,
+ "trilha": "tablatura"
+}

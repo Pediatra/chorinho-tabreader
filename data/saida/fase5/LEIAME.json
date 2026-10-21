@@ -1,0 +1,17 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "tests/test_esquema.py"
+ ],
+ "classe": "manter",
+ "comando": "não registrado",
+ "modificado": "2026-10-10",
+ "motivo": "ferramenta dos 8 ouros, censo, MVP e FASE8_GER lidos por outras trilhas, um teste",
+ "nome": "fase5",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/decisoes/9001-reestruturacao-dos-arquivos.md"
+ ],
+ "tamanho_mb": 5,
+ "trilha": "tablatura"
+}

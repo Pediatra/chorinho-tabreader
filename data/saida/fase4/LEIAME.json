@@ -1,0 +1,18 @@
+{
+ "citado_por": [
+  "ESTADO.md"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/fase4/ab_imagem.py",
+  "python data/saida/fase4/diag_erros.py",
+  "python data/saida/fase4/recortes_erros.py"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "histórico de 08–14/10",
+ "nome": "fase4",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 1,
+ "trilha": "tablatura"
+}

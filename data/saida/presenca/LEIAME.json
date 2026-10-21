@@ -1,0 +1,15 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "data/gold/presenca_quadros.json"
+ ],
+ "classe": "manter",
+ "comando": "não registrado",
+ "modificado": "2026-10-10",
+ "motivo": "imagem do rótulo ou citada pelo ouro",
+ "nome": "presenca",
+ "regeneravel": "caro",
+ "rodadas": [],
+ "tamanho_mb": 7,
+ "trilha": "tablatura"
+}

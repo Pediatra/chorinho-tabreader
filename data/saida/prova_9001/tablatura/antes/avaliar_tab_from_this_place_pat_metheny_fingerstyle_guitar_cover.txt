@@ -1,0 +1,14 @@
+ouro:     data/gold/ouro_video/tab_from_this_place_pat_metheny_fingerstyle_guitar_cover.json  (vídeo: kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4)
+predição: data/saida/fase8/ger/ger/tab_from_this_place_pat_metheny_fingerstyle_guitar_cover.json  (formato: chorinho/video@1; modelo: artefatos/detector_tab_v3ft_d3_ger/modelo.pt; commit: desconhecido)
+telas: 5 de 5 telas do ouro com par previsto (previstas: 5; sem par no ouro: 0)
+pareamento: por instantes (v1); exibição prevista: exibicoes de cada tela (v1); quadro lido: não consta
+notas (total): precisão 375 de 383 entregues = 0,979
+  revocação 375 de 381 do ouro = 0,984
+  inventadas 8 de 383 entregues
+  perdidas 6 de 381 do ouro
+  acerto de casa 373 de 375 casadas = 0,995
+tempo: 0 de 0 instantes com coluna acesa com o estado certo (acerto 0, 1 quadro antes 0, tolerância 0, erro 0, json sem tempo 0)
+  sem coluna acesa: ausência certa 40 de 40 instantes; tempo falso 0 de 40
+x: comparado pelo centro do token; sem x_centro_quadro (usou x_quadro, borda): ouro 0 de 381 notas, predição 0 de 383 notas
+tolerância: 0.2 s (coluna imediatamente anterior); rótulo até 1 quadro antes da coluna (0.033333 s, fps 30.0000); casamento de x: 0.5 * passo
+relatório salvo em /app/data/saida/prova_9001/tablatura/antes/avaliar_tab_from_this_place_pat_metheny_fingerstyle_guitar_cover.json

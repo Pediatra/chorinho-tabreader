@@ -1,0 +1,14 @@
+ouro:     data/gold/ouro_video/gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.json  (vídeo: robert lunn/gymnopédie no.1 (erik satie) - includes sheet music⧸tab - classical guitar.mp4)
+predição: data/saida/fase8/ger/ger/gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.json  (formato: chorinho/video@1; modelo: artefatos/detector_tab_v3ft_d2_ger/modelo.pt; commit: desconhecido)
+telas: 12 de 12 telas do ouro com par previsto (previstas: 12; sem par no ouro: 0)
+pareamento: por instantes (v1); sem instante, por quadro_ref_s; exibição prevista: exibicoes de cada tela (v1); quadro lido: não consta
+notas (total): precisão 391 de 391 entregues = 1,000
+  revocação 391 de 392 do ouro = 0,997
+  inventadas 0 de 391 entregues
+  perdidas 1 de 392 do ouro
+  acerto de casa 380 de 391 casadas = 0,972
+tempo: 0 de 0 instantes com coluna acesa com o estado certo (acerto 0, 1 quadro antes 0, tolerância 0, erro 0, json sem tempo 0)
+  sem coluna acesa: ausência certa 40 de 40 instantes; tempo falso 0 de 40
+x: comparado pelo centro do token; sem x_centro_quadro (usou x_quadro, borda): ouro 0 de 392 notas, predição 0 de 391 notas
+tolerância: 0.2 s (coluna imediatamente anterior); rótulo até 1 quadro antes da coluna (0.041708 s, fps 23.9760); casamento de x: 0.5 * passo
+relatório salvo em /app/data/saida/prova_9001/tablatura/antes/avaliar_gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.json

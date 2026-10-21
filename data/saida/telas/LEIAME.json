@@ -1,0 +1,15 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "tab/telas.py"
+ ],
+ "classe": "manter",
+ "comando": "não registrado",
+ "modificado": "2026-10-10",
+ "motivo": "lido pelo código",
+ "nome": "telas",
+ "regeneravel": "caro",
+ "rodadas": [],
+ "tamanho_mb": 2,
+ "trilha": "tablatura"
+}

@@ -1,0 +1,31 @@
+{
+ "citado_por": [
+  "ESTADO.md"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "sh data/saida/fase4_digitos/avaliar_tres.sh",
+  "python data/saida/fase4_digitos/comparar_paginas.py",
+  "python data/saida/fase4_digitos/ler_paginas.py",
+  "python data/saida/fase4_digitos/medir_pares_forma.py",
+  "python data/saida/fase4_digitos/medir_vaos.py",
+  "python data/saida/fase4_digitos/probe_12_forma.py",
+  "python data/saida/fase4_digitos/probe_12_grade.py",
+  "python data/saida/fase4_digitos/probe_12_grade_head.py",
+  "python data/saida/fase4_digitos/probe_12_tecnica.py",
+  "python data/saida/fase4_digitos/probe_fonte.py",
+  "python data/saida/fase4_digitos/probe_sintetico_12.py",
+  "python data/saida/fase4_digitos/probe_tracking.py",
+  "python data/saida/fase4_digitos/probe_vao_sintetico.py"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "histórico de 08–14/10; citada por rodada: nunca apagar, só arquivar",
+ "nome": "fase4_digitos",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [
+  "docs/rodadas/0005-casa-dois-algarismos-vao.md",
+  "docs/rodadas/0006-casa-dois-algarismos-forma.md"
+ ],
+ "tamanho_mb": 1,
+ "trilha": "tablatura"
+}

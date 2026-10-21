@@ -1,0 +1,20 @@
+{
+ "citado_por": [
+  "ESTADO.md"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/tempo_gs/__init__.py",
+  "python data/saida/tempo_gs/diag.py",
+  "python data/saida/tempo_gs/diag_cru.py",
+  "python data/saida/tempo_gs/diag_hipoteses.py",
+  "python data/saida/tempo_gs/diag_interp.py"
+ ],
+ "modificado": "2026-10-13",
+ "motivo": "histórico de 08–14/10",
+ "nome": "tempo_gs",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 4,
+ "trilha": "tablatura"
+}

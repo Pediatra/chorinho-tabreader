@@ -1,0 +1,133 @@
+{
+ "formato_predicao": "chorinho/video@1",
+ "modelo": "artefatos/detector_tab_v3ft_d2_ger/modelo.pt",
+ "commit": "desconhecido",
+ "video": "pablo romé/greensleeves 💚 guía de estudio 👌 partitura + tab + pdf.mp4",
+ "video_predicao": "pablo romé/greensleeves 💚 guía de estudio 👌 partitura + tab + pdf.mp4",
+ "quadro_lido_s": null,
+ "exibicao_previsao": "exibicoes de cada tela (v1)",
+ "tolerancia_s": 0.2,
+ "fps": 25.0,
+ "quadro_s": 0.04,
+ "quadros_antes": 1,
+ "fracao_passo": 0.5,
+ "x_fallback": {
+  "ouro": 0,
+  "ouro_total": 106,
+  "previsao": 0,
+  "previsao_total": 209
+ },
+ "telas": {
+  "ouro": 4,
+  "casadas": 4,
+  "previstas": 4,
+  "sem_par_no_ouro": 0,
+  "pareamento": "por instantes (v1)",
+  "mapa": {
+   "1": 1,
+   "2": 2,
+   "3": 3,
+   "4": 4
+  },
+  "criterio": {
+   "1": "instantes",
+   "2": "instantes",
+   "3": "instantes",
+   "4": "instantes"
+  }
+ },
+ "notas": {
+  "avaliavel": true,
+  "motivo": null,
+  "por_tela": [
+   {
+    "ouro_tela": 1,
+    "previsao_tela": 1,
+    "notas_ouro": 28,
+    "entregues": 28,
+    "casadas": 28,
+    "casa_certa": 28,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 2,
+    "previsao_tela": 2,
+    "notas_ouro": 27,
+    "entregues": 27,
+    "casadas": 27,
+    "casa_certa": 27,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 3,
+    "previsao_tela": 3,
+    "notas_ouro": 25,
+    "entregues": 25,
+    "casadas": 25,
+    "casa_certa": 25,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 4,
+    "previsao_tela": 4,
+    "notas_ouro": 26,
+    "entregues": 26,
+    "casadas": 26,
+    "casa_certa": 26,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   }
+  ],
+  "previsoes_sem_par": [],
+  "total": {
+   "notas_ouro": 106,
+   "entregues": 106,
+   "casadas": 106,
+   "casa_certa": 106,
+   "inventadas": 0,
+   "perdidas": 0,
+   "precisao": 1.0,
+   "revocacao": 1.0,
+   "acerto_casa": 1.0,
+   "entregues_sem_par_no_ouro": 0,
+   "entregues_fora_do_recorte": 0
+  }
+ },
+ "tempo": {
+  "avaliavel": true,
+  "motivo": null,
+  "instantes": 40,
+  "com_coluna": 40,
+  "sem_coluna": 0,
+  "classes": {
+   "acerto": 34,
+   "acerto_quadro": 2,
+   "acerto_tolerancia": 2,
+   "erro": 1,
+   "json_sem_tempo": 1,
+   "tempo_falso": 0,
+   "ausencia_certa": 0
+  },
+  "estado_certo": 38,
+  "ausencia_certa": 0,
+  "colunas_ajustadas": 40
+ },
+ "pre_caminho": "/app/data/saida/ouro_video/greensleeves_guia_de_estudio_partitura_tab_pdf/pre.json",
+ "ouro_caminho": "data/gold/ouro_video/greensleeves_guia_de_estudio_partitura_tab_pdf.json",
+ "predicao_caminho": "data/saida/fase8/ger/ger/greensleeves_guia_de_estudio_partitura_tab_pdf.json"
+}

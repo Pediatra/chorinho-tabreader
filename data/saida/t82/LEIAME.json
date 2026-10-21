@@ -1,0 +1,25 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "tab/ataque_r4.py"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/t82/exame.py",
+  "python data/saida/t82/fechar.py",
+  "python data/saida/t82/gerar.py",
+  "python data/saida/t82/material_ferramenta.py",
+  "python data/saida/t82/redesenhar.py",
+  "python data/saida/t82/refazer.py",
+  "python data/saida/t82/refazer_c02.py"
+ ],
+ "modificado": "2026-10-15",
+ "motivo": "rótulo do dono e gabarito de ataque",
+ "nome": "t82",
+ "regeneravel": "nao",
+ "rodadas": [
+  "docs/rodadas/0101-regua-de-tecnica.md"
+ ],
+ "tamanho_mb": 179,
+ "trilha": "tablatura"
+}

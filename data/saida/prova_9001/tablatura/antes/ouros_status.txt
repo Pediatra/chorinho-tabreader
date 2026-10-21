@@ -1,0 +1,9 @@
+COM_PRODUTO end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics pred=fase8/ger/ger
+COM_PRODUTO greensleeves_guia_de_estudio_partitura_tab_pdf pred=fase8/ger/ger
+COM_PRODUTO gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar pred=fase8/ger/ger
+COM_PRODUTO la_vie_en_rose_edith_piaf_tab pred=fase8/rede
+EXCLUIDO retrato_brasileiro (substituido por retrato_brasileiro_v2)
+COM_PRODUTO retrato_brasileiro_v2 pred=fase8/rede
+COM_PRODUTO south_american_music_easy_guitar_tutorial_with_sheet_and_tab pred=fase8/ger/ger
+COM_PRODUTO tab_from_this_place_pat_metheny_fingerstyle_guitar_cover pred=fase8/ger/ger
+COM_PRODUTO tabroom_335_larry_carlton_fingerstyle_guitar pred=fase8/ger/ger

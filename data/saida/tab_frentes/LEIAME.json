@@ -1,0 +1,24 @@
+{
+ "citado_por": [
+  "tab/caminhos.py"
+ ],
+ "classe": "manter",
+ "comando": "não registrado",
+ "modificado": "2026-10-16",
+ "motivo": "TAB_FRENTE_* e rodadas 0101–0170",
+ "nome": "tab_frentes",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/decisoes/9001-reestruturacao-dos-arquivos.md",
+  "docs/rodadas/0101-regua-de-tecnica.md",
+  "docs/rodadas/0102-topo-cortado.md",
+  "docs/rodadas/0103-cabeca-do-ligado.md",
+  "docs/rodadas/0150-rolagem-censo-nao-rola.md",
+  "docs/rodadas/0151-rolagem-saltos-definicoes.md",
+  "docs/rodadas/0152-rolagem-consenso-e-remedida.md",
+  "docs/rodadas/0153-rolagem-palpite-pelo-cursor.md",
+  "docs/rodadas/0170-som-confere-a-casa.md"
+ ],
+ "tamanho_mb": 71,
+ "trilha": "tablatura"
+}

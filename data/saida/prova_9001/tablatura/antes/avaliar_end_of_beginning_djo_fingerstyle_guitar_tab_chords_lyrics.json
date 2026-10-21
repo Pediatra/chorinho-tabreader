@@ -1,0 +1,239 @@
+{
+ "formato_predicao": "chorinho/video@1",
+ "modelo": "artefatos/detector_tab_v3ft_d4_ger/modelo.pt",
+ "commit": "desconhecido",
+ "video": "kenneth acoustic/end of beginning - djo ｜ fingerstyle guitar ｜ tab + chords + lyrics.mp4",
+ "video_predicao": "kenneth acoustic/end of beginning - djo ｜ fingerstyle guitar ｜ tab + chords + lyrics.mp4",
+ "quadro_lido_s": null,
+ "exibicao_previsao": "exibicoes de cada tela (v1)",
+ "tolerancia_s": 0.2,
+ "fps": 23.976023976023978,
+ "quadro_s": 0.041708,
+ "quadros_antes": 1,
+ "fracao_passo": 0.5,
+ "x_fallback": {
+  "ouro": 0,
+  "ouro_total": 303,
+  "previsao": 0,
+  "previsao_total": 1041
+ },
+ "telas": {
+  "ouro": 7,
+  "casadas": 7,
+  "previstas": 22,
+  "sem_par_no_ouro": 15,
+  "pareamento": "por instantes (v1); sem instante, por quadro_ref_s",
+  "mapa": {
+   "1": 1,
+   "2": 2,
+   "3": 3,
+   "4": 4,
+   "5": 5,
+   "6": 6,
+   "7": 7
+  },
+  "criterio": {
+   "1": "quadro_ref_s",
+   "2": "instantes",
+   "3": "instantes",
+   "4": "instantes",
+   "5": "instantes",
+   "6": "instantes",
+   "7": "instantes"
+  }
+ },
+ "notas": {
+  "avaliavel": true,
+  "motivo": null,
+  "por_tela": [
+   {
+    "ouro_tela": 1,
+    "previsao_tela": 1,
+    "notas_ouro": 25,
+    "entregues": 26,
+    "casadas": 25,
+    "casa_certa": 25,
+    "inventadas": 1,
+    "perdidas": 0,
+    "precisao": 0.9615384615384616,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 2,
+    "previsao_tela": 2,
+    "notas_ouro": 43,
+    "entregues": 43,
+    "casadas": 43,
+    "casa_certa": 43,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 3,
+    "previsao_tela": 3,
+    "notas_ouro": 43,
+    "entregues": 44,
+    "casadas": 43,
+    "casa_certa": 43,
+    "inventadas": 1,
+    "perdidas": 0,
+    "precisao": 0.9772727272727273,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 4,
+    "previsao_tela": 4,
+    "notas_ouro": 45,
+    "entregues": 45,
+    "casadas": 45,
+    "casa_certa": 45,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 5,
+    "previsao_tela": 5,
+    "notas_ouro": 42,
+    "entregues": 42,
+    "casadas": 42,
+    "casa_certa": 41,
+    "inventadas": 0,
+    "perdidas": 0,
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "acerto_casa": 0.9761904761904762
+   },
+   {
+    "ouro_tela": 6,
+    "previsao_tela": 6,
+    "notas_ouro": 50,
+    "entregues": 52,
+    "casadas": 50,
+    "casa_certa": 50,
+    "inventadas": 2,
+    "perdidas": 0,
+    "precisao": 0.9615384615384616,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   },
+   {
+    "ouro_tela": 7,
+    "previsao_tela": 7,
+    "notas_ouro": 55,
+    "entregues": 56,
+    "casadas": 55,
+    "casa_certa": 55,
+    "inventadas": 1,
+    "perdidas": 0,
+    "precisao": 0.9821428571428571,
+    "revocacao": 1.0,
+    "acerto_casa": 1.0
+   }
+  ],
+  "previsoes_sem_par": [
+   {
+    "previsao_tela": 8,
+    "entregues": 51
+   },
+   {
+    "previsao_tela": 9,
+    "entregues": 43
+   },
+   {
+    "previsao_tela": 10,
+    "entregues": 43
+   },
+   {
+    "previsao_tela": 11,
+    "entregues": 45
+   },
+   {
+    "previsao_tela": 12,
+    "entregues": 44
+   },
+   {
+    "previsao_tela": 13,
+    "entregues": 52
+   },
+   {
+    "previsao_tela": 14,
+    "entregues": 57
+   },
+   {
+    "previsao_tela": 15,
+    "entregues": 51
+   },
+   {
+    "previsao_tela": 16,
+    "entregues": 50
+   },
+   {
+    "previsao_tela": 17,
+    "entregues": 62
+   },
+   {
+    "previsao_tela": 18,
+    "entregues": 62
+   },
+   {
+    "previsao_tela": 19,
+    "entregues": 52
+   },
+   {
+    "previsao_tela": 20,
+    "entregues": 41
+   },
+   {
+    "previsao_tela": 21,
+    "entregues": 50
+   },
+   {
+    "previsao_tela": 22,
+    "entregues": 30
+   }
+  ],
+  "total": {
+   "notas_ouro": 303,
+   "entregues": 308,
+   "casadas": 303,
+   "casa_certa": 302,
+   "inventadas": 5,
+   "perdidas": 0,
+   "precisao": 0.9837662337662337,
+   "revocacao": 1.0,
+   "acerto_casa": 0.9966996699669967,
+   "entregues_sem_par_no_ouro": 0,
+   "entregues_fora_do_recorte": 733
+  }
+ },
+ "tempo": {
+  "avaliavel": true,
+  "motivo": null,
+  "instantes": 12,
+  "com_coluna": 12,
+  "sem_coluna": 0,
+  "classes": {
+   "acerto": 0,
+   "acerto_quadro": 0,
+   "acerto_tolerancia": 0,
+   "erro": 0,
+   "json_sem_tempo": 12,
+   "tempo_falso": 0,
+   "ausencia_certa": 0
+  },
+  "estado_certo": 0,
+  "ausencia_certa": 0,
+  "colunas_ajustadas": 12
+ },
+ "pre_caminho": "/app/data/saida/ouro_video/end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics/pre.json",
+ "ouro_caminho": "data/gold/ouro_video/end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics.json",
+ "predicao_caminho": "data/saida/fase8/ger/ger/end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics.json"
+}

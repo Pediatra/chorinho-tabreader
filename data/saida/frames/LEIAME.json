@@ -1,0 +1,26 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "data/gold/portao.json",
+  "data/gold/simbolos.json",
+  "data/gold/simbolos_2.json",
+  "data/gold/simbolos_3.json",
+  "tab/caminhos.py",
+  "tab/portao.py"
+ ],
+ "classe": "manter",
+ "comando": "não registrado",
+ "modificado": "2026-10-09",
+ "motivo": "imagem do rótulo ou citada pelo ouro",
+ "nome": "frames",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/decisoes/0005-portao-de-tablatura-aprendido.md",
+  "docs/decisoes/0006-marcador-sem-suposicao-de-cor.md",
+  "docs/decisoes/0007-painel-com-partitura-e-tablatura.md",
+  "docs/decisoes/9001-reestruturacao-dos-arquivos.md",
+  "docs/rodadas/0002-portao-tablatura-canais-novos.md"
+ ],
+ "tamanho_mb": 68,
+ "trilha": "tablatura"
+}

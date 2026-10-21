@@ -1,0 +1,458 @@
+{
+ "data/saida/afinacao": {
+  "citado_por": [
+   "tab/afinacao.py"
+  ],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+  "nome": "afinacao",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 31,
+  "trilha": "tablatura"
+ },
+ "data/saida/coleta_marcar": {
+  "citado_por": [
+   "tab/caminhos.py"
+  ],
+  "classe": "manter",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "lido pelo código",
+  "nome": "coleta_marcar",
+  "regeneravel": "caro",
+  "rodadas": [],
+  "tamanho_mb": 4,
+  "trilha": "tablatura"
+ },
+ "data/saida/coleta_tab": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "coleta_tab",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 10,
+  "trilha": "tablatura"
+ },
+ "data/saida/correcoes": {
+  "citado_por": [
+   "ESTADO.md"
+  ],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "correcoes",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/intervalos": {
+  "citado_por": [
+   "tab/pipeline.py"
+  ],
+  "classe": "manter",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "lido pelo código",
+  "nome": "intervalos",
+  "regeneravel": "caro",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/intervalos2": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "intervalos2",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/intervalos3": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "intervalos3",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/intervalos4": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "intervalos4",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/intervalos5": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "intervalos5",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/intervalos6": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "intervalos6",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/intervalos7": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "intervalos7",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/intervalos8": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "intervalos8",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/iwaki_teste": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "iwaki_teste",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/marcador": {
+  "citado_por": [
+   "tab/marcador.py"
+  ],
+  "classe": "manter",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "lido pelo código",
+  "nome": "marcador",
+  "regeneravel": "caro",
+  "rodadas": [],
+  "tamanho_mb": 7,
+  "trilha": "tablatura"
+ },
+ "data/saida/novas": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "novas",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 10,
+  "trilha": "tablatura"
+ },
+ "data/saida/novas_tablaturas": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "novas_tablaturas",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 3,
+  "trilha": "tablatura"
+ },
+ "data/saida/ouro_novos": {
+  "citado_por": [
+   "tab/caminhos.py"
+  ],
+  "classe": "manter",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "lido pelo código",
+  "nome": "ouro_novos",
+  "regeneravel": "caro",
+  "rodadas": [],
+  "tamanho_mb": 3,
+  "trilha": "tablatura"
+ },
+ "data/saida/paineis": {
+  "citado_por": [
+   "ESTADO.md",
+   "tab/simbolo.py"
+  ],
+  "classe": "manter",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "imagem do rótulo ou citada pelo ouro",
+  "nome": "paineis",
+  "regeneravel": "caro",
+  "rodadas": [],
+  "tamanho_mb": 16,
+  "trilha": "tablatura"
+ },
+ "data/saida/portao_casos": {
+  "citado_por": [
+   "tab/portao.py",
+   "tests/test_portao.py"
+  ],
+  "classe": "manter",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "imagem do rótulo ou citada pelo ouro",
+  "nome": "portao_casos",
+  "regeneravel": "caro",
+  "rodadas": [
+   "docs/decisoes/9001-reestruturacao-dos-arquivos.md",
+   "docs/rodadas/0101-regua-de-tecnica.md"
+  ],
+  "tamanho_mb": 118,
+  "trilha": "tablatura"
+ },
+ "data/saida/portao_novos": {
+  "citado_por": [
+   "tab/portao.py"
+  ],
+  "classe": "manter",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "lido pelo código",
+  "nome": "portao_novos",
+  "regeneravel": "caro",
+  "rodadas": [
+   "docs/rodadas/0002-portao-tablatura-canais-novos.md"
+  ],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/pulso_iwaki": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "pulso_iwaki",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/pulso_sky": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "pulso_sky",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/shin_teste": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "shin_teste",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ },
+ "data/saida/simbolos": {
+  "citado_por": [
+   "ESTADO.md",
+   "tab/digito.py",
+   "tab/pipeline.py",
+   "tab/simbolos.py"
+  ],
+  "classe": "manter",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "imagem do rótulo ou citada pelo ouro",
+  "nome": "simbolos",
+  "regeneravel": "caro",
+  "rodadas": [],
+  "tamanho_mb": 24,
+  "trilha": "tablatura"
+ },
+ "data/saida/simbolos_3travas": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+  "nome": "simbolos_3travas",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 10,
+  "trilha": "tablatura"
+ },
+ "data/saida/simbolos_4travas": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+  "nome": "simbolos_4travas",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 10,
+  "trilha": "tablatura"
+ },
+ "data/saida/simbolos_antes": {
+  "citado_por": [
+   "ESTADO.md"
+  ],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+  "nome": "simbolos_antes",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 22,
+  "trilha": "tablatura"
+ },
+ "data/saida/simbolos_antes_cset": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+  "nome": "simbolos_antes_cset",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 4,
+  "trilha": "tablatura"
+ },
+ "data/saida/simbolos_antes_haste": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+  "nome": "simbolos_antes_haste",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 10,
+  "trilha": "tablatura"
+ },
+ "data/saida/simbolos_filtro1": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+  "nome": "simbolos_filtro1",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 7,
+  "trilha": "tablatura"
+ },
+ "data/saida/simbolos_sem_discriminador": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+  "nome": "simbolos_sem_discriminador",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 10,
+  "trilha": "tablatura"
+ },
+ "data/saida/simbolos_tamanho": {
+  "citado_por": [
+   "ESTADO.md"
+  ],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico citado no ESTADO.md, regenerável só relendo o HD",
+  "nome": "simbolos_tamanho",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 10,
+  "trilha": "tablatura"
+ },
+ "data/saida/tablaturas": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "tablaturas",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 5,
+  "trilha": "tablatura"
+ },
+ "data/saida/varredura": {
+  "citado_por": [
+   "tab/varredura.py"
+  ],
+  "classe": "manter",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "lido pelo código",
+  "nome": "varredura",
+  "regeneravel": "caro",
+  "rodadas": [],
+  "tamanho_mb": 4,
+  "trilha": "tablatura"
+ },
+ "data/saida/varredura3": {
+  "citado_por": [],
+  "classe": "arquivar",
+  "comando": "não registrado",
+  "modificado": "2026-10-09",
+  "motivo": "histórico de 08–14/10",
+  "nome": "varredura3",
+  "regeneravel": "sim, relendo o HD",
+  "rodadas": [],
+  "tamanho_mb": 1,
+  "trilha": "tablatura"
+ }
+}

@@ -1,0 +1,23 @@
+{
+ "citado_por": [
+  "ESTADO.md"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/barline_fina/diag_oficial.py",
+  "python data/saida/barline_fina/piora_recortes.py",
+  "python data/saida/barline_fina/resumo_notas.py",
+  "python data/saida/barline_fina/rodar.py",
+  "python data/saida/barline_fina/rodar_oficial.py",
+  "sh data/saida/barline_fina/run.sh"
+ ],
+ "modificado": "2026-10-13",
+ "motivo": "treino e medida vivos (rodadas 0211–0213)",
+ "nome": "barline_fina",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/decisoes/9001-reestruturacao-dos-arquivos.md"
+ ],
+ "tamanho_mb": 4,
+ "trilha": "tablatura"
+}

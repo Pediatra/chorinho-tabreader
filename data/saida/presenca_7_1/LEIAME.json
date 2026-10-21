@@ -1,0 +1,30 @@
+{
+ "citado_por": [
+  "ESTADO.md",
+  "data/gold/presenca_quadros.json",
+  "tab/presenca_aval.py"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/presenca_7_1/diag_c1.py",
+  "python data/saida/presenca_7_1/diag_candidatos.py",
+  "python data/saida/presenca_7_1/diag_digito.py",
+  "python data/saida/presenca_7_1/diag_faixas.py",
+  "python data/saida/presenca_7_1/diag_linhas.py",
+  "python data/saida/presenca_7_1/diag_tokens.py",
+  "python data/saida/presenca_7_1/folha_15.py",
+  "python data/saida/presenca_7_1/folha_bandas.py",
+  "python data/saida/presenca_7_1/folha_rect.py",
+  "python data/saida/presenca_7_1/folha_revisao.py",
+  "python data/saida/presenca_7_1/listar_sem_rotulo.py"
+ ],
+ "modificado": "2026-10-12",
+ "motivo": "imagem do rótulo ou citada pelo ouro",
+ "nome": "presenca_7_1",
+ "regeneravel": "caro",
+ "rodadas": [
+  "docs/rodadas/0007-presenca-caixa-por-quadro.md"
+ ],
+ "tamanho_mb": 19,
+ "trilha": "tablatura"
+}

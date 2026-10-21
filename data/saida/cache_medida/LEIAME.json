@@ -1,0 +1,18 @@
+{
+ "citado_por": [
+  "ESTADO.md"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/cache_medida/comparar.py",
+  "python data/saida/cache_medida/densa_probe.py",
+  "python data/saida/cache_medida/medir_formatos.py"
+ ],
+ "modificado": "2026-10-10",
+ "motivo": "histórico de 08–14/10",
+ "nome": "cache_medida",
+ "regeneravel": "sim, relendo o HD",
+ "rodadas": [],
+ "tamanho_mb": 1,
+ "trilha": "tablatura"
+}
