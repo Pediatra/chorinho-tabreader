@@ -1125,3 +1125,5 @@ PRONTA E PARADA — 2026-10-21 20:25 — commit eae7c3a5
   `2a77d8f6…a603a`).
   - Rodado duas vezes, deu o mesmo arquivo, byte a byte.
   - Depois da mudança, `depois.json` tem de ser igual a ele.
+
+**PRONTA E PARADA — 2026-10-21 20:28 — commit 6be39b08** (mãos, sessão da 1041: nenhuma fila, ferramenta ou container rodando; a 1039 espera a revisão do dono).
