@@ -5822,6 +5822,14 @@ Decisão do dono: a trilha das mãos **grava as mãos de cada nota** (base de tr
 - **Critério 1 reprovado em 2 de 14** (*michelle* −2,9 pp, *bach prelude* −2,6 pp), e as causas são de leitura, vistas no quadro: o acorde final que o `rede` passa a ler encurta o trecho no *ritardando* (limite da rodada 2014); o `rede` junta "2·3" em "23" (casa errada); o `rede` perde "10" na corda 1 do *room 335* e lê ornamento como coluna. Pedidos 13 e 14 na decisão 2004.
 - **Não repetir**: comparar fração de colunas com tempo entre leitores sem olhar o denominador: a leitura nova muda as colunas (acorde final, algarismos juntados), e a fração cai sem o alinhador mudar.
 
+## Áudio — 2026-10-21 — transcritor livre Basic Pitch (rodada 2018): reprova
+
+- O transcritor ouve o áudio sozinho, sem ver a tela, e foi comparado com o gabarito de tablatura do dono pela física (corda solta + casa + capo). Imagem própria `chorinho-som:dev` (Python 3.10, Basic Pitch 0.4.0, numpy 1.26.4). É determinístico e leva ~3,5 min por vídeo em CPU.
+- Prova com 7 vídeos e 2.196 notas, mais o gabarito novo de acorde cheio do dono (`data/gold/audio/acordes_2018.json`: 4 telas e 22 acordes de 5–6 cordas).
+- **Com o corte de amplitude da emenda 1 (0,50)**: revocação **1.355/2.196 = 0,617** (C1 reprova), precisão 0,803, acorde cheio mediana 0,367 (C3 reprova) e escuta **30/31 a ≤ 100 ms**. **Cru**: revocação 0,794, precisão 0,591, acorde 0,667 e escuta 30/31.
+- Nenhuma faixa de confiança chega a precisão ≥ 0,90 com revocação ≥ 0,50. Próximo candidato: o MuScriptor, que espera duas decisões do dono (licença CC BY-NC e login no Hugging Face).
+- **Não repetir**: corte absoluto de confiança escolhido num vídeo de desenvolvimento quase só melódico (o *retrato*) e aplicado a vídeos de acordes. Ele apaga as notas internas do acorde: na prova, a coluna de 3 notas caiu de 0,709 para 0,511.
+
 ## Mãos — 2026-10-21 — braço: estado consolidado (rodadas 1016–1036, decisões 1009 e 1010)
 
 Estas rodadas estavam só nos documentos de rodada. Esta seção junta o estado, e o detalhe está

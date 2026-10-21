@@ -154,3 +154,93 @@ menor corte com precisão ≥ 0,70 e revocação ≥ 0,90 no desenvolvimento.
 - O transcritor cru (corte 0) também é medido na prova e vai no resultado como linha
   secundária, para nada ficar escondido.
 - O corte vale para C1, C2, C3 e C4.
+
+## Resultado (2026-10-21)
+
+Código: commit `9c8ce605` (`tab.audio_transcrever` na imagem `chorinho-som:dev`,
+`tab.audio_som_medir` na base). Saídas em `data/saida/audio/r2018/` (`som/`,
+`medida.json`, `medida_cru.json`, `analise.py`, `por_tamanho.py`). Os 12 vídeos foram
+transcritos uma vez cada, a ~3,5 min por vídeo, em CPU.
+
+### Critérios, com o corte da emenda 1 (amplitude ≥ 0,50)
+
+| # | medida | resultado | |
+| --- | --- | --- | --- |
+| C1 | revocação na prova | **1.355/2.196 = 0,617**; ≥ 0,70 em **2 de 7** vídeos | **reprova** |
+| C2 | precisão na prova | 1.355/1.688 = **0,803** | passa |
+| C3 | acorde cheio, mediana | **0,367** em 28 colunas (22 de `acordes_2018` + 6 das telas de prova) | **reprova** |
+| C4 | escuta, ≤ 100 ms | **30 de 31** | passa |
+| V | controle +1 semitom | 255/2.196 = **0,116** | método válido |
+
+- O C3 saiu no resumo da ferramenta com 29 colunas e mediana 0,333, porque ela incluiu a
+  coluna do vídeo de desenvolvimento. Sem ela, como pré-registrado: 28 colunas, 0,367.
+- O ponto de escuta que falhou é o `g30` (*room 335*, 73,94 s), o mesmo que já ficava a
+  104 ms do alinhador na 2017.
+
+Por vídeo de prova:
+
+| vídeo | capo | revocação | precisão | controle |
+| --- | --- | --- | --- | --- |
+| kenneth *end of beginning* | 2 | 165/303 = 0,545 | 0,809 | 0,086 |
+| pablo romé *greensleeves* | 0 | 93/106 = 0,877 | 0,949 | 0,142 |
+| robert lunn *gymnopédie* | 0 | 226/392 = 0,577 | 0,766 | 0,117 |
+| iwaki *la vie en rose* | 0 | 336/425 = 0,791 | 0,704 | 0,167 |
+| guitar dell'arte *south american* | 0 | 149/269 = 0,554 | 0,898 | 0,052 |
+| kimny *from this place* | 0 | 248/381 = 0,651 | 0,841 | 0,123 |
+| shin izumi *room 335* | 0 | 138/320 = **0,431** | 0,902 | 0,113 |
+
+### Linha secundária: o transcritor cru (corte 0)
+
+| # | resultado | |
+| --- | --- | --- |
+| C1 | **1.743/2.196 = 0,794**; ≥ 0,70 em 5 de 7 | reprova por 0,006 |
+| C2 | 1.743/2.951 = **0,591** | reprova |
+| C3 | mediana **0,667** em 28 colunas | passa (≥ 4/6) |
+| C4 | 30 de 31 | passa |
+| V | 0,152 | válido |
+
+### Leitura
+
+1. **A emenda 1 piorou o resultado.** O corte foi escolhido no *retrato brasileiro*, que é
+   quase só melodia: 358 das ~416 colunas têm uma nota. A prova é feita de acordes: só 578
+   das 2.196 notas estão em coluna de uma nota. O corte apaga justamente as notas internas
+   dos acordes, que soam mais fracas. Revocação por tamanho de coluna, na prova:
+
+   | coluna | cru | corte 0,50 |
+   | --- | --- | --- |
+   | 1 nota | 489/578 = 0,846 | 0,728 |
+   | 2 notas | 512/644 = 0,795 | 0,641 |
+   | 3 notas | 355/501 = 0,709 | 0,511 |
+   | 4+ notas | 387/473 = 0,818 | 0,560 |
+
+   A amplitude não varia por gravação: a mediana fica entre 0,47 e 0,57 nos 12 vídeos. O
+   erro foi o vídeo de desenvolvimento, que não representava a prova.
+2. **Faixa de confiança** (passo pré-registrado para quando o C1 reprova), na prova:
+
+   | corte | revocação | precisão | controle |
+   | --- | --- | --- | --- |
+   | 0 | 0,794 | 0,591 | 0,152 |
+   | 0,40 | 0,760 | 0,725 | 0,137 |
+   | 0,50 | 0,617 | 0,803 | 0,116 |
+   | 0,60 | 0,348 | 0,865 | 0,066 |
+   | 0,70 | 0,086 | 0,879 | 0,023 |
+
+   **Nenhuma faixa tem precisão ≥ 0,90 com revocação ≥ 0,50.** O caminho pré-registrado é
+   o próximo candidato, o MuScriptor, que depende de duas decisões do dono: aceitar a
+   licença não comercial (CC BY-NC) e fazer o login no Hugging Face.
+3. **O *room 335* abaixo de 0,50** só acontece com o corte: cru, ele dá 0,697, com 0 erros
+   de semitom e 4 de oitava. Não há sinal de afinação diferente nem de capo esquecido. A
+   perda é a mesma dos acordes (o vídeo tem 32 colunas de 4 notas nas telas conferidas).
+4. **O que o Basic Pitch faz bem**: o instante (30 de 31 pontos de escuta a ≤ 100 ms) e,
+   cru, os acordes cheios (mediana 4 de 6). O que ele faz mal é escrever notas a mais: cru,
+   de cada 10 notas que ele escreve no trecho tocado, 4 não estão na tela.
+5. **O capo funcionou** como dado de contexto. Cru, o *end of beginning* (capo 2) pareia
+   197 de 303 notas, com 3 erros de semitom, e o *sakura* (capo 3) pareia 39 de 45, com 0.
+   Se o capo estivesse errado, a revocação cairia para perto do controle.
+
+**Conclusão: o Basic Pitch reprova** nos dois pontos de operação, e não vira a fonte "som"
+da triangulação. O próximo passo é o MuScriptor, se o dono aprovar as duas decisões.
+
+**Não repetir**: escolher um corte absoluto de confiança num vídeo de desenvolvimento que
+é quase só melodia, e aplicá-lo a vídeos de acordes. O desenvolvimento tem de ter a mesma
+mistura de tamanhos de coluna que a prova.
