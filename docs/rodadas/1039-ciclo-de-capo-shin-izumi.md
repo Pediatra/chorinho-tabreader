@@ -31,6 +31,17 @@ calado?
    - **Os vídeos sem capo não entram**: o desempenho sem capo já foi medido nos ciclos 1026,
      1029 e 1032, e no critério 3 da 1037.
 
+## Triagem feita (2026-10-21, antes do sorteio)
+
+- **Folha**: `m39/triagem.jpg` e as ampliações do braço em `m39/triagem_zoom_1..7.jpg`. Os 40
+  candidatos saíram de 138 vídeos livres do canal.
+- **Capo visível em 12 de 40**: n.º 7, 8, 13, 19, 20, 24, 27, 31, 34, 35, 37 e 39. A lista com os
+  nomes está em `m39/triagem.json` (`capo_visto`).
+- Os n.º 8 e 24 foram ampliados de novo (`m39/duvida_8_24.jpg`): **o capo e o nut aparecem
+  juntos**, que é o caso difícil da decisão 1010.
+- Os 28 restantes não mostram capo no quadro do meio.
+- **O sorteio tira 8 dos 12.**
+
 ## Detector
 
 - **Se a 1037 passar nos três critérios**: o par escolhido nela (L4 + A6), com a regra de
