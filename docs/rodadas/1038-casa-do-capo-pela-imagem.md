@@ -66,3 +66,10 @@ com capo (o tamanho do caso "nut verdadeiro fora da imagem").
   "sem dado" neles.
 - **A M11b foi usada para escolher os pesos da 1037.** Os vídeos dela são vistos, mas não
   entraram no treino.
+
+## Resultado (2026-10-21): não rodou
+
+A 1037 reprovou (critérios 2 e 3), e o par escolhido nela inverte o braço. Pela regra acima
+("se a 1037 não passar, esta rodada não roda"), a previsão não foi feita. Os 688 quadros de 43
+vídeos ficam em `m38/quadros`, prontos para quando houver um par novo que passe (1041). Nada
+desta rodada foi visto, então ela continua valendo como pré-registro.

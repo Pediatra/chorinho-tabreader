@@ -215,3 +215,76 @@ antigo. Os números são de CPU; a medida oficial roda na GPU.
 - **M25 treino q139**: **não vejo capo** no quadro. O dono deve estar certo, e o quadro só não
   tem `k` porque não tem capo.
 - Quem decide é o dono. Os 4 seguem fora do treino até a confirmação dele.
+
+**Calibração do par antigo nos ciclos 1026–1036** (descritiva, com as marcas atuais; 271
+quadros com braço achado; `m37/calibracao/ciclos.py`):
+- **sem capo** (192 quadros): o S1 é honesto. Por quintos, do mais confiante ao menos: 38/38,
+  38/38, 38/39, 36/38 e 22/39 certos. Entre os entregues sem sinal, 161 de 165 certos;
+- **com capo** (79 quadros, regra 1010): o S1 é cego. Por quintos: 0/15, 0/16, 3/16, 3/16 e
+  2/16. Entre os entregues sem sinal, 6 de 63 certos.
+- Para a 2005: a confiança do detector só vale como probabilidade fora do capo.
+
+## Resultado (2026-10-21, GPU dividida com a tablatura)
+
+A fila rodou das 11:25 às 16:00 (`m37/logs3/etapas.txt`). Os 6 treinos terminaram com
+código 0: L4 com perda final 0,031–0,032 (~19 min cada) e A6 com 0,127–0,152 (~55–65 min
+cada). Commit do código: `50b2416e`, gravado na procedência de cada peso
+(`artefatos/m21/{L4,A6}_capo_s{1,2,3}.json`).
+
+**A escolha (M11b, 33 quadros)** ficou com `L4_capo_s2` + `A6_capo_s1`: 0 falsos que passam,
+5 certos e **28 sinalizados**. O par antigo, na mesma folha, dava 6 falsos, 14 certos e 12
+sinalizados.
+
+**A medida do par escolhido** (M36: 32 quadros; N: 21):
+
+| | par escolhido | par antigo |
+| --- | --- | --- |
+| falsos que passam, M36 / N | 0 / 1 | 1 / 3 |
+| capo (20 quadros): certos / falsos que passam | 2 / 0 | 6 / 4 |
+| sem capo (33 quadros): certos / falsos que passam | 5 / 1 | 15 / 0 |
+| sinalizados (M36 + N) | 45 | 28 |
+| calibração: certos entre os sem sinal, M36 / N | 3 de 3 / 4 de 5 | 9 de 10 / 12 de 15 |
+
+- **Critério 1 (segurança): passa** (0 de 32 e 1 de 21).
+- **Critério 2 (capo): falha.** 0 falsos que passam, mas 2 certos contra 6 do antigo.
+- **Critério 3 (sem capo): falha.** 5 certos contra 15 do antigo (o mínimo era 13).
+- **Pela tabela: "1 passa, 2 falha".** O par novo não é adotado, entra no "não repetir", e
+  vídeo com capo segue para revisão. A 1039 roda com o par antigo, e a 1038 não roda.
+
+**Por que o escolhido erra tanto: a semente 2 do estágio 1 inverte o braço.** Na folha
+`m37/erros/l4_s2_invertido.jpg` (vermelho: `L4_capo_s2`; verde: `L4_capo_s1`; azul: o antigo;
+cruz branca: o dono), o `L4_capo_s2` põe o nut **na boca do violão** em q01, q02, q04, q05,
+q06, q20 e q25. O braço sai invertido, a regra 1023 sinaliza quase tudo, e o critério da 1029,
+que olha primeiro os falsos que passam, premia o modelo que sinaliza tudo. A perda final dele
+(0,0316) é igual à das outras sementes: a perda não mostra a inversão.
+
+**Os 9 pares** (descritivo; M36 e N já foram vistos, então nada aqui é escolha):
+
+| par | capo: certos / falsos que passam | sem capo: certos / falsos que passam | sinalizados |
+| --- | --- | --- | --- |
+| antigo | 6 / 4 | 15 / 0 | 28 |
+| L4 s1 + A6 s1 | 9 / 2 | 13 / 0 | 27 |
+| L4 s1 + A6 s2 | 9 / 2 | 14 / 0 | 27 |
+| L4 s1 + A6 s3 | 6 / 2 | 15 / 0 | 28 |
+| L4 s2 + A6 s1 | 2 / 0 | 5 / 1 | 45 |
+| L4 s2 + A6 s2 | 2 / 0 | 5 / 1 | 44 |
+| L4 s2 + A6 s3 | 2 / 0 | 5 / 2 | 43 |
+| L4 s3 + A6 s1 | 9 / 2 | 12 / 0 | 29 |
+| L4 s3 + A6 s2 | 9 / 1 | 12 / 0 | 31 |
+| L4 s3 + A6 s3 | 9 / 1 | 12 / 0 | 31 |
+
+- **Nenhum dos 9 passa os três critérios.** Os melhores (`L4 s3` com `A6 s2` ou `s3`) passam o
+  1 e o 2, e perdem o 3 por um quadro (12 certos sem capo, contra o mínimo de 13). Então a
+  reprovação não é só da escolha.
+- **O retreino ajuda o capo**, nos 6 pares sãos: de 4 para 1–2 falsos que passam, e de 6 para
+  6–9 certos. **E custa pouco sem capo**: 12–15 certos contra 15, com 0 falsos. O N treinou o
+  par antigo, o que favorece o antigo nos quadros sem capo (risco declarado).
+- **A variação entre sementes é grande** (regra 1 do AGENTS): no estágio 1, uma semente em
+  três sai invertida.
+
+**Próximo (1041, a pré-registrar):**
+1. sobreamostrar os quadros com capo no treino, como a tabela pede;
+2. escolha com piso de entregues certos (por exemplo, ≥ os do antigo − 2 na folha de escolha)
+   e descarte de semente do estágio 1 que inverta o braço (nut do lado do corpo) em mais de 1
+   quadro da escolha;
+3. medir na 1039 depois da revisão do dono, que é a prova lacrada. A M36 e o N já estão gastos.

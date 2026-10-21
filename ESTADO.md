@@ -2085,6 +2085,9 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | **braço, estágio 2 retreinado com os 8 quadros de nut fora (A5)** | ganho pequeno e instável entre sementes (2 a 4 erros que passam, contra 4 do A4, fora do treino); não ganha na M11b (1031) |
 | **braço, conferir a numeração pelas marcações com limiar 4 × mediana** | **0/6** (1034): o tampo claro e a mão sobem a mediana e apagam as marcações, que eram detectadas |
 | **braço, marcações com mancha compacta e limiar 4 × Q25** | seguro (510 decisões sem rótulo, 0 disparo), mas **não decide no 1027:q56** (1035): não ajustar de novo nos mesmos 6 falsos |
+| **braço, numerar sem o nut pela régua largura do braço ÷ abertura** | **reprova** (1040): 316/382 (82,7 %) calibrada por vídeo, contra 95 %; sem calibração, 36,7 %. Só a câmera fixa do sky guitar fecha (63/63) |
+| **braço, escolher o par só por "menos falsos que passam" (critério da 1029)** | **escolhe o modelo que sinaliza tudo** (1037): o `L4_capo_s2` inverte o braço (nut na boca do violão), erra 28 de 32 na M36, sinaliza 28 de 33 na escolha e por isso "vence" com 0 falsos. A escolha precisa de piso de entregues certos |
+| **braço, retreino L4 + A6 com a regra do capo, sem sobreamostrar o capo** | **reprova** (1037): nenhum dos 9 pares passa os três critérios. Os pares sãos levam o capo de 4 para 1–2 falsos que passam e de 6 para 9 certos, mas perdem 1 a 3 certos sem capo |
 
 ## Lições metodológicas (custaram rodadas)
 
@@ -5862,9 +5865,20 @@ em `docs/rodadas/10NN-*`.
 - **Pedido da trilha áudio** (decisão 2005, triangulação): uma camada por quadro com (corda,
   casa) pressionada e corda atacada, com probabilidade calibrada, e uma saída que não dependa
   do `t_audio`. Entra quando o M11 (braço) e o M12 (mãos) existirem.
-- **Próximo:**
-  - 1037: retreino dos dois estágios com a regra do capo;
-  - 1038: a casa do capo consistente entre os quadros do vídeo;
-  - numerar sem o nut: o afinamento do braço contra a largura da casa, mais as marcações.
 - **Não repetir**: medir o detector com a regra do capo usando pesos treinados com a regra
   antiga (o capo vira erro silencioso).
+- **Retreino com capo (1037, 2026-10-21): reprova; o par antigo continua.**
+  - O par escolhido (`L4_capo_s2` + `A6_capo_s1`) passa na segurança (0/32 na M36, 1/21 no
+    N), mas acerta só 2 quadros com capo (o antigo, 6) e 5 sem capo (o antigo, 15).
+  - Causa: a semente 2 do estágio 1 **inverte o braço** e põe o nut na boca do violão. Ela
+    sinaliza quase tudo, e o critério da 1029 ("menos falsos que passam" primeiro) a escolheu.
+  - Os outros 6 pares (sementes 1 e 3) são sãos: com capo, 1–2 falsos que passam (o antigo,
+    4) e 6–9 certos (o antigo, 6); sem capo, 12–15 certos (o antigo, 15). Nenhum passa os três
+    critérios: o melhor perde no critério 3 por 1 quadro.
+  - **Calibração (2005):** sem capo, o S1 do par antigo é honesto (161 de 165 certos entre os
+    entregues sem sinal, nos ciclos 1026–1036); com capo, é cego (6 de 63).
+- **1040 (numerar sem o nut pela régua de casas): reprova**, 82,7 % contra 95 %.
+- **1039 (ciclo de capo, shin izumi)**: 64 quadros de 8 vídeos com capo, previstos com o par
+  antigo, esperando a revisão do dono.
+- **Próximo:** 1041, retreino com o capo sobreamostrado, escolha com piso de certos e descarte
+  de semente que inverte o braço, medido na 1039 depois da revisão do dono.

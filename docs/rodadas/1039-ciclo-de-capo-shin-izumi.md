@@ -42,6 +42,14 @@ calado?
 - Os 28 restantes não mostram capo no quadro do meio.
 - **O sorteio tira 8 dos 12.**
 
+## Previsão feita (2026-10-21, 16:03)
+
+- **A 1037 reprovou**, então o lote foi previsto com o **par antigo** (`L3_todos_s3` +
+  `A4_100_todos_s1`), com a regra 1023 e o sinal v2 (`m39/previsto.json`).
+- 64 quadros, todos com braço achado, e **25 sinalizados**. O resto do lote espera a revisão do
+  dono em `tab.maos_braco_gabarito servir`.
+- O lote serve também de **prova lacrada da 1041**: ninguém olhou a previsão contra o gabarito.
+
 ## Detector
 
 - **Se a 1037 passar nos três critérios**: o par escolhido nela (L4 + A6), com a regra de
