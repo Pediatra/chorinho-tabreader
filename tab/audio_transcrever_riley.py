@@ -1,4 +1,4 @@
-"""Transcritor livre de violão do Riley (rodada 2019): as notas do som, sem ver a tela.
+"""Transcritor livre de violão do Riley (rodada 2019): grava o ``chorinho/som@1``.
 
 Roda **só** na imagem ``chorinho-som:dev`` (``Dockerfile.som``: Python 3.10, torch CPU e o
 fork ``piano_transcription_inference`` de xavriley, MIT). Importa apenas a biblioteca
@@ -11,9 +11,9 @@ O modelo é o CRNN de alta resolução (Kong et al.) adaptado ao violão por Ril
 por isso a classe dele é montada aqui sem o ``__init__``.
 
 Entrada: o FLAC do cache de áudio (22.050 Hz, mono), reamostrado para 16 kHz com
-``soxr_hq`` (o mesmo de ``librosa.load``, que o pacote do autor usa). Saída: o mesmo formato
-provisório de ``tab.audio_transcrever``, no tempo do vídeo. ``amplitude`` é a velocidade
-MIDI / 127, para a comparação aceitar os dois transcritores.
+``soxr_hq`` (o mesmo de ``librosa.load``, que o pacote do autor usa). Saída: o ``chorinho/som@1``
+(decisão 2006), no tempo do vídeo. ``amplitude`` (velocidade MIDI / 127) fica a mais em
+cada nota, para ``tab.audio_som_medir`` aceitar os dois transcritores.
 
 Uso (container ``chorinho-som:dev``)::
 
@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import codecs
+import hashlib
 import json
 import os
 import sys
@@ -39,8 +40,13 @@ from piano_transcription_inference.models import (
     Regress_onset_offset_frame_velocity_CRNN,
 )
 
-#: Versão do formato provisório (a mesma de ``tab.audio_transcrever``).
-ESQUEMA = "chorinho/som@0-provisorio"
+#: Formato do arquivo (decisão 2006).
+ESQUEMA = "chorinho/som@1"
+
+#: Aferição dos pesos medidos (rodada 2019, prova de 7 vídeos). Outro peso: ``None``.
+AFERICAO = {
+    "guitar-fl.pth": {"rodada": "2019", "revocacao": 0.804, "precisao": 0.877},
+}
 
 #: Tessitura do violão em MIDI (a mesma regra da rodada 2018).
 MIDI_MINIMO = 40
@@ -180,11 +186,13 @@ def transcrever(flac: Path, pesos: Path) -> dict:
         "transcritor": {
             "nome": "riley-guitar (CRNN de alta resolução)",
             "pesos": pesos.name,
+            "pesos_sha256": hashlib.sha256(pesos.read_bytes()).hexdigest(),
             "limiares": LIMIARES,
             "carregamento": relatorio,
             "torch": torch.__version__,
         },
         "t_amostra0": float(meta["t_amostra0"]),
+        "afericao": AFERICAO.get(pesos.name),
         "notas": dentro,
         "fora_do_violao": fora,
     }
