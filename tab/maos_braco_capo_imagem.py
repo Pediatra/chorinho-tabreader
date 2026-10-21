@@ -108,7 +108,8 @@ def videos_da_amostra() -> list[str]:
 def amostrar() -> int:
     """Grava os quadros de cada vídeo e o ``indice.json`` da 1038 (lê o acervo).
 
-    Retomável: um quadro já gravado não é lido de novo.
+    Retomável: um quadro já gravado não é lido de novo. Vídeo que não está mais no acervo
+    fica em ``faltando_no_acervo``.
 
     Returns:
         Quantidade de quadros no índice.
@@ -116,7 +117,11 @@ def amostrar() -> int:
     pasta = MAOS_M38 / "quadros"
     pasta.mkdir(parents=True, exist_ok=True)
     itens = []
+    faltando = []
     for v, video in enumerate(videos_da_amostra(), start=1):
+        if not (acervo() / video).exists():
+            faltando.append(video)
+            continue
         duracao = duracao_do_video(acervo() / video)
         for k, fracao in enumerate(fracoes(), start=1):
             id_q = f"v{v:02d}_{k:02d}"
@@ -138,7 +143,7 @@ def amostrar() -> int:
                     "altura": int(imagem.shape[0]),
                 }
             )
-    gravar_atomico(ARQUIVO_INDICE, {"quadros": itens})
+    gravar_atomico(ARQUIVO_INDICE, {"faltando_no_acervo": faltando, "quadros": itens})
     return len(itens)
 
 
