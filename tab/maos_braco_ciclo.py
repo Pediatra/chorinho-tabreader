@@ -35,6 +35,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import cv2
 import numpy as np
 
 from .caminhos import (
@@ -44,6 +45,7 @@ from .caminhos import (
     GABARITO_BRACO_M29,
     GABARITO_BRACO_M32,
     GABARITO_BRACO_M36,
+    GABARITO_BRACO_M39,
     MAOS_M3B,
     MAOS_M11B,
     MAOS_M21,
@@ -53,6 +55,7 @@ from .caminhos import (
     MAOS_M29,
     MAOS_M32,
     MAOS_M36,
+    MAOS_M39,
     acervo,
 )
 from .maos_braco_consenso import SINAL_S4, consenso
@@ -84,6 +87,7 @@ from .maos_braco_sinal_nut import (
     linhas_de_painel,
     suspeito,
 )
+from .maos_braco_sintetico import quadro_em
 from .maos_braco_tempo import Marcas, classificar, erros, marcas_do_registro
 from .maos_gabarito import gravar_atomico
 
@@ -102,6 +106,8 @@ class Rodada:
         n_instantes: quadros por vídeo.
         filtro_titulo: expressão regular que o nome do arquivo precisa conter (sem
             diferença de caixa); None aceita todos os vídeos do canal.
+        triagem: se True, o lote sai só dos vídeos marcados ``capo_visto`` na
+            ``triagem.json`` da pasta (rodada 1039).
     """
 
     canal: str
@@ -112,6 +118,7 @@ class Rodada:
     n_videos: int = 8
     n_instantes: int = 8
     filtro_titulo: str | None = None
+    triagem: bool = False
 
 
 #: Títulos de aula de violão (a 1036 tira do sorteio os vlogs do canal).
@@ -156,6 +163,14 @@ RODADAS: dict[str, Rodada] = {
         n_videos=8,
         n_instantes=4,
         filtro_titulo=FILTRO_AULA,
+    ),
+    "1039": Rodada(
+        canal="shin izumi",
+        semente=20261039,
+        pasta=MAOS_M39,
+        gabarito=GABARITO_BRACO_M39,
+        proxima="rodada seguinte",
+        triagem=True,
     ),
 }
 
@@ -222,6 +237,13 @@ ARQUIVO_INDICE = "indice.json"
 ARQUIVO_PREVISTO = "previsto.json"
 ARQUIVO_MEDIDA = "medida.json"
 ARQUIVO_SORTEIO = "sorteio.json"
+ARQUIVO_TRIAGEM = "triagem.json"
+ARQUIVO_FOLHA_TRIAGEM = "triagem.jpg"
+#: Triagem da 1039: vídeos candidatos, um quadro no meio de cada um, 8 por linha.
+N_TRIAGEM = 40
+FRACAO_TRIAGEM = 0.5
+COLUNAS_TRIAGEM = 8
+LARGURA_CELULA_TRIAGEM = 480
 
 
 def como_foi_rotulado(numero: str) -> str:
@@ -367,6 +389,11 @@ def excluidos_da_rodada(numero: str) -> set[str]:
         usados |= {
             item["arquivo"] for item in _ler_json(MAOS_M29 / ARQUIVO_INDICE)["quadros"]
         }
+    if numero not in ("1026", "1027", "1029", "1032", "1036"):
+        for pasta in (MAOS_M32, MAOS_M36):
+            usados |= {
+                item["arquivo"] for item in _ler_json(pasta / ARQUIVO_INDICE)["quadros"]
+            }
     return usados
 
 
@@ -463,6 +490,8 @@ def sortear(numero: str = RODADA_PADRAO, raiz: Path | None = None) -> list[str]:
         raise FileExistsError(f"já existe índice ou gabarito em {pasta} / {ouro}")
     usados = excluidos_da_rodada(numero)
     candidatos = _candidatos(raiz, rodada.canal, rodada.filtro_titulo)
+    if rodada.triagem:
+        candidatos = videos_com_capo_visto(pasta / ARQUIVO_TRIAGEM)
     videos = escolher_videos(candidatos, usados, rodada.semente, rodada.n_videos)
     duracoes = {video: _duracao(raiz / video) for video in videos}
     itens = itens_do_sorteio(videos, duracoes, rodada.n_instantes)
@@ -483,6 +512,113 @@ def sortear(numero: str = RODADA_PADRAO, raiz: Path | None = None) -> list[str]:
         },
     )
     return ids
+
+
+def videos_com_capo_visto(caminho: Path) -> list[str]:
+    """Vídeos que a triagem marcou com capo visível (``capo_visto`` verdadeiro).
+
+    Args:
+        caminho: ``triagem.json`` da rodada.
+
+    Returns:
+        Os caminhos relativos ao acervo.
+
+    Raises:
+        ValueError: se algum candidato ainda não tem a marca ``capo_visto``.
+    """
+    videos = _ler_json(caminho)["videos"]
+    sem_marca = [v["n"] for v in videos if v.get("capo_visto") is None]
+    if sem_marca:
+        raise ValueError(f"triagem sem a marca capo_visto: {sem_marca}")
+    return [v["arquivo"] for v in videos if v["capo_visto"]]
+
+
+def _celula_triagem(imagem: np.ndarray | None, numero: int) -> np.ndarray:
+    """Uma célula da folha de triagem, com o número do candidato.
+
+    Args:
+        imagem: quadro BGR, ou None se não foi lido.
+        numero: número do candidato (1 em diante).
+
+    Returns:
+        A célula, com ``LARGURA_CELULA_TRIAGEM`` de largura e proporção 16:9.
+    """
+    altura = LARGURA_CELULA_TRIAGEM * 9 // 16
+    celula = np.zeros((altura, LARGURA_CELULA_TRIAGEM, 3), dtype=np.uint8)
+    if imagem is not None:
+        escala = min(LARGURA_CELULA_TRIAGEM / imagem.shape[1], altura / imagem.shape[0])
+        menor = cv2.resize(
+            imagem, (int(imagem.shape[1] * escala), int(imagem.shape[0] * escala))
+        )
+        y, x = (
+            (altura - menor.shape[0]) // 2,
+            (LARGURA_CELULA_TRIAGEM - menor.shape[1]) // 2,
+        )
+        celula[y : y + menor.shape[0], x : x + menor.shape[1]] = menor
+    cv2.putText(
+        celula, str(numero), (8, 34), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 0, 0), 5
+    )
+    cv2.putText(
+        celula, str(numero), (8, 34), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 255, 255), 2
+    )
+    return celula
+
+
+def triar(numero: str, raiz: Path | None = None, n: int = N_TRIAGEM) -> list[dict]:
+    """Triagem do lote: ``n`` candidatos, um quadro no meio de cada, numa folha.
+
+    Grava ``triagem.json`` (``capo_visto`` vazio, a preencher depois de olhar a folha) e
+    ``triagem.jpg``. Recusa se a triagem já existe.
+
+    Args:
+        numero: rodada (chave de ``RODADAS``).
+        raiz: raiz do acervo; padrão é ``acervo()``.
+        n: quantos candidatos.
+
+    Returns:
+        Os candidatos (``n``, ``arquivo``, ``t``, ``capo_visto``).
+
+    Raises:
+        FileExistsError: se ``triagem.json`` já existe.
+    """
+    rodada = RODADAS[numero]
+    raiz = raiz or acervo()
+    destino = rodada.pasta / ARQUIVO_TRIAGEM
+    if destino.exists():
+        raise FileExistsError(f"já existe {destino}")
+    usados = excluidos_da_rodada(numero)
+    candidatos = _candidatos(raiz, rodada.canal, rodada.filtro_titulo)
+    livres = sorted(v for v in set(candidatos) if v not in usados)
+    sorteados = random.Random(f"{rodada.semente}:triagem").sample(
+        livres, min(n, len(livres))
+    )
+    videos, celulas = [], []
+    for k, video in enumerate(sorteados, start=1):
+        t = round(FRACAO_TRIAGEM * _duracao(raiz / video), 2)
+        celulas.append(_celula_triagem(quadro_em(raiz / video, t), k))
+        videos.append({"n": k, "arquivo": video, "t": t, "capo_visto": None})
+    while len(celulas) % COLUNAS_TRIAGEM:
+        celulas.append(np.zeros_like(celulas[0]))
+    linhas = [
+        np.hstack(celulas[i : i + COLUNAS_TRIAGEM])
+        for i in range(0, len(celulas), COLUNAS_TRIAGEM)
+    ]
+    rodada.pasta.mkdir(parents=True, exist_ok=True)
+    cv2.imwrite(
+        str(rodada.pasta / ARQUIVO_FOLHA_TRIAGEM),
+        np.vstack(linhas),
+        [cv2.IMWRITE_JPEG_QUALITY, 85],
+    )
+    gravar_atomico(
+        destino,
+        {
+            "semente": f"{rodada.semente}:triagem",
+            "canal": rodada.canal,
+            "livres": len(livres),
+            "videos": videos,
+        },
+    )
+    return videos
 
 
 # ---------------------------------------------------------------------------------
@@ -1401,7 +1537,7 @@ def medir(numero: str = RODADA_PADRAO, comparar_antigo: bool = False) -> dict:
 
 
 def main() -> int:
-    """Ponto de entrada: ``sortear``, ``escolher-pesos``, ``prever`` e ``medir``.
+    """Ponto de entrada: ``triar``, ``sortear``, ``escolher-pesos``, ``prever``, ``medir``.
 
     Returns:
         Código de saída do processo.
@@ -1410,6 +1546,7 @@ def main() -> int:
     sub = ap.add_subparsers(dest="comando", required=True)
     ajuda_rodada = "rodada do ciclo (padrão 1026)"
     for nome, ajuda in (
+        ("triar", "folha de triagem: um quadro de cada candidato (1039)"),
         ("sortear", "sorteia o lote e acrescenta os quadros"),
         ("escolher-pesos", "escolhe os pesos L3/A4 pela M11b (GPU; só 1029)"),
         ("prever", "roda a cadeia (GPU) e preenche o gabarito"),
@@ -1431,6 +1568,10 @@ def main() -> int:
     args = ap.parse_args()
     numero = args.rodada
     try:
+        if args.comando == "triar":
+            videos = triar(numero)
+            print(f"triagem: {len(videos)} candidatos em {RODADAS[numero].pasta}")
+            return 0
         if args.comando == "sortear":
             ids = sortear(numero)
             print(f"sorteados {len(ids)} quadros: {', '.join(ids)}")

@@ -262,3 +262,31 @@ def test_1036_sorteia_8_videos_de_aula_com_4_quadros(tmp_path):
     assert ciclo.fracoes_instantes(4) == [0.15, 0.383333, 0.616667, 0.85]
     itens = ciclo.itens_do_sorteio(["a.mp4"], {"a.mp4": 10.0}, 4)
     assert [item["t"] for item in itens] == [1.5, 3.83, 6.17, 8.5]
+
+
+def test_videos_com_capo_visto(tmp_path):
+    caminho = tmp_path / "triagem.json"
+    caminho.write_text(
+        json.dumps(
+            {
+                "videos": [
+                    {"n": 1, "arquivo": "c/a.mp4", "capo_visto": True},
+                    {"n": 2, "arquivo": "c/b.mp4", "capo_visto": False},
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    assert ciclo.videos_com_capo_visto(caminho) == ["c/a.mp4"]
+    caminho.write_text(
+        json.dumps({"videos": [{"n": 1, "arquivo": "c/a.mp4", "capo_visto": None}]}),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="sem a marca"):
+        ciclo.videos_com_capo_visto(caminho)
+
+
+def test_rodada_1039_usa_triagem():
+    rodada = ciclo.RODADAS["1039"]
+    assert rodada.canal == "shin izumi"
+    assert rodada.triagem
