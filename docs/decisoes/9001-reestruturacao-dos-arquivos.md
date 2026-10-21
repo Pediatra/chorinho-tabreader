@@ -332,6 +332,23 @@ subpastas diferentes de `tests/`.
      kottelat, sky guitar, transcriptor, tv on guitar.
    - **Misto por vídeo**: ギタロー ⧸ guitarous.
 
+**Respostas do dono ao §7c (2026-10-21):**
+1. Sim: apagar a imagem `chorinho-partitura:smt`.
+2. Sim: guardar uma cópia `.tar` dos dois gabaritos fora do git no arquivo frio.
+3. Concorda: transcrever os canais com pauta para um arquivo "a confirmar".
+
+**Quem executa (pedido do dono, 2026-10-21):**
+- **A sessão das mãos que escreveu esta proposta faz a mudança inteira**, nas 4 trilhas. As
+  trilhas não movem o próprio código.
+- **Cada trilha continua fazendo a sua fase 1**:
+  - versionar o rótulo e os scripts;
+  - corrigir os caminhos fixos;
+  - preencher o `LEIAME.json` e o `EM_USO.json`.
+
+  Só a trilha dona sabe o que está vivo, e o rótulo fora do ouro foi achado assim.
+- **Cada trilha confere depois**, com a sua prova byte a byte. A AGENTS §2 ("editar o arquivo
+  de outra trilha, não") tem esta exceção, dada pelo dono.
+
 ## 8. Respostas das trilhas
 
 Cada trilha escreve só na sua seção, com data.
