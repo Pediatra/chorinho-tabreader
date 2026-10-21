@@ -753,9 +753,190 @@ O `cruzar_fontes` vai junto, para onde o dono decidir (objeção d).
 - e `python -m tab.audio_alinhar` (o nome antigo) no *retrato brasileiro*, conferindo que o
   JSON sai igual, byte a byte, ao de antes da mudança.
 
-### Partitura
+### Partitura (2026-10-21)
 
-(sem resposta ainda)
+**Conferência dos números que tocam a partitura.** Medidos em 2026-10-21 com `ls`, `wc`, `du`,
+`git ls-files`, `podman` e um grafo de imports por `ast` no Python 3.14 do container
+(`data/saida/partitura/diag/r9001/imports.py`):
+
+| item | na proposta | medido | nota |
+| --- | --- | --- | --- |
+| `tab/partitura_*.py` | 21 | **21 módulos, 13.527 linhas** | `partitura_gabarito` (2.595) e `partitura_video` (2.055) são os maiores |
+| testes | — | **10** `tests/test_partitura_*.py` | 11 módulos não têm teste próprio: `amostra*` (4), `avaliar`, `censo`, `imagem*` (2), `completar_itens` e `regua_tempo`/`regua_troca` |
+| partitura → tablatura | 10 | **10 módulos**, 13 imports por nome, mais 1 teste | `leitor` 3 (`info`, `quadro_em`, `quadros`), `cache` 2 (`ModoCache`, `caminho_do_quadro`, `ler_quadro`, `pasta_do_video`), **`musicxml.midi_da_corda` 4** + `test_partitura_video` (o áudio contou 3), `video._slug` 4 |
+| outra trilha → partitura | — | **0** | nenhum módulo nem teste fora da partitura importa `tab.partitura_*` |
+| imports relativos | — | **42 linhas em 13 arquivos** | viram absolutos na fase 3 |
+| `data/saida/partitura` | ~570 MB | **570 MB** | `sem_produto` 224, `p1` 165, `diag` 125 (165 entradas), `video` 29, `p0*` 27 |
+| `data/saida/part_frentes` | ~304 MB | **304 MB**, 2 arquivos no git (`fd_gabarito/amostra.json` e `amostra_final.json`) | `fd_gabarito` 182, `fa_imagem` 88, `fp_produto` 31, `fe_completar` 2, `f0_regua` 1; `fb_fusao` e `fc_polifonico` vazias |
+| `data/gold/partitura` | — | 1,5 MB, **3 no git** (`leitura_p1`, `leitura_sem_produto`, `leitura_d1`) + 2 fora (`compassos_homr`, `figura_e1`) | já está em `data/gold/partitura/`: **a fase 4 não move o ouro da partitura** |
+| pesos em `artefatos/` | — | **nenhum** (`artefatos/part_frentes/*` vazias) | os pesos do SMT moram dentro da imagem `chorinho-partitura:smt` (`/opt/smt-modelos`) |
+| scripts em `data/saida` | — | **84 `.py` e 4 `.sh`, 420 KB, fora do git** | 68 chamam `tab` pelo nome antigo; 7 fazem `sys.path.insert`; 25 linhas com `/app/...` absoluto |
+
+**Rótulo do dono fora do git ou fora do `data/gold`** (regra 9):
+
+1. **Os itens que o ouro cita estão fora do git (regra 10).** Cada ouro da partitura guarda
+   `fonte_itens`, e os itens citam o PNG do recorte. As posições `faltando` (x, y) que o dono
+   clicou só têm sentido sobre esse PNG. São **5 `itens.json` + 84 PNG/MusicXML, 17,9 MB**, nenhum
+   no git:
+   - `p1/conferencia/itens.json` (de `leitura_p1`), 21 PNG;
+   - `diag/conferencia_sem_produto/itens.json` (de `leitura_sem_produto`), 3;
+   - `part_frentes/fd_gabarito/itens_d1.json` (de `leitura_d1`), 35;
+   - `diag/troca_homr/itens.json` (de `compassos_homr`), 17;
+   - `part_frentes/fe_completar/itens_e1.json` (de `figura_e1`), 17.
+
+   **Fase 1a**: versiono os 89 arquivos onde estão (`git add -f` por nome, conteúdo intacto).
+   Eles ficam no lugar.
+2. **`compassos_homr.json` e `figura_e1.json`** (AGENTS §9: nunca commitar).
+   - O `compassos_homr` é do dono.
+   - O `figura_e1` grava "certo" em 37 notas que o dono julgou erradas (rodada 3172). A
+     observação dele por trecho é rótulo, mas a marca por nota não vale.
+   - **Na reestruturação**: ficam no lugar (`data/gold/partitura/` não muda) e fora do git. Hoje
+     aparecem como `??` no `git status`, e um `git add` largo os levaria. **Proposta**:
+     - uma linha para cada um na `.gitignore`;
+     - **uma cópia de segurança** num `.tar` em `chorinho_arquivo/`, sem mover o original. Hoje
+       a única outra cópia do `compassos_homr` é `diag/troca_homr/teste_remarcar.json` (o `cmp`
+       diz que é igual), que sobrou de um teste da ferramenta.
+     - Isso esbarra na regra 9 ("nunca vai para o arquivo frio"). Peço a exceção ao dono, porque
+       uma cópia não é mover. Depois do `.tar` conferido, o `teste_remarcar.json` pode sair.
+3. **Correção dada no chat**: a marcação do dono de quais canais têm pauta (2026-10-17: só
+   tablatura, misto, misto por vídeo) existe só na memória da sessão. A rodada 3160 guarda só os
+   vídeos trocados. **Fase 1a**: transcrevo em `data/saida/partitura/pauta_por_canal_dono.json`,
+   marcado "transcrito do chat, a confirmar", e versiono. Depois que o dono confirmar, vai para
+   `data/gold/partitura/` na fase 4.
+4. **Não é rótulo** (conferido):
+   - `ouro_d1_copia.json` e `ouro_e1_copia.json` (part_frentes) são as cópias de teste da
+     ferramenta, vazias (`"recortes": {}`);
+   - `diag/ca1/ouro_antigo/gymnopedie….json` é o ouro de tablatura antes do `741f66da`, igual
+     byte a byte à versão do histórico do git.
+
+**Disco da partitura** (874 MB; lista item a item para o dono na fase 1b):
+
+| classe | o quê | MB | por quê |
+| --- | --- | ---: | --- |
+| **manter** | `sem_produto`, `p1/omr`, `p1/recortes`, `p1/recortes_margem`, `p1/conferencia`, `p1/variantes`, `video`, `p0`, `p3`, `diag/ca1`, `diag/troca_homr`, `diag/conferencia_sem_produto`, `fd_gabarito` (sem a `_INVALIDA`), `fe_completar`, `f0_regua` e os scripts e `.json` de `diag/qualidade_imagem` e `fp_produto` | ~567 | lidos pelo código (`p0/resumo.json`, `p0/amostra.jsonl`, `p1/*`, `video/`), citados pelos ouros, pelo CA1 ou pelas rodadas 3001–3027 e 3101–3172 |
+| **arquivar** (`.tar`) | `p1/fumaca` 35, `fa_imagem` 88 (A1 reprovada, 3110), `p0_rodada3`/`p0_rodada4`/`p0_teste`/`p0_olhar` 20, `p1/recortes_teste` 7, `fd_gabarito/videos_v1_INVALIDA` 5 (sorteio refeito), ~160 entradas de `diag/` ~50 | ~205 | histórico citado; regenerável só relendo o HD |
+| **apagar** | `diag/qualidade_imagem/{reduzido,mediana,leituras,leituras_mediana}` 72 (PNG e leituras refeitas em minutos pelos scripts, que ficam), `fp_produto/video` 29 (cópia das 3 pastas de `partitura/video`, iguais pelo comparador da 3027), `msg*.txt`, as 2 cópias vazias do ouro, `fb_fusao` e `fc_polifonico` (vazias) | ~102 | regenerável ou duplicado |
+
+- **Fora dos 27 GB**: a imagem `chorinho-partitura:smt` tem **9,87 GB** no podman, e o SMT não é
+  usado desde a 3003 ("não treinar agora"). A receita está no `Dockerfile.partitura`, mas
+  refazer a imagem baixa os pesos do Hugging Face. Proponho ao dono **remover a imagem** (`podman
+  rmi`). É a maior economia da partitura.
+
+**Respostas às 5 perguntas:**
+
+1. **Candidatos ao `comum`**: a partitura não exporta nada (0 imports de fora). Do que importo da
+   tablatura, o `comum/` proposto serve, com 3 condições:
+   - **`leitor` e `cache`**: servem como estão, com os mesmos nomes públicos.
+   - **`video._slug`**: vira público no `comum`, mas **o nome privado continua em
+     `tab.video`** (reexportado), porque 4 módulos meus e 6 scripts de `data/saida` o importam
+     por esse nome. O apelido de módulo não cobre um nome que saiu do módulo.
+   - **`musicxml.midi_da_corda` → `comum/violao.py`**: tem de dar a **mesma altura** de hoje
+     (afinação padrão, sem capo, `None` para corda fora da afinação). Se a função nova somar o
+     capo por padrão, toda a partitura muda sem erro. **Alternativa**: a função de hoje fica com
+     a mesma assinatura, e o capo entra numa função separada. Um teste compara as 6 × 25
+     combinações com a versão antiga.
+   - O `SEMITONS_ESCRITA` (+12, a escrita do violão uma oitava acima do som) é da partitura e
+     fica nela.
+   - Achado lateral, fora desta reestruturação: a partitura ignora o capo (decisão 1010). Num
+     vídeo com capo, o pareamento compara a pauta com a tab deslocada. Vira rodada própria.
+   - **JSON atômico**: o `partitura_gabarito` grava o ouro a cada clique. Ele só troca para o
+     `comum/arquivos.py` testado numa cópia do ouro, nunca no vivo.
+2. **Janela**: **nada da partitura está rodando** (nenhum container `part-*` no `podman ps`, sem
+   treino, fila nem ferramenta). Os 4 ramos de frente (`part/a1-imagem`, `d1-amostra`,
+   `e1-itens`, `p4-produto`) estão todos juntados na `main`, e as worktrees estão `prunable`.
+   - **A janela da partitura é a partir de agora, sem data de fim.** Fico sem rodar nada até a
+     minha fase 3 fechar.
+   - A fase 3 leva ~2 h:
+     - mover;
+     - 42 imports relativos viram absolutos;
+     - registrar 21 apelidos;
+     - provar.
+   - **Prova byte a byte**, antes e depois:
+     - `python -m tab.partitura_video parear` (nome antigo) dos 3 produtos numa pasta
+       temporária, conferido com `cmp` contra os `.partitura.json` de hoje;
+     - a saída do `data/saida/partitura/diag/ca1/ca1.py` igual linha a linha;
+     - o `pytest -rs` com o mesmo número de pulados.
+   - A ferramenta `partitura_gabarito servir` sobe numa cópia do ouro e serve um PNG de cada
+     uma das 3 pastas da lista de permissão.
+   - Antes da fase 3, peço para remover as 4 worktrees (`git worktree prune`). Os ramos ficam.
+3. **Caminhos fixos e scripts que quebram:**
+   - **Em `tab/`**:
+     - 31 constantes montam o caminho à mão a partir de `caminhos.SAIDA` (`SAIDA / "partitura" /
+       "p1" / ...`) em 14 módulos;
+     - 3 apontam para dado da tablatura: `SAIDA / "fase8" / "rede"` (`completar`,
+       `regua_tempo`) e `SAIDA / "censo" / "v2" / ...` (`censo`);
+     - `partitura_smt` tem `/opt/smt*` (dentro da imagem; fica);
+     - `partitura_omr` tem `/opt/omr/bin/homr` e `/opt/audiveris/bin/Audiveris` (fica).
+     - **Na fase 1b** as 31 constantes passam a ler constantes novas do `caminhos.py`
+       (`PARTITURA_P1`, `PARTITURA_VIDEO`…). Peço à tablatura `FASE8_REDE` e `CENSO_V2`.
+   - **A pasta da partitura não muda de lugar**: o alvo do §3 (`data/saida/partitura/`) é onde
+     ela já está. Na fase 4 só o `part_frentes/` vai para `data/saida/partitura/frentes/`, pelos
+     `PART_FRENTE_*` do `caminhos.py`, com link no lugar antigo.
+   - **Scripts**:
+     - 68 dos 84 chamam `tab` pelo nome antigo, nas 3 formas: `from tab.partitura_x import`,
+       `from tab import partitura_pauta as pp` e `python -m tab.partitura_video` (4 `.sh`).
+     - Eles importam funções privadas: `_carregar_ouro` 9, `_cinza` 9, `_e_nota` 8,
+       `_tinta_escura` 6, `_slug` 6… O apelido devolve o mesmo módulo, então elas seguem
+       valendo, desde que nenhuma saia do módulo (ver `_slug` acima).
+     - **Os 25 caminhos `/app/data/saida/part_frentes/...`** quebram se o `part_frentes` mudar
+       sem link. O link da fase 4 os cobre.
+   - **Dentro dos dados**: os ouros citam `fonte_itens` por caminho relativo, e os itens citam
+     o PNG. Isso exige o arquivo no lugar ou o link (regra 10).
+   - A ferramenta confere o PNG com `resolve()` contra a lista de permissão
+     (`PASTA_RECORTES`, `PASTA_SEM_PRODUTO` e `PART_FRENTE_D`, todas com `resolve()`). Com
+     link e constante apontando para o mesmo lugar, ela segue servindo. **Testar numa cópia
+     depois da fase 4.**
+   - **`Dockerfile.partitura` → `docker/`**:
+     - **não quebra**: não tem `COPY` nem `ADD`, e nem `compose*.yaml` nem o `Makefile` o
+       citam;
+     - muda o comando de build escrito no próprio arquivo, na decisão 3001 e no
+       `contexto-partitura.md`: `podman build -f docker/Dockerfile.partitura .`;
+     - o estágio do SMT está no mesmo arquivo.
+4. **Pesos em uso**: **nenhum** em `artefatos/`. O Audiveris, o homr e o oemer baixam os modelos
+   no build da imagem (sha256 na decisão 3001). O `EM_USO.json` da partitura fica vazio, com essa
+   nota.
+   - **Os 2 testes pulados do gate hoje são da partitura**: `test_partitura_smt.py:101` e `:114`
+     (`importorskip("music21")`, que só existe na imagem `:smt`). O gate de 2026-10-21 deu 1859
+     passados e 2 pulados. Esse é o número de referência da regra 12. Remover a imagem `:smt`
+     não muda essa conta.
+5. **Objeções, cada uma com a alternativa:**
+   - **a. Uma imagem em Python 3.11 importa `tab`, e o teste do §4 não pega isso.**
+     - O que acontece: `partitura_smt` roda cada recorte com `/opt/smt/bin/python -m
+       tab.partitura_smt inferir` (Python **3.11.17**, imagem `:smt`). Esse import executa o
+       `tab/__init__.py` e importa o `tab.caminhos` no topo do módulo.
+     - Por que o teste não pega: ele cobre `tab/__init__.py`, `_apelidos.py` e os
+       `tab/*/__init__.py`, mas **não o `comum/caminhos.py`**.
+     - O risco é real: `tab/leitor.py` já usa `except ValueError, TypeError:` sem parênteses,
+       sintaxe que só existe no 3.14. O mesmo vale para `audio_extrair`, `video` e
+       `partitura_video`.
+     - **Alternativa**:
+       - o teste do `feature_version=(3, 10)` inclui `tab/comum/caminhos.py`;
+       - `tab/comum/__init__.py` fica **vazio**, sem reexportar o `leitor` nem o `cache`.
+     - É o mesmo caso do transcritor do áudio (3.10) e do `celular` (host).
+   - **b. Subprocesso pelo nome do módulo.** O `partitura_smt` monta o comando com o literal
+     `"tab.partitura_smt"`. O apelido faz o nome antigo funcionar, e na fase 3 eu troco para o
+     nome novo (`tab.partitura.smt`). O `partitura_omr` chama o Audiveris e o homr como
+     executáveis (Java e o venv `/opt/omr`, Python 3.12). Eles não importam `tab` e não mudam.
+   - **c. Sem subpastas dentro da partitura.**
+     - São 21 módulos, e nenhum grupo passa de ~10 (regra do §3): leitura 8, pareamento e
+       régua 6, gabarito e amostra 7.
+     - **Proposta**: `tab/partitura/` plano, com o nome sem o prefixo (`video`, `gabarito`,
+       `omr`, `pauta`, `recortes`, `smt`, `censo`, `avaliar`, `pareamento`, `completar`,
+       `completar_pauta`, `completar_itens`, `regua`, `regua_tempo`, `regua_troca`, `amostra`,
+       `amostra_itens`, `amostra_ler`, `amostra_paginar`, `imagem`, `imagem_mediana`).
+     - Os testes vão para `tests/partitura/` **com o nome de hoje** (`test_partitura_*.py`),
+       para o `-k partitura` e as rodadas que citam o arquivo continuarem valendo.
+   - **d. O resto dos apelidos, medido, não quebra a partitura:**
+     - não há `multiprocessing`, worker nem `ProcessPool`;
+     - não há pickle: o `.omr` é zip com XML, e o resto é MusicXML e JSON;
+     - nenhum JSON gravado guarda nome de módulo (`gerado_por` é texto livre, e `produto` é
+       caminho de dado);
+     - não há `conftest.py` nem teste que importe outro teste.
+     - **Muda com a fase 4** o campo `produto` do `.partitura.json` (caminho do JSON da tab):
+       se a tablatura mover o `fase8/rede`, o mesmo comando grava outro texto ali. Registro
+       isso na rodada que regerar.
+   - **e. A ordem da fase 3 serve**: áudio e depois partitura. A partitura não depende das fases
+     de outra trilha, só do `comum` da fase 2.
 
 ### Mãos (2026-10-21, proponente)
 
