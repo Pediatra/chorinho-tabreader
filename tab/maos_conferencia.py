@@ -34,7 +34,7 @@ import cv2
 import numpy as np
 
 from .cache import ModoCache, caminho_do_quadro, pasta_do_video
-from .caminhos import SAIDA
+from .caminhos import CENSO_MAOS, CONFERENCIA_MAOS_30
 from .maos_tabela import resumo_do_quadro
 
 #: Vídeos (depois da exclusão) para um canal ganhar 1 vaga garantida.
@@ -322,13 +322,13 @@ def main() -> int:
         Código de saída do processo.
     """
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--censo", type=Path, default=SAIDA / "maos" / "censo_maos.jsonl")
+    ap.add_argument("--censo", type=Path, default=CENSO_MAOS)
     ap.add_argument(
         "--excluir", type=Path, help="jsonl cujas chaves ficam fora (o piloto)"
     )
     ap.add_argument("--n", type=int, default=30)
     ap.add_argument("--semente", type=int, default=20261013)
-    ap.add_argument("--saida", type=Path, default=SAIDA / "maos" / "conferencia_30")
+    ap.add_argument("--saida", type=Path, default=CONFERENCIA_MAOS_30)
     args = ap.parse_args()
 
     videos = _ler_jsonl(args.censo)

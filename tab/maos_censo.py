@@ -39,7 +39,7 @@ import numpy as np
 from mediapipe.tasks.python import BaseOptions, vision
 
 from .cache import ModoCache, caminho_do_quadro, pasta_do_video
-from .caminhos import CANAIS, SAIDA
+from .caminhos import CANAIS, CENSO_MAOS, CENSO_PRESENCA
 from .censo import canais_fora, ler_rollout
 from .maos_tabela import (
     dentro_da_tab,
@@ -50,7 +50,6 @@ from .maos_tabela import (
 )
 
 #: Censo de presença: lista de vídeos, instantes e caixa da TAB por quadro.
-CENSO_PRESENCA = SAIDA / "censo" / "censo_cache.jsonl"
 
 #: Modelos dentro da imagem ``chorinho-maos:dev`` (sha256 no log do build).
 MODELO_MAOS = Path("/opt/modelos/hand_landmarker.task")
@@ -316,7 +315,7 @@ def main() -> int:
         Código de saída do processo.
     """
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--saida", type=Path, default=SAIDA / "maos" / "censo_maos.jsonl")
+    ap.add_argument("--saida", type=Path, default=CENSO_MAOS)
     ap.add_argument("--censo", type=Path, default=CENSO_PRESENCA)
     ap.add_argument("--canal", action="append", help="só este canal (repetível)")
     ap.add_argument("--max-por-canal", type=int, help="amostra por canal (piloto)")

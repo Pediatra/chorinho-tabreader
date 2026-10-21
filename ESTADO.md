@@ -2088,6 +2088,7 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | **braço, numerar sem o nut pela régua largura do braço ÷ abertura** | **reprova** (1040): 316/382 (82,7 %) calibrada por vídeo, contra 95 %; sem calibração, 36,7 %. Só a câmera fixa do sky guitar fecha (63/63) |
 | **braço, escolher o par só por "menos falsos que passam" (critério da 1029)** | **escolhe o modelo que sinaliza tudo** (1037): o `L4_capo_s2` inverte o braço (nut na boca do violão), erra 28 de 32 na M36, sinaliza 28 de 33 na escolha e por isso "vence" com 0 falsos. A escolha precisa de piso de entregues certos |
 | **braço, retreino L4 + A6 com a regra do capo, sem sobreamostrar o capo** | **reprova** (1037): nenhum dos 9 pares passa os três critérios. Os pares sãos levam o capo de 4 para 1–2 falsos que passam e de 6 para 9 certos, mas perdem 1 a 3 certos sem capo |
+| **braço, escolher o par só na M11b (sem vídeo vertical), mesmo com piso de certos** | **escolhe um par que inverte o braço nos verticais** (1041): 7 de 28 na M36, e o critério 3 reprova (9 certos sem capo contra 15). A escolha precisa de vídeo vertical ou de checagem de orientação |
 | **tablatura, recorte alto com os pesos `_ger` da leitura comum** | **reprova** (0212): nos 8 ouros, as perdidas vão de 35 para 33, mas as inventadas sobem de 131 para 147 (quase todas no *room 335*); os pesos nunca viram o que fica acima da corda 1 |
 
 ## Lições metodológicas (custaram rodadas)
@@ -5895,5 +5896,11 @@ em `docs/rodadas/10NN-*`.
 - **1040 (numerar sem o nut pela régua de casas): reprova**, 82,7 % contra 95 %.
 - **1039 (ciclo de capo, shin izumi)**: 64 quadros de 8 vídeos com capo, previstos com o par
   antigo, esperando a revisão do dono.
-- **Próximo:** 1041, retreino com o capo sobreamostrado, escolha com piso de certos e descarte
-  de semente que inverte o braço, medido na 1039 depois da revisão do dono.
+- **1041 (capo sobreamostrado 3×, escolha com piso): o critério 3 reprova** (sem capo, 9
+  certos contra 15 do antigo, na M36 + N).
+  - O piso barrou a semente que sinaliza tudo, mas o par escolhido (L5 s2 + A7 s2) **inverte
+    o braço em 7 de 28 quadros verticais da M36** (o antigo, em 0).
+  - Os critérios 1 e 2 saem na 1039, depois da revisão do dono. O melhor caso agora é "só
+    com capo, dependendo da 1038".
+- **Próximo:** investigar a orientação do braço no estágio 1. Uma semente em três inverte (na
+  1037 e na 1041), e a folha de escolha precisa de vídeo vertical.

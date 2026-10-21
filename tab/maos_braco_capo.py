@@ -18,6 +18,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from .caminhos import (
+    CAPO_POR_VIDEO,
     GABARITO_BRACO,
     GABARITO_BRACO_M11B,
     GABARITO_BRACO_M25_PROVA,
@@ -35,7 +36,6 @@ from .caminhos import (
     MAOS_M29,
     MAOS_M32,
     MAOS_M36,
-    SAIDA,
 )
 from .maos_gabarito import gravar_atomico
 
@@ -51,7 +51,7 @@ GABARITOS = (
     ("m32", GABARITO_BRACO_M32, MAOS_M32),
     ("m36", GABARITO_BRACO_M36, MAOS_M36),
 )
-ARQUIVO_SAIDA = SAIDA / "maos" / "capo_por_video.json"
+ARQUIVO_SAIDA = CAPO_POR_VIDEO
 
 #: "capotraste casa 3", "capotraste na casa 2", "capostraste casa 1", "capotraste 6 casa",
 #: "capotraste 2 casa". O número que vem depois de "capo..." (com "na"/"casa" opcionais),

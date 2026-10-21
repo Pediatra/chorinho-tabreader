@@ -143,6 +143,12 @@ MAOS_M37 = SAIDA / "maos" / "m37"
 MAOS_M40 = SAIDA / "maos" / "m40"
 #: Retreino com o capo sobreamostrado (rodada 1041): escolha, medida e previsão da 1039.
 MAOS_M41 = SAIDA / "maos" / "m41"
+#: Casa do capo por vídeo, juntada do gabarito do braço (``tab.maos_braco_capo``).
+CAPO_POR_VIDEO = SAIDA / "maos" / "capo_por_video.json"
+#: Conferência dos 30 quadros do censo de mãos (rodada 1001).
+CONFERENCIA_MAOS_30 = SAIDA / "maos" / "conferencia_30"
+#: Presença de tablatura por vídeo, saída do censo da tablatura (``tab.censo``).
+CENSO_PRESENCA = SAIDA / "censo" / "censo_cache.jsonl"
 
 #: Pré-marcação do braço por consenso de modelos de visão (rodada 1019): respostas brutas
 #: por modelo, resultado e tabelas (``tab.maos_braco_vlm``).
@@ -261,6 +267,11 @@ def cache_quadros() -> Path:
 
 #: Pesos treinados. NUNCA em /tmp.
 ARTEFATOS = RAIZ / "artefatos"
+
+#: Pesos do braço (mãos): os ``.pt`` e as procedências ``.json``.
+PESOS_MAOS = ARTEFATOS / "m21"
+#: Pesos do ResNet18 pré-treinado (ImageNet) que o braço usa como base.
+PESOS_RESNET18 = ARTEFATOS / "torch" / "hub" / "checkpoints" / "resnet18-f37072fd.pth"
 
 #: Recortes de amostra do acervo.
 PARTES = RAIZ / "parts"

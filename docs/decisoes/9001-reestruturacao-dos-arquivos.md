@@ -1066,3 +1066,62 @@ PRONTA E PARADA — 2026-10-21 20:25 — commit eae7c3a5
    - em prova: os da 1041 (`L5_capo3_s*` e `A7_capo3_s*`);
    - todos estão em `artefatos/m21/`.
 5. **Ofereço fazer a fase 2** depois de 20h40, se as outras trilhas concordarem.
+
+**Fase 1 das mãos (2026-10-21, a sessão da 1041):**
+- **1a, versionar o que só existia no disco**: feita, mas entrou no commit `6c6f9695` (ver o
+  §6b):
+  - os 14 gabaritos "antes" e a remarcação cega;
+  - a conferência dos 30;
+  - 78 scripts;
+  - as 44 procedências.
+  - **As imagens que o gabarito das mãos usa** são os `quadros/` de cada pasta de ciclo,
+    achados pelo `indice.json` e pelas constantes `MAOS_M*`. O gabarito não guarda caminho de
+    imagem. Por isso **toda pasta de ciclo fica em "manter"**.
+- **Caminhos fixos**: os 6 que restavam (`maos_braco_capo`, `maos_braco_detector` ×2,
+  `maos_conferencia` ×2 e `maos_censo`) passam a ler `CAPO_POR_VIDEO`,
+  `CONFERENCIA_MAOS_30`, `CENSO_MAOS`, `CENSO_PRESENCA`, `PESOS_MAOS` e `PESOS_RESNET18`, do
+  `caminhos.py`. O `CAPO_POR_VIDEO` serve também ao áudio, que o pediu no §8.
+- **Inventário de `data/saida/maos`** (13 GB, 71 entradas):
+
+| classe | o quê | tamanho | por quê |
+| --- | --- | --- | --- |
+| **manter** | `m21` (`S` 6,9 GB de sintéticos, `R` 323 MB, `fundos`, `G`) | 7,5 GB | é a entrada do treino dos dois estágios. O `S` se regenera pela semente, mas leva horas, e recomprimir muda a entrada (regra 8) |
+| manter | as pastas de ciclo e de gabarito: `m1`, `m2`, `m3`, `m3b`, `m3c`, `m3d`, `m5`, `m7`, `m8`, `m9`, `m11`, `m11b`, `m25`–`m27`, `m29`, `m30`, `m32`, `m36`, `m37`, `m39`–`m41` | ~1,2 GB | os quadros que o dono marcou, os índices, as previsões e as medidas citadas pelas rodadas |
+| manter | `m38` | 0,9 GB | os 688 quadros da 1038, que espera um par aprovado |
+| manter | `frentes`, `capo_por_video.json`, `capo_auditoria`, `censo_maos.jsonl`, `conferencia_30*`, `imagem`, `m16` | ~0,2 GB | citados por rodadas ou lidos pelo código |
+| **arquivar** (`.tar` no frio) | `m31/denso` | 2,4 GB | os quadros densos a 2 fps da 1030/1031, que reprovaram. Dá para regenerar relendo o acervo. **Pode ser apagado**, se o dono preferir |
+| arquivar | `m7c` | 154 MB | não é citado por nenhuma rodada nem pelo código |
+| arquivar | os pilotos soltos (`piloto_*.jsonl`, `folha_piloto*`, `folha_teste_det*`, `mudou_c03*`, `teste_conferencia*`, `teste_det`, `olhar`, `m19`, `m20`, `*.log`) | ~20 MB | histórico de 10/10 a 14/10; a maioria não é citada |
+| apagar | nada | — | — |
+
+- **Pesos** (`artefatos/m21`, 45 `.pt`, 2,7 GB). O `EM_USO`:
+  - **o ciclo**: `L3_todos_s3` e `A4_100_todos_s1`;
+  - **em prova** na 1039: `L5_capo3_s*` e `A7_capo3_s*`;
+  - o `resnet18` em `artefatos/torch`.
+  - **Histórico**, para arquivar **depois** da medida da 1041 na 1039: L1, L2, L4_capo, A1,
+    A3_\*, A5, A6_capo e `v2_sobreajuste`. São ~2,2 GB.
+
+**Prova de "antes" das mãos** (2026-10-21, 20h):
+- **Comando**, pelos nomes de hoje, nas 3 formas de import, na CPU e sem GPU:
+  `CHORINHO_MAOS_CPU=1 python data/saida/maos/prova_9001/prova.py <saida.json>`, no container
+  `localhost/chorinho-maos:dev` com `--shm-size=2g`.
+  - Ele prevê 6 quadros da M36 com o par do ciclo (`L3_todos_s3` + `A4_100_todos_s1`), o
+    que carrega os pesos de `artefatos/m21`.
+  - Ele refaz a casa do capo por vídeo (`maos_braco_capo`).
+- **Referência**: `data/saida/maos/prova_9001/antes.json` (22.688 bytes, sha256
+  `2a77d8f6…a603a`).
+  - Rodado duas vezes, deu o mesmo arquivo, byte a byte, então a prova é determinística.
+  - Depois da mudança, `depois.json` tem de ser igual a ele.
+- **O `pytest -rs` de hoje**: no commit desta fase, ver a linha abaixo.
+
+**Prova de "antes" das mãos** (2026-10-21, 20h):
+- **Comando**, pelos nomes de hoje, nas 3 formas de import, na CPU e sem GPU:
+  `CHORINHO_MAOS_CPU=1 python data/saida/maos/prova_9001/prova.py <saida.json>`, no container
+  `localhost/chorinho-maos:dev` com `--shm-size=2g`.
+  - Ele prevê 6 quadros da M36 com o par do ciclo (`L3_todos_s3` + `A4_100_todos_s1`), o
+    que carrega os pesos de `artefatos/m21`.
+  - Ele refaz a casa do capo por vídeo (`maos_braco_capo`).
+- **Referência**: `data/saida/maos/prova_9001/antes.json` (22.688 bytes, sha256
+  `2a77d8f6…a603a`).
+  - Rodado duas vezes, deu o mesmo arquivo, byte a byte.
+  - Depois da mudança, `depois.json` tem de ser igual a ele.

@@ -38,11 +38,12 @@ from torch import nn
 from torch.utils.data import DataLoader, Dataset
 
 from .caminhos import (
-    ARTEFATOS,
     GABARITO_BRACO,
     GABARITO_BRACO_M11B,
     MAOS_M11B,
     MAOS_M21,
+    PESOS_MAOS,
+    PESOS_RESNET18,
 )
 from .gpu import trava_gpu
 from .maos_braco_faixa import (
@@ -131,8 +132,7 @@ CANAIS_ALVO = 4
 MEDIA_IMAGENET = (0.485, 0.456, 0.406)
 DESVIO_IMAGENET = (0.229, 0.224, 0.225)
 #: Pesos ImageNet já baixados (sem download).
-PESOS_RESNET18 = ARTEFATOS / "torch" / "hub" / "checkpoints" / "resnet18-f37072fd.pth"
-DIR_PESOS = ARTEFATOS / "m21"
+DIR_PESOS = PESOS_MAOS
 DIR_G = MAOS_M21 / "G"
 DIR_R = MAOS_M21 / "R"
 DIR_S = MAOS_M21 / "S"
