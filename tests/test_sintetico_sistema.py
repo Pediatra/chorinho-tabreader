@@ -291,7 +291,7 @@ def test_pausa_entre_cordas_e_cinzas_aparecem_em_300_sementes(
 def test_cadeia_e_arco_alto_aparecem_em_100_sementes(
     fontes: list[str], monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """G11 e G12 (R4e, desligados): ligados, a cadeia e o arco alto aparecem."""
+    """G11 e G12 (R4e; religados na 0211): a cadeia e o arco alto aparecem."""
     monkeypatch.setattr(ss, "P_CADEIA", 0.25)
     monkeypatch.setattr(ss, "P_ARCO_ALTO", 0.25)
     vistas: set[str] = set()
