@@ -642,6 +642,111 @@ tab/tablatura/
 - **A minha fase 1 começa já**: o versionamento da objeção a só acrescenta arquivos. Os
   caminhos do item 3 ficam para depois do passe do dono.
 
+**Fase 1 da tablatura (2026-10-21, feita)**
+
+- **1a, `4ff562f5`** (580 arquivos, 88 MB, por nome com `git add -f`, sem mudar o
+  conteúdo):
+  - o rótulo do dono fora do `data/gold`:
+    - as conferências da ferramenta: T8.2 nas duas versões (`t82/ferramenta` e
+      `t82/erros`), T8.3 e T8.4, com o `indice.json`, o `pre.json` e o `plano.json` de cada
+      lote;
+    - os 38 JSON de `tab_rotulo/r2`: os gabaritos de ataque convertidos e os passes do modo
+      ataque (`conferir*`).
+  - as imagens:
+    - 168 recortes de `portao_casos` (folhas D a N, que o `portao.json` cita pelo nome);
+    - 11 folhas citadas pelo ouro (`frames/folha_D..N`, `c1b`, `cifra/vn_suspeitos.jpg`,
+      `fn05/folha_novas.jpg`, `presenca_7_1`, `t500`, `diag_v2/gold2`). As outras já
+      estavam no git.
+  - 204 scripts vivos de `data/saida`, entre eles o `n4/treinar_ft.py` e as correções do
+    dono no chat (`r2/novos_t84.py`). As cópias de código do `fase8/gym13` ficaram de fora;
+  - os 145 `config.json` dos pesos `detector_tab_*`.
+  - Nenhum arquivo tem chave de API (conferi por busca).
+- **1b, caminhos, `36ad474a`**:
+  - **O `caminhos.py` ganha constantes novas**:
+    - `GOLD_TABLATURA`, o ouro solto na raiz de `data/gold`;
+    - `GOLD_SIMBOLOS*`, `GOLD_MARCAS_SIMBOLOS_6`, `GOLD_PORTAO` e `GOLD_PRESENCA_QUADROS`;
+    - `FRAMES`, `FRAMES_GOLD`, `COLETA_MARCAR`, `FOLHA_INTEIRA`, `OURO_NOVOS` e
+      `VIDEO_SIMBOLOS`;
+    - **`PESOS_TABLATURA`, que hoje vale o mesmo que `ARTEFATOS`**. `MODELO_PADRAO`,
+      `DETECTOR_PADRAO`, `TAB_FRENTES_PESOS`, o `DETECTOR_CALIBRADO`, o
+      `ataque_r4.modelo_da_dobra` e os pesos do `digito`, `simbolo`, `simbolos`, `portao`,
+      `detector_tab`, `sintetico` e `fimafim` saem dela.
+    - **Na fase 4, só essas constantes mudam.**
+  - **Os 14 módulos da pergunta 3** deixam de montar `SAIDA.parent / "gold"`,
+    `ARTEFATOS.parent / "data"`, `GABARITO.with_name` e caminhos literais relativos ao
+    diretório atual.
+  - **O `n3/medir.py`** passa a ler o vídeo de cada ouro do campo `video` do próprio ouro,
+    na mesma ordem. O `barline_fina/run.sh` deixa de ser lido.
+  - **Os testes**:
+    - o `test_casa_dois_digitos` acha o peso pelo `caminhos`;
+    - o `test_sem_videocapture` varre o `tab/` com `rglob` e exige ≥ 140 arquivos
+      (objeção e).
+  - **Conferido no container** (`tab_rotulo/diag/conferir_9001_1b.py`): os 83 caminhos
+    saem iguais aos de antes, entre eles os 60 pesos do `modelo_da_dobra` e o mapa vídeo →
+    ouro do `medir`.
+- **1b, inventário, `7e05f52e`**:
+  - **63 `LEIAME.json`**, um em cada pasta da tablatura em `data/saida`;
+  - **35 pastas** ficaram com o LEIAME num arquivo só,
+    `tab_rotulo/diag/LEIAME_9001_bloqueados.json`. **Essas pastas são do root**: um
+    container antigo as gravou, e não se escreve nelas sem `sudo` (ex.: `afinacao`,
+    `simbolos`, `portao_casos`, `paineis`, `ouro_novos`, os `intervalos*` e os `simbolos_*`).
+    **Aviso para quem executa a mudança**: no Linux, um `mv` de diretório para outra pasta
+    pede escrita no próprio diretório. Essas 35 pastas precisam do `chown` pelo dono
+    (`sudo`) antes da fase 4;
+  - **os 57 arquivos soltos** em `data/saida/LEIAME_tablatura_soltos.json`;
+  - o gerador é determinístico: `tab_rotulo/diag/leiame_9001.py`.
+
+  | | manter | arquivar | apagar |
+  | --- | --- | --- | --- |
+  | pastas (98) | 34 (1.243 MB) | 63 (2.715 MB) | 1 (`presenca_v2`, vazia) |
+  | soltos (57) | 2 (2 MB) | 55 (55 MB) | 0 |
+
+  - **Entraram em "manter" por serem lidas pelo código**: `coleta_marcar`,
+    `folha_inteira`, `intervalos`, `limiar_tinta`, `marcador`, `ouro_novos`,
+    `portao_novos`, `telas`, `varredura` e `video`.
+  - **Os pesos** estão em `artefatos/tablatura/EM_USO.json`: 66 pastas em uso (o produto,
+    o ataque, os 44 da 0211, os 14 da 0212, a partida, o leitor `glifos` e as frentes) e
+    124 históricas. São as 190 pastas da tablatura, sem repetição.
+
+**Prova de "antes" da tablatura** (`data/saida/prova_9001/tablatura/`, no git em
+`7e05f52e`)
+- **O comando**, no container, só CPU:
+  `sh /app/data/saida/prova_9001/tablatura/prova.sh <pasta>`. Ele roda, pelos nomes
+  antigos:
+  - `python -m tab.video "/acervo/<vídeo do greensleeves>" --json <pasta>/produto_greensleeves.json`:
+    4 telas e 209 notas;
+  - `python -m tab.avaliar_video --ouro data/gold/ouro_video/<slug>.json --pred <produto> --json <pasta>/avaliar_<slug>.json`,
+    nos **8 ouros**:
+    - o `retrato_brasileiro` v1 sai, substituído pela v2;
+    - o produto vem de `fase8/ger/ger`, e de `fase8/rede` no `la_vie_en_rose` e no
+      `retrato_brasileiro_v2`.
+- **A referência é `antes/`.** Depois da mudança, rode `prova.sh depois/` e
+  `python3 data/saida/prova_9001/tablatura/comparar.py antes depois`. Tem de sair
+  **IGUAL**.
+- **Duas execuções seguidas hoje deram IGUAL** nos 19 arquivos, com ~4 min cada.
+- **O `comparar.py` ignora só três coisas**:
+  - o `gerado_por.em` (a hora);
+  - o `gerado_por.commit` do produto;
+  - o caminho da pasta de saída que os programas imprimem nos `.txt` (vira `<PASTA>`).
+- **Atenção**: se a fase 4 já tiver movido os pesos, o `gerado_por.modelo` muda de valor
+  (objeção f). Essa é a única diferença aceita, e ela tem de aparecer sozinha.
+- **`pytest -rs` de hoje** (o gate, `-m "not integration"`, com o
+  `--ignore=tests/test_maos_direita_cordas.py`): **1826 passed, 2 skipped, 5 deselected e
+  2 xfailed**. Os 2 pulados são `tests/test_partitura_smt.py:101` e `:114`, que não têm o
+  `music21`. Depois da mudança, os pulados não podem passar de 2.
+
+**Parada da tablatura**
+- **Nada da tablatura está rodando**:
+  - a ferramenta da T8.4 e o `celular` (Tailscale) foram desligados com o OK do dono;
+  - não há `cloudflared` nem `tailscale serve`;
+  - não há treino nem fila.
+- **Nenhum commit da tablatura** até a sessão das mãos avisar que terminou.
+- **Nenhum lote novo no HD.**
+- **Fica pendente**, para depois da mudança, o passe do dono no modo ataque da T8.4 e a
+  medida da 0211 (`r4g/medir_t84.py`).
+
+PRONTA E PARADA — 2026-10-21 20:50 — commit 7e05f52e
+
 ### Áudio (2026-10-21)
 
 **Conferência dos números que tocam o áudio** (`wc`, `grep`, `du` e `git ls-files`, rodados em
