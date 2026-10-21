@@ -176,3 +176,42 @@ que a 2005 pede.
   poucos vídeos.
 - **A medida é pequena** (20 quadros com capo). Um quadro muda a conclusão do critério 2. Por
   isso a prova é a 1039, e não esta rodada.
+
+## Preparação, antes da GPU (2026-10-21, manhã)
+
+**A GPU estava com a tablatura** (0211 fase 2: 15 treinos de ~15,5 min, das 09:18 até ~13:30).
+- A trava da tablatura solta a GPU entre um treino e outro, mas o seguinte a pega de novo em
+  ~3 s.
+- A fila do braço entra depois disso. Disputar a vez não mudaria o tempo total de GPU.
+
+**Teste a seco da medida, na CPU** (`m37/teste_seco/`): pus o par antigo no lugar do novo, só
+para conferir o código de `medir` de ponta a ponta. Funcionou, e dá a linha de base do par
+antigo. Os números são de CPU; a medida oficial roda na GPU.
+
+| par antigo (L3_s3 + A4_s1) | M36 | N |
+| --- | --- | --- |
+| quadros medidos | 32 | **21** (sem o q08; q01 e q05 são 7 cordas) |
+| falsos que passam | 1 (q10) | 3 (q09, q21, q22: todos com capo, nut verdadeiro achado) |
+| entregues certos | 8 de 31 com braço | 12 de 21 |
+| capo: certos / falsos | 6 de 16 / 1 | 0 de 4 / 3 |
+
+- **Emenda de contagem** (antes de medir): o N tem **21** quadros medidos, e não 23. O limite do
+  critério 1 continua sendo 1 falso (5 % de 21).
+- **Calibração do par antigo** (descritiva): na M36, 8 de 9 certos entre os sem sinal e 10 de 23
+  entre os sinalizados. Por terço do S1, do mais confiante ao menos: 8 de 9, 8 de 10 e 1 de 10.
+
+**Memória compartilhada**: o teste curto do treino na CPU quebrou no carregador de dados. O
+`/dev/shm` do `podman run` direto é de 64 MB, e o `compose.yaml` dá 1 GB (`shm_size`).
+- As filas foram refeitas com `--shm-size=2g` (`m37/rodar3.sh` e `rodar4.sh`, log em
+  `m37/logs3/`).
+- A fila antiga (`rodar.sh`) quebra no teste curto quando pegar a GPU, e a segunda fila antiga
+  para junto.
+- Com 2 GB, os dois estágios rodaram 5 passos na CPU sem erro.
+
+**Os 4 quadros fora, desenhados para o dono** (`m37/conferir/quatro_quadros.jpg`):
+- **M32 q14 e q45**: o nut marcado está no **nut verdadeiro**, com o capo atrás dele. São
+  quadros que vieram pré-preenchidos pela previsão e não foram remarcados pela regra nova.
+- **M3b q10**: o nut marcado parece estar **um traste à frente** do traste logo depois do capo.
+- **M25 treino q139**: **não vejo capo** no quadro. O dono deve estar certo, e o quadro só não
+  tem `k` porque não tem capo.
+- Quem decide é o dono. Os 4 seguem fora do treino até a confirmação dele.

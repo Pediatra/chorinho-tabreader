@@ -112,6 +112,9 @@ executa o pipeline.
 
   - Sem GPU, tire o `--device`.
   - `--security-opt label=disable` é obrigatório. Sem ele, o SELinux nega o bind-mount.
+  - **Treino com `DataLoader` (workers) precisa de `--shm-size=2g`.** O `/dev/shm` padrão do
+    `podman run` é de 64 MB, e o treino quebra com "unable to allocate shared memory". O
+    `compose.yaml` já dá 1 GB (`shm_size`); o `podman run` direto, não (1037).
 - **As imagens:**
   - **base**: `docker.io/library/chorinho:dev`, Python 3.14, venv em `/opt/venv` (fora de
     `/app`, para o bind-mount não esconder os pacotes);
