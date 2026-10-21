@@ -32,11 +32,11 @@ import cv2
 import numpy as np
 
 from .cache import ModoCache, caminho_do_quadro, ler_quadro, pasta_do_video
-from .caminhos import RAIZ, SAIDA
+from .caminhos import CENSO_V2, RAIZ
 from .partitura_pauta import achar_pautas, classe_do_quadro, classe_do_video
 
 #: Censo de presença v2: uma linha JSON por vídeo, com os 12 instantes e a tablatura.
-CENSO = SAIDA / "censo" / "v2" / "censo_v2_completo.jsonl"
+CENSO = CENSO_V2 / "censo_v2_completo.jsonl"
 
 #: Instantes por vídeo (``presenca_00`` a ``presenca_11``).
 N_QUADROS = 12

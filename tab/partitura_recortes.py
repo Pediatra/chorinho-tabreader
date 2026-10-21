@@ -39,7 +39,7 @@ import cv2
 import numpy as np
 
 from tab.cache import ModoCache, caminho_do_quadro, ler_quadro, pasta_do_video
-from tab.caminhos import OURO_VIDEO, SAIDA, acervo
+from tab.caminhos import OURO_VIDEO, PARTITURA_P0, PARTITURA_P1, acervo
 from tab.leitor import quadro_em
 from tab.partitura_pauta import (
     FRAC_FRACA,
@@ -53,10 +53,10 @@ from tab.partitura_pauta import (
 SEMENTE = 0
 
 #: Amostra da P0: uma linha JSON por vídeo, com os 12 quadros do censo de cada um.
-AMOSTRA_P0 = SAIDA / "partitura" / "p0" / "amostra.jsonl"
+AMOSTRA_P0 = PARTITURA_P0 / "amostra.jsonl"
 
 #: Saída da P1: recortes, índice e folhas de conferência.
-PASTA_SAIDA = SAIDA / "partitura" / "p1" / "recortes"
+PASTA_SAIDA = PARTITURA_P1 / "recortes"
 
 #: Vídeos ouro: nome do JSON em ``OURO_VIDEO`` e ids das telas usadas (None = todas).
 OURO = (

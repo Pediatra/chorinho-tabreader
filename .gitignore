@@ -49,3 +49,8 @@ data/cache/
 
 # artefatos gerados (visíveis no host, não versionados; o que já é rastreado continua rastreado)
 data/saida/
+
+# Gabaritos da partitura que NUNCA entram no git (AGENTS §9); cópia em .tar no arquivo frio
+# (decisão 9001, §7c, item 2).
+data/gold/partitura/compassos_homr.json
+data/gold/partitura/figura_e1.json

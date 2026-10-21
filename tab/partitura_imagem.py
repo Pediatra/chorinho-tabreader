@@ -27,10 +27,10 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from .caminhos import PART_FRENTE_A, SAIDA
+from .caminhos import PART_FRENTE_A, PARTITURA_SEM_PRODUTO
 from .partitura_omr import rodar_um
 
-PASTA_SP = SAIDA / "partitura" / "sem_produto"
+PASTA_SP = PARTITURA_SEM_PRODUTO
 LIMIAR_FAIXA = 0.05
 SATURACAO_MINIMA = 0.20
 BRILHO_MINIMO = 0.40

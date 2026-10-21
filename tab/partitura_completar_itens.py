@@ -24,7 +24,7 @@ import argparse
 import json
 from pathlib import Path
 
-from .caminhos import PART_FRENTE_E, SAIDA
+from .caminhos import PART_FRENTE_E, PARTITURA_P1
 from .partitura_completar import SAIDA_JSON as E1_JSON
 from .partitura_completar import STEMS
 from .partitura_gabarito import _relativo_a_raiz, gabarito_vazio, ler_partitura
@@ -388,16 +388,14 @@ def main(argv: list[str] | None = None) -> int:
         for k, s in enumerate(julgar):
             s["idx"] = k
         xml = (
-            SAIDA
-            / "partitura"
-            / "p1"
+            PARTITURA_P1
             / "omr"
             / "audiveris"
             / "x2_margem_herdada"
             / rid
             / "saida.musicxml"
         )
-        png = SAIDA / "partitura" / "p1" / "recortes_margem" / f"{rid}.png"
+        png = PARTITURA_P1 / "recortes_margem" / f"{rid}.png"
         itens.append(
             _item(rid, "ouro", entrada["video"], entrada["tela"], xml, png, julgar)
         )

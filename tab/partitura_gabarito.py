@@ -41,7 +41,7 @@ from pathlib import Path
 from urllib.parse import unquote
 from xml.etree import ElementTree as ET
 
-from tab.caminhos import PART_FRENTE_D, RAIZ, SAIDA
+from tab.caminhos import PART_FRENTE_D, PARTITURA_P1, PARTITURA_SEM_PRODUTO, RAIZ
 from tab.partitura_avaliar import (
     NotaXML,
     _carregar_ouro,
@@ -52,7 +52,7 @@ from tab.partitura_avaliar import (
 
 #: Pastas da trilha partitura P1 (recortes, leituras do OMR e a conferência). A
 #: conferência usa o recorte com margem 7/7, a melhor entrada medida (rodada 3003).
-PASTA_PARTITURA = SAIDA / "partitura" / "p1"
+PASTA_PARTITURA = PARTITURA_P1
 PASTA_RECORTES = PASTA_PARTITURA / "recortes_margem"
 PASTA_OMR = PASTA_PARTITURA / "omr"
 PASTA_CONFERENCIA = PASTA_PARTITURA / "conferencia"
@@ -72,7 +72,7 @@ ITENS = PASTA_CONFERENCIA / "itens.json"
 #: Vídeos SEM produto de tablatura: uma pasta por vídeo, com ``recortes/indice.json``,
 #: ``recortes/<id>.png`` e a leitura herdada do Audiveris (armadura do vídeo aplicada) em
 #: ``omr/audiveris/x2_margem_herdada/<id>/saida.musicxml``.
-PASTA_SEM_PRODUTO = SAIDA / "partitura" / "sem_produto"
+PASTA_SEM_PRODUTO = PARTITURA_SEM_PRODUTO
 
 #: Condição da leitura herdada dos vídeos sem produto, e o nome da fonte no item.
 CONDICAO_HERDADA = "x2_margem_herdada"

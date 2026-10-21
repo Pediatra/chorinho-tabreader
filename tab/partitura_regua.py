@@ -26,15 +26,13 @@ import zipfile
 from fractions import Fraction
 from pathlib import Path
 
-from .caminhos import PART_FRENTE_0, SAIDA
+from .caminhos import GOLD_PARTITURA, PART_FRENTE_0, PARTITURA_SEM_PRODUTO
 from .partitura_gabarito import ler_partitura
 from .partitura_pareamento import PASTA_P1
 
-GOLD_P1 = SAIDA.parent.parent / "data" / "gold" / "partitura" / "leitura_p1.json"
-GOLD_SP = (
-    SAIDA.parent.parent / "data" / "gold" / "partitura" / "leitura_sem_produto.json"
-)
-PASTA_SP = SAIDA / "partitura" / "sem_produto"
+GOLD_P1 = GOLD_PARTITURA / "leitura_p1.json"
+GOLD_SP = GOLD_PARTITURA / "leitura_sem_produto.json"
+PASTA_SP = PARTITURA_SEM_PRODUTO
 SAIDA_JSON = PART_FRENTE_0 / "regua_compassos.json"
 
 #: Recortes que ficam de fora da tabela de compasso (ver a rodada 3101).

@@ -1,0 +1,2233 @@
+{
+  "formato": 1,
+  "gerado_por": "tab.partitura_completar_itens",
+  "itens": [
+    {
+      "id": "R05",
+      "origem": "ouro",
+      "canal": "guitar dell ́arte",
+      "video": "guitar dell ́arte/south american music (easy), guitar tutorial with sheet and tab.mp4",
+      "tela": 1,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/p1/recortes_margem/R05.png",
+      "largura_png": 1920,
+      "altura_png": 207,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>1</fifths></key><time><beats>2</beats><beat-type>4</beat-type></time><clef><sign>G</sign><line>2</line></clef></attributes><note><pitch><step>E</step><octave>5</octave></pitch><duration>4</duration><voice>1</voice><type>eighth</type></note><note><pitch><step>E</step><octave>5</octave></pitch><duration>2</duration><voice>1</voice><type>16th</type></note><note><pitch><step>C</step><octave>4</octave></pitch><duration>4</duration><voice>1</voice><type>eighth</type></note><note><chord/><pitch><step>G</step><octave>5</octave></pitch><duration>4</duration><voice>1</voice><type>eighth</type></note></measure><measure number=\"2\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"3\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"4\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"5\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"6\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"8\"><note><pitch><step>G</step><octave>4</octave></pitch><duration>8</duration><voice>1</voice><type>quarter</type></note></measure><measure number=\"9\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"10\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"11\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"12\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"13\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 1,
+      "compasso_formula": {
+        "beats": 2,
+        "beat_type": 4
+      },
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 2.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "1",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 76,
+              "nome": "E5",
+              "figura": "eighth",
+              "pontuada": false,
+              "duracao": 0.5,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 140.5
+            },
+            {
+              "idx": 1,
+              "compasso": "1",
+              "t": 0.5,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 76,
+              "nome": "E5",
+              "figura": "16th",
+              "pontuada": false,
+              "duracao": 0.25,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 188.0
+            },
+            {
+              "idx": 2,
+              "compasso": "1",
+              "t": 0.75,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 79,
+              "nome": "G5",
+              "figura": "eighth",
+              "pontuada": false,
+              "duracao": 0.5,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 208.5
+            },
+            {
+              "idx": 4,
+              "compasso": "1",
+              "t": 0.75,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 60,
+              "nome": "C4",
+              "figura": "eighth",
+              "pontuada": false,
+              "duracao": 0.5,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 208.5
+            }
+          ]
+        },
+        {
+          "numero": "2",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "3",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "4",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "5",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "6",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "7",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "8",
+          "duracao": 2.0,
+          "simbolos": [
+            {
+              "idx": 3,
+              "compasso": "8",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 67,
+              "nome": "G4",
+              "figura": "quarter",
+              "pontuada": false,
+              "duracao": 1.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1065.5
+            }
+          ]
+        },
+        {
+          "numero": "9",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "10",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "11",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "12",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "13",
+          "duracao": 2.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 13,
+      "n_notas": 5,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "R06",
+      "origem": "ouro",
+      "canal": "guitar dell ́arte",
+      "video": "guitar dell ́arte/south american music (easy), guitar tutorial with sheet and tab.mp4",
+      "tela": 2,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/p1/recortes_margem/R06.png",
+      "largura_png": 1920,
+      "altura_png": 209,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>1</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"2\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"3\"><note><pitch><step>B</step><octave>3</octave></pitch><duration>4</duration><voice>1</voice><type>eighth</type></note></measure><measure number=\"4\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"5\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"6\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"7\"><note><pitch><step>B</step><octave>4</octave></pitch><duration>2</duration><voice>1</voice><type>16th</type></note><note><pitch><step>B</step><octave>4</octave></pitch><duration>2</duration><voice>1</voice><type>16th</type></note><note><pitch><step>G</step><octave>4</octave></pitch><duration>4</duration><voice>1</voice><type>eighth</type></note></measure><measure number=\"8\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"9\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"10\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"11\"><note><pitch><step>B</step><octave>4</octave></pitch><duration>4</duration><voice>1</voice><type>eighth</type></note><note><pitch><step>B</step><octave>4</octave></pitch><duration>4</duration><voice>1</voice><type>eighth</type></note></measure><measure number=\"12\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"13\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": null,
+      "armadura": 1,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "2",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "3",
+          "duracao": 2.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "3",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 59,
+              "nome": "B3",
+              "figura": "eighth",
+              "pontuada": false,
+              "duracao": 0.5,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 651.5
+            }
+          ]
+        },
+        {
+          "numero": "4",
+          "duracao": 1.5,
+          "simbolos": []
+        },
+        {
+          "numero": "5",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "6",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "7",
+          "duracao": 2.0,
+          "simbolos": [
+            {
+              "idx": 1,
+              "compasso": "7",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 71,
+              "nome": "B4",
+              "figura": "16th",
+              "pontuada": false,
+              "duracao": 0.25,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1106.5
+            },
+            {
+              "idx": 2,
+              "compasso": "7",
+              "t": 0.25,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 71,
+              "nome": "B4",
+              "figura": "16th",
+              "pontuada": false,
+              "duracao": 0.25,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1127.5
+            },
+            {
+              "idx": 3,
+              "compasso": "7",
+              "t": 0.5,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 67,
+              "nome": "G4",
+              "figura": "eighth",
+              "pontuada": false,
+              "duracao": 0.5,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1175.5
+            }
+          ]
+        },
+        {
+          "numero": "8",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "9",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "10",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "11",
+          "duracao": 2.0,
+          "simbolos": [
+            {
+              "idx": 4,
+              "compasso": "11",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 71,
+              "nome": "B4",
+              "figura": "eighth",
+              "pontuada": false,
+              "duracao": 0.5,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1700.5
+            },
+            {
+              "idx": 5,
+              "compasso": "11",
+              "t": 0.5,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 71,
+              "nome": "B4",
+              "figura": "eighth",
+              "pontuada": false,
+              "duracao": 0.5,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1721.0
+            }
+          ]
+        },
+        {
+          "numero": "12",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "13",
+          "duracao": 1.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 13,
+      "n_notas": 6,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "R07",
+      "origem": "ouro",
+      "canal": "guitar dell ́arte",
+      "video": "guitar dell ́arte/south american music (easy), guitar tutorial with sheet and tab.mp4",
+      "tela": 3,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/p1/recortes_margem/R07.png",
+      "largura_png": 1920,
+      "altura_png": 207,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>1</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"2\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"3\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"4\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"5\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"6\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"8\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"9\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"10\"><note><pitch><step>B</step><octave>4</octave></pitch><duration>2</duration><voice>1</voice><type>16th</type></note><note><pitch><step>E</step><octave>4</octave></pitch><duration>16</duration><voice>1</voice><type>half</type></note><note><chord/><pitch><step>G</step><octave>4</octave></pitch><duration>16</duration><voice>1</voice><type>half</type></note><note><chord/><pitch><step>B</step><octave>4</octave></pitch><duration>16</duration><voice>1</voice><type>half</type></note><note><chord/><pitch><step>E</step><octave>5</octave></pitch><duration>16</duration><voice>1</voice><type>half</type></note></measure><measure number=\"11\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"12\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"13\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": null,
+      "armadura": 1,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "2",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "3",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "4",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "5",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "6",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "7",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "8",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "9",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "10",
+          "duracao": 2.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "10",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 71,
+              "nome": "B4",
+              "figura": "16th",
+              "pontuada": false,
+              "duracao": 0.25,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1349.5
+            },
+            {
+              "idx": 1,
+              "compasso": "10",
+              "t": 0.25,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 67,
+              "nome": "G4",
+              "figura": "half",
+              "pontuada": false,
+              "duracao": 2.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1883.65
+            },
+            {
+              "idx": 2,
+              "compasso": "10",
+              "t": 0.25,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 76,
+              "nome": "E5",
+              "figura": "half",
+              "pontuada": false,
+              "duracao": 2.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1883.65
+            },
+            {
+              "idx": 3,
+              "compasso": "10",
+              "t": 0.25,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 64,
+              "nome": "E4",
+              "figura": "half",
+              "pontuada": false,
+              "duracao": 2.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1883.65
+            },
+            {
+              "idx": 4,
+              "compasso": "10",
+              "t": 0.25,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 71,
+              "nome": "B4",
+              "figura": "half",
+              "pontuada": false,
+              "duracao": 2.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1883.65
+            }
+          ]
+        },
+        {
+          "numero": "11",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "12",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "13",
+          "duracao": 2.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 13,
+      "n_notas": 5,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "R08",
+      "origem": "ouro",
+      "canal": "robert lunn",
+      "video": "robert lunn/gymnopédie no.1 (erik satie) - includes sheet music⧸tab - classical guitar.mp4",
+      "tela": 1,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/p1/recortes_margem/R08.png",
+      "largura_png": 1920,
+      "altura_png": 332,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>4</fifths></key><time><beats>3</beats><beat-type>4</beat-type></time><clef><sign>G</sign><line>2</line></clef></attributes><note><pitch><step>C</step><alter>1</alter><octave>5</octave></pitch><duration>16</duration><voice>1</voice><type>half</type></note><note><chord/><pitch><step>E</step><octave>5</octave></pitch><duration>16</duration><voice>1</voice><type>half</type></note><note><chord/><pitch><step>G</step><alter>1</alter><octave>5</octave></pitch><duration>16</duration><voice>1</voice><type>half</type></note></measure><measure number=\"2\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"3\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"4\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"5\"><note><pitch><step>G</step><alter>1</alter><octave>5</octave></pitch><duration>8</duration><voice>1</voice><type>quarter</type></note><note><pitch><step>B</step><octave>5</octave></pitch><duration>8</duration><voice>1</voice><type>quarter</type></note></measure><measure number=\"6\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"7\"><note><pitch><step>E</step><octave>5</octave></pitch><duration>8</duration><voice>1</voice><type>quarter</type></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 4,
+      "compasso_formula": {
+        "beats": 3,
+        "beat_type": 4
+      },
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "1",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 80,
+              "nome": "G#5",
+              "figura": "half",
+              "pontuada": false,
+              "duracao": 2.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 396.5
+            },
+            {
+              "idx": 1,
+              "compasso": "1",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 76,
+              "nome": "E5",
+              "figura": "half",
+              "pontuada": false,
+              "duracao": 2.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 396.5
+            },
+            {
+              "idx": 2,
+              "compasso": "1",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 73,
+              "nome": "C#5",
+              "figura": "half",
+              "pontuada": false,
+              "duracao": 2.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 396.5
+            }
+          ]
+        },
+        {
+          "numero": "2",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "3",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "4",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "5",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 3,
+              "compasso": "5",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 80,
+              "nome": "G#5",
+              "figura": "quarter",
+              "pontuada": false,
+              "duracao": 1.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1275.0
+            },
+            {
+              "idx": 4,
+              "compasso": "5",
+              "t": 1.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 83,
+              "nome": "B5",
+              "figura": "quarter",
+              "pontuada": false,
+              "duracao": 1.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1343.0
+            }
+          ]
+        },
+        {
+          "numero": "6",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "7",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 5,
+              "compasso": "7",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 76,
+              "nome": "E5",
+              "figura": "quarter",
+              "pontuada": false,
+              "duracao": 1.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1838.0
+            }
+          ]
+        }
+      ],
+      "n_compassos": 7,
+      "n_notas": 6,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "R09",
+      "origem": "ouro",
+      "canal": "robert lunn",
+      "video": "robert lunn/gymnopédie no.1 (erik satie) - includes sheet music⧸tab - classical guitar.mp4",
+      "tela": 3,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/p1/recortes_margem/R09.png",
+      "largura_png": 1920,
+      "altura_png": 345,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>4</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"2\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"3\"><note><pitch><step>D</step><alter>1</alter><octave>6</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"4\"><note><pitch><step>G</step><alter>1</alter><octave>6</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"5\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"6\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 4,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 4.0,
+          "simbolos": []
+        },
+        {
+          "numero": "2",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "3",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "3",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 87,
+              "nome": "D#6",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 747.45
+            }
+          ]
+        },
+        {
+          "numero": "4",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 1,
+              "compasso": "4",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 92,
+              "nome": "G#6",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 979.8
+            }
+          ]
+        },
+        {
+          "numero": "5",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "6",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "7",
+          "duracao": 3.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 7,
+      "n_notas": 2,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "R10",
+      "origem": "ouro",
+      "canal": "robert lunn",
+      "video": "robert lunn/gymnopédie no.1 (erik satie) - includes sheet music⧸tab - classical guitar.mp4",
+      "tela": 5,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/p1/recortes_margem/R10.png",
+      "largura_png": 1920,
+      "altura_png": 281,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>4</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><pitch><step>E</step><octave>3</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"2\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"3\"><note><pitch><step>E</step><octave>3</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"4\"><note><pitch><step>F</step><alter>1</alter><octave>3</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"5\"><note><pitch><step>G</step><alter>1</alter><octave>3</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"6\"><note><pitch><step>C</step><alter>1</alter><octave>4</octave></pitch><duration>8</duration><voice>1</voice><type>quarter</type></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 4,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "1",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 52,
+              "nome": "E3",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 249.0
+            }
+          ]
+        },
+        {
+          "numero": "2",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "3",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 1,
+              "compasso": "3",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 52,
+              "nome": "E3",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 730.9
+            }
+          ]
+        },
+        {
+          "numero": "4",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 2,
+              "compasso": "4",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 54,
+              "nome": "F#3",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 986.0
+            }
+          ]
+        },
+        {
+          "numero": "5",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 3,
+              "compasso": "5",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 56,
+              "nome": "G#3",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1212.0
+            }
+          ]
+        },
+        {
+          "numero": "6",
+          "duracao": 2.5,
+          "simbolos": [
+            {
+              "idx": 4,
+              "compasso": "6",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 61,
+              "nome": "C#4",
+              "figura": "quarter",
+              "pontuada": false,
+              "duracao": 1.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1439.5
+            }
+          ]
+        },
+        {
+          "numero": "7",
+          "duracao": 3.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 7,
+      "n_notas": 5,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "R11",
+      "origem": "ouro",
+      "canal": "robert lunn",
+      "video": "robert lunn/gymnopédie no.1 (erik satie) - includes sheet music⧸tab - classical guitar.mp4",
+      "tela": 7,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/p1/recortes_margem/R11.png",
+      "largura_png": 1920,
+      "altura_png": 316,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>4</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"2\"><note><pitch><step>A</step><octave>3</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"3\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"4\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"5\"><note><pitch><step>E</step><octave>3</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"6\"><note><pitch><step>A</step><octave>3</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note><note><chord/><pitch><step>G</step><alter>1</alter><octave>6</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 4,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "2",
+          "duracao": 2.75,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "2",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 57,
+              "nome": "A3",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 473.0
+            }
+          ]
+        },
+        {
+          "numero": "3",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "4",
+          "duracao": 2.75,
+          "simbolos": []
+        },
+        {
+          "numero": "5",
+          "duracao": 5.0,
+          "simbolos": [
+            {
+              "idx": 1,
+              "compasso": "5",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 52,
+              "nome": "E3",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1251.0
+            }
+          ]
+        },
+        {
+          "numero": "6",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 3,
+              "compasso": "6",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 92,
+              "nome": "G#6",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 1477.95
+            },
+            {
+              "idx": 2,
+              "compasso": "6",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 57,
+              "nome": "A3",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 1478.5
+            }
+          ]
+        },
+        {
+          "numero": "7",
+          "duracao": 3.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 7,
+      "n_notas": 4,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "R12",
+      "origem": "ouro",
+      "canal": "robert lunn",
+      "video": "robert lunn/gymnopédie no.1 (erik satie) - includes sheet music⧸tab - classical guitar.mp4",
+      "tela": 9,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/p1/recortes_margem/R12.png",
+      "largura_png": 1920,
+      "altura_png": 338,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>4</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><pitch><step>G</step><alter>1</alter><octave>6</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"2\"><note><pitch><step>F</step><alter>1</alter><octave>3</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"3\"><note><pitch><step>F</step><alter>1</alter><octave>3</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"4\"><note><pitch><step>E</step><octave>3</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"5\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"6\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 4,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 3.5,
+          "simbolos": [
+            {
+              "idx": 3,
+              "compasso": "1",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 92,
+              "nome": "G#6",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 240.85
+            }
+          ]
+        },
+        {
+          "numero": "2",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "2",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 54,
+              "nome": "F#3",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 471.5
+            }
+          ]
+        },
+        {
+          "numero": "3",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 1,
+              "compasso": "3",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 54,
+              "nome": "F#3",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 700.6
+            }
+          ]
+        },
+        {
+          "numero": "4",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 2,
+              "compasso": "4",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 52,
+              "nome": "E3",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "homr",
+              "x": 929.0
+            }
+          ]
+        },
+        {
+          "numero": "5",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "6",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "7",
+          "duracao": 3.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 7,
+      "n_notas": 4,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "south_american_music__T01",
+      "origem": "produto",
+      "canal": "south_american_music_easy_guitar_tutorial_with_sheet_and_tab.mp4",
+      "video": "south_american_music_easy_guitar_tutorial_with_sheet_and_tab.mp4",
+      "tela": 1,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/video/south_american_music_easy_guitar_tutorial_with_sheet_and_tab/recortes/T01.png",
+      "largura_png": 1920,
+      "altura_png": 207,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>1</fifths></key><time><beats>2</beats><beat-type>4</beat-type></time><clef><sign>G</sign><line>2</line></clef></attributes><note><pitch><step>C</step><octave>4</octave></pitch><duration>4</duration><voice>1</voice><type>eighth</type></note></measure><measure number=\"2\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"3\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"4\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"5\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"6\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"8\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"9\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"10\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"11\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"12\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"13\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 1,
+      "compasso_formula": {
+        "beats": 2,
+        "beat_type": 4
+      },
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 2.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "1",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 60,
+              "nome": "C4",
+              "figura": "eighth",
+              "pontuada": false,
+              "duracao": 0.5,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 208.7
+            }
+          ]
+        },
+        {
+          "numero": "2",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "3",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "4",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "5",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "6",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "7",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "8",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "9",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "10",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "11",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "12",
+          "duracao": 2.0,
+          "simbolos": []
+        },
+        {
+          "numero": "13",
+          "duracao": 2.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 13,
+      "n_notas": 1,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "gymnopedie_no_1_erik__T01",
+      "origem": "produto",
+      "canal": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "video": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "tela": 1,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/video/gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar/recortes/T01.png",
+      "largura_png": 1920,
+      "altura_png": 332,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>4</fifths></key><time><beats>3</beats><beat-type>4</beat-type></time><clef><sign>G</sign><line>2</line></clef></attributes><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"2\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"3\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"4\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"5\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"6\"><note><pitch><step>A</step><alter>1</alter><octave>5</octave></pitch><duration>8</duration><voice>1</voice><type>quarter</type></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 4,
+      "compasso_formula": {
+        "beats": 3,
+        "beat_type": 4
+      },
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "2",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "3",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "4",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "5",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "6",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "6",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 82,
+              "nome": "A#5",
+              "figura": "quarter",
+              "pontuada": false,
+              "duracao": 1.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 1450.5
+            }
+          ]
+        },
+        {
+          "numero": "7",
+          "duracao": 3.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 7,
+      "n_notas": 1,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "gymnopedie_no_1_erik__T02",
+      "origem": "produto",
+      "canal": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "video": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "tela": 2,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/video/gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar/recortes/T02.png",
+      "largura_png": 1920,
+      "altura_png": 344,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>4</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"2\"><note><pitch><step>G</step><alter>1</alter><octave>6</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"3\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"4\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"5\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"6\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 4,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 5.0,
+          "simbolos": []
+        },
+        {
+          "numero": "2",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "2",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 92,
+              "nome": "G#6",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 476.0
+            }
+          ]
+        },
+        {
+          "numero": "3",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "4",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "5",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "6",
+          "duracao": 2.75,
+          "simbolos": []
+        },
+        {
+          "numero": "7",
+          "duracao": 3.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 7,
+      "n_notas": 1,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "gymnopedie_no_1_erik__T03",
+      "origem": "produto",
+      "canal": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "video": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "tela": 3,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/video/gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar/recortes/T03.png",
+      "largura_png": 1920,
+      "altura_png": 345,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>4</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"2\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"3\"><note><pitch><step>D</step><alter>1</alter><octave>6</octave></pitch><duration>12</duration><voice>1</voice><type>quarter</type><dot/></note></measure><measure number=\"4\"><note><pitch><step>G</step><alter>1</alter><octave>6</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"5\"><note><pitch><step>C</step><alter>1</alter><octave>6</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note><note><pitch><step>E</step><octave>5</octave></pitch><duration>16</duration><voice>1</voice><type>half</type></note></measure><measure number=\"6\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 4,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "2",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "3",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "3",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 87,
+              "nome": "D#6",
+              "figura": "quarter",
+              "pontuada": true,
+              "duracao": 1.5,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 744.3
+            }
+          ]
+        },
+        {
+          "numero": "4",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 1,
+              "compasso": "4",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 92,
+              "nome": "G#6",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 981.9
+            }
+          ]
+        },
+        {
+          "numero": "5",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 2,
+              "compasso": "5",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 85,
+              "nome": "C#6",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 1219.5
+            },
+            {
+              "idx": 3,
+              "compasso": "5",
+              "t": 3.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 76,
+              "nome": "E5",
+              "figura": "half",
+              "pontuada": false,
+              "duracao": 2.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 1305.9
+            }
+          ]
+        },
+        {
+          "numero": "6",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "7",
+          "duracao": 3.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 7,
+      "n_notas": 4,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "gymnopedie_no_1_erik__T06",
+      "origem": "produto",
+      "canal": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "video": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "tela": 6,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/video/gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar/recortes/T06.png",
+      "largura_png": 1920,
+      "altura_png": 283,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>4</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"2\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"3\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"4\"><note><pitch><step>E</step><octave>3</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"5\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"6\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 4,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "2",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "3",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "4",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "4",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 52,
+              "nome": "E3",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 1034.1
+            }
+          ]
+        },
+        {
+          "numero": "5",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "6",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "7",
+          "duracao": 3.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 7,
+      "n_notas": 1,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "gymnopedie_no_1_erik__T07",
+      "origem": "produto",
+      "canal": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "video": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "tela": 7,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/video/gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar/recortes/T07.png",
+      "largura_png": 1920,
+      "altura_png": 316,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>4</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"2\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"3\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"4\"><note><pitch><step>B</step><octave>4</octave></pitch><duration>8</duration><voice>1</voice><type>quarter</type></note><note><pitch><step>B</step><octave>4</octave></pitch><duration>16</duration><voice>1</voice><type>half</type></note></measure><measure number=\"5\"><note><pitch><step>E</step><octave>3</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"6\"><note><pitch><step>G</step><alter>1</alter><octave>6</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 4,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "2",
+          "duracao": 2.75,
+          "simbolos": []
+        },
+        {
+          "numero": "3",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "4",
+          "duracao": 2.75,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "4",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 71,
+              "nome": "B4",
+              "figura": "quarter",
+              "pontuada": false,
+              "duracao": 1.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 992.2
+            },
+            {
+              "idx": 1,
+              "compasso": "4",
+              "t": 1.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 71,
+              "nome": "B4",
+              "figura": "half",
+              "pontuada": false,
+              "duracao": 2.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 1068.85
+            }
+          ]
+        },
+        {
+          "numero": "5",
+          "duracao": 5.0,
+          "simbolos": [
+            {
+              "idx": 2,
+              "compasso": "5",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 52,
+              "nome": "E3",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 1247.7
+            }
+          ]
+        },
+        {
+          "numero": "6",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 3,
+              "compasso": "6",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 92,
+              "nome": "G#6",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 1474.0
+            }
+          ]
+        },
+        {
+          "numero": "7",
+          "duracao": 3.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 7,
+      "n_notas": 4,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "gymnopedie_no_1_erik__T08",
+      "origem": "produto",
+      "canal": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "video": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "tela": 8,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/video/gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar/recortes/T08.png",
+      "largura_png": 1920,
+      "altura_png": 312,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>4</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"2\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"3\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"4\"><note><pitch><step>A</step><alter>1</alter><octave>5</octave></pitch><duration>8</duration><voice>1</voice><type>quarter</type></note></measure><measure number=\"5\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"6\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 4,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "2",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "3",
+          "duracao": 4.0,
+          "simbolos": []
+        },
+        {
+          "numero": "4",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "4",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 82,
+              "nome": "A#5",
+              "figura": "quarter",
+              "pontuada": false,
+              "duracao": 1.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 967.8
+            }
+          ]
+        },
+        {
+          "numero": "5",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "6",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "7",
+          "duracao": 3.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 7,
+      "n_notas": 1,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "gymnopedie_no_1_erik__T09",
+      "origem": "produto",
+      "canal": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "video": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "tela": 9,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/video/gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar/recortes/T09.png",
+      "largura_png": 1920,
+      "altura_png": 337,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>4</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><pitch><step>G</step><alter>1</alter><octave>6</octave></pitch><duration>16</duration><voice>1</voice><type>half</type></note><note><pitch><step>F</step><octave>5</octave></pitch><duration>16</duration><voice>1</voice><type>half</type></note></measure><measure number=\"2\"><note><pitch><step>D</step><octave>5</octave></pitch><duration>16</duration><voice>1</voice><type>half</type></note></measure><measure number=\"3\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"4\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"5\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"6\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure><measure number=\"7\"><note><rest measure=\"yes\"/><duration>32</duration><voice>1</voice></note></measure></part></score-partwise>",
+      "clave": {
+        "sign": "G",
+        "line": 2,
+        "octave_change": 0
+      },
+      "armadura": 4,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "1",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 92,
+              "nome": "G#6",
+              "figura": "half",
+              "pontuada": false,
+              "duracao": 2.0,
+              "acorde": false,
+              "voz": "1",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 240.3
+            },
+            {
+              "idx": 1,
+              "compasso": "1",
+              "t": 2.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 77,
+              "nome": "F5",
+              "figura": "half",
+              "pontuada": false,
+              "duracao": 2.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 319.5
+            }
+          ]
+        },
+        {
+          "numero": "2",
+          "duracao": 3.0,
+          "simbolos": [
+            {
+              "idx": 2,
+              "compasso": "2",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 74,
+              "nome": "D5",
+              "figura": "half",
+              "pontuada": false,
+              "duracao": 2.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 549.9
+            }
+          ]
+        },
+        {
+          "numero": "3",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "4",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "5",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "6",
+          "duracao": 3.0,
+          "simbolos": []
+        },
+        {
+          "numero": "7",
+          "duracao": 3.0,
+          "simbolos": []
+        }
+      ],
+      "n_compassos": 7,
+      "n_notas": 3,
+      "n_pausas": 0,
+      "discordancias": 0
+    },
+    {
+      "id": "gymnopedie_no_1_erik__T12",
+      "origem": "produto",
+      "canal": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "video": "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.mp4",
+      "tela": 12,
+      "fonte": "tab_completada",
+      "png": "data/saida/partitura/video/gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar/recortes/T12.png",
+      "largura_png": 823,
+      "altura_png": 215,
+      "musicxml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><score-partwise version=\"3.1\"><part-list><score-part id=\"P1\"><part-name>E1</part-name></score-part></part-list><part id=\"P1\"><measure number=\"1\"><attributes><divisions>8</divisions><key><fifths>1</fifths></key><clef><sign>G</sign><line>2</line></clef></attributes><note><pitch><step>E</step><octave>4</octave></pitch><duration>24</duration><voice>1</voice><type>half</type><dot/></note></measure></part></score-partwise>",
+      "clave": null,
+      "armadura": 1,
+      "compasso_formula": null,
+      "compassos": [
+        {
+          "numero": "1",
+          "duracao": 5.5,
+          "simbolos": [
+            {
+              "idx": 0,
+              "compasso": "1",
+              "t": 0.0,
+              "t_global": 0.0,
+              "pausa": false,
+              "midi": 64,
+              "nome": "E4",
+              "figura": "half",
+              "pontuada": true,
+              "duracao": 3.0,
+              "acorde": false,
+              "voz": "2",
+              "ligadura_inicio": false,
+              "ligadura_fim": false,
+              "graca": false,
+              "notacoes": [],
+              "origem": "tab_completada",
+              "x": 831.7000000000002
+            }
+          ]
+        }
+      ],
+      "n_compassos": 1,
+      "n_notas": 1,
+      "n_pausas": 0,
+      "discordancias": 0
+    }
+  ]
+}

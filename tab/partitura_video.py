@@ -80,7 +80,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from tab.caminhos import RAIZ, SAIDA, acervo
+from tab.caminhos import PARTITURA_SEM_PRODUTO, PARTITURA_VIDEO, RAIZ, acervo
 from tab.leitor import info, quadro_em, quadros
 from tab.musicxml import midi_da_corda
 from tab.partitura_avaliar import SEMITONS_ESCRITA
@@ -119,11 +119,11 @@ from tab.partitura_recortes import (
 from tab.video import _slug
 
 #: Pasta de saída da etapa de recorte, uma subpasta por produto.
-PASTA_VIDEO = SAIDA / "partitura" / "video"
+PASTA_VIDEO = PARTITURA_VIDEO
 
 #: Pasta da etapa ``paginar`` (vídeo sem produto). Fica separada de ``PASTA_VIDEO`` para
 #: o slug de um vídeo nunca cair na pasta de um produto e apagar os recortes dele.
-PASTA_SEM_PRODUTO = SAIDA / "partitura" / "sem_produto"
+PASTA_SEM_PRODUTO = PARTITURA_SEM_PRODUTO
 
 #: Margem (em entrelinhas) acima e abaixo da pauta no recorte (condição x2_margem, 3003).
 MARGEM_ENTRELINHAS = 7.0

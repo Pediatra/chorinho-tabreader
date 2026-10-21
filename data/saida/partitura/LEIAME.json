@@ -1,0 +1,216 @@
+{
+ "trilha": "partitura",
+ "rodada": "3001-3027",
+ "gerado": "2026-10-21 (decisão 9001, fase 1b)",
+ "nota": "Pasta da trilha partitura. O alvo da 9001 (data/saida/partitura/) é onde ela já está.",
+ "itens": {
+  "diag": {
+   "classe": "manter",
+   "motivo": "diagnósticos; ver diag/LEIAME.json item a item",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 128.1,
+   "citado_por": [
+    "3001",
+    "3004",
+    "3005",
+    "3006",
+    "3007",
+    "3009",
+    "3010",
+    "3013",
+    "3016",
+    "3020",
+    "3021",
+    "3023",
+    "3024",
+    "3025",
+    "3026",
+    "3027",
+    "3110"
+   ]
+  },
+  "herdar_avaliar.txt": {
+   "classe": "arquivar",
+   "motivo": "log de rodada antiga",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "msg3193.txt": {
+   "classe": "apagar",
+   "motivo": "mensagem de commit já usada",
+   "regeneravel": true,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "msg3194.txt": {
+   "classe": "apagar",
+   "motivo": "mensagem de commit já usada",
+   "regeneravel": true,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "msg3195.txt": {
+   "classe": "apagar",
+   "motivo": "mensagem de commit já usada",
+   "regeneravel": true,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "msg3196.txt": {
+   "classe": "apagar",
+   "motivo": "mensagem de commit já usada",
+   "regeneravel": true,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "msg3197.txt": {
+   "classe": "apagar",
+   "motivo": "mensagem de commit já usada",
+   "regeneravel": true,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "p0": {
+   "classe": "manter",
+   "motivo": "censo P0: resumo.json e amostra.jsonl lidos por partitura_amostra e partitura_recortes (PARTITURA_P0)",
+   "regeneravel": false,
+   "comando": "python -m tab.partitura_censo --por-canal 30 --semente 0 --saida data/saida/partitura/p0 (relê o HD)",
+   "mb": 7.0,
+   "citado_por": [
+    "3001",
+    "3160"
+   ]
+  },
+  "p0_olhar": {
+   "classe": "arquivar",
+   "motivo": "versões anteriores do censo P0 (rodada 3001); a final é p0/",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.4,
+   "citado_por": []
+  },
+  "p0_rodada3": {
+   "classe": "arquivar",
+   "motivo": "versões anteriores do censo P0 (rodada 3001); a final é p0/",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 7.1,
+   "citado_por": []
+  },
+  "p0_rodada3.log": {
+   "classe": "arquivar",
+   "motivo": "log de rodada antiga",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "p0_rodada4": {
+   "classe": "arquivar",
+   "motivo": "versões anteriores do censo P0 (rodada 3001); a final é p0/",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 7.3,
+   "citado_por": []
+  },
+  "p0_rodada4.log": {
+   "classe": "arquivar",
+   "motivo": "log de rodada antiga",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "p0_rodada5.log": {
+   "classe": "arquivar",
+   "motivo": "log de rodada antiga",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "p0_rodada6.log": {
+   "classe": "arquivar",
+   "motivo": "log de rodada antiga",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.01,
+   "citado_por": [
+    "3001"
+   ]
+  },
+  "p0_teste": {
+   "classe": "arquivar",
+   "motivo": "versões anteriores do censo P0 (rodada 3001); a final é p0/",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 6.2,
+   "citado_por": []
+  },
+  "p1": {
+   "classe": "manter",
+   "motivo": "P1: recortes, leituras e conferência; ver p1/LEIAME.json",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 169.8,
+   "citado_por": [
+    "3001",
+    "3002",
+    "3003",
+    "3101",
+    "3102"
+   ]
+  },
+  "p3": {
+   "classe": "manter",
+   "motivo": "pareamento P3 (PARTITURA_P3), rodada 3010",
+   "regeneravel": true,
+   "comando": "python -m tab.partitura_pareamento",
+   "mb": 0.5,
+   "citado_por": [
+    "3010",
+    "3011"
+   ]
+  },
+  "pauta_por_canal_dono.json": {
+   "classe": "manter",
+   "motivo": "rótulo do dono transcrito do chat (a confirmar); vai para data/gold/partitura na fase 4",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "sem_produto": {
+   "classe": "manter",
+   "motivo": "piloto sem produto (PARTITURA_SEM_PRODUTO): ouro leitura_sem_produto, CA1 linhas D e F, rodadas 3016-3025",
+   "regeneravel": false,
+   "comando": "python -m tab.partitura_video paginar --video ... e ler --pasta ... (relê o HD)",
+   "mb": 230.2,
+   "citado_por": [
+    "3016",
+    "3019",
+    "3101"
+   ]
+  },
+  "video": {
+   "classe": "manter",
+   "motivo": "os 3 documentos finais chorinho/partitura@1 com recortes e leituras (PARTITURA_VIDEO); prova byte a byte da 9001",
+   "regeneravel": false,
+   "comando": "python -m tab.partitura_video recortar|ler|parear --produto data/saida/fase8/rede/<stem>.json",
+   "mb": 29.8,
+   "citado_por": [
+    "3014",
+    "3016",
+    "3027"
+   ]
+  }
+ }
+}

@@ -31,7 +31,7 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
-from .caminhos import PART_FRENTE_E, SAIDA
+from .caminhos import FASE8_REDE, PART_FRENTE_E, PARTITURA_P1, PARTITURA_VIDEO
 from .musicxml import midi_da_corda
 from .partitura_completar_pauta import (
     TECNICA_HARMONICO,
@@ -48,8 +48,8 @@ STEMS = [
     "south_american_music_easy_guitar_tutorial_with_sheet_and_tab",
     "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar",
 ]
-PASTA_PRODUTO = SAIDA / "fase8" / "rede"
-PASTA_PARTITURA = SAIDA / "partitura" / "video"
+PASTA_PRODUTO = FASE8_REDE
+PASTA_PARTITURA = PARTITURA_VIDEO
 SAIDA_JSON = PART_FRENTE_E / "e1.json"
 
 
@@ -191,9 +191,7 @@ def _grupo_r01_r12() -> list[dict]:
             if p["par_tab"] is not None and p["confere_x"] is True
         }
         leitura = ler_partitura(
-            SAIDA
-            / "partitura"
-            / "p1"
+            PARTITURA_P1
             / "omr"
             / "audiveris"
             / "x2_margem_herdada"
@@ -202,14 +200,7 @@ def _grupo_r01_r12() -> list[dict]:
         )
         compassos = _compassos_do_recorte(
             leitura,
-            SAIDA
-            / "partitura"
-            / "p1"
-            / "omr"
-            / "audiveris"
-            / "x2_margem"
-            / rid
-            / "entrada.omr",
+            PARTITURA_P1 / "omr" / "audiveris" / "x2_margem" / rid / "entrada.omr",
             x0,
         )
         resultado.extend(

@@ -22,7 +22,7 @@ from dataclasses import dataclass, field, replace
 from fractions import Fraction
 from pathlib import Path
 
-from tab.caminhos import SAIDA
+from tab.caminhos import PARTITURA_P1, PARTITURA_P3
 from tab.musicxml import midi_da_corda
 from tab.partitura_avaliar import (
     DISTANCIA_AGRUPAMENTO_PX,
@@ -34,7 +34,7 @@ from tab.partitura_avaliar import (
 from tab.partitura_gabarito import _e_nota, ler_partitura
 
 #: Pasta da fase 1 (recortes e leituras do Audiveris).
-PASTA_P1 = SAIDA / "partitura" / "p1"
+PASTA_P1 = PARTITURA_P1
 
 #: Índice dos recortes com margem (``origem``, ``video``, ``tela``, ``caixa_recorte``...).
 INDICE = PASTA_P1 / "recortes_margem" / "indice.json"
@@ -44,7 +44,7 @@ CONDICAO_MUSICXML = "x2_margem_herdada"
 CONDICAO_OMR = "x2_margem"
 
 #: Saída do pareamento: um JSON por recorte.
-PASTA_PAREAMENTO = SAIDA / "partitura" / "p3" / "pareamento"
+PASTA_PAREAMENTO = PARTITURA_P3 / "pareamento"
 
 #: Leitura do homr usada para completar as notas que o Audiveris perdeu.
 CONDICAO_HOMR = "nativo"

@@ -188,6 +188,25 @@ PART_FRENTE_B = SAIDA / "part_frentes" / "fb_fusao"
 PART_FRENTE_C = SAIDA / "part_frentes" / "fc_polifonico"
 PART_FRENTE_D = SAIDA / "part_frentes" / "fd_gabarito"
 PART_FRENTE_E = SAIDA / "part_frentes" / "fe_completar"
+PART_FRENTE_P = SAIDA / "part_frentes" / "fp_produto"
+
+#: Saída da trilha partitura (``docs/guias/contexto-partitura.md``): censo P0, recortes e
+#: leituras da P1, pareamento P3, documentos por vídeo, vídeos sem produto e diagnósticos.
+PARTITURA = SAIDA / "partitura"
+PARTITURA_P0 = PARTITURA / "p0"
+PARTITURA_P1 = PARTITURA / "p1"
+PARTITURA_P3 = PARTITURA / "p3"
+PARTITURA_VIDEO = PARTITURA / "video"
+PARTITURA_SEM_PRODUTO = PARTITURA / "sem_produto"
+PARTITURA_DIAG = PARTITURA / "diag"
+
+#: Gabaritos da partitura conferidos pelo dono (``leitura_*.json``).
+GOLD_PARTITURA = RAIZ / "data" / "gold" / "partitura"
+
+#: Dados da tablatura lidos pela partitura: os produtos da fase 8 (leitor ``rede``) e o
+#: censo v2 do acervo.
+FASE8_REDE = SAIDA / "fase8" / "rede"
+CENSO_V2 = SAIDA / "censo" / "v2"
 
 #: Perfil dos canais (o que foi medido, e quais canais estão fora do rollout).
 CANAIS = RAIZ / "configs" / "canais.yaml"

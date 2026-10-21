@@ -27,12 +27,12 @@ from datetime import datetime
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
-from tab.caminhos import OURO_VIDEO, RAIZ, SAIDA
+from tab.caminhos import OURO_VIDEO, PARTITURA_P1, RAIZ
 from tab.musicxml import midi_da_corda
 
 #: Pasta das saídas do OMR (``<biblioteca>/<condicao>/``) e do índice dos recortes.
-PASTA_OMR = SAIDA / "partitura" / "p1" / "omr"
-PASTA_RECORTES = SAIDA / "partitura" / "p1" / "recortes"
+PASTA_OMR = PARTITURA_P1 / "omr"
+PASTA_RECORTES = PARTITURA_P1 / "recortes"
 
 #: Arquivo consolidado da avaliação.
 AVALIACAO = PASTA_OMR / "avaliacao.json"

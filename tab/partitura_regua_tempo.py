@@ -21,7 +21,7 @@ import collections
 import itertools
 import json
 
-from .caminhos import PART_FRENTE_0, SAIDA
+from .caminhos import FASE8_REDE, PART_FRENTE_0, PARTITURA_VIDEO
 
 #: Os 3 vídeos com pauta (mesma lista do CA1).
 STEMS = [
@@ -30,8 +30,8 @@ STEMS = [
     "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar",
 ]
 
-PASTA_PRODUTO = SAIDA / "fase8" / "rede"
-PASTA_PARTITURA = SAIDA / "partitura" / "video"
+PASTA_PRODUTO = FASE8_REDE
+PASTA_PARTITURA = PARTITURA_VIDEO
 SAIDA_JSON = PART_FRENTE_0 / "tempo.json"
 
 

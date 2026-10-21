@@ -23,12 +23,19 @@ import argparse
 import json
 import random
 
-from .caminhos import PART_FRENTE_D, SAIDA, acervo
+from .caminhos import (
+    PART_FRENTE_D,
+    PARTITURA_DIAG,
+    PARTITURA_P0,
+    PARTITURA_P1,
+    PARTITURA_SEM_PRODUTO,
+    acervo,
+)
 
-RESUMO = SAIDA / "partitura" / "p0" / "resumo.json"
-PASTA_SEM_PRODUTO = SAIDA / "partitura" / "sem_produto"
-GABARITO_P1 = SAIDA / "partitura" / "p1" / "conferencia" / "itens.json"
-GABARITO_SP = SAIDA / "partitura" / "diag" / "conferencia_sem_produto" / "itens.json"
+RESUMO = PARTITURA_P0 / "resumo.json"
+PASTA_SEM_PRODUTO = PARTITURA_SEM_PRODUTO
+GABARITO_P1 = PARTITURA_P1 / "conferencia" / "itens.json"
+GABARITO_SP = PARTITURA_DIAG / "conferencia_sem_produto" / "itens.json"
 SAIDA_JSON = PART_FRENTE_D / "amostra.json"
 
 LIMIAR_FORTE = 5.0

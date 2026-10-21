@@ -61,7 +61,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from tab.caminhos import RAIZ, SAIDA
+from tab.caminhos import PARTITURA_P1, RAIZ
 
 try:  # só o venv /opt/smt tem o music21; a imagem base do gate não tem
     from music21 import converter
@@ -90,10 +90,10 @@ FONTE_SMT_2024 = Path("/opt/smt-src-2024")
 MODELOS_DIR = Path("/opt/smt-modelos")
 
 #: Recortes gerados por ``tab.partitura_recortes``.
-PASTA_RECORTES = SAIDA / "partitura" / "p1" / "recortes"
+PASTA_RECORTES = PARTITURA_P1 / "recortes"
 
 #: Saída das bibliotecas: ``smt/<modelo_curto>/crop/<id>/``.
-PASTA_OMR = SAIDA / "partitura" / "p1" / "omr"
+PASTA_OMR = PARTITURA_P1 / "omr"
 
 #: Os 12 recortes com gabarito de tablatura (R01 a R12).
 IDS_REFERENCIA = tuple(f"R{n:02d}" for n in range(1, 13))

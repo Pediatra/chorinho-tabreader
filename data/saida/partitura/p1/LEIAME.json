@@ -1,0 +1,86 @@
+{
+ "trilha": "partitura",
+ "rodada": "3002-3006",
+ "gerado": "2026-10-21 (decisão 9001, fase 1b)",
+ "nota": "",
+ "itens": {
+  "conferencia": {
+   "classe": "manter",
+   "motivo": "itens.json citado pelo ouro leitura_p1 (fonte_itens); versionado",
+   "regeneravel": false,
+   "comando": "python -m tab.partitura_gabarito preparar",
+   "mb": 0.8,
+   "citado_por": []
+  },
+  "fumaca": {
+   "classe": "arquivar",
+   "motivo": "teste de fumaça dos leitores (rodada 3002)",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 36.3,
+   "citado_por": [
+    "3001"
+   ]
+  },
+  "omr": {
+   "classe": "manter",
+   "motivo": "leituras Audiveris/homr da P1, lidas por avaliar, pareamento, gabarito, omr, smt e CA1",
+   "regeneravel": false,
+   "comando": "python -m tab.partitura_omr rodar / herdar",
+   "mb": 110.2,
+   "citado_por": [
+    "3002",
+    "3101",
+    "3102"
+   ]
+  },
+  "recortes": {
+   "classe": "manter",
+   "motivo": "recortes da P1 (PASTA_RECORTES), lista de permissão da ferramenta",
+   "regeneravel": false,
+   "comando": "python -m tab.partitura_recortes",
+   "mb": 7.0,
+   "citado_por": [
+    "3002"
+   ]
+  },
+  "recortes_margem": {
+   "classe": "manter",
+   "motivo": "recortes com margem: entrada da condição x2_margem e PNG que o ouro leitura_p1 cita; versionado",
+   "regeneravel": false,
+   "comando": "python -m tab.partitura_recortes --margem-cima 7 --margem-baixo 7",
+   "mb": 7.2,
+   "citado_por": [
+    "3172"
+   ]
+  },
+  "recortes_teste": {
+   "classe": "arquivar",
+   "motivo": "recortes de teste antigos da P1",
+   "regeneravel": true,
+   "comando": null,
+   "mb": 7.3,
+   "citado_por": [
+    "3008"
+   ]
+  },
+  "variantes": {
+   "classe": "manter",
+   "motivo": "rodada 3003 (comparativo das variantes)",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 1.1,
+   "citado_por": [
+    "3003"
+   ]
+  },
+  "x2_margem_r13_21.log": {
+   "classe": "arquivar",
+   "motivo": "log antigo",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  }
+ }
+}

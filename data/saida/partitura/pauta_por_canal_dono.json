@@ -1,0 +1,12 @@
+{
+  "estado": "transcrito do chat, a confirmar pelo dono",
+  "fonte": "marcação manual do dono no chat da sessão partitura, 2026-10-17; transcrita em 2026-10-21 (decisão 9001, §7c, item 3)",
+  "uso": "quais canais do acervo têm partitura (pauta) além da tablatura; guia a escolha de vídeos para gabarito de pauta",
+  "so_tablatura": ["cifra club", "kenneth acoustic", "kimny's guitar", "leonardo ramos", "lonelypicker", "mr. tabs", "shin izumi"],
+  "misto": ["guitar dell arte", "iwaki", "pablo romé", "paolo d'angelo", "robert lunn", "serge kottelat", "sky guitar", "transcriptor", "tv on guitar"],
+  "misto_por_video": ["ギタロー ⧸ guitarous"],
+  "observacoes_do_mesmo_dia": [
+    "transcriptor 'milonga' e os ギタロー vistos eram só tablatura (canal misto)",
+    "robert lunn '5 miniatures' e 'garden of bliss' têm pauta visível; o paginar deu erro (zero-size array), não ausência"
+  ]
+}

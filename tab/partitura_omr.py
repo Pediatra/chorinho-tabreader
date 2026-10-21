@@ -53,14 +53,14 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from tab.caminhos import RAIZ, SAIDA
+from tab.caminhos import PARTITURA_P1, RAIZ
 
 #: Recortes e índice gerados por ``tab.partitura_recortes``.
-PASTA_RECORTES = SAIDA / "partitura" / "p1" / "recortes"
+PASTA_RECORTES = PARTITURA_P1 / "recortes"
 
 #: Recortes com margem de 7 entrelinhas (``tab.partitura_recortes --margem-cima 7
 #: --margem-baixo 7 --saida ...``), lidos pela condição ``x2_margem``.
-PASTA_RECORTES_MARGEM = SAIDA / "partitura" / "p1" / "recortes_margem"
+PASTA_RECORTES_MARGEM = PARTITURA_P1 / "recortes_margem"
 
 #: Recorte de onde sai o cabeçalho (clave, armadura, fórmula) colado em R06 e R07.
 CABECALHO_ORIGEM = "R05"
@@ -73,7 +73,7 @@ CABECALHO_IDS = ("R06", "R07")
 CABECALHO_X_FIM = 110
 
 #: Saída das bibliotecas: ``<biblioteca>/<condicao>/<id>/``.
-PASTA_OMR = SAIDA / "partitura" / "p1" / "omr"
+PASTA_OMR = PARTITURA_P1 / "omr"
 
 BIBLIOTECAS = ("homr", "audiveris", "oemer")
 CONDICOES = (

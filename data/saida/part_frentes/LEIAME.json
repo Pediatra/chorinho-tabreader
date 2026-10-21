@@ -1,0 +1,75 @@
+{
+ "trilha": "partitura",
+ "rodada": "3101-3172, 3027",
+ "gerado": "2026-10-21 (decisão 9001, fase 1b)",
+ "nota": "Na fase 4 da 9001 vai para data/saida/partitura/frentes/, pelos PART_FRENTE_* do caminhos.py.",
+ "itens": {
+  "f0_regua": {
+   "classe": "manter",
+   "motivo": "frente F0 (rodadas 3101-3103), PART_FRENTE_0",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 1.4,
+   "citado_por": [
+    "3101",
+    "3102",
+    "3103"
+   ]
+  },
+  "fa_imagem": {
+   "classe": "arquivar",
+   "motivo": "frente A1 reprovada (rodada 3110), PART_FRENTE_A",
+   "regeneravel": false,
+   "comando": "python -m tab.partitura_imagem / partitura_imagem_mediana (relê o HD)",
+   "mb": 90.1,
+   "citado_por": []
+  },
+  "fb_fusao": {
+   "classe": "apagar",
+   "motivo": "pasta vazia (frente B não rodou)",
+   "regeneravel": true,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "fc_polifonico": {
+   "classe": "apagar",
+   "motivo": "pasta vazia (frente C não rodou)",
+   "regeneravel": true,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "fd_gabarito": {
+   "classe": "manter",
+   "motivo": "frente D1: recortes e leituras do ouro leitura_d1; itens_d1.json citado pelo ouro (versionado); videos_v1_INVALIDA arquivar; ouro_d1_copia.json apagar (cópia de teste vazia)",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 187.0,
+   "citado_por": [
+    "3160"
+   ]
+  },
+  "fe_completar": {
+   "classe": "manter",
+   "motivo": "frente E1: e1.json e itens_e1.json citado pelo ouro figura_e1 (versionado); ouro_e1_copia.json apagar (cópia de teste vazia)",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 2.1,
+   "citado_por": [
+    "3170",
+    "3171"
+   ]
+  },
+  "fp_produto": {
+   "classe": "manter",
+   "motivo": "P4 (rodada 3027): scripts e casos; a subpasta video/ é cópia de partitura/video (apagar, 29 MB)",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 31.4,
+   "citado_por": [
+    "3027"
+   ]
+  }
+ }
+}

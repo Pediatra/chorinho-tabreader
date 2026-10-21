@@ -1,0 +1,1390 @@
+{
+ "trilha": "partitura",
+ "rodada": "3003-3027",
+ "gerado": "2026-10-21 (decisão 9001, fase 1b)",
+ "nota": "qualidade_imagem/{reduzido,mediana,leituras,leituras_mediana}: APAGAR (72 MB), refeitos pelos scripts reduzir.py e mediana.py, que ficam.",
+ "itens": {
+  "N013.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.31,
+   "citado_por": []
+  },
+  "N014.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.4,
+   "citado_por": []
+  },
+  "N015.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.51,
+   "citado_por": []
+  },
+  "N016.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.47,
+   "citado_por": []
+  },
+  "N017.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.26,
+   "citado_por": []
+  },
+  "N018.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.28,
+   "citado_por": []
+  },
+  "P004.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.29,
+   "citado_por": []
+  },
+  "P013.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.4,
+   "citado_por": []
+  },
+  "P020.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.13,
+   "citado_por": []
+  },
+  "amazing_grace_111": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.8,
+   "citado_por": []
+  },
+  "assinatura_t_blackbird": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 1.3,
+   "citado_por": []
+  },
+  "assinatura_t_greensleeves": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 3.0,
+   "citado_por": []
+  },
+  "assinatura_t_gymnopedie": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 3.2,
+   "citado_por": []
+  },
+  "avaliar_smt.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "beam_p1p2p4p5.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.33,
+   "citado_por": []
+  },
+  "ca1": {
+   "classe": "manter",
+   "motivo": "aceite CA1 das frentes (ca1.py e a saída de referência ca1.txt); prova da 9001",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.2,
+   "citado_por": [
+    "3110"
+   ]
+  },
+  "censo_completar": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 7.1,
+   "citado_por": [
+    "3018"
+   ]
+  },
+  "censo_completar.log": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "censo_completar_mudancas.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.9,
+   "citado_por": [
+    "3018"
+   ]
+  },
+  "comparar_censo.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "comparar_censo.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": [
+    "3018"
+   ]
+  },
+  "conferencia_sem_produto": {
+   "classe": "manter",
+   "motivo": "itens.json citado pelo ouro leitura_sem_produto; versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.2,
+   "citado_por": [
+    "3022",
+    "3023"
+   ]
+  },
+  "conferir_paginas.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "conferir_paginas.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": [
+    "3016"
+   ]
+  },
+  "destaque_beam_60.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "destaque_beam_80.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "destaque_beam_80_q.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.39,
+   "citado_por": []
+  },
+  "destaque_canon_348.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "destaque_canon_355.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "destaque_canon_355_q.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.39,
+   "citado_por": []
+  },
+  "destaque_canon_365.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "destaque_canon_365_q.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.39,
+   "citado_por": []
+  },
+  "diag_antiga_vs_nova.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_assinatura_t.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_destaque.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": [
+    "3017"
+   ]
+  },
+  "diag_grossa.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_gymno.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_linhas.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_mascara_t.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_mela_pautas.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_n018.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_perdidas.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_polaridade.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_r21.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_r21_tinta.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_sexta.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_tophat.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_tophat.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "diag_troca.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diag_vizinhas.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "diff_ler_pasta.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "diff_omr.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "duplicatas.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "duplicatas.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "duplicatas3.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": [
+    "3017"
+   ]
+  },
+  "faixa_amarela": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": [
+    "3021"
+   ]
+  },
+  "folha_ganhos.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "fusao_filtrada_tab.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": [
+    "3006"
+   ]
+  },
+  "fusao_homr.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.01,
+   "citado_por": [
+    "3005"
+   ]
+  },
+  "ganhos_r3_r6.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.77,
+   "citado_por": [
+    "3001"
+   ]
+  },
+  "gymno_9.5.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 1.38,
+   "citado_por": []
+  },
+  "herdar_clave": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 6.7,
+   "citado_por": [
+    "3020",
+    "3021"
+   ]
+  },
+  "homr_sem_produto": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 1.8,
+   "citado_por": [
+    "3024"
+   ]
+  },
+  "indice_rodada1.json": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.11,
+   "citado_por": []
+  },
+  "ler_gs.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "ler_gym.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "ler_sa.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "mascara_t_blackbird": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.1,
+   "citado_por": []
+  },
+  "mascara_t_blackbird2": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.1,
+   "citado_por": []
+  },
+  "mascara_t_greensleeves": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.1,
+   "citado_por": []
+  },
+  "medir_armadura.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": [
+    "3007"
+   ]
+  },
+  "medir_completadas.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "medir_completadas.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": [
+    "3018"
+   ]
+  },
+  "medir_gabarito.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": [
+    "3004"
+   ]
+  },
+  "medir_pautas_mela.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "medir_produto.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "medir_sem_produto": {
+   "classe": "manter",
+   "motivo": "medida do ouro sem produto (rodada 3023)",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": [
+    "3023"
+   ]
+  },
+  "mela_23.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.16,
+   "citado_por": []
+  },
+  "mela_23_zoom.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.18,
+   "citado_por": []
+  },
+  "mela_92.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.15,
+   "citado_por": []
+  },
+  "p3_pareamento.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.01,
+   "citado_por": [
+    "3010"
+   ]
+  },
+  "p4_antes": {
+   "classe": "manter",
+   "motivo": "rodada 3027: os documentos de antes da P4, completadas_vs_ouro.py e CA1 depois",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.4,
+   "citado_por": [
+    "3027"
+   ]
+  },
+  "paginar_gs.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "paginar_gym.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "paginar_sa.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "paginar_validacao": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 5.8,
+   "citado_por": []
+  },
+  "paginar_validacao.sh": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "paginar_validacao5.log": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "parear.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "parear2.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "perdidos_r5.json": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "piloto_a_beam_of_li.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.21,
+   "citado_por": []
+  },
+  "piloto_agua_de_bebe.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.3,
+   "citado_por": []
+  },
+  "piloto_amazing_grac.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.36,
+   "citado_por": []
+  },
+  "piloto_amores_halla.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.36,
+   "citado_por": []
+  },
+  "piloto_athletic_the.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.28,
+   "citado_por": []
+  },
+  "piloto_ben_eunson_-.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.44,
+   "citado_por": []
+  },
+  "piloto_blackbird_th.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.8,
+   "citado_por": []
+  },
+  "piloto_canon_de_pac.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.21,
+   "citado_por": []
+  },
+  "piloto_folhas.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "piloto_folhas4.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "piloto_free_tab_eve.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.34,
+   "citado_por": []
+  },
+  "piloto_host.log": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "piloto_ler_pasta.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "piloto_ler_pasta2.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.02,
+   "citado_por": [
+    "3021"
+   ]
+  },
+  "piloto_o_lafur_arna.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.32,
+   "citado_por": []
+  },
+  "piloto_paginar.sh": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "piloto_paginar.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "piloto_paginar2.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "piloto_paginar3.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": [
+    "3017"
+   ]
+  },
+  "piloto_paginar4.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "piloto_paginar5.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": [
+    "3018"
+   ]
+  },
+  "piloto_run.log": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "piloto_run4.log": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "piloto_videos.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": [
+    "3017"
+   ]
+  },
+  "piloto_無料タブ譜_mela_-.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.62,
+   "citado_por": []
+  },
+  "quadro_origem_r21.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.4,
+   "citado_por": []
+  },
+  "qualidade_imagem": {
+   "classe": "manter",
+   "motivo": "rodada 3026: scripts e json ficam; as pastas de PNG e leituras saem (ver nota)",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 74.5,
+   "citado_por": [
+    "3026"
+   ]
+  },
+  "r06_sobras.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "r06_zoom.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.4,
+   "citado_por": [
+    "3009"
+   ]
+  },
+  "r11_zoom.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.12,
+   "citado_por": [
+    "3013"
+   ]
+  },
+  "r9001": {
+   "classe": "manter",
+   "motivo": "inventário e prova da 9001",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "razoes_aberta.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "razoes_aberta.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.03,
+   "citado_por": []
+  },
+  "razoes_fina.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "razoes_fina.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.03,
+   "citado_por": []
+  },
+  "razoes_tab.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "razoes_tab.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.03,
+   "citado_por": []
+  },
+  "razoes_tab3.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.02,
+   "citado_por": []
+  },
+  "razoes_trechos.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "razoes_trechos.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.03,
+   "citado_por": [
+    "3017"
+   ]
+  },
+  "recortar_3.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "recorte_ampliado_r21.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.41,
+   "citado_por": []
+  },
+  "run3012.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "seq_ref_lib.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "sweep_tinta.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "tophat_beam2_187.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "tophat_beam2_197.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "tophat_beam_119.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "tophat_canon_350.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "tophat_canon_360.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "topo_cortado": {
+   "classe": "arquivar",
+   "motivo": "pasta de diagnóstico de rodada fechada",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 3.2,
+   "citado_por": [
+    "3022"
+   ]
+  },
+  "troca_0.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.32,
+   "citado_por": []
+  },
+  "troca_0_crop.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.03,
+   "citado_por": []
+  },
+  "troca_1.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.35,
+   "citado_por": []
+  },
+  "troca_2.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.36,
+   "citado_por": []
+  },
+  "troca_3.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.32,
+   "citado_por": []
+  },
+  "troca_4.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.3,
+   "citado_por": []
+  },
+  "troca_40.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.37,
+   "citado_por": []
+  },
+  "troca_5.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.3,
+   "citado_por": []
+  },
+  "troca_6.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.39,
+   "citado_por": []
+  },
+  "troca_9.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.37,
+   "citado_por": []
+  },
+  "troca_9_crop.jpg": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.08,
+   "citado_por": []
+  },
+  "troca_homr": {
+   "classe": "manter",
+   "motivo": "itens.json citado pelo ouro compassos_homr; versionado (teste_remarcar.json é cópia igual do ouro: apagar depois do .tar)",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 1.4,
+   "citado_por": [
+    "3025"
+   ]
+  },
+  "trocas_r3_r4.json": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "validacao_saida_depois.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "validacao_saida_pos_escolher.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.01,
+   "citado_por": []
+  },
+  "validacao_videos.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "variante_fina.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "variante_fina.txt": {
+   "classe": "manter",
+   "motivo": "saída de texto pequena de um script de diagnóstico",
+   "regeneravel": true,
+   "comando": "o script de mesmo prefixo",
+   "mb": 0.03,
+   "citado_por": []
+  },
+  "x_das_notas.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "zoom_dell.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.44,
+   "citado_por": []
+  },
+  "zoom_leo.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.14,
+   "citado_por": []
+  },
+  "zoom_mudancas.py": {
+   "classe": "manter",
+   "motivo": "script de diagnóstico (código vivo ou procedência de rodada); versionado",
+   "regeneravel": false,
+   "comando": null,
+   "mb": 0.0,
+   "citado_por": []
+  },
+  "zoom_transc.png": {
+   "classe": "arquivar",
+   "motivo": "imagem de diagnóstico olhada numa rodada",
+   "regeneravel": true,
+   "comando": "o script diag_* correspondente",
+   "mb": 0.18,
+   "citado_por": []
+  }
+ }
+}
