@@ -32,11 +32,12 @@ def _quadro(inclinacao: float) -> np.ndarray:
     return img
 
 
-def _candidato(img: np.ndarray) -> P.Candidato:
+def _candidato(img: np.ndarray, y0: int = 0) -> P.Candidato:
     """Candidato mínimo com as cordas do teste sobre o recorte inteiro.
 
     Args:
         img: quadro de teste.
+        y0: onde o recorte começa no quadro.
 
     Returns:
         Candidato com ``roi`` = quadro e grade de 6 cordas.
@@ -49,8 +50,8 @@ def _candidato(img: np.ndarray) -> P.Candidato:
     )
     return P.Candidato(
         nome="teste",
-        y0=0,
-        y1=img.shape[0],
+        y0=y0,
+        y1=y0 + img.shape[0],
         roi=img,
         grade=grade,
         uniformidade=1.0,
@@ -66,3 +67,35 @@ def test_cordas_horizontais_nao_sao_braco() -> None:
 def test_cordas_convergentes_sao_braco() -> None:
     """Cordas que sobem 0,5 passo entre as bordas (braço) passam do limite."""
     assert P._cordas_convergem(_candidato(_quadro(-0.5 * PASSO)))
+
+
+def test_braco_reto_perde_para_a_tab_escura_em_outra_faixa(monkeypatch) -> None:
+    """Rodada 0213: o braço que não converge perde para a TAB escura mais embaixo."""
+    braco = _candidato(_quadro(0), y0=0)
+    tab_escura = _candidato(_quadro(0), y0=600)
+    monkeypatch.setattr(P, "escolher", lambda frame: braco)
+    monkeypatch.setattr(
+        P, "candidatos_escuros_estreitos", lambda f: [(1.0, tab_escura)]
+    )
+    monkeypatch.setattr(P, "refinar", lambda c: c)
+    monkeypatch.setattr(P, "e_tablatura", lambda c: True)
+    assert P.escolher_ou_mascara(np.zeros((1080, 900, 3), np.uint8)) is tab_escura
+
+
+def test_tab_escura_na_mesma_faixa_nao_troca_o_escolhido(monkeypatch) -> None:
+    """Se a TAB escura é a mesma faixa do escolhido, o escolhido fica (os que já acertam)."""
+    escolhido = _candidato(_quadro(0), y0=600)
+    mesma = _candidato(_quadro(0), y0=610)
+    monkeypatch.setattr(P, "escolher", lambda frame: escolhido)
+    monkeypatch.setattr(P, "candidatos_escuros_estreitos", lambda f: [(1.0, mesma)])
+    monkeypatch.setattr(P, "refinar", lambda c: c)
+    monkeypatch.setattr(P, "e_tablatura", lambda c: True)
+    assert P.escolher_ou_mascara(np.zeros((1080, 900, 3), np.uint8)) is escolhido
+
+
+def test_sem_tab_escura_o_escolhido_fica(monkeypatch) -> None:
+    """Sem TAB escura no quadro, nada muda."""
+    escolhido = _candidato(_quadro(0), y0=0)
+    monkeypatch.setattr(P, "escolher", lambda frame: escolhido)
+    monkeypatch.setattr(P, "candidatos_escuros_estreitos", lambda f: [])
+    assert P.escolher_ou_mascara(np.zeros((1080, 900, 3), np.uint8)) is escolhido

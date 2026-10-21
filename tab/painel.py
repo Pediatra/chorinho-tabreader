@@ -858,6 +858,35 @@ def recorte_alto(
     return quadro[topo:fim, c.x0 : c.x0 + largura], [y + c.y0 - topo for y in linhas]
 
 
+def _faixa_das_cordas(c: Candidato) -> tuple[float, float]:
+    """y da corda 1 e da corda 6 do candidato, no quadro."""
+    return c.y0 + min(c.grade.linhas_y), c.y0 + max(c.grade.linhas_y)
+
+
+def _tab_escura_em_outro_lugar(frame: np.ndarray, esc: Candidato) -> Candidato | None:
+    """A TAB escura do quadro, se ela não for o próprio escolhido (rodada 0213).
+
+    No cifra club o braço do violão é filmado reto: as cordas não convergem, ele passa como
+    TAB e a TAB escura embaixo se perde (28 de 197 vídeos). Se a via da TAB escura acha uma
+    TAB cujas cordas não se sobrepõem às do escolhido, é ela; se se sobrepõem, é a mesma TAB
+    e o escolhido fica.
+
+    Args:
+        frame: quadro inteiro.
+        esc: o candidato de ``escolher`` (que não converge).
+
+    Returns:
+        A TAB escura (refinada) em outra faixa, ou None.
+    """
+    achados = sorted(candidatos_escuros_estreitos(frame), key=lambda t: -t[0])
+    alternativa = _primeira_tablatura([[c for _u, c in achados]])
+    if alternativa is None:
+        return None
+    a0, a1 = _faixa_das_cordas(alternativa)
+    e0, e1 = _faixa_das_cordas(esc)
+    return None if a0 <= e1 and e0 <= a1 else alternativa
+
+
 def escolher_ou_mascara(frame: np.ndarray) -> Candidato | None:
     """``escolher`` e, se ele não achar nada, a TAB por máscara (leitura do produto).
 
@@ -873,7 +902,9 @@ def escolher_ou_mascara(frame: np.ndarray) -> Candidato | None:
     """
     esc = escolher(frame)
     if esc is not None and not _cordas_convergem(esc):
-        return esc
+        # o braço filmado reto (cifra club) não converge: a TAB escura em outro lugar vence
+        alternativa = _tab_escura_em_outro_lugar(frame, esc)
+        return esc if alternativa is None else alternativa
     if esc is not None:
         # o escolhido é o BRAÇO (cordas convergentes): a TAB escura tem prioridade, se achada
         achados = sorted(candidatos_escuros_estreitos(frame), key=lambda t: -t[0])

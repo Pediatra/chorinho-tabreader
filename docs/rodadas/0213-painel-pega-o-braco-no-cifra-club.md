@@ -65,3 +65,28 @@ Nas três, o mesmo quadro é avaliado pela regra antiga e pela nova, no mesmo pr
     saem e a TAB passa a ser lida.
   - A leitura dos 8 ouros não muda, porque a regressão garante.
 - **Não passa:** o código fica como está e a mudança vai para a tabela "não repetir".
+
+## Resultado (2026-10-21)
+
+Script `diag/painel_0213.py`: as duas regras rodam no mesmo quadro. Olhei as folhas de todas
+as trocas (`painel_0213/folha_*.jpg`), com o painel antigo em vermelho e o novo em verde.
+
+| amostra | quadros | braço, regra antiga | braço, regra nova | trocas | troca para pior |
+| --- | --- | --- | --- | --- | --- |
+| desenho | 197 | 28 | **3** | 25 | 0 |
+| prova (instante a 1/4) | 197 | 25 | **5** | 20 | 0 |
+| regressão (ouros, T8.2 e T8.3) | 132 | — | — | **1** | 0 |
+
+- **Passa nos três critérios.**
+  - Nas 46 trocas do cifra club, o painel sai do braço e vai para a TAB escura, e nenhuma
+    troca leva a "sem painel".
+  - A única troca da regressão é a `t83#2`, uma tela do cifra club na T8.3. Ela também sai do
+    braço e vai para a TAB.
+  - Nenhuma tela dos 8 ouros nem da T8.2 muda.
+- **O que sobra:** 3 e 5 quadros continuam no braço. Neles, a via da TAB escura não acha a
+  TAB (como no `k100`, de passo 10,6).
+- **A mudança entra** em `painel.escolher_ou_mascara`, com 3 testes em
+  `tests/test_painel_braco.py`. Os produtos já gerados para esses vídeos do cifra club só
+  mudam quando forem refeitos.
+- **Sobre a T8.3:** ela foi lida com o painel antigo, e a tela 2 dela estava no braço. A
+  T8.3 já estava gasta (0210) e não é refeita.
