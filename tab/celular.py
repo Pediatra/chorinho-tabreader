@@ -101,12 +101,16 @@ def cabecalhos_locais(cabecalhos: list[tuple[str, str]], porta: int) -> dict[str
     return saida
 
 
-def chave_do_pedido(caminho: str, cookie: str | None) -> tuple[str | None, bool]:
+def chave_do_pedido(
+    caminho: str, cookie: str | None, referer: str | None = None
+) -> tuple[str | None, bool]:
     """A chave que o pedido traz, e se ela veio no link.
 
     Args:
         caminho: caminho do pedido, com a consulta (``/x?chave=...``).
         cookie: cabeçalho ``Cookie`` do pedido.
+        referer: cabeçalho ``Referer``; os pedidos da página aberta com ``?chave=``
+            levam o link dela aqui (vale quando o navegador não guarda o cookie).
 
     Returns:
         (chave ou None, True se veio em ``?chave=`` no link).
@@ -114,6 +118,9 @@ def chave_do_pedido(caminho: str, cookie: str | None) -> tuple[str | None, bool]
     consulta = urllib.parse.parse_qs(urllib.parse.urlsplit(caminho).query)
     if consulta.get(CHAVE):
         return consulta[CHAVE][0], True
+    da_pagina = urllib.parse.parse_qs(urllib.parse.urlsplit(referer or "").query)
+    if da_pagina.get(CHAVE):
+        return da_pagina[CHAVE][0], False
     biscoitos = http.cookies.SimpleCookie()
     try:
         biscoitos.load(cookie or "")
@@ -169,9 +176,12 @@ def intermediario(
 
         def _chave_ok(self) -> bool:
             """Confere a chave; no link certo, grava o cookie e tira a chave da barra."""
+            self._cookie = None
             if chave is None:
                 return True
-            dada, no_link = chave_do_pedido(self.path, self.headers.get("Cookie"))
+            dada, no_link = chave_do_pedido(
+                self.path, self.headers.get("Cookie"), self.headers.get("Referer")
+            )
             if dada is None or not hmac.compare_digest(dada, chave):
                 corpo = b"chave ausente ou errada\n"
                 self.send_response(403)
@@ -180,16 +190,11 @@ def intermediario(
                 self.end_headers()
                 self.wfile.write(corpo)
                 return False
-            if no_link:
-                self.send_response(303)
-                self.send_header(
-                    "Set-Cookie",
-                    f"{CHAVE}={chave}; Path=/; HttpOnly; Secure; SameSite=Strict",
+            if no_link:  # a página fica com ?chave= no link: os pedidos dela a levam
+                self.path = sem_chave(self.path)
+                self._cookie = (
+                    f"{CHAVE}={chave}; Path=/; HttpOnly; Secure; SameSite=Lax"
                 )
-                self.send_header("Location", sem_chave(self.path))
-                self.send_header("Content-Length", "0")
-                self.end_headers()
-                return False
             return True
 
         def _repassar(self) -> None:
@@ -217,6 +222,9 @@ def intermediario(
                 if nome.lower() not in SALTO | {"content-length"}:
                     self.send_header(nome, valor)
             self.send_header("Content-Length", str(len(dados)))
+            self.send_header("Referrer-Policy", "same-origin")
+            if self._cookie:
+                self.send_header("Set-Cookie", self._cookie)
             self.end_headers()
             self.wfile.write(dados)
 

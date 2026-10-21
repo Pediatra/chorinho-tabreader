@@ -63,6 +63,8 @@ def test_chave_vem_do_link_ou_do_cookie() -> None:
     assert chave_do_pedido("/?chave=abc", None) == ("abc", True)
     assert chave_do_pedido("/pre.json", "x=1; chave=abc") == ("abc", False)
     assert chave_do_pedido("/pre.json", None) == (None, False)
+    referer = "https://x.trycloudflare.com/?chave=abc"
+    assert chave_do_pedido("/pre.json", None, referer) == ("abc", False)
 
 
 def test_sem_chave_tira_so_o_parametro_da_chave() -> None:
