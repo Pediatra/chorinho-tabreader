@@ -118,3 +118,45 @@ Escrita com os 15 treinos `_atqa` prontos e **antes** de ler qualquer medida do 
   - os erros dela viram o diagnóstico seguinte;
   - o `DETECTOR_CALIBRADO` não muda por causa dela.
 - **Em nenhum caso** o `DETECTOR_PADRAO` (a leitura comum) muda sem o OK do dono.
+
+## Resultado da fase 2 e decisão pelos ouros (2026-10-21)
+
+São 15 treinos `--ataque --t82 --recorte-alto`, com o G11–G12 ligado (commit c988f118, script
+`r4g/fase2.sh`).
+- Cada treino pega e solta a GPU por `tab.gpu.trava_gpu`. Os últimos dividiram a placa com a
+  trilha mãos e levaram de 30 a 40 min, em vez de 15.
+- Os números vêm do `r4g/decidir.py`, que grava `r4g/decisao.json`. O `L` e o limiar da técnica
+  saem dos ouros, com as 3 sementes somadas.
+
+| pesos (recorte alto) | técnica | `L` | ouros, "sim" falso | ouros, custo | ouros, casa | T8.2, "sim" falso |
+| --- | --- | --- | --- | --- | --- | --- |
+| `_atqt` | 0,15 | 0,02 | 4 · 4 · 4 /85 | 99–104 /2593 | 2661–2667 | 2 · 2 · 2 /45 |
+| `_atqe` | 0,25 | 0,02 | 2 · 2 · 2 /85 | 104–123 /2593 | **2659**–2664 | 2 · 2 · 2 /45 |
+| `_atqa` | 0,20 | 0,02 | 2 · 2 · 2 /85 | 100–114 /2592 | 2660–2662 | 2 · 2 · 2 /45 |
+
+- **A escolha é o `_atqa`.**
+  - Ele empata com o `_atqe` no menor "sim" falso (6 em 255, com as 3 sementes somadas).
+  - O `_atqe` sai pela casa: uma semente dá 2659, abaixo de 2660 (leitura da emenda de
+    15:25).
+  - O custo do `_atqa` fica em 4 % (≤ 10 %).
+- **Leitura honesta:**
+  - O ganho sobre o `_atqt` (4 → 2 por semente) já vinha do treino `_atqe`, e o `_atqa` não
+    melhora sobre ele.
+  - Religar o G11–G12 e treinar com o recorte alto não mudou o "sim" falso nos ouros.
+  - O desempate entre `_atqa` e `_atqe` é de 1 nota de casa, do tamanho do ruído entre
+    sementes.
+- **T8.3** (só informada, porque foi usada na 0210), com `L` 0,02, dobra 0:
+
+  | pesos | "sim" falso |
+  | --- | --- |
+  | `_atqa` | 3 · 4 · 4 /70–71 |
+  | `_atqe` | 3 · 4 · 3 |
+  | `_atqt` | 5 · 5 · 5 |
+
+  A casa do `_atqa` fica em 1480–1483 de 1483–1485.
+- **T8.4:** ainda não foi medida.
+  - Em todos os lotes anteriores, o dono passou pelo modo ataque da ferramenta e confirmou
+    tela a tela o rótulo de cada nota (`telas_conferidas`). Esse passe falta na T8.4.
+  - A primeira tentativa do `medir_t84.py` leu as telas e contou 0 notas, porque nenhuma tela
+    estava confirmada. Nenhum número da T8.4 foi visto.
+  - A medida espera o passe do dono e roda uma vez.
