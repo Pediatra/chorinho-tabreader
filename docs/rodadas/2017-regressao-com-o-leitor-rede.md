@@ -199,5 +199,32 @@ mudança vem do leitor, não das outras mudanças do produto.
 
 ### Limites
 
-- A secundária (8 vídeos) ainda roda, e entra como anexo descritivo.
+- A secundária (8 vídeos) está no anexo abaixo, só descritiva.
 - "Mantido" no gabarito é a ≤ 50 ms do clique, e a escuta separa ~100 ms (rodada 2008).
+
+## Anexo: amostra secundária (descritiva, sem critério)
+
+Os 8 vídeos rodaram sem erro. Os alinhamentos rodaram depois do commit `d0d0c45c`
+(`colunas_abafadas` com classe `"x"`). Os produtos têm 1 X (sakura) e 2 X (violaodecria), e
+nenhuma coluna chega a 4 X: a regra não muda nada aqui.
+
+| vídeo | notas a/n | colunas com tempo antigo → novo | recusadas | alarmes |
+| --- | --- | --- | --- | --- |
+| guitarous *sakura* | 94/405 | 0/62 → **0/269** | 10 → 10 de 10 | 6 → 8 |
+| shin izumi *giant steps* | 354/611 | 75/263 (0,285) → **283/381 (0,743)** | 10 → 1 de 20 | 7 → 1 |
+| transcriptor *charagua* | 362/401 | 124/334 (0,371) → 138/363 (0,380) | 4 → 3 de 18 | 2 → 2 |
+| mr. tabs | 1306/1705 | 439/857 (0,512) → 571/1129 (0,506) | 2 → 0 de 32 | 2 → 0 |
+| serge kottelat | 492/511 | 152/304 (0,500) → 173/303 (0,571) | 1 → 0 de 10 | 1 → 0 |
+| leonardo ramos | 209/303 | 70/149 (0,470) → 142/191 (0,744) | 3 → 2 de 11 | 1 → 0 |
+| violaodecria | 115/180 | 41/97 (0,423) → 98/136 (0,721) | 4 → 3 de 10 | 3 → 2 |
+| tv on guitar | 1253/1267 | 326/796 (0,409) → 340/800 (0,425) | 6 → 6 de 22 | 1 → 1 |
+
+- Alarmes de leitura nos 8: **23 → 14**. O *giant steps* (pedido 4 da decisão 2004) passa de
+  7 alarmes para 1.
+- O *sakura* agora tem notas (94 → 405: o pedido 1 parece resolvido pela leitura), mas segue
+  com **0 colunas com tempo**. O vídeo tem **capo na casa 3** (`capo_por_video.json`) e foi
+  alinhado com `transposicao = 0`: todas as alturas esperadas estão 3 semitons abaixo. É a
+  hipótese mais provável, e não foi testada aqui: o *sakura* é um caso da rodada 2018 (casa do
+  capo), e testá-lo antes do pré-registro dela contaminaria a amostra.
+- Som × marcador no serge kottelat: 0,769 → 0,704 (52 → 71 pares). Sem critério nesta amostra;
+  fica anotado.
