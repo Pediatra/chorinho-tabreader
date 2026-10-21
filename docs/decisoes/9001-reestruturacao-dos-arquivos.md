@@ -58,6 +58,21 @@
 7. **Mover não é apagar.** Nada é apagado sem uma lista aprovada pelo dono, item por item.
 8. **O pré-processamento não muda** (AGENTS §7.6). Nada de recomprimir os sintéticos ou os
    quadros para economizar espaço: isso muda a entrada do modelo.
+9. **O rótulo do dono que mora fora de `data/gold/` é gabarito** (achado da tablatura, objeção
+   a):
+   - entram aqui as conferências que a ferramenta grava, as correções dadas no chat e os
+     gabaritos convertidos que o treino lê;
+   - **entra no git antes de qualquer outra coisa** (`git add -f` por nome, sem mudar o
+     conteúdo);
+   - nunca vai para o arquivo frio nem para "apagar";
+   - muda para `data/gold/<trilha>/` só na fase 4, com a ferramenta parada.
+10. **Arquivo que o gabarito cita fica no lugar e no git** (objeção b da tablatura). O gabarito
+    não se edita, então o caminho dentro dele tem de continuar valendo.
+11. **O código vivo e a procedência entram no git**: os scripts de treino e de medida que moram
+    em `data/saida` e os `config.json` dos pesos (objeção c da tablatura).
+12. **O número de testes pulados não pode subir.** Em cada fase, compara-se o resumo do
+    `pytest -rs` antes e depois (objeção e da tablatura). Um teste que passa sem conferir nada
+    é pior que um teste vermelho.
 
 ## 3. A estrutura proposta
 
@@ -70,11 +85,14 @@ chorinho-dataset/
 ├── tab/
 │   ├── __init__.py             # liga os apelidos dos nomes antigos (§4)
 │   ├── _apelidos.py            # tabela nome antigo -> nome novo, gerada e testada
-│   ├── comum/                  # o que mais de uma trilha usa
-│   │   ├── caminhos.py  gpu.py  leitor.py  cache.py
+│   ├── comum/                  # o que mais de uma trilha usa (só stdlib no que o host roda)
+│   │   ├── caminhos.py  gpu.py  leitor.py  cache.py  celular.py
 │   │   ├── arquivos.py         # ler/gravar JSON (atômico), nfc, semente fixa
+│   │   ├── acervo.py           # chave_do_arquivo, canais_fora, ler_rollout (do censo)
+│   │   ├── violao.py           # corda solta + casa + capo = altura (hoje em 5 cópias)
 │   │   └── ...
-│   ├── tablatura/              # painel, telas, video, reconhecer, sintetico*, detector_tab, ouro_video, ataque/, ...
+│   ├── cruzamento/             # a etapa neutra da 2005 (cruzar_fontes); não é de trilha-fonte
+│   ├── tablatura/              # produto/ leitura/ treino/ ataque/ ouro/ censo/ (árvore no §8, Tablatura)
 │   ├── maos/                   # braco/ (detector, localizador, ciclo, gabarito, retreino...), direita/, ...
 │   ├── audio/
 │   └── partitura/
@@ -83,7 +101,7 @@ chorinho-dataset/
 │   ├── gold/{tablatura,maos,audio,partitura}/
 │   ├── saida/{tablatura,maos,audio,partitura}/<rodada ou frente>/LEIAME.json
 │   └── cache/
-├── artefatos/{tablatura,maos,audio,partitura}/<familia>/<peso>.pt + .json
+├── artefatos/{tablatura,maos,audio,partitura}/<familia>/<nome exato de hoje>
 │   └── <trilha>/EM_USO.json    # os pesos que o código usa hoje
 └── docs/
     ├── decisoes/  rodadas/  guias/  pesquisa/  HISTORICO.md
@@ -93,6 +111,10 @@ chorinho-dataset/
 - **Subpastas.** Um nível de subpasta dentro da trilha só quando o grupo passa de ~10 módulos
   (ex.: `tab/maos/braco/`, com ~30). O nome do módulo perde o prefixo que vira pasta:
   `tab/maos_braco_ciclo.py` vira `tab/maos/braco/ciclo.py`.
+- **O peso não muda de nome nem de formato**: a pasta (`detector_tab_x/modelo.pt` +
+  `config.json`) ou o arquivo (`m21/L3_todos_s3.pt` + `.json`) mantém o nome exato de hoje. Só
+  ganha a pasta da trilha e da família na frente. Há teste que confere o `parent.name`, e o
+  `tab.video` compara caminhos resolvidos (objeção d da tablatura).
 - **Imports absolutos** em todo o código movido (`from tab.comum.caminhos import ...`). O
   `python -m` de um nome antigo roda o arquivo novo como `__main__`, e um import relativo
   quebraria ali.
@@ -114,8 +136,22 @@ chorinho-dataset/
 - `from tab.caminhos import RAIZ` continua funcionando;
 - `python -m tab.maos_braco_ciclo --rodada 1037` roda o `main()` do arquivo novo (precisa de
   `get_code` no carregador).
-- Um teste do gate confere que **cada** apelido importa, e que nenhum nome novo colide com um
-  antigo.
+- **Os testes do gate que a fase 2 traz** (pedidos do áudio e da tablatura):
+  1. **cada** apelido, nas **3 formas** (`import tab.x`, `from tab.x import f` e
+     `from tab import x`), devolve **o mesmo objeto** (`is`) que o nome novo. Também confere
+     que nenhum nome novo colide com um antigo;
+  2. **`tab/__init__.py`, `_apelidos.py` e todo `tab/*/__init__.py` só usam a stdlib e a
+     sintaxe do Python 3.10** (`ast.parse(..., feature_version=(3, 10))`). O motivo:
+     - o transcritor do áudio roda na imagem `chorinho-som`, em Python 3.10;
+     - o `celular` roda no Python do host;
+     - os dois importam `tab`.
+  3. **`(caminhos.RAIZ / "AGENTS.md").is_file()`**: em `tab/comum/`, a raiz passa a ser
+     `parents[2]`. Se errar, todos os caminhos mudam sem nenhum erro;
+  4. **os testes que varrem `tab/`** (como o `test_sem_videocapture`) usam `rglob` e um mínimo
+     de arquivos conferidos. Sem isso, eles passam vazios.
+- **Prova de que nada mudou**, por trilha, na fase 3: rodar um comando pelo nome antigo antes
+  e depois e conferir que a saída sai igual, byte a byte. O áudio propõe o alinhador no
+  *retrato brasileiro*.
 - A alternativa sem a mágica do localizador é um arquivo de 3 linhas por módulo antigo. Seriam
   149 arquivos, e `tab/` continuaria visualmente bagunçado. **Recomendo o localizador.**
 
@@ -166,15 +202,53 @@ subpastas diferentes de `tests/`.
 | fase | o que | quem | risco |
 | --- | --- | --- | --- |
 | 0 | combinar esta página: as 4 trilhas respondem no §8 e o dono decide | todas | nenhum |
-| 1 | **inventário sem mover nada**: o `LEIAME.json` de cada pasta de saída, o `EM_USO.json` dos pesos, a lista de limpeza para o dono e os caminhos fixos fora do `caminhos.py` | cada trilha, nos seus arquivos | nenhum |
-| 2 | **base comum**: `tab/comum/` (as funções repetidas viram uma), os apelidos com teste, `caminhos.peso`, `docker/` e o `--import-mode=importlib` | uma trilha (a mãos se oferece). `leitor` e `cache` são da tablatura e movidos por ela | baixo: só acrescenta |
-| 3 | **código e testes de cada trilha**, uma por vez, numa janela sem treino nem ferramenta rodando. A ordem: **áudio** (11 módulos, para validar o padrão), partitura, mãos, tablatura | a trilha dona | médio: o apelido e o gate pegam |
+| **1a** | **pôr no git o que só existe no disco** (regras 9 a 11): o rótulo do dono fora de `data/gold`, as imagens que o gabarito cita, os scripts vivos e os `config.json` dos pesos. Só acrescenta arquivos; pode começar já | cada trilha (a tablatura já começou) | nenhum |
+| 1b | **inventário sem mover nada**: o `LEIAME.json` de cada pasta de saída (manter / arquivar / apagar, com o motivo), o `EM_USO.json` dos pesos, a lista de limpeza para o dono e os caminhos fixos fora do `caminhos.py`, corrigidos para ler o `caminhos.py` | cada trilha, nos seus arquivos | baixo |
+| 2 | **base comum**: `tab/comum/` (as funções repetidas viram uma), `tab/cruzamento/`, os apelidos e os 4 testes do §4, `caminhos.peso`, `docker/` e o `--import-mode=importlib` | a mãos. `leitor`, `cache`, `celular` e as partes do `censo` são da tablatura, e ela as move | baixo, mas muda o `tab/__init__.py`: **só com as 4 trilhas paradas** (regra 6) |
+| 3 | **código e testes de cada trilha**, uma por vez, numa janela sem treino nem ferramenta rodando. A ordem: **áudio** (12 módulos com o `cruzar_fontes`), partitura, mãos e tablatura. A tablatura lista antes para o dono os 5 ramos não juntados | a trilha dona | médio: os apelidos, a prova byte a byte e o gate pegam |
 | 4 | **dados e pesos de cada trilha** para `data/saida/<trilha>/` e `artefatos/<trilha>/`, com links na transição | a trilha dona | médio |
-| 5 | **`ESTADO.md` vira índice** + `docs/estado/<trilha>.md`, e o AGENTS §2, §5 e §10 são atualizados (sai o "um pacote só, plano") | cada trilha o seu; o AGENTS, combinado | baixo |
+| 5 | **`ESTADO.md` vira índice** + `docs/estado/<trilha>.md`. As seções antigas vão **inteiras, sem reescrever**, na ordem de hoje. O AGENTS §2, §5 e §10 são atualizados (sai o "um pacote só, plano") | cada trilha o seu; o AGENTS, combinado | baixo |
 | 6 | depois de um ciclo inteiro sem uso, **sair dos links de dados** (os apelidos de código ficam) | cada trilha | baixo |
 
-- **Cada fase é um commit por trilha**, com o gate verde.
-- **Uma fase só começa quando a anterior estiver no git nas 4 trilhas.**
+- **Cada fase é um commit por trilha**, com o gate verde e o mesmo número de testes pulados.
+- **Uma fase só começa quando a anterior estiver no git nas 4 trilhas.** A exceção é a 1a, que
+  cada trilha faz quando puder.
+- **Calendário provável**, pelas janelas dadas no §8:
+  - **1a e 1b**: já, em cada trilha;
+  - **2**: a partir de 2026-10-22, quando a tablatura fechar a 0211 e a 0213 e parar a
+    ferramenta da T8.4 e o `celular`. A fila da 1041 das mãos termina ~20h40 de 21/10;
+  - **3**: áudio, partitura, mãos e tablatura, nessa ordem;
+  - a partitura ainda não respondeu.
+- **Limpeza das 6 cópias antigas do repositório** (`fase4_13`, `cifra`, `fn05`; 2,2 GB):
+  - o dono pediu para limpar o inútil;
+  - a recomendação é apagar as **duplicatas conferidas por hash** contra o repositório e pôr
+    no `.tar` do frio só os 38 arquivos únicos, o `_diag` e os `tab/` copiados;
+  - a lista item a item vai para o dono antes do `rm`.
+
+## 6b. Revisões
+
+- **2026-10-21, v1** (mãos): a proposta.
+- **2026-10-21, v2** (mãos), com as respostas da tablatura (`d66f7a7d`) e do áudio
+  (`0f713333`):
+  - regras 9 a 12: o rótulo fora do ouro, as imagens que o ouro cita, os scripts vivos e o
+    controle dos testes pulados;
+  - o peso mantém o nome exato;
+  - os 4 testes da fase 2 (Python 3.10 e stdlib, as 3 formas do apelido, a raiz, o `rglob`);
+  - entram `tab/cruzamento/`, `comum/violao.py`, `comum/acervo.py` e `celular` no comum;
+  - a fase 1a vem antes de tudo;
+  - a fase 2 espera as 4 trilhas paradas.
+
+**Fase 1a das mãos (2026-10-21): feita, mas dentro do commit `6c6f9695` da tablatura (0213).**
+- **O que entrou**, por nome e sem mudar o conteúdo:
+  - 14 arquivos no formato de gabarito que estavam em `data/saida/maos`: as cópias "antes" de
+    marcas do dono e a remarcação cega da M11b;
+  - a conferência dos 30 (1001);
+  - 78 scripts `.py` e `.sh`;
+  - as 44 procedências `.json` de `artefatos/m21`.
+- **O que aconteceu**: eu deixei os 137 arquivos preparados (`git add`) enquanto o gate
+  rodava. Nesse intervalo, a tablatura commitou a 0213, e o commit levou o índice inteiro.
+- **Lição para as 4 trilhas** (o índice do git é um só): rodar o gate primeiro, e depois
+  `git add <nomes> && git commit` **num comando só**. Nunca deixar arquivo preparado esperando.
 
 ## 7. Perguntas
 
