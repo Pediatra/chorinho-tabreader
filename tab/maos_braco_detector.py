@@ -145,6 +145,9 @@ ARQUIVO_V3 = MAOS_M21 / "v3_validacao_s.json"
 ARQUIVO_V4 = MAOS_M21 / "v4_tempo.json"
 #: Variável de ambiente que manda a inferência para a CPU (GPU fora do ar).
 VARIAVEL_CPU = "CHORINHO_MAOS_CPU"
+#: Intervalo da espera pela GPU. Curto, para pegar a vez quando outra trilha solta a GPU
+#: entre dois treinos dela (a outra recomeça em segundos; 60 s perderiam toda passagem).
+ESPERA_GPU_S = 5.0
 #: Rodada 1022: portões de desenvolvimento, prova e semente da perturbação.
 ARQUIVO_D1 = MAOS_M21 / "d1_oraculo_v2.json"
 ARQUIVO_D2 = MAOS_M21 / "d2_r_fora.json"
@@ -1460,7 +1463,7 @@ def _trava_gpu(estimativa: str = "?") -> Iterator[None]:
     if os.environ.get(VARIAVEL_CPU) == "1":
         yield
         return
-    with trava_gpu("maos", estimativa):
+    with trava_gpu("maos", estimativa, espera_s=ESPERA_GPU_S):
         yield
 
 
