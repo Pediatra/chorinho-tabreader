@@ -63,3 +63,58 @@ mudam com o recorte: `_atqt` com técnica 0,15 e `L` 0,02; `_atqe` com técnica 
 - Nos ouros e na T8.2 quase não há arco acima do sistema, então eles mudam pouco. A diferença
   aparece na T8.3, na 0210.
 - O custo nos ouros fica em 4–5 %, dentro dos 10 %.
+
+## Emenda antes de medir o `_atqa` e a T8.4 (2026-10-21, 15:25)
+
+Escrita com os 15 treinos `_atqa` prontos e **antes** de ler qualquer medida do `_atqa`
+(nos ouros ou na T8.4).
+
+### Leitura do critério da casa
+
+- "A casa dos ouros não cai abaixo do pior `_atqt` com o recorte antigo" se lê **semente a
+  semente**: a pior semente da versão precisa dar casa ≥ 2660.
+- Com essa leitura, o `_atqe` (alto) sai da disputa por 1 nota: as sementes dele dão
+  2659–2664.
+  - A diferença é do tamanho do ruído entre sementes (regra 7.1). Mesmo assim, o critério
+    escrito vale, e o limiar não se muda depois de ver o resultado.
+- O script da decisão é `data/saida/tab_rotulo/r4g/decidir.py`. Ele reproduz a tabela da
+  fase 1 e só lê os ouros e a T8.2.
+
+### O lote T8.4
+
+- **Sorteio:** `data/saida/t84/gerar.py`, cópia do da T8.3 com `random.Random(2)`.
+  - Ficam de fora os vídeos do ouro, da T8.2 e da T8.3.
+  - São 2 vídeos por canal, em 16 canais, num total de 32 telas.
+- **Telas que saíram:**
+  - uma, porque o quadro não abriu (ギタロー);
+  - uma, porque era o braço do violão, sem tablatura (cifra club). Nela o produto leu 14
+    notas, e isso fica registrado como erro do produto.
+  - Ficam **29 telas**.
+- **Conferência:** o dono conferiu tudo em 2026-10-21, a casa e as regiões dos símbolos,
+  sem ver a leitura do modelo de ataque.
+- **Gabarito:** `data/saida/tab_rotulo/r2/conferir_t84/ataque_t84.json`, gerado por
+  `novos_t84.py`. São **1270 notas, das quais 87 não atacadas**.
+- **Correções ditas pelo dono no chat**, aplicadas numa cópia (a conferência dele fica
+  intacta):
+  - a região "(n)" do `0 → 2` na tela 9 é hammer;
+  - o 2º par `<12>` da tela 21 faltava na lista e entra como não atacado, por ligadura de
+    prolongamento.
+- **Regiões sem nota embaixo:** sobram 3 ligaduras. Elas não mudam nenhum rótulo.
+
+### A medida na T8.4 (uma vez só)
+
+- **O que se mede:** só a versão escolhida pelo `decidir.py`, com os pesos da dobra 0 (o
+  mesmo uso do produto), as 3 sementes, o recorte alto e o `L` escolhido nos ouros.
+- **"Sim" falso:** `nao|sim` / (`nao|sim` + `nao|nao`), com a regra do slide sem origem.
+  Nota não lida fica fora do denominador.
+- **Custo:** `sim|nao` / (`sim|nao` + `sim|sim`).
+- **Aceite (o do plano):** com as 3 sementes somadas, "sim" falso ≤ 5 % e custo ≤ 10 %.
+  - Por semente, os números saem informados.
+- **Se passar:**
+  - o `ataque_rotulo` passa a usar a versão escolhida (`DETECTOR_CALIBRADO` e limiares);
+  - a etapa do rótulo de ataque fecha.
+- **Se reprovar:**
+  - a T8.4 fica registrada como gasta;
+  - os erros dela viram o diagnóstico seguinte;
+  - o `DETECTOR_CALIBRADO` não muda por causa dela.
+- **Em nenhum caso** o `DETECTOR_PADRAO` (a leitura comum) muda sem o OK do dono.
