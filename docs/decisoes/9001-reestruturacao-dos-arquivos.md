@@ -1,7 +1,8 @@
 # 9001 — Reestruturação dos arquivos do projeto (todas as trilhas)
 
-- **Situação**: **proposta**, escrita pela trilha mãos em 2026-10-21, a pedido do dono. As
-  respostas do dono às 3 perguntas estão no §7b.
+- **Situação**: **proposta v3**, escrita pela trilha mãos em 2026-10-21, a pedido do dono.
+  - As 4 trilhas responderam (§8).
+  - O dono respondeu às 3 primeiras perguntas (§7b); faltam as 3 do §7c.
 - **Para quem**: as 4 trilhas combinam respondendo no fim deste arquivo, cada uma na sua seção.
   O dono decide depois das respostas.
 - **Numeração**: proponho a faixa `9NNN` para as decisões que valem para todas as trilhas.
@@ -73,6 +74,14 @@
 12. **O número de testes pulados não pode subir.** Em cada fase, compara-se o resumo do
     `pytest -rs` antes e depois (objeção e da tablatura). Um teste que passa sem conferir nada
     é pior que um teste vermelho.
+13. **Uma função que muda de módulo deixa o nome antigo no módulo antigo**, por reexportação
+    (`_slug = slug`). O apelido de módulo não cobre um nome de função que saiu do arquivo, e
+    há 4 módulos e 6 scripts da partitura que chamam `video._slug` (objeção da partitura).
+14. **Uma função unificada no `comum` dá exatamente o resultado de hoje** em todas as
+    entradas, e um teste compara com cada cópia antiga. Exemplo: a altura da nota (`violao`)
+    contra as 5 cópias, em toda combinação de corda e casa. O capo é um parâmetro explícito
+    (padrão 0), nunca somado por dentro: se fosse somado por dentro, a partitura inteira
+    mudaria sem dar erro.
 
 ## 3. A estrutura proposta
 
@@ -140,11 +149,16 @@ chorinho-dataset/
   1. **cada** apelido, nas **3 formas** (`import tab.x`, `from tab.x import f` e
      `from tab import x`), devolve **o mesmo objeto** (`is`) que o nome novo. Também confere
      que nenhum nome novo colide com um antigo;
-  2. **`tab/__init__.py`, `_apelidos.py` e todo `tab/*/__init__.py` só usam a stdlib e a
-     sintaxe do Python 3.10** (`ast.parse(..., feature_version=(3, 10))`). O motivo:
+  2. **`tab/__init__.py`, `_apelidos.py`, todo `tab/*/__init__.py` e o
+     `tab/comum/caminhos.py` só usam a stdlib e a sintaxe do Python 3.10**
+     (`ast.parse(..., feature_version=(3, 10))`). O `tab/comum/__init__.py` fica vazio. O
+     motivo:
      - o transcritor do áudio roda na imagem `chorinho-som`, em Python 3.10;
+     - o leitor SMT da partitura roda numa imagem com Python 3.11 e importa o `caminhos`;
      - o `celular` roda no Python do host;
-     - os dois importam `tab`.
+     - todos importam `tab`.
+     - O `leitor.py` já usa sintaxe do 3.14, então fica fora dessa lista. Quem roda em
+       imagem antiga não pode importá-lo.
   3. **`(caminhos.RAIZ / "AGENTS.md").is_file()`**: em `tab/comum/`, a raiz passa a ser
      `parents[2]`. Se errar, todos os caminhos mudam sem nenhum erro;
   4. **os testes que varrem `tab/`** (como o `test_sem_videocapture`) usam `rglob` e um mínimo
@@ -238,6 +252,15 @@ subpastas diferentes de `tests/`.
   - a fase 1a vem antes de tudo;
   - a fase 2 espera as 4 trilhas paradas.
 
+- **2026-10-21, v3** (mãos), com a resposta da partitura (`08189389`):
+  - regra 13: a função que muda de módulo deixa o nome antigo;
+  - regra 14: a função unificada no comum tem de dar o resultado de hoje, e o capo é sempre
+    um parâmetro explícito;
+  - o teste 2 cobre o `comum/caminhos.py` (Python 3.11 da imagem SMT);
+  - a partitura fica sem subpastas (21 módulos, nenhum grupo passa de 10);
+  - 3 perguntas novas ao dono no §7c;
+  - **as 4 trilhas responderam.** A partitura também topa a fase 3 logo depois do áudio.
+
 **Fase 1a das mãos (2026-10-21): feita, mas dentro do commit `6c6f9695` da tablatura (0213).**
 - **O que entrou**, por nome e sem mudar o conteúdo:
   - 14 arquivos no formato de gabarito que estavam em `data/saida/maos`: as cópias "antes" de
@@ -286,6 +309,28 @@ subpastas diferentes de `tests/`.
      `apagar`, `arquivar` ou `manter`, com o motivo, e o dono vê a lista antes de qualquer
      `rm`.
    - **Uma pasta citada por uma rodada nunca é apagada**: no máximo, vai para o arquivo frio.
+
+## 7c. Perguntas novas para o dono (da revisão da partitura, 2026-10-21)
+
+1. **Apagar a imagem do leitor SMT** (`chorinho-partitura`, 9,87 GB, fora do repositório)?
+   - Ela não é usada desde a rodada 3003.
+   - Refazê-la exigiria baixar os modelos de novo, e isso pede o aval do dono.
+   - **Recomendação: sim**, se a partitura confirmar que nenhum plano próximo usa o SMT.
+2. **A exceção à regra 9 para uma cópia de segurança.**
+   - `compassos_homr.json` e `figura_e1.json` ficam onde estão e fora do git (AGENTS §9),
+     e ganham uma linha cada no `.gitignore`.
+   - A proposta é guardar uma **cópia** em `.tar` no arquivo frio. Hoje a única outra cópia do
+     `compassos_homr` é a sobra de um teste da ferramenta.
+   - **Recomendação: sim.** É cópia, não mudança de lugar, e é a única proteção desses dois
+     arquivos.
+3. **Os canais com pauta** (sua marcação de 17/10 no chat) não estão em nenhum arquivo.
+   - A trilha mãos tem a lista na memória. A partitura transcreve para um arquivo marcado "a
+     confirmar", e o dono confere.
+   - **Só tablatura**: cifra club, kenneth acoustic, kimny's guitar, leonardo ramos,
+     lonelypicker, mr. tabs, shin izumi.
+   - **Misto**: guitar dell arte, iwaki, pablo romé, paolo d'angelo, robert lunn, serge
+     kottelat, sky guitar, transcriptor, tv on guitar.
+   - **Misto por vídeo**: ギタロー ⧸ guitarous.
 
 ## 8. Respostas das trilhas
 
