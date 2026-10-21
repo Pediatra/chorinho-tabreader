@@ -27,6 +27,7 @@ from pathlib import Path
 from tab import ataque_rotulo, caminhos, detector_tab
 from tab.ataque_base import parear
 from tab.ataque_r4 import ler_tela
+from tab.gpu import trava_gpu
 
 #: Nome do arquivo gravado na pasta da ferramenta (a página o busca, se existir).
 ARQUIVO = "modelo_ataque.json"
@@ -118,11 +119,12 @@ def main() -> int:
     por_tela: dict[int, list[dict]] = {}
     for n in doc["notas"]:
         por_tela.setdefault(int(n["tela"]), []).append(n)
-    modelo = detector_tab.carregar(args.modelo)
     leituras: dict[str, dict] = {}
-    for tela, (video, t_s) in sorted(onde_ler(args.pasta).items()):
-        leituras.update(ler_notas(modelo, video, t_s, por_tela.get(tela, [])))
-        print(f"tela {tela}", flush=True)
+    with trava_gpu("tablatura", "leitura do modelo"):
+        modelo = detector_tab.carregar(args.modelo)
+        for tela, (video, t_s) in sorted(onde_ler(args.pasta).items()):
+            leituras.update(ler_notas(modelo, video, t_s, por_tela.get(tela, [])))
+            print(f"tela {tela}", flush=True)
     contagem: dict[str, int] = {}
     for n in doc["notas"]:
         tipo = divergencia(n.get("ataque"), leituras.get(n["nota"], {}).get("modelo"))

@@ -20,6 +20,7 @@ from pathlib import Path
 
 from tab import caminhos, detector_tab, leitor, painel
 from tab.ataque_base import ataque_previsto, parear, taxas
+from tab.gpu import trava_gpu
 
 #: Técnicas do modelo que tiram o ataque: só elas são supervisionadas nas telas reais.
 TECNICAS_SUPERVISIONADAS = ("h", "p", "/", "\\", "lig", "orn", "enfeite")
@@ -463,7 +464,8 @@ def main() -> int:
         help='"painel" refaz as medidas até a 0209 (arquivo sem o sufixo "_alto")',
     )
     args = ap.parse_args()
-    resultado = medir(args.versao, args.semente, args.recorte)
+    with trava_gpu("tablatura", "medida de ataque"):
+        resultado = medir(args.versao, args.semente, args.recorte)
     pasta = caminhos.TAB_ROTULO / "r4a"
     pasta.mkdir(parents=True, exist_ok=True)
     sufixo = "_alto" if args.recorte == "alto" else ""
