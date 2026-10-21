@@ -2206,7 +2206,8 @@ main{display:flex;gap:16px;padding:12px 16px}
 .editor{flex-wrap:wrap;max-width:min(560px,90vw)}.editor button.tec{padding:2px 6px;font-family:monospace}.editor button.tec.ligado{background:#7b1fa2;color:#fff;border-color:#7b1fa2}
 .copia span sup.tec{color:#7b1fa2;font-size:.7em}
 .regiao{position:absolute;outline:2px dashed #7b1fa2;background:rgba(123,31,162,.08);cursor:pointer;z-index:2}.regiao.editando{outline-width:3px;outline-style:solid}
-.regiao b{position:absolute;left:0;top:0;transform:translateY(-100%);background:#7b1fa2;color:#fff;font-size:11px;line-height:1.3;padding:0 3px;border-radius:3px 3px 0 0;white-space:nowrap}
+.regiao b{position:absolute;left:0;top:0;transform:translateY(-100%);background:#7b1fa2;color:#fff;font-size:11px;line-height:1.3;padding:0 3px;border-radius:3px 3px 0 0;white-space:nowrap;display:none}
+.regiao:hover b,.regiao.editando b{display:block}
 .regiao.nova{pointer-events:none;outline-style:solid}.copia .regiao{pointer-events:none}
 .moldura.modo-regiao{cursor:cell}.moldura.modo-regiao .caixa{pointer-events:none}
 button.regiao-ligado{background:#7b1fa2;color:#fff;border-color:#7b1fa2}
