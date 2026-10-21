@@ -1,0 +1,25 @@
+{
+  "comando": "python /app/data/saida/n4/treinar_ft.py --dobra 3 --passos 3000 --semente 2 --nome _s2",
+  "dobra": 3,
+  "videos_fora_do_treino": [
+    "south_american_music_easy_guitar_tutorial_with_sheet_and_tab",
+    "tab_from_this_place_pat_metheny_fingerstyle_guitar_cover"
+  ],
+  "videos_de_treino": [
+    "end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics",
+    "greensleeves_guia_de_estudio_partitura_tab_pdf",
+    "gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar",
+    "la_vie_en_rose_edith_piaf_tab",
+    "retrato_brasileiro_v2",
+    "tabroom_335_larry_carlton_fingerstyle_guitar"
+  ],
+  "telas_reais_treino": 55,
+  "partida": "artefatos/detector_tab_v3_s1/modelo.pt",
+  "passos": 3000,
+  "lote": 32,
+  "lote_real": 16,
+  "lote_sintetico": 16,
+  "lr": 0.0003,
+  "semente": 2,
+  "tempo_s": 808.7
+}

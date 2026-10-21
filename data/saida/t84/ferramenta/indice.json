@@ -1,0 +1,205 @@
+[
+ {
+  "id": 1,
+  "pasta": "data/saida/t84/telas/c01_v2",
+  "canal": "cifra club",
+  "video": "cifra club/bete balanço - cazuza (completa) ｜ como tocar no violão.mp4",
+  "t": 417.07
+ },
+ {
+  "id": 2,
+  "pasta": "data/saida/t84/telas/c02_v1",
+  "canal": "guitar dell ́arte",
+  "video": "guitar dell ́arte/ave maria (f. schubert), guitar lesson, sheet and tab.mp4",
+  "t": 223.85
+ },
+ {
+  "id": 3,
+  "pasta": "data/saida/t84/telas/c02_v2",
+  "canal": "guitar dell ́arte",
+  "video": "guitar dell ́arte/misty (e. garner), guitar lesson, sheet and tab.mp4",
+  "t": 186.26
+ },
+ {
+  "id": 4,
+  "pasta": "data/saida/t84/telas/c03_v1",
+  "canal": "iwaki",
+  "video": "iwaki/debussy - la fille aux cheveux de lin ｜ tab.mp4",
+  "t": 106.98
+ },
+ {
+  "id": 5,
+  "pasta": "data/saida/t84/telas/c03_v2",
+  "canal": "iwaki",
+  "video": "iwaki/let it be ⧸ tab for beginners.mp4",
+  "t": 23.41
+ },
+ {
+  "id": 6,
+  "pasta": "data/saida/t84/telas/c04_v1",
+  "canal": "kenneth acoustic",
+  "video": "kenneth acoustic/industry baby (easy version) - lil nas x, jack harlow ｜ fingerstyle guitar ｜ tab + chords + lyrics.mp4",
+  "t": 104.12
+ },
+ {
+  "id": 7,
+  "pasta": "data/saida/t84/telas/c04_v2",
+  "canal": "kenneth acoustic",
+  "video": "kenneth acoustic/grenade - bruno mars ｜ fingerstyle guitar ｜ tab + chords + lyrics.mp4",
+  "t": 129.21
+ },
+ {
+  "id": 8,
+  "pasta": "data/saida/t84/telas/c05_v1",
+  "canal": "kimny's guitar",
+  "video": "kimny's guitar/[tab] maria luisa（マリア・ルイサ） - j. s. sagreras（サグレラス） ｜ performed by kimny.mp4",
+  "t": 67.29
+ },
+ {
+  "id": 9,
+  "pasta": "data/saida/t84/telas/c05_v2",
+  "canal": "kimny's guitar",
+  "video": "kimny's guitar/[ tab ] and your bird can sing - the beatles ｜ fingerstyle guitar cover ｜ free pdf.mp4",
+  "t": 60.11
+ },
+ {
+  "id": 10,
+  "pasta": "data/saida/t84/telas/c06_v1",
+  "canal": "leonardo ramos",
+  "video": "leonardo ramos/el coyuyo (bailecito) 🎸 héctor ayala ｜｜ tutorial para guitarra clásica + tabs.mp4",
+  "t": 36.64
+ },
+ {
+  "id": 11,
+  "pasta": "data/saida/t84/telas/c06_v2",
+  "canal": "leonardo ramos",
+  "video": "leonardo ramos/romancera (milonga) 🎸 adolfo peralta achával, ｜｜ tutorial para guitarra clásica + tabs.mp4",
+  "t": 118.42
+ },
+ {
+  "id": 12,
+  "pasta": "data/saida/t84/telas/c07_v1",
+  "canal": "mr. tabs",
+  "video": "mr. tabs/mr. big - to be with you - guitar tab ｜ lesson ｜ cover ｜ tutorial ｜ audimee.mp4",
+  "t": 109.8
+ },
+ {
+  "id": 13,
+  "pasta": "data/saida/t84/telas/c07_v2",
+  "canal": "mr. tabs",
+  "video": "mr. tabs/led zeppelin - over the hills and far away - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+  "t": 159.45
+ },
+ {
+  "id": 14,
+  "pasta": "data/saida/t84/telas/c08_v1",
+  "canal": "pablo romé",
+  "video": "pablo romé/the house of the rising sun - (clase 2) - guitar cover 🤠.mp4",
+  "t": 227.96
+ },
+ {
+  "id": 15,
+  "pasta": "data/saida/t84/telas/c08_v2",
+  "canal": "pablo romé",
+  "video": "pablo romé/recuérdame de coco 🥥 tutorial guitarra.mp4",
+  "t": 313.07
+ },
+ {
+  "id": 16,
+  "pasta": "data/saida/t84/telas/c09_v1",
+  "canal": "paolo d'angelo",
+  "video": "paolo d'angelo/tarantella napoletana ｜ guitar duo ｜ tab ｜ play along.mp4",
+  "t": 133.59
+ },
+ {
+  "id": 17,
+  "pasta": "data/saida/t84/telas/c09_v2",
+  "canal": "paolo d'angelo",
+  "video": "paolo d'angelo/greensleeves (theme & variation) ｜ guitar tab ｜ classical tutorial.mp4",
+  "t": 45.25
+ },
+ {
+  "id": 18,
+  "pasta": "data/saida/t84/telas/c10_v1",
+  "canal": "robert lunn",
+  "video": "robert lunn/5 spanish-inspired guitar pieces - includes sheet music⧸tab.mp4",
+  "t": 222.65
+ },
+ {
+  "id": 19,
+  "pasta": "data/saida/t84/telas/c10_v2",
+  "canal": "robert lunn",
+  "video": "robert lunn/5 beginner pieces for the guitar - includes standard notation⧸tab - classical guitar - robert lunn.mp4",
+  "t": 77.13
+ },
+ {
+  "id": 20,
+  "pasta": "data/saida/t84/telas/c11_v1",
+  "canal": "serge kottelat",
+  "video": "serge kottelat/gabriel santiago - black orpheus ｜ guitar transcription + tab.mp4",
+  "t": 115.15
+ },
+ {
+  "id": 21,
+  "pasta": "data/saida/t84/telas/c11_v2",
+  "canal": "serge kottelat",
+  "video": "serge kottelat/jean-marie ecay – you're just a ghost ｜ fingerstyle solo guitar with tab.mp4",
+  "t": 134.86
+ },
+ {
+  "id": 22,
+  "pasta": "data/saida/t84/telas/c12_v1",
+  "canal": "shin izumi",
+  "video": "shin izumi/【tab】summer ⧸ 久石譲 - 菊次郎の夏 - fingerstyle guitar  ソロギター【タブ】.mp4",
+  "t": 76.23
+ },
+ {
+  "id": 23,
+  "pasta": "data/saida/t84/telas/c12_v2",
+  "canal": "shin izumi",
+  "video": "shin izumi/【tab】when you wish upon a star - disney - fingerstyle guitar ソロギター【タブ】.mp4",
+  "t": 66.04
+ },
+ {
+  "id": 24,
+  "pasta": "data/saida/t84/telas/c13_v1",
+  "canal": "sky guitar",
+  "video": "sky guitar/love is all around - fingerstyle lesson + tab.mp4",
+  "t": 188.42
+ },
+ {
+  "id": 25,
+  "pasta": "data/saida/t84/telas/c13_v2",
+  "canal": "sky guitar",
+  "video": "sky guitar/pure imagination - fingerstyle lesson + tab.mp4",
+  "t": 180.53
+ },
+ {
+  "id": 26,
+  "pasta": "data/saida/t84/telas/c14_v1",
+  "canal": "transcriptor",
+  "video": "transcriptor/charagua - victor jara -  2＊ guitarra - partitura ⧸ tablatura..mp4",
+  "t": 78.24
+ },
+ {
+  "id": 27,
+  "pasta": "data/saida/t84/telas/c14_v2",
+  "canal": "transcriptor",
+  "video": "transcriptor/libertango - piazzolla ⧸ primera guitarra (duo) tab.mp4",
+  "t": 197.48
+ },
+ {
+  "id": 28,
+  "pasta": "data/saida/t84/telas/c15_v1",
+  "canal": "tv on guitar",
+  "video": "tv on guitar/gerudo valley guitar tab and standard notation ｜ tvonguitar.mp4",
+  "t": 75.09
+ },
+ {
+  "id": 29,
+  "pasta": "data/saida/t84/telas/c16_v2",
+  "canal": "ギタロー ⧸ guitarous",
+  "video": "ギタロー ⧸ guitarous/やすらぎの日々 ソロギター タブ譜 クロノ・トリガー.mp4",
+  "t": 49.83
+ }
+]

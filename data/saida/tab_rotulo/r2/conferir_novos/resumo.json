@@ -1,0 +1,3201 @@
+{
+ "campo_x": "x_centro_quadro",
+ "fontes": {
+  "greensleeves": {
+   "ambiguos": [
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t4-n20"
+     ],
+     "obs": "tinta 0.0647 ext 0.548 entre t4-n17 e t4-n20",
+     "regiao": "tinta-t4-n17",
+     "tecnica": [],
+     "tela": 4,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1432.4,
+      1432.4
+     ]
+    }
+   ],
+   "ambiguos_por_tipo": {},
+   "ataques": {
+    "sim": 106
+   },
+   "conflitos": [],
+   "motivos": {
+    "normal": 106
+   },
+   "nao": 0,
+   "notas_conferidas": 106,
+   "notas_rotuladas": 106,
+   "notas_sem_marca": 106,
+   "obs_nao_classificados": {},
+   "obs_slide_sem_simbolo": [],
+   "passo_fallback_telas": [],
+   "passo_por_tela": {
+    "1": 24.5,
+    "2": 25.0,
+    "3": 24.5,
+    "4": 24.5
+   },
+   "regioes_em_telas_conferidas": 0,
+   "regioes_ignoradas": {},
+   "regioes_lidas": 0,
+   "regioes_por_tipo": {},
+   "sobreposicoes": 0,
+   "telas_com_marca": 0,
+   "telas_conferidas": 4,
+   "telas_divergem_ferramenta": [],
+   "telas_sem_marca": 4,
+   "telas_sem_tecnica": 4,
+   "x_cobre_digito": 0,
+   "x_regioes": 0,
+   "x_sem_nota_alguma": 0,
+   "x_sem_nota_x": 0
+  },
+  "gymnopedie": {
+   "ambiguos": [],
+   "ambiguos_por_tipo": {},
+   "ataques": {
+    "sim": 392
+   },
+   "conflitos": [],
+   "motivos": {
+    "normal": 392
+   },
+   "nao": 0,
+   "notas_conferidas": 392,
+   "notas_rotuladas": 392,
+   "notas_sem_marca": 392,
+   "obs_nao_classificados": {},
+   "obs_slide_sem_simbolo": [],
+   "passo_fallback_telas": [],
+   "passo_por_tela": {
+    "1": 30.75,
+    "10": 29.5,
+    "11": 28.75,
+    "12": 29.5,
+    "2": 28.75,
+    "3": 28.75,
+    "4": 29.25,
+    "5": 29.0,
+    "6": 29.0,
+    "7": 28.5,
+    "8": 29.0,
+    "9": 28.75
+   },
+   "regioes_em_telas_conferidas": 0,
+   "regioes_ignoradas": {},
+   "regioes_lidas": 0,
+   "regioes_por_tipo": {},
+   "sobreposicoes": 0,
+   "telas_com_marca": 0,
+   "telas_conferidas": 12,
+   "telas_divergem_ferramenta": [
+    1,
+    2,
+    3,
+    8,
+    11
+   ],
+   "telas_sem_marca": 12,
+   "telas_sem_tecnica": 12,
+   "x_cobre_digito": 0,
+   "x_regioes": 0,
+   "x_sem_nota_alguma": 0,
+   "x_sem_nota_x": 0
+  },
+  "retrato": {
+   "ambiguos": [
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t1-n8"
+     ],
+     "obs": "tinta 0.2347 ext 0.719 entre t1-n7 e t1-n8",
+     "regiao": "tinta-t1-n7",
+     "tecnica": [],
+     "tela": 1,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      555.0,
+      555.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t1-n16"
+     ],
+     "obs": "tinta 0.2626 ext 0.794 entre t1-n15 e t1-n16",
+     "regiao": "tinta-t1-n15",
+     "tecnica": [],
+     "tela": 1,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      972.0,
+      972.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t1-n25"
+     ],
+     "obs": "tinta 0.291 ext 0.813 entre t1-n24 e t1-n25",
+     "regiao": "tinta-t1-n24",
+     "tecnica": [],
+     "tela": 1,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1396.0,
+      1396.0
+     ]
+    },
+    {
+     "cordas": [
+      6,
+      6
+     ],
+     "notas": [
+      "t1-n22"
+     ],
+     "obs": "tinta 0.0981 ext 0.328 entre t1-n18 e t1-n22",
+     "regiao": "tinta-t1-n18",
+     "tecnica": [],
+     "tela": 1,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1259.0,
+      1259.0
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t1-n21"
+     ],
+     "obs": "tinta 0.2111 ext 0.55 entre t1-n19 e t1-n21",
+     "regiao": "tinta-t1-n19",
+     "tecnica": [],
+     "tela": 1,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1259.0,
+      1259.0
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t1-n23"
+     ],
+     "obs": "tinta 0.1216 ext 0.629 entre t1-n20 e t1-n23",
+     "regiao": "tinta-t1-n20",
+     "tecnica": [],
+     "tela": 1,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1258.0,
+      1258.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t2-n19"
+     ],
+     "obs": "tinta 0.0852 ext 0.87 entre t2-n18 e t2-n19",
+     "regiao": "tinta-t2-n18",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      844.5,
+      844.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t2-n20"
+     ],
+     "obs": "tinta 0.0788 ext 0.79 entre t2-n19 e t2-n20",
+     "regiao": "tinta-t2-n19",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      890.0,
+      890.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t2-n22"
+     ],
+     "obs": "tinta 0.1173 ext 1.0 entre t2-n21 e t2-n22",
+     "regiao": "tinta-t2-n21",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      977.5,
+      977.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t2-n23"
+     ],
+     "obs": "tinta 0.1141 ext 1.0 entre t2-n22 e t2-n23",
+     "regiao": "tinta-t2-n22",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      999.5,
+      999.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n8"
+     ],
+     "obs": "tinta 0.2351 ext 0.764 entre t3-n7 e t3-n8",
+     "regiao": "tinta-t3-n7",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      530.5,
+      530.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n16"
+     ],
+     "obs": "tinta 0.2562 ext 0.811 entre t3-n15 e t3-n16",
+     "regiao": "tinta-t3-n15",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      955.5,
+      955.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n25"
+     ],
+     "obs": "tinta 0.2935 ext 0.818 entre t3-n24 e t3-n25",
+     "regiao": "tinta-t3-n24",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1387.5,
+      1387.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t3-n23"
+     ],
+     "obs": "tinta 0.1084 ext 0.715 entre t3-n20 e t3-n23",
+     "regiao": "tinta-t3-n20",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1245.5,
+      1245.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t4-n10"
+     ],
+     "obs": "tinta 0.1211 ext 1.0 entre t4-n9 e t4-n10",
+     "regiao": "tinta-t4-n9",
+     "tecnica": [],
+     "tela": 4,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      612.5,
+      612.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t4-n11"
+     ],
+     "obs": "tinta 0.1377 ext 1.0 entre t4-n10 e t4-n11",
+     "regiao": "tinta-t4-n10",
+     "tecnica": [],
+     "tela": 4,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      634.0,
+      634.0
+     ]
+    },
+    {
+     "cordas": [
+      6,
+      6
+     ],
+     "notas": [
+      "t4-n29"
+     ],
+     "obs": "tinta 0.1307 ext 0.3 entre t4-n25 e t4-n29",
+     "regiao": "tinta-t4-n25",
+     "tecnica": [],
+     "tela": 4,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1441.5,
+      1441.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t5-n12"
+     ],
+     "obs": "tinta 0.2701 ext 1.0 entre t5-n11 e t5-n12",
+     "regiao": "tinta-t5-n11",
+     "tecnica": [],
+     "tela": 5,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      749.5,
+      749.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t5-n27"
+     ],
+     "obs": "tinta 0.2272 ext 0.672 entre t5-n24 e t5-n27",
+     "regiao": "tinta-t5-n24",
+     "tecnica": [],
+     "tela": 5,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1355.0,
+      1355.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t5-n19"
+     ],
+     "obs": "tinta 0.3231 ext 1.0 entre t5-n18 e t5-n19",
+     "regiao": "tinta-t5-n18",
+     "tecnica": [],
+     "tela": 5,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1059.0,
+      1059.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t6-n16"
+     ],
+     "obs": "tinta 0.0997 ext 0.348 entre t6-n15 e t6-n16",
+     "regiao": "tinta-t6-n15",
+     "tecnica": [],
+     "tela": 6,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1011.5,
+      1011.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t7-n18"
+     ],
+     "obs": "tinta 0.1731 ext 0.823 entre t7-n17 e t7-n18",
+     "regiao": "tinta-t7-n17",
+     "tecnica": [],
+     "tela": 7,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1064.5,
+      1064.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t7-n11"
+     ],
+     "obs": "tinta 0.2741 ext 0.69 entre t7-n10 e t7-n11",
+     "regiao": "tinta-t7-n10",
+     "tecnica": [],
+     "tela": 7,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      683.5,
+      683.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t8-n10"
+     ],
+     "obs": "tinta 0.3595 ext 0.675 entre t8-n9 e t8-n10",
+     "regiao": "tinta-t8-n9",
+     "tecnica": [],
+     "tela": 8,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      622.5,
+      622.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t8-n24"
+     ],
+     "obs": "tinta 0.0943 ext 0.47 entre t8-n22 e t8-n24",
+     "regiao": "tinta-t8-n22",
+     "tecnica": [],
+     "tela": 8,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1088.0,
+      1088.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t8-n27"
+     ],
+     "obs": "tinta 0.0595 ext 0.609 entre t8-n25 e t8-n27",
+     "regiao": "tinta-t8-n25",
+     "tecnica": [],
+     "tela": 8,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1134.5,
+      1134.5
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t9-n18"
+     ],
+     "obs": "tinta 0.1084 ext 0.314 entre t9-n15 e t9-n18",
+     "regiao": "tinta-t9-n15",
+     "tecnica": [],
+     "tela": 9,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      958.5,
+      958.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t9-n27"
+     ],
+     "obs": "tinta 0.2136 ext 0.723 entre t9-n26 e t9-n27",
+     "regiao": "tinta-t9-n26",
+     "tecnica": [],
+     "tela": 9,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1413.0,
+      1413.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t9-n35"
+     ],
+     "obs": "tinta 0.2188 ext 0.636 entre t9-n34 e t9-n35",
+     "regiao": "tinta-t9-n34",
+     "tecnica": [],
+     "tela": 9,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1804.5,
+      1804.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t10-n8"
+     ],
+     "obs": "tinta 0.2909 ext 0.793 entre t10-n7 e t10-n8",
+     "regiao": "tinta-t10-n7",
+     "tecnica": [],
+     "tela": 10,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      549.5,
+      549.5
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t10-n20"
+     ],
+     "obs": "tinta 0.1689 ext 0.462 entre t10-n17 e t10-n20",
+     "regiao": "tinta-t10-n17",
+     "tecnica": [],
+     "tela": 10,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1093.0,
+      1093.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t11-n1"
+     ],
+     "obs": "tinta 0.1173 ext 1.0 entre t11-n0 e t11-n1",
+     "regiao": "tinta-t11-n0",
+     "tecnica": [],
+     "tela": 11,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      214.5,
+      214.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t11-n2"
+     ],
+     "obs": "tinta 0.119 ext 1.0 entre t11-n1 e t11-n2",
+     "regiao": "tinta-t11-n1",
+     "tecnica": [],
+     "tela": 11,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      237.5,
+      237.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t11-n22"
+     ],
+     "obs": "tinta 0.0836 ext 0.449 entre t11-n21 e t11-n22",
+     "regiao": "tinta-t11-n21",
+     "tecnica": [],
+     "tela": 11,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1079.5,
+      1079.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t11-n24"
+     ],
+     "obs": "tinta 0.2513 ext 0.329 entre t11-n20 e t11-n24",
+     "regiao": "tinta-t11-n20",
+     "tecnica": [],
+     "tela": 11,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1124.5,
+      1124.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t12-n26"
+     ],
+     "obs": "tinta 0.1142 ext 1.0 entre t12-n25 e t12-n26",
+     "regiao": "tinta-t12-n25",
+     "tecnica": [],
+     "tela": 12,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1455.5,
+      1455.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t12-n27"
+     ],
+     "obs": "tinta 0.1241 ext 1.0 entre t12-n26 e t12-n27",
+     "regiao": "tinta-t12-n26",
+     "tecnica": [],
+     "tela": 12,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1477.5,
+      1477.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t12-n15"
+     ],
+     "obs": "tinta 0.1047 ext 0.523 entre t12-n13 e t12-n15",
+     "regiao": "tinta-t12-n13",
+     "tecnica": [],
+     "tela": 12,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      943.5,
+      943.5
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t12-n22"
+     ],
+     "obs": "tinta 0.1047 ext 0.336 entre t12-n20 e t12-n22",
+     "regiao": "tinta-t12-n20",
+     "tecnica": [],
+     "tela": 12,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1264.5,
+      1264.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t13-n14"
+     ],
+     "obs": "tinta 0.0852 ext 0.627 entre t13-n12 e t13-n14",
+     "regiao": "tinta-t13-n12",
+     "tecnica": [],
+     "tela": 13,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      900.0,
+      900.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t13-n17"
+     ],
+     "obs": "tinta 0.0831 ext 0.612 entre t13-n14 e t13-n17",
+     "regiao": "tinta-t13-n14",
+     "tecnica": [],
+     "tela": 13,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      953.5,
+      953.5
+     ]
+    }
+   ],
+   "ambiguos_por_tipo": {},
+   "ataques": {
+    "sim": 491
+   },
+   "conflitos": [],
+   "motivos": {
+    "normal": 491
+   },
+   "nao": 0,
+   "notas_conferidas": 491,
+   "notas_rotuladas": 491,
+   "notas_sem_marca": 491,
+   "obs_nao_classificados": {},
+   "obs_slide_sem_simbolo": [],
+   "passo_fallback_telas": [],
+   "passo_por_tela": {
+    "1": 22.0,
+    "10": 22.0,
+    "11": 22.0,
+    "12": 21.5,
+    "13": 21.5,
+    "2": 22.0,
+    "3": 22.0,
+    "4": 22.0,
+    "5": 22.0,
+    "6": 22.0,
+    "7": 22.0,
+    "8": 22.0,
+    "9": 21.5
+   },
+   "regioes_em_telas_conferidas": 0,
+   "regioes_ignoradas": {},
+   "regioes_lidas": 0,
+   "regioes_por_tipo": {},
+   "sobreposicoes": 0,
+   "telas_com_marca": 0,
+   "telas_conferidas": 13,
+   "telas_divergem_ferramenta": [],
+   "telas_sem_marca": 13,
+   "telas_sem_tecnica": 13,
+   "x_cobre_digito": 0,
+   "x_regioes": 0,
+   "x_sem_nota_alguma": 0,
+   "x_sem_nota_x": 0
+  },
+  "south_american": {
+   "ambiguos": [
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t1-n39"
+     ],
+     "obs": "tinta 0.3101 ext 0.88 entre t1-n31 e t1-n39",
+     "regiao": "tinta-t1-n31",
+     "tecnica": [],
+     "tela": 1,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      895.0,
+      895.0
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t1-n42"
+     ],
+     "obs": "tinta 0.1373 ext 0.938 entre t1-n39 e t1-n42",
+     "regiao": "tinta-t1-n39",
+     "tecnica": [],
+     "tela": 1,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      980.5,
+      980.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t1-n45"
+     ],
+     "obs": "tinta 0.3898 ext 0.424 entre t1-n42 e t1-n45",
+     "regiao": "tinta-t1-n42",
+     "tecnica": [],
+     "tela": 1,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1066.0,
+      1066.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t1-n13"
+     ],
+     "obs": "tinta 0.0884 ext 0.666 entre t1-n11 e t1-n13",
+     "regiao": "tinta-t1-n11",
+     "tecnica": [],
+     "tela": 1,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      397.0,
+      397.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t1-n82"
+     ],
+     "obs": "tinta 0.0529 ext 0.806 entre t1-n81 e t1-n82",
+     "regiao": "tinta-t1-n81",
+     "tecnica": [],
+     "tela": 1,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1891.0,
+      1891.0
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t1-n46"
+     ],
+     "obs": "tinta 0.3298 ext 0.709 entre t1-n44 e t1-n46",
+     "regiao": "tinta-t1-n44",
+     "tecnica": [],
+     "tela": 1,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1066.0,
+      1066.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t2-n8"
+     ],
+     "obs": "tinta 0.1199 ext 0.41 entre t2-n7 e t2-n8",
+     "regiao": "tinta-t2-n7",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      198.0,
+      198.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t2-n15"
+     ],
+     "obs": "tinta 0.0828 ext 0.914 entre t2-n12 e t2-n15",
+     "regiao": "tinta-t2-n12",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      312.5,
+      312.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t2-n16"
+     ],
+     "obs": "tinta 0.1049 ext 0.561 entre t2-n15 e t2-n16",
+     "regiao": "tinta-t2-n15",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      361.5,
+      361.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t2-n47"
+     ],
+     "obs": "tinta 0.2304 ext 0.58 entre t2-n44 e t2-n47",
+     "regiao": "tinta-t2-n44",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1033.0,
+      1033.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t2-n48"
+     ],
+     "obs": "tinta 0.2746 ext 0.76 entre t2-n47 e t2-n48",
+     "regiao": "tinta-t2-n47",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1079.0,
+      1079.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t2-n75"
+     ],
+     "obs": "tinta 0.1049 ext 0.318 entre t2-n73 e t2-n75",
+     "regiao": "tinta-t2-n73",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1672.5,
+      1672.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t2-n81"
+     ],
+     "obs": "tinta 0.0765 ext 1.0 entre t2-n78 e t2-n81",
+     "regiao": "tinta-t2-n78",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1768.5,
+      1768.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t2-n82"
+     ],
+     "obs": "tinta 0.1128 ext 0.499 entre t2-n81 e t2-n82",
+     "regiao": "tinta-t2-n81",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1814.0,
+      1814.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t2-n84"
+     ],
+     "obs": "tinta 0.0623 ext 1.0 entre t2-n82 e t2-n84",
+     "regiao": "tinta-t2-n82",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1844.5,
+      1844.5
+     ]
+    },
+    {
+     "cordas": [
+      6,
+      6
+     ],
+     "notas": [
+      "t2-n49"
+     ],
+     "obs": "tinta 0.5279 ext 0.358 entre t2-n42 e t2-n49",
+     "regiao": "tinta-t2-n42",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1079.5,
+      1079.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t2-n45"
+     ],
+     "obs": "tinta 0.2359 ext 0.739 entre t2-n40 e t2-n45",
+     "regiao": "tinta-t2-n40",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1006.0,
+      1006.0
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t2-n52"
+     ],
+     "obs": "tinta 0.6257 ext 0.329 entre t2-n45 e t2-n52",
+     "regiao": "tinta-t2-n45",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1147.5,
+      1147.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n34"
+     ],
+     "obs": "tinta 0.1199 ext 0.632 entre t3-n32 e t3-n34",
+     "regiao": "tinta-t3-n32",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      779.0,
+      779.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n41"
+     ],
+     "obs": "tinta 0.0844 ext 0.514 entre t3-n40 e t3-n41",
+     "regiao": "tinta-t3-n40",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      921.0,
+      921.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n59"
+     ],
+     "obs": "tinta 0.0813 ext 0.433 entre t3-n57 e t3-n59",
+     "regiao": "tinta-t3-n57",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1277.0,
+      1277.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n63"
+     ],
+     "obs": "tinta 0.1823 ext 1.0 entre t3-n62 e t3-n63",
+     "regiao": "tinta-t3-n62",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1349.0,
+      1349.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n65"
+     ],
+     "obs": "tinta 0.2138 ext 0.899 entre t3-n63 e t3-n65",
+     "regiao": "tinta-t3-n63",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1386.5,
+      1386.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t3-n11"
+     ],
+     "obs": "tinta 0.2643 ext 0.508 entre t3-n4 e t3-n11",
+     "regiao": "tinta-t3-n4",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      254.0,
+      254.0
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t3-n60"
+     ],
+     "obs": "tinta 0.2604 ext 0.789 entre t3-n52 e t3-n60",
+     "regiao": "tinta-t3-n52",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1277.0,
+      1277.0
+     ]
+    }
+   ],
+   "ambiguos_por_tipo": {},
+   "ataques": {
+    "sim": 269
+   },
+   "conflitos": [],
+   "motivos": {
+    "normal": 269
+   },
+   "nao": 0,
+   "notas_conferidas": 269,
+   "notas_rotuladas": 269,
+   "notas_sem_marca": 269,
+   "obs_nao_classificados": {},
+   "obs_slide_sem_simbolo": [],
+   "passo_fallback_telas": [],
+   "passo_por_tela": {
+    "1": 17.0,
+    "2": 17.0,
+    "3": 17.5
+   },
+   "regioes_em_telas_conferidas": 0,
+   "regioes_ignoradas": {},
+   "regioes_lidas": 0,
+   "regioes_por_tipo": {},
+   "sobreposicoes": 0,
+   "telas_com_marca": 0,
+   "telas_conferidas": 3,
+   "telas_divergem_ferramenta": [],
+   "telas_sem_marca": 3,
+   "telas_sem_tecnica": 3,
+   "x_cobre_digito": 0,
+   "x_regioes": 0,
+   "x_sem_nota_alguma": 0,
+   "x_sem_nota_x": 0
+  },
+  "t82": {
+   "ambiguos": [
+    {
+     "cordas": [
+      6,
+      6
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t7-r5",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 7,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1395.2,
+      1472.2
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t10-r0",
+     "tecnica": [
+      "h"
+     ],
+     "tela": 10,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      94.1,
+      148.2
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t16-r4",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 16,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1862.2,
+      1915.8
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t23-r1",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 23,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1186.4,
+      1226.1
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [],
+     "obs": "legato slide",
+     "regiao": "t23-r2",
+     "tecnica": [
+      "\\"
+     ],
+     "tela": 23,
+     "tipo": "slide_sem_nota",
+     "x_quadro": [
+      1793.8,
+      1831.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      3
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t24-r0",
+     "tecnica": [
+      "arpejo"
+     ],
+     "tela": 24,
+     "tipo": "arpejo_sem_nota",
+     "x_quadro": [
+      369.6,
+      388.2
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t24-n55"
+     ],
+     "obs": "mordente",
+     "regiao": "t24-r1",
+     "tecnica": [
+      "h",
+      "p"
+     ],
+     "tela": 24,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1436.5,
+      1482.9
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t26-r3",
+     "tecnica": [],
+     "tela": 26,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1465.1,
+      1507.9
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [],
+     "obs": "ligadura slide",
+     "regiao": "t28-r0",
+     "tecnica": [],
+     "tela": 28,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      678.1,
+      775.4
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      5
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t31-r0",
+     "tecnica": [
+      "h"
+     ],
+     "tela": 31,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      668.4,
+      703.2
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [],
+     "obs": "ligadura slide",
+     "regiao": "t31-r2",
+     "tecnica": [],
+     "tela": 31,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      915.0,
+      953.4
+     ]
+    },
+    {
+     "cordas": [
+      6,
+      6
+     ],
+     "notas": [],
+     "obs": "arco prolongamento",
+     "regiao": "t35-r2",
+     "tecnica": [],
+     "tela": 35,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      497.2,
+      517.7
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t2-n1"
+     ],
+     "obs": "tinta 0.0575 ext 0.5 entre t2-n0 e t2-n1",
+     "regiao": "tinta-t2-n0",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      259.7,
+      259.7
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t2-n7"
+     ],
+     "obs": "tinta 0.0554 ext 0.436 entre t2-n6 e t2-n7",
+     "regiao": "tinta-t2-n6",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      935.5,
+      935.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t2-n3"
+     ],
+     "obs": "tinta 0.099 ext 0.625 entre t2-n2 e t2-n3",
+     "regiao": "tinta-t2-n2",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      422.4,
+      422.4
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t2-n9"
+     ],
+     "obs": "tinta 0.097 ext 0.687 entre t2-n8 e t2-n9",
+     "regiao": "tinta-t2-n8",
+     "tecnica": [],
+     "tela": 2,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1107.7,
+      1107.7
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t3-n62"
+     ],
+     "obs": "tinta 0.0812 ext 0.766 entre t3-n60 e t3-n62",
+     "regiao": "tinta-t3-n60",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1050.6,
+      1050.6
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t3-n87"
+     ],
+     "obs": "tinta 0.6143 ext 0.494 entre t3-n81 e t3-n87",
+     "regiao": "tinta-t3-n81",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1467.9,
+      1467.9
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t3-n5"
+     ],
+     "obs": "tinta 0.0565 ext 0.578 entre t3-n2 e t3-n5",
+     "regiao": "tinta-t3-n2",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      157.5,
+      157.5
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t3-n17"
+     ],
+     "obs": "tinta 0.1685 ext 0.396 entre t3-n13 e t3-n17",
+     "regiao": "tinta-t3-n13",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      340.8,
+      340.8
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t3-n35"
+     ],
+     "obs": "tinta 0.0976 ext 0.962 entre t3-n32 e t3-n35",
+     "regiao": "tinta-t3-n32",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      617.7,
+      617.7
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t3-n38"
+     ],
+     "obs": "tinta 0.1551 ext 1.0 entre t3-n35 e t3-n38",
+     "regiao": "tinta-t3-n35",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      676.2,
+      676.2
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t3-n41"
+     ],
+     "obs": "tinta 0.1181 ext 0.893 entre t3-n38 e t3-n41",
+     "regiao": "tinta-t3-n38",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      734.7,
+      734.7
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t3-n46"
+     ],
+     "obs": "tinta 0.1079 ext 0.43 entre t3-n41 e t3-n46",
+     "regiao": "tinta-t3-n41",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      804.9,
+      804.9
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t3-n58"
+     ],
+     "obs": "tinta 0.0791 ext 0.338 entre t3-n57 e t3-n58",
+     "regiao": "tinta-t3-n57",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      957.0,
+      957.0
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      5
+     ],
+     "notas": [
+      "t3-n18"
+     ],
+     "obs": "tinta 0.1161 ext 0.396 entre t3-n14 e t3-n18",
+     "regiao": "tinta-t3-n14",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      340.8,
+      340.8
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      5
+     ],
+     "notas": [
+      "t3-n84"
+     ],
+     "obs": "tinta 0.3441 ext 0.354 entre t3-n80 e t3-n84",
+     "regiao": "tinta-t3-n80",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1409.4,
+      1409.4
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      5
+     ],
+     "notas": [
+      "t3-n86"
+     ],
+     "obs": "tinta 0.2085 ext 0.662 entre t3-n84 e t3-n86",
+     "regiao": "tinta-t3-n84",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1444.5,
+      1444.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n24"
+     ],
+     "obs": "tinta 0.1068 ext 1.0 entre t3-n19 e t3-n24",
+     "regiao": "tinta-t3-n19",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      453.9,
+      453.9
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n72"
+     ],
+     "obs": "tinta 0.0966 ext 1.0 entre t3-n68 e t3-n72",
+     "regiao": "tinta-t3-n68",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1210.5,
+      1210.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n85"
+     ],
+     "obs": "tinta 0.2959 ext 0.703 entre t3-n83 e t3-n85",
+     "regiao": "tinta-t3-n83",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1444.5,
+      1444.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n96"
+     ],
+     "obs": "tinta 0.1685 ext 0.957 entre t3-n92 e t3-n96",
+     "regiao": "tinta-t3-n92",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1600.5,
+      1600.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n99"
+     ],
+     "obs": "tinta 0.0565 ext 1.0 entre t3-n96 e t3-n99",
+     "regiao": "tinta-t3-n96",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1627.8,
+      1627.8
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n112"
+     ],
+     "obs": "tinta 0.0503 ext 0.61 entre t3-n109 e t3-n112",
+     "regiao": "tinta-t3-n109",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1803.3,
+      1803.3
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n118"
+     ],
+     "obs": "tinta 0.077 ext 1.0 entre t3-n115 e t3-n118",
+     "regiao": "tinta-t3-n115",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1873.5,
+      1873.5
+     ]
+    },
+    {
+     "cordas": [
+      6,
+      6
+     ],
+     "notas": [
+      "t3-n88"
+     ],
+     "obs": "tinta 0.3267 ext 0.454 entre t3-n82 e t3-n88",
+     "regiao": "tinta-t3-n82",
+     "tecnica": [],
+     "tela": 3,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1467.9,
+      1467.9
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t4-n1"
+     ],
+     "obs": "tinta 0.1326 ext 0.682 entre t4-n0 e t4-n1",
+     "regiao": "tinta-t4-n0",
+     "tecnica": [],
+     "tela": 4,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      153.0,
+      153.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t4-n47"
+     ],
+     "obs": "tinta 0.2935 ext 1.0 entre t4-n46 e t4-n47",
+     "regiao": "tinta-t4-n46",
+     "tecnica": [],
+     "tela": 4,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1590.3,
+      1590.3
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t5-n33"
+     ],
+     "obs": "tinta 0.0532 ext 0.337 entre t5-n32 e t5-n33",
+     "regiao": "tinta-t5-n32",
+     "tecnica": [],
+     "tela": 5,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1496.1,
+      1496.1
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      5
+     ],
+     "notas": [
+      "t7-n29"
+     ],
+     "obs": "tinta 0.2099 ext 1.0 entre t7-n28 e t7-n29",
+     "regiao": "tinta-t7-n28",
+     "tecnica": [],
+     "tela": 7,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1449.7,
+      1449.7
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t8-n10"
+     ],
+     "obs": "tinta 0.1861 ext 1.0 entre t8-n8 e t8-n10",
+     "regiao": "tinta-t8-n8",
+     "tecnica": [],
+     "tela": 8,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      513.4,
+      513.4
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t8-n14"
+     ],
+     "obs": "tinta 0.1832 ext 1.0 entre t8-n12 e t8-n14",
+     "regiao": "tinta-t8-n12",
+     "tecnica": [],
+     "tela": 8,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      723.0,
+      723.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t9-n51"
+     ],
+     "obs": "tinta 0.1431 ext 0.44 entre t9-n45 e t9-n51",
+     "regiao": "tinta-t9-n45",
+     "tecnica": [],
+     "tela": 9,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1114.4,
+      1114.4
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t9-n73"
+     ],
+     "obs": "tinta 0.1672 ext 0.372 entre t9-n71 e t9-n73",
+     "regiao": "tinta-t9-n71",
+     "tecnica": [],
+     "tela": 9,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1573.4,
+      1573.4
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t9-n14"
+     ],
+     "obs": "tinta 0.1902 ext 1.0 entre t9-n13 e t9-n14",
+     "regiao": "tinta-t9-n13",
+     "tecnica": [],
+     "tela": 9,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      349.4,
+      349.4
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t9-n35"
+     ],
+     "obs": "tinta 0.3081 ext 0.412 entre t9-n33 e t9-n35",
+     "regiao": "tinta-t9-n33",
+     "tecnica": [],
+     "tela": 9,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      768.8,
+      768.8
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t9-n48"
+     ],
+     "obs": "tinta 0.1516 ext 0.63 entre t9-n41 e t9-n48",
+     "regiao": "tinta-t9-n41",
+     "tecnica": [],
+     "tela": 9,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1049.6,
+      1049.6
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t9-n80"
+     ],
+     "obs": "tinta 0.0648 ext 0.316 entre t9-n74 e t9-n80",
+     "regiao": "tinta-t9-n74",
+     "tecnica": [],
+     "tela": 9,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1681.4,
+      1681.4
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t9-n84"
+     ],
+     "obs": "tinta 0.0589 ext 0.772 entre t9-n80 e t9-n84",
+     "regiao": "tinta-t9-n80",
+     "tecnica": [],
+     "tela": 9,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1735.4,
+      1735.4
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t10-n11"
+     ],
+     "obs": "tinta 0.7388 ext 0.725 entre t10-n10 e t10-n11",
+     "regiao": "tinta-t10-n10",
+     "tecnica": [],
+     "tela": 10,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      851.7,
+      851.7
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t10-n16"
+     ],
+     "obs": "tinta 0.4454 ext 0.348 entre t10-n15 e t10-n16",
+     "regiao": "tinta-t10-n15",
+     "tecnica": [],
+     "tela": 10,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      970.1,
+      970.1
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t12-n25"
+     ],
+     "obs": "tinta 0.088 ext 0.469 entre t12-n21 e t12-n25",
+     "regiao": "tinta-t12-n21",
+     "tecnica": [],
+     "tela": 12,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1590.5,
+      1590.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t12-n23"
+     ],
+     "obs": "tinta 0.1359 ext 1.0 entre t12-n19 e t12-n23",
+     "regiao": "tinta-t12-n19",
+     "tecnica": [],
+     "tela": 12,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1496.2,
+      1496.2
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t14-n4"
+     ],
+     "obs": "tinta 0.1323 ext 1.0 entre t14-n3 e t14-n4",
+     "regiao": "tinta-t14-n3",
+     "tecnica": [],
+     "tela": 14,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      390.0,
+      390.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t14-n9"
+     ],
+     "obs": "tinta 0.0668 ext 0.459 entre t14-n8 e t14-n9",
+     "regiao": "tinta-t14-n8",
+     "tecnica": [],
+     "tela": 14,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      708.2,
+      708.2
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t16-n18"
+     ],
+     "obs": "tinta 0.199 ext 1.0 entre t16-n16 e t16-n18",
+     "regiao": "tinta-t16-n16",
+     "tecnica": [],
+     "tela": 16,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      905.9,
+      905.9
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t16-n21"
+     ],
+     "obs": "tinta 0.1982 ext 1.0 entre t16-n19 e t16-n21",
+     "regiao": "tinta-t16-n19",
+     "tecnica": [],
+     "tela": 16,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1009.9,
+      1009.9
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t20-n22"
+     ],
+     "obs": "tinta 0.1795 ext 1.0 entre t20-n17 e t20-n22",
+     "regiao": "tinta-t20-n17",
+     "tecnica": [],
+     "tela": 20,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      866.0,
+      866.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t20-n56"
+     ],
+     "obs": "tinta 0.3129 ext 0.917 entre t20-n51 e t20-n56",
+     "regiao": "tinta-t20-n51",
+     "tecnica": [],
+     "tela": 20,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1838.0,
+      1838.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t20-n55"
+     ],
+     "obs": "tinta 0.1072 ext 0.917 entre t20-n50 e t20-n55",
+     "regiao": "tinta-t20-n50",
+     "tecnica": [],
+     "tela": 20,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1838.0,
+      1838.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t22-n6"
+     ],
+     "obs": "tinta 0.321 ext 1.0 entre t22-n5 e t22-n6",
+     "regiao": "tinta-t22-n5",
+     "tecnica": [],
+     "tela": 22,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      355.5,
+      355.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t22-n7"
+     ],
+     "obs": "tinta 0.129 ext 1.0 entre t22-n6 e t22-n7",
+     "regiao": "tinta-t22-n6",
+     "tecnica": [],
+     "tela": 22,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      398.7,
+      398.7
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t22-n16"
+     ],
+     "obs": "tinta 0.6107 ext 1.0 entre t22-n15 e t22-n16",
+     "regiao": "tinta-t22-n15",
+     "tecnica": [],
+     "tela": 22,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      931.5,
+      931.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t22-n21"
+     ],
+     "obs": "tinta 0.0775 ext 0.97 entre t22-n17 e t22-n21",
+     "regiao": "tinta-t22-n17",
+     "tecnica": [],
+     "tela": 22,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1197.9,
+      1197.9
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t22-n24"
+     ],
+     "obs": "tinta 0.5917 ext 0.898 entre t22-n23 e t22-n24",
+     "regiao": "tinta-t22-n23",
+     "tecnica": [],
+     "tela": 22,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1370.7,
+      1370.7
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t23-n37"
+     ],
+     "obs": "tinta 0.323 ext 1.0 entre t23-n36 e t23-n37",
+     "regiao": "tinta-t23-n36",
+     "tecnica": [],
+     "tela": 23,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1825.7,
+      1825.7
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t24-n19"
+     ],
+     "obs": "tinta 0.0822 ext 0.364 entre t24-n18 e t24-n19",
+     "regiao": "tinta-t24-n18",
+     "tecnica": [],
+     "tela": 24,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      652.8,
+      652.8
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t24-n53"
+     ],
+     "obs": "tinta 0.0582 ext 0.386 entre t24-n52 e t24-n53",
+     "regiao": "tinta-t24-n52",
+     "tecnica": [],
+     "tela": 24,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1463.1,
+      1463.1
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t24-n54"
+     ],
+     "obs": "tinta 0.0947 ext 1.0 entre t24-n53 e t24-n54",
+     "regiao": "tinta-t24-n53",
+     "tecnica": [],
+     "tela": 24,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1479.6,
+      1479.6
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t24-n70"
+     ],
+     "obs": "tinta 0.1004 ext 0.676 entre t24-n69 e t24-n70",
+     "regiao": "tinta-t24-n69",
+     "tecnica": [],
+     "tela": 24,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1829.4,
+      1829.4
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t24-n56"
+     ],
+     "obs": "tinta 0.6802 ext 0.349 entre t24-n51 e t24-n56",
+     "regiao": "tinta-t24-n51",
+     "tecnica": [],
+     "tela": 24,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1514.9,
+      1514.9
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t25-n14"
+     ],
+     "obs": "tinta 0.2283 ext 0.327 entre t25-n12 e t25-n14",
+     "regiao": "tinta-t25-n12",
+     "tecnica": [],
+     "tela": 25,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      631.0,
+      631.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t25-n27"
+     ],
+     "obs": "tinta 0.2872 ext 0.623 entre t25-n26 e t25-n27",
+     "regiao": "tinta-t25-n26",
+     "tecnica": [],
+     "tela": 25,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1160.2,
+      1160.2
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t25-n15"
+     ],
+     "obs": "tinta 0.1345 ext 0.549 entre t25-n13 e t25-n15",
+     "regiao": "tinta-t25-n13",
+     "tecnica": [],
+     "tela": 25,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      631.0,
+      631.0
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t25-n5"
+     ],
+     "obs": "tinta 0.052 ext 0.473 entre t25-n2 e t25-n5",
+     "regiao": "tinta-t25-n2",
+     "tecnica": [],
+     "tela": 25,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      236.8,
+      236.8
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t25-n9"
+     ],
+     "obs": "tinta 0.082 ext 0.415 entre t25-n5 e t25-n9",
+     "regiao": "tinta-t25-n5",
+     "tecnica": [],
+     "tela": 25,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      355.6,
+      355.6
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t25-n19"
+     ],
+     "obs": "tinta 0.0729 ext 0.441 entre t25-n16 e t25-n19",
+     "regiao": "tinta-t25-n16",
+     "tecnica": [],
+     "tela": 25,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      760.6,
+      760.6
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t25-n22"
+     ],
+     "obs": "tinta 0.0664 ext 0.627 entre t25-n19 e t25-n22",
+     "regiao": "tinta-t25-n19",
+     "tecnica": [],
+     "tela": 25,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      857.8,
+      857.8
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t25-n32"
+     ],
+     "obs": "tinta 0.1683 ext 0.865 entre t25-n29 e t25-n32",
+     "regiao": "tinta-t25-n29",
+     "tecnica": [],
+     "tela": 25,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1322.2,
+      1322.2
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t25-n39"
+     ],
+     "obs": "tinta 0.1849 ext 1.0 entre t25-n37 e t25-n39",
+     "regiao": "tinta-t25-n37",
+     "tecnica": [],
+     "tela": 25,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1786.6,
+      1786.6
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t25-n31"
+     ],
+     "obs": "tinta 0.0857 ext 1.0 entre t25-n30 e t25-n31",
+     "regiao": "tinta-t25-n30",
+     "tecnica": [],
+     "tela": 25,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1241.2,
+      1241.2
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t29-n18"
+     ],
+     "obs": "tinta 0.1311 ext 0.949 entre t29-n15 e t29-n18",
+     "regiao": "tinta-t29-n15",
+     "tecnica": [],
+     "tela": 29,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1155.3,
+      1155.3
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t29-n27"
+     ],
+     "obs": "tinta 0.1329 ext 0.932 entre t29-n24 e t29-n27",
+     "regiao": "tinta-t29-n24",
+     "tecnica": [],
+     "tela": 29,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1705.5,
+      1705.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t29-n30"
+     ],
+     "obs": "tinta 0.1464 ext 0.842 entre t29-n27 e t29-n30",
+     "regiao": "tinta-t29-n27",
+     "tecnica": [],
+     "tela": 29,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1875.8,
+      1875.8
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t29-n19"
+     ],
+     "obs": "tinta 0.1089 ext 0.773 entre t29-n16 e t29-n19",
+     "regiao": "tinta-t29-n16",
+     "tecnica": [],
+     "tela": 29,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1194.6,
+      1194.6
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t29-n28"
+     ],
+     "obs": "tinta 0.1544 ext 0.753 entre t29-n25 e t29-n28",
+     "regiao": "tinta-t29-n25",
+     "tecnica": [],
+     "tela": 29,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      1751.3,
+      1751.3
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t31-n34"
+     ],
+     "obs": "tinta 0.1454 ext 1.0 entre t31-n30 e t31-n34",
+     "regiao": "tinta-t31-n30",
+     "tecnica": [],
+     "tela": 31,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      851.8,
+      851.8
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t31-n36"
+     ],
+     "obs": "tinta 0.1396 ext 1.0 entre t31-n34 e t31-n36",
+     "regiao": "tinta-t31-n34",
+     "tecnica": [],
+     "tela": 31,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      913.9,
+      913.9
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t35-n16"
+     ],
+     "obs": "tinta 0.0991 ext 0.434 entre t35-n13 e t35-n16",
+     "regiao": "tinta-t35-n13",
+     "tecnica": [],
+     "tela": 35,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      320.1,
+      320.1
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      5
+     ],
+     "notas": [
+      "t35-n22"
+     ],
+     "obs": "tinta 0.1001 ext 0.3 entre t35-n21 e t35-n22",
+     "regiao": "tinta-t35-n21",
+     "tecnica": [],
+     "tela": 35,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      412.5,
+      412.5
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      5
+     ],
+     "notas": [
+      "t35-n27"
+     ],
+     "obs": "tinta 0.1644 ext 0.476 entre t35-n26 e t35-n27",
+     "regiao": "tinta-t35-n26",
+     "tecnica": [],
+     "tela": 35,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      535.7,
+      535.7
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t35-n31"
+     ],
+     "obs": "tinta 0.0527 ext 0.325 entre t35-n29 e t35-n31",
+     "regiao": "tinta-t35-n29",
+     "tecnica": [],
+     "tela": 35,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      616.6,
+      616.6
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t35-n40"
+     ],
+     "obs": "tinta 0.1381 ext 0.49 entre t35-n39 e t35-n40",
+     "regiao": "tinta-t35-n39",
+     "tecnica": [],
+     "tela": 35,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      832.2,
+      832.2
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t36-n6"
+     ],
+     "obs": "tinta 0.2888 ext 0.353 entre t36-n4 e t36-n6",
+     "regiao": "tinta-t36-n4",
+     "tecnica": [],
+     "tela": 36,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      251.7,
+      251.7
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t36-n15"
+     ],
+     "obs": "tinta 0.2319 ext 0.42 entre t36-n14 e t36-n15",
+     "regiao": "tinta-t36-n14",
+     "tecnica": [],
+     "tela": 36,
+     "tipo": "regra_tinta",
+     "x_quadro": [
+      544.3,
+      544.3
+     ]
+    }
+   ],
+   "ambiguos_por_tipo": {
+    "arpejo_sem_nota": 1,
+    "legato_sem_nota": 9,
+    "legato_uma_nota": 1,
+    "slide_sem_nota": 1
+   },
+   "arco_corda_abaixo": 5,
+   "ataques": {
+    "nao": 30,
+    "sim": 1542
+   },
+   "conflitos": [],
+   "correntes": 2,
+   "motivos": {
+    "arpejo": 20,
+    "h": 4,
+    "harmonico": 7,
+    "mordente": 8,
+    "normal": 1492,
+    "p": 7,
+    "prolongamento": 7,
+    "rasgueado": 15,
+    "slide_entrada": 1,
+    "slide_ligado": 4,
+    "sustentada": 7
+   },
+   "nao": 30,
+   "notas_conferidas": 1573,
+   "notas_rotuladas": 1572,
+   "notas_sem_marca": 516,
+   "obs_nao_classificados": {},
+   "obs_slide_sem_simbolo": [
+    "t31-r1",
+    "t34-r0"
+   ],
+   "passo_fallback_telas": [],
+   "passo_por_tela": {
+    "1": 52.0,
+    "10": 21.0,
+    "11": 27.0,
+    "12": 29.0,
+    "13": 22.0,
+    "14": 20.0,
+    "15": 26.0,
+    "16": 26.0,
+    "17": 28.0,
+    "18": 24.0,
+    "19": 16.0,
+    "2": 53.0,
+    "20": 21.0,
+    "21": 28.0,
+    "22": 29.0,
+    "23": 15.0,
+    "24": 15.0,
+    "25": 22.0,
+    "26": 22.0,
+    "27": 24.0,
+    "28": 24.0,
+    "29": 26.5,
+    "3": 16.0,
+    "30": 29.0,
+    "31": 15.0,
+    "32": 22.0,
+    "34": 22.0,
+    "35": 15.0,
+    "36": 15.0,
+    "4": 18.0,
+    "5": 22.0,
+    "6": 24.0,
+    "7": 27.0,
+    "8": 25.0,
+    "9": 22.0
+   },
+   "regioes_em_telas_conferidas": 87,
+   "regioes_ignoradas": {
+    "['arpejo']|None": 6,
+    "['bend']|None": 4,
+    "['bend']|bend release": 1,
+    "['rasg']|None": 3,
+    "[]|bend release": 1,
+    "[]|colcheia": 4,
+    "[]|ritornelo": 3,
+    "[]|semibreve": 4
+   },
+   "regioes_lidas": 87,
+   "regioes_por_tipo": {
+    "harm": 4,
+    "ignorar": 26,
+    "legato": 41,
+    "slide": 7,
+    "x": 9
+   },
+   "sobreposicoes": 7,
+   "telas_com_marca": 24,
+   "telas_conferidas": 35,
+   "telas_divergem_ferramenta": [
+    33
+   ],
+   "telas_sem_marca": 11,
+   "telas_sem_tecnica": 11,
+   "x_cobre_digito": 0,
+   "x_regioes": 9,
+   "x_sem_nota_alguma": 9,
+   "x_sem_nota_x": 9
+  }
+ }
+}

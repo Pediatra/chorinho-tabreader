@@ -1,0 +1,2817 @@
+{
+ "amostra_nao_seed0": [
+  {
+   "casa": 4,
+   "casa_vizinha_dir": null,
+   "casa_vizinha_esq": 2,
+   "corda": 5,
+   "fonte": "tabroom_335",
+   "motivo": "h",
+   "nota": "t2-n26",
+   "regiao": "t2-r12",
+   "tela": 2
+  },
+  {
+   "casa": 2,
+   "casa_vizinha_dir": null,
+   "casa_vizinha_esq": 4,
+   "corda": 3,
+   "fonte": "tabroom_335",
+   "motivo": "mordente",
+   "nota": "t4-n29",
+   "regiao": "t4-r11",
+   "tela": 4
+  },
+  {
+   "casa": 2,
+   "casa_vizinha_dir": 2,
+   "casa_vizinha_esq": 4,
+   "corda": 3,
+   "fonte": "end_of_beginning",
+   "motivo": "slide_ligado",
+   "nota": "t4-n7",
+   "regiao": "t4-r5",
+   "tela": 4
+  },
+  {
+   "casa": 8,
+   "casa_vizinha_dir": 3,
+   "casa_vizinha_esq": 5,
+   "corda": 1,
+   "fonte": "t82",
+   "motivo": "h",
+   "nota": "t17-n1",
+   "regiao": "t17-r0",
+   "tela": 17
+  },
+  {
+   "casa": 8,
+   "casa_vizinha_dir": 7,
+   "casa_vizinha_esq": 7,
+   "corda": 1,
+   "fonte": "tabroom_335",
+   "motivo": "h",
+   "nota": "t16-n22",
+   "regiao": "t16-r9",
+   "tela": 16
+  },
+  {
+   "casa": 4,
+   "casa_vizinha_dir": 2,
+   "casa_vizinha_esq": 2,
+   "corda": 3,
+   "fonte": "tabroom_335",
+   "motivo": "h",
+   "nota": "t7-n25",
+   "regiao": "t7-r15",
+   "tela": 7
+  },
+  {
+   "casa": 2,
+   "casa_vizinha_dir": null,
+   "casa_vizinha_esq": 4,
+   "corda": 4,
+   "fonte": "tabroom_335",
+   "motivo": "mordente",
+   "nota": "t4-n26",
+   "regiao": "t4-r10",
+   "tela": 4
+  },
+  {
+   "casa": 0,
+   "casa_vizinha_dir": 2,
+   "casa_vizinha_esq": 4,
+   "corda": 1,
+   "fonte": "t82",
+   "motivo": "p",
+   "nota": "t25-n26",
+   "regiao": "t25-r0",
+   "tela": 25
+  },
+  {
+   "casa": 4,
+   "casa_vizinha_dir": 2,
+   "casa_vizinha_esq": 5,
+   "corda": 3,
+   "fonte": "tabroom_335",
+   "motivo": "slide_ligado",
+   "nota": "t7-n23",
+   "regiao": "t7-r14",
+   "tela": 7
+  },
+  {
+   "casa": 5,
+   "casa_vizinha_dir": 4,
+   "casa_vizinha_esq": 4,
+   "corda": 2,
+   "fonte": "t82",
+   "motivo": "slide_ligado",
+   "nota": "t31-n38",
+   "regiao": "t31-r3",
+   "tela": 31
+  }
+ ],
+ "campo_x": "x_centro_quadro",
+ "fontes": {
+  "end_of_beginning": {
+   "ambiguos": [
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t1-r16",
+     "tecnica": [
+      "h"
+     ],
+     "tela": 1,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1227.8,
+      1281.4
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t2-r2",
+     "tecnica": [
+      "h"
+     ],
+     "tela": 2,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      57.2,
+      108.1
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t2-r7",
+     "tecnica": [
+      "h"
+     ],
+     "tela": 2,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      529.9,
+      579.9
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t3-r4",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 3,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      297.6,
+      358.3
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t3-r5",
+     "tecnica": [
+      "h"
+     ],
+     "tela": 3,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      456.6,
+      517.4
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t3-r10",
+     "tecnica": [
+      "h"
+     ],
+     "tela": 3,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      775.6,
+      825.7
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t3-r15",
+     "tecnica": [
+      "h"
+     ],
+     "tela": 3,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1240.3,
+      1301.9
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t4-r13",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 4,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1317.1,
+      1369.9
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      6
+     ],
+     "notas": [
+      "t6-n15"
+     ],
+     "obs": null,
+     "regiao": "t6-r7",
+     "tecnica": [
+      "x"
+     ],
+     "tela": 6,
+     "tipo": "x_sobre_numero",
+     "x_quadro": [
+      647.8,
+      678.2
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      6
+     ],
+     "notas": [
+      "t6-n49"
+     ],
+     "obs": null,
+     "regiao": "t6-r12",
+     "tecnica": [
+      "x"
+     ],
+     "tela": 6,
+     "tipo": "x_sobre_numero",
+     "x_quadro": [
+      1612.0,
+      1637.0
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      6
+     ],
+     "notas": [
+      "t7-n23"
+     ],
+     "obs": null,
+     "regiao": "t7-r3",
+     "tecnica": [
+      "x"
+     ],
+     "tela": 7,
+     "tipo": "x_sobre_numero",
+     "x_quadro": [
+      703.2,
+      727.4
+     ]
+    }
+   ],
+   "ambiguos_por_tipo": {
+    "legato_sem_nota": 8,
+    "x_sobre_numero": 3
+   },
+   "ataques": {
+    "nao": 9,
+    "sim": 291
+   },
+   "conflitos": [],
+   "motivos": {
+    "h": 3,
+    "normal": 291,
+    "p": 4,
+    "slide_ligado": 2
+   },
+   "nao": 9,
+   "notas_conferidas": 303,
+   "notas_rotuladas": 300,
+   "notas_sem_marca": 0,
+   "obs_nao_classificados": {},
+   "obs_slide_sem_simbolo": [],
+   "passo_fallback_telas": [],
+   "passo_por_tela": {
+    "1": 27.0,
+    "2": 27.0,
+    "3": 26.5,
+    "4": 26.75,
+    "5": 26.5,
+    "6": 27.0,
+    "7": 26.5
+   },
+   "regioes_em_telas_conferidas": 114,
+   "regioes_ignoradas": {
+    "['arpejo']|None": 2,
+    "['outra']|compasso": 1,
+    "['outra']|semibreve": 1,
+    "['rasg']|None": 5,
+    "[]|colcheia": 12
+   },
+   "regioes_lidas": 114,
+   "regioes_por_tipo": {
+    "ignorar": 21,
+    "legato": 15,
+    "slide": 2,
+    "x": 76
+   },
+   "sobreposicoes": 0,
+   "telas_com_marca": 7,
+   "telas_conferidas": 7,
+   "telas_divergem_ferramenta": [
+    2,
+    3
+   ],
+   "telas_sem_marca": 0,
+   "x_cobre_digito": 3,
+   "x_regioes": 76,
+   "x_sem_nota_alguma": 73,
+   "x_sem_nota_x": 76
+  },
+  "la_vie_en_rose": {
+   "ambiguos": [],
+   "ambiguos_por_tipo": {},
+   "ataques": {
+    "nao": 4,
+    "sim": 223
+   },
+   "conflitos": [],
+   "motivos": {
+    "mordente": 2,
+    "normal": 223,
+    "slide_ligado": 2
+   },
+   "nao": 4,
+   "notas_conferidas": 425,
+   "notas_rotuladas": 227,
+   "notas_sem_marca": 198,
+   "obs_nao_classificados": {},
+   "obs_slide_sem_simbolo": [],
+   "passo_fallback_telas": [],
+   "passo_por_tela": {
+    "1": 24.0,
+    "2": 24.0,
+    "3": 24.0,
+    "4": 24.0,
+    "5": 24.0,
+    "6": 24.25,
+    "7": 24.0,
+    "8": 24.0
+   },
+   "regioes_em_telas_conferidas": 5,
+   "regioes_ignoradas": {
+    "['outra']|ritornelo": 2
+   },
+   "regioes_lidas": 5,
+   "regioes_por_tipo": {
+    "ignorar": 2,
+    "legato": 1,
+    "slide": 2
+   },
+   "sobreposicoes": 0,
+   "telas_com_marca": 4,
+   "telas_conferidas": 8,
+   "telas_divergem_ferramenta": [],
+   "telas_sem_marca": 4,
+   "x_cobre_digito": 0,
+   "x_regioes": 0,
+   "x_sem_nota_alguma": 0,
+   "x_sem_nota_x": 0
+  },
+  "pat_metheny": {
+   "ambiguos": [
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": "mordente",
+     "regiao": "t1-r3",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1020.5,
+      1043.7
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t3-r4",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 3,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      825.7,
+      849.8
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t4-n53"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t4-r2",
+     "tecnica": [],
+     "tela": 4,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1136.6,
+      1168.8
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": "mordente",
+     "regiao": "t4-r4",
+     "tecnica": [],
+     "tela": 4,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1441.3,
+      1467.3
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t4-r5",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 4,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1459.2,
+      1484.2
+     ]
+    }
+   ],
+   "ambiguos_por_tipo": {
+    "legato_sem_nota": 4,
+    "legato_uma_nota": 1
+   },
+   "ataques": {
+    "nao": 11,
+    "sim": 369
+   },
+   "conflitos": [],
+   "motivos": {
+    "h": 3,
+    "mordente": 2,
+    "normal": 369,
+    "p": 1,
+    "prolongamento": 4,
+    "slide_ligado": 1
+   },
+   "nao": 11,
+   "notas_conferidas": 381,
+   "notas_rotuladas": 380,
+   "notas_sem_marca": 0,
+   "obs_nao_classificados": {},
+   "obs_slide_sem_simbolo": [],
+   "passo_fallback_telas": [],
+   "passo_por_tela": {
+    "1": 20.75,
+    "2": 20.5,
+    "3": 21.0,
+    "4": 20.5,
+    "5": 20.5
+   },
+   "regioes_em_telas_conferidas": 32,
+   "regioes_ignoradas": {
+    "['arpejo']|None": 13,
+    "['outra']|compasso": 3,
+    "['outra']|compasso - sempre no inicio da tablatura ou da partitura": 1
+   },
+   "regioes_lidas": 32,
+   "regioes_por_tipo": {
+    "ignorar": 17,
+    "legato": 14,
+    "slide": 1
+   },
+   "sobreposicoes": 0,
+   "telas_com_marca": 5,
+   "telas_conferidas": 5,
+   "telas_divergem_ferramenta": [],
+   "telas_sem_marca": 0,
+   "x_cobre_digito": 0,
+   "x_regioes": 0,
+   "x_sem_nota_alguma": 0,
+   "x_sem_nota_x": 0
+  },
+  "t82": {
+   "ambiguos": [
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t2-n4"
+     ],
+     "obs": null,
+     "regiao": "t2-r3",
+     "tecnica": [
+      "\\"
+     ],
+     "tela": 2,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      586.5,
+      619.9
+     ]
+    },
+    {
+     "cordas": [
+      6,
+      6
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t7-r5",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 7,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1395.2,
+      1472.2
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t8-r1",
+     "tecnica": [
+      "h"
+     ],
+     "tela": 8,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      252.7,
+      298.6
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t10-r0",
+     "tecnica": [
+      "h"
+     ],
+     "tela": 10,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      94.1,
+      148.2
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t10-n2"
+     ],
+     "obs": null,
+     "regiao": "t10-r1",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 10,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      304.2,
+      326.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": "mordente",
+     "regiao": "t11-r0",
+     "tecnica": [
+      "h",
+      "p"
+     ],
+     "tela": 11,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      250.2,
+      344.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t16-r2",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 16,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1742.5,
+      1780.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t16-r3",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 16,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1780.9,
+      1825.6
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t16-r4",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 16,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1862.2,
+      1915.8
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t23-r1",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 23,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1186.4,
+      1226.1
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [],
+     "obs": "legato slide",
+     "regiao": "t23-r2",
+     "tecnica": [
+      "\\"
+     ],
+     "tela": 23,
+     "tipo": "slide_sem_nota",
+     "x_quadro": [
+      1793.8,
+      1831.0
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t24-n55"
+     ],
+     "obs": "mordente",
+     "regiao": "t24-r1",
+     "tecnica": [
+      "h",
+      "p"
+     ],
+     "tela": 24,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1436.5,
+      1482.9
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t26-r3",
+     "tecnica": [],
+     "tela": 26,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1465.1,
+      1507.9
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [],
+     "obs": "ligadura slide",
+     "regiao": "t28-r0",
+     "tecnica": [],
+     "tela": 28,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      678.1,
+      775.4
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      5
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t31-r0",
+     "tecnica": [
+      "h"
+     ],
+     "tela": 31,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      668.4,
+      703.2
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [],
+     "obs": "ligadura slide",
+     "regiao": "t31-r1",
+     "tecnica": [],
+     "tela": 31,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      914.1,
+      948.1
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [],
+     "obs": "ligadura slide",
+     "regiao": "t31-r2",
+     "tecnica": [],
+     "tela": 31,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      915.0,
+      953.4
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      1
+     ],
+     "notas": [
+      "t35-n9"
+     ],
+     "obs": "arco prolongamento",
+     "regiao": "t35-r0",
+     "tecnica": [],
+     "tela": 35,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      196.3,
+      223.4
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t35-n9"
+     ],
+     "obs": "arco prolongamento",
+     "regiao": "t35-r1",
+     "tecnica": [],
+     "tela": 35,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      206.2,
+      220.1
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t35-n10"
+     ],
+     "obs": "arco prolongamento",
+     "regiao": "t35-r1",
+     "tecnica": [],
+     "tela": 35,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      206.2,
+      220.1
+     ]
+    },
+    {
+     "cordas": [
+      6,
+      6
+     ],
+     "notas": [],
+     "obs": "arco prolongamento",
+     "regiao": "t35-r2",
+     "tecnica": [],
+     "tela": 35,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      497.2,
+      517.7
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t35-n39"
+     ],
+     "obs": "arco prolongamento",
+     "regiao": "t35-r3",
+     "tecnica": [],
+     "tela": 35,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      786.9,
+      812.6
+     ]
+    },
+    {
+     "cordas": [
+      6,
+      6
+     ],
+     "notas": [
+      "t35-n53"
+     ],
+     "obs": "arco prolongamento",
+     "regiao": "t35-r4",
+     "tecnica": [],
+     "tela": 35,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1083.8,
+      1108.2
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      4
+     ],
+     "notas": [
+      "t36-n4"
+     ],
+     "obs": "arco prolongamento",
+     "regiao": "t36-r0",
+     "tecnica": [],
+     "tela": 36,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      160.1,
+      195.8
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t36-n14"
+     ],
+     "obs": "arco prolongamento",
+     "regiao": "t36-r1",
+     "tecnica": [],
+     "tela": 36,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      479.5,
+      519.8
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      4
+     ],
+     "notas": [
+      "t36-n47"
+     ],
+     "obs": "arco prolongamento",
+     "regiao": "t36-r2",
+     "tecnica": [],
+     "tela": 36,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1151.5,
+      1174.6
+     ]
+    }
+   ],
+   "ambiguos_por_tipo": {
+    "legato_sem_nota": 14,
+    "legato_uma_nota": 9,
+    "slide_sem_nota": 1,
+    "slide_uma_nota": 2
+   },
+   "ataques": {
+    "nao": 25,
+    "sim": 1022
+   },
+   "conflitos": [],
+   "motivos": {
+    "h": 3,
+    "harmonico": 7,
+    "mordente": 6,
+    "normal": 1015,
+    "p": 5,
+    "prolongamento": 7,
+    "slide_ligado": 4
+   },
+   "nao": 25,
+   "notas_conferidas": 1573,
+   "notas_rotuladas": 1047,
+   "notas_sem_marca": 516,
+   "obs_nao_classificados": {},
+   "obs_slide_sem_simbolo": [
+    "t34-r0"
+   ],
+   "passo_fallback_telas": [],
+   "passo_por_tela": {
+    "1": 52.0,
+    "10": 21.0,
+    "11": 27.0,
+    "12": 29.0,
+    "13": 22.0,
+    "14": 20.0,
+    "15": 26.0,
+    "16": 26.0,
+    "17": 28.0,
+    "18": 24.0,
+    "19": 16.0,
+    "2": 53.0,
+    "20": 21.0,
+    "21": 28.0,
+    "22": 29.0,
+    "23": 15.0,
+    "24": 15.0,
+    "25": 22.0,
+    "26": 22.0,
+    "27": 24.0,
+    "28": 24.0,
+    "29": 26.5,
+    "3": 16.0,
+    "30": 29.0,
+    "31": 15.0,
+    "32": 22.0,
+    "34": 22.0,
+    "35": 15.0,
+    "36": 15.0,
+    "4": 18.0,
+    "5": 22.0,
+    "6": 24.0,
+    "7": 27.0,
+    "8": 25.0,
+    "9": 22.0
+   },
+   "regioes_em_telas_conferidas": 87,
+   "regioes_ignoradas": {
+    "['arpejo']|None": 6,
+    "['bend']|None": 4,
+    "['bend']|bend release": 1,
+    "['rasg']|None": 3,
+    "[]|bend release": 1,
+    "[]|colcheia": 4,
+    "[]|ritornelo": 3,
+    "[]|semibreve": 4
+   },
+   "regioes_lidas": 87,
+   "regioes_por_tipo": {
+    "harm": 4,
+    "ignorar": 26,
+    "legato": 41,
+    "slide": 7,
+    "x": 9
+   },
+   "sobreposicoes": 4,
+   "telas_com_marca": 24,
+   "telas_conferidas": 35,
+   "telas_divergem_ferramenta": [
+    33
+   ],
+   "telas_sem_marca": 11,
+   "x_cobre_digito": 0,
+   "x_regioes": 9,
+   "x_sem_nota_alguma": 9,
+   "x_sem_nota_x": 9
+  },
+  "tabroom_335": {
+   "ambiguos": [
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t1-n0"
+     ],
+     "obs": null,
+     "regiao": "t1-r1",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 1,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      150.1,
+      170.7
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t1-n1"
+     ],
+     "obs": null,
+     "regiao": "t1-r1",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 1,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      150.1,
+      170.7
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t1-n1"
+     ],
+     "obs": null,
+     "regiao": "t1-r2",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 1,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      150.1,
+      172.5
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t1-n1"
+     ],
+     "obs": null,
+     "regiao": "t1-r3",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 1,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      151.9,
+      169.8
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t1-n2"
+     ],
+     "obs": null,
+     "regiao": "t1-r3",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 1,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      151.9,
+      169.8
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      6
+     ],
+     "notas": [
+      "t1-n2"
+     ],
+     "obs": null,
+     "regiao": "t1-r4",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 1,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      151.9,
+      169.8
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      6
+     ],
+     "notas": [
+      "t1-n3"
+     ],
+     "obs": null,
+     "regiao": "t1-r4",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 1,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      151.9,
+      169.8
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t1-n9"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t1-r6",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      479.0,
+      567.4
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t1-n10"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t1-r7",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      480.7,
+      573.7
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t1-n8"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t1-r7",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      480.7,
+      573.7
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t1-n9"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t1-r8",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      482.5,
+      571.9
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t1-n7"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t1-r8",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      482.5,
+      571.9
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [
+      "t1-n8"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t1-r9",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      484.3,
+      568.3
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t1-n21"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t1-r15",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1345.7,
+      1430.6
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t1-n21"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t1-r16",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1346.6,
+      1430.6
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t1-n22"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t1-r16",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1346.6,
+      1430.6
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [
+      "t1-n24"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t1-r17",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1346.6,
+      1436.0
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t1-n23"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t1-r18",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1347.5,
+      1430.6
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t1-n24"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t1-r18",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 1,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1347.5,
+      1430.6
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t2-n8"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t2-r1",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 2,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      434.3,
+      528.1
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t2-n7"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t2-r1",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 2,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      434.3,
+      528.1
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t2-n8"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t2-r2",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 2,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      435.2,
+      527.2
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t2-n9"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t2-r3",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 2,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      436.1,
+      527.2
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t2-n10"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t2-r3",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 2,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      436.1,
+      527.2
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [
+      "t2-n10"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t2-r4",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 2,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      438.7,
+      529.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t3-n1"
+     ],
+     "obs": null,
+     "regiao": "t3-r0",
+     "tecnica": [
+      "\\"
+     ],
+     "tela": 3,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      112.6,
+      134.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t3-n2"
+     ],
+     "obs": null,
+     "regiao": "t3-r0",
+     "tecnica": [
+      "\\"
+     ],
+     "tela": 3,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      112.6,
+      134.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n2"
+     ],
+     "obs": null,
+     "regiao": "t3-r1",
+     "tecnica": [
+      "\\"
+     ],
+     "tela": 3,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      112.6,
+      134.9
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t3-n3"
+     ],
+     "obs": null,
+     "regiao": "t3-r2",
+     "tecnica": [
+      "\\"
+     ],
+     "tela": 3,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      115.3,
+      132.2
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t3-n0"
+     ],
+     "obs": null,
+     "regiao": "t3-r2",
+     "tecnica": [
+      "\\"
+     ],
+     "tela": 3,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      115.3,
+      132.2
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t3-n7"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t3-r4",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 3,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      444.1,
+      542.4
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      2
+     ],
+     "notas": [
+      "t3-n8"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t3-r5",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 3,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      445.9,
+      531.7
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t3-n9"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t3-r6",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 3,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      445.9,
+      539.7
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [
+      "t3-n10"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t3-r7",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 3,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      446.8,
+      541.5
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t3-n23"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t3-r12",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 3,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1320.7,
+      1418.1
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t3-n24"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t3-r12",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 3,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1320.7,
+      1418.1
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t3-n21"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t3-r13",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 3,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1326.1,
+      1416.3
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t3-n22"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t3-r13",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 3,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1326.1,
+      1416.3
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [
+      "t3-n24"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t3-r14",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 3,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1326.1,
+      1414.5
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t3-n21"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t3-r15",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 3,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1327.0,
+      1411.9
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t4-n8"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t4-r1",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 4,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      420.9,
+      521.8
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t4-n9"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t4-r1",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 4,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      420.9,
+      521.8
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t4-n9"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t4-r2",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 4,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      421.8,
+      521.0
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t4-n10"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t4-r2",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 4,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      421.8,
+      521.0
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t4-n7"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t4-r3",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 4,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      422.7,
+      508.4
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [
+      "t4-n10"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t4-r4",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 4,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      422.7,
+      514.7
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      4
+     ],
+     "notas": [
+      "t5-n0"
+     ],
+     "obs": null,
+     "regiao": "t5-r0",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 5,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      121.5,
+      137.6
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      4
+     ],
+     "notas": [
+      "t5-n1"
+     ],
+     "obs": null,
+     "regiao": "t5-r0",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 5,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      121.5,
+      137.6
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t5-n4"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t5-r2",
+     "tecnica": [],
+     "tela": 5,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      416.4,
+      495.9
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t5-n3"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t5-r3",
+     "tecnica": [],
+     "tela": 5,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      420.0,
+      491.5
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t5-n5"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t5-r4",
+     "tecnica": [],
+     "tela": 5,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      422.7,
+      495.0
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t5-n6"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t5-r4",
+     "tecnica": [],
+     "tela": 5,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      422.7,
+      495.0
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [
+      "t5-n6"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t5-r5",
+     "tecnica": [],
+     "tela": 5,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      422.7,
+      491.5
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      6
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t5-r6",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 5,
+     "tipo": "slide_sem_nota",
+     "x_quadro": [
+      663.9,
+      688.9
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t5-r7",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 5,
+     "tipo": "slide_sem_nota",
+     "x_quadro": [
+      727.4,
+      747.0
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t5-r8",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 5,
+     "tipo": "slide_sem_nota",
+     "x_quadro": [
+      790.8,
+      811.4
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t6-n4"
+     ],
+     "obs": "ligadura de prolongação",
+     "regiao": "t6-r1",
+     "tecnica": [],
+     "tela": 6,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      466.4,
+      544.2
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t7-n0"
+     ],
+     "obs": null,
+     "regiao": "t7-r0",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 7,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      105.4,
+      124.2
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t7-n1"
+     ],
+     "obs": null,
+     "regiao": "t7-r0",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 7,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      105.4,
+      124.2
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t7-n5"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t7-r2",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 7,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      403.9,
+      479.0
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t7-n6"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t7-r3",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 7,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      404.8,
+      487.9
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t7-n4"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t7-r3",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 7,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      404.8,
+      487.9
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      6
+     ],
+     "notas": [
+      "t7-n4"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t7-r4",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 7,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      404.8,
+      486.1
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t7-n5"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t7-r5",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 7,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      408.4,
+      478.1
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t7-n3"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t7-r5",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 7,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      408.4,
+      478.1
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t15-n3"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t15-r1",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 15,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      440.5,
+      531.7
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      5
+     ],
+     "notas": [
+      "t15-n5"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t15-r2",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 15,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      442.3,
+      537.0
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t15-n3"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t15-r3",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 15,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      445.0,
+      531.7
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t15-n4"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t15-r3",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 15,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      445.0,
+      531.7
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      4
+     ],
+     "notas": [
+      "t15-n6"
+     ],
+     "obs": null,
+     "regiao": "t15-r4",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 15,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      599.6,
+      624.6
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t16-n2"
+     ],
+     "obs": null,
+     "regiao": "t16-r0",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 16,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      241.3,
+      261.8
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t16-n1"
+     ],
+     "obs": null,
+     "regiao": "t16-r1",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 16,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      243.1,
+      264.5
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t16-n2"
+     ],
+     "obs": null,
+     "regiao": "t16-r1",
+     "tecnica": [
+      "/"
+     ],
+     "tela": 16,
+     "tipo": "slide_uma_nota",
+     "x_quadro": [
+      243.1,
+      264.5
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      5
+     ],
+     "notas": [
+      "t16-n19"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t16-r5",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 16,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1310.9,
+      1415.4
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t16-n18"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t16-r6",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 16,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1312.7,
+      1408.3
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      4
+     ],
+     "notas": [
+      "t16-n19"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t16-r6",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 16,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1312.7,
+      1408.3
+     ]
+    },
+    {
+     "cordas": [
+      6,
+      6
+     ],
+     "notas": [
+      "t16-n20"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t16-r7",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 16,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1316.2,
+      1409.2
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [
+      "t16-n17"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t16-r8",
+     "tecnica": [
+      "outra"
+     ],
+     "tela": 16,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1319.8,
+      1402.9
+     ]
+    }
+   ],
+   "ambiguos_por_tipo": {
+    "legato_uma_nota": 55,
+    "slide_sem_nota": 3,
+    "slide_uma_nota": 20
+   },
+   "ataques": {
+    "nao": 27,
+    "sim": 235
+   },
+   "conflitos": [
+    {
+     "claims": [
+      [
+       2,
+       "nao",
+       "slide_ligado",
+       "t5-r11"
+      ],
+      [
+       2,
+       "sim",
+       "normal",
+       "t5-r12"
+      ]
+     ],
+     "nota": "t5-n22",
+     "tela": 5
+    },
+    {
+     "claims": [
+      [
+       3,
+       "nao",
+       "mordente",
+       "t7-r12"
+      ],
+      [
+       2,
+       "nao",
+       "slide_ligado",
+       "t7-r13"
+      ],
+      [
+       2,
+       "sim",
+       "normal",
+       "t7-r14"
+      ]
+     ],
+     "nota": "t7-n22",
+     "tela": 7
+    },
+    {
+     "claims": [
+      [
+       3,
+       "nao",
+       "mordente",
+       "t27-r5"
+      ],
+      [
+       2,
+       "sim",
+       "normal",
+       "t27-r6"
+      ]
+     ],
+     "nota": "t27-n28",
+     "tela": 27
+    }
+   ],
+   "motivos": {
+    "h": 12,
+    "mordente": 11,
+    "normal": 235,
+    "slide_ligado": 4
+   },
+   "nao": 27,
+   "notas_conferidas": 320,
+   "notas_rotuladas": 262,
+   "notas_sem_marca": 0,
+   "obs_nao_classificados": {},
+   "obs_slide_sem_simbolo": [
+    "t7-r12"
+   ],
+   "passo_fallback_telas": [],
+   "passo_por_tela": {
+    "1": 21.25,
+    "15": 21.5,
+    "16": 21.25,
+    "2": 21.25,
+    "24": 21.75,
+    "27": 22.0,
+    "3": 21.5,
+    "4": 21.5,
+    "5": 21.5,
+    "6": 21.5,
+    "7": 21.5
+   },
+   "regioes_em_telas_conferidas": 143,
+   "regioes_ignoradas": {
+    "['outra']|colcheia": 10,
+    "['outra']|compasso": 1,
+    "['outra']|semi-colcheia": 5,
+    "['rasg']|None": 7,
+    "[]|colcheia": 7,
+    "[]|semi-colcheia": 2
+   },
+   "regioes_lidas": 177,
+   "regioes_por_tipo": {
+    "ignorar": 32,
+    "legato": 59,
+    "slide": 21,
+    "x": 31
+   },
+   "sobreposicoes": 5,
+   "telas_com_marca": 11,
+   "telas_conferidas": 11,
+   "telas_divergem_ferramenta": [
+    1,
+    20
+   ],
+   "telas_sem_marca": 0,
+   "x_cobre_digito": 0,
+   "x_regioes": 31,
+   "x_sem_nota_alguma": 31,
+   "x_sem_nota_x": 31
+  }
+ },
+ "passo": "mediana das distancias entre cordas consecutivas (caixas das notas nao removidas do bloco ferramenta, por tela)"
+}

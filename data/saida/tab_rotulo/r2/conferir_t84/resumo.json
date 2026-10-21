@@ -1,0 +1,149 @@
+{
+ "campo_x": "x_centro_quadro",
+ "fontes": {
+  "t84": {
+   "ambiguos": [
+    {
+     "cordas": [
+      3,
+      5
+     ],
+     "notas": [],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t13-r8",
+     "tecnica": [],
+     "tela": 13,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1070.2,
+      1117.4
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t21-r7",
+     "tecnica": [],
+     "tela": 21,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1627.4,
+      1680.4
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      2
+     ],
+     "notas": [],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t21-r8",
+     "tecnica": [],
+     "tela": 21,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1630.1,
+      1679.0
+     ]
+    }
+   ],
+   "ambiguos_por_tipo": {
+    "legato_sem_nota": 3
+   },
+   "arco_corda_abaixo": 9,
+   "arco_corda_acima": 11,
+   "ataques": {
+    "nao": 85,
+    "sim": 1185
+   },
+   "conflitos": [],
+   "correntes": 15,
+   "motivos": {
+    "arpejo": 14,
+    "h": 18,
+    "harmonico": 4,
+    "mordente": 16,
+    "normal": 1133,
+    "p": 15,
+    "prolongamento": 16,
+    "rasgueado": 27,
+    "slide_entrada": 3,
+    "slide_ligado": 20,
+    "sustentada": 4
+   },
+   "nao": 85,
+   "notas_conferidas": 1270,
+   "notas_rotuladas": 1270,
+   "notas_sem_marca": 504,
+   "obs_nao_classificados": {},
+   "obs_slide_sem_simbolo": [
+    "t12-r0",
+    "t12-r1",
+    "t12-r10",
+    "t12-r11"
+   ],
+   "passo_fallback_telas": [],
+   "passo_por_tela": {
+    "1": 52.0,
+    "10": 22.0,
+    "11": 31.0,
+    "12": 23.0,
+    "13": 27.0,
+    "14": 25.0,
+    "15": 27.0,
+    "16": 25.0,
+    "17": 19.0,
+    "18": 19.0,
+    "19": 28.0,
+    "2": 18.0,
+    "20": 15.0,
+    "21": 15.0,
+    "22": 22.0,
+    "23": 21.0,
+    "24": 24.0,
+    "25": 24.0,
+    "26": 26.0,
+    "27": 20.0,
+    "28": 18.0,
+    "29": 20.0,
+    "3": 19.0,
+    "4": 24.0,
+    "5": 19.5,
+    "6": 26.0,
+    "7": 27.0,
+    "8": 21.0,
+    "9": 21.0
+   },
+   "regioes_em_telas_conferidas": 130,
+   "regioes_ignoradas": {
+    "['arpejo']|None": 3,
+    "['rasg']|None": 7
+   },
+   "regioes_lidas": 130,
+   "regioes_por_tipo": {
+    "harm": 4,
+    "ignorar": 10,
+    "legato": 72,
+    "slide": 23,
+    "x": 21
+   },
+   "sobreposicoes": 17,
+   "telas_com_marca": 17,
+   "telas_conferidas": 29,
+   "telas_divergem_ferramenta": [
+    21
+   ],
+   "telas_sem_marca": 12,
+   "telas_sem_tecnica": 12,
+   "x_cobre_digito": 0,
+   "x_regioes": 21,
+   "x_sem_nota_alguma": 21,
+   "x_sem_nota_x": 21
+  }
+ }
+}

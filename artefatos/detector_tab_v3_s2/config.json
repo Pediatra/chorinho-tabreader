@@ -1,0 +1,19 @@
+{
+  "comando": "python -m tab.detector_tab treinar --semente 2 --passos 20000 --saida /app/artefatos/detector_tab_v3_s2",
+  "semente": 2,
+  "passos": 20000,
+  "lote": 32,
+  "parametros": 555589,
+  "tempo_s": 4048.3,
+  "vram_pico_mb": 978.5,
+  "validacao": {
+    "precisao": 0.9994641900339346,
+    "revocacao": 1.0,
+    "rotulo": 0.9953538241601144,
+    "tecnica_f1": 0.969959739857541,
+    "revocacao_dois_algarismos": 0.9942196531791907,
+    "revocacao_x": 0.9965277777777778,
+    "n_gt": 5596.0,
+    "n_pred": 5599.0
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "comando": "python -m tab.detector_tab treinar --semente 2 --passos 20000",
+  "semente": 2,
+  "passos": 20000,
+  "lote": 32,
+  "parametros": 555589,
+  "tempo_s": 2771.2,
+  "vram_pico_mb": 978.5,
+  "validacao": {
+    "precisao": 1.0,
+    "revocacao": 1.0,
+    "rotulo": 0.9939491012635701,
+    "tecnica_f1": 0.964328899637243,
+    "revocacao_dois_algarismos": 0.9978459881529348,
+    "revocacao_x": 1.0,
+    "n_gt": 5619.0,
+    "n_pred": 5619.0
+  }
+}

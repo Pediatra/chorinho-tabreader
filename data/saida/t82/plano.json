@@ -1,0 +1,336 @@
+{
+  "sem_sorteavel": [
+    "tv cifras",
+    "violaodecria"
+  ],
+  "telas": [
+    {
+      "canal": "cifra club",
+      "video": "cifra club/meu lugar - arlindo cruz (completa) ｜ como tocar no violão.mp4",
+      "forma": null,
+      "t": 817.0,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 28,
+      "erro": "",
+      "painel_ok": "sim",
+      "observacao": "t=817 (refeito c/ painel escuro): caixa x110-1862 y714-1077 = tablatura, depois das letras e antes do diagrama Am7. Olhado: 28 notas reais, 28 com casa e corda certas, 0 falsas, 0 perdidas"
+    },
+    {
+      "canal": "cifra club",
+      "video": "cifra club/wicked game - chris isaak (versão única) ｜ como tocar no violão.mp4",
+      "forma": null,
+      "t": 1243.0,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 18,
+      "erro": "sem painel",
+      "painel_ok": "sim",
+      "observacao": "t=1243 (refeito c/ painel escuro): caixa x109-2220 y665-1034 = tablatura. Olhado: 20 marcas reais (18 casas + 2 x mudos), 17 certas, 1 errada (19 no lugar de b9), 2 perdidas (b9 e b7 do 1o grupo)"
+    },
+    {
+      "canal": "guitar dell ́arte",
+      "video": "guitar dell ́arte/none but the lonely heart (tchaikovsky), guitar lesson, sheet and tab.mp4",
+      "forma": null,
+      "t": 219.02,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 121,
+      "erro": ""
+    },
+    {
+      "canal": "guitar dell ́arte",
+      "video": "guitar dell ́arte/alfonsina y el mar (a. ramirez), guitar arrangement, tutorial with sheet and tab.mp4",
+      "forma": "paginado",
+      "t": 266.55,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 58,
+      "erro": ""
+    },
+    {
+      "canal": "iwaki",
+      "video": "iwaki/happy xmas (war is over) john lennon · yoko ono｜tab.mp4",
+      "forma": null,
+      "t": 34.2,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 39,
+      "erro": ""
+    },
+    {
+      "canal": "iwaki",
+      "video": "iwaki/the beatles - michelle｜tab for beginners.mp4",
+      "forma": "paginado",
+      "t": 32.04,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 38,
+      "erro": ""
+    },
+    {
+      "canal": "kenneth acoustic",
+      "video": "kenneth acoustic/toxic - boywithuke ｜ fingerstyle guitar ｜ tab + chords + lyrics.mp4",
+      "forma": null,
+      "t": 94.76,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 33,
+      "erro": ""
+    },
+    {
+      "canal": "kenneth acoustic",
+      "video": "kenneth acoustic/somethin’ stupid (easy version) - frank sinatra & nancy sinatra ｜ fingerstyle guitar ｜ tab + chords.mp4",
+      "forma": null,
+      "t": 98.82,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 33,
+      "erro": ""
+    },
+    {
+      "canal": "kimny's guitar",
+      "video": "kimny's guitar/[tab] 群青（合唱曲）- 小田美樹 ｜ fingerstyle guitar cover.mp4",
+      "forma": "paginado",
+      "t": 138.05,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 93,
+      "erro": ""
+    },
+    {
+      "canal": "kimny's guitar",
+      "video": "kimny's guitar/[ tab ] ochún - chucho valdes ｜ fingerstyle guitar cover ｜ free pdf.mp4",
+      "forma": null,
+      "t": 74.91,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 33,
+      "erro": ""
+    },
+    {
+      "canal": "leonardo ramos",
+      "video": "leonardo ramos/un día de noviembre  🎸 leo brouwer ｜｜ tutorial para guitarra clásica + tabs.mp4",
+      "forma": null,
+      "t": 136.81,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 22,
+      "erro": ""
+    },
+    {
+      "canal": "leonardo ramos",
+      "video": "leonardo ramos/milonga nº3 🎸 josé pierri sapere ｜｜ tutorial para guitarra clásica + tabs.mp4",
+      "forma": null,
+      "t": 51.62,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 30,
+      "erro": ""
+    },
+    {
+      "canal": "lonelypicker",
+      "video": "lonelypicker/it’s a heartache – bonnie tyler - easy fingerstyle guitar tutorial tab.mp4",
+      "forma": "paginado",
+      "t": 63.16,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 35,
+      "erro": ""
+    },
+    {
+      "canal": "lonelypicker",
+      "video": "lonelypicker/[free tab] (everything i do) i do it for you - bryan adams - fingerstyle guitar.mp4",
+      "forma": "paginado",
+      "t": 85.56,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 30,
+      "erro": ""
+    },
+    {
+      "canal": "mr. tabs",
+      "video": "mr. tabs/guns n' roses - patience - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+      "forma": "paginado",
+      "t": 162.58,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 58,
+      "erro": ""
+    },
+    {
+      "canal": "mr. tabs",
+      "video": "mr. tabs/ozzy osbourne - dee (randy rhoads) - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+      "forma": "paginado",
+      "t": 27.84,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 38,
+      "erro": ""
+    },
+    {
+      "canal": "pablo romé",
+      "video": "pablo romé/capricho árabe (clase 2) - tutorial - partitura+tab 🧨.mp4",
+      "forma": null,
+      "t": 403.94,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 33,
+      "erro": ""
+    },
+    {
+      "canal": "pablo romé",
+      "video": "pablo romé/bourrée de bach 😍 tutorial para guitarra.mp4",
+      "forma": null,
+      "t": 266.35,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 47,
+      "erro": ""
+    },
+    {
+      "canal": "paolo d'angelo",
+      "video": "paolo d'angelo/what a wonderful world ｜ guitar tab ｜ fingerstyle ｜ tutorial.mp4",
+      "forma": "paginado",
+      "t": 174.82,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 76,
+      "erro": ""
+    },
+    {
+      "canal": "paolo d'angelo",
+      "video": "paolo d'angelo/horizons ｜ steve hackett ｜ genesis ｜ guitar tab ｜ fingerstyle tutorial.mp4",
+      "forma": "paginado",
+      "t": 58.62,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 59,
+      "erro": ""
+    },
+    {
+      "canal": "robert lunn",
+      "video": "robert lunn/stardust - full sheet music⧸tab - classical guitar - robert lunn.mp4",
+      "forma": null,
+      "t": 56.79,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 37,
+      "erro": ""
+    },
+    {
+      "canal": "robert lunn",
+      "video": "robert lunn/tutku - with tab - (neumann km 184 mic test).mp4",
+      "forma": null,
+      "t": 36.73,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 32,
+      "erro": ""
+    },
+    {
+      "canal": "serge kottelat",
+      "video": "serge kottelat/dominic miller – the winner takes it all (abba) ｜ solo fingerstyle with tab (rick beato show).mp4",
+      "forma": "paginado",
+      "t": 44.84,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 38,
+      "erro": ""
+    },
+    {
+      "canal": "serge kottelat",
+      "video": "serge kottelat/julian lage – emily ｜ jazz guitar masterpiece • full transcription + tab.mp4",
+      "forma": "paginado",
+      "t": 190.47,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 72,
+      "erro": ""
+    },
+    {
+      "canal": "shin izumi",
+      "video": "shin izumi/【tab】beauty and the beast - 美女と野獣 - disney - fingerstyle guitar  ソロギター【タブ】.mp4",
+      "forma": null,
+      "t": 88.05,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 40,
+      "erro": ""
+    },
+    {
+      "canal": "shin izumi",
+      "video": "shin izumi/【tab】all of me - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+      "forma": null,
+      "t": 69.61,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 32,
+      "erro": ""
+    },
+    {
+      "canal": "sky guitar",
+      "video": "sky guitar/trout (schubert) - guitar lesson + tab.mp4",
+      "forma": null,
+      "t": 76.71,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 29,
+      "erro": ""
+    },
+    {
+      "canal": "sky guitar",
+      "video": "sky guitar/here comes the sun - fingerstyle lesson + tab.mp4",
+      "forma": null,
+      "t": 243.07,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 25,
+      "erro": ""
+    },
+    {
+      "canal": "transcriptor",
+      "video": "transcriptor/victor jara - la partida - 1°guitarra - partitura ⧸ tablatura.mp4",
+      "forma": "paginado",
+      "t": 114.99,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 31,
+      "erro": ""
+    },
+    {
+      "canal": "transcriptor",
+      "video": "transcriptor/el mercado de testaccio - inti illimani -  melodia principal - tablatura⧸partitura.mp4",
+      "forma": "paginado",
+      "t": 297.02,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 32,
+      "erro": ""
+    },
+    {
+      "canal": "tv on guitar",
+      "video": "tv on guitar/ruins (from undertale) guitar tab and standard notation ｜ tvonguitar.mp4",
+      "forma": "paginado",
+      "t": 80.64,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 74,
+      "erro": ""
+    },
+    {
+      "canal": "tv on guitar",
+      "video": "tv on guitar/zelda fairy fountain - guitar tab ｜ tvonguitar.mp4",
+      "forma": "paginado",
+      "t": 74.77,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 57,
+      "erro": ""
+    },
+    {
+      "canal": "vvxofingerstyletab",
+      "video": "vvxofingerstyletab/sword art online alicization - resister - fingerstyle guitar cover + tab tutorial.mp4",
+      "forma": "paginado",
+      "t": 41.34,
+      "nota_sorteio": "so 1 video elegivel",
+      "n_notas": 31,
+      "erro": ""
+    },
+    {
+      "canal": "yunus guitarist",
+      "video": "yunus guitarist/first love - nikka costa - fingerstyle guitar tutorial tab + chords + lyrics.mp4",
+      "forma": "paginado",
+      "t": 98.15,
+      "nota_sorteio": "so 1 video elegivel",
+      "n_notas": 27,
+      "erro": ""
+    },
+    {
+      "canal": "ギタロー ⧸ guitarous",
+      "video": "ギタロー ⧸ guitarous/マリーゴールド ソロギター 初心者向け タブ譜.mp4",
+      "forma": null,
+      "t": 67.02,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 59,
+      "erro": ""
+    },
+    {
+      "canal": "ギタロー ⧸ guitarous",
+      "video": "ギタロー ⧸ guitarous/あの夏へ ソロギター 初心者向け タブ譜.mp4",
+      "forma": null,
+      "t": 49.96,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 56,
+      "erro": ""
+    }
+  ]
+}
