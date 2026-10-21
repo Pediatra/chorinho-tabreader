@@ -132,6 +132,8 @@ MAOS_M32 = SAIDA / "maos" / "m32"
 GABARITO_BRACO_M32 = RAIZ / "data" / "gold" / "maos" / "braco_m32.json"
 MAOS_M36 = SAIDA / "maos" / "m36"
 GABARITO_BRACO_M36 = RAIZ / "data" / "gold" / "maos" / "braco_m36.json"
+#: Casa do capo pela imagem (rodada 1038): quadros por vídeo, previsões e voto.
+MAOS_M38 = SAIDA / "maos" / "m38"
 #: Ciclo de capo (rodada 1039, shin izumi): triagem, lote e gabarito do dono.
 MAOS_M39 = SAIDA / "maos" / "m39"
 GABARITO_BRACO_M39 = RAIZ / "data" / "gold" / "maos" / "braco_m39.json"
