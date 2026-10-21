@@ -380,6 +380,33 @@ def test_colunas_abafadas_ignora_duas_cordas_nota_vizinha_e_digito():
     assert colunas_abafadas(produto) == {(7, 5)}
 
 
+def _nao_nota_x_rede(tela: int, coluna: int, corda: int) -> dict:
+    """X do leitor ``rede`` (decisão 0010): classe ``x``, sem ``simbolo_cru``.
+
+    Args:
+        tela: id da tela.
+        coluna: coluna do X.
+        corda: corda do X.
+
+    Returns:
+        Registro de ``nao_notas``.
+    """
+    return {"tela": tela, "coluna": coluna, "corda": corda, "classe": "x"}
+
+
+def test_colunas_abafadas_pega_pilha_de_x_do_leitor_rede():
+    """Quatro X de classe ``x`` em cordas distintas, sem nota: abafada; três não bastam."""
+    produto = {
+        "notas": [{"tela": 2, "coluna": 9, "corda": 1, "casa": 0}],
+        "nao_notas": [
+            *[_nao_nota_x_rede(2, 4, c) for c in (3, 4, 5, 6)],
+            *[_nao_nota_x_rede(2, 6, c) for c in (4, 5, 6)],
+            *[_nao_nota_x_rede(2, 9, c) for c in (2, 3, 4, 5)],
+        ],
+    }
+    assert colunas_abafadas(produto) == {(2, 4)}
+
+
 def test_cos_abafada_so_vale_no_pico_de_fluxo_forte():
     """Pico com fluxo abaixo da mediana vira ``-inf`` (sem ataque); os demais, ``COS_ABAFADA``."""
     fluxo = np.array([1.0, 2.0, 3.0, 4.0])

@@ -158,6 +158,9 @@ MIN_CORDAS_ABAFADA = 4
 MIN_QUINZE_ABAFADA = 4
 TOP1_ABAFADA = "15"
 
+#: Classe do X no leitor ``rede`` (decisão 0010): o glifo conta como X sem olhar o top-1.
+CLASSE_X = "x"
+
 #: [v2.1] Fração de colunas abafadas a partir da qual a exibição é um rasgueado.
 LIMIAR_RASGUEADO = 0.20
 
@@ -212,9 +215,10 @@ def colunas_abafadas(produto: dict) -> set[tuple[int, int]]:
     """Colunas abafadas (rasgueado): pilhas de X sem nota, como ``(tela, coluna)``.
 
     Uma coluna é abafada se tem ao menos ``MIN_CORDAS_ABAFADA`` ``nao_notas`` de classe
-    ``tecnica`` em cordas distintas, nenhuma ``nota`` na mesma tela e coluna, e ao menos
-    ``MIN_QUINZE_ABAFADA`` desses glifos com top-1 ``TOP1_ABAFADA`` no classificador. A regra
-    foi medida em ``data/saida/audio/a4/rasgueado/medicao.txt``.
+    ``tecnica`` ou ``CLASSE_X`` em cordas distintas, nenhuma ``nota`` na mesma tela e coluna,
+    e ao menos ``MIN_QUINZE_ABAFADA`` desses glifos marcados como X: classe ``CLASSE_X``
+    (leitor ``rede``) ou top-1 ``TOP1_ABAFADA`` no classificador (leitor de glifos, JSONs
+    antigos). A regra foi medida em ``data/saida/audio/a4/rasgueado/medicao.txt``.
 
     Args:
         produto: JSON do produto (``tab.esquema``), com ``notas`` e ``nao_notas``.
@@ -225,7 +229,7 @@ def colunas_abafadas(produto: dict) -> set[tuple[int, int]]:
     notas_pos = {(int(n["tela"]), int(n["coluna"])) for n in produto.get("notas", [])}
     grupos: dict[tuple[int, int], list[dict]] = {}
     for nao_nota in produto.get("nao_notas", []):
-        if nao_nota.get("classe") != "tecnica":
+        if nao_nota.get("classe") not in ("tecnica", CLASSE_X):
             continue
         chave = (int(nao_nota["tela"]), int(nao_nota["coluna"]))
         grupos.setdefault(chave, []).append(nao_nota)
@@ -234,7 +238,9 @@ def colunas_abafadas(produto: dict) -> set[tuple[int, int]]:
         if chave in notas_pos:
             continue
         cordas = {int(g["corda"]) for g in glifos}
-        quinze = sum(1 for g in glifos if _top1(g) == TOP1_ABAFADA)
+        quinze = sum(
+            1 for g in glifos if g.get("classe") == CLASSE_X or _top1(g) == TOP1_ABAFADA
+        )
         if len(cordas) >= MIN_CORDAS_ABAFADA and quinze >= MIN_QUINZE_ABAFADA:
             abafadas.add(chave)
     return abafadas
