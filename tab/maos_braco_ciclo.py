@@ -872,6 +872,27 @@ def nut_suspeito_previsto(previsto: dict, dimensoes: tuple[int, int] | None) -> 
     return False
 
 
+def aplicar_sinal_nut_v2(previstos: dict[str, dict], pasta: Path, indice: dict) -> None:
+    """Sinal v2 de nut suspeito (rodada 1033): marca e sinaliza os quadros, no lugar.
+
+    Args:
+        previstos: ``{id: entrada de previsto.json}``; muda ``nut_suspeito`` e
+            ``sinalizado`` dos quadros suspeitos.
+        pasta: pasta dos quadros (``pasta / item["png"]``).
+        indice: ``indice.json`` com ``id``, ``png``, ``largura`` e ``altura`` por quadro.
+    """
+    for item in indice["quadros"]:
+        id_q = item["id"]
+        if id_q not in previstos or not previstos[id_q]["achou"]:
+            continue
+        dimensoes = (item["largura"], item["altura"])
+        paineis = linhas_de_painel(_imagem(pasta / item["png"]))
+        distancia = distancia_da_ponta(previstos[id_q], dimensoes, paineis)
+        if suspeito(distancia, dimensoes, FRACAO_V2):
+            previstos[id_q]["nut_suspeito"] = True
+            previstos[id_q]["sinalizado"] = True
+
+
 def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
     """Roda a cadeia em cada quadro e preenche o gabarito com a previsão (GPU).
 
@@ -907,15 +928,7 @@ def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
             "quadros"
         ]
     if numero in RODADAS_SINAL_NUT_V2:
-        por_id_indice = {item["id"]: item for item in indice["quadros"]}
-        for id_q in ids:
-            if not previstos[id_q]["achou"]:
-                continue
-            paineis = linhas_de_painel(_imagem(pasta / por_id_indice[id_q]["png"]))
-            distancia = distancia_da_ponta(previstos[id_q], dimensoes[id_q], paineis)
-            if suspeito(distancia, dimensoes[id_q], FRACAO_V2):
-                previstos[id_q]["nut_suspeito"] = True
-                previstos[id_q]["sinalizado"] = True
+        aplicar_sinal_nut_v2(previstos, pasta, indice)
     elif numero in RODADAS_SINAL_NUT:
         for id_q in ids:
             if nut_suspeito_previsto(previstos[id_q], dimensoes[id_q]):

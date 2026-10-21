@@ -289,17 +289,23 @@ def _iniciar_contexto(proibidos: frozenset[str]) -> None:
     _CONTEXTO["proibidos"] = proibidos
 
 
-def rastreador() -> int:
+def rastreador(chaves: frozenset[str] | None = None) -> int:
     """Roda o rastreador a partir de cada quadro G e imprime o resumo por canal.
 
     Retomável: as tarefas cujo JSON já existe não rodam de novo. O resumo conta os
     alvos planejados, os que achou e os que não achou, e os que não tiveram resultado
     (sem quadro ou erro).
 
+    Args:
+        chaves: se dado, só estes quadros-chave (rodada 1037: as chaves com capo,
+            remarcadas pela decisão 1010).
+
     Returns:
         0 ao terminar.
     """
     quadros, indice = _quadros_do_gabarito()
+    if chaves is not None:
+        quadros = {k: v for k, v in quadros.items() if k in chaves}
     proibidos = videos_proibidos()
     arquivos = sorted({indice[i]["arquivo"] for i in quadros})
     for arquivo in arquivos:
@@ -598,7 +604,12 @@ def main() -> int:
     subcomandos = parser.add_subparsers(dest="comando", required=True)
     subcomandos.add_parser("fundos", help="quadros de fundo para S (fora da M11b)")
     subcomandos.add_parser("gabarito", help="faixas G, com erro simulado")
-    subcomandos.add_parser("rastreador", help="alvos R a partir de cada quadro G")
+    rastreio = subcomandos.add_parser(
+        "rastreador", help="alvos R a partir de cada quadro G"
+    )
+    rastreio.add_argument(
+        "--chaves", help="só estes quadros-chave, separados por vírgula (ex.: q04,q10)"
+    )
     sint = subcomandos.add_parser("sintetico", help="amostras S")
     sint.add_argument("--n", type=int, default=20000)
     subcomandos.add_parser("folha", help="folhas de conferência de G, R e S")
@@ -613,7 +624,8 @@ def main() -> int:
         _cronometrar("gabarito", gabarito)
         return 0
     if args.comando == "rastreador":
-        _cronometrar("rastreador", rastreador)
+        chaves = frozenset(args.chaves.split(",")) if args.chaves else None
+        _cronometrar("rastreador", rastreador, chaves)
         return 0
     if args.comando == "sintetico":
         _cronometrar("sintetico", sintetico, args.n)

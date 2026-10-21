@@ -1445,11 +1445,14 @@ def _sequencia(
 
 
 @contextmanager
-def _trava_gpu() -> Iterator[None]:
+def _trava_gpu(estimativa: str = "?") -> Iterator[None]:
     """Reserva a GPU para a trilha mãos (``tab.gpu.trava_gpu``, protocolo ``gpu.lock``).
 
     Na CPU (``CHORINHO_MAOS_CPU=1``) não trava nada: a GPU fica livre para as outras
     trilhas.
+
+    Args:
+        estimativa: duração prevista, escrita no ``gpu.lock`` para as outras trilhas.
 
     Yields:
         Nada; o bloco roda com a GPU reservada.
@@ -1457,7 +1460,7 @@ def _trava_gpu() -> Iterator[None]:
     if os.environ.get(VARIAVEL_CPU) == "1":
         yield
         return
-    with trava_gpu("maos"):
+    with trava_gpu("maos", estimativa):
         yield
 
 
