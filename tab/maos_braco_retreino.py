@@ -505,7 +505,15 @@ def contar() -> dict:
     return resultado
 
 
-def _meta(nome: str, estagio: str, semente: int, passos: int, extra: dict) -> dict:
+def _meta(
+    nome: str,
+    estagio: str,
+    semente: int,
+    passos: int,
+    extra: dict,
+    rodada: str = "1037",
+    modulo: str = "tab.maos_braco_retreino",
+) -> dict:
     """Procedência do peso: comando, semente, passos, commit e fontes.
 
     Args:
@@ -514,16 +522,17 @@ def _meta(nome: str, estagio: str, semente: int, passos: int, extra: dict) -> di
         semente: semente do treino.
         passos: passos do treino.
         extra: contagens e perdas.
+        rodada: rodada que treinou o peso.
+        modulo: módulo da CLI que treinou.
 
     Returns:
         O json gravado ao lado do ``.pt``.
     """
     return {
         "nome": nome,
-        "rodada": "1037",
+        "rodada": rodada,
         "comando": (
-            f"python -m tab.maos_braco_retreino treinar --estagio {estagio} "
-            f"--semente {semente}"
+            f"python -m {modulo} treinar --estagio {estagio} --semente {semente}"
         ),
         "commit": os.environ.get(VARIAVEL_COMMIT),
         "semente": semente,
@@ -533,7 +542,13 @@ def _meta(nome: str, estagio: str, semente: int, passos: int, extra: dict) -> di
 
 
 def treinar(
-    estagio: str, semente: int, passos: int = PASSOS, gravar: bool = True
+    estagio: str,
+    semente: int,
+    passos: int = PASSOS,
+    gravar: bool = True,
+    fonte: dict | None = None,
+    prefixos: tuple[str, str] = (PREFIXO_L4, PREFIXO_A6),
+    procedencia: tuple[str, str] = ("1037", "tab.maos_braco_retreino"),
 ) -> int:
     """Treina L4 (estágio 1) ou A6 (estágio 2) e grava o peso com a procedência.
 
@@ -542,6 +557,9 @@ def treinar(
         semente: semente do treino.
         passos: passos (``PASSOS`` no treino oficial).
         gravar: se grava ``artefatos/m21/<nome>.pt`` e o json.
+        fonte: quadros de treino no formato de ``fontes()`` (None: os da 1037).
+        prefixos: prefixos dos pesos do estágio 1 e do estágio 2.
+        procedencia: rodada e módulo da CLI, gravados no json do peso.
 
     Returns:
         0 ao terminar.
@@ -551,15 +569,16 @@ def treinar(
     """
     if estagio not in ESTIMATIVA:
         raise ValueError(f"estágio desconhecido: {estagio}")
-    fonte = fontes()
+    if fonte is None:
+        fonte = fontes()
     if estagio == "l4":
-        nome = f"{PREFIXO_L4}{semente}"
+        nome = f"{prefixos[0]}{semente}"
         registros = fonte["estagio1"]
         itens = _sequencia_localizador(registros, passos, nome)
         with _trava_gpu(ESTIMATIVA[estagio]):
             modelo, perdas, segundos = _treinar_localizador(itens, passos, semente)
     else:
-        nome = f"{PREFIXO_A6}{semente}"
+        nome = f"{prefixos[1]}{semente}"
         registros = fonte["estagio2"]
         pool_s = _pool_s()
         pool = [
@@ -591,6 +610,7 @@ def treinar(
                     "tempo_treino_s": segundos,
                     "perdas": perdas,
                 },
+                *procedencia,
             ),
         )
     print(
