@@ -45,3 +45,21 @@ O dono pediu o caminho curto em 2026-10-20.
 - A T8.3 é só informada: ela foi usada na 0210.
 - **A validação é a T8.4**, um lote novo que o dono confere. O aceite é o do plano: "sim" falso
   ≤ 5 % e custo ≤ 10 %.
+
+## Resultado da fase 1 (2026-10-20)
+
+Medidas em `r4a/medida_{atqt,atqe}_s{1,2,3}_alto.json`. Os limiares escolhidos nos ouros não
+mudam com o recorte: `_atqt` com técnica 0,15 e `L` 0,02; `_atqe` com técnica 0,25 e `L` 0,02.
+
+| pesos | recorte | ouros, "sim" falso | ouros, custo | ouros, casa | T8.2, "sim" falso |
+| --- | --- | --- | --- | --- | --- |
+| `_atqt` | antigo | 4 · 5 · 4 /85 | 100–108 /2593 | 2660–2665 | 2 · 2 · 2 /45 |
+| `_atqt` | alto | 4 · 4 · 4 /85 | 99–104 /2593 | 2661–2667 | 2 · 2 · 2 /45 |
+| `_atqe` | antigo | 3 · 3 · 3 /85 | 109–122 /2593 | 2659–2663 | 2 · 2 · 2 /45 |
+| `_atqe` | alto | 2 · 2 · 2 /85 | 104–123 /2593 | 2659–2664 | 2 · 2 · 2 /45 |
+
+- **A casa não piora com o recorte alto.** Nos ouros ela fica em 2659–2667, contra 2660–2665 no
+  antigo.
+- Nos ouros e na T8.2 quase não há arco acima do sistema, então eles mudam pouco. A diferença
+  aparece na T8.3, na 0210.
+- O custo nos ouros fica em 4–5 %, dentro dos 10 %.
