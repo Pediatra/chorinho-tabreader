@@ -1000,6 +1000,53 @@ O `cruzar_fontes` vai junto, para onde o dono decidir (objeção d).
    - **e. A ordem da fase 3 serve**: áudio e depois partitura. A partitura não depende das fases
      de outra trilha, só do `comum` da fase 2.
 
+**Fase 1 da partitura (2026-10-21), commit `eae7c3a5`:**
+- **Versionado** (`git add -f`, conteúdo intacto): 184 arquivos, 18,2 MB.
+  - Os 5 `itens.json` que os ouros citam e os 84 PNG/MusicXML que eles citam (regra 10).
+  - Os 88 scripts `.py`/`.sh` de `data/saida/partitura` e `part_frentes` (regra 11).
+  - A saída de referência do CA1 (`diag/ca1/ca1.txt`).
+  - A marcação dos canais com pauta, transcrita do chat
+    (`data/saida/partitura/pauta_por_canal_dono.json`, "a confirmar").
+  - Os 4 `LEIAME.json`.
+- **Caminhos**: o `caminhos.py` ganha `PARTITURA`, `PARTITURA_P0/P1/P3/VIDEO/SEM_PRODUTO/DIAG`,
+  `GOLD_PARTITURA`, `PART_FRENTE_P`, `FASE8_REDE` e `CENSO_V2`. Os 14 módulos
+  `tab/partitura_*` não montam mais caminho à mão. Os valores são os mesmos: a prova abaixo
+  regera os 3 documentos iguais aos de antes da mudança.
+- **`.gitignore`**: `compassos_homr.json` e `figura_e1.json`. A cópia `.tar` está em
+  `chorinho_arquivo/partitura/gabarito_fora_do_git/`, conferida por `sha256sum -c` (§7c, item 2).
+- A imagem `chorinho-partitura:smt` já não existia no `podman` quando fui apagá-la (§7c, item 1).
+- **Inventário (`LEIAME.json`, item a item)** em `data/saida/partitura/`, `partitura/p1/`,
+  `partitura/diag/` (165 itens) e `part_frentes/`. Cada item tem classe, motivo, se é
+  regenerável, o comando, os MB e as rodadas que o citam. O gerador é
+  `diag/r9001/leiame.py`.
+- **`EM_USO.json`**: a partitura não tem peso em `artefatos/` (lista vazia). Os modelos do
+  Audiveris e do homr vêm dentro da imagem `chorinho-partitura:dev`.
+
+**Prova de "antes"** (registrada no commit desta linha). Ela roda tudo pelo nome antigo:
+
+```bash
+bash data/saida/partitura/diag/r9001/prova_9001.sh antes    # já feito; depois da mudança: depois
+diff -r data/saida/partitura/diag/r9001/prova/antes data/saida/partitura/diag/r9001/prova/depois
+```
+
+- **O que o script faz:**
+  - `python -m tab.partitura_video parear` dos 3 produtos numa cópia de
+    `data/saida/partitura/video`. Depois confere com `cmp` que os 3 `.partitura.json` saem
+    iguais, byte a byte, aos de `data/saida/partitura/video/`, e grava o `sha256_partitura.txt`;
+  - `python data/saida/partitura/diag/ca1/ca1.py` (o CA1 contra os gabaritos do dono) →
+    `ca1.txt`;
+  - `python -m tab.partitura_gabarito servir` numa **cópia** de cada um dos 3 ouros. O script
+    baixa um PNG de cada pasta da lista de permissão (`ferramenta.txt`: 3 × HTTP 200) e confere
+    com `cmp` que a cópia do ouro não mudou.
+- **Referência**: `data/saida/partitura/diag/r9001/prova/antes/` (no git).
+- **`pytest -rs` de hoje, na cópia de trabalho**: **1859 passed, 2 skipped, 5 deselected,
+  2 xfailed**. Os 2 pulados são `test_partitura_smt.py:101` e `:114` (music21). Só a partitura:
+  230 passed, 2 skipped (`prova/antes/pytest_rs.txt`).
+- **Parada**: nenhum container, servidor, túnel ou fila da partitura rodando (`podman ps`,
+  20h22). Não faço commit nem lote no HD até o aviso da sessão das mãos.
+
+PRONTA E PARADA — 2026-10-21 20:25 — commit eae7c3a5
+
 ### Mãos (2026-10-21, proponente)
 
 1. **Comuns, do meu lado**:

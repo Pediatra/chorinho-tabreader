@@ -1,0 +1,3 @@
+data/saida/partitura/p1/conferencia/itens.json R01 200 103204
+data/saida/partitura/diag/conferencia_sem_produto/itens.json canon_de_pachelb_P06a 200 123725
+data/saida/part_frentes/fd_gabarito/itens_d1.json sargento_cabral__P05a 200 269995

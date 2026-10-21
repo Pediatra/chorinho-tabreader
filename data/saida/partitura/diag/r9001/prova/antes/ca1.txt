@@ -1,0 +1,17 @@
+A. P3 R01-R12 (12 recortes), ordem ['referencia', 'certas', 'altura_errada', 'faltando', 'inventada']
+   so Audiveris (com armadura do video): [546, 496, 9, 41, 3]
+   com homr confirmado pela tab:         [546, 528, 4, 14, 3]
+   pares 337, x conferido 336, notas do homr 32, trocadas pela tab 5
+B. produtos (.partitura.json) contra a tab do gabarito
+   greensleeves_g: [106, 106, 0, 0, 0]
+   south_american: [269, 267, 0, 2, 1]
+   gymnopedie_no_: [392, 365, 15, 12, 39]
+   total partitura (19 telas): [767, 738, 15, 14, 40]
+   so a tab do produto, mesmas telas: [767, 723, 21, 23, 17]
+C. leitura_p1: 21 recortes (21 confirmados), lidos 873, certos 852, {'altura_errada': 4, 'certo': 852, 'figura_errada': 7, 'nao_existe': 10}, faltando 78, cobertura 852/930
+D. leitura_sem_produto: 3 recortes (3 confirmados), lidos 178, certos 176, {'certo': 176, 'nao_existe': 2}, faltando 40, cobertura 176/216
+E. compassos_homr: 4 recortes (4 confirmados), lidos 282, certos 272, {'certo': 272, 'nao_existe': 10}, faltando 4, cobertura 272/276
+F. piloto sem produto, leituras que sairam:
+   audiveris/x2_margem: 143/162
+   audiveris/x2_margem_herdada: 143/162
+   homr/nativo: 160/162

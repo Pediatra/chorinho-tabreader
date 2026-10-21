@@ -1,0 +1,26 @@
+T01 tela 1: eventos 20, com par 20, x conferido 20, par por x 0, colunas tab 20, homr 0, trocadas 0
+T02 tela 2: eventos 18, com par 18, x conferido 18, par por x 0, colunas tab 18, homr 0, trocadas 0
+T03 tela 3: eventos 17, com par 17, x conferido 17, par por x 0, colunas tab 18, homr 0, trocadas 0
+T04 tela 4: eventos 17, com par 17, x conferido 17, par por x 0, colunas tab 17, homr 0, trocadas 0
+greensleeves_guia_de_estudio_partitura_tab_pdf: pautas 4, eventos 72, com par 72, x conferido 72, colunas tab 73, colunas pareadas 72, homr 0, trocadas 0
+gravado em data/saida/partitura/diag/r9001/prova/video_copia_antes/greensleeves_guia_de_estudio_partitura_tab_pdf/greensleeves_guia_de_estudio_partitura_tab_pdf.partitura.json
+T01 tela 1: eventos 62, com par 62, x conferido 61, par por x 0, colunas tab 61, homr 4, trocadas 0
+T02 tela 2: eventos 63, com par 63, x conferido 63, par por x 0, colunas tab 63, homr 7, trocadas 5
+T03 tela 3: eventos 60, com par 60, x conferido 60, par por x 0, colunas tab 60, homr 5, trocadas 0
+south_american_music_easy_guitar_tutorial_with_sheet_and_tab: pautas 3, eventos 184, com par 184, x conferido 183, colunas tab 184, colunas pareadas 184, homr 16, trocadas 5
+gravado em data/saida/partitura/diag/r9001/prova/video_copia_antes/south_american_music_easy_guitar_tutorial_with_sheet_and_tab/south_american_music_easy_guitar_tutorial_with_sheet_and_tab.partitura.json
+T01 tela 1: eventos 17, com par 17, x conferido 17, par por x 0, colunas tab 18, homr 3, trocadas 0
+T02 tela 2: eventos 15, com par 15, x conferido 15, par por x 0, colunas tab 16, homr 4, trocadas 0
+T03 tela 3: eventos 15, com par 15, x conferido 15, par por x 0, colunas tab 15, homr 0, trocadas 0
+T04 tela 4: eventos 20, com par 20, x conferido 20, par por x 0, colunas tab 20, homr 4, trocadas 1
+T05 tela 5: eventos 18, com par 18, x conferido 18, par por x 0, colunas tab 18, homr 5, trocadas 0
+T06 tela 6: eventos 15, com par 15, x conferido 15, par por x 0, colunas tab 15, homr 0, trocadas 0
+T07 tela 7: eventos 15, com par 15, x conferido 15, par por x 0, colunas tab 17, homr 3, trocadas 0
+T08 tela 8: eventos 18, com par 18, x conferido 18, par por x 0, colunas tab 18, homr 3, trocadas 1
+T09 tela 9: eventos 17, com par 17, x conferido 17, par por x 0, colunas tab 17, homr 3, trocadas 0
+T10 tela 10: eventos 23, com par 20, x conferido 16, par por x 10, colunas tab 16, homr 4, trocadas 2
+T11 tela 11: eventos 18, com par 18, x conferido 18, par por x 0, colunas tab 18, homr 6, trocadas 2
+T12 tela 12: eventos 2, com par 1, x conferido 1, par por x 0, colunas tab 1, homr 0, trocadas 0
+gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar: pautas 12, eventos 186, com par 182, x conferido 178, colunas tab 189, colunas pareadas 182, homr 35, trocadas 6
+gravado em data/saida/partitura/diag/r9001/prova/video_copia_antes/gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar/gymnopedie_no_1_erik_satie_includes_sheet_musictab_classical_guitar.partitura.json
+OK: 3 documentos iguais byte a byte a data/saida/partitura/video
