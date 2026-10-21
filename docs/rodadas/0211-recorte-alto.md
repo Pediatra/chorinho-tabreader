@@ -160,3 +160,13 @@ São 15 treinos `--ataque --t82 --recorte-alto`, com o G11–G12 ligado (commit 
   - A primeira tentativa do `medir_t84.py` leu as telas e contou 0 notas, porque nenhuma tela
     estava confirmada. Nenhum número da T8.4 foi visto.
   - A medida espera o passe do dono e roda uma vez.
+
+### Correção (2026-10-21): a tela do cifra club tinha tablatura
+
+- A emenda de 15:25 diz que a tela do cifra club "era o braço do violão, sem tablatura".
+  **Está errado.** O quadro inteiro tem uma TAB escura embaixo.
+  - O painel do produto pegou o braço do violão, horizontal e no topo, e leu nele 14 notas
+    falsas.
+  - Eu olhei só o recorte, e não o quadro inteiro (regra 7.7).
+- A tela continua fora da T8.4: ela saiu antes de qualquer medida, e o lote não muda.
+- O erro do painel vira um diagnóstico à parte, em `diag/painel_cifra.py`.
