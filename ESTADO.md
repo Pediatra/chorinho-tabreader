@@ -5814,3 +5814,10 @@ Decisão do dono: a trilha das mãos **grava as mãos de cada nota** (base de tr
   - nova rodada com a busca restrita a uma região e quadros de teste novos;
   - medir a variação do próprio dono ao remarcar, porque os imprecisos ficaram em 0,27–0,35 vão, perto do limite de 0,25.
 - **Não repetir**: ajustar o rastreador num canal só, com o braço em close, e esperar que ele passe em câmera aberta.
+
+## Áudio — 2026-10-20 — regressão do alinhador com o leitor `rede` (rodada 2017)
+
+- 15 vídeos com número antigo, produto gerado de novo (leitor `rede`, CPU) e alinhador v2.1 sem mudança. Determinismo do produto conferido (2 execuções iguais).
+- 14 vídeos bons: colunas com tempo **4707/5666 (0,831) → 5337/6220 (0,858)**; *room 335* 114/552 → 357/603. Colunas presentes nos dois: **4516 de 4648 (97,2 %) a ≤ 30 ms**. Som × marcador: queda máxima 1,6 pp. Gabarito de escuta: 37 de 40 pontos certos mantidos, 1 recusado, 2 fora (104 e 116 ms).
+- **Critério 1 reprovado em 2 de 14** (*michelle* −2,9 pp, *bach prelude* −2,6 pp), e as causas são de leitura, vistas no quadro: o acorde final que o `rede` passa a ler encurta o trecho no *ritardando* (limite da rodada 2014); o `rede` junta "2·3" em "23" (casa errada); o `rede` perde "10" na corda 1 do *room 335* e lê ornamento como coluna. Pedidos 13 e 14 na decisão 2004.
+- **Não repetir**: comparar fração de colunas com tempo entre leitores sem olhar o denominador: a leitura nova muda as colunas (acorde final, algarismos juntados), e a fração cai sem o alinhador mudar.

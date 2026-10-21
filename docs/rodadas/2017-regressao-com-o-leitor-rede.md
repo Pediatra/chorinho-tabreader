@@ -114,3 +114,90 @@ recortes das colunas que pioraram, e achar a causa antes da rodada 2018.
   Na secundária, o guitarous *sakura* tem **capo na casa 3**. Tudo continua alinhado com
   `transposicao = 0`, como antes: o erro é igual nos dois lados, e a casa do capo é a rodada
   2018.
+
+---
+
+## Resultado (2026-10-20, depois do commit do pré-registro `91581049`)
+
+Os 15 vídeos principais rodaram sem erro. O produto levou de 49 a 896 s por vídeo na CPU, quase
+o mesmo que o leitor antigo. **Determinismo**: o produto do *exercise 3* gerado 2 vezes saiu
+igual, fora o carimbo de hora. Tudo em `data/saida/audio/r2017/` (`rodar.sh`, `comparar.py`,
+`comparacao.json`, `comparacao.txt`, `diagnostico.py`, `quadros/`, `glifos/`).
+
+### Colunas com tempo
+
+| vídeo | antigo | novo | Δ pp | exibições recusadas | alarmes |
+| --- | --- | --- | --- | --- | --- |
+| MVP | 645/699 | 648/702 | +0,0 | 0 → 0 | 0 → 0 |
+| iwaki *la vie en rose* | 245/273 | 304/337 | +0,5 | 2 → 0 | 0 → 0 |
+| kimny *from this place* | 158/222 | 154/218 | −0,5 | 0 → 0 | 0 → 0 |
+| iwaki *michelle* | 116/120 | 120/128 | **−2,9** | 0 → 0 | 0 → 0 |
+| iwaki *fly me to the moon* | 346/372 | 349/383 | −1,9 | 1 → 1 | 1 → 1 |
+| kimny *gunjo* | 531/650 | 546/664 | +0,5 | 1 → 1 | 0 → 0 |
+| kimny *bach prelude* | 550/690 | 516/669 | **−2,6** | 0 → 0 | 0 → 0 |
+| shin izumi *dream is a wish* | 205/274 | 332/374 | +14,0 | 2 → 0 | 2 → 0 |
+| paolo d'angelo | 651/831 | 676/853 | +0,9 | 0 → 0 | 0 → 0 |
+| sky guitar *exercise 3* | 158/161 | 157/161 | −0,6 | 0 → 0 | 0 → 0 |
+| yunus | 343/384 | 480/517 | +3,5 | 0 → 0 | 0 → 0 |
+| lonelypicker | 211/277 | 445/482 | +16,1 | 2 → 1 | 1 → 0 |
+| robert lunn | 377/483 | 407/476 | +7,5 | 4 → 1 | 1 → 0 |
+| guitar dell'arte | 171/230 | 203/256 | +4,9 | 0 → 0 | 0 → 0 |
+| **14 bons, total** | **4707/5666 (0,831)** | **5337/6220 (0,858)** | +2,7 | | |
+| shin izumi *room 335* (só gabarito) | 114/552 | 357/603 | +38,5 | 23 → 7 | 16 → 6 |
+
+**Pares de colunas correspondentes** (15 vídeos): 4648 com tempo nos dois, **4516 a ≤ 30 ms
+(97,2 %)**; 98 perderam o tempo e 357 ganharam.
+
+**Som × marcador**: MVP 0,661 → 0,654 (629 → 632 pares); *exercise 3* 0,954 → 0,966 (87 → 87);
+guitar dell'arte 0,878 → 0,862 (164 → 196). A mediana muda menos de 2 ms em cada vídeo.
+
+**Gabarito de escuta** (40 pontos certos e 4 errados, dos 4 vídeos das folhas): 37 certos
+**mantidos** (≤ 50 ms), 1 recusado (kimny), **2 fora** (*room 335*, g18 a 116 ms e g30 a 104
+ms). Dos 4 errados, 3 continuam no mesmo instante errado e 1 (MVP, f11) saiu dele.
+
+**X do rasgueado**: 0 `nao_notas` de classe `"x"` nos 15 produtos novos.
+
+### Veredito pelos critérios
+
+1. **Reprovado em 2 de 14 vídeos**: *michelle* −2,9 pp e *bach prelude* −2,6 pp. Os outros 12
+   ficam a no máximo −1,9 pp, e 9 sobem.
+2. **Aprovado**: a maior queda é de 1,6 pp (guitar dell'arte).
+3. **2 pontos fora**, com causa achada (abaixo).
+
+### Causas (olhadas no quadro, como manda o pré-registro)
+
+O leitor de glifos com o código atual (`glifos/`) dá *michelle* 116/120 e *room 335* 118/552,
+iguais ao antigo, e *bach* 533/678 (0,786, entre o antigo 0,797 e o novo 0,771). Quase toda a
+mudança vem do leitor, não das outras mudanças do produto.
+
+- ***michelle***: a leitura nova acha o **acorde final** (cordas 1 e 2 soltas, corda 3 na
+  casa 1), que o leitor antigo perdia. Com essa coluna a mais, o alinhador encurta o trecho da
+  tela 5 e larga as 3 notas anteriores, em *ritardando* (intervalos de 1,4 e 0,7 s). É a
+  fraqueza do termo de andamento já medida na rodada 2014: leitura melhor, alinhador limitado.
+- ***bach prelude***: o leitor `rede` **junta dois algarismos ligados por tracinho num número
+  só** ("2·3" → 23, "2·4" → 24). A coluna fica com uma altura que não soa, e o alinhador a
+  recusa (`sem_ataque_casado`). É **casa errada afirmada pela leitura**. Pedido 13 da
+  decisão 2004.
+- ***room 335***, tela 20: a leitura nova **perde dois "10" da corda 1** (x ≈ 365 e 595) e
+  **lê como coluna o 10 pequeno de ornamento** antes dos ligados. Sem a coluna em x ≈ 595, o
+  alinhador puxa a coluna seguinte (g18) para o ataque da nota que faltou; o g30 anda 104 ms
+  na mesma tela. A leitura antiga também errava ali ("10" lido como "1", "11" como "14",
+  pausa como "7"). Pedido 14 da decisão 2004.
+
+### Consequência
+
+- O alinhador v2.1 **não piorou**: onde a coluna é a mesma, 97,2 % dos tempos ficam a ≤ 30 ms.
+  As duas reprovações e os dois pontos fora vêm da leitura, uma vez para melhor (*michelle*) e
+  duas para pior (*bach*, *room 335*).
+- **Segue para a 2018**, com dois avisos:
+  1. a junção de algarismos do leitor `rede` produz casa errada. Para a base das mãos, essas
+     notas não podem entrar como ouro. A conferência pelo som (frente C) deve pegar isso: a
+     nota esperada não soa;
+  2. o *ritardando* no fim da peça segue sendo limite do alinhador (rodada 2014).
+- O conserto de `colunas_abafadas` (classe `"x"`) entra num commit à parte. Ele não muda nenhum
+  dos 15 produtos, que têm 0 X.
+
+### Limites
+
+- A secundária (8 vídeos) ainda roda, e entra como anexo descritivo.
+- "Mantido" no gabarito é a ≤ 50 ms do clique, e a escuta separa ~100 ms (rodada 2008).

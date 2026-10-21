@@ -30,6 +30,8 @@ documento.
 | 10 | **Observador de marcador não lê** em 9 de 12 canais que o censo chama de faixa/cor (coerência < 0,9) | lote 2: leonardo ramos, robert lunn, kenneth, mr. tabs, tv on guitar, lonelypicker, violaodecria, yunus, vvxo | rodada 2016 |
 | 11 | **Troca de página não detectada**: uma tela de 3,75 a 93,1 s com 9 colunas | vvxofingerstyletab *sword art online* | rodada 2016; `data/saida/audio/a4/lote2/quadros/vvxofingerstyletab_sao_t1.png` |
 | 12 | **Padrão de ritmo** (pausas e X, sem casa) classificado como tablatura | kenneth acoustic *believer* | rodada 2016; `data/saida/audio/a4/lote2/quadros/kenneth_acoustic_t1.png` |
+| 13 | **Leitor `rede`: dois algarismos ligados por tracinho viram um número** ("2·3" → 23, "2·4" → 24, visto no quadro da tela 5): casa errada afirmada. O vídeo tem 32 notas com casa ≥ 13 no `rede` (24 no leitor de glifos); nem todas foram olhadas | kimny *bach prelude* (passo 20,6; telas 1, 3, 5, 6) | rodada 2017; `data/saida/audio/r2017/quadros/bach_t5_zoom.png` |
+| 14 | **Leitor `rede`: "10" da corda 1 perdido e nota pequena de ornamento (o 10 do ligado H) lida como coluna** | shin izumi *room 335*, tela 20 (x ≈ 365 e 595 perdidos; x ≈ 455 e 958 são ornamento) | rodada 2017; `data/saida/audio/r2017/quadros/room335_t20_a.png`, `_b.png` |
 
 ## Como medir o efeito
 
