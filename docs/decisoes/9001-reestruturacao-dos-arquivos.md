@@ -974,6 +974,8 @@ O `cruzar_fontes` vai junto, para onde o dono decidir (objeção d).
 
 PRONTA E PARADA — 2026-10-21 20:38 — commit 11049454
 
+**Prova de "depois" do áudio (2026-10-22, depois de `4b4cd5f7`):** `prova.sh depois` com RC=0, e `diff -r antes depois` **vazio**: as 7 saídas (alinhador, produto do áudio, régua do transcritor, cruzamento e transcritor na imagem 3.10) são iguais byte a byte às de antes da mudança.
+
 ### Partitura (2026-10-21)
 
 **Conferência dos números que tocam a partitura.** Medidos em 2026-10-21 com `ls`, `wc`, `du`,
