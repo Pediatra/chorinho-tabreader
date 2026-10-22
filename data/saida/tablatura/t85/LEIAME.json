@@ -1,0 +1,17 @@
+{
+ "citado_por": [],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/tablatura/t85/gerar.py",
+  "python data/saida/tablatura/t85/material_ferramenta.py",
+  "python data/saida/tablatura/t85/folha_quadros.py"
+ ],
+ "modificado": "2026-10-22",
+ "motivo": "lote T8.5 (telas para o dono conferir o rótulo de ataque, semente 3); a ferramenta sobe a partir de ferramenta/",
+ "nome": "t85",
+ "regeneravel": "sim",
+ "rodadas": [
+  "docs/rodadas/0211-recorte-alto.md"
+ ],
+ "trilha": "tablatura"
+}
