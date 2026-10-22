@@ -1358,6 +1358,7 @@ trilhas paradas ("PRONTA E PARADA" no §8).
   - Mover só para arrumar quebraria esses comandos sem ganho de código.
 - **Ficam rastreadas** as pastas de `data/saida` citadas por arquivos do gabarito
   (`auditoria_pool`, `portao_casos`, `auditoria_simbolo`, `audio`), pela regra 10.
+- **Relatórios por trilha** (entregues pelo repositório, e cada guia de trilha aponta para o seu): [tablatura](9001-relatorios/tablatura.md), [mãos](9001-relatorios/maos.md), [áudio](9001-relatorios/audio.md), [partitura](9001-relatorios/partitura.md).
 - **Falta**: nada do plano. Dívida que sobra, fora dele: ~200 imports de função privada
   (quase todos nas mãos) e 11 módulos com mais de 1.500 linhas. A regra 2 do padrão do AGENTS
   §10 diz como tratar o que for novo.

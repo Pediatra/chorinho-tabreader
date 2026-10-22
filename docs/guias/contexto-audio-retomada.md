@@ -1,5 +1,7 @@
 # Retomada da trilha áudio (2026-10-21)
 
+> **Leia primeiro (decisão 9001, 2026-10-22):** [o relatório da reestruturação para esta trilha](../decisoes/9001-relatorios/audio.md): o que mudou de lugar, o que ela precisa saber e o que fica com ela.
+
 > Briefing para o agente novo da trilha áudio. Ele foi escrito pela sessão da trilha
 > **mãos/braço**, a pedido do dono, em 2026-10-21. Leia, nesta ordem:
 > 1. [`AGENTS.md`](../../AGENTS.md), inteiro: é o contrato;

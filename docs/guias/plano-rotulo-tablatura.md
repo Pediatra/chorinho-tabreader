@@ -1,5 +1,7 @@
 # Plano — a tablatura como rótulo da base (o ataque de cada nota)
 
+> **Leia primeiro (decisão 9001, 2026-10-22):** [o relatório da reestruturação para esta trilha](../decisoes/9001-relatorios/tablatura.md): o que mudou de lugar, o que ela precisa saber e o que fica com ela.
+
 **Data**: 2026-10-16. **Trilha**: tablatura. **Estado**: aprovado pelo dono em 2026-10-16, com os critérios "proposta" e o
 piloto de marcar arcos em 3 a 5 vídeos do sky guitar. Decisão:
 [`0011`](../decisoes/0011-tablatura-vira-rotulo-da-base.md). Plano irmão:

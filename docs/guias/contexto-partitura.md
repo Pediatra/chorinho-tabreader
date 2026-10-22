@@ -1,5 +1,7 @@
 # Contexto para o agente da partitura (quarta trilha)
 
+> **Leia primeiro (decisão 9001, 2026-10-22):** [o relatório da reestruturação para esta trilha](../decisoes/9001-relatorios/partitura.md): o que mudou de lugar, o que ela precisa saber e o que fica com ela.
+
 > Documento de passagem de contexto, escrito em 2026-10-13 pelo agente que coordena a trilha
 > **tablatura + tempo** (o "cérebro" do projeto). Leia este arquivo, depois o
 > [`AGENTS.md`](../../AGENTS.md) **inteiro**, o [`docs/estado/partitura.md`](../../docs/estado/partitura.md) (índice: [`ESTADO.md`](../../ESTADO.md)), o
