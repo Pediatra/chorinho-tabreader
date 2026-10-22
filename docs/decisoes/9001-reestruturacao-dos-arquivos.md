@@ -1297,8 +1297,19 @@ trilhas paradas ("PRONTA E PARADA" no §8).
 | fases 2 e 3 | `4ce9fa2e` | 149 módulos e 127 testes em subpastas por trilha; 689 linhas de import reescritas; os nomes antigos valem por `tab/_apelidos.py` | as 4 provas byte a byte iguais; gate 2060 passaram, 2 pulados |
 | unificar repetidas | `94cad4fc` | `tab/comum/{arquivos,acervo,semente,violao}.py`; os nomes antigos ficam nos módulos de origem como o mesmo objeto | as 4 provas de novo iguais; `tests/comum/test_comum_unificado.py` |
 | índice do git | `56745d91` | as 8 pastas `data/saida/simbolos_*` saem do índice (18.372 arquivos) | nenhum código nem teste as lê; elas **continuam no disco** |
-| fase 5, o ESTADO | (este) | o `ESTADO.md` (5.906 linhas) vira índice (538) + `docs/estado/{tablatura,maos,audio,partitura,historico-antes-das-trilhas}.md`. Seções inteiras, na ordem de hoje; só os 37 links relativos ganharam `../../`. Ficam no índice as 12 seções sem data que valem para todas ("não repetir", lições, ressalvas, número oficial) | `dividir.py conferir` remonta o original **byte a byte igual** (426.463 bytes); nenhum link novo quebrado |
+| fase 5, o ESTADO | `1a9a800b` | o `ESTADO.md` (5.906 linhas) vira índice (538) + `docs/estado/{tablatura,maos,audio,partitura,historico-antes-das-trilhas}.md`. Seções inteiras, na ordem de hoje; só os 37 links relativos ganharam `../../`. Ficam no índice as 12 seções sem data que valem para todas ("não repetir", lições, ressalvas, número oficial) | `dividir.py conferir` remonta o original **byte a byte igual** (426.463 bytes); nenhum link novo quebrado |
 
+- **Arquivo frio** (2026-10-22, fora do git): `chorinho_arquivo/<trilha>/arquivar-2026-10-22.tar`
+  no HD do acervo, um por trilha, com o manifesto ao lado. Conferidos com `tar --compare`
+  (código 0) e sha256:
+  - tablatura `6e507a06…`: 37 itens, 154.757 arquivos, 2.165 MB;
+  - mãos `8de26019…`: `m31/denso` e `m7c`, 10.617 arquivos, 2.546 MB;
+  - áudio `4cc4d001…`: 2 itens, 98 arquivos, 9 MB;
+  - partitura `116aa221…`: 84 itens, 1.700 arquivos, 196 MB.
+  - **Nada saiu do disco.** A lista item a item para o dono está em
+    `data/saida/prova_9001/execucao/limpeza/para_o_dono.md`: 8 vazios para apagar e 124 itens
+    (5,2 GB) para tirar do disco. `prova_9001` fica, e as 2 imagens que o ouro cita ficam no
+    lugar.
 - **Os Dockerfiles ficam na raiz** (mudança do §3, que pedia `docker/`).
   - Os documentos de rodada citam comandos como `podman build -f Dockerfile.maos .`, e rodada
     não se reescreve (regra 2).
@@ -1308,5 +1319,5 @@ trilhas paradas ("PRONTA E PARADA" no §8).
 - **Falta**:
   - a fase 4 (dados e pesos por trilha). Ela espera o dono rodar `sudo chown` nas 35 pastas da
     tablatura que são do root;
-  - o arquivo frio em `.tar` e a lista de limpeza, item a item, para o dono;
+  - o aval do dono à lista de limpeza, e então o `rm`;
   - isolar o transcritor do Python 3.10.
