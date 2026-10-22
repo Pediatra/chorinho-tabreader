@@ -1583,6 +1583,9 @@ PAGINA = r"""<!doctype html>
 :root { color-scheme: dark; }
 body { margin: 0; font-family: system-ui, sans-serif; background: #1b1d22; color: #eee; }
 header { position: sticky; top: 0; z-index: 5; background: #24272e; padding: 10px 16px; }
+/* Mais alto que a tela (celular, janela baixa), o cabeçalho fixo cobria o quadro. */
+header { max-height: 40vh; overflow-y: auto; }
+@media (max-width: 800px) { header { position: static; max-height: none; } }
 h1 { font-size: 17px; margin: 0 0 6px; }
 .video { margin: 0 0 6px; font-size: 14px; word-break: break-word; }
 .instr { font-size: 13px; color: #c4c8d0; line-height: 1.45; }
