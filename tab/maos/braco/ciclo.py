@@ -182,6 +182,7 @@ RODADAS: dict[str, Rodada] = {
         pasta=MAOS_M43,
         gabarito=GABARITO_BRACO_M43,
         proxima="rodada seguinte",
+        n_videos=5,
         triagem=True,
     ),
 }

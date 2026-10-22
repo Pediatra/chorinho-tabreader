@@ -54,3 +54,16 @@ par que inverte o braço?
 - **A 1043 tem só 5 vídeos**: 1 vídeo ruim pesa 8 quadros. O resultado sai também por vídeo.
 - **O canal é preto e branco e clássico**: um erro ali pode ser de domínio, e não de capo. A
   tabela por tipo de erro separa os dois.
+
+## Resultado do treino e do critério 3 (2026-10-22)
+
+- 6 treinos (L6_capo_s1..s3 e A8_capo_s1..s3), todos com código 0 (`data/saida/maos/m42/logs/etapas.txt`).
+- **Escolha** (M11b com piso, M36 com veto; referência: o par antigo L3_todos_s3 + A4_100_todos_s1, 14 certos, 0 inversões em 28):
+  - os 3 pares com L6_capo_s2 invertem o nut em 6 quadros da M36 (de 29 a 30) e saem pelo veto, apesar de terem os mais certos (15 e 16);
+  - os pares com L6_capo_s3 ficam abaixo do piso (5 a 7 certos);
+  - passam os 3 pares com L6_capo_s1 (12 a 13 certos, 0 inversões em 26); pelo critério da 1029, o escolhido é **L6_capo_s1 + A8_capo_s2** (1 falso que passa, 12 certos, 18 sinalizados).
+- **Critério 3 (N sem capo, 17 quadros com braço): reprova.**
+  - Falsos que passam: novo 0, antigo 0 (precisa ≤ 1): passa.
+  - Entregues certos: novo 9, antigo 12 (precisa ≥ 10): **falha**. O novo sinaliza 7 de 17, contra 5 do antigo.
+  - No N com capo (4 quadros, só informativo): novo 3 certos e 1 falso que passa; antigo 0 certos e 3 falsos.
+- Pela tabela pré-registrada, se 1 e 2 passarem na 1043, o par novo vale **só onde há capo** e depende da 1038 (achar o capo). Os critérios 1 e 2 esperam a revisão do dono na 1043 (`previsto_1043.json` já gerado).
