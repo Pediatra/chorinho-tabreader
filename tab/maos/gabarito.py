@@ -29,7 +29,6 @@ import datetime
 import http.server
 import json
 import math
-import os
 import random
 import re
 import sys
@@ -39,6 +38,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from tab.comum.arquivos import gravar_atomico
 from tab.comum.caminhos import GABARITO_DEDOS, MAOS_DEDOS
 
 #: Retângulo ``(x0, y0, x1, y1)`` no espaço do QUADRO (pixels inteiros).
@@ -934,22 +934,6 @@ def progresso_ataques(gabarito: dict) -> tuple[int, int]:
     ids = list(dict.fromkeys(n["ataque"] for n in gabarito["notas"]))
     feitos = sum(1 for a in ids if ataque_completo(gabarito, a))
     return feitos, len(ids)
-
-
-def gravar_atomico(destino: Path, conteudo: dict) -> None:
-    """Grava JSON de forma atômica: temporário no mesmo diretório + ``os.replace``.
-
-    Args:
-        destino: arquivo final.
-        conteudo: dicionário serializável.
-    """
-    destino.parent.mkdir(parents=True, exist_ok=True)
-    tmp = destino.with_name(destino.name + ".tmp")
-    with tmp.open("w", encoding="utf-8") as f:
-        json.dump(conteudo, f, ensure_ascii=False, indent=1)
-        f.flush()
-        os.fsync(f.fileno())
-    os.replace(tmp, destino)
 
 
 # ---------------------------------------------------------------------------------

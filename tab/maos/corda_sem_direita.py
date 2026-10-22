@@ -51,11 +51,11 @@ import cv2
 import numpy as np
 
 from tab.comum.caminhos import GABARITO_BRACO, MAOS_M3B, MAOS_M8, acervo
+from tab.comum.violao import AFINACAO_MIDI
 from tab.maos.braco.geometria import Geometria, ajustar, montar_geometria
 from tab.maos.padroes_preparar import VIDEOS, notas_com_tempo
 
 #: Afinação padrão: MIDI das cordas soltas, da 1 (mi aguda) à 6 (mi grave).
-AFINACAO_MIDI = {1: 64, 2: 59, 3: 55, 4: 50, 5: 45, 6: 40}
 
 #: Maior casa considerada (0 é a corda solta).
 CASA_MAX = 19

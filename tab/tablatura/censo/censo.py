@@ -70,6 +70,7 @@ from pathlib import Path
 import numpy as np
 
 from tab.comum import cache, leitor
+from tab.comum.acervo import canais_fora, chave_de, chave_do_arquivo, ler_rollout
 from tab.comum.cache import FORMATO_PADRAO, FORMATOS, FaltaNoCache, ModoCache
 from tab.comum.caminhos import CANAIS, SAIDA, acervo
 from tab.tablatura.censo import varredura
@@ -106,34 +107,6 @@ INSTANTES_FOLHA: tuple[int, ...] = (2, 5, 8, 11)
 #: Abortar a execução se, depois deste número de vídeos, a fração de erros passar do limite.
 MIN_VIDEOS_PARA_ABORTAR = 20
 LIMITE_ERROS_ABORTAR = 0.5
-
-
-def chave_do_arquivo(caminho: str, raiz: str) -> str:
-    """Chave de retomada de um vídeo: caminho relativo, tamanho e mtime.
-
-    Args:
-        caminho: caminho absoluto do vídeo.
-        raiz: raiz do acervo (o caminho da chave é relativo a ela).
-
-    Returns:
-        Texto ``"relativo|tamanho|mtime"``.
-    """
-    st = os.stat(caminho)
-    return chave_de(os.path.relpath(caminho, raiz), st.st_size, st.st_mtime)
-
-
-def chave_de(rel: str, tamanho: int, mtime: float) -> str:
-    """Monta a chave de retomada a partir de seus três campos.
-
-    Args:
-        rel: caminho relativo à raiz do acervo.
-        tamanho: tamanho do arquivo, em bytes.
-        mtime: data de modificação, em segundos (truncada para inteiro).
-
-    Returns:
-        Texto ``"relativo|tamanho|mtime"``.
-    """
-    return f"{rel}|{int(tamanho)}|{int(mtime)}"
 
 
 def ja_feitas(caminho_jsonl: str) -> set[str]:
@@ -594,59 +567,6 @@ def folha_do_canal(
         colunas=4,
         largura=640,
     )
-
-
-def ler_rollout(caminho: Path) -> dict[str, str]:
-    """Campo ``rollout`` de cada canal de ``configs/canais.yaml``, sem PyYAML.
-
-    O container não tem PyYAML, e o arquivo tem uma forma fixa: ``canais:`` no topo, cada
-    canal com dois espaços de recuo e os campos com quatro. Só essas duas coisas são lidas;
-    o resto do arquivo (blocos ``>``, comentários) é ignorado. Comentário ``# ...`` sai.
-
-    Args:
-        caminho: o ``canais.yaml``.
-
-    Returns:
-        Canal -> valor de ``rollout`` (``""`` quando o canal está no yaml sem o campo). Um
-        arquivo ausente devolve ``{}``: todo canal é então "novo".
-    """
-    if not caminho.exists():
-        return {}
-    achados: dict[str, str] = {}
-    dentro_canais = False
-    canal: str | None = None
-    for bruta in caminho.read_text(encoding="utf-8").splitlines():
-        linha = bruta.split(" #")[0].rstrip()
-        if not linha.strip() or linha.lstrip().startswith("#"):
-            continue
-        if not linha.startswith(" "):
-            dentro_canais = linha.strip() == "canais:"
-            canal = None
-            continue
-        if not dentro_canais:
-            continue
-        if linha.startswith("  ") and not linha.startswith("   "):
-            if linha.strip().endswith(":"):
-                canal = linha.strip()[:-1].strip().strip('"')
-                achados[canal] = ""
-            else:
-                canal = None
-        elif canal is not None and linha.startswith("    rollout:"):
-            valor = linha.split(":", 1)[1].strip().strip('"')
-            achados[canal] = valor
-    return achados
-
-
-def canais_fora(cadastro: dict[str, str]) -> set[str]:
-    """Canais marcados ``rollout: fora`` (decisão 0009): não entram no censo padrão.
-
-    Args:
-        cadastro: saída de ``ler_rollout``.
-
-    Returns:
-        Os nomes de canal com ``rollout`` igual a ``fora``.
-    """
-    return {canal for canal, valor in cadastro.items() if valor == "fora"}
 
 
 def pendentes_de(videos: list[str], raiz: str, feitas: set[str]) -> list[str]:

@@ -21,11 +21,11 @@ import argparse
 import json
 import statistics
 import sys
-import unicodedata
 from pathlib import Path
 
 import numpy as np
 
+from tab.comum.arquivos import nfc as _nfc
 from tab.comum.caminhos import (
     GABARITO_BRACO,
     GABARITO_BRACO_M11B,
@@ -177,18 +177,6 @@ def melhor_deslocamento(
         erros[s] = float(np.mean(np.square(residuos)))
     ordem = sorted(erros, key=erros.get)
     return ordem[0], erros[ordem[1]] - erros[ordem[0]]
-
-
-def _nfc(texto: str) -> str:
-    """Nome de arquivo em NFC.
-
-    Args:
-        texto: nome.
-
-    Returns:
-        O nome normalizado.
-    """
-    return unicodedata.normalize("NFC", texto)
 
 
 def quadros() -> list[dict]:

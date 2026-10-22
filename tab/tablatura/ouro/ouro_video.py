@@ -38,7 +38,6 @@ import datetime
 import http.server
 import json
 import math
-import os
 import random
 import re
 import sys
@@ -53,6 +52,7 @@ import cv2
 import numpy as np
 
 from tab.comum import leitor
+from tab.comum.arquivos import gravar_atomico
 from tab.comum.caminhos import MODELO_PADRAO, RAIZ, SAIDA, acervo
 from tab.tablatura.leitura.digito import carregar
 from tab.tablatura.leitura.painel import (
@@ -658,22 +658,6 @@ def montar_ouro(
     if erros:
         raise ValueError("; ".join(erros[:5]))
     return ouro
-
-
-def gravar_atomico(destino: Path, conteudo: dict) -> None:
-    """Grava JSON de forma atômica: temporário no mesmo diretório + ``os.replace``.
-
-    Args:
-        destino: arquivo final.
-        conteudo: dicionário serializável.
-    """
-    destino.parent.mkdir(parents=True, exist_ok=True)
-    tmp = destino.with_name(destino.name + ".tmp")
-    with tmp.open("w", encoding="utf-8") as f:
-        json.dump(conteudo, f, ensure_ascii=False, indent=1)
-        f.flush()
-        os.fsync(f.fileno())
-    os.replace(tmp, destino)
 
 
 def _notas_sem_par(a: list[dict], b: list[dict]) -> list[dict]:

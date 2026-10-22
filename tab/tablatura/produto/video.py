@@ -29,7 +29,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import subprocess
 import sys
 from datetime import datetime
@@ -38,6 +37,7 @@ from pathlib import Path
 import numpy as np
 
 from tab.comum import leitor
+from tab.comum.arquivos import slug as _slug
 from tab.comum.caminhos import (
     DETECTOR_PADRAO,
     MODELO_PADRAO,
@@ -830,18 +830,6 @@ def transcrever_video(
         notas=notas,
         nao_notas=nao_notas,
     )
-
-
-def _slug(caminho: str) -> str:
-    """Nome de pasta seguro para o vídeo (usado nos recortes de símbolo).
-
-    Args:
-        caminho: caminho do vídeo.
-
-    Returns:
-        O nome do arquivo sem extensão, com caracteres especiais trocados por ``_``.
-    """
-    return re.sub(r"[^\w.-]+", "_", Path(caminho).stem).strip("_") or "video"
 
 
 def _relativo(caminho: str, base: Path) -> str:

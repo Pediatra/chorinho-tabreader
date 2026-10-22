@@ -33,9 +33,9 @@ from tab.comum.caminhos import (
     PRE_OURO_VIDEO,
     SAIDA_AUDIO,
 )
+from tab.comum.violao import AFINACAO_MIDI as ALTURA_SOLTA
 
 #: Altura MIDI de cada corda solta, afinação padrão (E4 B3 G3 D3 A2 E2).
-ALTURA_SOLTA = {1: 64, 2: 59, 3: 55, 4: 50, 5: 45, 6: 40}
 
 #: Inícios a até esta distância (s), em cadeia, formam um evento (acorde rasgueado).
 JUNTAR_S = 0.06

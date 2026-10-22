@@ -38,6 +38,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from tab.comum.arquivos import ler_json as _ler_json
 from tab.comum.caminhos import (
     GABARITO_BRACO_M11B,
     GABARITO_BRACO_M26,
@@ -812,18 +813,6 @@ def ordenar_por_sinalizado(ids: list[str], sinalizados: dict[str, bool]) -> list
         Os ids com os sinalizados na frente.
     """
     return [i for i in ids if sinalizados[i]] + [i for i in ids if not sinalizados[i]]
-
-
-def _ler_json(caminho: Path) -> dict:
-    """Lê um JSON em UTF-8.
-
-    Args:
-        caminho: arquivo.
-
-    Returns:
-        O conteúdo.
-    """
-    return json.loads(caminho.read_text(encoding="utf-8"))
 
 
 def _sem_resposta(gabarito: dict) -> None:

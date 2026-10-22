@@ -29,6 +29,7 @@ import torch.nn.functional as F
 from PIL import Image, ImageDraw, ImageFont
 
 from tab.comum.caminhos import GABARITO, PESOS_TABLATURA
+from tab.comum.semente import fixar_semente
 from tab.tablatura.leitura.glyph_bench import GlifoCNN
 from tab.tablatura.leitura.glyphset import normalizar
 from tab.tablatura.leitura.tabseg import segmentar
@@ -464,29 +465,6 @@ def avaliar_no_gabarito(modelo, rotulos, dev) -> dict:
     total = sum(t for _, _, t in linhas)
     print(f"  TOTAL gabarito real: {acertos}/{total} = {acertos / max(1, total):.3f}")
     return {"acertos": acertos, "total": total}
-
-
-def fixar_semente(seed: int) -> None:
-    """Fixa a semente **e** desliga o nondeterminismo da GPU.
-
-    Medido: a MESMA semente, com o mesmo comando, deu 0,927, 0,896 e 0,948
-    (amplitude 0,052) — porque a convolução em CUDA usa `atomicAdd` e o cuDNN
-    não é determinístico por padrão. Semente fixa sem isto **não** controla a
-    variância, e foi sobre essa premissa falsa que o projeto comparou rodadas.
-
-    Args:
-        seed: semente para `random`, `numpy` e `torch`.
-    """
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed_all(seed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-    # warn_only: se algum op não tiver caminho determinístico, quero saber pelo
-    # aviso, não perder o treino inteiro.
-    torch.use_deterministic_algorithms(True, warn_only=True)
 
 
 def treinar(X, y, saida: str, epocas: int, lote: int = 128, seed: int = 0):

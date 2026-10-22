@@ -22,8 +22,8 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-import unicodedata
 
+from tab.comum.arquivos import nfc as _nfc
 from tab.comum.caminhos import (
     GABARITO_BRACO_M39,
     MAOS_M39,
@@ -68,18 +68,6 @@ ARQUIVO_ESCOLHA = MAOS_M41 / "escolha_pesos.json"
 ARQUIVO_MEDIDA_DEV = MAOS_M41 / "medida_dev.json"
 ARQUIVO_PREVISTO_PROVA = MAOS_M41 / "previsto_1039.json"
 ARQUIVO_MEDIDA_PROVA = MAOS_M41 / "medida_prova.json"
-
-
-def _nfc(texto: str) -> str:
-    """Nome de arquivo em NFC.
-
-    Args:
-        texto: nome.
-
-    Returns:
-        O nome normalizado.
-    """
-    return unicodedata.normalize("NFC", texto)
 
 
 def videos_da_prova() -> set[str]:

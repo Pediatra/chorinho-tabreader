@@ -18,12 +18,12 @@ import argparse
 import copy
 import json
 import sys
-import unicodedata
 from pathlib import Path
 
 import cv2
 import numpy as np
 
+from tab.comum.arquivos import nfc as _nfc
 from tab.comum.caminhos import (
     GABARITO_BRACO_M11B,
     GABARITO_BRACO_M27,
@@ -122,18 +122,6 @@ ESTAGIOS2_A5 = (
     "A5_100_todos_s3",
 )
 ARQUIVO_MEDIDA_A5 = MAOS_M31 / "medida_a5.json"
-
-
-def _nfc(texto: str) -> str:
-    """Forma Unicode NFC (os nomes do acervo misturam kana composto e decomposto).
-
-    Args:
-        texto: nome de arquivo ou trecho.
-
-    Returns:
-        O texto em NFC.
-    """
-    return unicodedata.normalize("NFC", texto)
 
 
 def pasta_quadros(nome: str) -> Path:

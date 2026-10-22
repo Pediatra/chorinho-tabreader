@@ -24,11 +24,11 @@ import argparse
 import collections
 import json
 import sys
-import unicodedata
 
 import cv2
 import numpy as np
 
+from tab.comum.arquivos import nfc as _nfc
 from tab.comum.caminhos import (
     MAOS_M11B,
     MAOS_M25,
@@ -65,18 +65,6 @@ RODADA_ANTIGA = "1032"
 ARQUIVO_INDICE = MAOS_M38 / "indice.json"
 ARQUIVO_ESCOLHA_1037 = MAOS_M37 / "escolha_pesos.json"
 ARQUIVO_MEDIDA = MAOS_M38 / "medida.json"
-
-
-def _nfc(texto: str) -> str:
-    """Nome de arquivo em NFC.
-
-    Args:
-        texto: nome.
-
-    Returns:
-        O nome normalizado.
-    """
-    return unicodedata.normalize("NFC", texto)
 
 
 def fracoes(n: int = QUADROS_POR_VIDEO) -> list[float]:

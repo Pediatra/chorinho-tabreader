@@ -37,6 +37,7 @@ import torchvision
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
 
+from tab.comum.arquivos import ler_json as _ler_json
 from tab.comum.caminhos import (
     GABARITO_BRACO,
     GABARITO_BRACO_M11B,
@@ -230,18 +231,6 @@ def _gabarito() -> dict:
         Dicionário id -> registro.
     """
     return json.loads(GABARITO_BRACO.read_text(encoding="utf-8"))["quadros"]
-
-
-def _ler_json(caminho: Path) -> dict:
-    """Lê um JSON em UTF-8.
-
-    Args:
-        caminho: arquivo JSON.
-
-    Returns:
-        O conteúdo.
-    """
-    return json.loads(caminho.read_text(encoding="utf-8"))
 
 
 def _gravar_json(caminho: Path, dados: dict) -> None:

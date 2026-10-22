@@ -27,11 +27,11 @@ import os
 import random
 import statistics
 import sys
-import unicodedata
 from pathlib import Path
 
 import numpy as np
 
+from tab.comum.arquivos import nfc as _nfc
 from tab.comum.caminhos import (
     GABARITO_BRACO_M11B,
     GABARITO_BRACO_M25_PROVA,
@@ -147,18 +147,6 @@ SEMENTE_FOLHA = "20261037:folha"
 QUADROS_FOLHA = 12
 #: Variável com o commit do código, gravada no json do peso (o container não tem git).
 VARIAVEL_COMMIT = "CHORINHO_COMMIT"
-
-
-def _nfc(texto: str) -> str:
-    """Normaliza um nome de arquivo para comparação (kana e acento).
-
-    Args:
-        texto: nome do arquivo.
-
-    Returns:
-        O nome em NFC.
-    """
-    return unicodedata.normalize("NFC", texto)
 
 
 def chave_do_r(caminho: str) -> str:

@@ -22,7 +22,6 @@ Uso::
 from __future__ import annotations
 
 import argparse
-import json
 import random
 import statistics
 import subprocess
@@ -32,6 +31,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from tab.comum.arquivos import ler_json as _ler_json
 from tab.comum.caminhos import (
     GABARITO_PADROES,
     MAOS_M3C,
@@ -534,18 +534,6 @@ def desenhar_tab(
 # ---------------------------------------------------------------------------------
 # Preparo (ffmpeg, arquivos)
 # ---------------------------------------------------------------------------------
-
-
-def _ler_json(caminho: Path) -> dict:
-    """Lê um JSON UTF-8.
-
-    Args:
-        caminho: arquivo.
-
-    Returns:
-        O conteúdo.
-    """
-    return json.loads(caminho.read_text(encoding="utf-8"))
 
 
 def _preparar_compasso(

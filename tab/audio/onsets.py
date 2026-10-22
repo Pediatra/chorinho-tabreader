@@ -25,6 +25,7 @@ from __future__ import annotations
 import numpy as np
 
 from tab.audio.extrair import indice_de
+from tab.comum.violao import AFINACAO_MIDI as MIDI_CORDA
 
 #: Tamanho da FFT, em amostras (2048 a 22050 Hz: resolução de ~10,8 Hz por bin).
 N_FFT = 2048
@@ -41,7 +42,6 @@ GAMA_LOG = 100.0
 DELTA_PICO = 0.05
 
 #: MIDI das cordas soltas em afinação padrão (E A D G B E), contadas de 1 (aguda) a 6.
-MIDI_CORDA = {1: 64, 2: 59, 3: 55, 4: 50, 5: 45, 6: 40}
 
 #: Quadros por bloco no cálculo da FFT (limita a memória sem mudar o resultado).
 _BLOCO = 4096

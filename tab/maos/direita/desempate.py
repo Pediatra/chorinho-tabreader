@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Any
 
 from tab.comum.caminhos import MAOS_M7
+from tab.comum.violao import AFINACAO_MIDI
 from tab.maos.direita.cordas import (
     JANELA_AMPLA,
     _quadro_do_delta,
@@ -36,7 +37,6 @@ from tab.maos.direita.tempo import NOMES
 from tab.maos.padroes_preparar import VIDEOS
 
 #: MIDI das cordas soltas, da 1 (mi aguda) à 6 (mi grave), afinação padrão.
-AFINACAO_MIDI = {1: 64, 2: 59, 3: 55, 4: 50, 5: 45, 6: 40}
 
 #: Maior casa considerada no violão (0 é a corda solta).
 CASA_MAX = 19
