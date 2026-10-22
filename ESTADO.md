@@ -204,6 +204,7 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | **braço, escolher o par só na M11b (sem vídeo vertical), mesmo com piso de certos** | **escolhe um par que inverte o braço nos verticais** (1041): 7 de 28 na M36, e o critério 3 reprova (9 certos sem capo contra 15). A escolha precisa de vídeo vertical ou de checagem de orientação |
 | **braço, capo sobreamostrado 3× sem exemplos de capo nas casas 4 e 5** | **reprova na 1039** (1041): 15 de 64 falsos que passam; com capo na casa 4 o modelo volta ao nut verdadeiro (14 de 16) e 12 passam sem sinal. O treino tinha ~13 quadros na casa 4 e 1 na 5 |
 | **tablatura, recorte alto com os pesos `_ger` da leitura comum** | **reprova** (0212): nos 8 ouros, as perdidas vão de 35 para 33, mas as inventadas sobem de 131 para 147 (quase todas no *room 335*); os pesos nunca viram o que fica acima da corda 1 |
+| **tablatura, rótulo de ataque `_atqa` (recorte alto + G11–G12) na prova lacrada T8.4** | **reprova** (0211): "sim" falso 33/266 (12,4 %) com o limite de 5 %; custo 131/3477 (3,8 %). Recontado com 4 notas corrigidas pelo dono, 21/254 (8,3 %), ainda reprova. Escapam a nota entre parênteses depois da ligadura, a ligadura desenhada embaixo da corda e o harmônico ligado: o gerador não cobre esses casos |
 
 ## Lições metodológicas (custaram rodadas)
 

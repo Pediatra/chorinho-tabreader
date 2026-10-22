@@ -1,0 +1,247 @@
+[
+ {
+  "nota": "t12-n17",
+  "tela": 12,
+  "corda": 4,
+  "casa": 4,
+  "motivo_dono": "p",
+  "regiao": "t12-r5",
+  "tecnica_prevista": [],
+  "tecnica_p": {
+   "h": 0.001,
+   "p": 0.001,
+   "/": 0.0,
+   "\\": 0.0,
+   "harm": 0.0,
+   "lig": 0.0,
+   "bend": 0.005,
+   "vib": 0.0,
+   "orn": 0.004,
+   "enfeite": 0.0
+  }
+ },
+ {
+  "nota": "t13-n6",
+  "tela": 13,
+  "corda": 3,
+  "casa": 4,
+  "motivo_dono": "prolongamento",
+  "regiao": "t13-r2",
+  "tecnica_prevista": [],
+  "tecnica_p": {
+   "h": 0.0,
+   "p": 0.0,
+   "/": 0.0,
+   "\\": 0.0,
+   "harm": 0.0,
+   "lig": 0.0,
+   "bend": 0.003,
+   "vib": 0.0,
+   "orn": 0.0,
+   "enfeite": 0.0
+  }
+ },
+ {
+  "nota": "t13-n7",
+  "tela": 13,
+  "corda": 3,
+  "casa": 4,
+  "motivo_dono": "prolongamento",
+  "regiao": "t13-r3",
+  "tecnica_prevista": [],
+  "tecnica_p": {
+   "h": 0.0,
+   "p": 0.0,
+   "/": 0.0,
+   "\\": 0.0,
+   "harm": 0.0,
+   "lig": 0.0,
+   "bend": 0.0,
+   "vib": 0.0,
+   "orn": 0.0,
+   "enfeite": 0.0
+  }
+ },
+ {
+  "nota": "t13-n11",
+  "tela": 13,
+  "corda": 3,
+  "casa": 4,
+  "motivo_dono": "prolongamento",
+  "regiao": "t13-r4",
+  "tecnica_prevista": [
+   "bend"
+  ],
+  "tecnica_p": {
+   "h": 0.002,
+   "p": 0.0,
+   "/": 0.0,
+   "\\": 0.0,
+   "harm": 0.0,
+   "lig": 0.003,
+   "bend": 0.222,
+   "vib": 0.0,
+   "orn": 0.015,
+   "enfeite": 0.0
+  }
+ },
+ {
+  "nota": "t13-n12",
+  "tela": 13,
+  "corda": 3,
+  "casa": 4,
+  "motivo_dono": "prolongamento",
+  "regiao": "t13-r6",
+  "tecnica_prevista": [
+   "bend"
+  ],
+  "tecnica_p": {
+   "h": 0.0,
+   "p": 0.0,
+   "/": 0.0,
+   "\\": 0.001,
+   "harm": 0.007,
+   "lig": 0.0,
+   "bend": 0.031,
+   "vib": 0.0,
+   "orn": 0.001,
+   "enfeite": 0.0
+  }
+ },
+ {
+  "nota": "t13-n13",
+  "tela": 13,
+  "corda": 3,
+  "casa": 2,
+  "motivo_dono": "prolongamento",
+  "regiao": "t13-r9",
+  "tecnica_prevista": [],
+  "tecnica_p": {
+   "h": 0.0,
+   "p": 0.0,
+   "/": 0.0,
+   "\\": 0.0,
+   "harm": 0.0,
+   "lig": 0.0,
+   "bend": 0.01,
+   "vib": 0.0,
+   "orn": 0.0,
+   "enfeite": 0.0
+  }
+ },
+ {
+  "nota": "t13-n16",
+  "tela": 13,
+  "corda": 4,
+  "casa": 4,
+  "motivo_dono": "prolongamento",
+  "regiao": "t13-r10",
+  "tecnica_prevista": [
+   "/"
+  ],
+  "tecnica_p": {
+   "h": 0.0,
+   "p": 0.001,
+   "/": 0.223,
+   "\\": 0.003,
+   "harm": 0.0,
+   "lig": 0.001,
+   "bend": 0.0,
+   "vib": 0.001,
+   "orn": 0.0,
+   "enfeite": 0.0
+  }
+ },
+ {
+  "nota": "t21-n29",
+  "tela": 21,
+  "corda": 2,
+  "casa": 12,
+  "motivo_dono": "prolongamento",
+  "regiao": "t21-r9",
+  "tecnica_prevista": [
+   "harm"
+  ],
+  "tecnica_p": {
+   "h": 0.0,
+   "p": 0.0,
+   "/": 0.0,
+   "\\": 0.0,
+   "harm": 1.0,
+   "lig": 0.0,
+   "bend": 0.0,
+   "vib": 0.0,
+   "orn": 0.0,
+   "enfeite": 0.0
+  }
+ },
+ {
+  "nota": "t21-n30",
+  "tela": 21,
+  "corda": 3,
+  "casa": 12,
+  "motivo_dono": "prolongamento",
+  "regiao": "t21-r9",
+  "tecnica_prevista": [
+   "harm"
+  ],
+  "tecnica_p": {
+   "h": 0.0,
+   "p": 0.0,
+   "/": 0.001,
+   "\\": 0.0,
+   "harm": 1.0,
+   "lig": 0.0,
+   "bend": 0.0,
+   "vib": 0.0,
+   "orn": 0.0,
+   "enfeite": 0.0
+  }
+ },
+ {
+  "nota": "t23-n4",
+  "tela": 23,
+  "corda": 2,
+  "casa": 2,
+  "motivo_dono": "prolongamento",
+  "regiao": "t23-r0",
+  "tecnica_prevista": [
+   "bend"
+  ],
+  "tecnica_p": {
+   "h": 0.0,
+   "p": 0.0,
+   "/": 0.0,
+   "\\": 0.0,
+   "harm": 0.0,
+   "lig": 0.0,
+   "bend": 0.245,
+   "vib": 0.001,
+   "orn": 0.0,
+   "enfeite": 0.0
+  }
+ },
+ {
+  "nota": "t23-n24",
+  "tela": 23,
+  "corda": 1,
+  "casa": 5,
+  "motivo_dono": "prolongamento",
+  "regiao": "t23-r2",
+  "tecnica_prevista": [
+   "/"
+  ],
+  "tecnica_p": {
+   "h": 0.001,
+   "p": 0.001,
+   "/": 0.134,
+   "\\": 0.011,
+   "harm": 0.002,
+   "lig": 0.0,
+   "bend": 0.0,
+   "vib": 0.0,
+   "orn": 0.002,
+   "enfeite": 0.0
+  }
+ }
+]

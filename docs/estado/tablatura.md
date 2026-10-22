@@ -384,3 +384,19 @@ Três frentes fechadas nesta onda. O aceite de nenhuma foi atingido: A1 não abr
 
 Tabela "não repetir" atualizada acima (5 linhas novas).
 
+## Tablatura — rótulo de ataque na T8.4 (0211, 2026-10-22)
+
+- **O `_atqa` reprova na prova lacrada T8.4.**
+  - "Sim" falso de **33/266 (12,4 %)**, com o limite de 5 %. O custo é de 131/3477
+    (3,8 %).
+  - Recontado com a correção de ligadura do dono, dá 21/254 (8,3 %). Isso só informa.
+- **O `DETECTOR_CALIBRADO` continua `_atqt_s1`**, e a T8.4 está gasta.
+- **O que escapa é a ligadura de prolongamento** que o gerador não cobre:
+  - o `(n)` entre parênteses;
+  - o arco embaixo da corda;
+  - o harmônico ligado.
+- **Regra do dono** (2026-10-22): numa ligadura, **o primeiro número é atacado**, com ou sem
+  segundo número.
+- **A próxima prova lacrada é a T8.5**: 30 telas de 15 canais, em
+  `data/saida/tablatura/t85/`, na conferência do dono.
+- Ver `docs/rodadas/0211-recorte-alto.md`, "Resultado na T8.4".

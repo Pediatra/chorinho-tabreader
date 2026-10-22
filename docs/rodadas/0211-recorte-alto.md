@@ -170,3 +170,63 @@ São 15 treinos `--ataque --t82 --recorte-alto`, com o G11–G12 ligado (commit 
   - Eu olhei só o recorte, e não o quadro inteiro (regra 7.7).
 - A tela continua fora da T8.4: ela saiu antes de qualquer medida, e o lote não muda.
 - O erro do painel vira um diagnóstico à parte, em `diag/painel_cifra.py`.
+
+## Resultado na T8.4 (2026-10-22): reprova
+
+**O passe do dono no modo ataque.**
+- O dono conferiu as 29 telas no modo ataque e mudou 11 notas.
+- **Antes de subir a ferramenta**, a numeração das notas da tela 21 estava fora da ordem da
+  ferramenta. As 2 notas `<12>` ditas no chat tinham entrado no fim da lista, e a ferramenta
+  numera pela ordem de x. Eu renumerei 3 chaves, sem mudar rótulo nenhum. A medida não muda,
+  porque ela casa as notas por corda e x
+  (`data/saida/tablatura/t84/passe_ataque/montar_servido.py`).
+- **Depois do passe**, duas correções pela palavra do dono no chat:
+  - tela 27: o "0" depois de cada arco "p" é não atacado (pull-off). São as notas n62 e
+    n66. A região tinha sido desenhada na altura da corda 1, e a conversão procura a nota na
+    corda da região (`correcao_t27.py`);
+  - **o primeiro número de uma ligadura é atacado, com ou sem segundo número.** As notas
+    t13-n6, t13-n7, t13-n13 e t23-n4 voltam a "atacada". O dono: "quando não há segundo
+    número em uma ligadura é a mesma coisa que quando tem dois números considere o primeiro
+    como atacado" (`correcao_ligadura.py`).
+
+**A medida, uma vez só** (`r4g/medir_t84.py`, `_atqa`, dobra 0, 3 sementes, recorte alto,
+`L` 0,02), feita com o passe do dono e a correção da tela 27:
+
+| semente | "sim" falso | custo | casa | não lidas |
+| --- | --- | --- | --- | --- |
+| 1 | 11/88 | 42/1158 | 1235/1246 | 24 |
+| 2 | 11/89 | 43/1159 | 1236/1248 | 22 |
+| 3 | 11/89 | 46/1160 | 1237/1249 | 21 |
+| **soma** | **33/266 (12,4 %)** | **131/3477 (3,8 %)** | | |
+
+- **Reprova**: o "sim" falso passa do limite de 5 %. O custo passa.
+- Pelo pré-registro:
+  - a T8.4 fica **gasta**;
+  - o `DETECTOR_CALIBRADO` **não muda** (continua `_atqt_s1`);
+  - os erros viram o diagnóstico seguinte.
+- **Recontagem informativa** (`medir_t84_informativa.py`, com a correção da ligadura, que
+  veio depois da medida): **21/254 (8,3 %)**, 7 por semente. Também reprova. Ela não decide
+  nada.
+
+**Os erros** (`r4g/erros_t84.py`, semente 1, 11 notas antes da correção da ligadura):
+
+| tipo | notas | telas |
+| --- | --- | --- |
+| nota entre parênteses depois de uma ligadura, como `(4)` e `(5)` | 4 | 13 e 23 |
+| primeiro número de uma ligadura sem segundo número: voltou a "atacada" pelo dono, e não é mais erro | 4 | 13 e 23 |
+| harmônico `<12>` ligado ao seguinte | 2 | 21 |
+| pull-off num trecho com vários arcos | 1 | 12 |
+
+- **Com a correção do dono, sobram 7 por semente, e todos são ligadura de prolongamento.**
+  Os casos são:
+  - o número entre parênteses;
+  - o arco desenhado embaixo da corda (tela 13, canal mr. tabs);
+  - o harmônico ligado.
+- **O modelo lê a nota, mas não lê esses sinais.** É de novo a cobertura do gerador
+  (AGENTS §7.9). Esse é o próximo passo, com a T8.5 (30 telas, sorteio `Random(3)`) como
+  prova lacrada nova.
+- **Regiões sem nota**: das 132 regiões do dono, 40 não ligaram a nenhuma nota.
+  - 21 são X sem número. O X ainda não é nota no arquivo de ataque, e isso é dívida.
+  - 17 são arcos e slides cuja nota já tinha o rótulo de outra região do dono.
+  - 2 são as da tela 27, corrigidas acima.
+  - Os recortes estão em `t84/passe_ataque/regioes_soltas/`.
