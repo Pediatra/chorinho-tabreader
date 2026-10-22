@@ -1,7 +1,7 @@
 {
  "video": "rodada 2018 (áudio): 4 telas de acorde cheio de 4 vídeos (ver indice.json)",
  "como_foi_rotulado": "Rodada 2018 (áudio): uma tela por vídeo, escolhida pelo dono por ter acorde de 5-6 notas. Notas pré-lidas pela rede; o dono confere corda e casa. Sem instantes.",
- "rotulado_em": "2026-10-21T16:24:43",
+ "rotulado_em": "2026-10-22T18:03:19",
  "telas": [
   {
    "id": 1,
@@ -328,7 +328,7 @@
     },
     {
      "corda": 2,
-     "casa": 0,
+     "casa": 3,
      "x_quadro": 1676.6,
      "x_centro_quadro": 1681.6
     },
@@ -358,7 +358,7 @@
     },
     {
      "corda": 2,
-     "casa": 0,
+     "casa": 3,
      "x_quadro": 1722.8,
      "x_centro_quadro": 1727.8
     },
@@ -388,7 +388,7 @@
     },
     {
      "corda": 2,
-     "casa": 0,
+     "casa": 3,
      "x_quadro": 1773.2,
      "x_centro_quadro": 1778.2
     },
@@ -442,7 +442,7 @@
     },
     {
      "corda": 2,
-     "casa": 0,
+     "casa": 3,
      "x_quadro": 1828.6,
      "x_centro_quadro": 1832.8
     },
@@ -454,7 +454,7 @@
     },
     {
      "corda": 2,
-     "casa": 0,
+     "casa": 3,
      "x_quadro": 1874.0,
      "x_centro_quadro": 1879.0
     },
@@ -1364,7 +1364,7 @@
  "juntadas": {},
  "ferramenta": {
   "proximo": 12,
-  "tela_atual": 4,
+  "tela_atual": 1,
   "inst_atual": 0,
   "telas": [
    {
@@ -1677,7 +1677,7 @@
      {
       "id": "m20",
       "corda": 2,
-      "casa": "0",
+      "casa": "3",
       "x_quadro": 1676.6,
       "x_centro_quadro": 1681.6,
       "origem": "modelo",
@@ -1692,7 +1692,7 @@
      {
       "id": "m21",
       "corda": 2,
-      "casa": "0",
+      "casa": "3",
       "x_quadro": 1722.8,
       "x_centro_quadro": 1727.8,
       "origem": "modelo",
@@ -1707,7 +1707,7 @@
      {
       "id": "m22",
       "corda": 2,
-      "casa": "0",
+      "casa": "3",
       "x_quadro": 1773.2,
       "x_centro_quadro": 1778.2,
       "origem": "modelo",
@@ -1737,7 +1737,7 @@
      {
       "id": "m24",
       "corda": 2,
-      "casa": "0",
+      "casa": "3",
       "x_quadro": 1874,
       "x_centro_quadro": 1879,
       "origem": "modelo",
@@ -2541,7 +2541,7 @@
      {
       "id": "d3",
       "corda": 2,
-      "casa": "0",
+      "casa": "3",
       "x_centro_quadro": 1832.8,
       "x_quadro": 1828.6,
       "origem": "dono",

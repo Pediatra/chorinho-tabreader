@@ -139,3 +139,14 @@ Seções movidas inteiras do [`ESTADO.md`](../../ESTADO.md) na decisão 9001
 - **K2** (erros acusados): **7/21 = 33 %**, **reprova**. A precisão do alarme é 7/497 = 1,4 %.
 - **Não repetir**: usar "o som não confirma" como alarme de erro da tela, porque o som perde nota de verdade (490 das 497 não confirmadas estão certas). E não pôr critério na soma de uma amostra dentro do treino com outra fora: a de dentro domina.
 
+
+## Áudio — 2026-10-22 — correção do dono no `acordes_2018` e a 2020 refeita
+
+- O dono corrigiu na ferramenta a corda 2 dos rasgueados do fim da tela 1 (*paolo*): 0 → 3,
+  como a tela mostra (0 3 0 2 3). O cruzamento tela × som tinha apontado essas notas.
+- Ficou uma nota repetida no 4º rasgueado (`d3`: corda 2, casa 3, posta pelo dono em cima da
+  `m23`). Ela espera o dono apagar na ferramenta; o agente não grava no ouro.
+- **2020 refeita com o gabarito corrigido** (`data/saida/audio/r2020/medida.json`, que foi
+  sobrescrita): fora do treino, K1 = **3/184 = 1,6 %** (as 3 setas de rasgueado do
+  *charagua*); somadas, K1 = 10/2.409 = 0,42 % e K2 = 7/17 = 41 % (ainda reprova). A leitura
+  da rodada não muda: o `confirma` não promove nota até a rodada na T8.2.
