@@ -1,6 +1,6 @@
 # 9001 — Reestruturação dos arquivos do projeto (todas as trilhas)
 
-- **Situação**: **proposta v3**, escrita pela trilha mãos em 2026-10-21, a pedido do dono.
+- **Situação**: **em execução** (§9); proposta v3 escrita pela trilha mãos em 2026-10-21, a pedido do dono.
   - As 4 trilhas responderam (§8).
   - O dono respondeu às 3 primeiras perguntas (§7b); faltam as 3 do §7c.
 - **Para quem**: as 4 trilhas combinam respondendo no fim deste arquivo, cada uma na sua seção.
@@ -1286,3 +1286,27 @@ PRONTA E PARADA — 2026-10-21 20:25 — commit eae7c3a5
   - Depois da mudança, `depois.json` tem de ser igual a ele.
 
 **PRONTA E PARADA — 2026-10-21 20:28 — commit 6be39b08** (mãos, sessão da 1041: nenhuma fila, ferramenta ou container rodando; a 1039 espera a revisão do dono).
+
+## 9. Execução (sessão única, a pedido do dono)
+
+O dono pediu que uma sessão só (a ramificação das mãos) fizesse toda a mudança, com as 4
+trilhas paradas ("PRONTA E PARADA" no §8).
+
+| etapa | commit | o que mudou | prova |
+| --- | --- | --- | --- |
+| fases 2 e 3 | `4ce9fa2e` | 149 módulos e 127 testes em subpastas por trilha; 689 linhas de import reescritas; os nomes antigos valem por `tab/_apelidos.py` | as 4 provas byte a byte iguais; gate 2060 passaram, 2 pulados |
+| unificar repetidas | `94cad4fc` | `tab/comum/{arquivos,acervo,semente,violao}.py`; os nomes antigos ficam nos módulos de origem como o mesmo objeto | as 4 provas de novo iguais; `tests/comum/test_comum_unificado.py` |
+| índice do git | (este) | as 8 pastas `data/saida/simbolos_*` saem do índice (18.372 arquivos) | nenhum código nem teste as lê; elas **continuam no disco** |
+
+- **Os Dockerfiles ficam na raiz** (mudança do §3, que pedia `docker/`).
+  - Os documentos de rodada citam comandos como `podman build -f Dockerfile.maos .`, e rodada
+    não se reescreve (regra 2).
+  - Mover só para arrumar quebraria esses comandos sem ganho de código.
+- **Ficam rastreadas** as pastas de `data/saida` citadas por arquivos do gabarito
+  (`auditoria_pool`, `portao_casos`, `auditoria_simbolo`, `audio`), pela regra 10.
+- **Falta**:
+  - a fase 4 (dados e pesos por trilha). Ela espera o dono rodar `sudo chown` nas 35 pastas da
+    tablatura que são do root;
+  - a fase 5 (o `ESTADO.md` vira índice);
+  - o arquivo frio em `.tar` e a lista de limpeza, item a item, para o dono;
+  - isolar o transcritor do Python 3.10.
