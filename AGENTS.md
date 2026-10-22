@@ -174,7 +174,7 @@ chorinho-dataset/
 ├── tests/        # o gate, com uma pasta por trilha (sem GPU e sem acervo)
 ├── configs/      # canais.yaml (perfil e rollout por canal), simbolos.yaml (símbolo POR CANAL)
 ├── data/gold/    # gabaritos do dono: contrato
-├── data/saida/   # o que é gerado (ignorado pelo git, salvo exceções antigas)
+├── data/saida/   # o que é gerado, em <trilha>/ (ignorado pelo git, salvo exceções antigas)
 ├── artefatos/    # pesos (.pt fora do git; a procedência .md entra)
 ├── parts/        # recortes de amostra
 └── docs/{HISTORICO.md, estado/, rodadas/, decisoes/, guias/, pesquisa/}
@@ -195,7 +195,12 @@ chorinho-dataset/
      ficam em sintaxe do Python 3.10 e só stdlib: a imagem do transcritor (3.10) e o
      `celular` (Python do host) importam `tab`. Um teste do gate trava isso.
 5. **Modelo treinado vai para `artefatos/`**, com o comando, a semente e o commit registrados.
-6. **Caminho não se espalha.** Acervo, gabarito, saída e artefatos vêm de `tab/comum/caminhos.py`.
+6. **Saída nova vai em `data/saida/<trilha>/`** (decisão 9001, fase 4). As 156 pastas
+   soltas antigas foram para `data/saida/tablatura/` e `data/saida/partitura/` em
+   2026-10-22, e o lugar antigo ficou com um link simbólico relativo: o caminho de antes
+   continua valendo. As constantes do `caminhos.py` mudam de valor só quando os links
+   saírem (fase 6). Não apague nem substitua um desses links.
+7. **Caminho não se espalha.** Acervo, gabarito, saída e artefatos vêm de `tab/comum/caminhos.py`.
    Caminho absoluto novo no meio de um módulo é bug de revisão.
 
 ## 6. Como uma rodada funciona

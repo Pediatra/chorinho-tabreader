@@ -1299,6 +1299,28 @@ trilhas paradas ("PRONTA E PARADA" no §8).
 | índice do git | `56745d91` | as 8 pastas `data/saida/simbolos_*` saem do índice (18.372 arquivos) | nenhum código nem teste as lê; elas **continuam no disco** |
 | fase 5, o ESTADO | `1a9a800b` | o `ESTADO.md` (5.906 linhas) vira índice (538) + `docs/estado/{tablatura,maos,audio,partitura,historico-antes-das-trilhas}.md`. Seções inteiras, na ordem de hoje; só os 37 links relativos ganharam `../../`. Ficam no índice as 12 seções sem data que valem para todas ("não repetir", lições, ressalvas, número oficial) | `dividir.py conferir` remonta o original **byte a byte igual** (426.463 bytes); nenhum link novo quebrado |
 
+- **Fase 4, dados** (2026-10-22, commit desta linha): 156 itens soltos de `data/saida/`
+  (201.251 arquivos, 3,6 GiB) foram com `mv` para `data/saida/tablatura/` (155) e
+  `data/saida/partitura/part_frentes`. No lugar antigo ficou um link simbólico relativo.
+  - Os 2.284 arquivos rastreados aparecem no git como renomeados.
+  - A contagem de arquivos, bytes e links pelo caminho antigo é a mesma de antes, nos 156.
+  - Gate verde e as 4 provas iguais: áudio `diff` vazio, mãos `cmp` igual, tablatura "IGUAL
+    (19 arquivos)", partitura só com o nome da pasta da cópia (por construção).
+  - **As constantes do `caminhos.py` não mudaram** (26 apontam para nomes movidos), para
+    nenhum texto de caminho gravado mudar. Elas mudam na fase 6.
+  - **8 arquivos de `data/gold/` citam caminhos movidos** (`portao.json`, `presenca_quadros.json`,
+    `simbolos*.json`, `ouro_video/retrato_brasileiro_v2.json`…). O gabarito não se edita, então
+    **os links dessas pastas ficam para sempre**, também depois da fase 6.
+  - Os scripts de inventário da fase 1b (`tablatura/tab_rotulo/diag/leiame_9001.py` e
+    `partitura/diag/r9001/leiame.py`), se rodados de novo, medem o link em vez da pasta: usar
+    `du` com barra final e tirar `tablatura`/`part_frentes` da listagem do topo.
+  - Levantamentos (Haiku, revisados): `data/saida/prova_9001/execucao/dados/` e `.../pesos/`.
+- **Fase 4, pesos: adiada.** O produto grava o caminho do modelo
+  (`tab/tablatura/produto/video.py:823`, `gerado_por.modelo`), e o pré-ouro também
+  (`ouro_video.py:1445`). Mover os 145 detectores muda esse texto em todo produto novo, sem
+  ganhar espaço (3,3 GB continuam no disco). Fica para a tablatura decidir, junto com o
+  `caminhos.peso`. Os pesos das mãos (`m21`, 2,7 GB) e do áudio (`riley_guitar`) podem ir
+  antes, pela mesma regra, quando a trilha dona quiser.
 - **Arquivo frio** (2026-10-22, fora do git): `chorinho_arquivo/<trilha>/arquivar-2026-10-22.tar`
   no HD do acervo, um por trilha, com o manifesto ao lado. Conferidos com `tar --compare`
   (código 0) e sha256:
@@ -1317,7 +1339,6 @@ trilhas paradas ("PRONTA E PARADA" no §8).
 - **Ficam rastreadas** as pastas de `data/saida` citadas por arquivos do gabarito
   (`auditoria_pool`, `portao_casos`, `auditoria_simbolo`, `audio`), pela regra 10.
 - **Falta**:
-  - a fase 4 (dados e pesos por trilha). Ela espera o dono rodar `sudo chown` nas 35 pastas da
-    tablatura que são do root;
+  - a fase 4 dos pesos (adiada, ver acima) e a fase 6 (as constantes e os links);
   - o aval do dono à lista de limpeza, e então o `rm`;
   - isolar o transcritor do Python 3.10.
