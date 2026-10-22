@@ -33,7 +33,7 @@ SAIDA = RAIZ / "data" / "saida"
 TRAVA_GPU = SAIDA / "gpu.lock"
 
 #: Notas do produto (uma lista ``notas`` com ``t_ini``, ``corda``, ``casa``...).
-MVP = SAIDA / "produto" / "mvp.json"
+MVP = SAIDA / "tablatura" / "produto" / "mvp.json"
 
 #: Censo de presença das mãos: uma linha por vídeo, com a caixa da tablatura por quadro.
 CENSO_MAOS = SAIDA / "maos" / "censo_maos.jsonl"
@@ -148,7 +148,7 @@ CAPO_POR_VIDEO = SAIDA / "maos" / "capo_por_video.json"
 #: Conferência dos 30 quadros do censo de mãos (rodada 1001).
 CONFERENCIA_MAOS_30 = SAIDA / "maos" / "conferencia_30"
 #: Presença de tablatura por vídeo, saída do censo da tablatura (``tab.censo``).
-CENSO_PRESENCA = SAIDA / "censo" / "censo_cache.jsonl"
+CENSO_PRESENCA = SAIDA / "tablatura" / "censo" / "censo_cache.jsonl"
 
 #: Pré-marcação do braço por consenso de modelos de visão (rodada 1019): respostas brutas
 #: por modelo, resultado e tabelas (``tab.maos_braco_vlm``).
@@ -172,19 +172,19 @@ MAOS_FRENTE_D = SAIDA / "maos" / "frentes" / "fd_ligados"
 
 #: Frentes de teste da pesquisa da tablatura (``docs/pesquisa/tablatura-frentes.md``): uma
 #: pasta de saída por frente (os pesos treinados por elas ficam em ``TAB_FRENTES_PESOS``).
-TAB_FRENTE_0 = SAIDA / "tab_frentes" / "f0_tecnica"
-TAB_FRENTE_A = SAIDA / "tab_frentes" / "fa_arco"
-TAB_FRENTE_B = SAIDA / "tab_frentes" / "fb_gerador"
-TAB_FRENTE_C = SAIDA / "tab_frentes" / "fc_rolagem"
-TAB_FRENTE_D = SAIDA / "tab_frentes" / "fd_som"
-TAB_FRENTE_E = SAIDA / "tab_frentes" / "fe_sondas"
+TAB_FRENTE_0 = SAIDA / "tablatura" / "tab_frentes" / "f0_tecnica"
+TAB_FRENTE_A = SAIDA / "tablatura" / "tab_frentes" / "fa_arco"
+TAB_FRENTE_B = SAIDA / "tablatura" / "tab_frentes" / "fb_gerador"
+TAB_FRENTE_C = SAIDA / "tablatura" / "tab_frentes" / "fc_rolagem"
+TAB_FRENTE_D = SAIDA / "tablatura" / "tab_frentes" / "fd_som"
+TAB_FRENTE_E = SAIDA / "tablatura" / "tab_frentes" / "fe_sondas"
 
 #: Rótulo do ataque da tablatura (``docs/guias/plano-rotulo-tablatura.md``): o gabarito
 #: conferido pelo dono (R2, em ``r2/conferir``) e as medições contra ele.
-TAB_ROTULO = SAIDA / "tab_rotulo"
+TAB_ROTULO = SAIDA / "tablatura" / "tab_rotulo"
 
 #: Saída do produto nos ouros, cada vídeo lido pela dobra que não o viu (fase 8).
-FASE8_GER = SAIDA / "fase8" / "ger" / "ger"
+FASE8_GER = SAIDA / "tablatura" / "fase8" / "ger" / "ger"
 
 #: Ouro da tablatura que mora solto na raiz de ``data/gold`` (decisão 9001: na fase 4 vai
 #: para ``data/gold/tablatura/``, e só esta constante muda).
@@ -203,25 +203,25 @@ GOLD_PRESENCA_QUADROS = GOLD_TABLATURA / "presenca_quadros.json"
 #: Quadros e folhas da tablatura. O ``frames/gold`` guarda, cacheado, o quadro de cada
 #: glifo do gabarito: a métrica não pode depender de vídeo que pode sumir (o do
 #: ``raman korshun`` foi apagado, e 24 dos 96 glifos ficaram sem quadro).
-FRAMES = SAIDA / "frames"
+FRAMES = SAIDA / "tablatura" / "frames"
 FRAMES_GOLD = FRAMES / "gold"
 #: Índice da coleta de símbolos marcada pelo dono e a folha inteira (``fimafim``).
-COLETA_MARCAR = SAIDA / "coleta_marcar"
-FOLHA_INTEIRA = SAIDA / "folha_inteira"
+COLETA_MARCAR = SAIDA / "tablatura" / "coleta_marcar"
+FOLHA_INTEIRA = SAIDA / "tablatura" / "folha_inteira"
 #: Casos negativos do portão (``tab.portao``): vídeos sem tablatura de imagem.
-OURO_NOVOS = SAIDA / "ouro_novos"
+OURO_NOVOS = SAIDA / "tablatura" / "ouro_novos"
 #: Recortes de símbolo que o ``tab.video`` grava, uma pasta por vídeo.
-VIDEO_SIMBOLOS = SAIDA / "video"
+VIDEO_SIMBOLOS = SAIDA / "tablatura" / "video"
 
 #: Frentes de teste da pesquisa da partitura (``docs/pesquisa/partitura-frentes.md``): uma
 #: pasta de saída por frente (os pesos treinados por elas ficam em ``PART_FRENTES_PESOS``).
-PART_FRENTE_0 = SAIDA / "part_frentes" / "f0_regua"
-PART_FRENTE_A = SAIDA / "part_frentes" / "fa_imagem"
-PART_FRENTE_B = SAIDA / "part_frentes" / "fb_fusao"
-PART_FRENTE_C = SAIDA / "part_frentes" / "fc_polifonico"
-PART_FRENTE_D = SAIDA / "part_frentes" / "fd_gabarito"
-PART_FRENTE_E = SAIDA / "part_frentes" / "fe_completar"
-PART_FRENTE_P = SAIDA / "part_frentes" / "fp_produto"
+PART_FRENTE_0 = SAIDA / "partitura" / "part_frentes" / "f0_regua"
+PART_FRENTE_A = SAIDA / "partitura" / "part_frentes" / "fa_imagem"
+PART_FRENTE_B = SAIDA / "partitura" / "part_frentes" / "fb_fusao"
+PART_FRENTE_C = SAIDA / "partitura" / "part_frentes" / "fc_polifonico"
+PART_FRENTE_D = SAIDA / "partitura" / "part_frentes" / "fd_gabarito"
+PART_FRENTE_E = SAIDA / "partitura" / "part_frentes" / "fe_completar"
+PART_FRENTE_P = SAIDA / "partitura" / "part_frentes" / "fp_produto"
 
 #: Saída da trilha partitura (``docs/guias/contexto-partitura.md``): censo P0, recortes e
 #: leituras da P1, pareamento P3, documentos por vídeo, vídeos sem produto e diagnósticos.
@@ -238,8 +238,8 @@ GOLD_PARTITURA = RAIZ / "data" / "gold" / "partitura"
 
 #: Dados da tablatura lidos pela partitura: os produtos da fase 8 (leitor ``rede``) e o
 #: censo v2 do acervo.
-FASE8_REDE = SAIDA / "fase8" / "rede"
-CENSO_V2 = SAIDA / "censo" / "v2"
+FASE8_REDE = SAIDA / "tablatura" / "fase8" / "rede"
+CENSO_V2 = SAIDA / "tablatura" / "censo" / "v2"
 
 #: Gabaritos do áudio conferidos pelo dono: folhas de escuta e acordes cheios (2018).
 GABARITO_AUDIO = RAIZ / "data" / "gold" / "audio"
@@ -247,7 +247,7 @@ GABARITO_AUDIO = RAIZ / "data" / "gold" / "audio"
 SAIDA_AUDIO = SAIDA / "audio"
 #: Pré-leitura de cada ouro de vídeo (``<slug>/pre.json``), da ferramenta da tablatura
 #: (``tab.ouro_video``); o áudio a lê para achar o instante de cada tela.
-PRE_OURO_VIDEO = SAIDA / "ouro_video"
+PRE_OURO_VIDEO = SAIDA / "tablatura" / "ouro_video"
 
 #: Perfil dos canais (o que foi medido, e quais canais estão fora do rollout).
 CANAIS = RAIZ / "configs" / "canais.yaml"

@@ -1,6 +1,6 @@
 # 9001 — Reestruturação dos arquivos do projeto (todas as trilhas)
 
-- **Situação**: **em execução** (§9); proposta v3 escrita pela trilha mãos em 2026-10-21, a pedido do dono.
+- **Situação**: **executada** (§9, 2026-10-22); proposta v3 escrita pela trilha mãos em 2026-10-21, a pedido do dono.
   - As 4 trilhas responderam (§8).
   - O dono respondeu às 3 primeiras perguntas (§7b); faltam as 3 do §7c.
 - **Para quem**: as 4 trilhas combinam respondendo no fim deste arquivo, cada uma na sua seção.
@@ -1299,7 +1299,7 @@ trilhas paradas ("PRONTA E PARADA" no §8).
 | índice do git | `56745d91` | as 8 pastas `data/saida/simbolos_*` saem do índice (18.372 arquivos) | nenhum código nem teste as lê; elas **continuam no disco** |
 | fase 5, o ESTADO | `1a9a800b` | o `ESTADO.md` (5.906 linhas) vira índice (538) + `docs/estado/{tablatura,maos,audio,partitura,historico-antes-das-trilhas}.md`. Seções inteiras, na ordem de hoje; só os 37 links relativos ganharam `../../`. Ficam no índice as 12 seções sem data que valem para todas ("não repetir", lições, ressalvas, número oficial) | `dividir.py conferir` remonta o original **byte a byte igual** (426.463 bytes); nenhum link novo quebrado |
 
-- **Fase 4, dados** (2026-10-22, commit desta linha): 156 itens soltos de `data/saida/`
+- **Fase 4, dados** (2026-10-22, `b74e79c1`): 156 itens soltos de `data/saida/`
   (201.251 arquivos, 3,6 GiB) foram com `mv` para `data/saida/tablatura/` (155) e
   `data/saida/partitura/part_frentes`. No lugar antigo ficou um link simbólico relativo.
   - Os 2.284 arquivos rastreados aparecem no git como renomeados.
@@ -1315,12 +1315,32 @@ trilhas paradas ("PRONTA E PARADA" no §8).
     `partitura/diag/r9001/leiame.py`), se rodados de novo, medem o link em vez da pasta: usar
     `du` com barra final e tirar `tablatura`/`part_frentes` da listagem do topo.
   - Levantamentos (Haiku, revisados): `data/saida/prova_9001/execucao/dados/` e `.../pesos/`.
-- **Fase 4, pesos: adiada.** O produto grava o caminho do modelo
+- **Fase 4, pesos: decidido não mover** (ver as decisões finais abaixo). O produto grava o caminho do modelo
   (`tab/tablatura/produto/video.py:823`, `gerado_por.modelo`), e o pré-ouro também
   (`ouro_video.py:1445`). Mover os 145 detectores muda esse texto em todo produto novo, sem
-  ganhar espaço (3,3 GB continuam no disco). Fica para a tablatura decidir, junto com o
-  `caminhos.peso`. Os pesos das mãos (`m21`, 2,7 GB) e do áudio (`riley_guitar`) podem ir
-  antes, pela mesma regra, quando a trilha dona quiser.
+  ganhar espaço (3,3 GB continuam no disco). 
+- **Limpeza do disco** (2026-10-22, autorizada pelo dono no `/goal`): rodou
+  `data/saida/prova_9001/execucao/limpeza/apagar.py`, que apagou **107.719 caminhos**
+  (`data/saida` de 18 GB para 12,6 GB), todos dentro dos `.tar` conferidos e fora do git, do
+  gabarito e dos links do topo. Gate verde e as 4 provas iguais depois (áudio `diff` vazio,
+  mãos `cmp` igual, tablatura "IGUAL (19 arquivos)", partitura só o nome da pasta). No podman,
+  61 imagens penduradas (3,7 GB) saíram; `mongo`, `node`, `pedacinhos-tab` e o cache do buildx
+  não são deste projeto e ficaram.
+- **Fase 6, constantes** (2026-10-22): as 25 constantes do `caminhos.py` que apontavam para uma
+  pasta movida passaram para `data/saida/<trilha>/<nome>`. O teste
+  `tests/comum/test_caminhos_por_trilha.py` trava: nenhuma constante de saída fica fora das 4
+  pastas de trilha. **Os links do topo ficam**: 8 arquivos do gabarito os citam, e os `.sh`
+  antigos das rodadas também; remover um link só traria risco, sem ganho de espaço.
+- **Decisões finais da 9001 que fecham o plano:**
+  - **Pesos ficam em `artefatos/`, sem mover.** O produto grava o caminho do modelo
+    (`video.py:823`, `ouro_video.py:1445`), e mover mudaria esse texto em todo produto novo sem
+    liberar espaço. O que cada trilha usa está em `artefatos/<trilha>/EM_USO.json`. Não existe
+    `caminhos.peso`: não há o que procurar em dois lugares.
+  - **Dockerfiles ficam na raiz** (as rodadas citam `-f Dockerfile.x`).
+  - **O transcritor do Python 3.10 já está isolado**: roda na imagem própria `chorinho-som`
+    (`Dockerfile.som`), e os únicos arquivos de `tab/` que ele importa são travados em
+    sintaxe 3.10 e só stdlib pelo gate (`tests/comum/test_apelidos.py`). Mudar mais que isso
+    exigiria reescrever o `tab/__init__.py`, sem ganho.
 - **Arquivo frio** (2026-10-22, fora do git): `chorinho_arquivo/<trilha>/arquivar-2026-10-22.tar`
   no HD do acervo, um por trilha, com o manifesto ao lado. Conferidos com `tar --compare`
   (código 0) e sha256:
@@ -1338,7 +1358,6 @@ trilhas paradas ("PRONTA E PARADA" no §8).
   - Mover só para arrumar quebraria esses comandos sem ganho de código.
 - **Ficam rastreadas** as pastas de `data/saida` citadas por arquivos do gabarito
   (`auditoria_pool`, `portao_casos`, `auditoria_simbolo`, `audio`), pela regra 10.
-- **Falta**:
-  - a fase 4 dos pesos (adiada, ver acima) e a fase 6 (as constantes e os links);
-  - o aval do dono à lista de limpeza, e então o `rm`;
-  - isolar o transcritor do Python 3.10.
+- **Falta**: nada do plano. Dívida que sobra, fora dele: ~200 imports de função privada
+  (quase todos nas mãos) e 11 módulos com mais de 1.500 linhas. A regra 2 do padrão do AGENTS
+  §10 diz como tratar o que for novo.

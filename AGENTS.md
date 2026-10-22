@@ -198,9 +198,9 @@ chorinho-dataset/
 6. **Saída nova vai em `data/saida/<trilha>/`** (decisão 9001, fase 4). As 156 pastas
    soltas antigas foram para `data/saida/tablatura/` e `data/saida/partitura/` em
    2026-10-22, e o lugar antigo ficou com um link simbólico relativo: o caminho de antes
-   continua valendo. As constantes do `tab/comum/caminhos.py` mudam de valor só quando os links
-   saírem (fase 6). Não apague nem substitua um desses links: os das pastas que o gabarito
-   cita ficam para sempre.
+   continua valendo. As constantes do `tab/comum/caminhos.py` já apontam para o lugar novo (um teste do gate
+   trava). Não apague nem substitua um desses links: o gabarito e os `.sh` antigos das rodadas
+   ainda os usam.
 7. **Caminho não se espalha.** Acervo, gabarito, saída e artefatos vêm de `tab/comum/caminhos.py`.
    Caminho absoluto novo no meio de um módulo é bug de revisão.
 
@@ -347,7 +347,7 @@ Toda medida que decide alguma coisa segue este ciclo:
 | a etapa neutra da 2005 | `tab/cruzamento/` |
 | teste | `tests/<trilha>/test_*.py` (o `--import-mode=importlib` aceita o mesmo nome em pastas diferentes) |
 | saída gerada | `data/saida/<trilha>/<rodada ou frente>/`, com um `LEIAME.json` |
-| peso treinado | `artefatos/`, com o `.json`/`.md` de procedência; os que o código usa, em `artefatos/<trilha>/EM_USO.json` |
+| peso treinado | `artefatos/<nome>`, plano e sem mover (o produto grava o caminho); o `.json`/`.md` de procedência junto; os que o código usa, em `artefatos/<trilha>/EM_USO.json` |
 | número medido | o fim de `docs/estado/<trilha>.md`; o que reprovou, na tabela "não repetir" do `ESTADO.md` |
 | arquivo frio | `chorinho_arquivo/<trilha>/*.tar` no HD do acervo, com o manifesto ao lado |
 
