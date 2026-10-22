@@ -1,0 +1,22 @@
+{
+ "n": 2000,
+ "notas_por_tecnica": {
+  "/": 937,
+  "\\": 898,
+  "atacada": 27244,
+  "bend": 1433,
+  "enfeite": 526,
+  "h": 1010,
+  "harm": 1945,
+  "lig": 713,
+  "orn": 2088,
+  "p": 733,
+  "vib": 1444
+ },
+ "sistemas_com": {
+  "arco_solto": 274,
+  "ligadura": 616,
+  "ligadura_harm": 126,
+  "ligadura_parenteses": 291
+ }
+}

@@ -1,0 +1,17 @@
+{
+ "citado_por": [
+  "docs/rodadas/0214-r4h-ligaduras.md"
+ ],
+ "classe": "manter",
+ "comando": [
+  "sh data/saida/tablatura/tab_rotulo/r4h/rodar.sh"
+ ],
+ "modificado": "2026-10-22",
+ "motivo": "rodada 0214 (R4h): gerador com G13–G15, T8.3 e T8.4 no treino; treinos _atqb, medidas nos ouros, decisão e a prova lacrada T8.5",
+ "nome": "r4h",
+ "regeneravel": "sim",
+ "rodadas": [
+  "docs/rodadas/0214-r4h-ligaduras.md"
+ ],
+ "trilha": "tablatura"
+}

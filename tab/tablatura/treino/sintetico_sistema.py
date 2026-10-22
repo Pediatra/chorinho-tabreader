@@ -181,7 +181,8 @@ P_ORN = 0.04
 #: Dado orn, chance de haver um mordente (zigue-zague) acima da nota.
 P_MORDENTE = 0.4
 #: Chance de uma coluna (a partir da segunda) ter ligadura de prolongamento (tie).
-P_TIE = 0.05
+#: 0,05 até a 0211; 0,08 desde a 0214 (os erros da T8.4 são quase todos ligaduras).
+P_TIE = 0.08
 #: Chance de uma nota sem técnica ser um slide sem nota de origem (entrada ou saída).
 P_SLIDE_SOLTO = 0.04
 #: Chance de um legato h/p ter a letra; o resto é só o arco.
@@ -214,6 +215,19 @@ CADEIA_MAX = 5
 P_LETRAS_CADEIA = 0.5
 #: G12: chance de um arco de h/p/tie ser alto e estreito (curva de 0,8 a 1,4 passo).
 P_ARCO_ALTO = 0.25
+#: Rodada 0214 (R4h): G13–G15, medidos nos erros da T8.4 (0211).
+#: G13: chance de o destino da ligadura de prolongamento vir entre parênteses, como
+#: ``4 ⌒ (4)``. O destino continua "lig" (sem ataque).
+P_TIE_PARENTESES = 0.4
+#: G14: chance de a ligadura ser de harmônicos, ``<12> ⌒ <12>``: a origem é "harm"
+#: (atacada) e o destino é "lig", desenhado como harmônico (``harm_desenho``).
+P_TIE_HARM = 0.2
+#: G15: chance de uma nota sem técnica ter um arco solto, sem segundo número. Ela continua
+#: atacada (dono, 2026-10-22: "quando não há segundo número em uma ligadura é a mesma
+#: coisa que quando tem dois números considere o primeiro como atacado").
+P_ARCO_SOLTO = 0.03
+#: G15: chance de o arco solto sair para a direita; no resto, ele chega pela esquerda.
+P_ARCO_SOLTO_DEPOIS = 0.7
 #: G9: chance de o slide ser um risco curto e inclinado, deslocado para cima; R4c 0,5.
 P_SLIDE_CURTO = 0.0
 #: G8: chance de, nas colunas apertadas, os algarismos serem pequenos (a corda aparece
@@ -337,7 +351,7 @@ def _texto_da_nota(nota: dict) -> str:
         "<n>" para harmônico, "(n)" para nota entre parênteses (opcional ou fantasma,
         sem técnica) e o rótulo nos demais casos.
     """
-    if nota["tecnica"] == "harm":
+    if nota["tecnica"] == "harm" or nota.get("harm_desenho"):
         return f"<{nota['rotulo']}>"
     if nota.get("parenteses"):
         return f"({nota['rotulo']})"
@@ -1511,6 +1525,7 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
     _tecnicas_pares(rng, grade, n_col)
     _sortear_zigues(rng, grade)
     _sortear_serif(rng, grade)
+    _sortear_arcos_soltos(rng, grade)
     if any(n.get("sobre") for n in grade.values()):
         marcas.append("corda_sobre_serif")
     if any(n.get("sobre") and n["rotulo"] in ("1", "11") for n in grade.values()):
@@ -1690,6 +1705,7 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
     _desenhar_ligaduras(
         d, rng, grade, medidas, ys, passo, espessura, tinta, marcas, arcos
     )
+    _desenhar_arcos_soltos(d, rng, grade, medidas, ys, passo, espessura, tinta, marcas)
     _desenhar_mordentes_tres(
         d, rng, grade, medidas, ys, passo, espessura, tinta, marcas, arcos
     )
@@ -2217,7 +2233,8 @@ def _sortear_ligaduras(
 ) -> None:
     """Cria ligaduras de prolongamento: duas notas na mesma corda e mesma casa.
 
-    A segunda nota leva técnica "lig" e `tie=True` (desenho de arco, sem parênteses).
+    A segunda nota leva técnica "lig" e `tie=True` (desenho de arco). Às vezes ela vem
+    entre parênteses (G13) ou a ligadura é de harmônicos (G14, a origem vira "harm").
 
     Args:
         rng: gerador aleatório.
@@ -2243,6 +2260,112 @@ def _sortear_ligaduras(
         destino["rotulo"] = origem["rotulo"]
         destino["tecnica"] = "lig"
         destino["tie"] = True
+        r = rng.random()
+        if r < P_TIE_HARM:  # G14 (0214): <n> ⌒ <n>
+            origem["tecnica"] = "harm"
+            origem.pop("parenteses", None)
+            destino["harm_desenho"] = True
+            destino.pop("parenteses", None)
+        elif r < P_TIE_HARM + P_TIE_PARENTESES:  # G13 (0214): n ⌒ (n)
+            destino["parenteses"] = True
+
+
+def _sortear_arcos_soltos(
+    rng: random.Random, grade: dict[tuple[int, int], dict]
+) -> None:
+    """G15 (0214): marca notas sem técnica que ganham um arco solto (sem segundo número).
+
+    A nota continua atacada. Se o arco cairia sobre outra nota, ele não é desenhado (ver
+    `_desenhar_arcos_soltos`).
+
+    Args:
+        rng: gerador aleatório.
+        grade: notas, alteradas no lugar (ganham "arco_solto": "depois" ou "antes").
+    """
+    for _, nota in sorted(grade.items()):
+        if nota["rotulo"] == "x" or nota["tecnica"] is not None:
+            continue
+        if rng.random() < P_ARCO_SOLTO:
+            nota["arco_solto"] = (
+                "depois" if rng.random() < P_ARCO_SOLTO_DEPOIS else "antes"
+            )
+
+
+def _arco_solto_livre(
+    grade: dict[tuple[int, int], dict], c: int, s: int, lado: str
+) -> bool:
+    """Diz se o arco solto da nota (c, s) cai sobre corda vazia.
+
+    As duas colunas vizinhas do lado do arco precisam estar vazias nessa corda, e nenhum
+    arco longo (par longo ou cadeia) pode passar por cima da nota.
+
+    Args:
+        grade: notas.
+        c: coluna da nota.
+        s: corda da nota (0-5).
+        lado: "depois" ou "antes".
+
+    Returns:
+        True se o arco pode ser desenhado.
+    """
+    passo_col = 1 if lado == "depois" else -1
+    if any((c + passo_col * k, s) in grade for k in (1, 2)):
+        return False
+    for (cc, ss), n in grade.items():
+        if ss != s:
+            continue
+        ini = n.get("col_origem", n.get("cadeia_ini"))
+        if ini is not None and ini - 2 <= c <= cc + 2:
+            return False
+    return True
+
+
+def _desenhar_arcos_soltos(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    grade: dict[tuple[int, int], dict],
+    medidas: dict[tuple[int, int], dict],
+    ys: list[int],
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    marcas: list[str],
+) -> None:
+    """Desenha o arco solto de cada nota marcada por `_sortear_arcos_soltos` (G15).
+
+    O arco tem o estilo dos outros (`_pontos_arco`) e termina, ou começa, numa ponta
+    sem nota, a 0,6–1,2 passo da caixa.
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        grade: notas.
+        medidas: saída de `_medir_notas`.
+        ys: linha de cada corda.
+        passo: passo do sistema.
+        espessura: espessura da corda.
+        tinta: cor da tinta.
+        marcas: lista onde se registram as variantes desenhadas.
+    """
+    espessura_traco = max(1, espessura - 1)
+    for (c, s), nota in sorted(grade.items()):
+        lado = nota.get("arco_solto")
+        if lado is None or not _arco_solto_livre(grade, c, s, lado):
+            continue
+        x0, y0, x1, y1 = medidas[(c, s)]["caixa"]
+        comprimento = rng.uniform(0.6, 1.2) * passo
+        if lado == "depois":
+            ponta = x1 + comprimento
+            a, b = (x0, y0, x1, y1), (ponta, y0, ponta, y1)
+        else:
+            ponta = x0 - comprimento
+            a, b = (ponta, y0, ponta, y1), (x0, y0, x1, y1)
+        d.line(
+            _pontos_arco(rng, a, b, ys[s], passo, marcas),
+            fill=tinta,
+            width=espessura_traco,
+        )
+        marcas.append("arco_solto")
 
 
 def _sortear_slides_soltos(
@@ -2345,6 +2468,10 @@ def _desenhar_ligaduras(
         )
         d.line(pontos, fill=tinta, width=espessura_traco)
         marcas.append("ligadura")
+        if nota.get("parenteses"):
+            marcas.append("ligadura_parenteses")
+        if nota.get("harm_desenho"):
+            marcas.append("ligadura_harm")
         a = medidas[(c - 1, s)]["caixa"]
         _registrar_arco(arcos, s + 1, (a[0] + a[2]) / 2, medidas[(c, s)]["caixa"])
 
