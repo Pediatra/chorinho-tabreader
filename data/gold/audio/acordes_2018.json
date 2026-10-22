@@ -1,7 +1,7 @@
 {
  "video": "rodada 2018 (áudio): 4 telas de acorde cheio de 4 vídeos (ver indice.json)",
  "como_foi_rotulado": "Rodada 2018 (áudio): uma tela por vídeo, escolhida pelo dono por ter acorde de 5-6 notas. Notas pré-lidas pela rede; o dono confere corda e casa. Sem instantes.",
- "rotulado_em": "2026-10-22T18:03:19",
+ "rotulado_em": "2026-10-22T19:05:14",
  "telas": [
   {
    "id": 1,
@@ -439,12 +439,6 @@
      "casa": 3,
      "x_quadro": 1823.6,
      "x_centro_quadro": 1828.6
-    },
-    {
-     "corda": 2,
-     "casa": 3,
-     "x_quadro": 1828.6,
-     "x_centro_quadro": 1832.8
     },
     {
      "corda": 1,
@@ -2535,15 +2529,6 @@
       "casa": "",
       "x_centro_quadro": 1509.6,
       "x_quadro": 1505.4,
-      "origem": "dono",
-      "removida": false
-     },
-     {
-      "id": "d3",
-      "corda": 2,
-      "casa": "3",
-      "x_centro_quadro": 1832.8,
-      "x_quadro": 1828.6,
       "origem": "dono",
       "removida": false
      }
