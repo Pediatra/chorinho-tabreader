@@ -1,0 +1,19 @@
+{
+ "citado_por": [
+  "docs/estado/tablatura.md"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/tablatura/tab_rotulo/r2/novos_t85.py",
+  "(o dono confere no modo ataque)",
+  "python data/saida/tablatura/t85/passe_ataque/correcao_sustentada.py"
+ ],
+ "modificado": "2026-10-22",
+ "motivo": "passe do modo ataque da T8.5 (28 telas; fora a 5 e a 27): ouro servido, ferramenta e a correção 'sustentada' do dono; o rótulo fica em tab_rotulo/r2/conferir_t85/ataque_t85.json",
+ "nome": "passe_ataque",
+ "regeneravel": "não (passe do dono)",
+ "rodadas": [
+  "docs/rodadas/0211-recorte-alto.md"
+ ],
+ "trilha": "tablatura"
+}

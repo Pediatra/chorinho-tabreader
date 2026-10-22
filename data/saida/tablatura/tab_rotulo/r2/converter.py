@@ -36,6 +36,12 @@ FONTES = {
 # "la vie en rose não tem técnicas marcadas"); nas outras, tela sem região fica fora.
 SEM_REGIAO_E_SEM_TECNICA = {"la_vie_en_rose"}
 
+# fontes com a regra da ligadura de uma nota só (dono, 2026-10-22): "quando não há
+# segundo número em uma ligadura é a mesma coisa que quando tem dois números considere
+# o primeiro como atacado". O número sozinho sob o arco de prolongamento é atacado
+# (``sustentada``), de qualquer lado do arco. Nas fontes antigas vale o lado do arco.
+PROLONGAMENTO_UMA_NOTA_ATACADA: set[str] = set()
+
 CAMPO_X = "x_centro_quadro"
 SEMENTE_AMOSTRA = 0
 
@@ -281,13 +287,16 @@ def registrar_ambiguo(res: dict, tipo: str, tela: dict, rid: str, regiao: dict,
     })
 
 
-def rotular_tela(tela: dict, passo: float, res: dict) -> dict[int, tuple[str, str, str | None]]:
+def rotular_tela(
+    tela: dict, passo: float, res: dict, uma_nota_atacada: bool = False
+) -> dict[int, tuple[str, str, str | None]]:
     """Rotula as notas de uma tela conferida a partir das suas regiões.
 
     Args:
         tela: tela com ``notas`` e ``regioes``.
         passo: passo da tela em px (para as vizinhas de legato e slide).
         res: acumulador da fonte (é atualizado).
+        uma_nota_atacada: a regra de ``PROLONGAMENTO_UMA_NOTA_ATACADA``.
 
     Returns:
         Mapa índice da nota -> (ataque, motivo, id da região ou None).
@@ -428,7 +437,9 @@ def rotular_tela(tela: dict, passo: float, res: dict) -> dict[int, tuple[str, st
                 if prolonga:
                     # arco da nota para o vazio: tocada e deixada soando; do vazio
                     # para a nota: continuação de uma nota anterior, sem ataque.
-                    if a_esquerda:
+                    if a_esquerda or uma_nota_atacada:
+                        if not a_esquerda:
+                            res["uma_nota_atacada"] = res.get("uma_nota_atacada", 0) + 1
                         reivindicacoes.setdefault(k, []).append((3, "sim", "sustentada", rid))
                     else:
                         reivindicacoes.setdefault(k, []).append((3, "nao", "prolongamento", rid))
@@ -563,7 +574,9 @@ def processar_fonte(nome: str, caminho: Path) -> tuple[dict, dict]:
             passo = passo_global
             res["passo_fallback_telas"].append(tela["id"])
         res["passo_por_tela"][str(tela["id"])] = round(passo, 2)
-        rotulos = rotular_tela(tela, passo, res)
+        rotulos = rotular_tela(
+            tela, passo, res, uma_nota_atacada=nome in PROLONGAMENTO_UMA_NOTA_ATACADA
+        )
         if not tela.get("regioes") and nome in SEM_REGIAO_E_SEM_TECNICA:
             rotulos = {k: ("sim", "normal", None) for k in range(len(tela["notas"]))}
             res["telas_sem_tecnica"] = res.get("telas_sem_tecnica", 0) + 1

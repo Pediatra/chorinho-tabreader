@@ -1,0 +1,253 @@
+{
+ "campo_x": "x_centro_quadro",
+ "fontes": {
+  "t85": {
+   "ambiguos": [
+    {
+     "cordas": [
+      4,
+      6
+     ],
+     "notas": [
+      "t7-n0"
+     ],
+     "obs": null,
+     "regiao": "t7-r0",
+     "tecnica": [
+      "x"
+     ],
+     "tela": 7,
+     "tipo": "x_sobre_numero",
+     "x_quadro": [
+      12.8,
+      38.1
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      3
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t13-r3",
+     "tecnica": [
+      "\\"
+     ],
+     "tela": 13,
+     "tipo": "slide_sem_nota",
+     "x_quadro": [
+      513.6,
+      555.1
+     ]
+    },
+    {
+     "cordas": [
+      2,
+      3
+     ],
+     "notas": [
+      "t17-n1"
+     ],
+     "obs": null,
+     "regiao": "t17-r0",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 17,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      135.0,
+      174.1
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [
+      "t25-n32"
+     ],
+     "obs": null,
+     "regiao": "t25-r0",
+     "tecnica": [
+      "p"
+     ],
+     "tela": 25,
+     "tipo": "legato_uma_nota",
+     "x_quadro": [
+      1680.9,
+      1714.9
+     ]
+    },
+    {
+     "cordas": [
+      1,
+      6
+     ],
+     "notas": [],
+     "obs": null,
+     "regiao": "t28-r3",
+     "tecnica": [
+      "rasg"
+     ],
+     "tela": 28,
+     "tipo": "rasgueado_sem_nota",
+     "x_quadro": [
+      1582.9,
+      1597.8
+     ]
+    },
+    {
+     "cordas": [
+      5,
+      5
+     ],
+     "notas": [
+      "t29-n3",
+      "t29-n4"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t29-r2",
+     "tecnica": [],
+     "tela": 29,
+     "tipo": "legato_casa_nao_numerica",
+     "x_quadro": [
+      14.8,
+      69.0
+     ]
+    },
+    {
+     "cordas": [
+      4,
+      4
+     ],
+     "notas": [
+      "t29-n15",
+      "t29-n16"
+     ],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t29-r5",
+     "tecnica": [],
+     "tela": 29,
+     "tipo": "legato_casa_nao_numerica",
+     "x_quadro": [
+      338.0,
+      388.4
+     ]
+    },
+    {
+     "cordas": [
+      3,
+      3
+     ],
+     "notas": [],
+     "obs": "ligadura de prolongamento",
+     "regiao": "t30-r19",
+     "tecnica": [],
+     "tela": 30,
+     "tipo": "legato_sem_nota",
+     "x_quadro": [
+      1104.0,
+      1132.2
+     ]
+    }
+   ],
+   "ambiguos_por_tipo": {
+    "legato_casa_nao_numerica": 2,
+    "legato_sem_nota": 1,
+    "legato_uma_nota": 2,
+    "rasgueado_sem_nota": 1,
+    "slide_sem_nota": 1,
+    "x_sobre_numero": 1
+   },
+   "arco_corda_abaixo": 5,
+   "arco_corda_acima": 13,
+   "ataques": {
+    "nao": 48,
+    "sim": 1311
+   },
+   "conflitos": [],
+   "correntes": 4,
+   "motivos": {
+    "arpejo": 13,
+    "h": 7,
+    "mordente": 7,
+    "normal": 1203,
+    "p": 3,
+    "prolongamento": 14,
+    "rasgueado": 59,
+    "slide_entrada": 2,
+    "slide_ligado": 17,
+    "sustentada": 34
+   },
+   "nao": 48,
+   "notas_conferidas": 1366,
+   "notas_rotuladas": 1359,
+   "notas_sem_marca": 592,
+   "obs_nao_classificados": {},
+   "obs_slide_sem_simbolo": [
+    "t21-r3",
+    "t29-r9"
+   ],
+   "passo_fallback_telas": [],
+   "passo_por_tela": {
+    "1": 52.0,
+    "10": 20.0,
+    "11": 28.0,
+    "12": 28.0,
+    "13": 26.0,
+    "14": 16.0,
+    "15": 23.0,
+    "16": 24.0,
+    "17": 17.0,
+    "18": 18.0,
+    "19": 20.0,
+    "2": 52.5,
+    "20": 18.0,
+    "21": 15.0,
+    "22": 15.0,
+    "23": 22.0,
+    "24": 22.0,
+    "25": 24.0,
+    "26": 22.0,
+    "28": 29.0,
+    "29": 21.0,
+    "3": 16.0,
+    "30": 16.0,
+    "4": 15.0,
+    "6": 25.5,
+    "7": 26.0,
+    "8": 26.0,
+    "9": 21.0
+   },
+   "regioes_em_telas_conferidas": 124,
+   "regioes_ignoradas": {
+    "['arpejo', 'rasg']|None": 1,
+    "['arpejo']|None": 3,
+    "['rasg']|None": 15
+   },
+   "regioes_lidas": 124,
+   "regioes_por_tipo": {
+    "ignorar": 19,
+    "legato": 66,
+    "slide": 19,
+    "x": 20
+   },
+   "sobreposicoes": 25,
+   "telas_com_marca": 16,
+   "telas_conferidas": 28,
+   "telas_divergem_ferramenta": [
+    29
+   ],
+   "telas_sem_marca": 12,
+   "telas_sem_tecnica": 12,
+   "uma_nota_atacada": 2,
+   "x_cobre_digito": 1,
+   "x_regioes": 20,
+   "x_sem_nota_alguma": 19,
+   "x_sem_nota_x": 20
+  }
+ }
+}

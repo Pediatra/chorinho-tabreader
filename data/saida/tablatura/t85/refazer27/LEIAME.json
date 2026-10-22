@@ -1,0 +1,17 @@
+{
+ "citado_por": [
+  "docs/estado/tablatura.md"
+ ],
+ "classe": "arquivar",
+ "comando": [
+  "python data/saida/tablatura/t85/refazer27/montar.py"
+ ],
+ "modificado": "2026-10-22",
+ "motivo": "tela 27 da T8.5 refeita com o recorte certo (corda 6 estava cortada); o dono não conferiu ('nao vale apena') e a tela saiu da T8.5",
+ "nome": "refazer27",
+ "regeneravel": "sim",
+ "rodadas": [
+  "docs/rodadas/0211-recorte-alto.md"
+ ],
+ "trilha": "tablatura"
+}

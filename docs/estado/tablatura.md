@@ -399,4 +399,26 @@ Tabela "não repetir" atualizada acima (5 linhas novas).
   segundo número.
 - **A próxima prova lacrada é a T8.5**: 30 telas de 15 canais, em
   `data/saida/tablatura/t85/`, na conferência do dono.
+
+### T8.5 conferida (2026-10-22)
+
+- **28 telas, 1.366 notas**, conferidas pelo dono nos dois passes (casa e ataque). O
+  rótulo está em `data/saida/tablatura/tab_rotulo/r2/conferir_t85/ataque_t85.json`.
+  - **1.320 atacadas** e **46 não atacadas**: 17 slide ligado, 16 prolongamento, 6 h,
+    5 p e 2 mordente.
+  - Saíram 2 telas:
+    - a **5**, porque o painel pegou a pauta como se fosse tablatura;
+    - a **27**, porque o recorte cortou a corda 6 e deslocou as cordas de uma. Ela foi
+      refeita em `t85/refazer27/`, mas o dono não a conferiu.
+- **Regra da ligadura de um número só** no `converter.py`
+  (`PROLONGAMENTO_UMA_NOTA_ATACADA`): vale só na T8.5. As fontes antigas seguem o lado
+  do arco.
+- **Na ferramenta, `l` quer dizer "não atacada"**. O dono marcou `l` em 34 notas que
+  começam uma ligadura, pensando que era a marca da ligadura. Ele confirmou: "Elas são
+  tocadas uma vez e depois são prolongadas". As 34 voltaram para `sim/sustentada`
+  (`t85/passe_ataque/correcao_sustentada.py`).
+  - **Dívida da ferramenta:** o modo ataque precisa mostrar "~ atacada, prolongada" com
+    um nome claro no seletor.
+- **Nenhum modelo foi medido na T8.5.** Ela é a prova lacrada da próxima versão do
+  ataque.
 - Ver `docs/rodadas/0211-recorte-alto.md`, "Resultado na T8.4".
