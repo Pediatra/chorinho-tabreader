@@ -190,7 +190,8 @@ nota com `t_audio`, a altura esperada (com o capo da frente B) soou?
   - `git add` só por nome;
   - nunca `add -A`, `reset`, `amend`, `stash` ou `checkout --`;
   - **um commit por tarefa**, com o número medido;
-  - no `ESTADO.md`, só seções "Áudio —", e confira `git diff ESTADO.md` antes de commitar.
+  - seção nova no fim de `docs/estado/audio.md` (decisão 9001); no `ESTADO.md`, só a
+    tabela "não repetir"; e confira `git diff ESTADO.md` antes de commitar.
 - **Gate antes de todo commit:**
   `ruff check . && ruff format --check . && pytest tests/ -q`.
   - **Julgue pelo código de saída:** nunca `gate | tail && commit`, porque o `tail` engole a

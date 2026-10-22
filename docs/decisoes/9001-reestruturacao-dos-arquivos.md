@@ -1296,7 +1296,8 @@ trilhas paradas ("PRONTA E PARADA" no §8).
 | --- | --- | --- | --- |
 | fases 2 e 3 | `4ce9fa2e` | 149 módulos e 127 testes em subpastas por trilha; 689 linhas de import reescritas; os nomes antigos valem por `tab/_apelidos.py` | as 4 provas byte a byte iguais; gate 2060 passaram, 2 pulados |
 | unificar repetidas | `94cad4fc` | `tab/comum/{arquivos,acervo,semente,violao}.py`; os nomes antigos ficam nos módulos de origem como o mesmo objeto | as 4 provas de novo iguais; `tests/comum/test_comum_unificado.py` |
-| índice do git | (este) | as 8 pastas `data/saida/simbolos_*` saem do índice (18.372 arquivos) | nenhum código nem teste as lê; elas **continuam no disco** |
+| índice do git | `56745d91` | as 8 pastas `data/saida/simbolos_*` saem do índice (18.372 arquivos) | nenhum código nem teste as lê; elas **continuam no disco** |
+| fase 5, o ESTADO | (este) | o `ESTADO.md` (5.906 linhas) vira índice (538) + `docs/estado/{tablatura,maos,audio,partitura,historico-antes-das-trilhas}.md`. Seções inteiras, na ordem de hoje; só os 37 links relativos ganharam `../../`. Ficam no índice as 12 seções sem data que valem para todas ("não repetir", lições, ressalvas, número oficial) | `dividir.py conferir` remonta o original **byte a byte igual** (426.463 bytes); nenhum link novo quebrado |
 
 - **Os Dockerfiles ficam na raiz** (mudança do §3, que pedia `docker/`).
   - Os documentos de rodada citam comandos como `podman build -f Dockerfile.maos .`, e rodada
@@ -1307,6 +1308,5 @@ trilhas paradas ("PRONTA E PARADA" no §8).
 - **Falta**:
   - a fase 4 (dados e pesos por trilha). Ela espera o dono rodar `sudo chown` nas 35 pastas da
     tablatura que são do root;
-  - a fase 5 (o `ESTADO.md` vira índice);
   - o arquivo frio em `.tar` e a lista de limpeza, item a item, para o dono;
   - isolar o transcritor do Python 3.10.

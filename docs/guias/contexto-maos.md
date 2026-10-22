@@ -161,8 +161,8 @@ combinar**: escreva uma decisão em `docs/decisoes/` e me avise pelo dono.
    `data/saida/maos/`, gabarito em `data/gold/maos/`, pesos em `artefatos/maos_*/`.
 3. **Numeração de documentos**: use `docs/rodadas/1NNN-…` (1001, 1002, …) e
    `docs/decisoes/1NNN-…` para não colidir com a minha sequência (0001–0999).
-4. **`ESTADO.md` é compartilhado**: escreva só seções suas, com título começando por
-   "Mãos —", e **confira `git diff ESTADO.md` antes de commitar** (já aconteceu de um agente
+4. **O estado das mãos fica em `docs/estado/maos.md`** (decisão 9001): seção nova no fim
+   dele. O `ESTADO.md` é compartilhado (índice e "não repetir"), e **confira `git diff ESTADO.md` antes de commitar** (já aconteceu de um agente
    commitar a seção de outro).
 5. **Git** (regras que custaram incidentes): `git add` **só por nome**; nunca `add -A`,
    `reset`, `amend`, `stash`, `checkout --`. Mensagem de commit **via arquivo**

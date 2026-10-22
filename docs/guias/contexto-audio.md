@@ -145,7 +145,7 @@ As regras da seção 6 do [`contexto-maos.md`](contexto-maos.md) valem integralm
    `data/saida/maos/`, `data/gold/maos/`, `Dockerfile.maos`). Importar é livre (`leitor`,
    `cache`, `esquema`, `video`).
 3. **Documentos**: `docs/rodadas/2NNN-…` e `docs/decisoes/2NNN-…` (tablatura usa 0NNN, mãos
-   1NNN). Seções do `ESTADO.md` com título começando por **"Áudio —"**; confira
+   1NNN). Seção nova no fim de `docs/estado/audio.md` (decisão 9001); no `ESTADO.md`, só a tabela "não repetir"; confira
    `git diff ESTADO.md` antes de commitar: só as suas linhas podem entrar.
 4. **Dependências novas** (biblioteca de áudio, DTW…): **não mexa** no `Dockerfile` nem no
    `requirements.txt` da base. Faça uma imagem derivada `Dockerfile.audio` (`FROM

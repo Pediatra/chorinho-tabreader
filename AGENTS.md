@@ -3,8 +3,8 @@
 > Contrato de trabalho deste projeto, para toda sessão e todo agente. Leia **inteiro** antes
 > de rodar qualquer coisa. Revisado em 2026-10-21 (estrutura da 9001).
 >
-> - **Números medidos** ficam no [`ESTADO.md`](ESTADO.md), em seções por trilha, e nas rodadas
->   (`docs/rodadas/`).
+> - **Números medidos** ficam em [`docs/estado/<trilha>.md`](docs/estado/), com o índice e o
+>   que vale para todas as trilhas no [`ESTADO.md`](ESTADO.md), e nas rodadas (`docs/rodadas/`).
 > - **Decisões** ficam em `docs/decisoes/`.
 > - **O contexto de cada trilha** fica em `docs/guias/contexto-*.md`.
 >
@@ -70,8 +70,11 @@ se falam direto**: o dono é a ponte. Uma decisão que afete outra trilha vira u
 - **Importar de outra trilha é livre. Editar o arquivo dela, não:** peça pelo dono.
 - **Arquivos compartilhados:** `tab/comum/caminhos.py` (todos acrescentam os seus caminhos),
   `tab/comum/gpu.py` (a trava da GPU), `tab/__init__.py` e `tab/_apelidos.py`, e este
-  `AGENTS.md`. No `ESTADO.md`, cada trilha escreve só nas
-  seções que começam pelo nome dela ("Tablatura —", "Mãos —", "Áudio —", "Partitura —").
+  `AGENTS.md`.
+- **O estado medido** (decisão 9001, fase 5): cada trilha escreve a sua seção nova no fim
+  do seu `docs/estado/<trilha>.md` (`tablatura`, `maos`, `audio`, `partitura`). O
+  `ESTADO.md` é o índice e guarda só o que vale para todas, como a tabela "não repetir".
+  O diário de 08 a 11/10 está em `docs/estado/historico-antes-das-trilhas.md`.
 
 ## 3. Onde o projeto está (2026-10-21)
 
@@ -174,7 +177,7 @@ chorinho-dataset/
 ├── data/saida/   # o que é gerado (ignorado pelo git, salvo exceções antigas)
 ├── artefatos/    # pesos (.pt fora do git; a procedência .md entra)
 ├── parts/        # recortes de amostra
-└── docs/{HISTORICO.md, rodadas/, decisoes/, guias/, pesquisa/}
+└── docs/{HISTORICO.md, estado/, rodadas/, decisoes/, guias/, pesquisa/}
 ```
 
 1. **Sem `.md` solto na raiz** além dos cinco acima. O `CONTEXTO.md` é o handoff de

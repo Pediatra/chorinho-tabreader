@@ -116,7 +116,7 @@ Valem integralmente a seção 6 do `contexto-maos.md` e a seção 5 do `contexto
    `tab/esquema.py`, `tab/musicxml.py`, `data/gold/ouro_video/`), mãos (`tab/maos_*`,
    `Dockerfile.maos`), áudio (`tab/audio_*`, `Dockerfile.audio`). Importar é livre.
 3. **Documentos**: rodadas e decisões com prefixo **3NNN** (tablatura 0NNN, mãos 1NNN, áudio
-   2NNN). Seções do `ESTADO.md` com título começando por **"Partitura —"**; confira
+   2NNN). Seção nova no fim de `docs/estado/partitura.md` (decisão 9001); no `ESTADO.md`, só a tabela "não repetir"; confira
    `git diff ESTADO.md` antes de commitar: só as suas linhas entram.
 4. **Dependências novas**: imagem derivada `Dockerfile.partitura` (`FROM
    docker.io/library/chorinho:dev`), versões fixas, sem trocar `torch`/`opencv` da base
