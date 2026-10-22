@@ -12,7 +12,11 @@ recebe um veredito:
 - ``confirma``: a altura dela está no evento pareado com a coluna;
 - ``nao_confirma``: a coluna pareou com um evento, mas a altura dela não está nele;
 - ``coluna_sem_par``: a coluna não pareou, numa tela em que outras colunas parearam;
-- ``sem_dado``: a tela não tem nenhuma coluna pareada.
+- ``sem_dado``: a tela não tem nenhuma coluna pareada;
+- ``ambigua`` (rodada 2021): a nota seria ``confirma``, mas a coluna dela tem menos notas
+  que uma coluna vizinha de acorde (≥ 3 notas) e todas as alturas dela estão nesse acorde.
+  O som pode ser só a repetição do rasgueado vizinho, então a confirmação não é
+  independente (rodada 2020: a ponta da seta lida como "4" no *charagua*).
 
 Uso (container base)::
 
@@ -41,7 +45,10 @@ from tab.audio.som_medir import (
 ESQUEMA = "chorinho/cruzamento@0"
 
 #: Vereditos possíveis, na ordem do relatório.
-VEREDITOS = ("confirma", "nao_confirma", "coluna_sem_par", "sem_dado")
+VEREDITOS = ("confirma", "nao_confirma", "coluna_sem_par", "sem_dado", "ambigua")
+
+#: Uma coluna vizinha com pelo menos estas notas conta como acorde (regra ``ambigua``).
+NOTAS_ACORDE_VIZINHO = 3
 
 
 def colunas_do_produto(produto: dict, capo: int) -> dict[int, list[list[dict]]]:
@@ -133,6 +140,43 @@ def vereditos(
     return saida
 
 
+def marcar_ambiguas(colunas: list[list[dict]], notas: list[dict]) -> list[dict]:
+    """Troca ``confirma`` por ``ambigua`` onde o som pode ser o acorde vizinho repetido.
+
+    Uma coluna é ambígua quando tem menos notas que uma coluna vizinha (a anterior ou a
+    seguinte) com pelo menos ``NOTAS_ACORDE_VIZINHO`` notas, e todas as alturas dela estão
+    nesse acorde vizinho.
+
+    Args:
+        colunas: colunas da tela, em ordem de x.
+        notas: as notas com veredito, como sai de ``vereditos``.
+
+    Returns:
+        As mesmas notas, com ``veredito`` trocado onde a regra vale.
+    """
+    alturas = [{n["midi"] for n in c} for c in colunas]
+    indice = {(c[0]["tela"], c[0]["coluna"]): i for i, c in enumerate(colunas) if c}
+    ambiguas = set()
+    for i, coluna in enumerate(colunas):
+        for j in (i - 1, i + 1):
+            if not 0 <= j < len(colunas):
+                continue
+            vizinha = colunas[j]
+            if (
+                len(vizinha) >= NOTAS_ACORDE_VIZINHO
+                and len(coluna) < len(vizinha)
+                and alturas[i] <= alturas[j]
+            ):
+                ambiguas.add(i)
+    saida = []
+    for n in notas:
+        i = indice.get((n["tela"], n["coluna"]))
+        if n["veredito"] == "confirma" and i in ambiguas:
+            n = dict(n, veredito="ambigua")
+        saida.append(n)
+    return saida
+
+
 def cruzar_tela(
     colunas: list[list[dict]], som: list[dict], exibicoes: list[tuple[float, float]]
 ) -> dict:
@@ -164,7 +208,7 @@ def cruzar_tela(
             "som_sem_tela": 0,
         }
     _, k, t0, t1, eventos, pares = melhor
-    notas = vereditos(colunas, eventos, pares)
+    notas = marcar_ambiguas(colunas, vereditos(colunas, eventos, pares))
     sobra = 0
     if pares:
         j0, j1 = pares[0][1], pares[-1][1]

@@ -65,3 +65,31 @@ def test_cruzar_tela_sem_par_nenhum_e_sem_dado() -> None:
 def test_cruzar_recusa_videos_diferentes() -> None:
     with pytest.raises(ValueError):
         cruzar({"video": {"arquivo": "a.mp4"}}, {"video": "b.mp4", "notas": []}, 0, "")
+
+
+def test_coluna_de_uma_nota_dentro_do_acorde_vizinho_e_ambigua() -> None:
+    colunas = colunas_do_produto(
+        {
+            "notas": [
+                _nota(1, 1, 1, 4, 100),  # 68: a "ponta da seta" antes do acorde
+                _nota(1, 2, 1, 9, 200),  # 73
+                _nota(1, 2, 2, 9, 200),  # 68
+                _nota(1, 2, 3, 9, 200),  # 64
+            ]
+        },
+        capo=0,
+    )[1]
+    som = [_som(1.0, 68), _som(1.0, 73), _som(1.0, 64)]
+    som += [_som(1.5, 73), _som(1.5, 68), _som(1.5, 64)]
+    r = cruzar_tela(colunas, som, [(0.9, 2.0)])
+    vereditos = {(n["coluna"], n["corda"]): n["veredito"] for n in r["notas"]}
+    assert vereditos[(1, 1)] == "ambigua"
+    assert {vereditos[(2, c)] for c in (1, 2, 3)} == {"confirma"}
+
+
+def test_acordes_iguais_vizinhos_continuam_confirmados() -> None:
+    notas = [_nota(1, k, c, 0, 100 * k) for k in (1, 2) for c in (1, 2, 3)]
+    colunas = colunas_do_produto({"notas": notas}, capo=0)[1]
+    som = [_som(t, m) for t in (1.0, 1.5) for m in (64, 59, 55)]
+    r = cruzar_tela(colunas, som, [(0.9, 2.0)])
+    assert {n["veredito"] for n in r["notas"]} == {"confirma"}
