@@ -137,3 +137,38 @@ da revisão do dono (`medir-prova`).
 2. a folha de escolha precisa de vídeos verticais, ou a escolha precisa de uma checagem de
    orientação (o nut do lado da cabeça);
 3. o alvo de orientação no treino do estágio 1 é o lugar a investigar antes de mais dado.
+
+## Resultado na prova (1039, 2026-10-22, depois da revisão do dono)
+
+`python -m tab.maos.braco.retreino_capo3 medir-prova` (`m41/medida_prova.json`), 64 quadros,
+todos com capo (casas 2 a 5) e braço `sim`:
+
+| | par novo (L5 s2 + A7 s2) | par antigo (L3 s3 + A4 s1) |
+| --- | --- | --- |
+| entregues certos | **9** de 64 | 0 |
+| falsos que passam | **15** de 64 (23 %) | 39 (61 %) |
+| sinalizados | 33 | 25 |
+| por classe | 11 certos, 17 imprecisos, 35 falsos, 1 sem braço | 64 falsos |
+
+- **Critério 1 (segurança, ≤ 5 %) reprova**: 15 de 64. **Critério 2 (capo) reprova**: 15
+  falsos que passam, o limite era 1. A linha da tabela é "1 falha": não adotar e investigar
+  por tipo de erro.
+
+**Por tipo de erro** (`m41/erros_1039/diag.py` e `linhas.json`; folha
+`m41/erros_1039/folha_tipos.jpg`):
+- **o erro depende da casa do capo**:
+  - capo na casa 2 ou 3 (5 vídeos, 40 quadros): o par novo põe o nut no capo em 32 de 40, a
+    menos de meia casa do dono. 11 são certos (9 entregues sem sinal) e 16 imprecisos (nut
+    ~0,2–0,5 casa para o lado da cabeça). Os outros 3 falsos que passam são do totoro (capo
+    3): q27 com o nut no nut verdadeiro, q29 e q31 a ~0,5 casa;
+  - **capo na casa 4 (2 vídeos, 16 quadros): o nut fica no nut verdadeiro em 14 de 16**, a
+    ~7 larguras de pestana para o lado da cabeça, e **12 deles passam sem sinal**. São 12 dos
+    15 falsos que passam;
+  - capo na casa 5 (1 vídeo, 8 quadros): o mesmo erro, mas os 8 saem sinalizados;
+- o par antigo põe o nut no nut verdadeiro em todos os 64, como na 1032.
+
+**Leitura**: a sobreamostragem ensinou o capo onde o treino tinha exemplo (casas 1 a 3). O
+treino tem só ~13 quadros com capo na casa 4 e 1 na casa 5, e lá o modelo volta ao nut
+verdadeiro **sem sinalizar**. É falta de cobertura, como na regra 9 do `AGENTS.md`. O passo
+seguinte é a 1042: as 64 marcas da 1039 (16 na casa 4, 8 na casa 5) entram no treino, e a
+prova vai para um lote novo (1043).

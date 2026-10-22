@@ -301,3 +301,17 @@ em `docs/rodadas/10NN-*`.
     com capo, dependendo da 1038".
 - **Próximo:** investigar a orientação do braço no estágio 1. Uma semente em três inverte (na
   1037 e na 1041), e a folha de escolha precisa de vídeo vertical.
+
+### 2026-10-22 — a 1039 revisada: o capo nas casas 4 e 5 ainda engana
+
+- **A 1039 revisada pelo dono** (64 quadros, todos com capo, casas 2 a 5):
+  - par antigo: 0 certos e **39 falsos que passam** (61 %), com o nut no nut verdadeiro;
+  - par da 1041 (L5 s2 + A7 s2): 9 certos e **15 falsos que passam** (23 %). **Critérios 1 e 2
+    reprovam.**
+- **Por tipo de erro**: com capo nas casas 2 e 3, o par da 1041 põe o nut no capo (32 de 40).
+  Com capo na casa 4, volta ao nut verdadeiro (14 de 16) e **12 passam sem sinal**. O treino
+  tinha ~13 quadros com capo na casa 4 e 1 na casa 5: é cobertura.
+- **Próximo**: a 1042 (as 64 marcas da 1039 no treino; veto de inversão na escolha, pela M36)
+  e a 1043 (lote novo, 5 vídeos com capo do kimny's guitar, 40 quadros) como prova lacrada.
+- A ferramenta do braço escondia o quadro atrás do cabeçalho em tela pequena (corrigido em
+  `dda828da`).

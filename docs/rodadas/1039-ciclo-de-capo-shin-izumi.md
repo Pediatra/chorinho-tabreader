@@ -89,3 +89,14 @@ pela marca `k` do dono.
   outro trecho, ou o contrário. O dono marca quadro a quadro, e a medida usa a marca dele.
 - **O canal tem tela com tablatura grande**: o braço pode ficar pequeno, e o estágio 1 não
   achar o braço. Isso é "sem braço", e não erro.
+
+## Resultado (2026-10-22, revisão do dono)
+
+- **O dono conferiu os 64 quadros**: todos com braço `sim`, todos com capo (casa 2: 24; casa 3:
+  16; casa 4: 16; casa 5: 8). O nut fica no traste à frente do capo, e o `k` no capo.
+- `python -m tab.maos.braco.ciclo medir --rodada 1039`, par antigo: **0 de 64 certos, 39 falsos
+  que passam (61 %)**, 25 sinalizados. Todos os 64 são falsos: o nut sai no nut verdadeiro.
+- Pela tabela: "falsos que passam > 5 %": **parar e investigar por tipo de erro**. A
+  investigação e a medida do par da 1041 estão na
+  [1041](1041-retreino-capo-sobreamostrado.md#resultado-na-prova-1039-2026-10-22-depois-da-revisão-do-dono).
+- O lote deixa de ser prova: **as 64 marcas entram no treino da 1042**.

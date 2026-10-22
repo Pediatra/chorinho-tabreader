@@ -143,6 +143,11 @@ MAOS_M37 = SAIDA / "maos" / "m37"
 MAOS_M40 = SAIDA / "maos" / "m40"
 #: Retreino com o capo sobreamostrado (rodada 1041): escolha, medida e previsão da 1039.
 MAOS_M41 = SAIDA / "maos" / "m41"
+#: Retreino com as marcas da 1039 e da 1036 (rodada 1042): contagem, escolha e medida.
+MAOS_M42 = SAIDA / "maos" / "m42"
+#: Ciclo de capo num canal novo (rodada 1043, kimny's guitar): a prova lacrada da 1042.
+MAOS_M43 = SAIDA / "maos" / "m43"
+GABARITO_BRACO_M43 = RAIZ / "data" / "gold" / "maos" / "braco_m43.json"
 #: Casa do capo por vídeo, juntada do gabarito do braço (``tab.maos_braco_capo``).
 CAPO_POR_VIDEO = SAIDA / "maos" / "capo_por_video.json"
 #: Conferência dos 30 quadros do censo de mãos (rodada 1001).

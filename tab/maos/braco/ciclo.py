@@ -47,6 +47,7 @@ from tab.comum.caminhos import (
     GABARITO_BRACO_M32,
     GABARITO_BRACO_M36,
     GABARITO_BRACO_M39,
+    GABARITO_BRACO_M43,
     MAOS_M3B,
     MAOS_M11B,
     MAOS_M21,
@@ -58,6 +59,7 @@ from tab.comum.caminhos import (
     MAOS_M36,
     MAOS_M37,
     MAOS_M39,
+    MAOS_M43,
     acervo,
 )
 from tab.maos.braco.consenso import SINAL_S4, consenso
@@ -174,6 +176,14 @@ RODADAS: dict[str, Rodada] = {
         proxima="rodada seguinte",
         triagem=True,
     ),
+    "1043": Rodada(
+        canal="kimny's guitar",
+        semente=20261043,
+        pasta=MAOS_M43,
+        gabarito=GABARITO_BRACO_M43,
+        proxima="rodada seguinte",
+        triagem=True,
+    ),
 }
 
 #: Rodada usada quando a CLI não recebe ``--rodada``.
@@ -188,12 +198,17 @@ RODADAS_COM_A5 = ("1032",)
 RODADAS_SINAL_NUT = ("1032",)
 #: Rodadas que usam o sinal v2 (bordas do quadro e linhas de painel; rodada 1033, que o pôs
 #: no lugar do v1 na 1032).
-RODADAS_SINAL_NUT_V2 = ("1032", "1036", "1039")
+RODADAS_SINAL_NUT_V2 = ("1032", "1036", "1039", "1043")
 #: Rodadas que usam a escolha de pesos de outra (sem rodar ``escolher-pesos`` de novo).
 RODADAS_ESCOLHA_HERDADA = {"1036": "1032"}
 #: Rodadas cujos pesos dependem da 1037 (pré-registro da 1039): o par novo se a 1037 passou
 #: nos três critérios, senão a escolha da 1032.
 RODADAS_PESOS_DA_1037 = ("1039",)
+#: Rodadas com o par fixo de outra rodada: a 1043 é pré-preenchida pelo par da 1041
+#: (o melhor no capo até ali), e mede a 1042, que não a preenche.
+RODADAS_PESOS_FIXOS: dict[str, tuple[str, str]] = {
+    "1043": ("L5_capo3_s2", "A7_capo3_s2"),
+}
 ARQUIVO_MEDIDA_1037 = MAOS_M37 / "medida.json"
 ARQUIVO_ESCOLHA_1037 = MAOS_M37 / "escolha_pesos.json"
 #: Nut suspeito: ponta das cordas do lado do nut a até esta fração da borda menor.
@@ -863,6 +878,8 @@ def pesos_da_rodada(numero: str) -> Pesos:
     Raises:
         ValueError: se a rodada escolhe os pesos e ``escolha_pesos.json`` não existe.
     """
+    if numero in RODADAS_PESOS_FIXOS:
+        return Pesos(*RODADAS_PESOS_FIXOS[numero])
     if numero in RODADAS_PESOS_DA_1037:
         return pesos_condicionais_1037(ARQUIVO_MEDIDA_1037, ARQUIVO_ESCOLHA_1037)
     origem = RODADAS_ESCOLHA_HERDADA.get(numero, numero)
