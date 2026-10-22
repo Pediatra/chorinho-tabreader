@@ -40,10 +40,10 @@
 | tablatura + `t_ini` por nota | MVP: 485/491 notas, casa 483/485, tempo de marcador 39/40; fase 8 generalizando canais | trilha tablatura, `chorinho/video@1` |
 | tempo do som por coluna (`t_audio`) | o som vem 165–275 ms (mediana) **depois** do marcador, vagueando; o alinhador dá `t_audio` em 630/637, 392/464, 317/322 e 323/415 ataques (4 vídeos) | trilha áudio, decisão 2003, `chorinho/audio@1` |
 | partitura pareada à coluna da tablatura | ritmo ~99 %; par com a coluna 336/337 | trilha partitura, decisão 3002 |
-| detector de mãos | RTMW Wholebody (GPU) + MediaPipe: 86/90 quadros certos (rótulo provisório), 0,2 s por quadro na GPU, determinístico | `tab/maos_detector.py`, decisão 1002 |
+| detector de mãos | RTMW Wholebody (GPU) + MediaPipe: 86/90 quadros certos (rótulo provisório), 0,2 s por quadro na GPU, determinístico | `tab/maos/detector.py`, decisão 1002 |
 | mãos visíveis por canal | 2.366 de 2.798 vídeos "servem" (85 %); sky guitar 100 %, iwaki 100 %, leonardo ramos 99 %, kenneth 99 %, shin izumi 99 % | censo M0, rodada 1001 |
 | gabarito do braço | **36 quadros de 28 vídeos**, marcados pelo dono: pestana, trastes, cordas 1 e 6 | `data/gold/maos/braco.json` |
-| geometria dos trastes | com pestana + trastes 5 e 12 e o modelo projetivo, 96 % de 327 trastes a < 1/4 de casa | `tab/maos_braco_geometria.py`, rodada 1005 |
+| geometria dos trastes | com pestana + trastes 5 e 12 e o modelo projetivo, 96 % de 327 trastes a < 1/4 de casa | `tab/maos/braco/geometria.py`, rodada 1005 |
 | braço que se mexe | com uma marcação só por vídeo: ao longo do braço erra ≤ 0,16 casa; **na direção das cordas, até 2,4 cordas** | rodada 1014, q24–q31 |
 | gesto da mão direita × som | pico do movimento entre −0,07 e 0,00 s do `t_audio` (4 vídeos); contra o `t_ini`, +0,10 a +0,23 s | rodadas 1011 e 1012 |
 | gabarito de dedos (40 ataques) e padrões da direita (40 compassos) | do dono | `data/gold/maos/` |
@@ -134,14 +134,14 @@ Arquivos irmãos, sem mudar o `chorinho/video@1`. É o mesmo desenho das decisõ
     um "não achou";
   - caixa da tablatura.
 - **Recortes de imagem não são gravados.** Eles são refeitos do acervo pelo PTS, com
-  `tab/leitor.py` (44 % do acervo é AV1).
+  `tab/comum/leitor.py` (44 % do acervo é AV1).
 - **Custo estimado**, a medir no piloto: cerca de 0,5 kB por quadro em float16. A 15 quadros por
   segundo nas ~171 h de tablatura na tela, são ~9 M de quadros e ~4,5 GB.
 - O áudio fica por referência ao FLAC do cache (rodada 2001), com o índice da amostra.
 
 **Aceite do M10:**
 - o dono aprova o formato;
-- validador `tab/maos_esquema.py` com testes sintéticos no gate;
+- validador `tab/maos/esquema.py` com testes sintéticos no gate;
 - decisão escrita.
 
 ## 5. As fases

@@ -1,5 +1,11 @@
 # Plano — do estado atual ao produto (um JSON por vídeo, com cada nota no seu tempo)
 
+> **Nomes de 2026-10-22 em diante (decisão 9001):** este documento é anterior à
+> reorganização. Os nomes de módulo daqui (`tab.video`, `tab/leitor.py`…) ainda importam e
+> rodam por apelido; o nome novo de cada um está em `tab/_apelidos.py`. As pastas de
+> `data/saida/` citadas foram para `data/saida/tablatura/` (com link no lugar antigo), e o
+> estado medido está em `docs/estado/<trilha>.md`. O texto abaixo não foi reescrito.
+
 > **Para quem é**: o programador (pessoa ou modelo) que vai executar o projeto a partir de
 > 2026-10-10. Está escrito como se fosse para alguém júnior: cada fase diz **o que fazer**,
 > **por que**, **em que arquivo**, **como saber que terminou** e **onde costuma dar errado**.

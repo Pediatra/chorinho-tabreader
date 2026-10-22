@@ -1,7 +1,7 @@
 # AGENTS.md — chorinho
 
 > Contrato de trabalho deste projeto, para toda sessão e todo agente. Leia **inteiro** antes
-> de rodar qualquer coisa. Revisado em 2026-10-21 (estrutura da 9001).
+> de rodar qualquer coisa. Revisado em 2026-10-22 (estrutura e padrão de projeto da 9001, §10).
 >
 > - **Números medidos** ficam em [`docs/estado/<trilha>.md`](docs/estado/), com o índice e o
 >   que vale para todas as trilhas no [`ESTADO.md`](ESTADO.md), e nas rodadas (`docs/rodadas/`).
@@ -9,7 +9,7 @@
 > - **O contexto de cada trilha** fica em `docs/guias/contexto-*.md`.
 >
 > Este arquivo diz o objetivo, o ambiente e as regras. Quando um número daqui divergir do
-> `ESTADO.md`, vale o `ESTADO.md`.
+> `ESTADO.md` ou do `docs/estado/<trilha>.md`, vale o estado.
 
 ## 1. O objetivo
 
@@ -52,7 +52,7 @@ se falam direto**: o dono é a ponte. Uma decisão que afete outra trilha vira u
 
 | trilha | entrega | módulos e dados dela | rodadas e decisões | guia |
 | --- | --- | --- | --- | --- |
-| **tablatura** | o produto `chorinho/video@1` (`tab.video`): corda, casa, coluna, compasso, técnica e `t_ini` por nota. É o rótulo da base | `tab/tablatura/` (`produto/`, `leitura/`, `treino/`, `ataque/`, `ouro/`, `censo/`); `data/gold/ouro_video/`; `data/saida/n4/` | `0NNN` | [`plano-do-produto.md`](docs/guias/plano-do-produto.md), [`plano-rotulo-tablatura.md`](docs/guias/plano-rotulo-tablatura.md) |
+| **tablatura** | o produto `chorinho/video@1` (`tab.tablatura.produto.video`): corda, casa, coluna, compasso, técnica e `t_ini` por nota. É o rótulo da base | `tab/tablatura/` (`produto/`, `leitura/`, `treino/`, `ataque/`, `ouro/`, `censo/`); `data/gold/ouro_video/`; `data/saida/tablatura/n4/` | `0NNN` | [`plano-do-produto.md`](docs/guias/plano-do-produto.md), [`plano-rotulo-tablatura.md`](docs/guias/plano-rotulo-tablatura.md) |
 | **mãos e braço** | a base `chorinho/maos@1` (decisão 1007): o braço e as mãos quadro a quadro, e a ligação de cada nota às mãos | `tab/maos/` (`braco/`, `direita/`), `data/gold/maos/`, `data/saida/maos/`, `Dockerfile.maos` | `1NNN` | [`contexto-maos.md`](docs/guias/contexto-maos.md), [`plano-dataset-maos.md`](docs/guias/plano-dataset-maos.md) |
 | **áudio** | `chorinho/audio@1` (`t_audio` por coluna, decisão 2003); em estudo, um transcritor que ouve sozinho (`chorinho/som@1`) | `tab/audio/`, `data/gold/audio/`, `data/saida/audio/`, `Dockerfile.audio` | `2NNN` | [`contexto-audio-retomada.md`](docs/guias/contexto-audio-retomada.md), [`contexto-audio-triangulacao.md`](docs/guias/contexto-audio-triangulacao.md) |
 | **partitura** | `chorinho/partitura@1` (decisão 3002): ritmo e altura da pauta, pareados com a tab | `tab/partitura/`, `data/gold/partitura/`, `data/saida/partitura/`, `Dockerfile.partitura` | `3NNN` | [`contexto-partitura.md`](docs/guias/contexto-partitura.md) |
@@ -78,7 +78,7 @@ se falam direto**: o dono é a ponte. Uma decisão que afete outra trilha vira u
 
 ## 3. Onde o projeto está (2026-10-21)
 
-São só os números de referência, com a fonte de cada um. O resto está no `ESTADO.md`.
+São só os números de referência, com a fonte de cada um. O resto está em `docs/estado/<trilha>.md` (índice: `ESTADO.md`).
 
 - **Acervo**: **4.096 vídeos em 21 canais, 215 GiB**, contados em 2026-10-21, e ainda
   crescendo, porque o dono segue baixando. Os canais com `rollout: fora` em
@@ -151,7 +151,7 @@ executa o pipeline.
 - **O acervo** fica em `/acervo`, **somente leitura**. No host, está em
   `/run/media/gabriel/3014CD4714CD1130/chorinho`, num HD externo.
   - **O HD é o gargalo de leitura**: duas leituras longas ao mesmo tempo dobram o tempo das
-    duas. Leia uma vez para o cache (`tab.cache`, `tab.audio_extrair`).
+    duas. Leia uma vez para o cache (`tab.comum.cache`, `tab.audio.extrair`).
   - **Para um lote grande, combine o horário com o dono.**
 - **Vídeo se lê por `tab/comum/leitor.py`.** 44 % do acervo é AV1, e o OpenCV não decodifica AV1:
   ele falha **em silêncio**, sem erro. O `ffmpeg` da imagem é o que lê.
@@ -198,8 +198,9 @@ chorinho-dataset/
 6. **Saída nova vai em `data/saida/<trilha>/`** (decisão 9001, fase 4). As 156 pastas
    soltas antigas foram para `data/saida/tablatura/` e `data/saida/partitura/` em
    2026-10-22, e o lugar antigo ficou com um link simbólico relativo: o caminho de antes
-   continua valendo. As constantes do `caminhos.py` mudam de valor só quando os links
-   saírem (fase 6). Não apague nem substitua um desses links.
+   continua valendo. As constantes do `tab/comum/caminhos.py` mudam de valor só quando os links
+   saírem (fase 6). Não apague nem substitua um desses links: os das pastas que o gabarito
+   cita ficam para sempre.
 7. **Caminho não se espalha.** Acervo, gabarito, saída e artefatos vêm de `tab/comum/caminhos.py`.
    Caminho absoluto novo no meio de um módulo é bug de revisão.
 
@@ -225,7 +226,7 @@ Toda medida que decide alguma coisa segue este ciclo:
 
 1. **Semente fixa, determinismo e ≥ 3 execuções; reporte a média e a amplitude.** Com o cuDNN
    padrão, a **mesma** semente deu 0,927, 0,896 e 0,948, e o projeto tratou diferenças desse
-   tamanho como ganho. O determinismo está em `tab.sintetico.fixar_semente`, travado por teste.
+   tamanho como ganho. O determinismo está em `tab.comum.semente.fixar_semente`, travado por teste.
 2. **Meça a amostra antes de gastar treino.** Três retreinos foram queimados até descobrir que
    a classe nem nascia no gerador.
 3. **Confira o significado do número.**
@@ -251,7 +252,7 @@ Toda medida que decide alguma coisa segue este ciclo:
    deram +0,05.
 10. **Um instante não responde "tem tablatura?".** A tablatura aparece e some: dos 20 vídeos
     que um scan de 1 instante chamou de "sem tablatura", os 20 têm. Presença se mede ao longo
-    do tempo (`tab.varredura --frac-inicio/--frac-fim`).
+    do tempo (`tab.tablatura.censo.varredura --frac-inicio/--frac-fim`).
 11. **Não valide uma fonte com ela mesma.** Usar a tab para numerar o braço e depois conferir o
     braço pela tab concorda por construção. O mesmo vale para as mãos achadas pelo tempo do som
     e depois conferidas pelo som (decisão 2005, Regra 1).
@@ -269,8 +270,8 @@ Toda medida que decide alguma coisa segue este ciclo:
   - Antes de pedir rótulo, diga para que serve e quanto custa.
   - Prefira **palpite por regra do domínio, pré-preenchido**, para ele só confirmar ou
     corrigir.
-  - Use as ferramentas que já existem: `tab.ouro_video servir` (notas) e
-    `tab.maos_braco_gabarito servir` (braço). Não crie página nova.
+  - Use as ferramentas que já existem: `tab.tablatura.ouro.ouro_video servir` (notas) e
+    `tab.maos.braco.gabarito servir` (braço). Não crie página nova.
 - **Ferramenta de rotular se testa numa cópia**, nunca no gabarito ao vivo, porque ela grava a
   cada clique.
 - **Decisão de gabarito é do dono.** Fora isso, ele confia na recomendação do agente. Para
@@ -303,7 +304,8 @@ Toda medida que decide alguma coisa segue este ciclo:
     trilhas no mesmo repositório;
   - mensagem por arquivo (`git commit -F arq`), com a linha de coautoria que a sessão pedir;
   - **um commit por tarefa**, com o número medido quando houver;
-  - antes de commitar o `ESTADO.md`, confira `git diff ESTADO.md`: só as suas linhas entram.
+  - antes de commitar o `ESTADO.md` (tabela "não repetir"), confira `git diff ESTADO.md`: só as
+    suas linhas entram. O seu `docs/estado/<trilha>.md` é só seu.
 - **Nunca commite** `data/gold/partitura/compassos_homr.json` nem
   `data/gold/partitura/figura_e1.json`.
 - **Gate antes de todo commit, sempre:**
@@ -334,6 +336,65 @@ Toda medida que decide alguma coisa segue este ciclo:
 - **Determinismo:** a mesma entrada dá o mesmo JSON. Toda aleatoriedade tem semente fixa e
   registrada.
 
+### Padrão de projeto (decisão 9001, 2026-10-22)
+
+**Onde cada coisa mora:**
+
+| o quê | onde |
+| --- | --- |
+| módulo de uma trilha | `tab/<trilha>/`; subpasta quando o grupo passa de ~10 módulos (`tab/maos/braco/`) |
+| o que 2 trilhas ou mais usam | `tab/comum/` |
+| a etapa neutra da 2005 | `tab/cruzamento/` |
+| teste | `tests/<trilha>/test_*.py` (o `--import-mode=importlib` aceita o mesmo nome em pastas diferentes) |
+| saída gerada | `data/saida/<trilha>/<rodada ou frente>/`, com um `LEIAME.json` |
+| peso treinado | `artefatos/`, com o `.json`/`.md` de procedência; os que o código usa, em `artefatos/<trilha>/EM_USO.json` |
+| número medido | o fim de `docs/estado/<trilha>.md`; o que reprovou, na tabela "não repetir" do `ESTADO.md` |
+| arquivo frio | `chorinho_arquivo/<trilha>/*.tar` no HD do acervo, com o manifesto ao lado |
+
+**Reaproveite antes de escrever.** Já existem, e não se copiam:
+
+- `tab.comum.arquivos`: `gravar_atomico`, `ler_json`, `nfc`, `slug`;
+- `tab.comum.violao.AFINACAO_MIDI` (corda solta → MIDI; a altura é solta + casa + capo);
+- `tab.comum.semente.fixar_semente`;
+- `tab.comum.acervo`: `chave_de`, `chave_do_arquivo`, `ler_rollout`, `canais_fora`;
+- `tab.comum.leitor` (vídeo, também AV1), `tab.comum.cache`, `tab.comum.gpu.trava_gpu`,
+  `tab.comum.caminhos`.
+
+**Regras do padrão:**
+
+1. **Uma função entra no `comum` quando a segunda trilha precisa dela.** Ela entra pública,
+   com docstring e teste. O nome antigo fica no módulo de origem como reexportação (o mesmo
+   objeto), e `tests/comum/test_comum_unificado.py` confere isso.
+2. **Sem import de função privada de outro módulo** (`from tab.x import _f`). Há ~200 antigos,
+   quase todos dentro das mãos: são dívida, não modelo. Precisou de um `_f` de fora? Torne-o
+   público no módulo dele, ou no `comum` pela regra 1.
+3. **Import absoluto e pelo nome novo**, sempre: `from tab.maos.braco.ciclo import ...`. Os 149
+   nomes antigos (`tab/_apelidos.py`) existem só para não quebrar o que já roda. Módulo novo
+   não ganha apelido.
+4. **Toda pasta nova de `data/saida/<trilha>/` ganha um `LEIAME.json`** com `nome`, `trilha`,
+   `classe` (`manter` / `arquivar` / `apagar`), `motivo`, `comando` (o que a regenera),
+   `regeneravel`, `rodadas` e `citado_por`. É ele que decide a limpeza depois.
+5. **Mudança de estrutura** (mover ou renomear módulo, pasta ou peso):
+   - gate verde antes e depois;
+   - a prova byte a byte de cada trilha, pelo caminho antigo:
+     - áudio: `data/saida/audio/r2020/prova_9001/prova.sh`;
+     - mãos: `data/saida/maos/prova_9001/prova.py`;
+     - partitura: `data/saida/partitura/diag/r9001/prova_9001.sh`;
+     - tablatura: `data/saida/prova_9001/tablatura/LEIA.md`;
+   - dado movido deixa um link simbólico relativo no lugar antigo;
+   - `git add` por nome.
+6. **Apagar só depois do `.tar`**, conferido com `tar --compare` (código 0) e com o sha256 no
+   manifesto. **Nunca se apaga**:
+   - `data/gold/`;
+   - `docs/rodadas/`;
+   - um arquivo que o gabarito cita;
+   - os links do topo de `data/saida/`;
+   - um arquivo rastreado pelo git (esse sai por commit).
+7. **Versões do Python:** tudo é 3.14 (imagem base). Só o transcritor do áudio roda em 3.10
+   (`chorinho-som`), e por isso os arquivos que ele importa ficam em sintaxe 3.10 e só stdlib
+   (§5, regra 4). Um teste do gate trava isso. Não crie outra imagem com outro Python sem uma
+   decisão.
+
 ## 11. Decisões de dado que valem para todas as trilhas
 
 - **Símbolo não se descarta.** Guarde o glifo cru, sempre, e classifique depois: cada canal tem
@@ -356,7 +417,7 @@ Toda medida que decide alguma coisa segue este ciclo:
 | --- | --- |
 | **acervo** | os vídeos-aula do dono, em `/acervo` (somente leitura); ver a seção 3 |
 | **canal** | uma pasta do acervo (um professor ou um site); o perfil fica em `configs/canais.yaml` |
-| **produto** | o JSON `chorinho/video@1` de um vídeo (`tab.video`) |
+| **produto** | o JSON `chorinho/video@1` de um vídeo (`tab.tablatura.produto.video`) |
 | **painel** | a região da tela com a tablatura (varia por vídeo: topo, meio ou base) |
 | **tela / exibição / passagem** | uma página de tablatura / um intervalo em que ela fica na tela / uma vez que ela é tocada |
 | **coluna** | um instante da tablatura; um acorde é uma coluna com várias notas |

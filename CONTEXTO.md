@@ -1,5 +1,11 @@
 # CONTEXTO.md — passagem de bastão (documento do dono para o próximo modelo)
 
+> **Nomes de 2026-10-22 em diante (decisão 9001):** este documento é anterior à
+> reorganização. Os nomes de módulo daqui (`tab.video`, `tab/leitor.py`…) ainda importam e
+> rodam por apelido; o nome novo de cada um está em `tab/_apelidos.py`. As pastas de
+> `data/saida/` citadas foram para `data/saida/tablatura/` (com link no lugar antigo), e o
+> estado medido está em `docs/estado/<trilha>.md`. O texto abaixo não foi reescrito.
+
 > Escrito a pedido do dono do projeto para handoff a um modelo maior, que vai decidir o
 > caminho a partir daqui. **Este documento NÃO substitui o [`AGENTS.md`](AGENTS.md): leia o
 > `AGENTS.md` inteiro primeiro.** Ele complementa com o que foi medido nas últimas rodadas e

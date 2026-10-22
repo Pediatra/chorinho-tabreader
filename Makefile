@@ -31,7 +31,7 @@ test-integration:
 	$(RUN) pytest tests/ -q -m integration
 
 avaliar:
-	$(RUN) python -m tab.avaliar
+	$(RUN) python -m tab.tablatura.ouro.avaliar
 
 shell:
 	$(COMPOSE) run --rm chorinho bash

@@ -6,7 +6,7 @@
 > 2. este arquivo;
 > 3. [`contexto-audio.md`](contexto-audio.md) (2026-10-13), seções 2 a 6: a história e as
 >    regras da trilha;
-> 4. as seções **"Áudio —"** do [`ESTADO.md`](../../ESTADO.md) e as rodadas
+> 4. o [`docs/estado/audio.md`](../../docs/estado/audio.md) e as rodadas
 >    `docs/rodadas/2001…2016`.
 >
 > A memória do projeto (`MEMORY.md`) carrega sozinha. Ela traz as preferências do dono, e as
@@ -49,7 +49,7 @@ transcrição livre do áudio:
 1. **O leitor do produto mudou** (decisão [0010](../decisoes/0010-leitor-rede.md), 2026-10-14):
    o padrão agora é o leitor `rede`.
    - **O X do rasgueado** deixou de sair com top-1 `"15"` e passou a sair como `nao_notas` de
-     classe `"x"`. Com isso, `colunas_abafadas` (`tab/audio_alinhar.py`) **não acha nenhuma
+     classe `"x"`. Com isso, `colunas_abafadas` (`tab/audio/alinhar.py`) **não acha nenhuma
      coluna abafada num JSON novo**. Leia o "Aviso à trilha áudio" no fim da 0010.
    - **A revocação das notas subiu de 0,83 para 0,95.** Os números das rodadas 2001–2016 são
      do leitor antigo e não se comparam direto com os novos.
@@ -60,10 +60,10 @@ transcrição livre do áudio:
    - no braço, o nut é o capo, e os trastes contam a partir dele;
    - a tablatura da tela também vem contada a partir do capo;
    - **a altura que soa = corda solta + casa da tab + casa do capo.** É o `--transposicao` do
-     `tab.audio_alinhar`, que hoje é sempre 0;
+     `tab.audio.alinhar`, que hoje é sempre 0;
    - o dataset precisa da casa do capo por vídeo (`violao.capotraste` na decisão 1007), e
      anotar vídeo a vídeo gasta o tempo do dono. O som pode dar esse número.
-4. **A trava da GPU virou código** (`tab/gpu.py`; ver a seção 4).
+4. **A trava da GPU virou código** (`tab/comum/gpu.py`; ver a seção 4).
 
 ## 3. Frentes, em ordem
 
@@ -72,7 +72,7 @@ medir**. Os critérios abaixo são propostas, e você os fixa no pré-registro.
 
 ### A. Regressão com o leitor `rede` (2017; CPU)
 
-- **Antes de qualquer coisa nova:** gere de novo o produto (`tab.video`) e rode o alinhador
+- **Antes de qualquer coisa nova:** gere de novo o produto (`tab.tablatura.produto.video`) e rode o alinhador
   em uma amostra que já tem número antigo, com o leitor `rede`:
   - o MVP;
   - os 5 vídeos bons do lote 2;
@@ -87,7 +87,7 @@ medir**. Os critérios abaixo são propostas, e você os fixa no pré-registro.
 ### B. Casa do capo pelo som (2018; CPU)
 
 **A verdade, já pronta:** `data/saida/maos/capo_por_video.json`. Ela é gerada por
-`python -m tab.maos_braco_capo` a partir das observações do dono.
+`python -m tab.maos.braco.capo` a partir das observações do dono.
 - **33 vídeos com capo** (casas de 1 a 6), e **0 conflitos** entre quadros do mesmo vídeo.
 - **180 vídeos sem capo** nos quadros que o dono viu (`sem_capo`): é o controle negativo, com
   casa esperada 0. **Atenção:** o controle só garante os quadros vistos. O capo pode aparecer
@@ -147,7 +147,7 @@ nota com `t_audio`, a altura esperada (com o capo da frente B) soou?
 - **A trava da GPU:**
 
   ```python
-  from tab.gpu import trava_gpu
+  from tab.comum.gpu import trava_gpu
 
   with trava_gpu("audio", "40 min"):
       ...  # o trabalho na GPU
@@ -159,10 +159,10 @@ nota com `t_audio`, a altura esperada (com o capo da frente B) soou?
   - **A trilha mãos usa a mesma trava.** Nos próximos dias ela tem janelas de ~6 h de
     retreino. Quando a GPU desocupar, você entra sozinho.
 - **Nunca pare nem mexa em container de outra trilha.** O ajuste fino da trilha tablatura
-  (`data/saida/n4/treinar_ft.py`), por exemplo, pode usar a GPU sem a trava, e por isso ela
+  (`data/saida/tablatura/n4/treinar_ft.py`), por exemplo, pode usar a GPU sem a trava, e por isso ela
   confere a memória livre.
 - **O HD externo do acervo é o gargalo de leitura.** Extraia cada áudio uma vez para o cache
-  (`tab.audio_extrair`). Para um lote grande, combine o horário com o dono.
+  (`tab.audio.extrair`). Para um lote grande, combine o horário com o dono.
 - **Como rodar.** Esta sessão roda dentro de um distrobox:
   - o container é o podman do host, chamado por `host-spawn -no-pty podman run ...`;
   - o git também vai por `host-spawn -no-pty -cwd $PWD git ...`;
@@ -178,12 +178,12 @@ nota com `t_audio`, a altura esperada (com o capo da frente B) soou?
 
 | trilha | arquivos dela (não edite) | rodadas / decisões |
 | --- | --- | --- |
-| tablatura (+ tempo do marcador) | a lista da seção 6 do [`contexto-maos.md`](contexto-maos.md) (`tab/esquema.py`, `tab/video.py`, `tab/leitor.py`, `tab/cache.py`…), mais `tab/ouro_video.py`, `tab/detector_tab.py`, `tab/sintetico_sistema.py`, `tab/afinacao.py` e `data/saida/n4/` | `0NNN` |
-| mãos / braço | `tab/maos_*.py`, `tests/test_maos_*`, `data/gold/maos/`, `data/saida/maos/` (**ler é livre**, por exemplo o `capo_por_video.json`), `Dockerfile.maos` | `1NNN` |
-| **áudio (você)** | `tab/audio_*.py`, `tests/test_audio_*.py`, `data/saida/audio/`, `data/gold/audio/`, `Dockerfile.audio` | `2NNN` |
-| partitura | `tab/partitura_*.py`, `Dockerfile.partitura`, `data/gold/partitura/` | `3NNN` |
+| tablatura (+ tempo do marcador) | a lista da seção 6 do [`contexto-maos.md`](contexto-maos.md) (`tab/tablatura/produto/esquema.py`, `tab/tablatura/produto/video.py`, `tab/comum/leitor.py`, `tab/comum/cache.py`…), mais `tab/tablatura/ouro/ouro_video.py`, `tab/tablatura/leitura/detector_tab.py`, `tab/tablatura/treino/sintetico_sistema.py`, `tab/tablatura/censo/afinacao.py` e `data/saida/tablatura/n4/` | `0NNN` |
+| mãos / braço | `tab/maos/`, `tests/maos/`, `data/gold/maos/`, `data/saida/maos/` (**ler é livre**, por exemplo o `capo_por_video.json`), `Dockerfile.maos` | `1NNN` |
+| **áudio (você)** | `tab/audio/`, `tests/audio/`, `data/saida/audio/`, `data/gold/audio/`, `Dockerfile.audio` | `2NNN` |
+| partitura | `tab/partitura/`, `tests/partitura/`, `Dockerfile.partitura`, `data/gold/partitura/` | `3NNN` |
 
-- **`tab/gpu.py` é compartilhado.** Se precisar mudar, a mudança passa pelo dono.
+- **`tab/comum/gpu.py` é compartilhado.** Se precisar mudar, a mudança passa pelo dono.
 - **Nunca commite** `data/gold/partitura/compassos_homr.json` nem
   `data/gold/partitura/figura_e1.json`. Eles ficam fora do git de propósito.
 - **Git:**
@@ -208,7 +208,7 @@ nota com `t_audio`, a altura esperada (com o capo da frente B) soou?
   - Não mande status vazio ("ainda rodando"): fale quando tiver resultado.
 - **O tempo do dono é o gargalo do projeto.** Para gabarito trabalhoso:
   - faça **palpite por regra do domínio**, e o dono confirma ou corrige;
-  - para conferência, prefira a ferramenta que já existe (`tab.ouro_video servir`) a uma
+  - para conferência, prefira a ferramenta que já existe (`tab.tablatura.ouro.ouro_video servir`) a uma
     página nova;
   - folha por escuta: pouca coisa, que ele julgue rápido (certo / errado / não sei).
 - **O rótulo do dono é contrato.** Nunca altere nem infira um rótulo dele. O agente não grava
@@ -228,11 +228,11 @@ nota com `t_audio`, a altura esperada (com o capo da frente B) soou?
 
 1. `AGENTS.md`, e este arquivo.
 2. `docs/guias/contexto-audio.md`, seções 2 a 6.
-3. `ESTADO.md`, nas seções "Áudio —" (rodadas 2001 a 2016).
+3. `docs/estado/audio.md` (rodadas 2001 a 2016).
 4. As decisões 2001 a 2004, mais a [0010](../decisoes/0010-leitor-rede.md) (o aviso no fim), a
    [0011](../decisoes/0011-tablatura-vira-rotulo-da-base.md), a 1007 (formato da base, campo
    `violao`) e a [1010](../decisoes/1010-capotraste-como-nut-do-braco.md).
 5. `docs/guias/plano-dataset-maos.md`: onde o `t_audio` entra na base.
-6. O código: `tab/audio_alinhar.py` (`alinhar`, `--transposicao`, `colunas_abafadas`,
-   `DESLOCAMENTOS_MOLDE`), `tab/audio_extrair.py`, `tab/audio_produto.py`, `tab/gpu.py` e
-   `tab/maos_braco_capo.py`.
+6. O código: `tab/audio/alinhar.py` (`alinhar`, `--transposicao`, `colunas_abafadas`,
+   `DESLOCAMENTOS_MOLDE`), `tab/audio/extrair.py`, `tab/audio/produto.py`, `tab/comum/gpu.py` e
+   `tab/maos/braco/capo.py`.

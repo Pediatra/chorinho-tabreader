@@ -43,11 +43,11 @@ piloto de marcar arcos em 3 a 5 vídeos do sky guitar. Decisão:
 
 | peça | estado medido | onde |
 | --- | --- | --- |
-| casa e corda | fora do ouro (T8.2, 35 telas, 18 canais): casa 1551/1557, 9 inventadas, 16 perdidas; dobras 1744/1761 | decisão 0010, rodada da fase 8, `ESTADO.md` |
+| casa e corda | fora do ouro (T8.2, 35 telas, 18 canais): casa 1551/1557, 9 inventadas, 16 perdidas; dobras 1744/1761 | decisão 0010, rodada da fase 8, `docs/estado/tablatura.md` |
 | marcas de técnica do dono | 415 regiões em 5 fontes; legato (h, p, mordente, prolongamento) 139; X 124 (76 EOB, 39 Room 335, 9 T8.2); slide `/` `\` 42; harmônico 4 | `data/gold/ouro_video/*.json`, `conferencia_t82.json`; contagem em `tablatura-frentes.md` §2 |
 | regra do arco pelos números | mesmo número = prolongamento; maior→menor = p; menor→maior = h; 3 ou mais = mordente; barra = slide. **Confirmada pelo dono** | `configs/simbolos.yaml`, `regra_do_arco_pelos_numeros` |
 | técnica na rede | 10 classes, aprendidas **só no sintético**; arco achado em 25/139, classe certa em 4/139; não é limiar nem ajuste fino | rodadas 0101–0104 |
-| X | ignorar o X no ajuste fino (3 sementes) **não mudou** a casa na T8.2 (1546 contra 1547 de 1553). A folha de palpites de X está aberta (EOB: 93 + 1; Room 335: 39), esperando o dono | `data/saida/tab_frentes/integracao/x_abafada/` |
+| X | ignorar o X no ajuste fino (3 sementes) **não mudou** a casa na T8.2 (1546 contra 1547 de 1553). A folha de palpites de X está aberta (EOB: 93 + 1; Room 335: 39), esperando o dono | `data/saida/tablatura/tab_frentes/integracao/x_abafada/` |
 | o que as outras trilhas pedem | áudio: classe `arco` e nota de ornamento (decisão 2002); X com classe própria (2004, item 9). Mãos: K1 (som) e K3 (mão direita) dependem de saber se houve ataque (1006) | `docs/decisoes/` |
 | ouro do piloto | sky guitar: só o Retrato Brasileiro (v2), **sem marca de técnica** | `data/gold/ouro_video/retrato_brasileiro_v2.json` |
 
@@ -121,7 +121,7 @@ O arco entra em `nao_notas` como classe `arco`, com corda, `x_ini`, `x_fim` e co
 
 **Aceite do R1:**
 - o dono aprova os campos (o slide sem arco já está decidido: é igual ao com arco);
-- o validador em `tab/esquema.py` aceita os campos novos, com testes no gate;
+- o validador em `tab/tablatura/produto/esquema.py` aceita os campos novos, com testes no gate;
 - a decisão diz se os campos ficam no `chorinho/video@1` (opcionais) ou se o esquema sobe para
   `@2`.
 
@@ -140,7 +140,7 @@ O arco entra em `nao_notas` como classe `arco`, com corda, `x_ini`, `x_fim` e co
   - Cada uma das 415 regiões vira o ataque das notas que ela cobre: as cordas e o x da região
     dizem quais notas são.
   - A classe sai da regra dos números.
-  - É automático, e o dono confere na ferramenta (`tab.ouro_video servir`, numa **cópia**).
+  - É automático, e o dono confere na ferramenta (`tab.tablatura.ouro.ouro_video servir`, numa **cópia**).
 - **A folha de X que já está aberta entra aqui.**
 - **Telas sem nenhuma marca contam.**
   - Os 4 ouros sem marca (Greensleeves, Gymnopédie, South American e Retrato) precisam de um

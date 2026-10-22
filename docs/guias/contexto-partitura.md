@@ -2,7 +2,7 @@
 
 > Documento de passagem de contexto, escrito em 2026-10-13 pelo agente que coordena a trilha
 > **tablatura + tempo** (o "cérebro" do projeto). Leia este arquivo, depois o
-> [`AGENTS.md`](../../AGENTS.md) **inteiro**, o [`ESTADO.md`](../../ESTADO.md), o
+> [`AGENTS.md`](../../AGENTS.md) **inteiro**, o [`docs/estado/partitura.md`](../../docs/estado/partitura.md) (índice: [`ESTADO.md`](../../ESTADO.md)), o
 > [`plano-do-produto.md`](plano-do-produto.md), o [`contexto-maos.md`](contexto-maos.md)
 > (seções 2 a 4 e 6: projeto, ambiente, JSON do produto, convivência) e o
 > [`contexto-audio.md`](contexto-audio.md) (seção 5: convivência com quatro trilhas segue o
@@ -27,7 +27,7 @@ do acervo precisa sair com tudo alinhado no tempo:
 **O que a partitura acrescenta que a tablatura não tem:**
 
 1. **Ritmo de verdade.** A tablatura dá corda e casa; a duração hoje é **inferida** pelo
-   intervalo entre ataques (`tab/musicxml.py` declara isso no cabeçalho). A pauta escreve
+   intervalo entre ataques (`tab/tablatura/produto/musicxml.py` declara isso no cabeçalho). A pauta escreve
    figura (semínima, colcheia…), pausa, ponto, ligadura, fórmula de compasso, vozes.
 2. **Conferência cruzada.** Corda + casa + afinação → altura exata. Onde pauta e tablatura
    aparecem juntas, cada nota da pauta tem que bater em altura com a coluna da tab embaixo dela.
@@ -57,14 +57,14 @@ certos). Eu estou consertando isso (T8.3). Por isso o pareamento com tempo é a 
 - A pauta foi até agora **ruído** para a trilha tablatura: decisão
   [`0007`](../decisoes/0007-painel-com-partitura-e-tablatura.md). Painel que pegava pauta +
   tab fazia o detector achar "6 linhas" na mistura (5 da pauta + 1). O detector de painel
-  (`tab/painel.py`, `tab/telas.py`, `tab/tabseg.py`) está **sendo mexido agora** por outro
+  (`tab/tablatura/leitura/painel.py`, `tab/tablatura/produto/telas.py`, `tab/tablatura/leitura/tabseg.py`) está **sendo mexido agora** por outro
   agente meu para não escolher o braço do violão. **Não dependa do retângulo de painel dele
   para achar a pauta**, e não o altere: faça seu próprio localizador de pauta
-  (`tab/partitura_*`). Você pode, sim, usar o retângulo da **tablatura** como âncora (a pauta
+  (`tab/partitura/`). Você pode, sim, usar o retângulo da **tablatura** como âncora (a pauta
   costuma estar logo acima), lendo do JSON do produto.
 - **Resolução**: bibliotecas de OMR são treinadas em PDF/scan a 300 dpi. Num quadro de vídeo
   1080p a pauta pode ter entrelinha de ~8–15 px e linhas de 1–2 px, com compressão AV1/H.264
-  (44 % do acervo é AV1: decodifique com `tab/leitor.py`, que usa ffmpeg).
+  (44 % do acervo é AV1: decodifique com `tab/comum/leitor.py`, que usa ffmpeg).
 - Há vídeos onde a pauta **rola** (mr. tabs, leonardo ramos) em vez de paginar; deixe-os para
   depois, como a trilha tablatura fez (T8.4).
 - A lição do projeto com modelo grande pronto: um VLM (GOT-OCR2.0, 580 M) acertou **0 de 15**
@@ -72,7 +72,7 @@ certos). Eu estou consertando isso (T8.3). Por isso o pareamento com tempo é a 
 
 ## 4. Proposta de caminho (P0–P3), com critérios
 
-**P0 — Quantos vídeos têm pauta?** O censo v2 (`data/saida/censo/v2/censo_v2_completo.jsonl`,
+**P0 — Quantos vídeos têm pauta?** O censo v2 (`data/saida/tablatura/censo/v2/censo_v2_completo.jsonl`,
 2.998 vídeos ativos, 12 instantes por vídeo, com `rect` da tablatura) **não mede pauta**. Meça
 numa amostra estratificada por canal (ex.: 30 vídeos por canal, poucos instantes por vídeo,
 **lendo do cache de quadros** em `/cache` quando houver, para não martelar o HD externo):
@@ -101,19 +101,19 @@ exibição: parear nota da pauta ↔ coluna da tab por `x` e altura; herdar `t_i
 quantas notas pareadas, quantas divergentes em altura (e de que lado parece estar o erro),
 quantas sem par. Proponha como isso entra no produto (arquivo irmão
 `<video>.partitura.json` ou campos novos, usando a chave de evento
-`(tela, passagem, exibicao, coluna, corda)`), em `docs/decisoes/3NNN-…`. **`tab/esquema.py` e
-`tab/musicxml.py` são da trilha tablatura: não edite**; eu faço a mudança quando o dono aprovar.
+`(tela, passagem, exibicao, coluna, corda)`), em `docs/decisoes/3NNN-…`. **`tab/tablatura/produto/esquema.py` e
+`tab/tablatura/produto/musicxml.py` são da trilha tablatura: não edite**; eu faço a mudança quando o dono aprovar.
 
 ## 5. Regras de convivência (agora são quatro trilhas)
 
 Valem integralmente a seção 6 do `contexto-maos.md` e a seção 5 do `contexto-audio.md`. Para você:
 
-1. **Seus arquivos**: `tab/partitura_*.py` (pacote único e plano), `tests/test_partitura_*.py`,
+1. **Seus arquivos**: `tab/partitura/<modulo>.py` (pasta da trilha, decisão 9001), `tests/partitura/`,
    saída em `data/saida/partitura/`, gabarito em `data/gold/partitura/`, pesos em
    `artefatos/partitura_*/`.
 2. **Não edite** arquivos de outras trilhas: tablatura (lista do `contexto-maos.md` seção 6, mais
-   `tab/ouro_video.py`, `tab/avaliar_video.py`, `tab/painel.py`, `tab/telas.py`,
-   `tab/esquema.py`, `tab/musicxml.py`, `data/gold/ouro_video/`), mãos (`tab/maos_*`,
+   `tab/tablatura/ouro/ouro_video.py`, `tab/tablatura/ouro/avaliar_video.py`, `tab/tablatura/leitura/painel.py`, `tab/tablatura/produto/telas.py`,
+   `tab/tablatura/produto/esquema.py`, `tab/tablatura/produto/musicxml.py`, `data/gold/ouro_video/`), mãos (`tab/maos_*`,
    `Dockerfile.maos`), áudio (`tab/audio_*`, `Dockerfile.audio`). Importar é livre.
 3. **Documentos**: rodadas e decisões com prefixo **3NNN** (tablatura 0NNN, mãos 1NNN, áudio
    2NNN). Seção nova no fim de `docs/estado/partitura.md` (decisão 9001); no `ESTADO.md`, só a tabela "não repetir"; confira
@@ -145,12 +145,12 @@ Valem integralmente a seção 6 do `contexto-maos.md` e a seção 5 do `contexto
 - **Determinismo**: mesma entrada → mesma saída; aleatoriedade = semente + ≥3 execuções.
 - **Registre o que falhou** na tabela "não repetir" do `ESTADO.md`.
 - Código: Python 3.14, sem import dentro de função, aspas duplas, 88 colunas, type hints,
-  docstring Google, **nomes em português**, CLI `python -m tab.partitura_x` com `main()`.
+  docstring Google, **nomes em português**, CLI `python -m tab.partitura.x` com `main()`.
 
 ## 7. Estado das outras trilhas (2026-10-13)
 
 - **Tablatura (eu)**: Fase 8, gabarito de tab + tempo em vídeos paginados, rotulado pelo dono
-  na página `tab.ouro_video`. Prontos: retrato brasileiro (MVP), Greensleeves, South American
+  na página `tab.tablatura.ouro.ouro_video`. Prontos: retrato brasileiro (MVP), Greensleeves, South American
   Music, Gymnopédie (`data/gold/ouro_video/`). **Greensleeves, South American e Gymnopédie têm
   pauta acima da tab**: são o seu primeiro banco de teste, e as notas da tab deles, conferidas
   pelo dono, dão a altura esperada de graça (corda + casa → altura) para checar a leitura da
@@ -162,14 +162,14 @@ Valem integralmente a seção 6 do `contexto-maos.md` e a seção 5 do `contexto
 ## 8. Arquivos para ler primeiro
 
 1. `AGENTS.md` (inteiro).
-2. `ESTADO.md`: estado medido, "não repetir", seções sobre partitura no painel (busque
+2. `docs/estado/partitura.md`: estado medido, seções sobre partitura no painel; `ESTADO.md`: "não repetir" (busque
    "partitura" e "pauta").
 3. `docs/decisoes/0002-presenca-da-tablatura-e-musicxml.md` (MusicXML é o produto final) e
    `0007-painel-com-partitura-e-tablatura.md`.
 4. `docs/guias/plano-do-produto.md`, `contexto-maos.md` (seções 2–4, 6), `contexto-audio.md`
    (seção 5).
-5. `tab/esquema.py` (JSON `chorinho/video@1`, chave de evento), `tab/musicxml.py` (como a
-   duração é inferida hoje), `tab/afinacao.py` (corda+casa→altura; **nunca aferido**, meça).
-6. `tab/leitor.py` (leitor de vídeo com PTS real), `tab/cache.py` (cache de quadros).
+5. `tab/tablatura/produto/esquema.py` (JSON `chorinho/video@1`, chave de evento), `tab/tablatura/produto/musicxml.py` (como a
+   duração é inferida hoje), `tab/tablatura/censo/afinacao.py` (corda+casa→altura; **nunca aferido**, meça).
+6. `tab/comum/leitor.py` (leitor de vídeo com PTS real), `tab/comum/cache.py` (cache de quadros).
 7. `data/gold/ouro_video/*.json` dos três vídeos com pauta (formato v2: telas, notas `mN`/`dN`,
    `conferida`).

@@ -15,14 +15,14 @@ make test             # gate: 14 testes
 make lint             # ruff check + format
 
 # aferição no gabarito rotulado à mão — é o número oficial
-docker compose run --rm chorinho python -m tab.avaliar
+docker compose run --rm chorinho python -m tab.tablatura.ouro.avaliar
 
 # vídeo -> JSON
-docker compose run --rm chorinho python -m tab.transcrever \
+docker compose run --rm chorinho python -m tab.tablatura.produto.transcrever \
     "/acervo/sky guitar/ALGUM_VIDEO.mp4" --json data/saida/sky.json
 
 # treinar o classificador de glifos (sintético), com semente fixa
-docker compose run --rm chorinho python -m tab.sintetico \
+docker compose run --rm chorinho python -m tab.tablatura.treino.sintetico \
     --n-linhas 320 --epocas 22 --seed 1 --saida artefatos/semente_1
 ```
 
@@ -39,7 +39,7 @@ leitura**.
 | técnica/símbolo | gravados, **ainda não aferidos** |
 | partitura de 5 linhas | **fora** desta cadeia (exige OMR próprio) |
 
-Leia [`ESTADO.md`](ESTADO.md) para os limites e [`docs/HISTORICO.md`](docs/HISTORICO.md)
+Leia [`docs/estado/`](docs/estado/) (um arquivo por trilha; índice em [`ESTADO.md`](ESTADO.md)) para os limites e [`docs/HISTORICO.md`](docs/HISTORICO.md)
 para as 65 rodadas de medição (inclusive o que **já falhou** e não deve ser repetido).
 Perguntas abertas para o dono do projeto: [`PERGUNTAS.md`](PERGUNTAS.md). Regras de
 trabalho: [`AGENTS.md`](AGENTS.md).
@@ -49,7 +49,7 @@ trabalho: [`AGENTS.md`](AGENTS.md).
 | caminho | o que é |
 | --- | --- |
 | `tab/` | o motor (ver [`tab/README.md`](tab/README.md)) |
-| `tab/caminhos.py` | acervo, gabarito, artefatos — caminho não se espalha |
+| `tab/comum/caminhos.py` | acervo, gabarito, artefatos — caminho não se espalha |
 | `tests/` | gate sem GPU e sem acervo |
 | `data/gold/gabarito.json` | 72 glifos rotulados à mão, 3 canais (`raman korshun` descartado) |
 | `data/saida/` | JSONs gerados (visíveis no host) |

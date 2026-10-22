@@ -2,7 +2,7 @@
 
 > Documento de passagem de contexto, escrito em 2026-10-13 pelo agente que coordena a trilha
 > **tablatura + tempo** (o "cérebro" do projeto). Leia este arquivo, depois o
-> [`AGENTS.md`](../../AGENTS.md) **inteiro**, o [`ESTADO.md`](../../ESTADO.md), o
+> [`AGENTS.md`](../../AGENTS.md) **inteiro**, o [`docs/estado/audio.md`](../../docs/estado/audio.md) (índice: [`ESTADO.md`](../../ESTADO.md)), o
 > [`plano-do-produto.md`](plano-do-produto.md) e o [`contexto-maos.md`](contexto-maos.md)
 > (seções 2 a 4 e 6 valem para você também: projeto, ambiente, JSON do produto, convivência).
 > Este documento não substitui o `AGENTS.md`: as regras de trabalho de lá valem para você.
@@ -44,7 +44,7 @@ de cada coluna já é medido e conferido. Ali você tem verdade para comparar:
 
 - o vídeo do MVP, `sky guitar/retrato brasileiro - tab & lesson.mp4`: 13 páginas, 762 notas
   emitidas, **tempo certo em 39 de 40 instantes do gabarito do dono, 0 tempo falso**
-  (`data/gold/ouro_video/retrato_brasileiro_v2.json`; régua `tab.avaliar_video`);
+  (`data/gold/ouro_video/retrato_brasileiro_v2.json`; régua `tab.tablatura.ouro.avaliar_video`);
 - os vídeos da Fase 8 com faixa (guitar dell'arte, robert lunn, kenneth acoustic, pablo romé),
   quando o dono terminar de rotular (ver seção 7).
 
@@ -53,15 +53,15 @@ marcador escondido** (o alinhador não pode ler a faixa). Só aí aplique a iwak
 
 ## 3. O que você já recebe de graça (e que torna o problema mais fácil do que parece)
 
-O JSON do produto (`chorinho/video@1`, definição em `tab/esquema.py`; gerado por
-`python -m tab.transcrever VIDEO --json saida.json`; o MVP atual está em
-`data/saida/conserto_v2/mvp.json`) dá, **mesmo sem marcador**:
+O JSON do produto (`chorinho/video@1`, definição em `tab/tablatura/produto/esquema.py`; gerado por
+`python -m tab.tablatura.produto.transcrever VIDEO --json saida.json`; o MVP atual está em
+`data/saida/tablatura/conserto_v2/mvp.json`) dá, **mesmo sem marcador**:
 
 - **a sequência de colunas** de cada página, na ordem, e em cada coluna as notas (corda 1 =
   aguda … 6 = grave, casa). Acorde = várias notas na mesma coluna;
 - **as alturas esperadas**: corda + casa + afinação + capotraste → nota MIDI. Afinação padrão
   E A D G B E é o caso comum; vários vídeos escrevem "Tuning/Capo" na tela (kenneth: "Capo:
-  Fret 1/4"), e `tab/afinacao.py` existe (926 linhas) mas **nunca foi aferido**: não confie
+  Fret 1/4"), e `tab/tablatura/censo/afinacao.py` existe (926 linhas) mas **nunca foi aferido**: não confie
   nele sem medir. Com as alturas, o problema deixa de ser "achar onsets" e vira **seguir a
   partitura** (score following / DTW em croma ou CQT), que é bem mais robusto;
 - **a janela de tempo de cada página**: `telas[].exibicoes[].t0/t1` (segmentação por imagem,
@@ -91,7 +91,7 @@ gabarito do dono é contrato, uma coisa por vez). Ajuste, mas **meça**.
 **A0 — Áudio e custo.** Extraia o áudio com ffmpeg (já está no container) para mono, taxa fixa
 (ex.: 22 050 Hz), e grave num **cache de áudio** no HD externo, irmão do cache de quadros:
 `/cache/audio/<hash da chave do vídeo>.flac` (sem perda; a chave é a mesma do censo,
-`relativo|tamanho|mtime`, ver `tab/cache.py`). **Meça o custo em 20 vídeos** (regra 2) antes
+`relativo|tamanho|mtime`, ver `tab/comum/cache.py`). **Meça o custo em 20 vídeos** (regra 2) antes
 de pensar em lote: extrair áudio lê o arquivo inteiro do HD. Confira o **deslocamento entre o
 relógio do áudio e o PTS do vídeo** (`start_time` do stream de áudio vs. do vídeo no ffprobe):
 um desvio aqui contamina tudo.
@@ -129,7 +129,7 @@ com as colunas marcadas, para ~20 trechos sorteados. O dono diz "certo / errado 
 **A5 — Esquema e entrega.** Proponha como o tempo do áudio entra no produto, por exemplo um
 campo por nota (`t_audio`, `t_audio_confianca`) e um `origem_tempo` ("marcador" | "audio"),
 ou um arquivo irmão `<video>.audio.json` com a chave do evento de nota
-`(tela, passagem, exibicao, coluna, corda)`. **`tab/esquema.py` é da trilha tablatura: não
+`(tela, passagem, exibicao, coluna, corda)`. **`tab/tablatura/produto/esquema.py` é da trilha tablatura: não
 o edite.** Escreva a proposta em `docs/decisoes/2NNN-…` e peça ao dono para me repassar; eu
 faço a mudança no esquema.
 
@@ -137,11 +137,11 @@ faço a mudança no esquema.
 
 As regras da seção 6 do [`contexto-maos.md`](contexto-maos.md) valem integralmente. Para você:
 
-1. **Seus arquivos**: módulos `tab/audio_*.py` (pacote único e plano, sem subpacote), testes
-   `tests/test_audio_*.py`, saída em `data/saida/audio/`, gabarito em `data/gold/audio/`,
+1. **Seus arquivos**: módulos `tab/audio/<modulo>.py` (pasta da trilha, decisão 9001), testes
+   `tests/audio/`, saída em `data/saida/audio/`, gabarito em `data/gold/audio/`,
    pesos (se houver) em `artefatos/audio_*/`, cache em `/cache/audio/`.
 2. **Não edite** os arquivos da trilha tablatura (lista na seção 6 do `contexto-maos.md`,
-   mais `tab/ouro_video.py`) nem os da trilha mãos (`tab/maos_*.py`, `tests/test_maos_*`,
+   mais `tab/tablatura/ouro/ouro_video.py`) nem os da trilha mãos (`tab/maos/`, `tests/maos/`,
    `data/saida/maos/`, `data/gold/maos/`, `Dockerfile.maos`). Importar é livre (`leitor`,
    `cache`, `esquema`, `video`).
 3. **Documentos**: `docs/rodadas/2NNN-…` e `docs/decisoes/2NNN-…` (tablatura usa 0NNN, mãos
@@ -182,12 +182,12 @@ As regras da seção 6 do [`contexto-maos.md`](contexto-maos.md) valem integralm
   e ≥ 3 execuções com média e amplitude.
 - **Registre o que falhou** na tabela "não repetir" do `ESTADO.md`.
 - Código: Python 3.14, sem import dentro de função, aspas duplas, 88 colunas, type hints,
-  docstring Google, **nomes em português**, CLI `python -m tab.audio_x` com `main()`.
+  docstring Google, **nomes em português**, CLI `python -m tab.audio.<modulo>` com `main()`.
 
 ## 7. Estado das outras trilhas (2026-10-13)
 
 - **Tablatura (eu)**: censo v2 refeito (2.998 vídeos ativos, 93,9 % com tablatura; arquivo
-  `data/saida/censo/v2/censo_v2_completo.jsonl`, com `marcador` e `forma` em 30 vídeos por
+  `data/saida/tablatura/censo/v2/censo_v2_completo.jsonl`, com `marcador` e `forma` em 30 vídeos por
   canal). **Fase 8**: gabarito de tablatura+tempo em 7 vídeos paginados, sendo preparado agora
   para o dono rotular: guitar dell'arte (South American Music), robert lunn (Gymnopédie no.1),
   iwaki (La Vie en Rose), kenneth acoustic (End of Beginning), shin izumi (Room 335), pablo romé
@@ -203,12 +203,13 @@ As regras da seção 6 do [`contexto-maos.md`](contexto-maos.md) valem integralm
 ## 8. Arquivos para ler primeiro
 
 1. `AGENTS.md` (inteiro): o contrato.
-2. `ESTADO.md`: estado medido, tabela "não repetir", seções da Fase 5 (tempo pelo marcador:
-   observadores `posicao`, `cor`, `cor_acende`; regra da faixa translúcida) e do censo.
+2. `docs/estado/tablatura.md`: estado medido, seções da Fase 5 (tempo pelo marcador:
+   observadores `posicao`, `cor`, `cor_acende`; regra da faixa translúcida) e do censo;
+   `ESTADO.md`: a tabela "não repetir".
 3. `docs/guias/plano-do-produto.md`: fases, critérios de aceite, Fase 10 item 3.
 4. `docs/guias/contexto-maos.md`: seções 2, 3, 4 e 6.
 5. `docs/rodadas/0004-mvp-video-inteiro.md`: o MVP, números, erros conhecidos.
-6. `tab/esquema.py`, `data/saida/conserto_v2/mvp.json`: a chave comum.
-7. `tab/leitor.py` (leitor único de vídeo, PTS real), `tab/cache.py` (chave e pastas do
-   cache), `tab/video.py` e `tab/estado.py` (como o `t_ini` do marcador é medido).
-8. `tab/avaliar_video.py`: a régua de tempo contra o gabarito do dono.
+6. `tab/tablatura/produto/esquema.py`, `data/saida/tablatura/conserto_v2/mvp.json`: a chave comum.
+7. `tab/comum/leitor.py` (leitor único de vídeo, PTS real), `tab/comum/cache.py` (chave e pastas do
+   cache), `tab/tablatura/produto/video.py` e `tab/tablatura/produto/estado.py` (como o `t_ini` do marcador é medido).
+8. `tab/tablatura/ouro/avaliar_video.py`: a régua de tempo contra o gabarito do dono.

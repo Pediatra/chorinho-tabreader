@@ -2,7 +2,7 @@
 
 > Documento de passagem de contexto, escrito em 2026-10-12 pelo agente que coordena a trilha
 > **tablatura + tempo** (o "cérebro" do projeto). Leia este arquivo, depois o
-> [`AGENTS.md`](../../AGENTS.md) **inteiro**, o [`ESTADO.md`](../../ESTADO.md) e o
+> [`AGENTS.md`](../../AGENTS.md) **inteiro**, o [`docs/estado/maos.md`](../../docs/estado/maos.md) (índice: [`ESTADO.md`](../../ESTADO.md)) e o
 > [`plano-do-produto.md`](plano-do-produto.md). Este documento não substitui o `AGENTS.md`:
 > as regras de trabalho de lá valem para você também.
 
@@ -38,10 +38,10 @@ diz que foi tocada naquele instante.
   (92 %), ~143 h de tablatura na tela. Os que pesam: sky guitar (417), robert lunn (369),
   guitar dell'arte (361), cifra club (341, 197 com TAB), leonardo ramos (298), kenneth
   acoustic (294), iwaki (164), shin izumi (149), pablo romé (124), kimny's guitar (108).
-  A tabela completa por canal está no `ESTADO.md` (seção do censo, 2026-10-11).
+  A tabela completa por canal está em `docs/estado/historico-antes-das-trilhas.md` (seção Fase 7, 2026-10-11).
 - **Arquitetura da trilha tablatura** (decidida por medição): geometria determinística + um
   classificador de glifos de ~74 mil parâmetros treinado **só em dado sintético**. VLM foi
-  testado e perdeu feio. Pacote único e plano: `tab/`.
+  testado e perdeu feio. Pacote `tab/`, com uma pasta por trilha (decisão 9001): `tab/maos/`.
 - **Número oficial do classificador**: 0,949 (66/72, 71/72, 68/72 nas 3 sementes).
 - **MVP aprovado pelo dono em 2026-10-10** (rodada
   [`0004-mvp-video-inteiro`](../rodadas/0004-mvp-video-inteiro.md)): o vídeo
@@ -61,13 +61,13 @@ diz que foi tocada naquele instante.
   `compose.podman.yaml`). Depois de reiniciar o host:
   `sudo nvidia-ctk cdi generate --output=/var/run/cdi/nvidia.yaml` (o dono roda).
   **A GPU é compartilhada entre as duas trilhas**: veja a seção 7.
-- **44 % do acervo é AV1**: o OpenCV não decodifica. **Leia vídeo só por `tab/leitor.py`**
+- **44 % do acervo é AV1**: o OpenCV não decodifica. **Leia vídeo só por `tab/comum/leitor.py`**
   (usa ffmpeg; é o leitor único do projeto; o carimbo de tempo de cada quadro é o **PTS real**
   — isso foi consertado depois de achar quadros 2–3 quadros adiantados).
 - **Cache de quadros** no HD externo, montado em `/cache` (host:
   `/run/media/gabriel/3014CD4714CD1130/chorinho_cache`, PNG sem perda, ~56 GB): por vídeo,
   os **12 quadros de presença** (0,05 a 0,95 da duração) em resolução nativa, e janelas de
-  10 s a 3 qps em 30 vídeos por canal. Código em `tab/cache.py`. **Use esse cache para o seu
+  10 s a 3 qps em 30 vídeos por canal. Código em `tab/comum/cache.py`. **Use esse cache para o seu
   censo de mãos** (seção 6) — ler o HD de novo custa ~22 h.
 - O container escreve como **root**: para apagar saída, use o container
   (`... run --rm chorinho rm -rf <caminho>`).
@@ -76,9 +76,9 @@ diz que foi tocada naquele instante.
 
 ## 4. A chave comum: o JSON do produto (`chorinho/video@1`)
 
-Gerado por `python -m tab.transcrever VIDEO --json saida.json` (valida com
-`tab/esquema.py` antes de gravar). O MVP está em `data/saida/produto/mvp.json`. Estrutura
-(resumida; a definição exata é `tab/esquema.py`):
+Gerado por `python -m tab.tablatura.produto.transcrever VIDEO --json saida.json` (valida com
+`tab/tablatura/produto/esquema.py` antes de gravar). O MVP está em `data/saida/tablatura/produto/mvp.json`. Estrutura
+(resumida; a definição exata é `tab/tablatura/produto/esquema.py`):
 
 ```json
 {
@@ -121,7 +121,7 @@ rode um detector de mãos/pose pronto e registre por vídeo: há violonista no q
 esquerda visível? direita? escala (px por casa)? ângulo (de frente, de cima, close no braço)?
 Muitos canais mostram **só a tablatura** em boa parte do vídeo, ou só o braço em close, ou o
 violonista pequeno num canto. Este censo decide **quais canais servem** para mãos. Critério:
-folha de 30 vídeos olhada (concordância ≥ 90 %), tabela por canal no `ESTADO.md`.
+folha de 30 vídeos olhada (concordância ≥ 90 %), tabela por canal em `docs/estado/historico-antes-das-trilhas.md`.
 
 **M1 — Escolha do detector por medição.** Candidatos óbvios (pose/keypoints de mão prontos:
 MediaPipe Hands, RTMPose/MMPose wholebody, etc.). Regra 1 do `AGENTS.md`: semente fixa,
@@ -133,7 +133,7 @@ benchmark. Lembre: a GPU tem 8 GB e é compartilhada.
 — ele pode ser só partitura+TAB na tela); se não mostrar, escolha com o censo M0 um vídeo de
 canal que pese e mostre as mãos. O dono rotula pouco e bem: por exemplo, em ~40 notas,
 "qual dedo da mão esquerda pisa" e "qual dedo da direita toca". Faça uma ferramenta de
-rótulo no estilo de `tab/ouro_video.py` (servidor local, autosave, uma decisão por clique).
+rótulo no estilo de `tab/tablatura/ouro/ouro_video.py` (servidor local, autosave, uma decisão por clique).
 **O tempo do dono é o gargalo do projeto**: peça o mínimo que mede.
 
 **M3 — Ligação nota → dedo.** Para cada evento do JSON (corda, casa, `t_ini`):
@@ -150,14 +150,14 @@ combinar**: escreva uma decisão em `docs/decisoes/` e me avise pelo dono.
 
 ## 6. Regras de convivência entre as duas trilhas (para não quebrarmos um ao outro)
 
-1. **Arquivos.** A trilha tablatura é dona de: `tab/painel.py`, `tab/telas.py`,
-   `tab/video.py`, `tab/estado.py`, `tab/reconhecer.py`, `tab/leitor.py`, `tab/censo.py`,
-   `tab/cache.py`, `tab/esquema.py`, `tab/sintetico.py`, `tab/avaliar*.py`, `tab/conferir.py`,
-   `tab/musicxml.py`, `data/gold/presenca_quadros.json`, `data/gold/ouro_video/`. **Não edite
+1. **Arquivos.** A trilha tablatura é dona de: `tab/tablatura/leitura/painel.py`, `tab/tablatura/produto/telas.py`,
+   `tab/tablatura/produto/video.py`, `tab/tablatura/produto/estado.py`, `tab/tablatura/leitura/reconhecer.py`, `tab/comum/leitor.py`, `tab/tablatura/censo/censo.py`,
+   `tab/comum/cache.py`, `tab/tablatura/produto/esquema.py`, `tab/tablatura/treino/sintetico.py`, `tab/avaliar*.py`, `tab/tablatura/ouro/conferir.py`,
+   `tab/tablatura/produto/musicxml.py`, `data/gold/presenca_quadros.json`, `data/gold/ouro_video/`. **Não edite
    esses.** Pode **importar** à vontade (leitor, cache, esquema). Se precisar de mudança
    neles, peça ao dono para me repassar.
-2. **Seus arquivos**: módulos novos com prefixo `tab/maos_*.py` (o projeto tem **um pacote
-   só**, flat — não crie subpacote), testes `tests/test_maos_*.py`, saída em
+2. **Seus arquivos**: módulos novos em `tab/maos/<modulo>.py` (o projeto tem **um pacote
+   só**, com pastas por trilha — crie o módulo na pasta da trilha, subpacote só acima de ~10 módulos), testes `tests/maos/`, saída em
    `data/saida/maos/`, gabarito em `data/gold/maos/`, pesos em `artefatos/maos_*/`.
 3. **Numeração de documentos**: use `docs/rodadas/1NNN-…` (1001, 1002, …) e
    `docs/decisoes/1NNN-…` para não colidir com a minha sequência (0001–0999).
@@ -211,9 +211,9 @@ combinar**: escreva uma decisão em `docs/decisoes/` e me avise pelo dono.
 ## 9. Arquivos para ler primeiro
 
 1. `AGENTS.md` (inteiro) — contrato.
-2. `ESTADO.md` — estado medido, tabela "não repetir", tabela do censo por canal.
+2. `docs/estado/maos.md` — estado medido; `docs/estado/historico-antes-das-trilhas.md` — tabela do censo por canal; `ESTADO.md` — tabela "não repetir".
 3. `docs/guias/plano-do-produto.md` — plano, fases, critérios de aceite (CA-1..CA-11).
 4. `docs/rodadas/0004-mvp-video-inteiro.md` — o MVP, números, erros conhecidos.
-5. `tab/esquema.py`, `data/saida/produto/mvp.json` — a chave comum.
-6. `tab/leitor.py`, `tab/cache.py`, `tab/censo.py` — como ler vídeo e quadros em cache.
-7. `tab/ouro_video.py` — modelo de ferramenta de rótulo para o dono.
+5. `tab/tablatura/produto/esquema.py`, `data/saida/tablatura/produto/mvp.json` — a chave comum.
+6. `tab/comum/leitor.py`, `tab/comum/cache.py`, `tab/tablatura/censo/censo.py` — como ler vídeo e quadros em cache.
+7. `tab/tablatura/ouro/ouro_video.py` — modelo de ferramenta de rótulo para o dono.
