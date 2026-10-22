@@ -1,7 +1,7 @@
 # AGENTS.md — chorinho
 
 > Contrato de trabalho deste projeto, para toda sessão e todo agente. Leia **inteiro** antes
-> de rodar qualquer coisa. Revisado em 2026-10-21.
+> de rodar qualquer coisa. Revisado em 2026-10-21 (estrutura da 9001).
 >
 > - **Números medidos** ficam no [`ESTADO.md`](ESTADO.md), em seções por trilha, e nas rodadas
 >   (`docs/rodadas/`).
@@ -52,16 +52,25 @@ se falam direto**: o dono é a ponte. Uma decisão que afete outra trilha vira u
 
 | trilha | entrega | módulos e dados dela | rodadas e decisões | guia |
 | --- | --- | --- | --- | --- |
-| **tablatura** | o produto `chorinho/video@1` (`tab.video`): corda, casa, coluna, compasso, técnica e `t_ini` por nota. É o rótulo da base | `painel`, `telas`, `video`, `estado`, `reconhecer`, `leitor`, `censo`, `cache`, `esquema`, `sintetico*`, `detector_tab`, `avaliar*`, `conferir`, `musicxml`, `ouro_video`, `afinacao`; `data/gold/ouro_video/`; `data/saida/n4/` | `0NNN` | [`plano-do-produto.md`](docs/guias/plano-do-produto.md), [`plano-rotulo-tablatura.md`](docs/guias/plano-rotulo-tablatura.md) |
-| **mãos e braço** | a base `chorinho/maos@1` (decisão 1007): o braço e as mãos quadro a quadro, e a ligação de cada nota às mãos | `tab/maos_*.py`, `data/gold/maos/`, `data/saida/maos/`, `Dockerfile.maos` | `1NNN` | [`contexto-maos.md`](docs/guias/contexto-maos.md), [`plano-dataset-maos.md`](docs/guias/plano-dataset-maos.md) |
-| **áudio** | `chorinho/audio@1` (`t_audio` por coluna, decisão 2003); em estudo, um transcritor que ouve sozinho (`chorinho/som@1`) | `tab/audio_*.py`, `data/gold/audio/`, `data/saida/audio/`, `Dockerfile.audio` | `2NNN` | [`contexto-audio-retomada.md`](docs/guias/contexto-audio-retomada.md), [`contexto-audio-triangulacao.md`](docs/guias/contexto-audio-triangulacao.md) |
-| **partitura** | `chorinho/partitura@1` (decisão 3002): ritmo e altura da pauta, pareados com a tab | `tab/partitura_*.py`, `data/gold/partitura/`, `data/saida/partitura/`, `Dockerfile.partitura` | `3NNN` | [`contexto-partitura.md`](docs/guias/contexto-partitura.md) |
+| **tablatura** | o produto `chorinho/video@1` (`tab.video`): corda, casa, coluna, compasso, técnica e `t_ini` por nota. É o rótulo da base | `tab/tablatura/` (`produto/`, `leitura/`, `treino/`, `ataque/`, `ouro/`, `censo/`); `data/gold/ouro_video/`; `data/saida/n4/` | `0NNN` | [`plano-do-produto.md`](docs/guias/plano-do-produto.md), [`plano-rotulo-tablatura.md`](docs/guias/plano-rotulo-tablatura.md) |
+| **mãos e braço** | a base `chorinho/maos@1` (decisão 1007): o braço e as mãos quadro a quadro, e a ligação de cada nota às mãos | `tab/maos/` (`braco/`, `direita/`), `data/gold/maos/`, `data/saida/maos/`, `Dockerfile.maos` | `1NNN` | [`contexto-maos.md`](docs/guias/contexto-maos.md), [`plano-dataset-maos.md`](docs/guias/plano-dataset-maos.md) |
+| **áudio** | `chorinho/audio@1` (`t_audio` por coluna, decisão 2003); em estudo, um transcritor que ouve sozinho (`chorinho/som@1`) | `tab/audio/`, `data/gold/audio/`, `data/saida/audio/`, `Dockerfile.audio` | `2NNN` | [`contexto-audio-retomada.md`](docs/guias/contexto-audio-retomada.md), [`contexto-audio-triangulacao.md`](docs/guias/contexto-audio-triangulacao.md) |
+| **partitura** | `chorinho/partitura@1` (decisão 3002): ritmo e altura da pauta, pareados com a tab | `tab/partitura/`, `data/gold/partitura/`, `data/saida/partitura/`, `Dockerfile.partitura` | `3NNN` | [`contexto-partitura.md`](docs/guias/contexto-partitura.md) |
 
-- **Os módulos da tablatura** estão em `tab/` (ex.: `tab/painel.py`) e os testes de cada
-  trilha seguem o prefixo dela (`tests/test_maos_*`…).
+- **Cada trilha tem a sua pasta** em `tab/` e em `tests/` (decisão
+  [9001](docs/decisoes/9001-reestruturacao-dos-arquivos.md), 2026-10-21):
+  - `tab/tablatura/`, `tab/maos/`, `tab/audio/` e `tab/partitura/`;
+  - `tab/comum/` guarda o que mais de uma trilha usa: `caminhos`, `gpu`, `leitor`, `cache`
+    e `celular`;
+  - `tab/cruzamento/` guarda a etapa neutra da 2005.
+- **Os nomes antigos continuam valendo**: `tab.maos_braco_ciclo`, `tab.caminhos`… importam
+  e rodam (`python -m`) o módulo novo, pelo localizador em `tab/__init__.py` e pela tabela
+  `tab/_apelidos.py`. **Código novo usa o nome novo**, sempre absoluto
+  (`from tab.comum.caminhos import ...`), sem import relativo.
 - **Importar de outra trilha é livre. Editar o arquivo dela, não:** peça pelo dono.
-- **Arquivos compartilhados:** `tab/caminhos.py` (todos acrescentam os seus caminhos),
-  `tab/gpu.py` (a trava da GPU) e este `AGENTS.md`. No `ESTADO.md`, cada trilha escreve só nas
+- **Arquivos compartilhados:** `tab/comum/caminhos.py` (todos acrescentam os seus caminhos),
+  `tab/comum/gpu.py` (a trava da GPU), `tab/__init__.py` e `tab/_apelidos.py`, e este
+  `AGENTS.md`. No `ESTADO.md`, cada trilha escreve só nas
   seções que começam pelo nome dela ("Tablatura —", "Mãos —", "Áudio —", "Partitura —").
 
 ## 3. Onde o projeto está (2026-10-21)
@@ -125,7 +134,7 @@ executa o pipeline.
     versões antes e depois (decisões 1001, 2001 e 3001). Um pacote já trocou o `cv2` da base e
     quebrou uma trilha.
 - **GPU**: uma RTX 3060 Ti de 8 GB, dividida entre as trilhas.
-  - Use **`tab.gpu.trava_gpu("trilha", "estimativa")`** em todo uso da GPU. Ela segue o
+  - Use **`tab.comum.gpu.trava_gpu("trilha", "estimativa")`** em todo uso da GPU. Ela segue o
     protocolo `data/saida/gpu.lock`, retoma trava de processo morto e confere se há ≥ 3 GB
     livres.
   - **A GPU se divide pela memória** (dono, 2026-10-21): com outra trilha usando, a trava
@@ -141,7 +150,7 @@ executa o pipeline.
   - **O HD é o gargalo de leitura**: duas leituras longas ao mesmo tempo dobram o tempo das
     duas. Leia uma vez para o cache (`tab.cache`, `tab.audio_extrair`).
   - **Para um lote grande, combine o horário com o dono.**
-- **Vídeo se lê por `tab/leitor.py`.** 44 % do acervo é AV1, e o OpenCV não decodifica AV1:
+- **Vídeo se lê por `tab/comum/leitor.py`.** 44 % do acervo é AV1, e o OpenCV não decodifica AV1:
   ele falha **em silêncio**, sem erro. O `ffmpeg` da imagem é o que lê.
   - Nomes com kana e acento precisam de normalização NFC na comparação.
 - **`/tmp` do container não aparece no host.** O que precisa ser visto vai para
@@ -158,8 +167,8 @@ chorinho-dataset/
 ├── AGENTS.md  README.md  ESTADO.md  PERGUNTAS.md  CONTEXTO.md
 ├── Dockerfile  Dockerfile.{maos,audio,partitura}  compose.yaml  compose.podman.yaml
 ├── Makefile  pyproject.toml  requirements.txt
-├── tab/          # o pacote único e plano: módulos com prefixo por trilha
-├── tests/        # o gate: sem GPU e sem acervo (os de acervo levam a marca integration)
+├── tab/          # o pacote: comum/, cruzamento/, tablatura/, maos/, audio/, partitura/
+├── tests/        # o gate, com uma pasta por trilha (sem GPU e sem acervo)
 ├── configs/      # canais.yaml (perfil e rollout por canal), simbolos.yaml (símbolo POR CANAL)
 ├── data/gold/    # gabaritos do dono: contrato
 ├── data/saida/   # o que é gerado (ignorado pelo git, salvo exceções antigas)
@@ -175,9 +184,15 @@ chorinho-dataset/
    nova.
 3. **Uma decisão por arquivo** em `docs/decisoes/`: contexto, opções, decisão e
    consequências, com quem decidiu e quando.
-4. **Um pacote só** (`tab/`), plano. Sem `src/` e sem subpacote.
+4. **Um pacote só** (`tab/`), com uma subpasta por trilha (decisão 9001). Um nível a mais
+   dentro da trilha só quando o grupo passa de ~10 módulos (ex.: `tab/maos/braco/`). Módulo
+   novo entra na pasta da trilha e, se precisar de nome antigo, não precisa: só os 149 de
+   antes da 9001 têm apelido.
+   - `tab/__init__.py`, `tab/_apelidos.py`, todo `__init__.py` e `tab/comum/caminhos.py`
+     ficam em sintaxe do Python 3.10 e só stdlib: a imagem do transcritor (3.10) e o
+     `celular` (Python do host) importam `tab`. Um teste do gate trava isso.
 5. **Modelo treinado vai para `artefatos/`**, com o comando, a semente e o commit registrados.
-6. **Caminho não se espalha.** Acervo, gabarito, saída e artefatos vêm de `tab/caminhos.py`.
+6. **Caminho não se espalha.** Acervo, gabarito, saída e artefatos vêm de `tab/comum/caminhos.py`.
    Caminho absoluto novo no meio de um módulo é bug de revisão.
 
 ## 6. Como uma rodada funciona
@@ -305,7 +320,8 @@ Toda medida que decide alguma coisa segue este ciclo:
 - Type hints nas assinaturas e **docstring estilo Google** em toda função, método e classe
   pública.
 - **Nomes em português** (`binarizar`, `achar_cordas`, `passo`, `glifo`).
-- Módulo de CLI: `main()` + `if __name__ == "__main__"`, chamado como `python -m tab.x`. Nada
+- Módulo de CLI: `main()` + `if __name__ == "__main__"`, chamado como
+  `python -m tab.<trilha>.<módulo>` (o nome antigo `python -m tab.<antigo>` também roda). Nada
   de código solto no nível do módulo.
 - **Determinismo:** a mesma entrada dá o mesmo JSON. Toda aleatoriedade tem semente fixa e
   registrada.

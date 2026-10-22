@@ -1,0 +1,817 @@
+"""Reconhecimento da linha de tablatura: tokens -> (corda, casa, tecnica) -> JSON.
+
+Junta as três camadas numa ferramenta só:
+  1. geometria (tabseg): grade, tokens por corda/coluna;
+  2. classificador minúsculo treinado só em dado sintético (tools/sintetico.py);
+  3. verificação de FORMA, que é o que impede o modelo de alucinar uma classe
+     incompatível com o recorte (um "12" não cabe em meio passo; um harmônico <n>
+     precisa de mais de um componente). Sem ela, a última nota do gabarito era
+     classificada como "harmonico" e o acerto ficava em 14/15.
+
+Uso:
+    python -m tab.reconhecer IMAGEM [--modelo artefatos/glifo_sint.pt] [--json saida.json]
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import itertools
+import json
+import os
+import statistics
+import sys
+
+import cv2
+import numpy as np
+import torch
+
+from tab.comum.caminhos import LIMIAR_SIMBOLO, MODELO_PADRAO, RAZAO_MINIMA_SIMBOLO
+from tab.tablatura.leitura.glyph_bench import GlifoCNN
+from tab.tablatura.leitura.glyphset import normalizar
+from tab.tablatura.leitura.tabseg import (
+    _fundir,
+    _glifos_por_faixa,
+    _sem_faixas,
+    _uniao_mascaras,
+    achar_barlines,
+    agrupar_tokens,
+    segmentar,
+)
+
+#: Classes que são algarismo (a casa). Todo o resto é símbolo e tem de ser guardado.
+ALGARISMOS = frozenset(str(n) for n in range(0, 25))
+
+#: Limiar do discriminador "isto é algarismo?" na terceira passada. Varrido no protocolo do
+#: canal deixado de fora (2 sementes x 8 canais; 176 algarismos, 56 não-algarismos):
+#:
+#:     limiar   recuperados        lixo virando nota errada
+#:     0,50     162/176 (92 %)     7/56 (12 %)
+#:     0,70     162/176 (92 %)     5/56  (9 %)
+#:     0,80     160/176 (91 %)     4/56  (7 %)
+#:     0,90     156/176 (89 %)     3/56  (5 %)
+#:     0,95     154/176 (88 %)     1/56  (2 %)
+#:
+#: 0,95 porque a curva não cobra o preço: 4 pontos de recuperação a menos cortam a nota
+#: errada por 6x. Algarismo NÃO recuperado não se perde (o símbolo continua guardado e
+#: declarado); nota errada corrompe em silêncio, que é o pior dos dois.
+LIMIAR_DISCRIMINADOR = 0.95
+
+#: Confiança mínima do token fundido para aceitar uma casa de dois dígitos montada das partes.
+#: Medido no ouro v2 (5 casos de dois dígitos): 0,83 a 0,91 nos casos reais de 10, 12 e 14.
+LIMIAR_CASA_DOIS = 0.80
+
+#: Confiança mínima de CADA parte para formar uma casa de dois dígitos que o modelo não tem como
+#: classe (`13`, `11`, `16`, `18`, `20`, `22`, `23`). É a maioria da massa de probabilidade: a
+#: parte é o algarismo mais provável e vence os outros somados. Medido no ouro v2: o `1` do `13`
+#: (tela 8, corda 3) tem 0,622 e o `3`, 0,993; o `12` e o `10` passam pela classe do modelo.
+LIMIAR_PARTE_DIGITO = 0.5
+
+#: Vão mínimo (passos) acima do qual `agrupar_tokens` já separa os componentes.
+VAO_AGRUPAR_PASSOS = 0.25
+
+#: Vão máximo (passos) entre dois algarismos que ainda podem ser fundidos como casa de dois
+#: dígitos. Acima disso, nenhum par do ouro é o mesmo número.
+VAO_CASA_PASSOS = 0.40
+
+#: Altura mínima (passos) de um token para ser algarismo. Medido no ouro v2 (sky guitar, 13 telas):
+#: os arcos de ligadura lidos como algarismo têm altura de 0,23 a 0,37 passo; o menor algarismo
+#: certo tem 0,64 (p05 0,87). Abaixo deste limiar o token é símbolo (arco, faixa do marcador), não
+#: casa: vai para `nao_notas` com o glifo cru. O limiar fica no meio da folga entre os dois.
+ALTURA_MINIMA_ALGARISMO = 0.5
+
+
+def _baixo_para_algarismo(tk, passo: float) -> bool:
+    """O token é baixo demais para ser algarismo (arco de ligadura, faixa do marcador).
+
+    Args:
+        tk: token da grade (com `y0` e `y1` em pixels do recorte).
+        passo: distância entre cordas, em px.
+
+    Returns:
+        True quando a altura do token é menor que `ALTURA_MINIMA_ALGARISMO` passos.
+    """
+    return (tk.y1 - tk.y0) < ALTURA_MINIMA_ALGARISMO * passo
+
+
+def compativel(classe: str, tk, passo: float) -> bool:
+    """A classe prevista cabe no recorte medido?"""
+    larg = (tk.x1 - tk.x0) / passo
+    if classe.isdigit():
+        # Piso de largura: um algarismo nao pode ter 2 px num painel de passo 21.6
+        # (medido: fragmentos de barline de 2 px eram classificados como "1").
+        if larg < 0.22:
+            return False
+        if len(classe) == 1:
+            return larg <= 1.15
+        # 2 dígitos exigem DOIS componentes com altura de algarismo: um "7" com a barra
+        # de slide fundida no token fica largo e era aceito como "24" (erro medido no
+        # canal raman korshun). O risco de slide é fino, não é dígito.
+        return larg >= 0.85 and tk.partes_digito >= 2
+    return True
+
+
+def _numero_de_dois_digitos(lidos: list[str]) -> bool:
+    """As duas partes são algarismos e formam um número entre 10 e 24 (casa do instrumento).
+
+    Args:
+        lidos: classe top-1 de cada parte, na ordem da esquerda para a direita.
+
+    Returns:
+        True quando a concatenação das partes é uma casa de dois dígitos possível.
+    """
+    if len(lidos) != 2 or not all(len(t) == 1 and t.isdigit() for t in lidos):
+        return False
+    return 10 <= int(lidos[0] + lidos[1]) <= 24
+
+
+def _casa_das_partes(lidos: list[str], probs_token: np.ndarray, rotulos) -> str | None:
+    """A casa de dois dígitos que as partes lidas formam, se o modelo a conhece com confiança.
+
+    Medido na pág. 8 do ouro v2: o `12` fundido (partes `1` e `2`) tinha 0,888 no token
+    inteiro, e `compativel` o recusava, porque o `2` não tem haste vertical e a regra exige
+    dois componentes com haste. Aqui a forma é a própria leitura das partes: o número só vale
+    se cada parte for um algarismo, a concatenação for uma classe do modelo entre 10 e 24 e o
+    token inteiro der a ela pelo menos `LIMIAR_CASA_DOIS`.
+
+    Args:
+        lidos: classe top-1 de cada componente, na ordem da esquerda para a direita.
+        probs_token: probabilidade por classe do token inteiro.
+        rotulos: classes do modelo, na ordem de `probs_token`.
+
+    Returns:
+        A casa (ex.: ``"12"``), ou None quando o token não é um número de dois dígitos confiável.
+    """
+    if not _numero_de_dois_digitos(lidos):
+        return None
+    casa = lidos[0] + lidos[1]
+    if casa not in rotulos:
+        return None
+    if float(probs_token[rotulos.index(casa)]) < LIMIAR_CASA_DOIS:
+        return None
+    return casa
+
+
+def _fundir_pares_de_digitos(
+    tokens: list,
+    gray: np.ndarray,
+    passo: float,
+    modelo,
+    rotulos,
+    dev,
+) -> tuple[list, set[int], dict[int, str]]:
+    """Funde vizinhos de um dígito cujo vão passa do limiar de `agrupar_tokens`.
+
+    Só entra o par em que os dois são componentes isolados (um dígito cada) e o vão está em
+    ``(VAO_AGRUPAR_PASSOS, VAO_CASA_PASSOS]``. O par vira um token só quando `_casa_das_partes`
+    aceita a concatenação. No ouro v2, `10` e `12` da pág. 12 têm vão 0,275 e ficam separados
+    pelo limiar de 0,25.
+
+    Casa que o modelo NÃO tem como classe (`13`, `11`, `16`...) sai do par de dois tokens
+    isolados quando cada parte é o algarismo mais provável com ao menos `LIMIAR_PARTE_DIGITO`.
+    Essa via vale só para o par geométrico, nunca para um glifo com dois componentes (medido: um
+    `3` com componentes lidos como `2` e `0` virava `20`).
+
+    Um par cuja concatenação é casa possível (10 a 24) e que não passa na leitura segura não vira
+    duas notas: os dois tokens saem em ``inseguros``, e quem chama os manda para ``nao_notas`` com
+    o símbolo cru. O `1` do `13` (tela 8, corda 3) era a nota inventada antes desta regra.
+
+    Args:
+        tokens: tokens da grade, ordenados por coluna e corda.
+        gray: tons de cinza do recorte.
+        passo: distância entre cordas, em px.
+        modelo: classificador de glifos.
+        rotulos: classes do modelo.
+        dev: dispositivo do modelo.
+
+    Returns:
+        ``(tokens, inseguros, fora_do_modelo)``: a lista com os pares aceitos fundidos (mesma
+        ordem de entrada); o conjunto de ``id()`` dos tokens de par de casa com leitura insegura;
+        e um mapa ``id()`` do token fundido -> casa, para as casas que o modelo não tem.
+    """
+    por_corda: dict[int, list[int]] = {}
+    for k, tk in enumerate(tokens):
+        por_corda.setdefault(tk.corda, []).append(k)
+    pares: list[tuple[int, int]] = []
+    for ks in por_corda.values():
+        ks.sort(key=lambda k: tokens[k].x0)
+        for a, b in itertools.pairwise(ks):
+            if tokens[a].partes != 1 or tokens[b].partes != 1:
+                continue
+            vao = (tokens[b].x0 - tokens[a].x1) / passo
+            if VAO_AGRUPAR_PASSOS < vao <= VAO_CASA_PASSOS:
+                pares.append((a, b))
+    if not pares:
+        return tokens, set(), {}
+    recortes = []
+    for a, b in pares:
+        ta, tb = tokens[a], tokens[b]
+        recortes.append(_recortar(gray, ta.x0, ta.y0, ta.x1, ta.y1))
+        recortes.append(_recortar(gray, tb.x0, tb.y0, tb.x1, tb.y1))
+        recortes.append(
+            _recortar(
+                gray,
+                min(ta.x0, tb.x0),
+                min(ta.y0, tb.y0),
+                max(ta.x1, tb.x1),
+                max(ta.y1, tb.y1),
+            )
+        )
+    p = _probs(recortes, modelo, dev).reshape(len(pares), 3, -1)
+    fundidos: dict[int, object] = {}
+    descartar: set[int] = set()
+    usados: set[int] = set()
+    marcados: set[int] = set()
+    fora_do_modelo: dict[int, str] = {}
+    for j, (a, b) in enumerate(pares):
+        if a in usados or b in usados:
+            continue
+        lidos = [rotulos[int(np.argmax(p[j, 0]))], rotulos[int(np.argmax(p[j, 1]))]]
+        casa = _casa_das_partes(lidos, p[j, 2], rotulos)
+        if casa is None:
+            if not _numero_de_dois_digitos(lidos):
+                continue
+            concat = lidos[0] + lidos[1]
+            confs = (float(np.max(p[j, 0])), float(np.max(p[j, 1])))
+            if concat in rotulos or min(confs) < LIMIAR_PARTE_DIGITO:
+                marcados.update((a, b))
+                continue
+            casa = concat
+        usados.update((a, b))
+        novo = _fundir([tokens[a], tokens[b]], passo)
+        fundidos[a] = novo
+        descartar.add(b)
+        if casa not in rotulos:
+            fora_do_modelo[id(novo)] = casa
+    inseguros = {id(tokens[k]) for k in marcados if k not in usados}
+    if not fundidos:
+        return tokens, inseguros, fora_do_modelo
+    novos = [fundidos.get(k, tk) for k, tk in enumerate(tokens) if k not in descartar]
+    ordenados = sorted(novos, key=lambda x: (x.coluna, x.corda))
+    return ordenados, inseguros, fora_do_modelo
+
+
+def carregar_modelo(caminho: str):
+    ck = torch.load(caminho, map_location="cpu")
+    rot = ck["rotulos"]
+    dev = "cuda" if torch.cuda.is_available() else "cpu"
+    m = GlifoCNN(len(rot)).to(dev)
+    m.load_state_dict(ck["state_dict"])
+    m.eval()
+    return m, rot, dev
+
+
+def _recortar(
+    gray: np.ndarray, x0: int, y0: int, x1: int, y1: int, margem: int = 0
+) -> np.ndarray:
+    """Recorte do token, com a convenção EXATA do classificador.
+
+    Cuidado que custou uma medição: a convenção antiga era 1 px de margem em cima e à
+    esquerda e NENHUMA embaixo/à direita (`gray[y0-1 : y1+1, x0-1 : x1+1]`). Eu havia
+    trocado por margem simétrica e os MESMOS pesos passaram a dar 0,844 onde davam
+    0,865. O recorte é parte da medição: mexer nele é mexer no número. O parâmetro
+    `margem` existe só para o PNG de auditoria, que não entra na classificação.
+
+    Args:
+        gray: imagem em tons de cinza.
+        x0, y0, x1, y1: caixa do token.
+        margem: margem extra para o PNG (0 = convenção do classificador).
+
+    Returns:
+        O recorte.
+    """
+    if margem:
+        return gray[
+            max(0, y0 - margem) : y1 + margem + 1, max(0, x0 - margem) : x1 + margem + 1
+        ]
+    return gray[max(0, y0 - 1) : y1 + 1, max(0, x0 - 1) : x1 + 1]
+
+
+def _probs(recortes: list[np.ndarray], modelo, dev) -> np.ndarray:
+    """Probabilidade por classe para uma lista de recortes, numa passada só."""
+    X = [normalizar(c) for c in recortes]
+    X = [x if x is not None else np.zeros((24, 16), np.uint8) for x in X]
+    xt = torch.tensor(np.stack(X)[:, None].astype(np.float32) / 255.0).to(dev)
+    with torch.no_grad():
+        return torch.softmax(modelo(xt), 1).cpu().numpy()
+
+
+def _top3(probs: np.ndarray, rotulos: list[str]) -> list[tuple[str, float]]:
+    """As três classes mais prováveis, com a probabilidade de cada uma."""
+    ordem = np.argsort(-probs)
+    return [(rotulos[int(k)], round(float(probs[int(k)]), 3)) for k in ordem[:3]]
+
+
+def _guardar_cru(
+    gray: np.ndarray, tk, destino_dir: str, prefixo: str, sufixo: dict, caixa=None
+) -> dict:
+    """Grava o recorte cru do token em PNG (ampliado) e devolve o registro dele.
+
+    Deduplica por hash do conteúdo: símbolos idênticos viram UM arquivo, com o
+    número de ocorrências implícito. É assim que o vocabulário de um canal se
+    forma sozinho, sem eu precisar reabrir vídeo.
+
+    Args:
+        gray: imagem em tons de cinza de onde o token veio.
+        tk: token (glifo fundido) a preservar.
+        destino_dir: diretório raiz dos recortes.
+        prefixo: subpasta (normalmente canal ou vídeo).
+        sufixo: campos extras que entram no registro.
+        caixa: ``(x0, y0, x1, y1)`` a recortar em vez do token. Serve para gravar **o componente
+            do símbolo** quando o token é dígito + símbolo (medido: 47 de 51 recortes que
+            *pareciam* algarismo eram isso) — recortar o token inteiro mostrava o algarismo.
+
+    Returns:
+        Registro do símbolo, com caminho e hash; nunca descarta o recorte.
+    """
+    x0, y0, x1, y1 = caixa or (tk.x0, tk.y0, tk.x1, tk.y1)
+    crop = _recortar(gray, x0, y0, x1, y1, margem=2)
+    if crop.size == 0:
+        return {"png": None, "hash": None, **sufixo}
+    ampliado = cv2.resize(crop, None, fx=4, fy=4, interpolation=cv2.INTER_NEAREST)
+    ok, png = cv2.imencode(".png", ampliado)
+    if not ok:
+        return {"png": None, "hash": None, **sufixo}
+    digest = hashlib.sha1(png.tobytes()).hexdigest()[:16]
+    relativo = os.path.join(prefixo, f"{digest}.png") if prefixo else f"{digest}.png"
+    caminho = os.path.join(destino_dir, relativo)
+    os.makedirs(os.path.dirname(caminho), exist_ok=True)
+    if not os.path.exists(caminho):
+        with open(caminho, "wb") as fh:
+            fh.write(png.tobytes())
+    return {"png": relativo, "hash": digest, **sufixo}
+
+
+def _candidatos_do_simbolo(img: np.ndarray, g) -> list:
+    """Candidatos do CAMINHO DO SÍMBOLO: união das máscaras com as faixas das cordas apagadas.
+
+    Medido: o algarismo e o símbolo querem processamentos **opostos** — o algarismo lê a máscara
+    escolhida (a `otsu`, onde o arco **não existe**), e o símbolo precisa da união (onde o arco
+    existe) **com as faixas das cordas apagadas** (senão o arco vira um componente gigante de 85
+    passos). Neste caminho, **149 de 163** marcas do dono ganham token, com forma de arco
+    (2,4×1,0 a 3,1×1,0 passos), contra **0 marcas julgadas** no caminho único de antes.
+
+    Args:
+        img: imagem da linha (BGR ou cinza).
+        g: grade já segmentada (fornece `linhas_y`, `passo` e `barlines_x`).
+
+    Returns:
+        Lista de tokens candidatos a símbolo.
+    """
+    linhas = list(g.linhas_y)
+    # CONTRASTE LOCAL: MEDIDO E **NEUTRO** NO FIM A FIM. Ele recupera tinta em 24 dos 62 buracos que o
+    # dono confirmou como símbolo (39 %) e **custa menos** (tinta 10,7 % do painel contra 17,6 %;
+    # componentes 105 x 179) — mas **não vira candidato perto da marca**: precisão 0,197 -> 0,200 e
+    # recall 0,216 -> 0,210, um ganho de 0,003 contra uma perda de 0,006. Não é ganho, então está
+    # DESLIGADO. Fica registrado para não ser retentado sem uma medição nova.
+    uniao = _sem_faixas(_uniao_mascaras(img), linhas, g.passo)
+    lim_x = (g.barlines_x[0] + int(g.passo * 2.2)) if g.barlines_x else 0
+    return agrupar_tokens(
+        _glifos_por_faixa(uniao, linhas, g.passo, lim_x, achar_barlines(uniao, linhas)),
+        g.passo,
+    )
+
+
+def reconhecer_linha(
+    img: np.ndarray,
+    modelo,
+    rotulos,
+    dev,
+    dir_simbolos: str | None = None,
+    prefixo: str = "",
+    discriminador=None,
+    filtro_simbolo=None,
+    faixa_y: tuple[int, int] | None = None,
+    julgar_todos: bool = False,
+    limiar_simbolo2: float | None = None,
+    forma_simbolo: tuple[float, float] = (1.5, 1.5),
+    quantizacao_simbolo: float = 0.5,
+    janela_simbolo: tuple[float, float] = (1.2, 0.8),
+) -> dict:
+    """Lê uma linha de tablatura: geometria + classificação + símbolo cru.
+
+    O símbolo **nunca é descartado**. Um `<7>` fundido num único token vira a classe
+    `harmonico` e perderia a casa 7; por isso: (a) as caixas dos componentes são
+    preservadas no token (`Glifo.componentes`), (b) a casa é procurada de novo DENTRO
+    do símbolo, em cada componente, e vai para `casa_recuperada`, e (c) o recorte cru
+    é gravado em PNG (`dir_simbolos`) para o mapa por canal ser construído depois,
+    sem reabrir vídeo.
+
+    Args:
+        img: imagem da linha (BGR ou cinza).
+        modelo: classificador de glifos.
+        rotulos: classes na ordem de saída do modelo.
+        dev: dispositivo do modelo.
+        dir_simbolos: se dado, grava o PNG dos tokens que carregam símbolo.
+        prefixo: subpasta dos PNGs (canal ou vídeo).
+
+    Returns:
+        Dicionário com passo, linhas, barlines e a lista de notas.
+    """
+    g = segmentar(img)
+    gray = img if img.ndim == 2 else cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    tokens = sorted(g.glifos, key=lambda x: (x.coluna, x.corda))
+    if not tokens:
+        return {"passo": g.passo, "linhas_y": g.linhas_y, "notas": []}
+    tokens, inseguros, fora_do_modelo = _fundir_pares_de_digitos(
+        tokens, gray, g.passo, modelo, rotulos, dev
+    )
+    probs = _probs(
+        [_recortar(gray, t.x0, t.y0, t.x1, t.y1) for t in tokens], modelo, dev
+    )
+    # Casa de dois dígitos pelas partes (ver `_casa_das_partes`): a leitura de cada componente
+    # de um token com dois componentes, nas caixas de `componentes`.
+    recortes_partes: list[np.ndarray] = []
+    indice_partes: dict[int, list[int]] = {}
+    for i, tk in enumerate(tokens):
+        if len(tk.componentes or ()) == 2:
+            indice_partes[i] = []
+            for caixa in tk.componentes:
+                indice_partes[i].append(len(recortes_partes))
+                recortes_partes.append(_recortar(gray, *caixa))
+    probs_partes = _probs(recortes_partes, modelo, dev) if recortes_partes else None
+    lidos_partes = {
+        i: [rotulos[int(np.argmax(probs_partes[k]))] for k in ks]
+        for i, ks in indice_partes.items()
+    }
+    # Assinatura de lixo POR VIDEO: fracao de tokens estreitos (< 0.3 passo). Medido:
+    # apenas o canal raman korshun apresenta isso (28%); iwaki/sky/paolo dao 0%.
+    # Onde ha assinatura, token estreito e recusado em vez de virar "1" ou "harmonico".
+    estreitos = sum(1 for t in tokens if (t.x1 - t.x0) < 0.30 * g.passo)
+    assinatura = estreitos / max(1, len(tokens))
+    recusar = assinatura > 0.10
+
+    # 1a passada: classe de cada token, com o portao de forma.
+    classes: list[tuple[str, bool]] = []
+    # 3a passada: o DISCRIMINADOR decide se o token que o classificador chamou de símbolo é,
+    # na verdade, um algarismo. Medido no gabarito de símbolos: 33% do que virava "símbolo"
+    # era algarismo puro, e o limiar de confiança NÃO separa (p_digito de 0,17 a 1,00 nos
+    # algarismos e de 0,11 a 0,92 no lixo). O discriminador dedicado faz 0,879-0,940 no canal
+    # deixado de fora. `discriminador` é uma FUNÇÃO (recebe recortes, devolve probabilidades):
+    # assim `reconhecer` não importa `digito`, que importa `_recortar` daqui.
+    if discriminador is not None:
+        idx_dig = [k for k, r in enumerate(rotulos) if r in ALGARISMOS]
+        # `classes` pode ter MENOS entradas que `tokens` (o primeiro passo só classifica o
+        # que passou no portão de forma). Iterar sobre `tokens` estourava IndexError — medido
+        # no `ギタロー/guitarous`: 41 tokens e `classes` menor. O que não foi classificado não
+        # tem classe para contestar, então fica de fora.
+        alvos_d = [
+            i
+            for i in range(min(len(tokens), len(classes)))
+            if classes[i][0] not in ALGARISMOS
+            and len(tokens[i].componentes or ()) <= 1
+            and not _baixo_para_algarismo(tokens[i], g.passo)
+        ]
+        if alvos_d:
+            recortes_d = [
+                _recortar(gray, tokens[i].x0, tokens[i].y0, tokens[i].x1, tokens[i].y1)
+                for i in alvos_d
+            ]
+            p_dig = discriminador(recortes_d)
+            for k, i in enumerate(alvos_d):
+                if float(p_dig[k]) >= LIMIAR_DISCRIMINADOR:
+                    p = probs[i]
+                    classes[i] = (
+                        rotulos[max(idx_dig, key=lambda j: p[j])],
+                        classes[i][1],
+                    )
+
+    for i, tk in enumerate(tokens):
+        # Par de casa com leitura insegura (ex.: `1` + `3` sem a classe `13`): não vira nota
+        # inventada nem é descartado; vai para símbolo cru (`nao_notas`).
+        if id(tk) in inseguros:
+            classes.append(("simbolo", False))
+            continue
+        if recusar and (tk.x1 - tk.x0) < 0.30 * g.passo:
+            classes.append(("junk", True))
+            continue
+        # Par de algarismos isolados fundido numa casa que o modelo não tem (ex.: `13`).
+        if id(tk) in fora_do_modelo:
+            classes.append((fora_do_modelo[id(tk)], False))
+            continue
+        if i in lidos_partes:
+            casa_partes = _casa_das_partes(lidos_partes[i], probs[i], rotulos)
+            if casa_partes is not None:
+                classes.append((casa_partes, False))
+                continue
+        classe, corrigido = None, False
+        for k in np.argsort(-probs[i]):
+            if compativel(rotulos[k], tk, g.passo):
+                classe = rotulos[k]
+                corrigido = bool(int(k) != int(np.argmax(probs[i])))
+                break
+        if classe is None:
+            classe = rotulos[int(np.argmax(probs[i]))]
+        # ARCO NÃO É ALGARISMO: um token de altura de arco que o classificador leu como dígito vira
+        # símbolo cru (não nota). A classe lida continua em `top3` do registro, e o recorte é guardado.
+        if classe in ALGARISMOS and _baixo_para_algarismo(tk, g.passo):
+            classe = "simbolo"
+        classes.append((classe, corrigido))
+
+    # 2a passada: dentro de símbolo (ou de token fundido), procurar a casa.
+    # QUEM É OFERECIDO AO FILTRO. Medido: com o critério antigo ("classe top-1 não é algarismo"),
+    # **NENHUMA** das 189 marcas do dono chegava a ser julgada — 138 tinham token ali que nunca era
+    # oferecido e 51 não tinham token. O arco é lido como ALGARISMO pelo classificador de glifos
+    # (medido: 45 % dos símbolos verdadeiros), então o critério "não é dígito → candidato" excluía
+    # justamente o símbolo. `julgar_todos` oferece tudo e deixa quem decide ser o detector de símbolo.
+    alvos = (
+        list(range(len(tokens)))
+        if julgar_todos
+        else [
+            i
+            for i, tk in enumerate(tokens)
+            if classes[i][0] not in ALGARISMOS or tk.partes > 1
+        ]
+    )
+    recortes: list[np.ndarray] = []
+    comp_de: dict[int, list[tuple[int, tuple[int, int, int, int]]]] = {}
+    for i in alvos:
+        tk = tokens[i]
+        caixas = list(tk.componentes or ((tk.x0, tk.y0, tk.x1, tk.y1),))
+        pares: list[tuple[int, tuple[int, int, int, int]]] = []
+        for caixa in caixas:
+            pares.append((len(recortes), caixa))
+            recortes.append(_recortar(gray, *caixa))
+        comp_de[i] = pares
+    probs_comp = _probs(recortes, modelo, dev) if recortes else np.zeros((0, 1))
+
+    notas = []
+    for i, tk in enumerate(tokens):
+        classe, corrigido = classes[i]
+        nota: dict = {
+            "ordem": i + 1,
+            "corda": int(tk.corda),
+            "casa": classe,
+            "tecnica": "harmonico" if classe == "harmonico" else None,
+            "x": int(tk.x0),
+            "x_centro": (tk.x0 + tk.x1) / 2,
+            # A caixa do token é exposta para quem converte a nota em quadro (ler_notas):
+            # um token fundido por `_fundir_pares_de_digitos` não existe na grade de segmentar.
+            "caixa": (int(tk.x0), int(tk.y0), int(tk.x1), int(tk.y1)),
+            "confianca": round(float(probs[i][int(np.argmax(probs[i]))]), 3),
+            "corrigido_pela_forma": corrigido,
+        }
+        if i in alvos:
+            casa_rec, conf_rec, topo = None, 0.0, None
+            for pos, (cx0, _, cx1, _) in comp_de[i]:
+                argmax = int(np.argmax(probs_comp[pos]))
+                classe_comp = rotulos[argmax]
+                # Token baixo (arco) não recupera casa de dentro: o "dígito" que o componente
+                # lê é o próprio arco, e a casa recuperada seria uma nota inventada.
+                if (
+                    classe_comp in ALGARISMOS
+                    and (cx1 - cx0) >= 0.22 * g.passo
+                    and not _baixo_para_algarismo(tk, g.passo)
+                ):
+                    conf = float(probs_comp[pos][argmax])
+                    if conf > conf_rec:
+                        casa_rec, conf_rec = classe_comp, conf
+                if topo is None:
+                    topo = _top3(probs_comp[pos], rotulos)
+            caixas = tk.componentes or ((tk.x0, tk.y0, tk.x1, tk.y1),)
+            sufixo = {
+                "caixa_token": (tk.x0, tk.y0, tk.x1, tk.y1),
+                "partes": tk.partes,
+                "partes_digito": tk.partes_digito,
+                "larguras_passo": [
+                    round((cx1 - cx0) / g.passo, 2) for cx0, _, cx1, _ in caixas
+                ],
+                "componentes": [
+                    (cx0 - tk.x0, cy0 - tk.y0, cx1 - tk.x0, cy1 - tk.y0)
+                    for cx0, cy0, cx1, cy1 in caixas
+                ],
+                "classe": classe,
+                "top3": _top3(probs[i], rotulos),
+                "top3_componente": topo,
+                "casa_recuperada": casa_rec,
+                "confianca_recuperada": round(conf_rec, 3),
+            }
+            if casa_rec is not None:
+                nota["casa_recuperada"] = casa_rec
+            # FILTRO POSITIVO: só guarda como símbolo o que o detector diz que É símbolo — o
+            # critério antigo era "não é algarismo", e o resíduo de uma tablatura é ~98 % linha,
+            # borrão e dígito mal lido. O recorte usa a JANELA DO TREINO (2,4 x 1,6 passo,
+            # centrado no token): moldura é entrada do modelo, não detalhe de implementação.
+            # DECISÃO POR COMPONENTE, não por token. Medido: 47 dos 51 recortes que pareciam
+            # algarismo eram token fundido de dígito + símbolo; e recortar o token inteiro mostra
+            # o dígito. Recortar "o componente que não é algarismo" também falhou (REPROVADO na
+            # verificação: o classificador por componente erra um dígito de um `11` fundido e ele
+            # vira "o símbolo"). O certo é: **cada componente é um candidato**, com a janela
+            # centrada nele, e quem decide é o detector — não a classe do componente.
+            hx, hy = round(1.2 * g.passo), round(0.8 * g.passo)
+            caixa_simbolo, p_simbolo = None, None
+            componentes = comp_de.get(i) or ()
+            if filtro_simbolo is not None and componentes:
+                for _pos, (cx0, cy0, cx1, cy1) in componentes:
+                    razao_c = (cx1 - cx0 + 1) / max(1.0, float(cy1 - cy0 + 1))
+                    if razao_c < RAZAO_MINIMA_SIMBOLO:  # barra vertical: não é símbolo
+                        continue
+                    ccx, ccy = (cx0 + cx1) // 2, (cy0 + cy1) // 2
+                    rec_c = gray[
+                        max(0, ccy - hy) : ccy + hy, max(0, ccx - hx) : ccx + hx
+                    ]
+                    if rec_c.size == 0:
+                        continue
+                    pc = float(filtro_simbolo([rec_c])[0])
+                    if p_simbolo is None or pc > p_simbolo:
+                        p_simbolo = pc
+                        # A caixa salva é a JANELA que o detector julgou (2,4 x 1,6 passo,
+                        # centrada no componente) — NÃO a caixa justa dele. Medido: com a caixa
+                        # justa, o PNG de um token fundido mostrava o DÍGITO enquanto a decisão
+                        # (na janela) via o arco, e a precisão no olho caía de 90 % para 29 %.
+                        caixa_simbolo = (ccx - hx, ccy - hy, ccx + hx, ccy + hy)
+                sufixo["componentes_avaliados"] = len(componentes)
+            # PISO DE TINTA: MEDIDO E REPROVADO (fim a fim 0,17 -> 0,16 e recall 0,11 -> 0,08). O
+            # vão entre vazio (máx 0,100) e símbolo (p10 0,128) existe, mas travar por ele **não**
+            # melhora o uso: os vazios que ele remove não são os que atrapalham, e ele custa símbolo.
+            # Fica registrado em `tab/caminhos.PISO_TINTA_SIMBOLO` para ninguém repetir a tentativa.
+            _cx = (tk.x0 + tk.x1) // 2
+            _cy = (tk.y0 + tk.y1) // 2
+            _hx, _hy = round(1.2 * g.passo), round(0.8 * g.passo)
+            _rec = gray[max(0, _cy - _hy) : _cy + _hy, max(0, _cx - _hx) : _cx + _hx]
+            if _rec.size:
+                _m = _rec < (_rec.mean() - 0.5 * _rec.std())
+                sufixo["tinta"] = round(float(_m.mean()), 3)
+            # FORA DA FAIXA DAS CORDAS NÃO É SÍMBOLO. Medido nos 523 símbolos verdadeiros do dono:
+            # **523 de 523 (100 %)** caem DENTRO da faixa que `roi_das_cordas` delimita — zero
+            # colateral. E o pipeline aprovava tokens FORA dela (um caso medido: ROI y=13, que na
+            # faixa é y=−243, acima da tablatura). Símbolo de tablatura vive entre as cordas.
+            if faixa_y is not None and not (
+                faixa_y[0] <= (tk.y0 + tk.y1) // 2 <= faixa_y[1]
+            ):
+                sufixo["recusado_fora_da_faixa"] = True
+            # BARRA VERTICAL NÃO É SÍMBOLO (instrução do dono sobre o `shin izumi`: "essas barras
+            # na vertical não significam nada de importante"). Medido: as barras que o detector
+            # aprovava lá têm razão mediana 0,118 e os 123 símbolos verdadeiros têm 1,706 — ZERO
+            # dos 123 abaixo de 0,35. Regra antes do modelo, porque é determinística e sem colateral.
+            razao = (tk.x1 - tk.x0 + 1) / max(1.0, float(tk.y1 - tk.y0 + 1))
+            if razao < RAZAO_MINIMA_SIMBOLO:
+                sufixo["recusado_por_forma"] = f"barra_vertical (razao {razao:.2f})"
+            elif filtro_simbolo is not None and p_simbolo is None:
+                cx = (tk.x0 + tk.x1) // 2
+                cy = (tk.y0 + tk.y1) // 2
+                rec = gray[max(0, cy - hy) : cy + hy, max(0, cx - hx) : cx + hx]
+                if rec.size:
+                    p_simbolo = float(filtro_simbolo([rec])[0])
+                    caixa_simbolo = (
+                        cx - hx,
+                        cy - hy,
+                        cx + hx,
+                        cy + hy,
+                    )  # a janela julgada
+            if p_simbolo is not None:
+                sufixo["prob_simbolo"] = round(p_simbolo, 3)
+            passa = (
+                "recusado_por_forma" not in sufixo
+                and "recusado_fora_da_faixa" not in sufixo
+                and (p_simbolo is None or p_simbolo >= LIMIAR_SIMBOLO)
+            )
+            if componentes and p_simbolo is not None and p_simbolo < LIMIAR_SIMBOLO:
+                caixa_simbolo = None  # nenhum componente passou: não guarda nenhum
+            if passa:
+                if caixa_simbolo is not None:
+                    sufixo["recorte_do_componente"] = True
+                nota["simbolo_cru"] = (
+                    _guardar_cru(
+                        gray, tk, dir_simbolos, prefixo, sufixo, caixa=caixa_simbolo
+                    )
+                    if dir_simbolos
+                    else sufixo
+                )
+            else:
+                # RECUSADO como símbolo. O metadado fica em chave PRÓPRIA: se ficasse em
+                # `simbolo_cru`, quem conta símbolo (`[n for n in notas if "simbolo_cru" in n]`)
+                # contaria o recusado também — foi o que aconteceu na primeira medição, e o
+                # total não se mexeu. Conferir o que o número conta, sempre.
+                nota["simbolo_recusado"] = sufixo
+        notas.append(nota)
+    # SEGUNDA PASSADA — CAMINHO DO SÍMBOLO. Estes candidatos passam **só** pelo filtro de símbolo
+    # e não entram na classificação de algarismo: é o que mantém o gabarito intacto (a passada de
+    # cima, da máscara escolhida, continua sendo a única fonte de dígitos).
+    if filtro_simbolo is not None and julgar_todos:
+        _vistas: set[tuple[int, int]] = set()
+        for tk in _candidatos_do_simbolo(img, g):
+            # DEDUPE POR JANELA em vez de DESCARTE POR FORMA. Medido: o filtro de forma (largura
+            # >= 1,5 passo) descartava **147** dos 163 candidatos que caem em cima de uma marca do
+            # dono — era ELE que criava os 170 buracos. E a premissa da "forma de arco" (2,4x1,0 a
+            # 3,1x1,0 passos) veio de medição com ±1 passo de tolerância em cada eixo, já derrubada:
+            # os candidatos em cima da marca são **fragmentos pequenos**, não arcos largos.
+            # A candidata não é descartada — a JANELA é deduplicada. A janela é larga (±1,2 passo)
+            # e independe do tamanho da candidata, então várias candidatas próximas geram a MESMA
+            # janela: julgar cada uma seria gastar o modelo repetindo a mesma pergunta.
+            # O DEDUPE SOZINHO É INERTE: a 0,5 passo ele deixou 1.397 candidatos contra 1.407 sem
+            # filtro nenhum (precisão 0,053, recall 0,392) — as janelas são distintas nessa escala.
+            # Para o dedupe valer, a quantização tem de ser grossa (a janela tem 2,4 passos de
+            # largura). Medir 0,8 / 1,2 / 1,6 passo é o próximo passo.
+            chave = (
+                round(tk.x0 / (quantizacao_simbolo * g.passo)),
+                round(tk.y0 / (quantizacao_simbolo * g.passo)),
+            )
+            if (tk.x1 - tk.x0) < forma_simbolo[0] * g.passo or (
+                tk.y1 - tk.y0
+            ) > forma_simbolo[1] * g.passo:
+                continue
+            if chave in _vistas:
+                continue
+            _vistas.add(chave)
+            # A REGRA "ENTRE CORDAS" FOI MEDIDA E REPROVADA: exigir que a caixa não cruze uma linha
+            # derrubou os DOIS lados — batem 35 -> 27, precisão 0,197 -> 0,175, recall 0,185 ->
+            # 0,143. Motivo: **o arco encosta na corda**, então a caixa dele cruza a linha com
+            # frequência. Não repetir sem medir de novo.
+            # JANELA NA BORDA DE CIMA, não no centro da caixa. Medido: com o centro, o filtro aprova
+            # **31 %** dos candidatos na posição das marcas (mediana 0,208); com o topo da caixa,
+            # **78 %** (mediana 0,833). Faz sentido: o arco fica **em cima da corda** — é ali que o
+            # dono marcou — e o centro da caixa cai na corda, não no traço do arco.
+            cx = (tk.x0 + tk.x1) // 2
+            cy = tk.y0
+            hx, hy = (
+                round(janela_simbolo[0] * g.passo),
+                round(janela_simbolo[1] * g.passo),
+            )
+            rec = gray[max(0, cy - hy) : cy + hy, max(0, cx - hx) : cx + hx]
+            if rec.size == 0:
+                continue
+            prob = float(filtro_simbolo([rec])[0])
+            if prob < (LIMIAR_SIMBOLO if limiar_simbolo2 is None else limiar_simbolo2):
+                continue
+            notas.append(
+                {
+                    "ordem": 0,
+                    "corda": int(tk.corda),
+                    "casa": None,
+                    "tecnica": None,
+                    "x": int(tk.x0),
+                    "x_centro": (tk.x0 + tk.x1) / 2,
+                    "confianca": round(prob, 3),
+                    "origem": "simbolo",
+                    "simbolo_cru": {
+                        "prob_simbolo": round(prob, 3),
+                        "caixa_token": (tk.x0, tk.y0, tk.x1, tk.y1),
+                    },
+                }
+            )
+    return {
+        "passo": round(g.passo, 2),
+        "linhas_y": g.linhas_y,
+        "barlines_x": g.barlines_x,
+        "notas": notas,
+    }
+
+
+def completar(r: dict, tempos: list[tuple] | None = None) -> dict:
+    """Acrescenta compasso (pelas barlines) e andamento (pelos onsets do cursor).
+
+    Andamento honesto: o que a imagem e o cursor permitem medir é NOTAS POR MINUTO e
+    quantas notas cabem em cada compasso. BPM só sai disso com uma suposição de figura
+    (por isso vai separado, com o nome dizendo a suposição).
+    """
+    bl = r.get("barlines_x") or []
+    for n in r["notas"]:
+        n["compasso"] = 1 + sum(1 for bx in bl[1:] if bx < n["x"])
+    por_compasso = {}
+    for n in r["notas"]:
+        por_compasso[n["compasso"]] = por_compasso.get(n["compasso"], 0) + 1
+    r["notas_por_compasso"] = por_compasso
+    if tempos and len(tempos) >= len(r["notas"]):
+        onsets = [t[0] for t in tempos[: len(r["notas"])] if t and t[0] is not None]
+        for n, t in zip(r["notas"], tempos, strict=False):
+            if t and t[0] is not None:
+                n["t_ini"] = round(t[0], 2)
+                if t[1] is not None:
+                    n["t_fim"] = round(t[1], 2)
+        if len(onsets) > 2:
+            dt = statistics.median([b - a for a, b in itertools.pairwise(onsets)])
+            rpm = 60.0 / dt if dt > 0 else None
+            r["andamento"] = {
+                "notas_por_minuto": round(rpm, 1) if rpm else None,
+                "intervalo_mediano_s": round(dt, 3),
+                "notas_por_compasso_medido": round(
+                    sum(por_compasso.values()) / max(1, len(por_compasso)), 2
+                ),
+                "bpm_se_1_nota_por_tempo": round(rpm, 1) if rpm else None,
+            }
+    return r
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("imagem")
+    ap.add_argument("--modelo", default=str(MODELO_PADRAO))
+    ap.add_argument("--json")
+    args = ap.parse_args()
+    img = cv2.imread(args.imagem, cv2.IMREAD_UNCHANGED)
+    if img is None:
+        print(f"não abri {args.imagem}", file=sys.stderr)
+        return 2
+    modelo, rotulos, dev = carregar_modelo(args.modelo)
+    r = reconhecer_linha(img, modelo, rotulos, dev)
+    r["fonte"] = os.path.basename(args.imagem)
+    print(json.dumps(r, ensure_ascii=False, indent=1)[:900])
+    if args.json:
+        with open(args.json, "w") as fh:
+            json.dump(r, fh, ensure_ascii=False, indent=1)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
