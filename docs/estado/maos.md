@@ -326,3 +326,6 @@ em `docs/rodadas/10NN-*`.
 - **Próximo** (combinado com o dono): a 1044, sem retreino: validadores físicos, várias
   tentativas (9 pares, giro e espelho) e **um violão por tomada** com o capo pela conta. Depois,
   se faltar, retreino com sintético com capo e um backbone pré-treinado.
+- **1046 (capo pelo Grounding DINO tiny, sem treino): para no desenvolvimento.** O melhor
+  texto acha 18 de 64 capos da 1039 com ≤ 2 % de falsos; as caixas cobrem 75–99 % do quadro
+  (o violão inteiro), então nem esses são acerto. A 1043 não foi medida.

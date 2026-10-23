@@ -68,3 +68,24 @@ rede acha bem trastes e cordas, e erra só **qual** traste é o nut. A regra do 
   cruzar o braço tentam separar os dois; o critério 3 mede.
 - Com a mão na frente, o traste logo antes do capo pode não ser achado pelo par antigo.
 - O par antigo inverte o braço em alguns vídeos verticais (1041); aí a conta erra junto.
+
+## Resultado (2026-10-23): para no desenvolvimento, sem prova
+
+`m46/escolha.json` (as caixas em `m46/<rodada>/caixas.json`, 7 rodadas, ~22 min de GPU):
+
+| texto | limiar (≤ 2 % dos 192 sem capo) | capos achados na 1039 |
+| --- | --- | --- |
+| "capo." | 0,499 | **18 de 64** |
+| "guitar capo." | 0,853 | 0 de 64 |
+| "guitar capo. guitar nut. hand." | 0,675 | 0 de 64 |
+
+- O melhor texto acha 18 de 64 (28 %), abaixo dos 70 % exigidos. **Pela regra, a rodada para
+  aqui e a 1043 não é medida.**
+- **Por quê** (diagnóstico depois da parada, `m46/diag_dev.py`): a melhor caixa "de capo" tem
+  em mediana **75 % a 99 % da largura do quadro**, com ou sem capo. O Grounding DINO tiny não
+  localiza o capo: ele encaixa o violão (ou a pessoa) inteiro e chama de "capo". Uma caixa
+  contendo o `k` do dono existe nos 64 quadros, mas só porque a caixa cobre o braço todo; os
+  18 "achados" são esse mesmo efeito, e não acerto.
+- **Conclusão**: sem treino, o detector aberto não serve para o capo. O capo precisa ser uma
+  saída aprendida (um canal de capo no estágio 2, com os ~200 pontos `k` do dono e o
+  sintético com capo), com o nut pela conta da 1046.
