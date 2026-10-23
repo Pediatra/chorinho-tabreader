@@ -118,3 +118,36 @@ A referência é o par antigo sozinho (o que o ciclo usa sem capo), nos mesmos q
   (se a 1044 e a 1046 não bastarem).
 - **1046**: achar o capo por um detector aberto (Grounding DINO, Apache-2.0, ~690 MB),
   **depende do aval do dono para o download**; com o capo achado, o nut sai pela conta.
+
+## Resultado (2026-10-23)
+
+Faixas dos validadores (`m44/faixas.json`): marcas do dono de 9 gabaritos de desenvolvimento,
+507 quadros; cada validador aprova 497 (98,0 %). Hipóteses: ~2 h de GPU para os três lotes
+(`m44/hipoteses/<rodada>/`). Medida: `python -m tab.maos.braco.validadores medir --rodada N`.
+
+**Prova (M44, 40 quadros de 8 canais, revisados pelo dono; 36 medidos):**
+
+| | certos entregues | falsos que passam | sinalizados |
+| --- | --- | --- | --- |
+| referência (par antigo) | 18 | 4 | 14 |
+| cadeia 1044 (A + B + C) | 10 | **0** | 26 |
+
+- **Critério 1 (segurança): passa** (0 contra 4).
+- **Critério 2 (ganho, ≥ 22 certos): reprova** (10).
+- **Critério 3 (não estragar): passa** (0 dos 18 certos da referência viraram falso).
+- **Resultado: "1 e 3 passam, 2 falha".** Pela tabela, entra só a parte que não perde certos.
+- **Onde se perderam os 8 certos**: 6 pela tomada (S4b, parte C) e 2 por falta de grupo na B.
+  Com 5 quadros por vídeo, a tomada sinaliza quadros certos (o risco declarado antes).
+- **Só registro (depois de ver a prova; não decide nada):** A + B sem a C dariam na M44
+  **18 certos e 0 falsos que passam** (18 sinalizados), ou seja, os mesmos certos da
+  referência sem nenhum dos 4 erros calados. No desenvolvimento (1032), 55 certos e 1 falso,
+  contra 16 e 46 da referência (a 1032 tem capo e a referência é o par do nut verdadeiro).
+  Confirmar A + B exige um lote lacrado novo.
+
+**1043 (capo, só registro):** a cadeia entrega 0 certos, 2 falsos que passam e sinaliza 38;
+a referência, 0, 7 e 33. Como previsto, sem um localizador de capo ela só sinaliza. As
+hipóteses que passam nos validadores por quadro vão de 0 a 10 (de 22): os pares erram o capo
+juntos e a física reprova a maioria.
+
+**Reprovações por validador** (todas as hipóteses, M44): sem braço 299, V1 alarga 248, V3
+largura 227, V2 escada 196, V4 vão 184, V2 irregular 110, V5 nut 59, V4 cruzam 39.

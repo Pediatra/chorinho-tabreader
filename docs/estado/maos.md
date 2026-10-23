@@ -329,3 +329,8 @@ em `docs/rodadas/10NN-*`.
 - **1046 (capo pelo Grounding DINO tiny, sem treino): para no desenvolvimento.** O melhor
   texto acha 18 de 64 capos da 1039 com ≤ 2 % de falsos; as caixas cobrem 75–99 % do quadro
   (o violão inteiro), então nem esses são acerto. A 1043 não foi medida.
+- **1044 (validadores físicos + 22 hipóteses + tomada, sem retreino)**, na M44 (8 canais, 36
+  medidos): **0 falsos que passam contra 4** da referência, mas 10 certos contra 18 (o
+  mínimo era 22). Critérios 1 e 3 passam, o 2 reprova. A tomada (S4b) com 5 quadros por
+  vídeo tirou 6 certos. Só registro: sem a tomada, 18 certos e 0 falsos; precisa de um lote
+  lacrado novo para confirmar.
