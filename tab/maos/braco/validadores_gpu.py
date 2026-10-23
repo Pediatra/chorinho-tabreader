@@ -115,13 +115,23 @@ def hipoteses(numero: str) -> None:
     """
     rodada = RODADAS[numero]
     indice = json.loads((rodada.pasta / "indice.json").read_text(encoding="utf-8"))
-    saida = PASTA_HIPOTESES / numero
+    hipoteses_na_pasta(rodada.pasta, indice, PASTA_HIPOTESES / numero)
+
+
+def hipoteses_na_pasta(pasta_quadros: Path, indice: dict, saida: Path) -> None:
+    """Roda as 22 hipóteses nos quadros de um índice e grava cada uma em ``saida``.
+
+    Args:
+        pasta_quadros: pasta dos quadros (``pasta_quadros / item["png"]``).
+        indice: índice no formato do ciclo (``quadros`` com id, png e largura).
+        saida: pasta das hipóteses (``<nome>.json`` e ``espelho/``).
+    """
     espelho = saida / "espelho"
-    indice_espelho = espelhar_pasta(rodada.pasta, indice, espelho)
+    indice_espelho = espelhar_pasta(pasta_quadros, indice, espelho)
     larguras = {item["id"]: item["largura"] for item in indice["quadros"]}
     ordem = [item["id"] for item in indice["quadros"]]
     entradas = {
-        "original": (rodada.pasta, indice),
+        "original": (pasta_quadros, indice),
         "espelho": (espelho, indice_espelho),
     }
     docs = {}

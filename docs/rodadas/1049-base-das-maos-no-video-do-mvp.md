@@ -21,6 +21,13 @@ dono) é a do piloto de 20 vídeos, na rodada seguinte.
 - **Capotraste**: 0, fonte `dono`, **só se o dono confirmar** que o sky guitar não usa capo;
   sem confirmação, `null` e K4 falha em todos os eventos.
 
+**Emenda (antes de medir, 2026-10-23)**: o teste de fumaça (8 s do vídeo, fora da medida)
+mostrou que a trilha do áudio dá tempo à passagem **primeira no tempo**, e que a numeração
+`passagem` do produto não segue o tempo (a 1ª nota do vídeo é `passagem: 2`). A regra passa a
+ser: o `t_audio` de uma coluna vai para a passagem cujo `t_ini` fica mais perto dele; as
+outras passagens da coluna ficam com `t_som` `null`. Também: o detector de mãos roda dentro
+da `trava_gpu("maos")`.
+
 ## O denso (`.maos.npz`)
 
 - **Quadros**: os PTS nativos mais próximos de uma grade de **10 qps** (`leitor.quadros_pts`),
@@ -41,8 +48,8 @@ dono) é a do piloto de 20 vídeos, na rodada seguinte.
 
 Um evento por nota do produto, com a chave do `chorinho/video@1`.
 
-- **`t_som`**: o `t_audio` da coluna `(tela, exibição, coluna)`, só na passagem 1; na 2,
-  `null`.
+- **`t_som`**: o `t_audio` da coluna `(tela, exibição, coluna)`, na passagem de `t_ini` mais
+  perto dele (emenda acima); nas outras, `null`.
 - **Janela**: os quadros com PTS em `[t_som − 0,5 s, t_som + 0,5 s]`.
 - **K1 (som)**: passa se `t_som` existe; valor = a `confianca` da trilha do áudio.
 - **K2 (mão do braço na casa)**: só nota presa (casa > 0; corda solta → `null`).

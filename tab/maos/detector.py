@@ -43,6 +43,8 @@ from tab.maos.tabela import dentro_da_tab, fundir_maos
 #: Faixas do COCO-WholeBody sem ``to_openpose``: mão esquerda 91-111, direita 112-132.
 FAIXA_ESQ = slice(91, 112)
 FAIXA_DIR = slice(112, 133)
+#: Ombros, cotovelos e pulsos (COCO 5–10), para o ``corpo`` da base (decisão 1007).
+FAIXA_CORPO = slice(5, 11)
 
 #: Bibliotecas CUDA do torch da imagem base, sem as quais o ONNX Runtime cai em CPU.
 LD_LIBRARY_PATH_ESPERADO = (
@@ -138,7 +140,8 @@ class DetectorMaos:
 
         Returns:
             Uma entrada por pessoa: ``caixa``, ``esquerda`` e ``direita`` (cada uma com
-            ``caixa``, ``media`` e ``pts``). Vazia se não há pessoa (a pose não roda).
+            ``caixa``, ``media`` e ``pts``) e ``corpo`` (ombros, cotovelos e pulsos, COCO
+            5–10, ``[x, y, score]``). Vazia se não há pessoa (a pose não roda).
         """
         caixas = np.asarray(self.wb.det_model(bgr), dtype=float).reshape(-1, 4)
         if len(caixas) == 0:
@@ -149,6 +152,10 @@ class DetectorMaos:
                 "caixa": [round(float(v), 1) for v in c],
                 "esquerda": _mao_da_pose(k[FAIXA_ESQ], s[FAIXA_ESQ]),
                 "direita": _mao_da_pose(k[FAIXA_DIR], s[FAIXA_DIR]),
+                "corpo": [
+                    [float(x), float(y), float(v)]
+                    for (x, y), v in zip(k[FAIXA_CORPO], s[FAIXA_CORPO], strict=True)
+                ],
             }
             for c, k, s in zip(caixas, kp, sc, strict=True)
         ]

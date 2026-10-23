@@ -418,16 +418,15 @@ def escolher_hipotese(
     }
 
 
-def _ler_hipoteses(numero: str) -> dict[str, dict]:
-    """As hipóteses gravadas pela parte GPU para uma rodada.
+def ler_hipoteses(pasta: Path) -> dict[str, dict]:
+    """As hipóteses gravadas pela parte GPU numa pasta.
 
     Args:
-        numero: rodada do ciclo.
+        pasta: pasta das hipóteses (``PASTA_HIPOTESES / <rodada>``, ou outra).
 
     Returns:
         ``{nome: previsto.json}``, na ordem de ``PARES`` × ``MODOS``.
     """
-    pasta = PASTA_HIPOTESES / numero
     return {
         nome_da_hipotese(par, modo): _ler_json(
             pasta / f"{nome_da_hipotese(par, modo)}.json"
@@ -451,10 +450,37 @@ def cadeia(
         ``(previsto, registro)``: o documento no formato de ``previsto.json`` e o
         registro por quadro (validas, grupo, reprovados, S4).
     """
-    docs = _ler_hipoteses(numero)
-    referencia = docs[nome_da_hipotese(*REFERENCIA)]
+    doc, registro = cadeia_sem_tomada(
+        ler_hipoteses(PASTA_HIPOTESES / numero), faixas_validas
+    )
+    if not tomada:
+        return doc, registro
     indice = _ler_json(RODADAS[numero].pasta / "indice.json")
     dimensoes = {q["id"]: (q["largura"], q["altura"]) for q in indice["quadros"]}
+    doc = aplicar_consenso(doc, dimensoes)
+    for id_q, quadro in doc["quadros"].items():
+        sinal = quadro.get("S4")
+        s4b = bool(sinal and sinal["referencia"] is not None and sinal["k"] != 0)
+        registro[id_q]["S4b"] = s4b
+        if s4b:
+            quadro["sinalizado"] = True
+    return doc, registro
+
+
+def cadeia_sem_tomada(
+    docs: dict[str, dict], faixas_validas: dict[str, dict]
+) -> tuple[dict, dict]:
+    """A cadeia da 1047 (A + B, sem a tomada) sobre hipóteses já lidas.
+
+    Args:
+        docs: ``{nome: previsto.json}`` de ``ler_hipoteses``.
+        faixas_validas: as faixas dos validadores.
+
+    Returns:
+        ``(previsto, registro)``: o documento no formato de ``previsto.json`` e o
+        registro por quadro (validas, grupo, reprovados).
+    """
+    referencia = docs[nome_da_hipotese(*REFERENCIA)]
     quadros, registro = {}, {}
     for id_q in referencia["ordem"]:
         escolha = escolher_hipotese(
@@ -467,17 +493,7 @@ def cadeia(
             quadro = copy.deepcopy(docs[escolha["entregue"]]["quadros"][id_q])
         quadros[id_q] = quadro
         registro[id_q] = dict(escolha)
-    doc = dict(referencia, quadros=quadros)
-    if not tomada:
-        return doc, registro
-    doc = aplicar_consenso(doc, dimensoes)
-    for id_q, quadro in doc["quadros"].items():
-        sinal = quadro.get("S4")
-        s4b = bool(sinal and sinal["referencia"] is not None and sinal["k"] != 0)
-        registro[id_q]["S4b"] = s4b
-        if s4b:
-            quadro["sinalizado"] = True
-    return doc, registro
+    return dict(referencia, quadros=quadros), registro
 
 
 def _sem_linhas(medida: dict) -> dict:
@@ -565,7 +581,9 @@ def medir(numero: str) -> dict:
         numero, ler_faixas(), tomada=numero not in RODADAS_SEM_TOMADA
     )
     gabarito = _ler_json(RODADAS[numero].gabarito)
-    referencia_doc = _ler_hipoteses(numero)[nome_da_hipotese(*REFERENCIA)]
+    referencia_doc = ler_hipoteses(PASTA_HIPOTESES / numero)[
+        nome_da_hipotese(*REFERENCIA)
+    ]
     novo = medir_por_grupo(doc, gabarito)
     referencia = medir_por_grupo(referencia_doc, gabarito)
     resultado = {

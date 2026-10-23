@@ -68,7 +68,8 @@ def _mao_do_mediapipe(mao: dict) -> dict:
 
     Returns:
         Mão com ``origem = "mediapipe"`` e ``scores``/``media`` iguais a None (o MediaPipe
-        não dá score por ponto no censo).
+        não dá score por ponto no censo); ``score_mao`` guarda o score da mão inteira,
+        quando houver (a base das mãos o usa como score de cada ponto, rodada 1049).
     """
     return {
         "lado": LADO_MEDIAPIPE[mao["lado"]],
@@ -77,6 +78,7 @@ def _mao_do_mediapipe(mao: dict) -> dict:
         "pts": [list(p) for p in mao["pts"]],
         "scores": None,
         "media": None,
+        "score_mao": mao.get("score"),
     }
 
 
