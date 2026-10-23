@@ -151,6 +151,9 @@ GABARITO_BRACO_M43 = RAIZ / "data" / "gold" / "maos" / "braco_m43.json"
 #: Lote de 8 canais (rodada 1044): a prova dos validadores, tentativas e tomada.
 MAOS_M44 = SAIDA / "maos" / "m44"
 GABARITO_BRACO_M44 = RAIZ / "data" / "gold" / "maos" / "braco_m44.json"
+#: Confirmação da cadeia da 1044 sem a tomada (rodada 1047): lote de 8 canais.
+MAOS_M47 = SAIDA / "maos" / "m47"
+GABARITO_BRACO_M47 = RAIZ / "data" / "gold" / "maos" / "braco_m47.json"
 #: Capo por detector aberto (rodada 1046): caixas do Grounding DINO, escolha e medida.
 MAOS_M46 = SAIDA / "maos" / "m46"
 #: Casa do capo por vídeo, juntada do gabarito do braço (``tab.maos_braco_capo``).

@@ -20,12 +20,14 @@ import cv2
 import numpy as np
 
 from tab.comum.arquivos import gravar_atomico
-from tab.maos.braco.ciclo import RODADAS, aplicar_sinal_nut_v2, prever_quadros
+from tab.maos.braco.ciclo import RODADAS, aplicar_sinal_nut_v2, prever, prever_quadros
 from tab.maos.braco.validadores import (
     MODOS,
     PARES,
     PASTA_HIPOTESES,
     REFERENCIA,
+    cadeia,
+    ler_faixas,
     nome_da_hipotese,
 )
 
@@ -142,6 +144,17 @@ def hipoteses(numero: str) -> None:
         gravar_atomico(saida / f"{nome}.json", {"ordem": ordem, "quadros": alinhados})
 
 
+def preencher(numero: str) -> None:
+    """Pré-preenche o lote do ciclo com a cadeia da 1044 sem a tomada (rodada 1047).
+
+    Args:
+        numero: rodada do ciclo, já sorteada.
+    """
+    hipoteses(numero)
+    doc, _ = cadeia(numero, ler_faixas(), tomada=False)
+    prever(numero, previstos=doc["quadros"])
+
+
 def main() -> int:
     """Ponto de entrada da CLI.
 
@@ -152,8 +165,13 @@ def main() -> int:
     sub = parser.add_subparsers(dest="comando", required=True)
     p_hip = sub.add_parser("hipoteses", help="as 22 hipóteses (GPU)")
     p_hip.add_argument("--rodada", required=True)
+    p_pre = sub.add_parser("preencher", help="hipóteses + cadeia sem tomada + gabarito")
+    p_pre.add_argument("--rodada", required=True)
     args = parser.parse_args()
-    hipoteses(args.rodada)
+    if args.comando == "preencher":
+        preencher(args.rodada)
+    else:
+        hipoteses(args.rodada)
     return 0
 
 

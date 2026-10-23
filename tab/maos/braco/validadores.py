@@ -437,12 +437,15 @@ def _ler_hipoteses(numero: str) -> dict[str, dict]:
     }
 
 
-def cadeia(numero: str, faixas_validas: dict[str, dict]) -> tuple[dict, dict]:
+def cadeia(
+    numero: str, faixas_validas: dict[str, dict], tomada: bool = True
+) -> tuple[dict, dict]:
     """A cadeia da 1044 (B e C) numa rodada.
 
     Args:
         numero: rodada do ciclo.
         faixas_validas: as faixas dos validadores.
+        tomada: se True, aplica a parte C (S4b); a 1047 roda sem ela.
 
     Returns:
         ``(previsto, registro)``: o documento no formato de ``previsto.json`` e o
@@ -465,6 +468,8 @@ def cadeia(numero: str, faixas_validas: dict[str, dict]) -> tuple[dict, dict]:
         quadros[id_q] = quadro
         registro[id_q] = dict(escolha)
     doc = dict(referencia, quadros=quadros)
+    if not tomada:
+        return doc, registro
     doc = aplicar_consenso(doc, dimensoes)
     for id_q, quadro in doc["quadros"].items():
         sinal = quadro.get("S4")
@@ -528,6 +533,19 @@ def criterios(novo: dict, referencia: dict) -> dict:
     }
 
 
+#: Rodadas medidas sem a tomada (parte C).
+RODADAS_SEM_TOMADA = ("1047",)
+
+
+def ler_faixas() -> dict[str, dict]:
+    """As faixas dos validadores gravadas por ``faixas``.
+
+    Returns:
+        ``{validador: faixa}``.
+    """
+    return {k: v for k, v in _ler_json(ARQUIVO_FAIXAS).items() if k in VALIDADORES}
+
+
 def medir(numero: str) -> dict:
     """Mede a cadeia da 1044 e o par antigo numa rodada.
 
@@ -538,10 +556,9 @@ def medir(numero: str) -> dict:
         As medidas, os critérios e o registro por quadro; também gravados em
         ``PASTA_HIPOTESES / numero / "medida.json"``.
     """
-    faixas_validas = {
-        k: v for k, v in _ler_json(ARQUIVO_FAIXAS).items() if k in VALIDADORES
-    }
-    doc, registro = cadeia(numero, faixas_validas)
+    doc, registro = cadeia(
+        numero, ler_faixas(), tomada=numero not in RODADAS_SEM_TOMADA
+    )
     gabarito = _ler_json(RODADAS[numero].gabarito)
     referencia_doc = _ler_hipoteses(numero)[nome_da_hipotese(*REFERENCIA)]
     novo = medir_por_grupo(doc, gabarito)

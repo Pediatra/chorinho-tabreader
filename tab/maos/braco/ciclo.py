@@ -49,6 +49,7 @@ from tab.comum.caminhos import (
     GABARITO_BRACO_M39,
     GABARITO_BRACO_M43,
     GABARITO_BRACO_M44,
+    GABARITO_BRACO_M47,
     MAOS_M3B,
     MAOS_M11B,
     MAOS_M21,
@@ -62,6 +63,7 @@ from tab.comum.caminhos import (
     MAOS_M39,
     MAOS_M43,
     MAOS_M44,
+    MAOS_M47,
     acervo,
 )
 from tab.maos.braco.consenso import SINAL_S4, consenso
@@ -149,6 +151,20 @@ CANAIS_1044 = (
     "cifra club",
 )
 
+#: Os 8 canais com menos quadros respondidos no gabarito do braço e algum vídeo livre,
+#: contados depois da M44 (pré-registro da 1047; o raman korshun está descartado; o
+#: empate em 12 entre iwaki e leonardo ramos sai pela ordem alfabética).
+CANAIS_1047 = (
+    "rostheo guitar",
+    "guitar dell ́arte",
+    "lonelypicker",
+    "mr. tabs",
+    "robert lunn",
+    "paolo d'angelo",
+    "serge kottelat",
+    "iwaki",
+)
+
 #: Uma linha por rodada. A 1026 é a primeira; a 1027 usa o mesmo detector, sem mudança.
 RODADAS: dict[str, Rodada] = {
     "1026": Rodada(
@@ -215,6 +231,15 @@ RODADAS: dict[str, Rodada] = {
         n_instantes=5,
         canais=CANAIS_1044,
     ),
+    "1047": Rodada(
+        canal="",
+        semente=20261047,
+        pasta=MAOS_M47,
+        gabarito=GABARITO_BRACO_M47,
+        proxima="rodada seguinte",
+        n_instantes=5,
+        canais=CANAIS_1047,
+    ),
 }
 
 #: Rodada usada quando a CLI não recebe ``--rodada``.
@@ -229,7 +254,7 @@ RODADAS_COM_A5 = ("1032",)
 RODADAS_SINAL_NUT = ("1032",)
 #: Rodadas que usam o sinal v2 (bordas do quadro e linhas de painel; rodada 1033, que o pôs
 #: no lugar do v1 na 1032).
-RODADAS_SINAL_NUT_V2 = ("1032", "1036", "1039", "1043", "1044")
+RODADAS_SINAL_NUT_V2 = ("1032", "1036", "1039", "1043", "1044", "1047")
 #: Rodadas que usam a escolha de pesos de outra (sem rodar ``escolher-pesos`` de novo).
 RODADAS_ESCOLHA_HERDADA = {"1036": "1032"}
 #: Rodadas cujos pesos dependem da 1037 (pré-registro da 1039): o par novo se a 1037 passou
@@ -240,6 +265,7 @@ RODADAS_PESOS_DA_1037 = ("1039",)
 RODADAS_PESOS_FIXOS: dict[str, tuple[str, str]] = {
     "1043": ("L5_capo3_s2", "A7_capo3_s2"),
     "1044": ("L3_todos_s3", "A4_100_todos_s1"),
+    "1047": ("L3_todos_s3", "A4_100_todos_s1"),
 }
 ARQUIVO_MEDIDA_1037 = MAOS_M37 / "medida.json"
 ARQUIVO_ESCOLHA_1037 = MAOS_M37 / "escolha_pesos.json"
@@ -1146,7 +1172,40 @@ def aplicar_sinal_nut_v2(previstos: dict[str, dict], pasta: Path, indice: dict) 
             previstos[id_q]["sinalizado"] = True
 
 
-def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
+def _sinais_da_rodada(
+    numero: str, previstos: dict[str, dict], pasta: Path, indice: dict, pesos: Pesos
+) -> dict[str, dict]:
+    """Aplica os sinais da rodada (P3, nut v1 ou v2) às previsões de um par.
+
+    Args:
+        numero: rodada (chave de ``RODADAS``).
+        previstos: ``{id: entrada de previsto.json}``.
+        pasta: pasta da rodada.
+        indice: ``indice.json`` da rodada.
+        pesos: os pesos da rodada.
+
+    Returns:
+        As previsões com os sinais.
+    """
+    ids = [item["id"] for item in indice["quadros"]]
+    dimensoes = {q["id"]: (q["largura"], q["altura"]) for q in indice["quadros"]}
+    if pesos.p3:
+        previstos = aplicar_consenso({"ordem": ids, "quadros": previstos}, dimensoes)[
+            "quadros"
+        ]
+    if numero in RODADAS_SINAL_NUT_V2:
+        aplicar_sinal_nut_v2(previstos, pasta, indice)
+    elif numero in RODADAS_SINAL_NUT:
+        for id_q in ids:
+            if nut_suspeito_previsto(previstos[id_q], dimensoes[id_q]):
+                previstos[id_q]["nut_suspeito"] = True
+                previstos[id_q]["sinalizado"] = True
+    return previstos
+
+
+def prever(
+    numero: str = RODADA_PADRAO, previstos: dict[str, dict] | None = None
+) -> dict[str, bool]:
     """Roda a cadeia em cada quadro e preenche o gabarito com a previsão (GPU).
 
     Grava ``previsto.json`` (completo), o gabarito (com os trastes cortados no primeiro
@@ -1155,6 +1214,8 @@ def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
 
     Args:
         numero: rodada (chave de ``RODADAS``); o gabarito já tem os quadros do ``sortear``.
+        previstos: previsões já prontas (``{id: entrada de previsto.json}``, com os
+            sinais aplicados), como as da cadeia da 1044; None roda o par da rodada.
 
     Returns:
         id -> sinalizado, na ordem em que a página mostra os quadros.
@@ -1175,18 +1236,13 @@ def prever(numero: str = RODADA_PADRAO) -> dict[str, bool]:
         raise ValueError("ids do indice.json e do gabarito não batem")
     dimensoes = {q["id"]: (q["largura"], q["altura"]) for q in indice["quadros"]}
     pesos = pesos_da_rodada(numero)
-    previstos = _prever_quadros(pasta, indice, pesos.estagio1, pesos.estagio2, pesos.p2)
-    if pesos.p3:
-        previstos = aplicar_consenso({"ordem": ids, "quadros": previstos}, dimensoes)[
-            "quadros"
-        ]
-    if numero in RODADAS_SINAL_NUT_V2:
-        aplicar_sinal_nut_v2(previstos, pasta, indice)
-    elif numero in RODADAS_SINAL_NUT:
-        for id_q in ids:
-            if nut_suspeito_previsto(previstos[id_q], dimensoes[id_q]):
-                previstos[id_q]["nut_suspeito"] = True
-                previstos[id_q]["sinalizado"] = True
+    if previstos is not None:
+        previstos = copy.deepcopy(previstos)
+    else:
+        previstos = _prever_quadros(
+            pasta, indice, pesos.estagio1, pesos.estagio2, pesos.p2
+        )
+        previstos = _sinais_da_rodada(numero, previstos, pasta, indice, pesos)
     sinalizados = {id_q: previstos[id_q]["sinalizado"] for id_q in ids}
     ordem = ordenar_por_sinalizado(ids, sinalizados)
     novo_gabarito = dict(gabarito, quadros={})
