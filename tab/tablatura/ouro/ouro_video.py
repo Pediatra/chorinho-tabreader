@@ -2270,7 +2270,7 @@ td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.rem
 <b>Ouro de vídeo</b><span id="video" class="suave"></span>
 <button id="aba-telas">Telas</button><button id="aba-inst">Instantes</button>
 <button id="baixar">baixar JSON</button>
-<span class="suave">atalhos: X conferida · C modo ataque · V tela de ataque conferida · Tab/Shift+Tab próxima/anterior · Espaço desfaz</span>
+<span class="suave">atalhos: X conferida · A modo ataque · V tela de ataque conferida · C região de técnica · Tab/Shift+Tab próxima/anterior · Espaço desfaz</span>
 <span id="status">carregando…</span>
 </header>
 <main><div id="lista"></div><div id="conteudo"></div></main>
@@ -2759,12 +2759,12 @@ async function carregarAtaque() {  /* sem --ataque o servidor responde 404 e nad
   const rm = await fetch("/modelo_ataque.json");  /* leitura do modelo (tab.ataque_divergencia), se existir */
   if (rm.ok) MODELO = await rm.json();
   const cab = document.querySelector("header"), status = document.getElementById("status");
-  BOTAO_ATAQUE = h("button", {onclick: alternarAtaque}, "modo ataque (C)");
+  BOTAO_ATAQUE = h("button", {onclick: alternarAtaque}, "modo ataque (A)");
   CONTADOR_ATAQUE = h("span", {class: "suave"});
   cab.insertBefore(BOTAO_ATAQUE, status);
   cab.insertBefore(CONTADOR_ATAQUE, status);
 }
-/* ---- atalhos da aba TELAS: X conferida · C modo ataque · V tela de ataque conferida ·
+/* ---- atalhos da aba TELAS: X conferida · A modo ataque · V tela de ataque conferida · C região ·
    Tab/Shift+Tab próxima/anterior · Espaço desfaz ---- */
 function irTela(passo) {  /* próxima (1) ou anterior (-1) tela da lista; para nas pontas */
   const ids = E.telas.map(t => t.id);
@@ -2780,8 +2780,9 @@ document.addEventListener("keydown", ev => {
   if (ev.key === "Tab") { ev.preventDefault(); irTela(ev.shiftKey ? -1 : 1); }
   else if (ev.key === " ") { ev.preventDefault(); desfazer(); }
   else if (tecla === "x" && te) { te.conferida = !te.conferida; mudou(); desenhar(); }
-  else if (tecla === "c" && ATAQUE) alternarAtaque();
+  else if (tecla === "a" && ATAQUE) alternarAtaque();
   else if (tecla === "v" && te && ATAQUE && MODO_ATAQUE) marcarTelaAtaque(te.id, !ataqueConferida(te.id));
+  else if (tecla === "c" && te) { MODO_REGIAO = !MODO_REGIAO; desenhar(); }
 });
 
 /* ---- aba INSTANTES ---- */
@@ -2943,7 +2944,7 @@ def servir(
     print(f"ferramenta do ouro: http://127.0.0.1:{servidor.server_address[1]}/")
     print(f"o ouro é gravado a cada alteração em: {ouro}")
     if ataque is not None:
-        print(f"modo ataque (tecla C) grava SÓ em: {ataque}")
+        print(f"modo ataque (tecla A) grava SÓ em: {ataque}")
     print(
         "ATENÇÃO: rode isto como JOB DE FUNDO GERENCIADO (processo solto morre com "
         "o shell e o trabalho para de ser gravado).",

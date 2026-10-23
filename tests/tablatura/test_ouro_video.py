@@ -897,11 +897,11 @@ def test_aplicar_restauro_recusa_entrada_de_outra_nota() -> None:
 
 
 def test_pagina_tem_atalhos_e_desfazer() -> None:
-    """A página traz os atalhos (Tab, X, C, V), a pilha DESFAZER e a ação restaurar."""
+    """A página traz os atalhos (Tab, X, A, V, C), a pilha DESFAZER e a ação restaurar."""
     assert '"restaurar"' in PAGINA
     assert '"Tab"' in PAGINA
     assert "DESFAZER" in PAGINA
-    assert "modo ataque (C)" in PAGINA
+    assert "modo ataque (A)" in PAGINA
     assert 'ev.key === "Tab"' in PAGINA
     assert 'ev.key.toLowerCase() === "a"' not in PAGINA
 
