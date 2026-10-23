@@ -150,3 +150,14 @@ Seções movidas inteiras do [`ESTADO.md`](../../ESTADO.md) na decisão 9001
   sobrescrita): fora do treino, K1 = **3/184 = 1,6 %** (as 3 setas de rasgueado do
   *charagua*); somadas, K1 = 10/2.409 = 0,42 % e K2 = 7/17 = 41 % (ainda reprova). A leitura
   da rodada não muda: o `confirma` não promove nota até a rodada na T8.2.
+
+## Áudio — 2026-10-23 — rodada 2021 (tela × som na T8.2, com a regra `ambigua`)
+
+- Lote: 35/35 vídeos com produto e som. Medidas 34 telas conferidas pelo dono, 1.519 notas.
+- **K1 reprova**: 64/1.106 = 5,8 % de erradas entre as confirmadas. **K2 reprova**: 40/109 = 37 %.
+- 61 das 64 vêm de 2 vídeos em que a tab corre de lado (*what a wonderful world*, *toxic*). Os x
+  do produto estão deslocados do quadro do dono, e a régua por x não casa as notas. A sequência
+  corda:casa é a mesma. Sem eles (corte depois de ver, não decide): 3/1.039 = 0,29 %.
+- A regra `ambigua` pega as 3 setas do *charagua* (acordes_2018). Custo na T8.2: 25 certas.
+- Próximo: rodada 2022 com a régua corrigida (alinhar a tela do produto ao quadro do dono antes
+  de casar), pré-registrada. Detalhe em `docs/rodadas/2021-cruzamento-tela-som-t82.md`.

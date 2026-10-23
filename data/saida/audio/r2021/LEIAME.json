@@ -3,7 +3,10 @@
  "trilha": "audio",
  "classe": "manter",
  "motivo": "amostra da rodada 2021 (cruzamento tela x som fora do treino, T8.2)",
- "comando": "bash data/saida/audio/r2021/rodar.sh",
+ "comando": [
+  "bash data/saida/audio/r2021/rodar.sh",
+  "sh data/saida/audio/r2017/podman_base.sh python data/saida/audio/r2021/medir.py"
+ ],
  "regeneravel": true,
  "rodadas": "2021",
  "citado_por": "2021"

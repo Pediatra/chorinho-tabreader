@@ -1,0 +1,60 @@
+== t82
+  confirma        certa  1042  casa_errada   4  inventada  60
+  nao_confirma    certa   110  casa_errada   2  inventada   8
+  coluna_sem_par  certa   242  casa_errada   4  inventada  26
+  sem_dado        certa     0  casa_errada   0  inventada   0
+  ambigua         certa    25  casa_errada   0  inventada   5
+  K1 erradas entre confirma: 64/1106 = 0.0579
+  K2 erros acusados: 40/109 = 0.367
+  precisão do alarme: 40/392 = 0.102
+  custo da regra (certa -> ambigua): 25; erradas pegas pela ambigua: 5
+== acordes_2018
+  confirma        certa   176  casa_errada   0  inventada   0
+  nao_confirma    certa    27  casa_errada   0  inventada   0
+  coluna_sem_par  certa     3  casa_errada   0  inventada   0
+  sem_dado        certa     0  casa_errada   0  inventada   0
+  ambigua         certa     5  casa_errada   0  inventada   3
+  K1 erradas entre confirma: 0/176 = 0.0000
+  K2 erros acusados: 0/3 = 0.000
+  precisão do alarme: 0/30 = 0.000
+  custo da regra (certa -> ambigua): 5; erradas pegas pela ambigua: 3
+  tela 01      {'video': 'meu_lugar_-_arlindo_cruz_completa_como_t', 'capo': 0, 'tela_produto': 49, 'notas': 28, 'certa': 28, 'vereditos': {'confirma': 25, 'ambigua': 3}}
+  tela 02      {'video': 'wicked_game_-_chris_isaak_versão_única_c', 'capo': 0, 'tela_produto': 10, 'notas': 16, 'certa': 15, 'casa_errada': 1, 'vereditos': {'confirma': 15, 'coluna_sem_par': 1}}
+  tela 03      {'video': 'none_but_the_lonely_heart_tchaikovsky_gu', 'capo': 0, 'tela_produto': 1, 'notas': 121, 'certa': 121, 'vereditos': {'confirma': 109, 'nao_confirma': 7, 'coluna_sem_par': 5}}
+  tela 04      {'video': 'alfonsina_y_el_mar_a', 'capo': 0, 'tela_produto': 2, 'notas': 57, 'certa': 57, 'vereditos': {'confirma': 43, 'nao_confirma': 10, 'coluna_sem_par': 4}}
+  tela 05      {'video': 'happy_xmas_war_is_over_john_lennon_yoko_', 'capo': 0, 'tela_produto': 3, 'notas': 37, 'certa': 37, 'vereditos': {'confirma': 24, 'ambigua': 1, 'nao_confirma': 12}}
+  tela 06      {'video': 'the_beatles_-_michelle_tab_for_beginners', 'capo': 0, 'tela_produto': 3, 'notas': 38, 'certa': 38, 'vereditos': {'confirma': 34, 'ambigua': 2, 'nao_confirma': 2}}
+  tela 07      {'video': 'toxic_-_boywithuke_fingerstyle_guitar_ta', 'capo': 0, 'tela_produto': 19, 'notas': 32, 'inventada': 30, 'casa_errada': 2, 'vereditos': {'coluna_sem_par': 22, 'confirma': 5, 'nao_confirma': 5}}
+  tela 08      {'video': 'somethin_stupid_easy_version_-_frank_sin', 'capo': 0, 'tela_produto': 17, 'notas': 34, 'certa': 34, 'vereditos': {'coluna_sem_par': 29, 'confirma': 3, 'nao_confirma': 2}}
+  tela 09      {'video': 'tab_群青_合唱曲_-_小田美樹_fingerstyle_guitar_cov', 'capo': 0, 'tela_produto': 7, 'notas': 95, 'inventada': 2, 'certa': 93, 'vereditos': {'coluna_sem_par': 4, 'confirma': 76, 'nao_confirma': 10, 'ambigua': 5}}
+  tela 10      {'video': 'tab_ochún_-_chucho_valdes_fingerstyle_gu', 'capo': 0, 'tela_produto': 5, 'notas': 34, 'inventada': 1, 'certa': 33, 'vereditos': {'coluna_sem_par': 14, 'confirma': 16, 'ambigua': 3, 'nao_confirma': 1}}
+  tela 11      {'video': 'un_día_de_noviembre_leo_brouwer_tutorial', 'capo': 0, 'tela_produto': 21, 'notas': 23, 'certa': 23, 'vereditos': {'coluna_sem_par': 8, 'confirma': 15}}
+  tela 12      {'video': 'milonga_nº3_josé_pierri_sapere_tutorial_', 'capo': 0, 'tela_produto': 11, 'notas': 30, 'certa': 29, 'casa_errada': 1, 'vereditos': {'confirma': 23, 'nao_confirma': 1, 'coluna_sem_par': 6}}
+  tela 13      {'video': 'it_s_a_heartache_bonnie_tyler_-_easy_fin', 'capo': 0, 'tela_produto': 8, 'notas': 35, 'certa': 35, 'vereditos': {'confirma': 32, 'coluna_sem_par': 1, 'nao_confirma': 2}}
+  tela 14      {'fora': 'video_ausente'}
+  tela 15      {'video': 'guns_n_roses_-_patience_-_guitar_tab_les', 'capo': 0, 'tela_produto': 24, 'notas': 56, 'certa': 56, 'vereditos': {'confirma': 7, 'coluna_sem_par': 41, 'nao_confirma': 8}}
+  tela 16      {'video': 'ozzy_osbourne_-_dee_randy_rhoads_-_guita', 'capo': 0, 'tela_produto': 5, 'notas': 38, 'certa': 38, 'vereditos': {'coluna_sem_par': 7, 'confirma': 26, 'nao_confirma': 4, 'ambigua': 1}}
+  tela 17      {'video': 'capricho_árabe_clase_2_-_tutorial_-_part', 'capo': 0, 'tela_produto': 4, 'notas': 33, 'certa': 33, 'vereditos': {'confirma': 30, 'nao_confirma': 3}}
+  tela 18      {'video': 'bourrée_de_bach_tutorial_para_guitarra', 'capo': 0, 'tela_produto': 1, 'notas': 47, 'certa': 47, 'vereditos': {'coluna_sem_par': 20, 'nao_confirma': 13, 'confirma': 14}}
+  tela 19      {'video': 'what_a_wonderful_world_guitar_tab_finger', 'capo': 0, 'tela_produto': 1, 'notas': 71, 'inventada': 60, 'certa': 7, 'casa_errada': 4, 'vereditos': {'confirma': 62, 'ambigua': 6, 'nao_confirma': 3}}
+  tela 20      {'video': 'horizons_steve_hackett_genesis_guitar_ta', 'capo': 0, 'tela_produto': 9, 'notas': 59, 'certa': 59, 'vereditos': {'coluna_sem_par': 17, 'confirma': 34, 'nao_confirma': 7, 'ambigua': 1}}
+  tela 21      {'video': 'stardust_-_full_sheet_music_tab_-_classi', 'capo': 0, 'tela_produto': 4, 'notas': 37, 'certa': 37, 'vereditos': {'confirma': 37}}
+  tela 22      {'video': 'tutku_-_with_tab_-_neumann_km_184_mic_te', 'capo': 0, 'tela_produto': 4, 'notas': 34, 'certa': 34, 'vereditos': {'confirma': 32, 'nao_confirma': 1, 'coluna_sem_par': 1}}
+  tela 23      {'video': 'dominic_miller_the_winner_takes_it_all_a', 'capo': 0, 'tela_produto': 4, 'notas': 38, 'certa': 38, 'vereditos': {'confirma': 38}}
+  tela 24      {'video': 'julian_lage_emily_jazz_guitar_masterpiec', 'capo': 0, 'tela_produto': 12, 'notas': 72, 'certa': 70, 'inventada': 2, 'vereditos': {'confirma': 66, 'coluna_sem_par': 3, 'nao_confirma': 3}}
+  tela 25      {'video': 'tab_beauty_and_the_beast_-_美女と野獣_-_disne', 'capo': 0, 'tela_produto': 9, 'notas': 40, 'certa': 40, 'vereditos': {'nao_confirma': 11, 'confirma': 11, 'coluna_sem_par': 18}}
+  tela 26      {'video': 'tab_all_of_me_-_fingerstyle_jazz_guitar_', 'capo': 0, 'tela_produto': 17, 'notas': 32, 'certa': 31, 'inventada': 1, 'vereditos': {'confirma': 26, 'nao_confirma': 1, 'ambigua': 4, 'coluna_sem_par': 1}}
+  tela 27      {'video': 'trout_schubert_-_guitar_lesson_tab', 'capo': 0, 'tela_produto': 4, 'notas': 29, 'certa': 29, 'vereditos': {'confirma': 29}}
+  tela 28      {'video': 'here_comes_the_sun_-_fingerstyle_lesson_', 'capo': 0, 'tela_produto': 5, 'notas': 25, 'certa': 25, 'vereditos': {'confirma': 25}}
+  tela 29      {'video': 'victor_jara_-_la_partida_-_1_guitarra_-_', 'capo': 0, 'tela_produto': 8, 'notas': 31, 'certa': 31, 'vereditos': {'confirma': 26, 'coluna_sem_par': 5}}
+  tela 30      {'video': 'el_mercado_de_testaccio_-_inti_illimani_', 'capo': 0, 'tela_produto': 17, 'notas': 33, 'certa': 31, 'casa_errada': 1, 'inventada': 1, 'vereditos': {'confirma': 29, 'coluna_sem_par': 2, 'nao_confirma': 1, 'ambigua': 1}}
+  tela 31      {'video': 'ruins_from_undertale_guitar_tab_and_stan', 'capo': 0, 'tela_produto': 5, 'notas': 74, 'certa': 74, 'vereditos': {'coluna_sem_par': 10, 'confirma': 61, 'ambigua': 1, 'nao_confirma': 2}}
+  tela 32      {'video': 'zelda_fairy_fountain_-_guitar_tab_tvongu', 'capo': 0, 'tela_produto': 8, 'notas': 57, 'certa': 57, 'vereditos': {'confirma': 40, 'coluna_sem_par': 17}}
+  tela 33      {'fora': 'nao_conferida'}
+  tela 34      {'video': 'first_love_-_nikka_costa_-_fingerstyle_g', 'capo': 0, 'tela_produto': 7, 'notas': 27, 'certa': 27, 'vereditos': {'confirma': 26, 'coluna_sem_par': 1}}
+  tela 35      {'video': 'マリーコ_ールト_ソロギター_初心者向け_タブ譜', 'capo': 2, 'tela_produto': 8, 'notas': 57, 'certa': 57, 'vereditos': {'confirma': 46, 'nao_confirma': 7, 'coluna_sem_par': 3, 'ambigua': 1}}
+  tela 36      {'video': 'あの夏へ_ソロギター_初心者向け_タブ譜', 'capo': 0, 'tela_produto': 7, 'notas': 58, 'inventada': 2, 'certa': 55, 'casa_errada': 1, 'vereditos': {'coluna_sem_par': 32, 'confirma': 21, 'nao_confirma': 4, 'ambigua': 1}}
+  2018 paolo_those_who_wait {'certa': 77}
+  2018 robert_lunn_5_beautiful_easy {'certa': 62}
+  2018 transcriptor_charagua {'certa': 27, 'inventada': 3}
+  2018 guitarous_sakura {'certa': 45}

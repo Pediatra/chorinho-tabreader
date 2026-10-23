@@ -207,6 +207,7 @@ duração: `t_fim` é o **próximo onset** — o algarismo continua laranja depo
 | **braço, capo pelo Grounding DINO tiny sem treino** | **para no desenvolvimento** (1046): 18 de 64 capos da 1039 com ≤ 2 % de falsos; a caixa "capo" cobre 75–99 % do quadro (o violão inteiro) |
 | **tablatura, recorte alto com os pesos `_ger` da leitura comum** | **reprova** (0212): nos 8 ouros, as perdidas vão de 35 para 33, mas as inventadas sobem de 131 para 147 (quase todas no *room 335*); os pesos nunca viram o que fica acima da corda 1 |
 | **tablatura, rótulo de ataque `_atqa` (recorte alto + G11–G12) na prova lacrada T8.4** | **reprova** (0211): "sim" falso 33/266 (12,4 %) com o limite de 5 %; custo 131/3477 (3,8 %). Recontado com 4 notas corrigidas pelo dono, 21/254 (8,3 %), ainda reprova. Escapam a nota entre parênteses depois da ligadura, a ligadura desenhada embaixo da corda e o harmônico ligado: o gerador não cobre esses casos |
+| **áudio, casar a tela conferida com o produto só por x (≤ 0,5 passo) na tab que corre de lado** (2021) | 61 das 64 "erradas confirmadas" eram a régua: o quadro do dono e a tela do produto vêm de instantes diferentes, deslocados 80–140 px, e as notas não casam. K1 deu 5,8 % por isso. Alinhar a tela ao quadro antes de casar |
 
 ## Lições metodológicas (custaram rodadas)
 
