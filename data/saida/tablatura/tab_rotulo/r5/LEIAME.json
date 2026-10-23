@@ -1,0 +1,15 @@
+{
+ "citado_por": ["docs/rodadas/0215-expressao-e-t85.md"],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/tablatura/tab_rotulo/r5/amostra.py",
+  "sh data/saida/tablatura/tab_rotulo/r5/rodar.sh",
+  "python data/saida/tablatura/tab_rotulo/r5/medir_t86.py atqs"
+ ],
+ "modificado": "2026-10-23",
+ "motivo": "rodada 0215: G16 (expressão acima da corda 1) e T8.5 no treino do rótulo de ataque; prova lacrada T8.6",
+ "nome": "r5",
+ "regeneravel": "sim",
+ "rodadas": ["docs/rodadas/0215-expressao-e-t85.md"],
+ "trilha": "tablatura"
+}

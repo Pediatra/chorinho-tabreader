@@ -52,6 +52,7 @@ ESTRUTURA_TIPOS = (
     "letras_gp",
     "diagrama_acorde",
     "marca_acima",
+    "expressao",
     "pausa_interna",
 )
 
@@ -228,6 +229,13 @@ P_TIE_HARM = 0.2
 P_ARCO_SOLTO = 0.03
 #: G15: chance de o arco solto sair para a direita; no resto, ele chega pela esquerda.
 P_ARCO_SOLTO_DEPOIS = 0.7
+#: G16 (rodada 0215): chance de o sistema ter de 1 a 3 marcas de expressão acima da corda
+#: 1 que não mudam o ataque: dinâmica e andamento ("p", "mf", "rit."…) ou fermata.
+P_EXPRESSAO = 0.5
+#: Textos de expressão do G16, em serif itálico quando houver.
+TEXTOS_EXPRESSAO = ("p", "pp", "mp", "mf", "f", "rit.", "a tempo", "cresc.", "dim.")
+#: Dado o G16, chance de cada marca ser fermata em vez de texto.
+P_FERMATA = 0.35
 #: G9: chance de o slide ser um risco curto e inclinado, deslocado para cima; R4c 0,5.
 P_SLIDE_CURTO = 0.0
 #: G8: chance de, nas colunas apertadas, os algarismos serem pequenos (a corda aparece
@@ -1392,6 +1400,107 @@ def _desenhar_marca_acima(
     return {"tipo": "marca_acima", "x": round(cx), "caixa": caixa, "texto": texto}
 
 
+def _desenhar_expressao(
+    d: ImageDraw.ImageDraw,
+    rng: random.Random,
+    xs: list[float],
+    ys: list[int],
+    passo: float,
+    espessura: int,
+    tinta: tuple[int, int, int],
+    fontes: list[str],
+    largura: int,
+    altura: int,
+) -> dict:
+    """Desenha uma marca de expressão (G16) acima da corda 1: texto ou fermata.
+
+    A marca não muda o ataque: a nota embaixo continua atacada.
+
+    Args:
+        d: desenho.
+        rng: gerador aleatório.
+        xs: centro horizontal de cada coluna.
+        ys: linha de cada corda.
+        passo: passo do sistema.
+        espessura: espessura do traço.
+        tinta: cor da tinta.
+        fontes: caminhos das fontes (prefere as serif itálicas).
+        largura: largura da imagem.
+        altura: altura da imagem.
+
+    Returns:
+        Item de estrutura {"tipo": "expressao", "x", "caixa", "texto"}.
+    """
+    cx = rng.choice(xs)
+    cy = ys[0] - rng.uniform(1.0, 1.7) * passo
+    if rng.random() < P_FERMATA:
+        meia = rng.uniform(0.45, 0.7) * passo
+        alto = rng.uniform(0.3, 0.45) * passo
+        caixa = _limitar(
+            [round(cx - meia), round(cy - alto), round(cx + meia), round(cy + alto)],
+            largura,
+            altura,
+        )
+        d.arc(
+            [cx - meia, cy - alto, cx + meia, cy + alto],
+            180,
+            360,
+            fill=tinta,
+            width=max(1, espessura),
+        )
+        r = max(1.0, 0.07 * passo)
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=tinta)
+        return {"tipo": "expressao", "x": round(cx), "caixa": caixa, "texto": "fermata"}
+    texto = rng.choice(TEXTOS_EXPRESSAO)
+    serifs = [f for f in fontes if "Serif" in Path(f).name] or fontes
+    italicas = [f for f in serifs if "Italic" in Path(f).name] or serifs
+    fonte = _carregar_fonte(
+        rng.choice(italicas),
+        max(6, round(rng.uniform(0.5, 0.75) * passo / DIGITO_ALTURA_EM)),
+    )
+    px, py, caixa = _posicionar(d, texto, cx, cy, fonte, largura, altura)
+    d.text((px, py), texto, font=fonte, fill=tinta)
+    return {"tipo": "expressao", "x": round(cx), "caixa": caixa, "texto": texto}
+
+
+def _expressao_livre(
+    caixa: list[int],
+    arcos: list[dict],
+    grade: dict[tuple[int, int], dict],
+    xs: list[float],
+    estrutura: list[dict],
+    passo: float,
+) -> bool:
+    """Diz se a marca do G16 fica longe dos arcos e dos itens de estrutura já desenhados.
+
+    Uma dinâmica "p" em cima de um arco viraria a letra do pull-off: a marca só entra
+    fora do vão de todo arco (e do arco solto) com meio passo de folga.
+
+    Args:
+        caixa: caixa [x0, y0, x1, y1] da marca.
+        arcos: ``info["arcos"]`` até aqui.
+        grade: notas do sistema (as do arco solto têm ``arco_solto``).
+        xs: centro horizontal de cada coluna.
+        estrutura: itens de estrutura já desenhados.
+        passo: passo do sistema.
+
+    Returns:
+        True se a marca pode ser desenhada.
+    """
+    folga = 0.5 * passo
+    vaos = [(min(a["x_ini"], a["x_fim"]), max(a["x_ini"], a["x_fim"])) for a in arcos]
+    vaos += [
+        (xs[c] - 1.3 * passo, xs[c] + 1.3 * passo)
+        for (c, _), nota in grade.items()
+        if nota.get("arco_solto")
+    ]
+    if any(caixa[0] < b + folga and a - folga < caixa[2] for a, b in vaos):
+        return False
+    return not any(
+        _interceptam(caixa, it["caixa"], folga) for it in estrutura if "caixa" in it
+    )
+
+
 def _interceptam(a: list[int], b: list[int], margem: float) -> bool:
     """Diz se a caixa `a` cruza a caixa `b` ampliada em `margem` px de cada lado.
 
@@ -1611,15 +1720,17 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
             d, numero, x_ini + 0.3 * passo, ys[0] - 1.1 * passo, fonte, largura, altura
         )
         d.text((px, py), numero, font=fonte, fill=cor_linha)
+    caixas_acima: list[dict] = []  # o que o G16 não pode cobrir fora da estrutura
     if rng.random() < P_ACORDE_NOME:  # nome de acorde acima do sistema
         fonte = _carregar_fonte(
             rng.choice(fontes), max(6, round(0.5 * passo / DIGITO_ALTURA_EM))
         )
         nome = rng.choice(ACORDES)
-        px, py, _ = _posicionar(
+        px, py, caixa_acorde = _posicionar(
             d, nome, rng.choice(xs), ys[0] - 1.8 * passo, fonte, largura, altura
         )
         d.text((px, py), nome, font=fonte, fill=cor_linha)
+        caixas_acima.append({"caixa": caixa_acorde})
     if tem_formula and not gp:  # fórmula de compasso logo depois do TAB
         cor_formula = cor_linha
         if rng.random() < P_FORMULA_CINZA:
@@ -1821,6 +1932,26 @@ def gerar_sistema(rng: random.Random, fontes: list[str]) -> tuple[np.ndarray, di
             _ensaiar(previa, rng, largura, altura)["caixa"], medidas, passo
         ):
             estrutura.append(previa(d, rng))
+    if rng.random() < P_EXPRESSAO:  # G16: dinâmica, andamento ou fermata acima
+        for _ in range(rng.randint(1, 3)):
+            previa = functools.partial(
+                _desenhar_expressao,
+                xs=xs,
+                ys=ys,
+                passo=passo,
+                espessura=espessura,
+                tinta=tinta,
+                fontes=list(fontes),
+                largura=largura,
+                altura=altura,
+            )
+            caixa = _ensaiar(previa, rng, largura, altura)["caixa"]
+            if _livre_de_notas(caixa, medidas, passo) and _expressao_livre(
+                caixa, arcos, grade, xs, estrutura + caixas_acima, passo
+            ):
+                estrutura.append(previa(d, rng))
+            else:
+                rng.random()  # outra posição na próxima tentativa
     for funcao, marca, p in (
         (_marcar_rasgueado, "rasgueado_gp", P_RASG),
         (_marcar_arpejo, "arpejo_gp", P_ARPEJO),

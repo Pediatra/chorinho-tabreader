@@ -29,6 +29,9 @@ do painel, que apagava os arcos acima do sistema (0210).
 telas da T8.4 (``cache_t84``, de ``extrair_t84.py``) entram no treino de todas as dobras, com
 a técnica do gabarito do dono. As duas já estão gastas; a prova lacrada é a T8.5.
 
+--t85 (2026-10-23, rodada 0215): as 28 telas da T8.5, já gasta (``cache_t85``, de
+``extrair_t85.py``), entram no treino de todas as dobras. A prova lacrada é a T8.6.
+
 Uso (container, cwd /app):
     python /app/data/saida/n4/treinar_ft.py --dobra 1 --passos 3000
 """
@@ -65,11 +68,14 @@ GABARITOS_EXTRA = {
     "t82": ("conferir_novos", "t82"),
     "t83": ("conferir_t83", "t83"),
     "t84": ("conferir_t84", "t84"),
+    "t85": ("conferir_t85", "t85"),
 }
 #: Telas da T8.3 (extrair_t83.py), só com --t83-metade (rodada 0209): entra só essa metade.
 CACHE_T83 = Path("/app/data/saida/n4/cache_t83")
 #: Telas da T8.4 (extrair_t84.py, só recorte alto), só com --t84 (rodada 0214).
 CACHE_T84 = Path("/app/data/saida/n4/cache_t84")
+#: Telas da T8.5 (extrair_t85.py, só recorte alto), só com --t85 (rodada 0215).
+CACHE_T85 = Path("/app/data/saida/n4/cache_t85")
 ARTEFATOS = Path("/app/artefatos")
 PARTIDA = ARTEFATOS / "detector_tab_v3_s1" / "modelo.pt"
 OURO_VIDEO = Path("/app/data/gold/ouro_video")
@@ -133,6 +139,7 @@ def carregar_telas(
     alto: bool = False,
     t83_toda: bool = False,
     t84: bool = False,
+    t85: bool = False,
 ) -> list[dict]:
     """Lê o cache, tirando os vídeos da dobra.
 
@@ -145,6 +152,7 @@ def carregar_telas(
         alto: lê as cópias ``<cache>_alto`` com o recorte alto (rodada 0211).
         t83_toda: soma as duas metades de ``CACHE_T83`` (rodada 0214).
         t84: soma as telas de ``CACHE_T84`` (rodada 0214; existe só com o recorte alto).
+        t85: soma as telas de ``CACHE_T85`` (rodada 0215; existe só com o recorte alto).
 
     Returns:
         Lista de dicts do cache, com a imagem BGR em "img".
@@ -160,6 +168,8 @@ def carregar_telas(
         arquivos += sorted(pasta(CACHE_T83).glob("*.json"))
     if t84:
         arquivos += sorted(pasta(CACHE_T84).glob("*.json"))
+    if t85:
+        arquivos += sorted(pasta(CACHE_T85).glob("*.json"))
     for caminho in arquivos:
         meta = json.loads(caminho.read_text(encoding="utf-8"))
         if meta["slug"] in excluir:
@@ -369,14 +379,15 @@ def main() -> int:
     ap.add_argument("--recorte-alto", action="store_true", help="cache *_alto (0211)")
     ap.add_argument("--t83-toda", action="store_true", help="T8.3 inteira no treino (0214)")
     ap.add_argument("--t84", action="store_true", help="telas da T8.4 no treino (0214)")
+    ap.add_argument("--t85", action="store_true", help="telas da T8.5 no treino (0215)")
     args = ap.parse_args()
     comando = "python /app/data/saida/n4/treinar_ft.py " + " ".join(sys.argv[1:])
     fora = DOBRAS[args.dobra]
-    if args.t84 and not args.recorte_alto:
-        raise SystemExit("--t84 só existe com --recorte-alto")
+    if (args.t84 or args.t85) and not args.recorte_alto:
+        raise SystemExit("--t84 e --t85 só existem com --recorte-alto")
     telas = carregar_telas(
         fora, args.ignorar_x, args.ataque, args.t82, args.t83_metade, args.recorte_alto,
-        args.t83_toda, args.t84,
+        args.t83_toda, args.t84, args.t85,
     )
     if not telas:
         raise SystemExit("sem telas de treino")
@@ -475,6 +486,7 @@ def main() -> int:
         "recorte_alto": args.recorte_alto,
         "t83_toda": args.t83_toda,
         "t84": args.t84,
+        "t85": args.t85,
         "notas_supervisionadas": sup,
         "tempo_s": round(tempo, 1),
     }

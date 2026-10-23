@@ -454,7 +454,18 @@ def main() -> int:
     m = sub.add_parser("medir", help="mede uma versão e semente")
     m.add_argument(
         "--versao",
-        choices=("ger", "atq", "atqg", "atqc", "atqt", "atqe", "atqa", "atqb", "atqr"),
+        choices=(
+            "ger",
+            "atq",
+            "atqg",
+            "atqc",
+            "atqt",
+            "atqe",
+            "atqa",
+            "atqb",
+            "atqr",
+            "atqs",
+        ),
         required=True,
     )
     m.add_argument("--semente", type=int, required=True)

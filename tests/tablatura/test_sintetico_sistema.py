@@ -50,6 +50,7 @@ DESENHOS_NOVOS = (
     "corda_sobre_serif",
     "serif_casa_1",
     "faixa_amarela",
+    "expressao",
 )
 
 

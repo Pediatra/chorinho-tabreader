@@ -1,0 +1,17 @@
+{
+ "citado_por": [],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/tablatura/t86/gerar.py",
+  "python data/saida/tablatura/t86/material_ferramenta.py",
+  "python data/saida/tablatura/t86/folha_quadros.py"
+ ],
+ "modificado": "2026-10-23",
+ "motivo": "lote T8.6 (telas para o dono conferir o rótulo de ataque, semente 4; prova lacrada da rodada 0215); a ferramenta sobe a partir de ferramenta/",
+ "nome": "t86",
+ "regeneravel": "sim",
+ "rodadas": [
+  "docs/rodadas/0215-expressao-e-t85.md"
+ ],
+ "trilha": "tablatura"
+}

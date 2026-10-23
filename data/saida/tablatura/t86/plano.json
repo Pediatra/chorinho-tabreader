@@ -1,0 +1,282 @@
+{
+  "sem_sorteavel": [
+    "lonelypicker",
+    "tv cifras",
+    "tv on guitar",
+    "violaodecria",
+    "vvxofingerstyletab",
+    "yunus guitarist"
+  ],
+  "telas": [
+    {
+      "canal": "cifra club",
+      "video": "cifra club/força estranha - caetano veloso (completa) ｜ como tocar no violão.mp4",
+      "forma": null,
+      "t": 426.59,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 32,
+      "erro": ""
+    },
+    {
+      "canal": "cifra club",
+      "video": "cifra club/madalena - elis regina (simplificada) ｜ como tocar no violão.mp4",
+      "forma": null,
+      "t": 397.07,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 22,
+      "erro": ""
+    },
+    {
+      "canal": "guitar dell ́arte",
+      "video": "guitar dell ́arte/biedermeier walzer (l. walker), performance and tutorial.mp4",
+      "forma": null,
+      "t": 129.9,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 8,
+      "erro": ""
+    },
+    {
+      "canal": "guitar dell ́arte",
+      "video": "guitar dell ́arte/nostalgia (r.riera), guitar lesson, sheet and tab.mp4",
+      "forma": null,
+      "t": 102.16,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 0,
+      "erro": "sem painel"
+    },
+    {
+      "canal": "iwaki",
+      "video": "iwaki/tchaikovsky – swan lake ｜ tab.mp4",
+      "forma": null,
+      "t": 97.71,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 42,
+      "erro": ""
+    },
+    {
+      "canal": "iwaki",
+      "video": "iwaki/chrono trigger ⧸  wind scene  ⧸ tab.mp4",
+      "forma": null,
+      "t": 57.53,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 46,
+      "erro": ""
+    },
+    {
+      "canal": "kenneth acoustic",
+      "video": "kenneth acoustic/calm down - rema ｜ fingerstyle guitar ｜ tab + chords + lyrics.mp4",
+      "forma": null,
+      "t": 75.61,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 34,
+      "erro": ""
+    },
+    {
+      "canal": "kenneth acoustic",
+      "video": "kenneth acoustic/billie jean - michael jackson ｜ fingerstyle guitar ｜ tab + chords + lyrics.mp4",
+      "forma": null,
+      "t": 135.15,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 33,
+      "erro": ""
+    },
+    {
+      "canal": "kimny's guitar",
+      "video": "kimny's guitar/[ tab ] always and forever - pat metheny ｜ fingerstyle guitar cover.mp4",
+      "forma": null,
+      "t": 113.03,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 84,
+      "erro": ""
+    },
+    {
+      "canal": "kimny's guitar",
+      "video": "kimny's guitar/[ tab ] いちょう並木のセレナーデ （英題：stardust rendevous） - 小沢健二 ｜ fingerstyle guitar cover.mp4",
+      "forma": null,
+      "t": 150.37,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 55,
+      "erro": ""
+    },
+    {
+      "canal": "leonardo ramos",
+      "video": "leonardo ramos/lejanía (estilo popular argentino) 🎸abel fleury ｜｜ tutorial para guitarra clásica + tabs.mp4",
+      "forma": "paginado",
+      "t": 103.79,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 39,
+      "erro": ""
+    },
+    {
+      "canal": "leonardo ramos",
+      "video": "leonardo ramos/bruno (galopa) 🎸jorge cardoso  ｜｜ tutorial para guitarra clásica + tabs.mp4",
+      "forma": null,
+      "t": 39.72,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 33,
+      "erro": ""
+    },
+    {
+      "canal": "mr. tabs",
+      "video": "mr. tabs/eric clapton - layla unplugged acoustic - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+      "forma": "rolante",
+      "t": 124.48,
+      "nota_sorteio": "so_rolante",
+      "n_notas": 127,
+      "erro": ""
+    },
+    {
+      "canal": "mr. tabs",
+      "video": "mr. tabs/kansas - dust in the wind - guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+      "forma": "rolante",
+      "t": 92.01,
+      "nota_sorteio": "so_rolante",
+      "n_notas": 46,
+      "erro": ""
+    },
+    {
+      "canal": "pablo romé",
+      "video": "pablo romé/🎸nothing else matters - segunda clase 🎸.mp4",
+      "forma": "paginado",
+      "t": 474.75,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 41,
+      "erro": ""
+    },
+    {
+      "canal": "pablo romé",
+      "video": "pablo romé/mi favorita ❤️ mazurca para guitarra clásica española  partitura + tab.mp4",
+      "forma": "paginado",
+      "t": 535.89,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 43,
+      "erro": ""
+    },
+    {
+      "canal": "paolo d'angelo",
+      "video": "paolo d'angelo/imagine ｜ john lennon ｜ guitar tab & chords ｜ guitar tutorial.mp4",
+      "forma": "paginado",
+      "t": 86.79,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 135,
+      "erro": ""
+    },
+    {
+      "canal": "paolo d'angelo",
+      "video": "paolo d'angelo/chorando pra pixinguinha ｜ toquinho ｜ guitar tab ｜ tutorial.mp4",
+      "forma": "paginado",
+      "t": 63.83,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 65,
+      "erro": ""
+    },
+    {
+      "canal": "robert lunn",
+      "video": "robert lunn/be still my soul (finlandia) - jean sibelius - includes sheet music⧸tab - classical guitar.mp4",
+      "forma": null,
+      "t": 56.03,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 35,
+      "erro": ""
+    },
+    {
+      "canal": "robert lunn",
+      "video": "robert lunn/frozen tears - with sheet music⧸tab.mp4",
+      "forma": null,
+      "t": 20.06,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 19,
+      "erro": ""
+    },
+    {
+      "canal": "serge kottelat",
+      "video": "serge kottelat/dominic miller – the long and winding road (beatles) ｜ solo fingerstyle with tab (rick beato show).mp4",
+      "forma": "paginado",
+      "t": 84.88,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 54,
+      "erro": ""
+    },
+    {
+      "canal": "serge kottelat",
+      "video": "serge kottelat/baden powell live 1970 – manhã de carnaval (black orpheus, luiz bonfá) ｜ guitar score + tabs.mp4",
+      "forma": "paginado",
+      "t": 76.59,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 51,
+      "erro": ""
+    },
+    {
+      "canal": "shin izumi",
+      "video": "shin izumi/【tab】on the sunny side of the street - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+      "forma": null,
+      "t": 69.21,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 31,
+      "erro": ""
+    },
+    {
+      "canal": "shin izumi",
+      "video": "shin izumi/【tab】overjoyed - stevie wonder - fingerstyle guitar ソロギター【タブ】.mp4",
+      "forma": null,
+      "t": 65.05,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 49,
+      "erro": ""
+    },
+    {
+      "canal": "sky guitar",
+      "video": "sky guitar/dawn winery (genshin impact) - tab & lesson.mp4",
+      "forma": null,
+      "t": 123.43,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 23,
+      "erro": ""
+    },
+    {
+      "canal": "sky guitar",
+      "video": "sky guitar/cavatina - guitar lesson + tab.mp4",
+      "forma": null,
+      "t": 423.88,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 27,
+      "erro": ""
+    },
+    {
+      "canal": "transcriptor",
+      "video": "transcriptor/francisco tarrega - etude in e minor - estudio en mi menor - partitura ⧸ tablatura..mp4",
+      "forma": "paginado",
+      "t": 94.54,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 51,
+      "erro": ""
+    },
+    {
+      "canal": "transcriptor",
+      "video": "transcriptor/retrato brasileiro - baden powell - tablatura ⧸ partitura.mp4",
+      "forma": "paginado",
+      "t": 112.87,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 6,
+      "erro": ""
+    },
+    {
+      "canal": "ギタロー ⧸ guitarous",
+      "video": "ギタロー ⧸ guitarous/香水 ギターソロ【無料タブ譜】.mp4",
+      "forma": "paginado",
+      "t": 20.1,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 33,
+      "erro": ""
+    },
+    {
+      "canal": "ギタロー ⧸ guitarous",
+      "video": "ギタロー ⧸ guitarous/竈門炭治郎のうた ソロギター タブ譜.mp4",
+      "forma": null,
+      "t": 148.25,
+      "nota_sorteio": "2 nao_rolante",
+      "n_notas": 84,
+      "erro": ""
+    }
+  ]
+}
