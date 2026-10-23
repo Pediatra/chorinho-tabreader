@@ -160,3 +160,57 @@ gabaritos: T8.2, T8.3, T8.4, T8.5 e 7 ouros.
 - **A T8.5 foi liberada** (`r4h/t85_liberada.json`) depois da revisão do dono. Continua sem
   nenhum modelo medido nela.
 - O roteiro é o `r4h/rodar_r.sh`.
+
+## Resultado (2026-10-23)
+
+Roteiro `r4h/rodar_r.sh`, código no commit ec1ac7f9.
+
+**1. Nos ouros revisados** (`r4h/decisao.json`): o `_atqr` **passa**.
+
+| | limiar da técnica | `L` | "sim" falso por semente | casa por semente | custo por semente |
+| --- | --- | --- | --- | --- | --- |
+| `_atqa` | 0,25 | 0,02 | 3/86, 3/86, 3/86 | 2663, 2664, 2662 | 102, 106, 116 de ~2594 |
+| `_atqr` | 0,10 | 0,01 | 3/86, 3/86, 3/86 | 2672, 2672, 2669 | 121, 132, 108 de ~2596 |
+
+- Na T8.2 (dentro do treino, só informativo), o "sim" falso caiu de 4/53 para 1 a 2 de 53.
+
+**2. Na T8.5, uma vez só** (`r4h/medida_t85_atqr.json`, `L` 0,01): **reprova**.
+
+| semente | "sim" falso | custo | casa | não lidas |
+| --- | --- | --- | --- | --- |
+| 1 | 2/46 | 147/1302 | 1337/1348 | 18 |
+| 2 | 2/46 | 157/1301 | 1335/1347 | 19 |
+| 3 | 2/46 | 150/1306 | 1341/1352 | 14 |
+| **soma** | **6/138 (4,3 %)** ✔ | **454/3909 (11,6 %)** ✘ | | |
+
+- O "sim" falso passa o limite de 5 %. O custo passa o teto de 10 %. **A T8.5 está gasta** e
+  o `DETECTOR_CALIBRADO` não muda.
+- **O `_atqa` na T8.5**, só para informar (`L` 0,02): "sim" falso 12/135 (8,9 %), custo
+  300/3914 (7,7 %). Também reprova. O `_atqr` corta o "sim" falso pela metade.
+- **A curva do `L`** na T8.5 (sementes somadas; a regra proíbe escolher o `L` aqui, ela é só
+  diagnóstico): nenhum ponto passa os dois limites.
+
+  | `L` | "sim" falso `_atqr` | custo `_atqr` | "sim" falso `_atqa` | custo `_atqa` |
+  | --- | --- | --- | --- | --- |
+  | 0,01 | 6/138 (4,3 %) | 11,6 % | 9/135 (6,7 %) | 10,5 % |
+  | 0,02 | 7/138 (5,1 %) | 8,3 % | 12/135 (8,9 %) | 7,7 % |
+  | 0,03 | 9/138 (6,5 %) | 6,9 % | 14/135 (10,4 %) | 6,3 % |
+  | 0,05 | 12/138 (8,7 %) | 5,0 % | 19/135 (14,1 %) | 4,4 % |
+
+**Diagnóstico** (`r4h/diagnostico_t85.py`, semente 1, recortes em `r4h/diag_t85/`):
+
+- São 147 notas atacadas que saem "não", espalhadas por 21 das 28 telas. Uma tela concentra
+  um terço: a **3** (*Smile*, guitar dell'arte), com **49**.
+- **96 das 147** têm o mordente (`orn`) entre as técnicas acima do `L`.
+- **79 das 147** têm todas as técnicas abaixo de 0,05. São notas comuns, sem símbolo nenhum,
+  que só caem porque o `L` 0,01 é muito apertado (mosaico `diag_t85/mosaico_t3.png`).
+- O resto fica perto de um símbolo que não muda o ataque: um "p" de dinâmica, uma fermata ou
+  um "harm." acima, uma nota de enfeite pequena ao lado (`diag_t85/mosaico_outras.png`).
+- **Os "sim" falsos** (2 por semente) são os 2 slides ligados lidos como slide sem origem, ou
+  como bend.
+
+**Leitura.** O gerador novo resolveu o que a 0211 apontou: as ligaduras quase não escapam
+mais. O que reprova agora é o outro lado. Com o `L` que os ouros escolhem, a faixa "não sei"
+fica larga demais num canal que os ouros não têm: o modelo dá ao mordente uma probabilidade de
+1 a 5 % em nota comum. O próximo passo é calibrar a probabilidade da técnica (ou ensinar ao
+gerador os símbolos vizinhos que não mudam o ataque), e não pôr mais ligadura.

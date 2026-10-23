@@ -422,3 +422,18 @@ Tabela "não repetir" atualizada acima (5 linhas novas).
 - **Nenhum modelo foi medido na T8.5.** Ela é a prova lacrada da próxima versão do
   ataque.
 - Ver `docs/rodadas/0211-recorte-alto.md`, "Resultado na T8.4".
+
+### Rótulo de ataque `_atqr` na T8.5 (2026-10-23, rodada 0214)
+
+- **Gabaritos revisados pelo dono** (530c906b), com o seletor corrigido: 11 gabaritos, as
+  telas de ataque conferidas de novo. O cache real foi refeito a partir deles.
+- **`_atqr`** (gerador G13–G15 com as ligaduras, `--t83-toda --t84`, rótulos revisados):
+  passa nos ouros revisados (casa 2669 a 2672, "sim" falso 3/86 por semente, igual ao
+  `_atqa`).
+- **Na T8.5 reprova**, por custo:
+  - "sim" falso **6/138 (4,3 %)**, dentro do limite de 5 %;
+  - custo **454/3909 (11,6 %)**, acima do teto de 10 %;
+  - o `_atqa`, só para informar: 12/135 (8,9 %) e 7,7 %.
+- **O custo vem do `L` 0,01 apertado demais**: 79 das 147 notas da semente 1 têm todas as
+  técnicas abaixo de 0,05, e 96 têm o mordente acima do `L`. Uma tela (a 3, *Smile*) tem 49.
+- A T8.5 está gasta. O `DETECTOR_CALIBRADO` não muda. Ver `docs/rodadas/0214-r4h-ligaduras.md`.

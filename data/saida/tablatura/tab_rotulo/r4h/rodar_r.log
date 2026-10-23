@@ -1,0 +1,42 @@
+13:25:47 ok medida atqa s1 (ouros revisados)
+13:28:27 ok medida atqa s2 (ouros revisados)
+13:30:52 ok medida atqa s3 (ouros revisados)
+13:46:35 ok treino_atqr_d0_s1 | passo 3000/3000 | perda 0.1014 centro 0.0724 classe 0.0146 tecnica 0.0144 | lr 0.00e+00 | 935 s
+14:02:36 ok treino_atqr_d0_s2 | passo 3000/3000 | perda 0.1011 centro 0.0725 classe 0.0144 tecnica 0.0142 | lr 0.00e+00 | 949 s
+14:18:47 ok treino_atqr_d0_s3 | passo 3000/3000 | perda 0.1035 centro 0.0730 classe 0.0164 tecnica 0.0142 | lr 0.00e+00 | 961 s
+14:34:32 ok treino_atqr_d1_s1 | passo 3000/3000 | perda 0.1041 centro 0.0746 classe 0.0150 tecnica 0.0144 | lr 0.00e+00 | 934 s
+14:50:11 ok treino_atqr_d1_s2 | passo 3000/3000 | perda 0.1027 centro 0.0743 classe 0.0140 tecnica 0.0145 | lr 0.00e+00 | 930 s
+15:05:55 ok treino_atqr_d1_s3 | passo 3000/3000 | perda 0.1056 centro 0.0745 classe 0.0167 tecnica 0.0144 | lr 0.00e+00 | 936 s
+15:21:33 ok treino_atqr_d2_s1 | passo 3000/3000 | perda 0.1007 centro 0.0723 classe 0.0140 tecnica 0.0144 | lr 0.00e+00 | 927 s
+15:36:41 ok treino_atqr_d2_s2 | passo 3000/3000 | perda 0.0993 centro 0.0717 classe 0.0133 tecnica 0.0143 | lr 0.00e+00 | 898 s
+15:51:47 ok treino_atqr_d2_s3 | passo 3000/3000 | perda 0.1029 centro 0.0725 classe 0.0163 tecnica 0.0142 | lr 0.00e+00 | 898 s
+16:06:41 ok treino_atqr_d3_s1 | passo 3000/3000 | perda 0.1009 centro 0.0721 classe 0.0145 tecnica 0.0143 | lr 0.00e+00 | 880 s
+16:21:28 ok treino_atqr_d3_s2 | passo 3000/3000 | perda 0.0992 centro 0.0719 classe 0.0134 tecnica 0.0139 | lr 0.00e+00 | 878 s
+16:38:52 ok treino_atqr_d3_s3 | passo 3000/3000 | perda 0.1029 centro 0.0720 classe 0.0167 tecnica 0.0142 | lr 0.00e+00 | 1034 s
+16:59:47 ok treino_atqr_d4_s1 | passo 3000/3000 | perda 0.0993 centro 0.0706 classe 0.0146 tecnica 0.0141 | lr 0.00e+00 | 1242 s
+17:15:45 ok treino_atqr_d4_s2 | passo 3000/3000 | perda 0.0981 centro 0.0706 classe 0.0136 tecnica 0.0140 | lr 0.00e+00 | 951 s
+17:32:21 ok treino_atqr_d4_s3 | passo 3000/3000 | perda 0.1026 centro 0.0726 classe 0.0162 tecnica 0.0138 | lr 0.00e+00 | 987 s
+17:34:41 ok medida atqr s1
+17:36:53 ok medida atqr s2
+17:39:06 ok medida atqr s3
+time="2026-10-23T17:39:06-03:00" level=warning msg="Found orphan containers (chorinho-censo) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container chorinho-chorinho-run-6bba5c81add5 Creating 
+ Container chorinho-chorinho-run-6bba5c81add5 Created 
+atqa: técnica 0.25 L 0.02 | sim falso 3/86 · 3/86 · 3/86 | custo 102/2594 · 106/2594 · 116/2593 | casa 2662–2664 | T8.2 4/53 · 4/53 · 4/52
+atqr: técnica 0.1 L 0.01 | sim falso 3/86 · 3/86 · 3/86 | custo 121/2596 · 132/2597 · 108/2595 | casa 2669–2672 | T8.2 1/54 · 2/52 · 2/54
+atqr passa nos ouros: True
+time="2026-10-23T17:39:10-03:00" level=warning msg="Found orphan containers (chorinho-censo) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container chorinho-chorinho-run-450ab8f717d7 Creating 
+ Container chorinho-chorinho-run-450ab8f717d7 Created 
+atqr s1 L 0.01: sim falso 2/46 custo 147/1302 casa 1337/1348 não lidas 18
+atqr s2 L 0.01: sim falso 2/46 custo 157/1301 casa 1335/1347 não lidas 19
+atqr s3 L 0.01: sim falso 2/46 custo 150/1306 casa 1341/1352 não lidas 14
+soma: sim falso 6/138 (4.3%) custo 454/3909 (11.6%) -> REPROVA
+time="2026-10-23T17:41:01-03:00" level=warning msg="Found orphan containers (chorinho-censo) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container chorinho-chorinho-run-2a2a9b23d6b4 Creating 
+ Container chorinho-chorinho-run-2a2a9b23d6b4 Created 
+atqa s1 L 0.02: sim falso 4/45 custo 101/1305 casa 1322/1350 não lidas 16
+atqa s2 L 0.02: sim falso 4/44 custo 98/1303 casa 1326/1347 não lidas 19
+atqa s3 L 0.02: sim falso 4/46 custo 101/1306 casa 1333/1352 não lidas 14
+soma: sim falso 12/135 (8.9%) custo 300/3914 (7.7%) -> REPROVA
+17:42:49 fim
