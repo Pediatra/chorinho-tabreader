@@ -74,3 +74,39 @@ Para cada quadro, a da 1047 (validadores + 22 tentativas, sem tomada), mais:
 | 1 a 4 passam | a rede de capo entra na cadeia do ciclo |
 | 1, 3 e 4 passam, 2 falha | olhar onde perdeu: capo não visto, ou conta errada perto do capo |
 | 1, 3 ou 4 falha | não adotar; olhar por tipo de erro |
+
+## Resultado (2026-10-23)
+
+**Treino** (`artefatos/m21/C1_capo_s{1,2,3}`, 1.500 passos, ~5,5 min cada): perda final 0,154,
+0,138 e 0,221.
+
+**Escolha** (`m45/escolha.json`; limiar com ≤ 1 capo falso em 89 sem capo):
+
+| semente | limiar | capos achados na M39 |
+| --- | --- | --- |
+| **1** | 0,172 | **47 de 64 (73 %)** |
+| 2 | 0,191 | 41 de 64 |
+| 3 | 0,251 | 28 de 64 |
+
+A semente 1 passa dos 70 % e segue para a prova.
+
+**Prova** (`m45/medida.json`):
+
+| critério | resultado |
+| --- | --- |
+| 1. Segurança (1043) | **passa**: 1 falso que passa (a 1047, 2) |
+| 2. Ganho (1043) | **reprova**: 3 certos entregues (exigido 20; a 1047, 0) |
+| 3. Capo falso (M47) | **passa**: 0 em 30 sem capo |
+| 4. Não estragar (M47) | **passa**: 20 certos e 0 falsos, iguais à 1047 |
+
+- **Resultado: "1, 3 e 4 passam, 2 falha"**: olhar onde perdeu.
+- **Onde perdeu (1043, 39 com capo)**: o capo **não foi visto em 28**; visto em 11, dos quais
+  2 sem traste para a conta, 4 reprovados pelos validadores e 5 válidos (3 entregues certos).
+  Capo achado a ≤ ½ casa do `k`: 9 de 39. No lonelypicker (M47): 5 de 5.
+- **Por vídeo** (folha `m45/diag_kimny.jpg`, depois da medida): em 2 dos 5 vídeos o capo nunca
+  é visto (câmera de baixo, capo escuro e coberto pela mão); num vídeo o estágio 1 achou outra
+  coisa (q09, faixa sem braço). Quando o capo aparece claro (q13, q25, q27, q29), a rede o
+  acende com nota 0,96–0,99.
+- **Leitura**: a rede acha o capo visível em canal novo (lonelypicker 5/5, kimny com nota alta
+  quando aparece), mas o kimny tem o capo escondido na maior parte dos quadros. O capo não se
+  move no vídeo: o que falta é levar o capo visto num quadro aos outros do mesmo vídeo.

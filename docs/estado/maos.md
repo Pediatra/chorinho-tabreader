@@ -339,3 +339,8 @@ em `docs/rodadas/10NN-*`.
   do ciclo sem capo (`python -m tab.maos.braco.validadores_gpu preencher --rodada N`).
 - **Próximo:** a 1045, o capo como uma 5ª saída do estágio 2 (pontos `k` do dono), com o nut
   pela conta da 1046.
+- **1045 (rede de capo de 1 canal na faixa + nut pela conta)**: na escolha acha 47 de 64
+  capos da shin izumi com 1 falso em 89; na prova, **0 capos falsos na M47, 5 de 5 no
+  lonelypicker e nada estragado**, mas no kimny vê o capo em só 11 de 39 (escondido pela mão,
+  câmera de baixo) e entrega 3 certos (exigido 20). Critério 2 reprova. A rede não entra no
+  ciclo ainda. Próximo: o capo de um quadro vale para o vídeo todo (o capo não se move).
