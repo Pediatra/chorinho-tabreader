@@ -24,6 +24,10 @@ DECISAO = caminhos.TAB_ROTULO / "r4h" / "decisao.json"
 def main(versao: str) -> int:
     """Mede, imprime e grava."""
     destino = caminhos.TAB_ROTULO / "r4h" / f"medida_t85_{versao}.json"
+    # Emenda de 2026-10-23, antes de medir: o dono vai revisar o modo ataque da T8.5 com o
+    # seletor corrigido. A medida espera ``r4h/t85_liberada.json``, gravado depois disso.
+    if not (caminhos.TAB_ROTULO / "r4h" / "t85_liberada.json").exists():
+        raise SystemExit("a T8.5 espera a revisão do dono (falta r4h/t85_liberada.json)")
     if destino.exists():
         raise SystemExit(f"{destino.name} já existe: a T8.5 se mede uma vez só")
     decisao = json.loads(DECISAO.read_text(encoding="utf-8"))

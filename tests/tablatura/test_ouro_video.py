@@ -20,6 +20,7 @@ from tab.tablatura.ouro.ouro_video import (
     agrupar_telas,
     aplicar_conferencia,
     aplicar_escolha,
+    aplicar_restauro,
     ataque_do_motivo,
     carregar_ataque,
     clique_para_quadro,
@@ -852,6 +853,57 @@ def test_aplicar_conferencia_marca_so_a_tela() -> None:
     novo = aplicar_conferencia(doc, 1, True)
     assert novo["telas_conferidas"] == {"1": True}
     assert "telas_conferidas" not in doc
+
+
+def test_aplicar_restauro_troca_a_entrada_sem_mexer_no_original() -> None:
+    """A entrada anterior volta no lugar da atual; o doc original não muda."""
+    doc = _doc_ataque()
+    original = copy.deepcopy(doc)
+    antes = copy.deepcopy(doc["notas"][0])
+    trocado = aplicar_escolha(doc, 1, "t1-n0", "h", 6, "0", 798.0)
+    novo = aplicar_restauro(trocado, "t1-n0", antes)
+    assert novo["notas"][0] == original["notas"][0]
+    assert novo["notas"][1] == original["notas"][1]
+    assert doc == original and trocado != original
+
+
+def test_aplicar_restauro_remove_a_nota_quando_entrada_e_none() -> None:
+    """Desfazer a primeira escolha de uma nota que não existia tira a nota do arquivo."""
+    doc = _doc_ataque()
+    original = copy.deepcopy(doc)
+    acrescentado = aplicar_escolha(doc, 1, "t1-n5", "x", 2, "x", None)
+    novo = aplicar_restauro(acrescentado, "t1-n5", None)
+    assert novo["notas"] == original["notas"]
+    assert [n["nota"] for n in novo["notas"]] == ["t1-n0", "t1-n1"]
+
+
+def test_aplicar_restauro_acrescenta_quando_a_nota_nao_existe() -> None:
+    """Com entrada dada e nota ausente, a entrada entra no fim da lista."""
+    doc = _doc_ataque()
+    entrada = {"nota": "t1-n9", "tela": 1, "regiao": None, "corda": 1, "casa": "3"}
+    novo = aplicar_restauro(doc, "t1-n9", entrada)
+    assert [n["nota"] for n in novo["notas"]] == ["t1-n0", "t1-n1", "t1-n9"]
+    assert novo["notas"][2] == entrada and novo["notas"][2] is not entrada
+    assert len(doc["notas"]) == 2
+
+
+def test_aplicar_restauro_recusa_entrada_de_outra_nota() -> None:
+    """Entrada cuja ``nota`` difere do argumento é recusada com ValueError."""
+    doc = _doc_ataque()
+    with pytest.raises(ValueError):
+        aplicar_restauro(doc, "t1-n0", copy.deepcopy(doc["notas"][1]))
+    with pytest.raises(ValueError):
+        aplicar_restauro(doc, "t1-n0", "não é dict")
+
+
+def test_pagina_tem_atalhos_e_desfazer() -> None:
+    """A página traz os atalhos (Tab, X, C, V), a pilha DESFAZER e a ação restaurar."""
+    assert '"restaurar"' in PAGINA
+    assert '"Tab"' in PAGINA
+    assert "DESFAZER" in PAGINA
+    assert "modo ataque (C)" in PAGINA
+    assert 'ev.key === "Tab"' in PAGINA
+    assert 'ev.key.toLowerCase() === "a"' not in PAGINA
 
 
 def test_carregar_ataque_le_ambiguos_do_resumo_ao_lado(tmp_path: Path) -> None:

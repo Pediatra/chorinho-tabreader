@@ -2019,6 +2019,42 @@ def aplicar_conferencia(doc: dict, tela: int, valor: bool) -> dict:
     return novo
 
 
+def aplicar_restauro(doc: dict, nota: str, entrada: dict | None) -> dict:
+    """Devolve uma cópia do arquivo do ataque com a nota restaurada ao estado anterior.
+
+    Usado pelo desfazer da página. A entrada da nota é trocada por ``entrada``, ou
+    removida quando ``entrada`` é None. Se a nota não está no arquivo e ``entrada``
+    é dada, ela é acrescentada. O original não é alterado, e o ouro não entra aqui.
+
+    Args:
+        doc: o arquivo do ataque.
+        nota: chave ``t<tela>-n<k>`` da nota a restaurar.
+        entrada: a entrada da nota como estava antes (dict com a mesma ``nota``), ou
+            None para tirar a nota do arquivo.
+
+    Returns:
+        O arquivo novo.
+
+    Raises:
+        ValueError: se ``entrada`` não é um dict da mesma ``nota``.
+    """
+    if entrada is not None and (
+        not isinstance(entrada, dict) or entrada.get("nota") != nota
+    ):
+        raise ValueError(f"entrada não é da nota {nota!r}")
+    novo = copy.deepcopy(doc)
+    notas = novo.setdefault("notas", [])
+    posicao = next((k for k, n in enumerate(notas) if n.get("nota") == nota), None)
+    if entrada is None:
+        if posicao is not None:
+            del notas[posicao]
+    elif posicao is None:
+        notas.append(copy.deepcopy(entrada))
+    else:
+        notas[posicao] = copy.deepcopy(entrada)
+    return novo
+
+
 def criar_servidor(
     pasta: Path,
     ouro: Path,
@@ -2126,6 +2162,10 @@ def criar_servidor(
                             pedido["casa"],
                             pedido.get("x_centro_quadro"),
                         )
+                    elif pedido["acao"] == "restaurar":
+                        novo = aplicar_restauro(
+                            doc, pedido["nota"], pedido.get("entrada")
+                        )
                     else:
                         raise ValueError(f"ação desconhecida: {pedido['acao']!r}")
                     gravar_atomico(ataque, novo)
@@ -2230,6 +2270,7 @@ td input{width:5em}tr.removida td{opacity:.4;text-decoration:line-through}tr.rem
 <b>Ouro de vídeo</b><span id="video" class="suave"></span>
 <button id="aba-telas">Telas</button><button id="aba-inst">Instantes</button>
 <button id="baixar">baixar JSON</button>
+<span class="suave">atalhos: X conferida · C modo ataque · V tela de ataque conferida · Tab/Shift+Tab próxima/anterior · Espaço desfaz</span>
 <span id="status">carregando…</span>
 </header>
 <main><div id="lista"></div><div id="conteudo"></div></main>
@@ -2240,6 +2281,8 @@ const TECNICAS_REGIAO = __TECNICAS_REGIAO__;
 let MODO_REGIAO = false;  /* arrastar na página desenha uma região de técnica */
 let ATAQUE = null, MODO_ATAQUE = false, ESCOLHA = null, BOTAO_ATAQUE = null, CONTADOR_ATAQUE = null, MODELO = null;
 let PRE = null, E = null, SO_ROTULAR = false, EMPILHAR = false, OUTRA = false, ABA = "telas", sujo = false, versao = 0, ultimoOuro = null, temporizador = null;
+const DESFAZER = [];  /* pilha do Espaço: {tipo: "ouro"|"ataque_nota"|"ataque_tela", ...}; até 200 */
+let ULTIMO_E = null;  /* JSON do gabarito como estava antes da última alteração (base do desfazer) */
 
 function h(tag, attrs, ...filhos) {
   const e = document.createElement(tag);
@@ -2274,7 +2317,13 @@ function estadoInicial() {
 }
 
 /* ---- gravação: a cada alteração; o servidor escreve em disco ---- */
-function mudou() {
+function mudou() {  /* o gabarito mudou: guarda o estado de antes para o desfazer */
+  const agora = JSON.stringify(E);
+  if (ULTIMO_E !== null && agora !== ULTIMO_E) empilharDesfazer({tipo: "ouro", antes: ULTIMO_E});
+  ULTIMO_E = agora;
+  marcarAlterado();
+}
+function marcarAlterado() {  /* grava em disco, sem mexer na pilha do desfazer */
   sujo = true; versao++;
   setStatus("alterado, gravando…", "");
   clearTimeout(temporizador); temporizador = setTimeout(salvar, 200);
@@ -2557,7 +2606,16 @@ function desenharTela() {
 }
 
 /* ---- modo ATAQUE: o ataque de cada nota (só o arquivo do --ataque; nunca o ouro) ---- */
-const ROTULO_MOTIVO = {normal: "normal", h: "h", p: "p", mordente: "mordente", prolongamento: "prolongamento", slide_ligado: "slide ligado", slide_entrada: "slide de entrada", x: "X", harmonico: "harmônico", nao_sei: "não sei"};
+/* Nome de cada motivo no seletor, com a marca que aparece na nota (2026-10-23: quatro
+   motivos saíam sem nome, e o dono leu o "l" como "tem ligadura"). */
+const ROTULO_MOTIVO = {
+  normal: "normal (sem marca)", sustentada: "~ tocada e prolongada (1º número da ligadura)",
+  harmonico: "◇ harmônico", x: "x abafada", slide_entrada: "e entra deslizando, sem nota antes",
+  rasgueado: "r rasgueado", arpejo: "a arpejo", mordente_simbolo: "m~ nota escrita do mordente",
+  h: "h chega por hammer", p: "p chega por pull-off", mordente: "m nota do enfeite do mordente",
+  prolongamento: "l 2º número da ligadura (continua soando)", slide_ligado: "s chega deslizando de outra nota",
+  nao_sei: "? não sei"};
+const MOTIVOS_NAO_ATACADA = __MOTIVOS_SEM_ATAQUE__;
 const MOTIVOS_SELETOR = __MOTIVOS_SELETOR__;
 const ROTULO_LEITURA = {sim: "atacada", nao: "não atacada", nao_sei: "não sei"};
 function ataqueConferida(id) { return !!(ATAQUE && ATAQUE.telas_conferidas && ATAQUE.telas_conferidas[String(id)]); }
@@ -2571,17 +2629,44 @@ function mapaChaves(te) {
   vivas.forEach((v, k) => mapa.set(v.n.id, "t" + te.id + "-n" + k));
   return mapa;
 }
-async function enviarAtaque(corpo) {
+async function enviarAtaque(corpo) {  /* devolve true se o servidor gravou */
+  let ok = false;
   try {
     const r = await fetch("/salvar_ataque", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(corpo)});
     const j = await r.json();
     if (!j.ok) throw new Error(j.erro);
-    ATAQUE = j;
+    ATAQUE = j; ok = true;
     setStatus("ataque gravado no arquivo do ataque (o ouro não mudou)", "ok");
   } catch (e) {
     setStatus("ATAQUE NÃO GRAVADO (" + e.message + ")", "ruim");
   }
   desenhar();
+  return ok;
+}
+/* ---- desfazer (Espaço): pilha DESFAZER; desfazer não empilha de novo ---- */
+function empilharDesfazer(acao) {
+  DESFAZER.push(acao);
+  if (DESFAZER.length > 200) DESFAZER.shift();
+}
+function copiaDaNota(chave) {  /* cópia da entrada do arquivo do ataque, para desfazer */
+  const antes = ATAQUE.notas.find(x => x.nota === chave);
+  return antes ? JSON.parse(JSON.stringify(antes)) : null;
+}
+async function desfazer() {
+  const acao = DESFAZER.pop();
+  if (!acao) { setStatus("nada para desfazer", ""); return; }
+  if (acao.tipo === "ouro") {
+    E = JSON.parse(acao.antes); ULTIMO_E = acao.antes;
+    ESCOLHA = null; EDITAR = null;
+    marcarAlterado(); desenhar();
+    setStatus("desfeito: alteração do gabarito", "ok");
+    return;
+  }
+  const ok = acao.tipo === "ataque_nota"
+    ? await enviarAtaque({acao: "restaurar", nota: acao.nota, entrada: acao.antes})
+    : await enviarAtaque({acao: "conferida", tela: acao.tela, valor: acao.antes});
+  if (!ok) { DESFAZER.push(acao); return; }  /* não gravou: a ação continua desfazível */
+  setStatus(acao.tipo === "ataque_nota" ? "desfeito: escolha da nota " + acao.nota : "desfeito: tela de ataque " + acao.tela, "ok");
 }
 function regiaoDoAmbiguo(tp, a) {  /* região do dono (x_quadro e cordas) em % da imagem: retângulo fino */
   const c0 = Math.min(...a.cordas), c1 = Math.max(...a.cordas);
@@ -2631,10 +2716,16 @@ function desenharAtaque(mold, tp, te) {  /* marcas do ataque sobre a imagem (só
 }
 function abrirSeletorAtaque(mold, tp, te, n, chave) {  /* seletor pequeno: escolhe o motivo da nota */
   const atual = ATAQUE.notas.find(x => x.nota === chave);
-  const botoes = MOTIVOS_SELETOR.map(m => {
+  const botao = m => {
     const marcado = !!atual && (m === "nao_sei" ? atual.ataque === "nao_sei" : atual.motivo === m);
-    return h("button", {class: marcado ? "on" : "", onclick: () => { ESCOLHA = null; enviarAtaque({acao: "escolha", tela: te.id, nota: chave, motivo: m, corda: n.corda, casa: n.casa, x_centro_quadro: n.x_centro_quadro ?? n.x_quadro}); }}, ROTULO_MOTIVO[m]);
-  });
+    return h("button", {class: marcado ? "on" : "", onclick: () => { ESCOLHA = null; empilharDesfazer({tipo: "ataque_nota", nota: chave, antes: copiaDaNota(chave)}); enviarAtaque({acao: "escolha", tela: te.id, nota: chave, motivo: m, corda: n.corda, casa: n.casa, x_centro_quadro: n.x_centro_quadro ?? n.x_quadro}); }}, ROTULO_MOTIVO[m] || m);
+  };
+  /* dois grupos: a mão direita toca a nota (atacada) ou não toca (não atacada) */
+  const botoes = [
+    h("div", {}, h("b", {}, "ATACADA (a mão direita toca): "), ...MOTIVOS_SELETOR.filter(m => m !== "nao_sei" && !MOTIVOS_NAO_ATACADA.includes(m)).map(botao)),
+    h("div", {}, h("b", {}, "NÃO ATACADA (soa sem a mão direita tocar): "), ...MOTIVOS_SELETOR.filter(m => MOTIVOS_NAO_ATACADA.includes(m)).map(botao)),
+    h("div", {}, botao("nao_sei")),
+  ];
   const r = caixaDe(tp, n);
   const leitura = MODELO && MODELO.notas[chave];
   const doModelo = leitura ? " · modelo: " + ROTULO_LEITURA[leitura.modelo] + " (técnica " + leitura.p + ")" : "";
@@ -2648,6 +2739,7 @@ function alternarAtaque() {
 }
 function marcarTelaAtaque(id, valor) {
   ESCOLHA = null;
+  empilharDesfazer({tipo: "ataque_tela", tela: id, antes: ataqueConferida(id)});
   enviarAtaque({acao: "conferida", tela: id, valor: valor});
 }
 function atualizarAtaque() {  /* botão e contador do modo ataque no topo */
@@ -2667,14 +2759,29 @@ async function carregarAtaque() {  /* sem --ataque o servidor responde 404 e nad
   const rm = await fetch("/modelo_ataque.json");  /* leitura do modelo (tab.ataque_divergencia), se existir */
   if (rm.ok) MODELO = await rm.json();
   const cab = document.querySelector("header"), status = document.getElementById("status");
-  BOTAO_ATAQUE = h("button", {onclick: alternarAtaque}, "modo ataque (A)");
+  BOTAO_ATAQUE = h("button", {onclick: alternarAtaque}, "modo ataque (C)");
   CONTADOR_ATAQUE = h("span", {class: "suave"});
   cab.insertBefore(BOTAO_ATAQUE, status);
   cab.insertBefore(CONTADOR_ATAQUE, status);
 }
+/* ---- atalhos da aba TELAS: X conferida · C modo ataque · V tela de ataque conferida ·
+   Tab/Shift+Tab próxima/anterior · Espaço desfaz ---- */
+function irTela(passo) {  /* próxima (1) ou anterior (-1) tela da lista; para nas pontas */
+  const ids = E.telas.map(t => t.id);
+  if (!ids.length) return;
+  const k = ids.indexOf(E.tela_atual), j = Math.min(ids.length - 1, Math.max(0, k + passo));
+  ESCOLHA = null; EDITAR = null;
+  E.tela_atual = ids[j]; desenhar();
+}
 document.addEventListener("keydown", ev => {
-  if (!ATAQUE || ABA !== "telas" || ev.target.tagName === "INPUT" || ev.target.tagName === "SELECT") return;
-  if (ev.key.toLowerCase() === "a") alternarAtaque();
+  if (!E || ABA !== "telas" || ev.ctrlKey || ev.altKey || ev.metaKey) return;
+  if (["INPUT", "SELECT", "TEXTAREA"].includes(ev.target.tagName)) return;
+  const te = telaEst(E.tela_atual), tecla = ev.key.toLowerCase();
+  if (ev.key === "Tab") { ev.preventDefault(); irTela(ev.shiftKey ? -1 : 1); }
+  else if (ev.key === " ") { ev.preventDefault(); desfazer(); }
+  else if (tecla === "x" && te) { te.conferida = !te.conferida; mudou(); desenhar(); }
+  else if (tecla === "c" && ATAQUE) alternarAtaque();
+  else if (tecla === "v" && te && ATAQUE && MODO_ATAQUE) marcarTelaAtaque(te.id, !ataqueConferida(te.id));
 });
 
 /* ---- aba INSTANTES ---- */
@@ -2769,6 +2876,7 @@ document.getElementById("aba-inst").addEventListener("click", () => irParaAba("i
   PRE = await (await fetch("/pre.json")).json();
   const salvo = await (await fetch("/ouro.json")).json();
   E = salvo.ferramenta && salvo.ferramenta.telas ? salvo.ferramenta : estadoInicial();
+  ULTIMO_E = JSON.stringify(E);
   if (salvo.ferramenta) ultimoOuro = salvo;
   await carregarAtaque();
   document.getElementById("video").textContent = PRE.video;
@@ -2783,6 +2891,7 @@ PAGINA = (
     .replace(
         "__MOTIVOS_SELETOR__", json.dumps(list(MOTIVOS_SELETOR), ensure_ascii=False)
     )
+    .replace("__MOTIVOS_SEM_ATAQUE__", json.dumps(list(MOTIVOS_SEM_ATAQUE)))
 )
 
 
@@ -2834,7 +2943,7 @@ def servir(
     print(f"ferramenta do ouro: http://127.0.0.1:{servidor.server_address[1]}/")
     print(f"o ouro é gravado a cada alteração em: {ouro}")
     if ataque is not None:
-        print(f"modo ataque (tecla A) grava SÓ em: {ataque}")
+        print(f"modo ataque (tecla C) grava SÓ em: {ataque}")
     print(
         "ATENÇÃO: rode isto como JOB DE FUNDO GERENCIADO (processo solto morre com "
         "o shell e o trabalho para de ser gravado).",
