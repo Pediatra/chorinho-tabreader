@@ -344,3 +344,10 @@ em `docs/rodadas/10NN-*`.
   lonelypicker e nada estragado**, mas no kimny vê o capo em só 11 de 39 (escondido pela mão,
   câmera de baixo) e entrega 3 certos (exigido 20). Critério 2 reprova. A rede não entra no
   ciclo ainda. Próximo: o capo de um quadro vale para o vídeo todo (o capo não se move).
+- **1048 (memória do capo por vídeo, ORB + homografia só no braço)**, na M48 (8 vídeos com
+  capo, 40 quadros): **21 certos e 1 falso que passa**, contra 20 e 0 da cadeia da 1045.
+  Critérios 1 e 3 passam, o 2 reprova (exigido 26). A memória levou o capo a 4 quadros, todos
+  em cima do capo, mas a conta do nut errou 2 por um traste (o capo fica colado ao traste).
+  Não adotada. Registro: a cadeia da 1045 sozinha deu 20 certos e 0 falsos nesses 40.
+- **Próximo:** o passo 2 (retreino da rede de capo com capo sintético, capo colado em quadros
+  reais e cinza) e a saliência do capo fora da borda do braço (ideia do dono).

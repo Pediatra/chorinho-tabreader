@@ -70,3 +70,37 @@ A da 1045 (a da 1047 + a rede de capo `C1_capo_s1` com o limiar 0,172 + o nut pe
   duração); a homografia só no braço cobre isso, mas a mão em cima do braço tira pontos.
 - Um quadro-chave errado espalha o erro pelo vídeo; os validadores e o sinal do par antigo
   são a barreira.
+
+## Resultado (2026-10-23)
+
+**Escolha** (`m48/memoria/escolha.json`): `NOTA_CHAVE` 0,7 e `MIN_INLIERS` 40; no
+desenvolvimento, 7 capos levados, 7 certos.
+
+**Prova** (M48 revisada pelo dono, 40 quadros, todos com braço e capo; `m48/memoria/medida.json`):
+
+| | certos entregues | falsos que passam | sinalizados |
+| --- | --- | --- | --- |
+| cadeia da 1045 | 20 | 0 | 17 |
+| cadeia da 1048 (+ memória) | **21** | **1** | 15 |
+
+- **Critério 1: passa** (1 de 40). **Critério 2: reprova** (21, exigido 26). **Critério 3:
+  passa** (0 dos 20 certos da 1045 viraram falso).
+- **Levados**: 4 quadros, os 4 com o capo a ≤ ½ casa do `k` do dono (q14, q36, q38, q39). Mas
+  a conta do nut acertou só 2: q14 (entregue certo) e q38 (certo, sinalizado). Em q36 e q39 o
+  nut caiu um traste antes, do lado do corpo; q36 saiu **entregue errado** (o único falso que
+  passa).
+- **Por vídeo**: nos 6 vídeos do shin izumi a rede da 1045 já vê o capo em quase todos os
+  quadros (só q02, q04 e q14 sem capo visto); a memória só tinha onde agir em q14. No vídeo
+  em preto e branco do kimny (q36–q40), o capo visto em q37 e q40 foi levado a q36, q38 e q39.
+- **Onde erra** (folha `m48/memoria/folha_1048.jpg`, depois da medida): o ponto levado cai em
+  cima do capo, mas a garra do capo fica colada no traste; com o ponto alguns px para o lado
+  do corpo, "o traste logo antes do capo" vira o traste seguinte. A posição exata do capo
+  decide a conta.
+- **Resultado: "1 e 3 passam, 2 falha"**: a memória não entra na cadeia. O que falta é
+  cobertura (só 4 quadros sem capo visto tinham quadro-chave no vídeo) e precisão da posição
+  do capo ao longo do braço.
+- **Ideia do dono, depois da medida**: o corpo do capo sai para fora do braço (acima da
+  corda 6 e abaixo da corda 1), e os trastes não. Procurar essa saliência na borda do braço
+  confirmaria o capo e daria a posição dele ao longo do braço. Vai para uma rodada nova.
+- Também registro: na M48, a cadeia da 1045 sozinha entrega 20 certos e 0 falsos em 40
+  quadros com capo (o shin izumi foi canal de escolha da 1045, os vídeos não).
