@@ -1,7 +1,7 @@
 {
  "video": "t83: 33 telas de canais fora do ouro (ver indice.json)",
  "como_foi_rotulado": "T8.3: uma tela por vídeo, 2 vídeos por canal fora do ouro (data/saida/t83). Notas pré-lidas pela rede; o dono confere a casa. Sem instantes.",
- "rotulado_em": "2026-10-20T02:33:19",
+ "rotulado_em": "2026-10-23T15:12:11",
  "telas": [
   {
    "id": 1,
@@ -7968,6 +7968,12 @@
      "x_centro_quadro": 767.0
     },
     {
+     "corda": 2,
+     "casa": 10,
+     "x_quadro": 837.1,
+     "x_centro_quadro": 842.5
+    },
+    {
      "corda": 1,
      "casa": 12,
      "x_quadro": 905.0,
@@ -10774,8 +10780,8 @@
  "instantes": [],
  "juntadas": {},
  "ferramenta": {
-  "proximo": 145,
-  "tela_atual": 33,
+  "proximo": 146,
+  "tela_atual": 21,
   "inst_atual": 0,
   "telas": [
    {
@@ -28968,6 +28974,15 @@
        1811.3,
        872
       ]
+     },
+     {
+      "id": "d145",
+      "corda": 2,
+      "casa": "10",
+      "x_centro_quadro": 842.5,
+      "x_quadro": 837.1,
+      "origem": "dono",
+      "removida": false
      }
     ],
     "regioes": [

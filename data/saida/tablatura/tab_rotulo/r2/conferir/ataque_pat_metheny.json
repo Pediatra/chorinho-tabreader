@@ -471,12 +471,13 @@
    "x_centro_quadro": 1031.0
   },
   {
-   "ataque": "sim",
+   "ataque": "nao",
    "casa": 2,
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 4,
    "corda": 2,
-   "motivo": "normal",
+   "fonte": "dono",
+   "motivo": "mordente",
    "nota": "t1-n39",
    "regiao": null,
    "tela": 1,
@@ -2595,12 +2596,13 @@
    "x_centro_quadro": 903.0
   },
   {
-   "ataque": "nao",
+   "ataque": "sim",
    "casa": 4,
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 4,
    "corda": 4,
-   "motivo": "mordente",
+   "fonte": "dono",
+   "motivo": "normal",
    "nota": "t3-n38",
    "regiao": "t3-r5",
    "tela": 3,
@@ -2612,7 +2614,8 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 4,
    "corda": 4,
-   "motivo": "mordente",
+   "fonte": "dono",
+   "motivo": "prolongamento",
    "nota": "t3-n39",
    "regiao": "t3-r5",
    "tela": 3,
@@ -3735,16 +3738,17 @@
    "x_centro_quadro": 1104.5
   },
   {
-   "ataque": "nao",
-   "casa": 4,
+   "ataque": "sim",
+   "casa": 2,
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 0,
    "corda": 1,
-   "motivo": "prolongamento",
+   "fonte": "dono",
+   "motivo": "normal",
    "nota": "t4-n53",
    "regiao": "t4-r2",
    "tela": 4,
-   "x_centro_quadro": 1165.5
+   "x_centro_quadro": 1105.6
   },
   {
    "ataque": "sim",
@@ -3753,7 +3757,7 @@
    "casa_vizinha_esq": 3,
    "corda": 5,
    "motivo": "normal",
-   "nota": "t4-n54",
+   "nota": "t4-n57",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1219.0
@@ -3765,22 +3769,23 @@
    "casa_vizinha_esq": 4,
    "corda": 1,
    "motivo": "normal",
-   "nota": "t4-n55",
+   "nota": "t4-n58",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1219.5
   },
   {
-   "ataque": "sim",
-   "casa": 0,
+   "ataque": "nao",
+   "casa": 4,
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 2,
-   "corda": 2,
-   "motivo": "normal",
+   "corda": 1,
+   "fonte": "dono",
+   "motivo": "prolongamento",
    "nota": "t4-n56",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 1219.0
+   "x_centro_quadro": 1165.5
   },
   {
    "ataque": "sim",
@@ -3789,7 +3794,7 @@
    "casa_vizinha_esq": 0,
    "corda": 2,
    "motivo": "normal",
-   "nota": "t4-n57",
+   "nota": "t4-n60",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1257.0
@@ -3801,7 +3806,7 @@
    "casa_vizinha_esq": 0,
    "corda": 1,
    "motivo": "normal",
-   "nota": "t4-n58",
+   "nota": "t4-n61",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1257.5
@@ -3813,7 +3818,7 @@
    "casa_vizinha_esq": 2,
    "corda": 3,
    "motivo": "normal",
-   "nota": "t4-n59",
+   "nota": "t4-n62",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1256.0
@@ -3825,7 +3830,7 @@
    "casa_vizinha_esq": 4,
    "corda": 5,
    "motivo": "normal",
-   "nota": "t4-n60",
+   "nota": "t4-n63",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1256.0
@@ -3837,7 +3842,7 @@
    "casa_vizinha_esq": 0,
    "corda": 1,
    "motivo": "normal",
-   "nota": "t4-n61",
+   "nota": "t4-n64",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1330.5
@@ -3846,61 +3851,27 @@
    "ataque": "sim",
    "casa": 2,
    "casa_vizinha_dir": 2,
-   "casa_vizinha_esq": 1,
+   "casa_vizinha_esq": 0,
    "corda": 5,
+   "fonte": "dono",
    "motivo": "normal",
-   "nota": "t4-n62",
-   "regiao": null,
+   "nota": "t4-n65",
+   "regiao": "t4-r3",
    "tela": 4,
    "x_centro_quadro": 1330.5
   },
   {
    "ataque": "sim",
    "casa": 1,
-   "casa_vizinha_dir": 6,
-   "casa_vizinha_esq": 1,
-   "corda": 3,
-   "motivo": "normal",
-   "nota": "t4-n63",
-   "regiao": null,
-   "tela": 4,
-   "x_centro_quadro": 1330.0
-  },
-  {
-   "ataque": "sim",
-   "casa": 0,
-   "casa_vizinha_dir": 2,
-   "casa_vizinha_esq": 2,
-   "corda": 2,
-   "motivo": "normal",
-   "nota": "t4-n64",
-   "regiao": "t4-r3",
-   "tela": 4,
-   "x_centro_quadro": 1436.5
-  },
-  {
-   "ataque": "nao",
-   "casa": 2,
-   "casa_vizinha_dir": 2,
-   "casa_vizinha_esq": 0,
-   "corda": 2,
-   "motivo": "h",
-   "nota": "t4-n65",
-   "regiao": "t4-r3",
-   "tela": 4,
-   "x_centro_quadro": 1466.5
-  },
-  {
-   "ataque": "nao",
-   "casa": 2,
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 2,
-   "corda": 2,
-   "motivo": "prolongamento",
+   "corda": 3,
+   "fonte": "dono",
+   "motivo": "normal",
    "nota": "t4-n66",
    "regiao": "t4-r5",
    "tela": 4,
-   "x_centro_quadro": 1489.6
+   "x_centro_quadro": 1330.0
   },
   {
    "ataque": "sim",
@@ -3909,7 +3880,7 @@
    "casa_vizinha_esq": 2,
    "corda": 5,
    "motivo": "normal",
-   "nota": "t4-n67",
+   "nota": "t4-n71",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1503.0
@@ -3920,23 +3891,25 @@
    "casa_vizinha_dir": 7,
    "casa_vizinha_esq": 2,
    "corda": 2,
-   "motivo": "normal",
+   "fonte": "dono",
+   "motivo": "mordente_simbolo",
    "nota": "t4-n68",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 1503.5
+   "x_centro_quadro": 1436.5
   },
   {
-   "ataque": "sim",
-   "casa": 4,
+   "ataque": "nao",
+   "casa": 2,
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 4,
-   "corda": 4,
-   "motivo": "normal",
+   "corda": 2,
+   "fonte": "dono",
+   "motivo": "mordente",
    "nota": "t4-n69",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 1535.0
+   "x_centro_quadro": 1466.5
   },
   {
    "ataque": "sim",
@@ -3945,34 +3918,23 @@
    "casa_vizinha_esq": 4,
    "corda": 4,
    "motivo": "normal",
-   "nota": "t4-n70",
+   "nota": "t4-n74",
    "regiao": "t4-r6",
    "tela": 4,
    "x_centro_quadro": 1556.5
   },
   {
    "ataque": "nao",
-   "casa": 4,
-   "casa_vizinha_dir": null,
-   "casa_vizinha_esq": 4,
-   "corda": 4,
-   "motivo": "prolongamento",
-   "nota": "t4-n71",
-   "regiao": "t4-r6",
-   "tela": 4,
-   "x_centro_quadro": 1611.5
-  },
-  {
-   "ataque": "sim",
-   "casa": 6,
+   "casa": 0,
    "casa_vizinha_dir": 8,
    "casa_vizinha_esq": 1,
-   "corda": 3,
-   "motivo": "normal",
+   "corda": 2,
+   "fonte": "dono",
+   "motivo": "mordente",
    "nota": "t4-n72",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 1722.0
+   "x_centro_quadro": 1503.5
   },
   {
    "ataque": "sim",
@@ -3981,7 +3943,7 @@
    "casa_vizinha_esq": 0,
    "corda": 1,
    "motivo": "normal",
-   "nota": "t4-n73",
+   "nota": "t4-n77",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1746.0
@@ -3993,22 +3955,23 @@
    "casa_vizinha_esq": 6,
    "corda": 3,
    "motivo": "normal",
-   "nota": "t4-n74",
+   "nota": "t4-n78",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1771.0
   },
   {
-   "ataque": "sim",
-   "casa": 7,
+   "ataque": "nao",
+   "casa": 4,
    "casa_vizinha_dir": null,
    "casa_vizinha_esq": 9,
-   "corda": 1,
-   "motivo": "normal",
+   "corda": 4,
+   "fonte": "dono",
+   "motivo": "prolongamento",
    "nota": "t4-n75",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 1772.0
+   "x_centro_quadro": 1611.5
   },
   {
    "ataque": "sim",
@@ -4017,7 +3980,7 @@
    "casa_vizinha_esq": 0,
    "corda": 2,
    "motivo": "normal",
-   "nota": "t4-n76",
+   "nota": "t4-n80",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1797.0
@@ -4029,7 +3992,7 @@
    "casa_vizinha_esq": 7,
    "corda": 2,
    "motivo": "normal",
-   "nota": "t4-n77",
+   "nota": "t4-n81",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1821.0
@@ -4041,7 +4004,7 @@
    "casa_vizinha_esq": 0,
    "corda": 6,
    "motivo": "normal",
-   "nota": "t4-n78",
+   "nota": "t4-n82",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1821.0
@@ -4053,7 +4016,7 @@
    "casa_vizinha_esq": 9,
    "corda": 2,
    "motivo": "normal",
-   "nota": "t4-n79",
+   "nota": "t4-n83",
    "regiao": null,
    "tela": 4,
    "x_centro_quadro": 1849.0
@@ -4328,12 +4291,12 @@
    "casa_vizinha_dir": 12,
    "casa_vizinha_esq": 16,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t5-n22",
    "regiao": null,
    "tela": 5,
-   "x_centro_quadro": 740.5,
-   "fonte": "dono"
+   "x_centro_quadro": 740.5
   },
   {
    "ataque": "sim",
@@ -4574,15 +4537,114 @@
    "regiao": "t5-r8",
    "tela": 5,
    "x_centro_quadro": 1323.4
+  },
+  {
+   "ataque": "sim",
+   "casa": 0,
+   "casa_vizinha_dir": 2,
+   "casa_vizinha_esq": 2,
+   "corda": 2,
+   "motivo": "normal",
+   "nota": "t4-n59",
+   "regiao": null,
+   "tela": 4,
+   "x_centro_quadro": 1219.0
+  },
+  {
+   "ataque": "nao",
+   "casa": 2,
+   "casa_vizinha_dir": 0,
+   "casa_vizinha_esq": 2,
+   "corda": 2,
+   "motivo": "prolongamento",
+   "nota": "t4-n70",
+   "regiao": "t4-r5",
+   "tela": 4,
+   "x_centro_quadro": 1489.6
+  },
+  {
+   "ataque": "sim",
+   "casa": 4,
+   "casa_vizinha_dir": 4,
+   "casa_vizinha_esq": 4,
+   "corda": 4,
+   "motivo": "normal",
+   "nota": "t4-n73",
+   "regiao": null,
+   "tela": 4,
+   "x_centro_quadro": 1535.0
+  },
+  {
+   "ataque": "sim",
+   "casa": 6,
+   "casa_vizinha_dir": 8,
+   "casa_vizinha_esq": 1,
+   "corda": 3,
+   "motivo": "normal",
+   "nota": "t4-n76",
+   "regiao": null,
+   "tela": 4,
+   "x_centro_quadro": 1722.0
+  },
+  {
+   "ataque": "sim",
+   "casa": 7,
+   "casa_vizinha_dir": null,
+   "casa_vizinha_esq": 9,
+   "corda": 1,
+   "motivo": "normal",
+   "nota": "t4-n79",
+   "regiao": null,
+   "tela": 4,
+   "x_centro_quadro": 1772.0
+  },
+  {
+   "ataque": "sim",
+   "casa": 2,
+   "casa_vizinha_dir": null,
+   "casa_vizinha_esq": null,
+   "corda": 1,
+   "fonte": "nota nova do dono; tela de ataque conferida por ele sem marca nela (2026-10-23)",
+   "motivo": "normal",
+   "nota": "t4-n54",
+   "regiao": null,
+   "tela": 4,
+   "x_centro_quadro": 1121.1
+  },
+  {
+   "ataque": "sim",
+   "casa": 4,
+   "casa_vizinha_dir": null,
+   "casa_vizinha_esq": null,
+   "corda": 1,
+   "fonte": "nota nova do dono; tela de ataque conferida por ele sem marca nela (2026-10-23)",
+   "motivo": "normal",
+   "nota": "t4-n55",
+   "regiao": null,
+   "tela": 4,
+   "x_centro_quadro": 1139.0
+  },
+  {
+   "ataque": "sim",
+   "casa": 12,
+   "casa_vizinha_dir": null,
+   "casa_vizinha_esq": null,
+   "corda": 2,
+   "fonte": "nota nova do dono; tela de ataque conferida por ele sem marca nela (2026-10-23)",
+   "motivo": "normal",
+   "nota": "t4-n67",
+   "regiao": null,
+   "tela": 4,
+   "x_centro_quadro": 1369.2
   }
  ],
  "origem": "data/gold/ouro_video/tab_from_this_place_pat_metheny_fingerstyle_guitar_cover.json",
  "passo_global": 20.5,
  "telas_conferidas": {
+  "1": true,
   "2": true,
   "3": true,
   "4": true,
-  "5": true,
-  "1": true
+  "5": true
  }
 }

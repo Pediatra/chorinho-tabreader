@@ -1,7 +1,7 @@
 {
  "video": "t82: 36 telas de canais fora do ouro (ver indice.json)",
  "como_foi_rotulado": "T8.2: uma tela por vídeo, 2 vídeos por canal fora do ouro (data/saida/t82). Notas pré-lidas pela rede; o dono confere a casa. Sem instantes.",
- "rotulado_em": "2026-10-15T18:50:15",
+ "rotulado_em": "2026-10-23T15:08:41",
  "telas": [
   {
    "id": 1,
@@ -3182,6 +3182,18 @@
    "quadro_ref_s": 74.91,
    "conferida": true,
    "notas": [
+    {
+     "corda": 2,
+     "casa": 10,
+     "x_quadro": 98.0,
+     "x_centro_quadro": 103.2
+    },
+    {
+     "corda": 2,
+     "casa": 12,
+     "x_quadro": 133.7,
+     "x_centro_quadro": 138.9
+    },
     {
      "corda": 2,
      "casa": 10,
@@ -9965,6 +9977,12 @@
     },
     {
      "corda": 1,
+     "casa": 2,
+     "x_quadro": 748.2,
+     "x_centro_quadro": 756.1
+    },
+    {
+     "corda": 1,
      "casa": 10,
      "x_quadro": 786.4,
      "x_centro_quadro": 795.8
@@ -11007,7 +11025,7 @@
  "instantes": [],
  "juntadas": {},
  "ferramenta": {
-  "proximo": 132,
+  "proximo": 136,
   "tela_atual": 33,
   "inst_atual": 0,
   "telas": [
@@ -18869,6 +18887,24 @@
        1862.1,
        984.7
       ]
+     },
+     {
+      "id": "d132",
+      "corda": 2,
+      "casa": "10",
+      "x_centro_quadro": 103.2,
+      "x_quadro": 98,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d133",
+      "corda": 2,
+      "casa": "12",
+      "x_centro_quadro": 138.9,
+      "x_quadro": 133.7,
+      "origem": "dono",
+      "removida": false
      }
     ],
     "regioes": [
@@ -34220,6 +34256,15 @@
       "casa": "",
       "x_centro_quadro": 552.9,
       "x_quadro": 545,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d134",
+      "corda": 1,
+      "casa": "2",
+      "x_centro_quadro": 756.1,
+      "x_quadro": 748.2,
       "origem": "dono",
       "removida": false
      }

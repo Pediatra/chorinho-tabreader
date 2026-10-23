@@ -4940,11 +4940,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 4,
    "corda": 1,
-   "motivo": "normal",
+   "motivo": "mordente_simbolo",
    "nota": "t8-n48",
    "regiao": "t8-r0",
    "tela": 8,
-   "x_centro_quadro": 1315.3
+   "x_centro_quadro": 1315.3,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -5106,13 +5107,13 @@
  "origem": "data/gold/ouro_video/la_vie_en_rose_edith_piaf_tab.json",
  "passo_global": 24.0,
  "telas_conferidas": {
-  "3": true,
-  "4": true,
-  "5": true,
-  "7": true,
   "8": true,
   "1": true,
   "2": true,
-  "6": true
+  "3": true,
+  "4": true,
+  "5": true,
+  "6": true,
+  "7": true
  }
 }

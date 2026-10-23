@@ -1208,12 +1208,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 1,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t4-n20",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 1432.4,
-   "fonte": "dono"
+   "x_centro_quadro": 1432.4
   },
   {
    "ataque": "sim",

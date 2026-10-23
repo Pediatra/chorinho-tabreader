@@ -1,7 +1,7 @@
 {
  "video": "kimny's guitar/[ tab ] from this place - pat metheny ｜ fingerstyle guitar cover.mp4",
  "como_foi_rotulado": "v2 sem v1: páginas do tab.telas (1 - IoU da tinta, limiar 0,3), todas com as notas do modelo, a rotular (origem 'modelo — a rotular', conferida=false). 40 instantes sorteados dentro da presença de tablatura (semente 0, grade de 2.0 s); a página de cada um foi SUGERIDA pelo tempo (pagina_sugerida=true, tela_confirmada=false até o dono confirmar): há viés de confirmação. A coluna acesa é do dono.",
- "rotulado_em": "2026-10-13T17:58:29",
+ "rotulado_em": "2026-10-23T15:18:11",
  "telas": [
   {
    "id": 1,
@@ -2119,6 +2119,24 @@
     },
     {
      "corda": 1,
+     "casa": 2,
+     "x_quadro": 1100.5,
+     "x_centro_quadro": 1105.6
+    },
+    {
+     "corda": 1,
+     "casa": 2,
+     "x_quadro": 1115.9,
+     "x_centro_quadro": 1121.1
+    },
+    {
+     "corda": 1,
+     "casa": 4,
+     "x_quadro": 1133.8,
+     "x_centro_quadro": 1139.0
+    },
+    {
+     "corda": 1,
      "casa": 4,
      "x_quadro": 1159.0,
      "x_centro_quadro": 1165.5
@@ -2182,6 +2200,12 @@
      "casa": 1,
      "x_quadro": 1326.0,
      "x_centro_quadro": 1330.0
+    },
+    {
+     "corda": 2,
+     "casa": 12,
+     "x_quadro": 1364.1,
+     "x_centro_quadro": 1369.2
     },
     {
      "corda": 2,
@@ -3089,8 +3113,8 @@
  ],
  "juntadas": {},
  "ferramenta": {
-  "proximo": 59,
-  "tela_atual": 5,
+  "proximo": 63,
+  "tela_atual": 4,
   "inst_atual": 34,
   "telas": [
    {
@@ -8509,6 +8533,42 @@
       "casa": "2",
       "x_centro_quadro": 1489.6,
       "x_quadro": 1484.4,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d59",
+      "corda": 1,
+      "casa": "2",
+      "x_centro_quadro": 1105.6,
+      "x_quadro": 1100.5,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d60",
+      "corda": 1,
+      "casa": "2",
+      "x_centro_quadro": 1121.1,
+      "x_quadro": 1115.9,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d61",
+      "corda": 1,
+      "casa": "4",
+      "x_centro_quadro": 1139,
+      "x_quadro": 1133.8,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d62",
+      "corda": 2,
+      "casa": "12",
+      "x_centro_quadro": 1369.2,
+      "x_quadro": 1364.1,
       "origem": "dono",
       "removida": false
      }

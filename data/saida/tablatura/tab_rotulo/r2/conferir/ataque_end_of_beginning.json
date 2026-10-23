@@ -2552,12 +2552,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 2,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t6-n14",
    "regiao": null,
    "tela": 6,
-   "x_centro_quadro": 662.0,
-   "fonte": "dono"
+   "x_centro_quadro": 662.0
   },
   {
    "ataque": "sim",
@@ -2661,12 +2661,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 1,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "h",
    "nota": "t6-n24",
    "regiao": null,
    "tela": 6,
-   "x_centro_quadro": 924.9,
-   "fonte": "dono"
+   "x_centro_quadro": 924.9
   },
   {
    "ataque": "sim",
@@ -3605,45 +3605,44 @@
    "x_centro_quadro": 1630.0
   },
   {
+   "ataque": "sim",
+   "casa": 2,
+   "corda": 4,
+   "fonte": "dono",
+   "motivo": "normal",
    "nota": "t6-n49",
-   "tela": 6,
    "regiao": null,
-   "corda": 4,
-   "casa": 2,
-   "x_centro_quadro": 1628.1,
-   "ataque": "sim",
-   "motivo": "normal",
-   "fonte": "dono"
+   "tela": 6,
+   "x_centro_quadro": 1628.1
   },
   {
+   "ataque": "sim",
+   "casa": 2,
+   "corda": 4,
+   "fonte": "dono",
+   "motivo": "normal",
    "nota": "t6-n15",
-   "tela": 6,
    "regiao": null,
-   "corda": 4,
-   "casa": 2,
-   "x_centro_quadro": 662.0,
-   "ataque": "sim",
-   "motivo": "normal",
-   "fonte": "dono"
+   "tela": 6,
+   "x_centro_quadro": 662.0
   },
   {
-   "nota": "t7-n23",
-   "tela": 7,
-   "regiao": null,
-   "corda": 4,
-   "casa": 2,
-   "x_centro_quadro": 721.1,
    "ataque": "sim",
+   "casa": 2,
+   "corda": 4,
+   "fonte": "dono",
    "motivo": "normal",
-   "fonte": "dono"
+   "nota": "t7-n23",
+   "regiao": null,
+   "tela": 7,
+   "x_centro_quadro": 721.1
   }
  ],
  "origem": "data/gold/ouro_video/end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics.json",
  "passo_global": 26.62,
  "telas_conferidas": {
-  "8": false,
-  "1": true,
   "2": true,
+  "1": true,
   "3": true,
   "4": true,
   "5": true,

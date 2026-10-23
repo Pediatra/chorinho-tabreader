@@ -788,11 +788,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 4,
    "corda": 3,
-   "motivo": "normal",
+   "motivo": "rasgueado",
    "nota": "t3-n11",
    "regiao": null,
    "tela": 3,
-   "x_centro_quadro": 635.0
+   "x_centro_quadro": 635.0,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -800,11 +801,12 @@
    "casa_vizinha_dir": 3,
    "casa_vizinha_esq": 5,
    "corda": 2,
-   "motivo": "normal",
+   "motivo": "rasgueado",
    "nota": "t3-n12",
    "regiao": null,
    "tela": 3,
-   "x_centro_quadro": 635.5
+   "x_centro_quadro": 635.5,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -812,11 +814,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 6,
    "corda": 4,
-   "motivo": "normal",
+   "motivo": "rasgueado",
    "nota": "t3-n13",
    "regiao": null,
    "tela": 3,
-   "x_centro_quadro": 635.0
+   "x_centro_quadro": 635.0,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -1116,11 +1119,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 4,
    "corda": 3,
-   "motivo": "normal",
+   "motivo": "rasgueado",
    "nota": "t4-n11",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 610.0
+   "x_centro_quadro": 610.0,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -1128,11 +1132,12 @@
    "casa_vizinha_dir": 3,
    "casa_vizinha_esq": 5,
    "corda": 2,
-   "motivo": "normal",
+   "motivo": "rasgueado",
    "nota": "t4-n12",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 610.0
+   "x_centro_quadro": 610.0,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -1140,11 +1145,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 6,
    "corda": 4,
-   "motivo": "normal",
+   "motivo": "rasgueado",
    "nota": "t4-n13",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 610.0
+   "x_centro_quadro": 610.0,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -1272,11 +1278,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 2,
    "corda": 4,
-   "motivo": "normal",
+   "motivo": "mordente_simbolo",
    "nota": "t4-n24",
    "regiao": "t4-r10",
    "tela": 4,
-   "x_centro_quadro": 1428.5
+   "x_centro_quadro": 1428.5,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -1308,11 +1315,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 2,
    "corda": 3,
-   "motivo": "normal",
+   "motivo": "mordente_simbolo",
    "nota": "t4-n27",
    "regiao": "t4-r11",
    "tela": 4,
-   "x_centro_quadro": 1629.5
+   "x_centro_quadro": 1629.5,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -1425,11 +1433,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 4,
    "corda": 3,
-   "motivo": "normal",
+   "motivo": "rasgueado",
    "nota": "t5-n7",
    "regiao": null,
    "tela": 5,
-   "x_centro_quadro": 585.0
+   "x_centro_quadro": 585.0,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -1437,11 +1446,12 @@
    "casa_vizinha_dir": 3,
    "casa_vizinha_esq": 5,
    "corda": 2,
-   "motivo": "normal",
+   "motivo": "rasgueado",
    "nota": "t5-n8",
    "regiao": null,
    "tela": 5,
-   "x_centro_quadro": 585.5
+   "x_centro_quadro": 585.5,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -1449,11 +1459,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 6,
    "corda": 4,
-   "motivo": "normal",
+   "motivo": "rasgueado",
    "nota": "t5-n9",
    "regiao": null,
    "tela": 5,
-   "x_centro_quadro": 585.0
+   "x_centro_quadro": 585.0,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -1834,11 +1845,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 2,
    "corda": 4,
-   "motivo": "normal",
+   "motivo": "mordente_simbolo",
    "nota": "t6-n12",
    "regiao": "t6-r7",
    "tela": 6,
-   "x_centro_quadro": 1440.5
+   "x_centro_quadro": 1440.5,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -1870,11 +1882,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 2,
    "corda": 3,
-   "motivo": "normal",
+   "motivo": "mordente_simbolo",
    "nota": "t6-n15",
    "regiao": "t6-r8",
    "tela": 6,
-   "x_centro_quadro": 1640.5
+   "x_centro_quadro": 1640.5,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -3672,11 +3685,12 @@
    "casa_vizinha_dir": 7,
    "casa_vizinha_esq": 4,
    "corda": 3,
-   "motivo": "normal",
+   "motivo": "mordente_simbolo",
    "nota": "t27-n27",
    "regiao": "t27-r5",
    "tela": 27,
-   "x_centro_quadro": 1134.5
+   "x_centro_quadro": 1134.5,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -3720,11 +3734,12 @@
    "casa_vizinha_dir": 12,
    "casa_vizinha_esq": null,
    "corda": 1,
-   "motivo": "normal",
+   "motivo": "mordente_simbolo",
    "nota": "t27-n31",
    "regiao": "t27-r8",
    "tela": 27,
-   "x_centro_quadro": 1373.4
+   "x_centro_quadro": 1373.4,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -3814,16 +3829,16 @@
  "origem": "data/gold/ouro_video/tabroom_335_larry_carlton_fingerstyle_guitar.json",
  "passo_global": 21.5,
  "telas_conferidas": {
-  "1": true,
-  "15": true,
-  "16": true,
   "2": true,
-  "24": true,
-  "27": true,
   "3": true,
   "4": true,
   "5": true,
   "6": true,
-  "7": true
+  "7": true,
+  "15": true,
+  "16": true,
+  "24": true,
+  "27": true,
+  "1": true
  }
 }

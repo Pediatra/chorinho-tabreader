@@ -5552,13 +5552,13 @@
    "x_centro_quadro": 1744.0
   },
   {
-   "ataque": "sim",
+   "ataque": "nao",
    "casa": 0,
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 0,
    "corda": 3,
    "fonte": "dono",
-   "motivo": "normal",
+   "motivo": "prolongamento",
    "nota": "t9-n88",
    "regiao": "t9-r7",
    "tela": 9,
@@ -7686,23 +7686,25 @@
    "casa_vizinha_dir": 10,
    "casa_vizinha_esq": 10,
    "corda": 2,
-   "motivo": "normal",
+   "motivo": "sustentada",
    "nota": "t13-n10",
    "regiao": "t13-r6",
    "tela": 13,
-   "x_centro_quadro": 906.4
+   "x_centro_quadro": 906.4,
+   "fonte": "dono"
   },
   {
-   "ataque": "nao",
+   "ataque": "sim",
    "casa": 10,
    "casa_vizinha_dir": 10,
    "casa_vizinha_esq": 10,
    "corda": 2,
-   "motivo": "prolongamento",
+   "motivo": "normal",
    "nota": "t13-n11",
    "regiao": "t13-r6",
    "tela": 13,
-   "x_centro_quadro": 991.5
+   "x_centro_quadro": 991.5,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -7746,24 +7748,25 @@
    "casa_vizinha_dir": 10,
    "casa_vizinha_esq": 10,
    "corda": 2,
-   "fonte": "dono no chat, 2026-10-22: 'Elas são tocadas uma vez e depois são prolongadas'",
-   "motivo": "sustentada",
+   "fonte": "dono",
+   "motivo": "normal",
    "nota": "t13-n15",
    "regiao": "t13-r8",
    "tela": 13,
    "x_centro_quadro": 1430.4
   },
   {
-   "ataque": "sim",
+   "ataque": "nao",
    "casa": 10,
    "casa_vizinha_dir": 10,
    "casa_vizinha_esq": 10,
    "corda": 2,
-   "motivo": "normal",
+   "motivo": "prolongamento",
    "nota": "t13-n16",
    "regiao": null,
    "tela": 13,
-   "x_centro_quadro": 1535.2
+   "x_centro_quadro": 1535.2,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -12038,16 +12041,17 @@
    "x_centro_quadro": 1422.2
   },
   {
-   "ataque": "sim",
+   "ataque": "nao",
    "casa": 1,
    "casa_vizinha_dir": 8,
    "casa_vizinha_esq": 1,
    "corda": 2,
-   "motivo": "normal",
+   "motivo": "slide_ligado",
    "nota": "t21-n75",
    "regiao": "t21-r2",
    "tela": 21,
-   "x_centro_quadro": 1452.2
+   "x_centro_quadro": 1452.2,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -14346,16 +14350,17 @@
    "x_centro_quadro": 1689.8
   },
   {
-   "ataque": "sim",
+   "ataque": "nao",
    "casa": 2,
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 0,
    "corda": 2,
-   "motivo": "normal",
+   "motivo": "p",
    "nota": "t25-n33",
    "regiao": null,
    "tela": 25,
-   "x_centro_quadro": 1720.3
+   "x_centro_quadro": 1720.3,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -15432,13 +15437,13 @@
    "x_centro_quadro": 469.2
   },
   {
-   "ataque": "nao",
+   "ataque": "sim",
    "casa": 5,
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 5,
    "corda": 2,
    "fonte": "dono",
-   "motivo": "prolongamento",
+   "motivo": "sustentada",
    "nota": "t29-n20",
    "regiao": null,
    "tela": 29,
@@ -15860,16 +15865,17 @@
    "x_centro_quadro": 90.6
   },
   {
-   "ataque": "nao",
+   "ataque": "sim",
    "casa": 3,
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 3,
    "corda": 2,
-   "motivo": "prolongamento",
+   "motivo": "sustentada",
    "nota": "t30-n5",
    "regiao": "t30-r0",
    "tela": 30,
-   "x_centro_quadro": 139.2
+   "x_centro_quadro": 139.2,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -16377,11 +16383,11 @@
    "x_centro_quadro": 167.6
   },
   {
-   "ataque": "nao",
+   "ataque": "sim",
    "casa": 1,
    "corda": 3,
    "fonte": "dono",
-   "motivo": "p",
+   "motivo": "normal",
    "nota": "t25-n32",
    "regiao": null,
    "tela": 25,
@@ -16436,6 +16442,13 @@
  "passo_global": 22.0,
  "telas_conferidas": {
   "1": true,
+  "2": true,
+  "3": true,
+  "4": true,
+  "6": true,
+  "7": true,
+  "8": true,
+  "9": true,
   "10": true,
   "11": true,
   "12": true,
@@ -16446,7 +16459,6 @@
   "17": true,
   "18": true,
   "19": true,
-  "2": true,
   "20": true,
   "21": true,
   "22": true,
@@ -16456,13 +16468,7 @@
   "26": true,
   "28": true,
   "29": true,
-  "3": true,
-  "30": true,
-  "4": true,
-  "6": true,
-  "7": true,
-  "8": true,
-  "9": true
+  "30": true
  },
  "telas_fora": {
   "27": "o recorte cortou a corda 6 e deslocou as cordas (dono: 'so segue')",

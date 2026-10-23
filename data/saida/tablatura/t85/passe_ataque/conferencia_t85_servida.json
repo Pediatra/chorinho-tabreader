@@ -1,7 +1,7 @@
 {
  "video": "t85: 30 telas de canais fora do ouro (ver indice.json)",
  "como_foi_rotulado": "T8.5: uma tela por vídeo, 2 vídeos por canal fora do ouro (data/saida/t85). Notas pré-lidas pela rede; o dono confere a casa. Sem instantes.",
- "rotulado_em": "2026-10-22T21:42:05",
+ "rotulado_em": "2026-10-23T14:43:17",
  "telas": [
   {
    "id": 1,
@@ -142,8 +142,8 @@
       6
      ],
      "x_quadro": [
-      506.8,
-      537.0
+      504.4,
+      541.3
      ],
      "tecnica": [
       "x"
@@ -10048,8 +10048,8 @@
  "instantes": [],
  "juntadas": {},
  "ferramenta": {
-  "proximo": 1,
-  "tela_atual": 9,
+  "proximo": 4,
+  "tela_atual": 30,
   "inst_atual": 0,
   "telas": [
    {
@@ -10377,11 +10377,11 @@
     ],
     "regioes": [
      {
-      "id": "r1",
-      "x0": 506.8,
-      "x1": 537,
-      "y0": 901.2,
-      "y1": 1054.8,
+      "id": "r2",
+      "x0": 504.4,
+      "x1": 541.3,
+      "y0": 904.5,
+      "y1": 1051.3,
       "corda_ini": 4,
       "corda_fim": 6,
       "tecnica": [
@@ -19227,7 +19227,19 @@
       ]
      }
     ],
-    "regioes": []
+    "regioes": [
+     {
+      "id": "r3",
+      "x0": 669,
+      "x1": 691.3,
+      "y0": 900.9,
+      "y1": 981.1,
+      "corda_ini": 3,
+      "corda_fim": 6,
+      "tecnica": [],
+      "obs": ""
+     }
+    ]
    },
    {
     "id": 11,

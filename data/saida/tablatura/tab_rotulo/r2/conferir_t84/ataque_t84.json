@@ -2000,12 +2000,12 @@
    "casa_vizinha_dir": 6,
    "casa_vizinha_esq": 2,
    "corda": 4,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t4-n7",
    "regiao": "t4-r1",
    "tela": 4,
-   "x_centro_quadro": 444.2,
-   "fonte": "dono"
+   "x_centro_quadro": 444.2
   },
   {
    "ataque": "sim",
@@ -2013,12 +2013,12 @@
    "casa_vizinha_dir": 7,
    "casa_vizinha_esq": 4,
    "corda": 4,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t4-n8",
    "regiao": "t4-r1",
    "tela": 4,
-   "x_centro_quadro": 474.2,
-   "fonte": "dono"
+   "x_centro_quadro": 474.2
   },
   {
    "ataque": "sim",
@@ -2326,12 +2326,12 @@
    "casa_vizinha_dir": 5,
    "casa_vizinha_esq": 10,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t4-n34",
    "regiao": "t4-r4",
    "tela": 4,
-   "x_centro_quadro": 1206.2,
-   "fonte": "dono"
+   "x_centro_quadro": 1206.2
   },
   {
    "ataque": "sim",
@@ -2519,12 +2519,12 @@
    "casa_vizinha_dir": 12,
    "casa_vizinha_esq": 12,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t4-n50",
    "regiao": "t4-r5",
    "tela": 4,
-   "x_centro_quadro": 1500.2,
-   "fonte": "dono"
+   "x_centro_quadro": 1500.2
   },
   {
    "ataque": "sim",
@@ -6432,11 +6432,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 4,
    "corda": 3,
-   "motivo": "normal",
+   "motivo": "sustentada",
    "nota": "t12-n13",
    "regiao": "t12-r4",
    "tela": 12,
-   "x_centro_quadro": 1191.2
+   "x_centro_quadro": 1191.2,
+   "fonte": "dono"
   },
   {
    "ataque": "sim",
@@ -6456,24 +6457,25 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 4,
    "corda": 4,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t12-n15",
    "regiao": "t12-r5",
    "tela": 12,
-   "x_centro_quadro": 1231.8,
-   "fonte": "dono"
+   "x_centro_quadro": 1231.8
   },
   {
-   "ataque": "nao",
+   "ataque": "sim",
    "casa": 4,
    "casa_vizinha_dir": 1,
    "casa_vizinha_esq": 4,
    "corda": 3,
-   "motivo": "prolongamento",
+   "motivo": "sustentada",
    "nota": "t12-n16",
    "regiao": "t12-r4",
    "tela": 12,
-   "x_centro_quadro": 1260.8
+   "x_centro_quadro": 1260.8,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -6481,25 +6483,25 @@
    "casa_vizinha_dir": 6,
    "casa_vizinha_esq": 6,
    "corda": 4,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t12-n17",
    "regiao": "t12-r5",
    "tela": 12,
-   "x_centro_quadro": 1260.8,
-   "fonte": "dono"
+   "x_centro_quadro": 1260.8
   },
   {
-   "ataque": "nao",
+   "ataque": "sim",
    "casa": 6,
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 4,
    "corda": 4,
-   "motivo": "prolongamento",
+   "fonte": "dono",
+   "motivo": "sustentada",
    "nota": "t12-n18",
    "regiao": "t12-r7",
    "tela": 12,
-   "x_centro_quadro": 1301.4,
-   "fonte": "dono"
+   "x_centro_quadro": 1301.4
   },
   {
    "ataque": "sim",
@@ -6735,12 +6737,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 9,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "sustentada",
    "nota": "t13-n6",
    "regiao": "t13-r2",
    "tela": 13,
-   "x_centro_quadro": 444.7,
-   "fonte": "dono"
+   "x_centro_quadro": 444.7
   },
   {
    "ataque": "sim",
@@ -6748,12 +6750,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 4,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "sustentada",
    "nota": "t13-n7",
    "regiao": "t13-r3",
    "tela": 13,
-   "x_centro_quadro": 652.4,
-   "fonte": "dono"
+   "x_centro_quadro": 652.4
   },
   {
    "ataque": "sim",
@@ -6821,12 +6823,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 4,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "sustentada",
    "nota": "t13-n13",
    "regiao": "t13-r9",
    "tela": 13,
-   "x_centro_quadro": 1148.2,
-   "fonte": "dono"
+   "x_centro_quadro": 1148.2
   },
   {
    "ataque": "sim",
@@ -11684,12 +11686,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 3,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "sustentada",
    "nota": "t23-n4",
    "regiao": "t23-r0",
    "tela": 23,
-   "x_centro_quadro": 343.2,
-   "fonte": "dono"
+   "x_centro_quadro": 343.2
   },
   {
    "ataque": "sim",
@@ -15259,6 +15261,9 @@
  "origem": "data/saida/tab_rotulo/r2/conferir_t84/conferencia_t84_corrigida.json",
  "passo_global": 22.0,
  "telas_conferidas": {
+  "27": true,
+  "28": true,
+  "29": true,
   "1": true,
   "2": true,
   "3": true,
@@ -15284,9 +15289,6 @@
   "23": true,
   "24": true,
   "25": true,
-  "26": true,
-  "27": true,
-  "29": true,
-  "28": true
+  "26": true
  }
 }

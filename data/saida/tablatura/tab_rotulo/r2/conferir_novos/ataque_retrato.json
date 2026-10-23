@@ -104,12 +104,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 1,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t1-n8",
    "regiao": null,
    "tela": 1,
-   "x_centro_quadro": 555.0,
-   "fonte": "dono"
+   "x_centro_quadro": 555.0
   },
   {
    "ataque": "sim",
@@ -201,12 +201,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 1,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t1-n16",
    "regiao": null,
    "tela": 1,
-   "x_centro_quadro": 972.0,
-   "fonte": "dono"
+   "x_centro_quadro": 972.0
   },
   {
    "ataque": "sim",
@@ -262,12 +262,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 0,
    "corda": 4,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t1-n21",
    "regiao": null,
    "tela": 1,
-   "x_centro_quadro": 1259.0,
-   "fonte": "dono"
+   "x_centro_quadro": 1259.0
   },
   {
    "ataque": "sim",
@@ -275,12 +275,12 @@
    "casa_vizinha_dir": null,
    "casa_vizinha_esq": 1,
    "corda": 6,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t1-n22",
    "regiao": null,
    "tela": 1,
-   "x_centro_quadro": 1259.0,
-   "fonte": "dono"
+   "x_centro_quadro": 1259.0
   },
   {
    "ataque": "sim",
@@ -288,12 +288,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 2,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t1-n23",
    "regiao": null,
    "tela": 1,
-   "x_centro_quadro": 1258.0,
-   "fonte": "dono"
+   "x_centro_quadro": 1258.0
   },
   {
    "ataque": "sim",
@@ -313,12 +313,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 1,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t1-n25",
    "regiao": null,
    "tela": 1,
-   "x_centro_quadro": 1396.0,
-   "fonte": "dono"
+   "x_centro_quadro": 1396.0
   },
   {
    "ataque": "sim",
@@ -662,12 +662,12 @@
    "casa_vizinha_dir": 3,
    "casa_vizinha_esq": 0,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t2-n19",
    "regiao": null,
    "tela": 2,
-   "x_centro_quadro": 844.5,
-   "fonte": "dono"
+   "x_centro_quadro": 844.5
   },
   {
    "ataque": "sim",
@@ -675,12 +675,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 2,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t2-n20",
    "regiao": null,
    "tela": 2,
-   "x_centro_quadro": 890.0,
-   "fonte": "dono"
+   "x_centro_quadro": 890.0
   },
   {
    "ataque": "sim",
@@ -688,11 +688,12 @@
    "casa_vizinha_dir": 3,
    "casa_vizinha_esq": 3,
    "corda": 1,
-   "motivo": "normal",
+   "motivo": "mordente_simbolo",
    "nota": "t2-n21",
    "regiao": null,
    "tela": 2,
-   "x_centro_quadro": 953.0
+   "x_centro_quadro": 953.0,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -700,12 +701,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 2,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "mordente",
    "nota": "t2-n22",
    "regiao": null,
    "tela": 2,
-   "x_centro_quadro": 977.5,
-   "fonte": "dono"
+   "x_centro_quadro": 977.5
   },
   {
    "ataque": "nao",
@@ -713,12 +714,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 3,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "mordente",
    "nota": "t2-n23",
    "regiao": null,
    "tela": 2,
-   "x_centro_quadro": 999.5,
-   "fonte": "dono"
+   "x_centro_quadro": 999.5
   },
   {
    "ataque": "sim",
@@ -1050,12 +1051,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 1,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t3-n8",
    "regiao": null,
    "tela": 3,
-   "x_centro_quadro": 530.5,
-   "fonte": "dono"
+   "x_centro_quadro": 530.5
   },
   {
    "ataque": "sim",
@@ -1147,12 +1148,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 1,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t3-n16",
    "regiao": null,
    "tela": 3,
-   "x_centro_quadro": 955.5,
-   "fonte": "dono"
+   "x_centro_quadro": 955.5
   },
   {
    "ataque": "sim",
@@ -1232,12 +1233,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 2,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t3-n23",
    "regiao": null,
    "tela": 3,
-   "x_centro_quadro": 1245.5,
-   "fonte": "dono"
+   "x_centro_quadro": 1245.5
   },
   {
    "ataque": "sim",
@@ -1257,12 +1258,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 1,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t3-n25",
    "regiao": null,
    "tela": 3,
-   "x_centro_quadro": 1387.5,
-   "fonte": "dono"
+   "x_centro_quadro": 1387.5
   },
   {
    "ataque": "sim",
@@ -1498,11 +1499,12 @@
    "casa_vizinha_dir": 3,
    "casa_vizinha_esq": 3,
    "corda": 1,
-   "motivo": "normal",
+   "motivo": "mordente_simbolo",
    "nota": "t4-n9",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 587.5
+   "x_centro_quadro": 587.5,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -1510,12 +1512,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 2,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "mordente",
    "nota": "t4-n10",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 612.5,
-   "fonte": "dono"
+   "x_centro_quadro": 612.5
   },
   {
    "ataque": "nao",
@@ -1523,12 +1525,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 3,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "mordente",
    "nota": "t4-n11",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 634.0,
-   "fonte": "dono"
+   "x_centro_quadro": 634.0
   },
   {
    "ataque": "sim",
@@ -1740,12 +1742,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 7,
    "corda": 6,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t4-n29",
    "regiao": null,
    "tela": 4,
-   "x_centro_quadro": 1441.5,
-   "fonte": "dono"
+   "x_centro_quadro": 1441.5
   },
   {
    "ataque": "sim",
@@ -1993,12 +1995,12 @@
    "casa_vizinha_dir": 3,
    "casa_vizinha_esq": 1,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t5-n12",
    "regiao": null,
    "tela": 5,
-   "x_centro_quadro": 749.5,
-   "fonte": "dono"
+   "x_centro_quadro": 749.5
   },
   {
    "ataque": "sim",
@@ -2078,12 +2080,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 2,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "slide_ligado",
    "nota": "t5-n19",
    "regiao": null,
    "tela": 5,
-   "x_centro_quadro": 1059.0,
-   "fonte": "dono"
+   "x_centro_quadro": 1059.0
   },
   {
    "ataque": "sim",
@@ -2175,12 +2177,12 @@
    "casa_vizinha_dir": 4,
    "casa_vizinha_esq": 3,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t5-n27",
    "regiao": null,
    "tela": 5,
-   "x_centro_quadro": 1355.0,
-   "fonte": "dono"
+   "x_centro_quadro": 1355.0
   },
   {
    "ataque": "sim",
@@ -2524,12 +2526,12 @@
    "casa_vizinha_dir": 1,
    "casa_vizinha_esq": 0,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t6-n16",
    "regiao": null,
    "tela": 6,
-   "x_centro_quadro": 1011.5,
-   "fonte": "dono"
+   "x_centro_quadro": 1011.5
   },
   {
    "ataque": "sim",
@@ -2861,12 +2863,12 @@
    "casa_vizinha_dir": 3,
    "casa_vizinha_esq": 1,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t7-n11",
    "regiao": null,
    "tela": 7,
-   "x_centro_quadro": 683.5,
-   "fonte": "dono"
+   "x_centro_quadro": 683.5
   },
   {
    "ataque": "sim",
@@ -2946,12 +2948,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 4,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t7-n18",
    "regiao": null,
    "tela": 7,
-   "x_centro_quadro": 1064.5,
-   "fonte": "dono"
+   "x_centro_quadro": 1064.5
   },
   {
    "ataque": "sim",
@@ -3307,12 +3309,12 @@
    "casa_vizinha_dir": 7,
    "casa_vizinha_esq": 5,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "slide_ligado",
    "nota": "t8-n10",
    "regiao": null,
    "tela": 8,
-   "x_centro_quadro": 622.5,
-   "fonte": "dono"
+   "x_centro_quadro": 622.5
   },
   {
    "ataque": "sim",
@@ -3476,12 +3478,12 @@
    "casa_vizinha_dir": 13,
    "casa_vizinha_esq": 5,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t8-n24",
    "regiao": null,
    "tela": 8,
-   "x_centro_quadro": 1088.0,
-   "fonte": "dono"
+   "x_centro_quadro": 1088.0
   },
   {
    "ataque": "sim",
@@ -3513,12 +3515,12 @@
    "casa_vizinha_dir": 12,
    "casa_vizinha_esq": 5,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t8-n27",
    "regiao": null,
    "tela": 8,
-   "x_centro_quadro": 1134.5,
-   "fonte": "dono"
+   "x_centro_quadro": 1134.5
   },
   {
    "ataque": "sim",
@@ -3922,12 +3924,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 1,
    "corda": 4,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t9-n18",
    "regiao": null,
    "tela": 9,
-   "x_centro_quadro": 958.5,
-   "fonte": "dono"
+   "x_centro_quadro": 958.5
   },
   {
    "ataque": "sim",
@@ -4031,12 +4033,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 1,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t9-n27",
    "regiao": null,
    "tela": 9,
-   "x_centro_quadro": 1413.0,
-   "fonte": "dono"
+   "x_centro_quadro": 1413.0
   },
   {
    "ataque": "sim",
@@ -4128,12 +4130,12 @@
    "casa_vizinha_dir": null,
    "casa_vizinha_esq": 1,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t9-n35",
    "regiao": null,
    "tela": 9,
-   "x_centro_quadro": 1804.5,
-   "fonte": "dono"
+   "x_centro_quadro": 1804.5
   },
   {
    "ataque": "sim",
@@ -4237,12 +4239,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 1,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "p",
    "nota": "t10-n8",
    "regiao": null,
    "tela": 10,
-   "x_centro_quadro": 549.5,
-   "fonte": "dono"
+   "x_centro_quadro": 549.5
   },
   {
    "ataque": "sim",
@@ -4382,12 +4384,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 2,
    "corda": 4,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t10-n20",
    "regiao": null,
    "tela": 10,
-   "x_centro_quadro": 1093.0,
-   "fonte": "dono"
+   "x_centro_quadro": 1093.0
   },
   {
    "ataque": "sim",
@@ -4611,11 +4613,12 @@
    "casa_vizinha_dir": 3,
    "casa_vizinha_esq": null,
    "corda": 1,
-   "motivo": "normal",
+   "motivo": "mordente_simbolo",
    "nota": "t11-n0",
    "regiao": null,
    "tela": 11,
-   "x_centro_quadro": 190.5
+   "x_centro_quadro": 190.5,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -4623,12 +4626,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 2,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "mordente",
    "nota": "t11-n1",
    "regiao": null,
    "tela": 11,
-   "x_centro_quadro": 214.5,
-   "fonte": "dono"
+   "x_centro_quadro": 214.5
   },
   {
    "ataque": "nao",
@@ -4636,12 +4639,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 3,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "mordente",
    "nota": "t11-n2",
    "regiao": null,
    "tela": 11,
-   "x_centro_quadro": 237.5,
-   "fonte": "dono"
+   "x_centro_quadro": 237.5
   },
   {
    "ataque": "sim",
@@ -4877,12 +4880,12 @@
    "casa_vizinha_dir": 8,
    "casa_vizinha_esq": 7,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t11-n22",
    "regiao": null,
    "tela": 11,
-   "x_centro_quadro": 1079.5,
-   "fonte": "dono"
+   "x_centro_quadro": 1079.5
   },
   {
    "ataque": "sim",
@@ -4902,12 +4905,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 4,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t11-n24",
    "regiao": null,
    "tela": 11,
-   "x_centro_quadro": 1124.5,
-   "fonte": "dono"
+   "x_centro_quadro": 1124.5
   },
   {
    "ataque": "sim",
@@ -5275,12 +5278,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 0,
    "corda": 3,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t12-n15",
    "regiao": null,
    "tela": 12,
-   "x_centro_quadro": 943.5,
-   "fonte": "dono"
+   "x_centro_quadro": 943.5
   },
   {
    "ataque": "sim",
@@ -5360,12 +5363,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 2,
    "corda": 4,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t12-n22",
    "regiao": null,
    "tela": 12,
-   "x_centro_quadro": 1264.5,
-   "fonte": "dono"
+   "x_centro_quadro": 1264.5
   },
   {
    "ataque": "sim",
@@ -5397,11 +5400,12 @@
    "casa_vizinha_dir": 3,
    "casa_vizinha_esq": 3,
    "corda": 1,
-   "motivo": "normal",
+   "motivo": "mordente_simbolo",
    "nota": "t12-n25",
    "regiao": null,
    "tela": 12,
-   "x_centro_quadro": 1431.0
+   "x_centro_quadro": 1431.0,
+   "fonte": "dono"
   },
   {
    "ataque": "nao",
@@ -5409,12 +5413,12 @@
    "casa_vizinha_dir": 2,
    "casa_vizinha_esq": 2,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "mordente",
    "nota": "t12-n26",
    "regiao": null,
    "tela": 12,
-   "x_centro_quadro": 1455.5,
-   "fonte": "dono"
+   "x_centro_quadro": 1455.5
   },
   {
    "ataque": "nao",
@@ -5422,12 +5426,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 3,
    "corda": 1,
+   "fonte": "dono",
    "motivo": "mordente",
    "nota": "t12-n27",
    "regiao": null,
    "tela": 12,
-   "x_centro_quadro": 1477.5,
-   "fonte": "dono"
+   "x_centro_quadro": 1477.5
   },
   {
    "ataque": "sim",
@@ -5699,12 +5703,12 @@
    "casa_vizinha_dir": 1,
    "casa_vizinha_esq": 0,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t13-n14",
    "regiao": null,
    "tela": 13,
-   "x_centro_quadro": 900.0,
-   "fonte": "dono"
+   "x_centro_quadro": 900.0
   },
   {
    "ataque": "sim",
@@ -5736,12 +5740,12 @@
    "casa_vizinha_dir": 0,
    "casa_vizinha_esq": 3,
    "corda": 2,
+   "fonte": "dono",
    "motivo": "normal",
    "nota": "t13-n17",
    "regiao": null,
    "tela": 13,
-   "x_centro_quadro": 953.5,
-   "fonte": "dono"
+   "x_centro_quadro": 953.5
   },
   {
    "ataque": "sim",
