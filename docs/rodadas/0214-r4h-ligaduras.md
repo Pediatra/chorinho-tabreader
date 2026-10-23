@@ -115,3 +115,48 @@ dos ouros):
 - O X sem número ainda não é nota no arquivo de ataque. Isso é dívida.
 - As duas mudanças, o gerador e as telas reais, entram juntas. O resultado não separa o
   efeito de cada uma.
+
+## Emenda antes de medir (2026-10-23): os gabaritos revisados e a versão `_atqr`
+
+Escrita com 9 dos 15 treinos `_atqb` prontos e **antes** de qualquer medida do `_atqb`, nos
+ouros ou na T8.5.
+
+**Por quê.** O dono contou que tinha entendido o modo ataque errado:
+- no seletor, quatro motivos apareciam sem nome ("undefined"), entre eles o "~" (tocada e
+  prolongada);
+- na T8.5, ele leu o `l` como "tem ligadura", quando ele quer dizer "não atacada";
+- e ele não sabia que havia opções para algumas técnicas.
+
+**O que mudou na ferramenta** (commits e521dc76 e 044f9ae0):
+- o seletor tem nome em cada motivo, separado em ATACADA e NÃO ATACADA;
+- atalhos de teclado e desfazer, a pedido do dono.
+
+**A revisão** (commit 530c906b): o dono revisou de novo, tela por tela, o ataque de 11
+gabaritos: T8.2, T8.3, T8.4, T8.5 e 7 ouros.
+- As marcas de "tela de ataque conferida" foram zeradas antes, e ele marcou todas de novo.
+- A Gymnopédie fica como estava. Ela não tem nota não atacada, e o ouro dela diverge do
+  estado da ferramenta.
+- Em 3 telas ele acrescentou notas, e as chaves do ataque deslizaram. O
+  `revisao_ataque/renumerar.py` devolve cada entrada à nota dela, sem mudar rótulo.
+
+| gabarito | notas | não atacadas |
+| --- | --- | --- |
+| T8.5 | 1366 | 46 |
+| T8.4 | 1270 | 84 |
+| T8.3 | 1494 | 76 |
+| T8.2 | 1582 | 58 |
+
+**O que muda nesta rodada:**
+- **O `_atqb` sai.** Ele foi treinado com os rótulos de antes da revisão. A versão desta rodada
+  passa a ser o **`_atqr`**: a mesma receita (gerador G13–G15, `--t83-toda --t84`), com o cache
+  real refeito a partir dos gabaritos revisados (`r4h/refazer_cache.sh`). O nome `_atqc` já
+  existe (0204).
+- **O `_atqa` é medido de novo nos ouros revisados.** As medidas antigas ficam em
+  `r4a/medida_atqa_s*_alto_rotulo_antigo.json`. O critério compara o `_atqr` com essa medida
+  nova.
+- **A casa mínima** deixa de ser o número fixo 2660. As notas dos ouros mudaram, e com elas o
+  denominador. Passa a valer: a pior semente do `_atqr` não fica mais de 2 abaixo da pior
+  semente do `_atqa`. O resto do critério e o aceite da T8.5 não mudam.
+- **A T8.5 foi liberada** (`r4h/t85_liberada.json`) depois da revisão do dono. Continua sem
+  nenhum modelo medido nela.
+- O roteiro é o `r4h/rodar_r.sh`.

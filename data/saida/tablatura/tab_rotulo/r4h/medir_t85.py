@@ -1,11 +1,11 @@
 """0214: a prova lacrada T8.5, uma vez só (pré-registro em docs/rodadas/0214-r4h-ligaduras.md).
 
-Mede a versão pedida (``atqb``, que decide; ``atqa``, só informada e depois) com o ``L``
+Mede a versão pedida (``atqr``, que decide; ``atqa``, só informada e depois) com o ``L``
 dos ouros de ``r4h/decisao.json``, a dobra 0, as 3 sementes e o recorte alto. Conta como
 ``tab.ataque_r4.contar`` e grava ``r4h/medida_t85_<versao>.json``. Aceite: "sim" falso
 ≤ 5 % e custo ≤ 10 %, sementes somadas. Recusa medir de novo uma versão já medida.
 
-Uso (container): env PYTHONPATH=/app python /app/data/saida/tablatura/tab_rotulo/r4h/medir_t85.py atqb
+Uso (container): env PYTHONPATH=/app python /app/data/saida/tablatura/tab_rotulo/r4h/medir_t85.py atqr
 """
 
 import json
@@ -31,10 +31,10 @@ def main(versao: str) -> int:
     if destino.exists():
         raise SystemExit(f"{destino.name} já existe: a T8.5 se mede uma vez só")
     decisao = json.loads(DECISAO.read_text(encoding="utf-8"))
-    if versao == "atqb" and not decisao["atqb_passa_nos_ouros"]:
-        raise SystemExit("o atqb não passou nos ouros: a T8.5 não se gasta")
-    if versao == "atqa" and not (caminhos.TAB_ROTULO / "r4h" / "medida_t85_atqb.json").exists():
-        raise SystemExit("o atqa só se mede depois do atqb")
+    if versao == "atqr" and not decisao["atqr_passa_nos_ouros"]:
+        raise SystemExit("o atqr não passou nos ouros: a T8.5 não se gasta")
+    if versao == "atqa" and not (caminhos.TAB_ROTULO / "r4h" / "medida_t85_atqr.json").exists():
+        raise SystemExit("o atqa só se mede depois do atqr")
     L = decisao["versoes"][versao]["L"]
     indice = {int(r["id"]): r for r in json.loads(INDICE.read_text(encoding="utf-8"))}
     gab = A.gabarito_por_tela(GAB)

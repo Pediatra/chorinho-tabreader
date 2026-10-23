@@ -1,7 +1,7 @@
 {
  "video": "t82: 36 telas de canais fora do ouro (ver indice.json)",
  "como_foi_rotulado": "T8.2: uma tela por vídeo, 2 vídeos por canal fora do ouro (data/saida/t82). Notas pré-lidas pela rede; o dono confere a casa. Sem instantes.",
- "rotulado_em": "2026-10-18T20:59:40",
+ "rotulado_em": "2026-10-23T15:08:41",
  "telas": [
   {
    "id": 1,
@@ -2553,19 +2553,6 @@
     },
     {
      "cordas": [
-      1,
-      1
-     ],
-     "x_quadro": [
-      471.1,
-      519.5
-     ],
-     "tecnica": [
-      "p"
-     ]
-    },
-    {
-     "cordas": [
       4,
       6
      ],
@@ -2576,18 +2563,6 @@
      "tecnica": [
       "x"
      ]
-    },
-    {
-     "cordas": [
-      1,
-      1
-     ],
-     "x_quadro": [
-      673.3,
-      730.4
-     ],
-     "tecnica": [],
-     "obs": "mordente"
     },
     {
      "cordas": [
@@ -3207,6 +3182,18 @@
    "quadro_ref_s": 74.91,
    "conferida": true,
    "notas": [
+    {
+     "corda": 2,
+     "casa": 10,
+     "x_quadro": 98.0,
+     "x_centro_quadro": 103.2
+    },
+    {
+     "corda": 2,
+     "casa": 12,
+     "x_quadro": 133.7,
+     "x_centro_quadro": 138.9
+    },
     {
      "corda": 2,
      "casa": 10,
@@ -7659,18 +7646,6 @@
     },
     {
      "cordas": [
-      6,
-      6
-     ],
-     "x_quadro": [
-      779.6,
-      830.3
-     ],
-     "tecnica": [],
-     "obs": "ligadura de prolongamento"
-    },
-    {
-     "cordas": [
       3,
       4
      ],
@@ -10002,6 +9977,12 @@
     },
     {
      "corda": 1,
+     "casa": 2,
+     "x_quadro": 748.2,
+     "x_centro_quadro": 756.1
+    },
+    {
+     "corda": 1,
      "casa": 10,
      "x_quadro": 786.4,
      "x_centro_quadro": 795.8
@@ -11044,8 +11025,8 @@
  "instantes": [],
  "juntadas": {},
  "ferramenta": {
-  "proximo": 135,
-  "tela_atual": 8,
+  "proximo": 136,
+  "tela_atual": 33,
   "inst_atual": 0,
   "telas": [
    {
@@ -16974,30 +16955,6 @@
        "x"
       ],
       "obs": ""
-     },
-     {
-      "id": "r133",
-      "x0": 471.1,
-      "x1": 519.5,
-      "y0": 857.9,
-      "y1": 888.1,
-      "corda_ini": 1,
-      "corda_fim": 1,
-      "tecnica": [
-       "p"
-      ],
-      "obs": ""
-     },
-     {
-      "id": "r134",
-      "x0": 673.3,
-      "x1": 730.4,
-      "y0": 851,
-      "y1": 885.5,
-      "corda_ini": 1,
-      "corda_fim": 1,
-      "tecnica": [],
-      "obs": "mordente"
      }
     ]
    },
@@ -18930,6 +18887,24 @@
        1862.1,
        984.7
       ]
+     },
+     {
+      "id": "d132",
+      "corda": 2,
+      "casa": "10",
+      "x_centro_quadro": 103.2,
+      "x_quadro": 98,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d133",
+      "corda": 2,
+      "casa": "12",
+      "x_centro_quadro": 138.9,
+      "x_quadro": 133.7,
+      "origem": "dono",
+      "removida": false
      }
     ],
     "regioes": [
@@ -28681,17 +28656,6 @@
        "p"
       ],
       "obs": "mordente"
-     },
-     {
-      "id": "r132",
-      "x0": 779.6,
-      "x1": 830.3,
-      "y0": 1024.2,
-      "y1": 1032,
-      "corda_ini": 6,
-      "corda_fim": 6,
-      "tecnica": [],
-      "obs": "ligadura de prolongamento"
      }
     ]
    },
@@ -34292,6 +34256,15 @@
       "casa": "",
       "x_centro_quadro": 552.9,
       "x_quadro": 545,
+      "origem": "dono",
+      "removida": false
+     },
+     {
+      "id": "d134",
+      "corda": 1,
+      "casa": "2",
+      "x_centro_quadro": 756.1,
+      "x_quadro": 748.2,
       "origem": "dono",
       "removida": false
      }
