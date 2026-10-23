@@ -492,12 +492,14 @@ def _sem_linhas(medida: dict) -> dict:
     return {k: v for k, v in medida.items() if k != "linhas"}
 
 
-def criterios(novo: dict, referencia: dict) -> dict:
+def criterios(novo: dict, referencia: dict, margem: int = 4) -> dict:
     """Os critérios 1, 2 e 3 da 1044.
 
     Args:
         novo: ``medir_por_grupo`` da cadeia.
         referencia: ``medir_por_grupo`` do par antigo.
+        margem: certos a mais exigidos no critério 2 (4 na 1044; 0 na 1047, pela emenda
+            do pré-registro dela).
 
     Returns:
         Cada critério com os números e se passa.
@@ -524,7 +526,7 @@ def criterios(novo: dict, referencia: dict) -> dict:
         },
         "2_ganho": {
             "certos_novo_ref": [n["entregue_certo"], r["entregue_certo"]],
-            "passa": n["entregue_certo"] >= r["entregue_certo"] + 4,
+            "passa": n["entregue_certo"] >= r["entregue_certo"] + margem,
         },
         "3_nao_estragar": {
             "estragados_de": [estragados, len(certos_ref)],
@@ -535,6 +537,9 @@ def criterios(novo: dict, referencia: dict) -> dict:
 
 #: Rodadas medidas sem a tomada (parte C).
 RODADAS_SEM_TOMADA = ("1047",)
+#: Certos a mais exigidos no critério 2, por rodada (pré-registros da 1044 e da 1047).
+MARGEM_GANHO_PADRAO = 4
+MARGEM_GANHO = {"1047": 0}
 
 
 def ler_faixas() -> dict[str, dict]:
@@ -566,7 +571,9 @@ def medir(numero: str) -> dict:
     resultado = {
         "cadeia": _sem_linhas(novo),
         "referencia": _sem_linhas(referencia),
-        "criterios": criterios(novo, referencia),
+        "criterios": criterios(
+            novo, referencia, MARGEM_GANHO.get(numero, MARGEM_GANHO_PADRAO)
+        ),
         "linhas": {"cadeia": novo["linhas"], "referencia": referencia["linhas"]},
         "registro": registro,
     }

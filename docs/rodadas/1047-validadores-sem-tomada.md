@@ -52,3 +52,23 @@ Os mesmos critérios da 1044, contra o par antigo nos mesmos quadros:
 | 1, 2 e 3 passam | a cadeia (A + B, sem C) vira a cadeia do ciclo sem capo |
 | 1 e 3 passam, 2 falha | entra só como sinal sobre o par antigo (sinaliza o que a cadeia recusa) |
 | 1 ou 3 falha | não adotar; olhar por validador |
+
+## Resultado (2026-10-23): passa nos três critérios
+
+M47 revisada pelo dono: 40 quadros, 35 com braço (5 com capo), 5 sem braço
+(`m44/hipoteses/1047/medida.json`).
+
+| | certos entregues | falsos que passam | sinalizados |
+| --- | --- | --- | --- |
+| referência (par antigo) | 18 | 3 | 19 |
+| cadeia (A + B, sem a tomada) | **20** | **0** | 20 |
+
+- **Critério 1: passa** (0 contra 3). **Critério 2: passa** (20 ≥ 18). **Critério 3: passa**
+  (0 dos 18 certos da referência viraram falso).
+- **Por canal** (certos / falsos que passam, cadeia contra referência): rostheo 5/0 e 5/0;
+  lonelypicker 2/0 e 0/2; robert lunn 1/0 e 0/0; paolo d'angelo 5/0 e 5/0; serge kottelat
+  2/0 e 1/0; iwaki 5/0 e 5/0; mr. tabs 0/0 e 2/1; guitar dell'arte 0/0 nos dois.
+- **Resultado: a cadeia (validadores + 22 tentativas, sem a tomada) vira a cadeia do ciclo
+  sem capo.** Com capo, ela só sinaliza (1043); o capo espera a 1045.
+- Somando as duas provas lacradas (M44 + M47, 76 medidos), sem a tomada: 0 falsos que passam
+  contra 7 da referência. (A M44 sem a tomada foi conta depois de ver; a M47 é a confirmação.)

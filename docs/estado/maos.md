@@ -334,3 +334,8 @@ em `docs/rodadas/10NN-*`.
   mínimo era 22). Critérios 1 e 3 passam, o 2 reprova. A tomada (S4b) com 5 quadros por
   vídeo tirou 6 certos. Só registro: sem a tomada, 18 certos e 0 falsos; precisa de um lote
   lacrado novo para confirmar.
+- **1047 (a cadeia da 1044 sem a tomada, lote lacrado de 8 canais): passa nos três
+  critérios.** 20 certos e **0 falsos que passam**, contra 18 e 3 do par antigo. Vira a cadeia
+  do ciclo sem capo (`python -m tab.maos.braco.validadores_gpu preencher --rodada N`).
+- **Próximo:** a 1045, o capo como uma 5ª saída do estágio 2 (pontos `k` do dono), com o nut
+  pela conta da 1046.
