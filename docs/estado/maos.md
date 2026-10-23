@@ -351,3 +351,26 @@ em `docs/rodadas/10NN-*`.
   Não adotada. Registro: a cadeia da 1045 sozinha deu 20 certos e 0 falsos nesses 40.
 - **Próximo:** o passo 2 (retreino da rede de capo com capo sintético, capo colado em quadros
   reais e cinza) e a saliência do capo fora da borda do braço (ideia do dono).
+- **Saliência do capo por regra fixa (ideia do dono, só exploração no desenvolvimento, sem
+  prova)**: na faixa do braço, a fração de pixels fora do braço (acima da corda 6 e abaixo
+  da corda 1) que fogem do fundo, comparando a casa do capo com a casa anterior. Em 90 capos
+  já vistos (M39, M43, M47, M48), a nota na casa certa tem mediana 0,10, e na casa seguinte
+  0,04, com muita sobreposição: para deixar passar ≤ 5 % das casas erradas, só ~15 % das
+  certas passariam. A mão e as mudanças de fundo (camisa, parede, cabeça do violão) saem do
+  braço tanto quanto a garra; os capos finos de metal quase não saem. Folha:
+  `m49/olhar/perfis.jpg`. Não virou rodada. A faixa que a rede de capo já recebe inclui 1,5
+  largura do braço para cada lado: a saliência entra como algo que a rede aprende (passo 2),
+  não como regra.
+
+### 2026-10-23 — o capo fica congelado; a trilha volta para a base (M12–M15)
+
+- **Dono, 2026-10-23** ("essa coisa de capo tá tomando muito tempo"; recomendação aceita):
+  o capo sai do caminho crítico. Quadro com capo vai para "sem braço" (a nota perde o ouro,
+  não entra errada). O retreino da rede de capo (sintético + colagem + cinza) e a casa do
+  capo por vídeo ficam guardados como melhoria.
+- **O braço hoje**: sem capo, a cadeia da 1047 (0 falsos que passam em 76 medidos nas provas
+  M44 + M47); com capo, só sinaliza.
+- **Próximo**: o piloto da base no sky guitar (0 capos nos 82 quadros do dono, mãos em
+  100 % dos vídeos no censo M0, tablatura conferida): M12 (mãos e braço em todos os quadros),
+  M13 (o `t_audio` da trilha do áudio), M14 (eventos com K1–K4 e a auditoria de 100 eventos
+  do dono). Começa pelo vídeo do MVP (*retrato brasileiro*), que já tem produto e som.
