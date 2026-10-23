@@ -37,3 +37,12 @@ referência; 7 cordas com o botão.
 
 São as do ciclo (`ciclo medir --rodada 1043`) para o par da 1041, e os critérios da 1042 para
 o par dela. O critério está no [pré-registro da 1042](1042-retreino-com-a-1039.md).
+
+## Resultado (2026-10-23)
+
+O dono revisou os 40 quadros (39 com capo). O par da 1041 entrega 1 certo, 1 falso que passa e
+sinaliza 38; o da 1042, 1 certo, 2 falsos que passam e 37 sinalizados. A medida e os critérios
+estão no [resultado da 1042](1042-retreino-com-a-1039.md#resultado-na-prova-1043-revisada-pelo-dono-em-2026-10-23).
+A prova fica **gasta para os pares da 1041 e da 1042**. Ela continua sem uso para escolher
+qualquer coisa de métodos novos, mas o agente viu os erros dos quadros q01–q10 (folha
+`m43/erros_parcial.jpg`), e isso fica declarado.

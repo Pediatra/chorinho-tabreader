@@ -315,3 +315,14 @@ em `docs/rodadas/10NN-*`.
   e a 1043 (lote novo, 5 vídeos com capo do kimny's guitar, 40 quadros) como prova lacrada.
 - A ferramenta do braço escondia o quadro atrás do cabeçalho em tela pequena (corrigido em
   `dda828da`).
+
+### 2026-10-23 — a 1042 reprova na 1043: retreinar canal a canal não generaliza o capo
+
+- **1042** (as 64 marcas da 1039 no treino, veto de inversão): na 1043 (kimny's guitar, 40
+  quadros, 39 com capo, canal nunca visto) entrega 1 certo e **2 falsos que passam**; o par da
+  1041, 1 e 1. Critério 2 reprova; o 3 já reprovava no N (9 certos contra 12). Não adotado.
+- **O erro é o mesmo da 1039**: o nut vai para o nut verdadeiro (17 de 39) ou para o capo (7).
+  Nos dois pares, quase tudo vem sinalizado (37 e 38 de 40): seguro, mas sem uso.
+- **Próximo** (combinado com o dono): a 1044, sem retreino: validadores físicos, várias
+  tentativas (9 pares, giro e espelho) e **um violão por tomada** com o capo pela conta. Depois,
+  se faltar, retreino com sintético com capo e um backbone pré-treinado.

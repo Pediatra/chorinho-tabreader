@@ -67,3 +67,28 @@ par que inverte o braço?
   - Entregues certos: novo 9, antigo 12 (precisa ≥ 10): **falha**. O novo sinaliza 7 de 17, contra 5 do antigo.
   - No N com capo (4 quadros, só informativo): novo 3 certos e 1 falso que passa; antigo 0 certos e 3 falsos.
 - Pela tabela pré-registrada, se 1 e 2 passarem na 1043, o par novo vale **só onde há capo** e depende da 1038 (achar o capo). Os critérios 1 e 2 esperam a revisão do dono na 1043 (`previsto_1043.json` já gerado).
+
+## Resultado na prova (1043, revisada pelo dono em 2026-10-23)
+
+40 quadros, todos com braço, 39 com capo (`m42/medida_prova.json`, `medir-prova`).
+
+| par | certos entregues | falsos que passam | sinalizados | classes (certo / impreciso / falso / não achou) |
+| --- | --- | --- | --- | --- |
+| novo (L6_capo_s1 + A8_capo_s2) | 1 | 2 | 37 | 5 / 4 / 30 / 1 |
+| 1041 (L5_capo3_s2 + A7_capo3_s2) | 1 | 1 | 38 | 7 / 1 / 32 / 0 |
+
+- **Critério 1 (segurança): passa**, 2 de 40 (5 %), no limite.
+- **Critério 2 (capo): reprova**, 2 falsos que passam (o máximo era 1); certos 1 contra 1.
+- **Critério 3**: já reprovado no N (9 contra 12).
+- **Resultado: "1 passa, 2 falha": não adotar.**
+- **Por tipo de erro** (nut previsto contra o do dono, em casas, nos 39 com capo):
+
+  | par | nut certo (< ¼ casa) | no capo | além do capo (nut verdadeiro) | para o corpo | sem nut |
+  | --- | --- | --- | --- | --- | --- |
+  | novo | 12 | 7 | 17 | 2 | 1 |
+  | 1041 | 15 | 5 | 15 | 4 | 0 |
+
+  O erro dominante é o mesmo da 1039: o nut vai para o nut verdadeiro ou para o capo. O canal é
+  novo (preto e branco, clássico, câmera de baixo) e as 64 marcas da 1039 não o cobriram.
+- **Falha do critério, registrada (não muda nada aqui):** um par que sinaliza quase tudo passa os
+  critérios 1 e 2 com 0 certos. As próximas rodadas exigem um mínimo de certos.
