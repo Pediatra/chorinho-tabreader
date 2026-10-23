@@ -47,8 +47,8 @@ LACUNA_TRILHA_S = 0.5
 LIMIAR_CORTE = 0.30
 #: Pontas do indicador ao mínimo nos 21 pontos da mão.
 PONTAS = (8, 12, 16, 20)
-#: Capotraste confirmado pelo dono, por canal (vazio até a confirmação).
-CAPO_DONO: dict[str, int] = {}
+#: Capotraste confirmado pelo dono, por canal. sky guitar: "não, nunca" (dono, 2026-10-23).
+CAPO_DONO: dict[str, int] = {"sky guitar": 0}
 #: Código da origem da mão no denso.
 ORIGEM = {"wholebody": 1, "mediapipe": 2}
 #: Índice da mão no denso: 0 = a do braço (esquerda do destro), 1 = a do ataque.
