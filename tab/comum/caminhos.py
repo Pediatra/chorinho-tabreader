@@ -156,6 +156,9 @@ MAOS_M47 = SAIDA / "maos" / "m47"
 GABARITO_BRACO_M47 = RAIZ / "data" / "gold" / "maos" / "braco_m47.json"
 #: Rede de capo na faixa do braço (rodada 1045): contagem, picos, escolha e medida.
 MAOS_M45 = SAIDA / "maos" / "m45"
+#: Memória do capo por vídeo (rodada 1048): triagem, lote de capo e medida.
+MAOS_M48 = SAIDA / "maos" / "m48"
+GABARITO_BRACO_M48 = RAIZ / "data" / "gold" / "maos" / "braco_m48.json"
 #: Capo por detector aberto (rodada 1046): caixas do Grounding DINO, escolha e medida.
 MAOS_M46 = SAIDA / "maos" / "m46"
 #: Casa do capo por vídeo, juntada do gabarito do braço (``tab.maos_braco_capo``).

@@ -50,6 +50,7 @@ from tab.comum.caminhos import (
     GABARITO_BRACO_M43,
     GABARITO_BRACO_M44,
     GABARITO_BRACO_M47,
+    GABARITO_BRACO_M48,
     MAOS_M3B,
     MAOS_M11B,
     MAOS_M21,
@@ -64,6 +65,7 @@ from tab.comum.caminhos import (
     MAOS_M43,
     MAOS_M44,
     MAOS_M47,
+    MAOS_M48,
     acervo,
 )
 from tab.maos.braco.consenso import SINAL_S4, consenso
@@ -118,7 +120,8 @@ class Rodada:
             ``triagem.json`` da pasta (rodada 1039).
         canais: se não vazio, o lote tem 1 vídeo de cada um destes canais (rodada
             1044), fora de todo vídeo que já está num gabarito do braço; ``canal`` e
-            ``n_videos`` não valem.
+            ``n_videos`` não valem. Com ``triagem``, a triagem sorteia entre os vídeos
+            livres destes canais juntos, e o lote sai dos marcados (rodada 1048).
     """
 
     canal: str
@@ -239,6 +242,16 @@ RODADAS: dict[str, Rodada] = {
         proxima="rodada seguinte",
         n_instantes=5,
         canais=CANAIS_1047,
+    ),
+    "1048": Rodada(
+        canal="",
+        semente=20261048,
+        pasta=MAOS_M48,
+        gabarito=GABARITO_BRACO_M48,
+        proxima="rodada seguinte",
+        n_instantes=5,
+        triagem=True,
+        canais=("kimny's guitar", "shin izumi"),
     ),
 }
 
@@ -587,7 +600,12 @@ def sortear(numero: str = RODADA_PADRAO, raiz: Path | None = None) -> list[str]:
     if (pasta / ARQUIVO_INDICE).exists() or ouro.exists():
         raise FileExistsError(f"já existe índice ou gabarito em {pasta} / {ouro}")
     usados = excluidos_da_rodada(numero)
-    if rodada.canais:
+    if rodada.canais and rodada.triagem:
+        candidatos = videos_com_capo_visto(pasta / ARQUIVO_TRIAGEM)
+        usados |= arquivos_dos_gabaritos()
+        n = min(rodada.n_videos, len(candidatos))
+        videos = escolher_videos(candidatos, usados, rodada.semente, n)
+    elif rodada.canais:
         usados |= arquivos_dos_gabaritos()
         candidatos = []
         videos = []
@@ -694,7 +712,13 @@ def triar(numero: str, raiz: Path | None = None, n: int = N_TRIAGEM) -> list[dic
     if destino.exists():
         raise FileExistsError(f"já existe {destino}")
     usados = excluidos_da_rodada(numero)
-    candidatos = _candidatos(raiz, rodada.canal, rodada.filtro_titulo)
+    if rodada.canais:
+        usados |= arquivos_dos_gabaritos()
+        candidatos = [
+            v for canal in rodada.canais for v in _candidatos(raiz, canal, None)
+        ]
+    else:
+        candidatos = _candidatos(raiz, rodada.canal, rodada.filtro_titulo)
     livres = sorted(v for v in set(candidatos) if v not in usados)
     sorteados = random.Random(f"{rodada.semente}:triagem").sample(
         livres, min(n, len(livres))
@@ -720,7 +744,7 @@ def triar(numero: str, raiz: Path | None = None, n: int = N_TRIAGEM) -> list[dic
         destino,
         {
             "semente": f"{rodada.semente}:triagem",
-            "canal": rodada.canal,
+            "canal": rodada.canal or list(rodada.canais),
             "livres": len(livres),
             "videos": videos,
         },
