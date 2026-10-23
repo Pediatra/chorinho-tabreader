@@ -51,3 +51,16 @@ RUN python -c "from rtmlib import Wholebody; Wholebody(backend='onnxruntime', de
 ENV LD_LIBRARY_PATH=/opt/venv/lib/python3.14/site-packages/nvidia/cu13/lib:/opt/venv/lib/python3.14/site-packages/nvidia/cudnn/lib
 
 RUN python -c "import rtmlib, onnxruntime, cv2, numpy, mediapipe; print('rtmlib ok, onnxruntime', onnxruntime.__version__, 'providers no build', onnxruntime.get_available_providers())"
+
+# Rodada 1046 (capo por detector aberto): Grounding DINO tiny via transformers, com o aval do
+# dono (2026-10-23). Versão fixa; as versões de torch, numpy e cv2 são conferidas depois e o
+# build falha se mudarem. Os pesos (Apache-2.0) vêm numa revisão fixa do Hugging Face, só os
+# arquivos de config e o safetensors, para /opt/modelos/hf; a execução roda sem rede.
+RUN python -c "import torch, numpy, cv2; open('/tmp/antes','w').write(f'{torch.__version__} {numpy.__version__} {cv2.__version__}')" \
+    && pip install --no-cache-dir transformers==5.19.0 \
+    && python -c "import torch, numpy, cv2; a=open('/tmp/antes').read(); d=f'{torch.__version__} {numpy.__version__} {cv2.__version__}'; print('antes', a, 'depois', d); assert a == d, 'transformers trocou torch/numpy/cv2'"
+ENV HF_HOME=/opt/modelos/hf
+RUN python -c "from huggingface_hub import snapshot_download; p = snapshot_download('IDEA-Research/grounding-dino-tiny', revision='a2bb814dd30d776dcf7e30523b00659f4f141c71', allow_patterns=['*.json', '*.txt', 'model.safetensors']); print(p)" \
+    && find /opt/modelos/hf -name 'model.safetensors' -exec sha256sum {} +
+ENV HF_HUB_OFFLINE=1
+RUN python -c "from transformers import AutoModelForZeroShotObjectDetection, AutoProcessor; m='IDEA-Research/grounding-dino-tiny'; r='a2bb814dd30d776dcf7e30523b00659f4f141c71'; AutoProcessor.from_pretrained(m, revision=r); AutoModelForZeroShotObjectDetection.from_pretrained(m, revision=r); print('grounding dino ok')"
