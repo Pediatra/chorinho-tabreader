@@ -1,0 +1,19 @@
+{
+ "citado_por": [
+  "docs/estado/tablatura.md"
+ ],
+ "classe": "manter",
+ "comando": [
+  "python data/saida/tablatura/tab_rotulo/r2/novos_t86.py",
+  "sh data/saida/tablatura/t86/passe_ataque/servir.sh",
+  "(o dono confere no modo ataque)"
+ ],
+ "modificado": "2026-10-23",
+ "motivo": "passe do modo ataque da T8.6 (27 telas; fora a 3 e a 28): ouro servido e ferramenta; o rótulo fica em tab_rotulo/r2/conferir_t86/ataque_t86.json",
+ "nome": "passe_ataque",
+ "regeneravel": "não (passe do dono)",
+ "rodadas": [
+  "docs/rodadas/0215-expressao-e-t85.md"
+ ],
+ "trilha": "tablatura"
+}
