@@ -70,6 +70,12 @@ mais que isso está errado, e não entra.
   e 5 quadros por vídeo**, entre os vídeos nunca usados em gabarito nem treino. Os 8 canais
   são os com menos quadros no gabarito do braço hoje. Semente 20261044. Ninguém olha as
   previsões antes da revisão do dono (~50 min).
+- **Emenda (2026-10-23, antes do sorteio):** três dos 8 canais não têm vídeo livre (fora de
+  todo gabarito e treino): yunus guitarist e vvxofingerstyletab têm 1 vídeo cada, e os 40 do
+  gabriel cryslian já foram usados. Entram os seguintes pela contagem: iwaki e leonardo ramos
+  (16 quadros cada) e cifra club (17; empate com guitar dell'arte, desfeito pela ordem
+  alfabética). Os 8: rostheo guitar, serge kottelat, robert lunn, transcriptor, paolo
+  d'angelo, iwaki, leonardo ramos e cifra club.
 - **Prova 2 — a 1043**: gasta para os pares da 1041 e da 1042, mas nova para o método. O
   agente viu os erros de q01–q10 (declarado no documento da 1043). Só registro: sem um
   localizador de capo, o esperado é sinalizar.

@@ -48,6 +48,7 @@ from tab.comum.caminhos import (
     GABARITO_BRACO_M36,
     GABARITO_BRACO_M39,
     GABARITO_BRACO_M43,
+    GABARITO_BRACO_M44,
     MAOS_M3B,
     MAOS_M11B,
     MAOS_M21,
@@ -60,6 +61,7 @@ from tab.comum.caminhos import (
     MAOS_M37,
     MAOS_M39,
     MAOS_M43,
+    MAOS_M44,
     acervo,
 )
 from tab.maos.braco.consenso import SINAL_S4, consenso
@@ -112,6 +114,9 @@ class Rodada:
             diferença de caixa); None aceita todos os vídeos do canal.
         triagem: se True, o lote sai só dos vídeos marcados ``capo_visto`` na
             ``triagem.json`` da pasta (rodada 1039).
+        canais: se não vazio, o lote tem 1 vídeo de cada um destes canais (rodada
+            1044), fora de todo vídeo que já está num gabarito do braço; ``canal`` e
+            ``n_videos`` não valem.
     """
 
     canal: str
@@ -123,10 +128,26 @@ class Rodada:
     n_instantes: int = 8
     filtro_titulo: str | None = None
     triagem: bool = False
+    canais: tuple[str, ...] = ()
 
 
 #: Títulos de aula de violão (a 1036 tira do sorteio os vlogs do canal).
 FILTRO_AULA = r"viol[aã]o|tab|solo|aprenda|fingerstyle"
+
+#: Os 8 canais com menos quadros no gabarito do braço em 2026-10-23 e algum vídeo livre
+#: (pré-registro da 1044 e a emenda dele: yunus guitarist, vvxofingerstyletab e gabriel
+#: cryslian não têm vídeo livre e dão lugar a iwaki, leonardo ramos e cifra club; o raman
+#: korshun está descartado).
+CANAIS_1044 = (
+    "rostheo guitar",
+    "serge kottelat",
+    "robert lunn",
+    "transcriptor",
+    "paolo d'angelo",
+    "iwaki",
+    "leonardo ramos",
+    "cifra club",
+)
 
 #: Uma linha por rodada. A 1026 é a primeira; a 1027 usa o mesmo detector, sem mudança.
 RODADAS: dict[str, Rodada] = {
@@ -185,6 +206,15 @@ RODADAS: dict[str, Rodada] = {
         n_videos=5,
         triagem=True,
     ),
+    "1044": Rodada(
+        canal="",
+        semente=20261044,
+        pasta=MAOS_M44,
+        gabarito=GABARITO_BRACO_M44,
+        proxima="rodada seguinte",
+        n_instantes=5,
+        canais=CANAIS_1044,
+    ),
 }
 
 #: Rodada usada quando a CLI não recebe ``--rodada``.
@@ -199,7 +229,7 @@ RODADAS_COM_A5 = ("1032",)
 RODADAS_SINAL_NUT = ("1032",)
 #: Rodadas que usam o sinal v2 (bordas do quadro e linhas de painel; rodada 1033, que o pôs
 #: no lugar do v1 na 1032).
-RODADAS_SINAL_NUT_V2 = ("1032", "1036", "1039", "1043")
+RODADAS_SINAL_NUT_V2 = ("1032", "1036", "1039", "1043", "1044")
 #: Rodadas que usam a escolha de pesos de outra (sem rodar ``escolher-pesos`` de novo).
 RODADAS_ESCOLHA_HERDADA = {"1036": "1032"}
 #: Rodadas cujos pesos dependem da 1037 (pré-registro da 1039): o par novo se a 1037 passou
@@ -209,6 +239,7 @@ RODADAS_PESOS_DA_1037 = ("1039",)
 #: (o melhor no capo até ali), e mede a 1042, que não a preenche.
 RODADAS_PESOS_FIXOS: dict[str, tuple[str, str]] = {
     "1043": ("L5_capo3_s2", "A7_capo3_s2"),
+    "1044": ("L3_todos_s3", "A4_100_todos_s1"),
 }
 ARQUIVO_MEDIDA_1037 = MAOS_M37 / "medida.json"
 ARQUIVO_ESCOLHA_1037 = MAOS_M37 / "escolha_pesos.json"
@@ -420,6 +451,24 @@ def excluidos_da_rodada(numero: str) -> set[str]:
     return usados
 
 
+def arquivos_dos_gabaritos(pasta: Path = GABARITO_BRACO_M43.parent) -> set[str]:
+    """Vídeos que aparecem em algum gabarito do braço (``braco*.json``).
+
+    Args:
+        pasta: pasta dos gabaritos do braço.
+
+    Returns:
+        Caminhos relativos ao acervo (a parte da ``chave`` antes do primeiro ``|``).
+    """
+    usados = set()
+    for caminho in sorted(pasta.glob("braco*.json")):
+        for registro in _ler_json(caminho).get("quadros", {}).values():
+            chave = registro.get("chave") or ""
+            if chave:
+                usados.add(chave.split("|")[0])
+    return usados
+
+
 def _candidatos(raiz: Path, canal: str, filtro: str | None = None) -> list[str]:
     """Vídeos do canal do lote no acervo.
 
@@ -512,10 +561,19 @@ def sortear(numero: str = RODADA_PADRAO, raiz: Path | None = None) -> list[str]:
     if (pasta / ARQUIVO_INDICE).exists() or ouro.exists():
         raise FileExistsError(f"já existe índice ou gabarito em {pasta} / {ouro}")
     usados = excluidos_da_rodada(numero)
-    candidatos = _candidatos(raiz, rodada.canal, rodada.filtro_titulo)
-    if rodada.triagem:
-        candidatos = videos_com_capo_visto(pasta / ARQUIVO_TRIAGEM)
-    videos = escolher_videos(candidatos, usados, rodada.semente, rodada.n_videos)
+    if rodada.canais:
+        usados |= arquivos_dos_gabaritos()
+        candidatos = []
+        videos = []
+        for i, canal in enumerate(rodada.canais):
+            do_canal = _candidatos(raiz, canal, rodada.filtro_titulo)
+            candidatos += do_canal
+            videos += escolher_videos(do_canal, usados, rodada.semente + i, 1)
+    else:
+        candidatos = _candidatos(raiz, rodada.canal, rodada.filtro_titulo)
+        if rodada.triagem:
+            candidatos = videos_com_capo_visto(pasta / ARQUIVO_TRIAGEM)
+        videos = escolher_videos(candidatos, usados, rodada.semente, rodada.n_videos)
     duracoes = {video: _duracao(raiz / video) for video in videos}
     itens = itens_do_sorteio(videos, duracoes, rodada.n_instantes)
     pasta.mkdir(parents=True, exist_ok=True)
@@ -526,7 +584,7 @@ def sortear(numero: str = RODADA_PADRAO, raiz: Path | None = None) -> list[str]:
         pasta / ARQUIVO_SORTEIO,
         {
             "semente": rodada.semente,
-            "canal": rodada.canal,
+            "canal": rodada.canal or list(rodada.canais),
             "fracoes": fracoes_instantes(rodada.n_instantes),
             "filtro_titulo": rodada.filtro_titulo,
             "candidatos": len(candidatos),
@@ -976,6 +1034,27 @@ def _prever_quadros(
                 flush=True,
             )
     return previstos
+
+
+def prever_quadros(
+    pasta: Path, indice: dict, estagio1: str, estagio2: str, um_braco: bool = False
+) -> dict[str, dict]:
+    """Roda a cadeia de um par de pesos nos quadros de um índice (GPU).
+
+    Versão pública de ``_prever_quadros``, para as rodadas que preveem com outro par
+    (1046).
+
+    Args:
+        pasta: pasta da rodada (os quadros estão em ``pasta / item["png"]``).
+        indice: ``indice.json`` da rodada.
+        estagio1: nome do localizador.
+        estagio2: nome do detector.
+        um_braco: se True, o estágio 1 usa o P2 (um braço só).
+
+    Returns:
+        ``{id: entrada de previsto.json}``, na ordem do índice.
+    """
+    return _prever_quadros(pasta, indice, estagio1, estagio2, um_braco)
 
 
 def aplicar_consenso(doc: dict, dimensoes: dict[str, tuple[int, int]]) -> dict:

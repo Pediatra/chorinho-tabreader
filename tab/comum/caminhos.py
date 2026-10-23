@@ -148,6 +148,11 @@ MAOS_M42 = SAIDA / "maos" / "m42"
 #: Ciclo de capo num canal novo (rodada 1043, kimny's guitar): a prova lacrada da 1042.
 MAOS_M43 = SAIDA / "maos" / "m43"
 GABARITO_BRACO_M43 = RAIZ / "data" / "gold" / "maos" / "braco_m43.json"
+#: Lote de 8 canais (rodada 1044): a prova dos validadores, tentativas e tomada.
+MAOS_M44 = SAIDA / "maos" / "m44"
+GABARITO_BRACO_M44 = RAIZ / "data" / "gold" / "maos" / "braco_m44.json"
+#: Capo por detector aberto (rodada 1046): caixas do Grounding DINO, escolha e medida.
+MAOS_M46 = SAIDA / "maos" / "m46"
 #: Casa do capo por vídeo, juntada do gabarito do braço (``tab.maos_braco_capo``).
 CAPO_POR_VIDEO = SAIDA / "maos" / "capo_por_video.json"
 #: Conferência dos 30 quadros do censo de mãos (rodada 1001).
