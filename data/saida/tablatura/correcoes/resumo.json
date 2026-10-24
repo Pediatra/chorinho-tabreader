@@ -1,0 +1,101 @@
+{
+ "eob": {
+  "telas_a_rever": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "sugestoes": {
+   "palpite_x": 96
+  },
+  "origem": "/app/data/gold/ouro_video/end_of_beginning_djo_fingerstyle_guitar_tab_chords_lyrics.json"
+ },
+ "room335": {
+  "telas_a_rever": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   15
+  ],
+  "sugestoes": {
+   "palpite_x": 31
+  },
+  "origem": "/app/data/gold/ouro_video/tabroom_335_larry_carlton_fingerstyle_guitar.json"
+ },
+ "t82": {
+  "telas_a_rever": [
+   7,
+   8
+  ],
+  "sugestoes": {
+   "palpite_x": 18
+  },
+  "origem": "/app/data/saida/tablatura/t82/ferramenta/conferencia_t82.json"
+ },
+ "t83": {
+  "telas_a_rever": [
+   7,
+   8
+  ],
+  "sugestoes": {
+   "palpite_x": 14
+  },
+  "origem": "/app/data/saida/tablatura/t83/ferramenta/conferencia_t83.json"
+ },
+ "t84": {
+  "telas_a_rever": [
+   1,
+   6,
+   7,
+   27,
+   28
+  ],
+  "sugestoes": {
+   "palpite_x": 52
+  },
+  "origem": "/app/data/saida/tablatura/t84/ferramenta/conferencia_t84.json"
+ },
+ "t85": {
+  "telas_a_rever": [
+   1,
+   2,
+   7,
+   8,
+   28
+  ],
+  "sugestoes": {
+   "palpite_x": 61,
+   "auditoria_so_b": 1,
+   "auditoria_so_c": 1
+  },
+  "origem": "/app/data/saida/tablatura/t85/ferramenta/conferencia_t85.json"
+ },
+ "t86": {
+  "telas_a_rever": [
+   6,
+   7,
+   8,
+   13,
+   21,
+   23,
+   27,
+   29,
+   30
+  ],
+  "sugestoes": {
+   "auditoria_so_c": 2,
+   "auditoria_casa": 6,
+   "auditoria_so_b": 3,
+   "palpite_x": 30
+  },
+  "origem": "/app/data/saida/tablatura/t86/ferramenta/conferencia_t86.json"
+ }
+}

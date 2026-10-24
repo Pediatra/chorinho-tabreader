@@ -1,0 +1,11 @@
+{
+ "nome": "correcoes",
+ "trilha": "tablatura",
+ "classe": "manter",
+ "motivo": "o dono decide o X empilhado (palpite de gap_x) e as divergências da auditoria cega; cópias das conferências com as sugestões",
+ "comando": ["python data/saida/tablatura/correcoes/montar.py", "sh data/saida/tablatura/correcoes/servir.sh"],
+ "regeneravel": "montar.py sim, antes do dono; depois, as conferencia_*.json são rótulo do dono",
+ "rodadas": [],
+ "citado_por": ["docs/pesquisa/tablatura-gap-x-abafado.md", "docs/pesquisa/tablatura-gap-auditoria-cega.md"],
+ "modificado": "2026-10-24"
+}
