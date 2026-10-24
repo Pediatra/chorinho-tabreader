@@ -55,6 +55,15 @@ Recusada quer dizer: as notas ficam no produto, marcadas `recusado` com o motivo
   outras.
 - A regra só é aplicada **depois** da conferência fechada.
 
+### Emenda 1 (2026-10-24, antes de medir)
+
+O `censo_v2.jsonl` só tem o canal `cifra club` (215 vídeos; 37 com tablatura). Com o teto de
+3 por canal, a amostra parava em 3 vídeos (o Haiku parou no sorteio, sem ler nenhum
+produto). A fonte passa a ser o `censo_cache.jsonl` da mesma pasta: 3.813 vídeos de 21
+canais, 2.948 com `tablatura` verdadeiro. Um vídeo do `cifra club` que o `censo_v2` (censo
+mais novo desse canal) marca sem tablatura fica de fora. O resto (semente 16, 30 vídeos,
+teto de 3 por canal, exclusões, critério) não muda.
+
 ## O critério
 
 Por tela com painel, com denominadores:
