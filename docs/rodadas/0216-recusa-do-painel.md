@@ -80,4 +80,40 @@ Por tela com painel, com denominadores:
 
 ## Resultado
 
-(a preencher depois da medida)
+Medido em 2026-10-24, no commit c4183a33 + emenda bb61507a. Arquivos em
+`data/saida/tablatura/recusa/r0216/`.
+
+**A amostra.** 30 vídeos de 12 canais (`amostra.json`), lidos pelo produto em CPU em ~4 h,
+sem falha. Saíram 519 telas, 512 delas com painel.
+
+**A conferência do painel.**
+- O Haiku triou as 44 folhas: 490 certas, 18 erradas e 4 dúvidas (`triagem.json`).
+- A sessão principal conferiu as 22 marcadas, num mosaico (`conferir_mosaico.py`), e as folhas
+  limpas 020, 022 e 027, sorteadas com `Random(16)` (36 telas, todas certas):
+  - as 18 erradas se confirmam;
+  - das 4 dúvidas, `asturias` t2 e t18 viram erradas (as cordas estão sobre a pauta), e
+    `brasiliana` t2 e t3 viram certas (as cordas estão sobre a tab com ritmo).
+- No total, **20 erradas e 492 certas** (`conferencia.json`).
+
+**A regra:**
+
+| medida | resultado | critério | |
+| --- | --- | --- | --- |
+| erradas recusadas (pega) | **16/20 (80 %)** | ≥ 60 % | passa |
+| certas recusadas | **12/492 (2,4 %)** | ≤ 3 % | passa |
+| notas certas perdidas | **221/20.079 (1,1 %)** | ≤ 1 % | **reprova** |
+
+Ela barra 286 das 398 notas erradas.
+
+**Leitura.** O custo em notas reprova, então **a regra não entra no produto**. Ela vai para a
+tabela "não repetir".
+
+O que os números mostram:
+- **A faixa fixa faz todo o trabalho.** As 16 erradas pegas são todas pela faixa fixa, que
+  custa 7 telas certas e 209 notas. Três dessas telas são da `asturias`, em que a faixa
+  `meio` cobre a pauta e a tab.
+- **O `notas_por_largura` só custa**: 5 telas certas, 12 notas, e nenhuma errada a mais.
+- **As 4 que escapam**: 3 telas da `asturias`, em que o painel recortado ficou na pauta e a tab
+  está embaixo, e uma tela de comentários do YouTube (faixa `base`).
+
+A próxima tentativa precisa de uma amostra nova: esta já foi vista e virou dado de escolha.

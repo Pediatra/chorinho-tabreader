@@ -1,0 +1,196 @@
+{
+ "linhas_censo": 3813,
+ "valores_tablatura": {
+  "False": 865,
+  "True": 2948
+ },
+ "canais_fora_rollout": [
+  "tv cifras",
+  "violaodecria"
+ ],
+ "excluidos_por_motivo": {
+  "sem_tablatura": 865,
+  "cifra_club_sem_tab_censo_v2": 91,
+  "ja_usado_t86": 28,
+  "ja_usado_r2021": 35,
+  "ja_usado_t83": 30,
+  "ja_usado_t85": 27,
+  "ja_usado_t84": 27,
+  "ja_usado_ouro_video": 4,
+  "ja_usado_r2017": 18,
+  "ja_usado_t82": 1,
+  "rollout_fora": 383
+ },
+ "candidatos": 2304,
+ "pulados_pelo_teto_por_canal": 40,
+ "alvo": 30,
+ "teto_por_canal": 3,
+ "semente": 16,
+ "amostrados": 30,
+ "por_canal": {
+  "robert lunn": 3,
+  "iwaki": 3,
+  "guitar dell ́arte": 3,
+  "leonardo ramos": 3,
+  "kenneth acoustic": 3,
+  "mr. tabs": 1,
+  "shin izumi": 2,
+  "sky guitar": 3,
+  "kimny's guitar": 3,
+  "pablo romé": 3,
+  "cifra club": 2,
+  "paolo d'angelo": 1
+ },
+ "videos": [
+  {
+   "nome": "romanza_-_johann_kaspar_mertz_-_full_sheet_music_tab_-_class",
+   "arquivo": "robert lunn/romanza - johann kaspar mertz - full sheet music⧸tab - classical guitar.mp4",
+   "canal": "robert lunn"
+  },
+  {
+   "nome": "chopin_nocturne_op._9-2_sheet_music_tab",
+   "arquivo": "iwaki/chopin ⧸ nocturne op. 9-2 ⧸  sheet music ⧸ tab.mp4",
+   "canal": "iwaki"
+  },
+  {
+   "nome": "summer_of_42_l_été_42_m._legrand._arrangement_for_guitar_wit",
+   "arquivo": "guitar dell ́arte/summer of 42 (l’été 42), m. legrand. arrangement for guitar with tutorial, sheet and tab.mp4",
+   "canal": "guitar dell ́arte"
+  },
+  {
+   "nome": "house_of_pain_-_includes_sheet_music_tab_-_classical_guitar",
+   "arquivo": "robert lunn/house of pain - includes sheet music⧸tab - classical guitar.mp4",
+   "canal": "robert lunn"
+  },
+  {
+   "nome": "recuerdos_de_mi_pueblo_vals_lento_juan_buscaglia_tutorial_pa",
+   "arquivo": "leonardo ramos/recuerdos de mi pueblo (vals lento) 🎸juan buscaglia ｜｜ tutorial para guitarra clásica + tabs.mp4",
+   "canal": "leonardo ramos"
+  },
+  {
+   "nome": "el_desvelao_gato_abel_fleury_tutorial_para_guitarra_clásica_",
+   "arquivo": "leonardo ramos/el desvelao (gato) 🎸 abel fleury ｜｜ tutorial para guitarra clásica + tabs.mp4",
+   "canal": "leonardo ramos"
+  },
+  {
+   "nome": "snow_hey_oh_-_rhcp_fingerstyle_guitar_tab_chords_lyrics",
+   "arquivo": "kenneth acoustic/snow (hey oh) - rhcp ｜ fingerstyle guitar ｜ tab + chords + lyrics.mp4",
+   "canal": "kenneth acoustic"
+  },
+  {
+   "nome": "5_beautiful_christmas_carols_guitar_arrangements",
+   "arquivo": "guitar dell ́arte/5 beautiful christmas carols, guitar arrangements.mp4",
+   "canal": "guitar dell ́arte"
+  },
+  {
+   "nome": "the_beatles_george_harrison_-_here_comes_the_sun_-_chords_gu",
+   "arquivo": "mr. tabs/the beatles (george harrison) - here comes the sun - chords ｜ guitar tab ｜ lesson ｜ cover ｜ tutorial.mp4",
+   "canal": "mr. tabs"
+  },
+  {
+   "nome": "tab_top_of_the_world_-_carpenters_-_fingerstyle_guitar_ソロギター",
+   "arquivo": "shin izumi/【tab】top of the world - carpenters - fingerstyle guitar ソロギター【タブ】.mp4",
+   "canal": "shin izumi"
+  },
+  {
+   "nome": "sunflower_love_theme_h._mancini_guitar_lesson_sheet_and_tab",
+   "arquivo": "guitar dell ́arte/sunflower, love theme (h. mancini), guitar lesson, sheet and tab.mp4",
+   "canal": "guitar dell ́arte"
+  },
+  {
+   "nome": "sign_of_the_times_-_harry_styles_fingerstyle_guitar_tab_chor",
+   "arquivo": "kenneth acoustic/sign of the times - harry styles ｜ fingerstyle guitar ｜ tab + chords + lyrics.mp4",
+   "canal": "kenneth acoustic"
+  },
+  {
+   "nome": "fun_series_1_squid_game_tab",
+   "arquivo": "sky guitar/fun series #1 (squid game) tab.mp4",
+   "canal": "sky guitar"
+  },
+  {
+   "nome": "tab_brasiliana_-_baden_powell_performed_by_kimny",
+   "arquivo": "kimny's guitar/[tab] brasiliana - baden powell ｜ performed by kimny.mp4",
+   "canal": "kimny's guitar"
+  },
+  {
+   "nome": "return_to_the_darkness_-_includes_sheet_music_tab_-_robert_l",
+   "arquivo": "robert lunn/return to the darkness - includes sheet music⧸tab - robert lunn.mp4",
+   "canal": "robert lunn"
+  },
+  {
+   "nome": "tab_tomara_-_vinicius_de_moraes_arrangement_performed_by_kim",
+   "arquivo": "kimny's guitar/[tab] tomara - vinicius de moraes ｜ arrangement & performed by kimny.mp4",
+   "canal": "kimny's guitar"
+  },
+  {
+   "nome": "smooth_criminal_-_michael_jackson_fingerstyle_guitar_tab_cho",
+   "arquivo": "kenneth acoustic/smooth criminal - michael jackson ｜ fingerstyle guitar ｜ tab + chords + lyrics.mp4",
+   "canal": "kenneth acoustic"
+  },
+  {
+   "nome": "merry_christmas_mr_lawrence_ryuichi_sakamoto_tab",
+   "arquivo": "iwaki/merry christmas mr lawrence ⧸ ryuichi sakamoto ｜ tab.mp4",
+   "canal": "iwaki"
+  },
+  {
+   "nome": "titanic_-_my_heart_will_go_on_tab_for_beginners",
+   "arquivo": "iwaki/titanic - my heart will go on ⧸ tab for beginners.mp4",
+   "canal": "iwaki"
+  },
+  {
+   "nome": "june_tchaikovsky_-_tab_lesson",
+   "arquivo": "sky guitar/june (tchaikovsky) - tab & lesson.mp4",
+   "canal": "sky guitar"
+  },
+  {
+   "nome": "asturias_de_albéniz_3_tutorial_guitarra_partitura_tab",
+   "arquivo": "pablo romé/asturias de albéniz 3  💃 tutorial guitarra [partitura+tab].mp4",
+   "canal": "pablo romé"
+  },
+  {
+   "nome": "nothing_s_gonna_change_my_love_for_you_-_fingerstyle_lesson_",
+   "arquivo": "sky guitar/nothing's gonna change my love for you - fingerstyle lesson + tab.mp4",
+   "canal": "sky guitar"
+  },
+  {
+   "nome": "nothing_else_matters_-_metallica_aula_de_violão_e_guitarra",
+   "arquivo": "cifra club/nothing else matters - metallica (aula de violão e guitarra).mp4",
+   "canal": "cifra club"
+  },
+  {
+   "nome": "o_trem_azul_-_lô_borges_versão_única_como_tocar_no_violão",
+   "arquivo": "cifra club/o trem azul - lô borges (versão única) ｜ como tocar no violão.mp4",
+   "canal": "cifra club"
+  },
+  {
+   "nome": "mario_zamba_oscar_rosati_tutorial_para_guitarra_clásica_tabs",
+   "arquivo": "leonardo ramos/mario (zamba) 🎸 oscar rosati ｜｜ tutorial para guitarra clásica + tabs.mp4",
+   "canal": "leonardo ramos"
+  },
+  {
+   "nome": "tab_shining_boy_little_randy_-_ryuichi_sakamoto_fingerstyle_",
+   "arquivo": "kimny's guitar/[ tab ] shining boy & little randy - ryuichi sakamoto ｜ fingerstyle guitar cover.mp4",
+   "canal": "kimny's guitar"
+  },
+  {
+   "nome": "romance_anónimo_segunda_parte_partitura_tab",
+   "arquivo": "pablo romé/romance anónimo segunda parte 😎 [partitura+tab].mp4",
+   "canal": "pablo romé"
+  },
+  {
+   "nome": "tab_winter_wonderland_-_fingerstyle_jazz_guitar_ソロギター_タブ",
+   "arquivo": "shin izumi/【tab】winter wonderland - fingerstyle jazz guitar ソロギター【タブ】.mp4",
+   "canal": "shin izumi"
+  },
+  {
+   "nome": "blackbird_the_beatles_guitar_tab_fingerstyle_tutorial",
+   "arquivo": "paolo d'angelo/blackbird ｜ the beatles ｜ guitar tab ｜ fingerstyle tutorial.mp4",
+   "canal": "paolo d'angelo"
+  },
+  {
+   "nome": "aprende_el_trémolo_más_bonito_de_sagreras",
+   "arquivo": "pablo romé/aprende el trémolo más bonito de sagreras 😍.mp4",
+   "canal": "pablo romé"
+  }
+ ]
+}

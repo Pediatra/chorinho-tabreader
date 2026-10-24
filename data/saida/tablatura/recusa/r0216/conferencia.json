@@ -1,0 +1,12 @@
+{
+ "quem": "sessão principal da tablatura, 2026-10-24",
+ "como": "mosaico das 22 telas marcadas pelo Haiku (conferir_1.jpg, conferir_2.jpg) e 3 folhas limpas sorteadas com Random(16): folha_020, folha_022, folha_027 (36 telas, todas certas)",
+ "mudancas": [
+  {"k": 3, "tela": 2, "triagem": "duvida", "final": "errado", "motivo": "cordas vermelhas sobre a pauta"},
+  {"k": 3, "tela": 18, "triagem": "duvida", "final": "errado", "motivo": "cordas vermelhas sobre a pauta"},
+  {"k": 24, "tela": 2, "triagem": "duvida", "final": "certo", "motivo": "cordas sobre a tab com ritmo"},
+  {"k": 24, "tela": 3, "triagem": "duvida", "final": "certo", "motivo": "cordas sobre a tab com ritmo"}
+ ],
+ "as_18_erradas_do_haiku": "todas confirmadas",
+ "final": {"telas_com_painel": 512, "erradas": 20, "certas": 492}
+}

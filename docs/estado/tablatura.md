@@ -454,3 +454,19 @@ Tabela "não repetir" atualizada acima (5 linhas novas).
 - **`ataque_rotulo.DETECTOR_CALIBRADO` = `detector_tab_final_atqs_s1`**, com `LIMIAR_NAO`
   0,10 e `LIMIAR_SIM` 0,01. O `DETECTOR_PADRAO` não muda.
 - **A etapa do rótulo de ataque fecha.** Ver `docs/rodadas/0215-expressao-e-t85.md`.
+
+## Tablatura — recusa do painel errado (0216, 2026-10-24)
+
+- **Na r2021** (35 vídeos, 602 telas com painel), 20 painéis estão errados (3,3 %): o
+  produto lê o braço, a pauta ou um título e entrega as notas sem sinal.
+- **A regra pré-registrada**: recusar quando o painel é a faixa fixa `topo` ou `meio` inteira,
+  ou quando `n_notas / (largura / passo)` ≤ 0,0916.
+- **Na prova lacrada** (30 vídeos novos de 12 canais, `Random(16)`, 512 telas com painel, 20
+  erradas pela triagem do Haiku conferida pela sessão principal):
+  - pega **16/20** (80 %, teto 60 %): passa;
+  - certas recusadas **12/492** (2,4 %, teto 3 %): passa;
+  - notas certas perdidas **221/20.079 (1,1 %)**, teto 1 %: **reprova**.
+- **A regra não entra no produto.** O que se aprendeu: as 16 pegas são todas pela faixa fixa;
+  o `notas_por_largura` só custa (12 notas, 0 pegas). As 4 que escapam são da pauta com tab
+  embaixo (`asturias`, 3 telas) e uma tela de comentários do YouTube.
+- Ver `docs/rodadas/0216-recusa-do-painel.md`.

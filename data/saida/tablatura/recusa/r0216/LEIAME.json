@@ -1,0 +1,17 @@
+{
+ "nome": "r0216",
+ "trilha": "tablatura",
+ "classe": "manter",
+ "motivo": "prova lacrada da 0216 (recusa do painel): amostra (emenda 1), produtos, folhas, triagem visual e sinais",
+ "comando": [
+  "python data/saida/tablatura/recusa/r0216/amostra.py",
+  "bash data/saida/tablatura/recusa/r0216/rodar.sh",
+  "host-spawn ... docker compose run chorinho python data/saida/tablatura/recusa/r0216/folhas_r0216.py",
+  "host-spawn ... docker compose run chorinho python data/saida/tablatura/recusa/r0216/sinais_r0216.py"
+ ],
+ "regeneravel": "sim",
+ "rodadas": [
+  "docs/rodadas/0216-recusa-do-painel.md"
+ ],
+ "citado_por": []
+}
