@@ -470,3 +470,7 @@ Tabela "não repetir" atualizada acima (5 linhas novas).
   o `notas_por_largura` só custa (12 notas, 0 pegas). As 4 que escapam são da pauta com tab
   embaixo (`asturias`, 3 telas) e uma tela de comentários do YouTube.
 - Ver `docs/rodadas/0216-recusa-do-painel.md`.
+- **Correção (no mesmo dia).** 4 telas que a triagem chamou de certas eram painéis errados:
+  3 da pauta (`aprende el trémolo`) e 1 do braço (`el desvelao` t22). Com elas corrigidas,
+  a regra passa nos três critérios: pega 20/24, certas 8/488, notas 145/20.003 (0,72 %).
+  Como a correção veio depois da medida, a regra vai **igual** à prova da 0217.

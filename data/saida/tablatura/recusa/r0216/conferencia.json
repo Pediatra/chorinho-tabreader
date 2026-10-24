@@ -2,11 +2,78 @@
  "quem": "sessão principal da tablatura, 2026-10-24",
  "como": "mosaico das 22 telas marcadas pelo Haiku (conferir_1.jpg, conferir_2.jpg) e 3 folhas limpas sorteadas com Random(16): folha_020, folha_022, folha_027 (36 telas, todas certas)",
  "mudancas": [
-  {"k": 3, "tela": 2, "triagem": "duvida", "final": "errado", "motivo": "cordas vermelhas sobre a pauta"},
-  {"k": 3, "tela": 18, "triagem": "duvida", "final": "errado", "motivo": "cordas vermelhas sobre a pauta"},
-  {"k": 24, "tela": 2, "triagem": "duvida", "final": "certo", "motivo": "cordas sobre a tab com ritmo"},
-  {"k": 24, "tela": 3, "triagem": "duvida", "final": "certo", "motivo": "cordas sobre a tab com ritmo"}
+  {
+   "k": 3,
+   "tela": 2,
+   "triagem": "duvida",
+   "final": "errado",
+   "motivo": "cordas vermelhas sobre a pauta"
+  },
+  {
+   "k": 3,
+   "tela": 18,
+   "triagem": "duvida",
+   "final": "errado",
+   "motivo": "cordas vermelhas sobre a pauta"
+  },
+  {
+   "k": 24,
+   "tela": 2,
+   "triagem": "duvida",
+   "final": "certo",
+   "motivo": "cordas sobre a tab com ritmo"
+  },
+  {
+   "k": 24,
+   "tela": 3,
+   "triagem": "duvida",
+   "final": "certo",
+   "motivo": "cordas sobre a tab com ritmo"
+  }
  ],
  "as_18_erradas_do_haiku": "todas confirmadas",
- "final": {"telas_com_painel": 512, "erradas": 20, "certas": 492}
+ "final": {
+  "telas_com_painel": 512,
+  "erradas": 20,
+  "certas": 492
+ },
+ "correcao_2026_10_24": {
+  "como": "depois de medir, conferidas as 12 telas certas que a regra recusou (faixa_certas_1.jpg, poucas_certas_1.jpg)",
+  "mudancas": [
+   {
+    "k": 2,
+    "tela": 2,
+    "triagem": "certo",
+    "final": "errado",
+    "motivo": "cordas sobre a pauta"
+   },
+   {
+    "k": 2,
+    "tela": 4,
+    "triagem": "certo",
+    "final": "errado",
+    "motivo": "cordas sobre a pauta"
+   },
+   {
+    "k": 2,
+    "tela": 11,
+    "triagem": "certo",
+    "final": "errado",
+    "motivo": "cordas sobre a pauta"
+   },
+   {
+    "k": 6,
+    "tela": 22,
+    "triagem": "certo",
+    "final": "errado",
+    "motivo": "cordas sobre o braço do violão"
+   }
+  ],
+  "confirmadas_certas": "k3 t4, t6, t19 (asturias: cordas sobre a tab); k6 t16, t23, t28, k10 t9, k20 t3 (painel certo, leitura com 1 a 3 notas numa tab cheia)",
+  "final": {
+   "telas_com_painel": 512,
+   "erradas": 24,
+   "certas": 488
+  }
+ }
 }

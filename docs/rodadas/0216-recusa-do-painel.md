@@ -117,3 +117,31 @@ O que os números mostram:
   está embaixo, e uma tela de comentários do YouTube (faixa `base`).
 
 A próxima tentativa precisa de uma amostra nova: esta já foi vista e virou dado de escolha.
+
+## Correção da conferência (2026-10-24, depois da medida)
+
+Para desenhar a regra seguinte, a sessão principal olhou as 12 telas "certas" que a regra
+recusou (`faixa_certas_1.jpg` e `poucas_certas_1.jpg`). **4 delas eram painéis errados que a
+triagem chamou de certos**: `aprende el trémolo` t2, t4 e t11 (as cordas estão sobre a pauta) e
+`el desvelao` t22 (as cordas estão sobre o braço). As outras 8 se confirmam:
+- as 3 da `asturias` (cordas sobre a tab);
+- 5 telas com o painel certo, mas lidas com 1 a 3 notas numa tab cheia.
+
+A correção está em `conferencia.json`. Com ela, **24 erradas e 488 certas**:
+
+| medida | resultado | critério | |
+| --- | --- | --- | --- |
+| pega | **20/24 (83 %)** | ≥ 60 % | passa |
+| certas recusadas | **8/488 (1,6 %)** | ≤ 3 % | passa |
+| notas certas perdidas | **145/20.003 (0,72 %)** | ≤ 1 % | passa |
+
+Ela barra 362 das 474 notas erradas.
+
+**A leitura muda, mas a decisão espera.** Com o rótulo corrigido, a regra passa nos três
+critérios. Só que a correção veio depois de ver o resultado, e olhou só as telas que a regra
+recusou. Por isso ela não decide sozinha. A regra **igual, sem mudar nenhum limiar**, vai à
+prova da 0217, em vídeos novos, com uma conferência mais forte: a sessão principal confere
+toda tela que a regra recusar, e não só as que a triagem marcar.
+
+O que se aprende sobre a conferência: a triagem do Haiku deixou passar 4 painéis errados entre
+os 494 que ele chamou de certos. A conferência de 1 folha em cada 10 não pegou nenhum deles.
