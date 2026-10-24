@@ -1,0 +1,15 @@
+{
+ "nome": "recusa",
+ "trilha": "tablatura",
+ "classe": "manter",
+ "motivo": "rodada 0216: recusa segura do painel errado antes do rollout; folhas de auditoria das telas do produto r2021",
+ "comando": [
+  "python data/saida/tablatura/recusa/folhas_r2021.py"
+ ],
+ "regeneravel": "sim",
+ "rodadas": [
+  "docs/rodadas/0216-recusa-do-painel.md"
+ ],
+ "citado_por": [],
+ "modificado": "2026-10-23"
+}
