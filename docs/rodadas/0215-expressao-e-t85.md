@@ -104,3 +104,51 @@ dos ouros):
   - o X sem número;
   - as chaves do ataque que deslizam quando o dono põe uma nota no modo normal;
   - a divergência da Gymnopédie.
+
+## Resultado (2026-10-23)
+
+Roteiro `r5/rodar.sh`, código do pré-registro no commit 2ef39f13. O gabarito da T8.6 está
+no commit 3b84b3b6: 27 telas, 1337 notas e 59 não atacadas. As 3 notas "não sei" da tela 9
+foram decididas pelo dono como atacadas.
+
+**1. Nos ouros revisados** (`r5/decisao.json`): o `_atqs` **passa**.
+
+| | limiar da técnica | `L` | "sim" falso por semente | casa por semente | custo por semente |
+| --- | --- | --- | --- | --- | --- |
+| `_atqr` | 0,10 | 0,01 | 3/86, 3/86, 3/86 | 2672, 2672, 2669 | 121, 132, 108 de ~2596 |
+| `_atqs` | 0,10 | 0,01 | 3/86, 3/86, 3/86 | 2674, 2674, 2674 | 106, 97, 103 de ~2598 |
+
+**2. Na T8.6, uma vez só** (`r5/medida_t86_atqs.json`, `L` 0,01): **passa**.
+
+| semente | "sim" falso | custo | casa | não lidas |
+| --- | --- | --- | --- | --- |
+| 1 | 1/56 | 69/1275 | 1318/1331 | 6 |
+| 2 | 1/56 | 74/1275 | 1321/1331 | 6 |
+| 3 | 1/56 | 67/1275 | 1320/1331 | 6 |
+| **soma** | **3/168 (1,8 %)** ✔ | **210/3825 (5,5 %)** ✔ | | |
+
+- **O `_atqr` na T8.6**, só para informar: "sim" falso 0/170 (0,0 %) e custo 247/3826
+  (6,5 %). Ele também passaria.
+  - A T8.6 saiu mais fácil que a T8.5 para os dois modelos. O aceite do `_atqs` vale, mas
+    **não prova que o G16 e a T8.5 no treino causaram a melhora**.
+  - O que se pode dizer é que o `_atqs` tem o custo menor nas duas provas: nos ouros (306
+    contra 361) e na T8.6 (210 contra 247). E a casa dele é melhor nos ouros (2674 contra
+    2669 a 2672).
+- **Conforme o pré-registro**, o `ataque_rotulo.DETECTOR_CALIBRADO` passa a
+  `detector_tab_final_atqs_s1`, com `LIMIAR_NAO` 0,10 e `LIMIAR_SIM` 0,01, os dois
+  escolhidos nos ouros. O `DETECTOR_PADRAO` (leitura comum) não muda.
+
+**Os erros** (`r5/diagnostico_t86.py`, semente 1, recortes em `r5/diag_t86/`):
+
+- **O "sim" falso** é 1 nota: o 7 da corda 4 na tela 29, que chega de um slide 9 → 7 marcado
+  com "sl." e uma elipse em volta das duas cordas. O modelo não viu técnica nenhuma, e todas
+  as técnicas ficaram abaixo de 0,006.
+- **O custo** são 69 notas, e duas telas concentram 26: a 9 e a 17, com 13 cada.
+  - 49 das 69 têm todas as técnicas abaixo de 0,05;
+  - 29 caem só pelo mordente.
+
+**A etapa do rótulo de ataque fecha** (o aceite do plano). Ficam como dívida:
+- o X sem número;
+- as chaves que deslizam na ferramenta;
+- a Gymnopédie;
+- a cobertura (5,5 % das notas atacadas ficam fora do ouro).

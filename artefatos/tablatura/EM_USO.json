@@ -1,5 +1,5 @@
 {
- "data": "2026-10-21",
+ "data": "2026-10-23",
  "em_uso": [
   {
    "pastas": [
@@ -9,9 +9,36 @@
   },
   {
    "pastas": [
-    "detector_tab_final_atqt_s1"
+    "detector_tab_final_atqs_s1"
    ],
    "uso": "rótulo de ataque (ataque_rotulo.DETECTOR_CALIBRADO)"
+  },
+  {
+   "pastas": [
+    "detector_tab_final_atqs_s2",
+    "detector_tab_final_atqs_s3",
+    "detector_tab_v3ft_d1_atqs_s1",
+    "detector_tab_v3ft_d1_atqs_s2",
+    "detector_tab_v3ft_d1_atqs_s3",
+    "detector_tab_v3ft_d2_atqs_s1",
+    "detector_tab_v3ft_d2_atqs_s2",
+    "detector_tab_v3ft_d2_atqs_s3",
+    "detector_tab_v3ft_d3_atqs_s1",
+    "detector_tab_v3ft_d3_atqs_s2",
+    "detector_tab_v3ft_d3_atqs_s3",
+    "detector_tab_v3ft_d4_atqs_s1",
+    "detector_tab_v3ft_d4_atqs_s2",
+    "detector_tab_v3ft_d4_atqs_s3"
+   ],
+   "uso": "medida da 0215 nos ouros (dobras fora) e na T8.6 (sementes 2 e 3)"
+  },
+  {
+   "pastas": [
+    "detector_tab_final_atqr_s1",
+    "detector_tab_final_atqr_s2",
+    "detector_tab_final_atqr_s3"
+   ],
+   "uso": "régua da 0215 (_atqr, informado na T8.6)"
   },
   {
    "pastas": [
@@ -129,6 +156,7 @@
    "detector_tab_final_atqmb_s1",
    "detector_tab_final_atqmb_s2",
    "detector_tab_final_atqmb_s3",
+   "detector_tab_final_atqt_s1",
    "detector_tab_final_s1",
    "detector_tab_final_s1_gerx",
    "detector_tab_final_s2",

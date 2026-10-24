@@ -9,8 +9,8 @@ A partir das probabilidades das técnicas que o detector dá a cada nota
 - slide sem nota de origem na mesma corda até ``ORIGEM_SLIDE_MAX`` passos à esquerda é
   slide de entrada: "sim" (regra do dono, rodada 0203).
 
-Os limiares foram escolhidos nos ouros para os pesos ``_atqg`` e, de novo, para os ``_atqt``
-(``DETECTOR_CALIBRADO``, rodada 0207), com o mesmo resultado. Não valem para outros pesos.
+Os limiares foram escolhidos nos ouros para os pesos ``_atqs`` (``DETECTOR_CALIBRADO``,
+rodada 0215), que passaram na prova lacrada T8.6. Não valem para outros pesos.
 """
 
 from collections.abc import Sequence
@@ -19,16 +19,18 @@ from tab.comum import caminhos
 from tab.tablatura.ataque.r4 import ORIGEM_SLIDE_MAX, TECNICAS_SUPERVISIONADAS
 from tab.tablatura.leitura.detector_tab import TECNICAS_MODELO
 
-#: Pesos em que os limiares foram escolhidos (rodadas 0205 e 0207, dobra 0, semente 1).
+#: Pesos em que os limiares foram escolhidos (rodada 0215, dobra 0, semente 1). Na T8.6:
+#: "sim" falso 3/168 (1,8 %) e custo 210/3825 (5,5 %), sementes somadas.
 DETECTOR_CALIBRADO = (
-    caminhos.PESOS_TABLATURA / "detector_tab_final_atqt_s1" / "modelo.pt"
+    caminhos.PESOS_TABLATURA / "detector_tab_final_atqs_s1" / "modelo.pt"
 )
 
-#: Acima disto, a técnica tira o ataque: "nao" (rodada 0203).
-LIMIAR_NAO = 0.15
+#: Acima disto, a técnica tira o ataque: "nao" (``escolher_limiar`` nos ouros, 0215).
+LIMIAR_NAO = 0.10
 
-#: Abaixo disto em todas as técnicas sem ataque, a nota é "sim" (rodada 0205).
-LIMIAR_SIM = 0.02
+#: Abaixo disto em todas as técnicas sem ataque, a nota é "sim" (``escolher_nao_sei``
+#: nos ouros, 0215).
+LIMIAR_SIM = 0.01
 
 #: Técnica do modelo -> ``ataque_motivo`` do esquema, quando a nota é "nao".
 MOTIVO_DA_TECNICA = {

@@ -437,3 +437,20 @@ Tabela "não repetir" atualizada acima (5 linhas novas).
 - **O custo vem do `L` 0,01 apertado demais**: 79 das 147 notas da semente 1 têm todas as
   técnicas abaixo de 0,05, e 96 têm o mordente acima do `L`. Uma tela (a 3, *Smile*) tem 49.
 - A T8.5 está gasta. O `DETECTOR_CALIBRADO` não muda. Ver `docs/rodadas/0214-r4h-ligaduras.md`.
+
+### Rótulo de ataque `_atqs` passa na T8.6 (2026-10-23, rodada 0215)
+
+- **`_atqs`** é o `_atqr` com duas mudanças:
+  - o G16 no gerador: dinâmica, andamento e fermata acima da corda 1;
+  - as 28 telas da T8.5 no treino.
+- **Nos ouros revisados**, o "sim" falso é de 3/86 por semente, a casa de 2674 por semente,
+  e o custo é de 306 notas contra 361 do `_atqr`.
+- **Na prova lacrada T8.6** (27 telas, 1337 notas, 59 não atacadas), **passa**:
+  - "sim" falso **3/168 (1,8 %)**;
+  - custo **210/3825 (5,5 %)**;
+  - casa 1318 a 1321 de 1331.
+- O `_atqr`, só para informar, passaria também: 0/170 e 6,5 %. A T8.6 é mais fácil que a
+  T8.5, então a melhora não se atribui só à 0215.
+- **`ataque_rotulo.DETECTOR_CALIBRADO` = `detector_tab_final_atqs_s1`**, com `LIMIAR_NAO`
+  0,10 e `LIMIAR_SIM` 0,01. O `DETECTOR_PADRAO` não muda.
+- **A etapa do rótulo de ataque fecha.** Ver `docs/rodadas/0215-expressao-e-t85.md`.

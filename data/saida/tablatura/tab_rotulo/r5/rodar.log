@@ -1,0 +1,25 @@
+18:40:36 ok treino_atqs_d0_s1 | passo 3000/3000 | perda 0.1068 centro 0.0766 classe 0.0155 tecnica 0.0147 | lr 0.00e+00 | 955 s
+18:56:55 ok treino_atqs_d0_s2 | passo 3000/3000 | perda 0.1056 centro 0.0769 classe 0.0144 tecnica 0.0143 | lr 0.00e+00 | 970 s
+19:15:15 ok treino_atqs_d0_s3 | passo 3000/3000 | perda 0.1076 centro 0.0761 classe 0.0168 tecnica 0.0146 | lr 0.00e+00 | 1086 s
+19:33:09 ok treino_atqs_d1_s1 | passo 3000/3000 | perda 0.1087 centro 0.0788 classe 0.0152 tecnica 0.0146 | lr 0.00e+00 | 1057 s
+19:49:39 ok treino_atqs_d1_s2 | passo 3000/3000 | perda 0.1079 centro 0.0786 classe 0.0147 tecnica 0.0146 | lr 0.00e+00 | 976 s
+20:05:52 ok treino_atqs_d1_s3 | passo 3000/3000 | perda 0.1100 centro 0.0787 classe 0.0166 tecnica 0.0147 | lr 0.00e+00 | 963 s
+20:22:39 ok treino_atqs_d2_s1 | passo 3000/3000 | perda 0.1069 centro 0.0770 classe 0.0153 tecnica 0.0147 | lr 0.00e+00 | 993 s
+20:39:39 ok treino_atqs_d2_s2 | passo 3000/3000 | perda 0.1041 centro 0.0758 classe 0.0138 tecnica 0.0145 | lr 0.00e+00 | 1006 s
+20:55:19 ok treino_atqs_d2_s3 | passo 3000/3000 | perda 0.1066 centro 0.0761 classe 0.0160 tecnica 0.0146 | lr 0.00e+00 | 930 s
+21:10:40 ok treino_atqs_d3_s1 | passo 3000/3000 | perda 0.1061 centro 0.0761 classe 0.0154 tecnica 0.0146 | lr 0.00e+00 | 908 s
+21:26:55 ok treino_atqs_d3_s2 | passo 3000/3000 | perda 0.1037 centro 0.0750 classe 0.0144 tecnica 0.0143 | lr 0.00e+00 | 966 s
+21:43:30 ok treino_atqs_d3_s3 | passo 3000/3000 | perda 0.1068 centro 0.0759 classe 0.0164 tecnica 0.0144 | lr 0.00e+00 | 983 s
+21:59:41 ok treino_atqs_d4_s1 | passo 3000/3000 | perda 0.1056 centro 0.0761 classe 0.0151 tecnica 0.0144 | lr 0.00e+00 | 961 s
+22:15:17 ok treino_atqs_d4_s2 | passo 3000/3000 | perda 0.1042 centro 0.0755 classe 0.0145 tecnica 0.0143 | lr 0.00e+00 | 924 s
+22:30:53 ok treino_atqs_d4_s3 | passo 3000/3000 | perda 0.1061 centro 0.0759 classe 0.0160 tecnica 0.0142 | lr 0.00e+00 | 925 s
+22:33:11 ok medida atqs s1
+22:35:27 ok medida atqs s2
+22:37:37 ok medida atqs s3
+time="2026-10-23T22:37:37-03:00" level=warning msg="Found orphan containers (chorinho-censo) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container chorinho-chorinho-run-165d5d2a9f9b Creating 
+ Container chorinho-chorinho-run-165d5d2a9f9b Created 
+atqr: técnica 0.1 L 0.01 | sim falso 3/86 · 3/86 · 3/86 | custo 121/2596 · 132/2597 · 108/2595 | casa 2669–2672 | T8.2 1/54 · 2/52 · 2/54
+atqs: técnica 0.1 L 0.01 | sim falso 3/86 · 3/86 · 3/86 | custo 106/2597 · 97/2598 · 103/2598 | casa 2674–2674 | T8.2 2/54 · 2/54 · 2/55
+atqs passa nos ouros: True
+22:37:41 fim
