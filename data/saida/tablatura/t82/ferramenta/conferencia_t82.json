@@ -1,7 +1,7 @@
 {
  "video": "t82: 36 telas de canais fora do ouro (ver indice.json)",
  "como_foi_rotulado": "T8.2: uma tela por vídeo, 2 vídeos por canal fora do ouro (data/saida/t82). Notas pré-lidas pela rede; o dono confere a casa. Sem instantes.",
- "rotulado_em": "2026-10-23T15:08:41",
+ "rotulado_em": "2026-10-24T16:23:52",
  "telas": [
   {
    "id": 1,
@@ -2056,6 +2056,18 @@
      "x_centro_quadro": 283.9
     },
     {
+     "corda": 5,
+     "casa": "x",
+     "x_quadro": 322.1,
+     "x_centro_quadro": 328.8
+    },
+    {
+     "corda": 6,
+     "casa": "x",
+     "x_quadro": 322.1,
+     "x_centro_quadro": 328.8
+    },
+    {
      "corda": 3,
      "casa": 0,
      "x_quadro": 363.0,
@@ -2092,6 +2104,18 @@
      "x_centro_quadro": 578.7
     },
     {
+     "corda": 5,
+     "casa": "x",
+     "x_quadro": 616.1,
+     "x_centro_quadro": 622.8
+    },
+    {
+     "corda": 6,
+     "casa": "x",
+     "x_quadro": 616.1,
+     "x_centro_quadro": 622.8
+    },
+    {
      "corda": 3,
      "casa": 0,
      "x_quadro": 651.1,
@@ -2120,6 +2144,18 @@
      "casa": 0,
      "x_quadro": 885.6,
      "x_centro_quadro": 893.6
+    },
+    {
+     "corda": 5,
+     "casa": "x",
+     "x_quadro": 952.1,
+     "x_centro_quadro": 958.8
+    },
+    {
+     "corda": 6,
+     "casa": "x",
+     "x_quadro": 952.1,
+     "x_centro_quadro": 958.8
     },
     {
      "corda": 5,
@@ -2177,6 +2213,18 @@
     },
     {
      "corda": 5,
+     "casa": "x",
+     "x_quadro": 1167.0,
+     "x_centro_quadro": 1173.7
+    },
+    {
+     "corda": 6,
+     "casa": "x",
+     "x_quadro": 1167.0,
+     "x_centro_quadro": 1173.7
+    },
+    {
+     "corda": 5,
      "casa": 2,
      "x_quadro": 1220.6,
      "x_centro_quadro": 1228.6
@@ -2210,6 +2258,18 @@
      "casa": 0,
      "x_quadro": 1548.9,
      "x_centro_quadro": 1556.9
+    },
+    {
+     "corda": 5,
+     "casa": "x",
+     "x_quadro": 1548.9,
+     "x_centro_quadro": 1555.6
+    },
+    {
+     "corda": 6,
+     "casa": "x",
+     "x_quadro": 1548.9,
+     "x_centro_quadro": 1555.6
     },
     {
      "corda": 5,
@@ -2320,6 +2380,18 @@
    "conferida": true,
    "notas": [
     {
+     "corda": 5,
+     "casa": "x",
+     "x_quadro": 14.7,
+     "x_centro_quadro": 21.2
+    },
+    {
+     "corda": 6,
+     "casa": "x",
+     "x_quadro": 14.7,
+     "x_centro_quadro": 21.2
+    },
+    {
      "corda": 2,
      "casa": 3,
      "x_quadro": 60.1,
@@ -2392,6 +2464,18 @@
      "x_centro_quadro": 578.9
     },
     {
+     "corda": 5,
+     "casa": "x",
+     "x_quadro": 618.1,
+     "x_centro_quadro": 624.6
+    },
+    {
+     "corda": 6,
+     "casa": "x",
+     "x_quadro": 618.1,
+     "x_centro_quadro": 624.6
+    },
+    {
      "corda": 1,
      "casa": 0,
      "x_quadro": 675.8,
@@ -2426,6 +2510,18 @@
      "casa": 0,
      "x_quadro": 833.0,
      "x_centro_quadro": 840.9
+    },
+    {
+     "corda": 5,
+     "casa": "x",
+     "x_quadro": 882.6,
+     "x_centro_quadro": 889.1
+    },
+    {
+     "corda": 6,
+     "casa": "x",
+     "x_quadro": 882.6,
+     "x_centro_quadro": 889.1
     },
     {
      "corda": 4,
@@ -2498,6 +2594,18 @@
      "casa": 0,
      "x_quadro": 1422.5,
      "x_centro_quadro": 1430.4
+    },
+    {
+     "corda": 5,
+     "casa": "x",
+     "x_quadro": 1470.5,
+     "x_centro_quadro": 1477.0
+    },
+    {
+     "corda": 6,
+     "casa": "x",
+     "x_quadro": 1470.5,
+     "x_centro_quadro": 1477.0
     },
     {
      "corda": 2,
@@ -11025,7 +11133,7 @@
  "instantes": [],
  "juntadas": {},
  "ferramenta": {
-  "proximo": 136,
+  "proximo": 154,
   "tela_atual": 33,
   "inst_atual": 0,
   "telas": [
@@ -16282,6 +16390,106 @@
        1618.5,
        1021.3
       ]
+     },
+     {
+      "id": "d136",
+      "corda": 5,
+      "casa": "x",
+      "x_quadro": 322.1,
+      "x_centro_quadro": 328.8,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d137",
+      "corda": 6,
+      "casa": "x",
+      "x_quadro": 322.1,
+      "x_centro_quadro": 328.8,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d138",
+      "corda": 5,
+      "casa": "x",
+      "x_quadro": 616.1,
+      "x_centro_quadro": 622.8,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d139",
+      "corda": 6,
+      "casa": "x",
+      "x_quadro": 616.1,
+      "x_centro_quadro": 622.8,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d140",
+      "corda": 5,
+      "casa": "x",
+      "x_quadro": 952.1,
+      "x_centro_quadro": 958.8,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d141",
+      "corda": 6,
+      "casa": "x",
+      "x_quadro": 952.1,
+      "x_centro_quadro": 958.8,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d142",
+      "corda": 5,
+      "casa": "x",
+      "x_quadro": 1167,
+      "x_centro_quadro": 1173.7,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d143",
+      "corda": 6,
+      "casa": "x",
+      "x_quadro": 1167,
+      "x_centro_quadro": 1173.7,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d144",
+      "corda": 5,
+      "casa": "x",
+      "x_quadro": 1548.9,
+      "x_centro_quadro": 1555.6,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d145",
+      "corda": 6,
+      "casa": "x",
+      "x_quadro": 1548.9,
+      "x_centro_quadro": 1555.6,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
      }
     ],
     "regioes": [
@@ -16888,6 +17096,86 @@
       "x_quadro": 1639,
       "origem": "dono",
       "removida": false
+     },
+     {
+      "id": "d146",
+      "corda": 5,
+      "casa": "x",
+      "x_quadro": 14.7,
+      "x_centro_quadro": 21.2,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d147",
+      "corda": 6,
+      "casa": "x",
+      "x_quadro": 14.7,
+      "x_centro_quadro": 21.2,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d148",
+      "corda": 5,
+      "casa": "x",
+      "x_quadro": 618.1,
+      "x_centro_quadro": 624.6,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d149",
+      "corda": 6,
+      "casa": "x",
+      "x_quadro": 618.1,
+      "x_centro_quadro": 624.6,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d150",
+      "corda": 5,
+      "casa": "x",
+      "x_quadro": 882.6,
+      "x_centro_quadro": 889.1,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d151",
+      "corda": 6,
+      "casa": "x",
+      "x_quadro": 882.6,
+      "x_centro_quadro": 889.1,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d152",
+      "corda": 5,
+      "casa": "x",
+      "x_quadro": 1470.5,
+      "x_centro_quadro": 1477,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
+     },
+     {
+      "id": "d153",
+      "corda": 6,
+      "casa": "x",
+      "x_quadro": 1470.5,
+      "x_centro_quadro": 1477,
+      "origem": "dono",
+      "removida": false,
+      "sugestao": "palpite_x"
      }
     ],
     "regioes": [
