@@ -80,6 +80,8 @@ ARTEFATOS = Path("/app/artefatos")
 PARTIDA = ARTEFATOS / "detector_tab_v3_s1" / "modelo.pt"
 OURO_VIDEO = Path("/app/data/gold/ouro_video")
 MARGEM_X_BINS = 1  # folga, em bins de saída, em volta da região de X
+#: X do dono nas telas conferidas (rodada 0218, ``correcoes/x_dono.py``), só com --x-dono.
+X_DONO = Path("/app/data/saida/tablatura/correcoes/x_dono.json")
 DOBRAS = {
     0: (),  # final: todos os gabaritos no treino
     1: ("retrato_brasileiro_v2", "la_vie_en_rose_edith_piaf_tab"),
@@ -130,6 +132,51 @@ def regioes_x(slug: str, tela: int, x0: float) -> list[tuple[int, int, float, fl
     return saida
 
 
+def com_x_dono(meta: dict, xs: list[dict]) -> int:
+    """Põe as notas X do dono numa tela do cache (rodada 0218).
+
+    A nota do cache na mesma corda a até 0,5 passo vira ``x`` (o dono trocou o número por
+    X); sem nota perto, a nota X entra nova. As duas ficam sem alvo de ataque: o X não
+    ganha rótulo de ataque inferido.
+
+    Args:
+        meta: a tela do cache, com ``notas``, ``alvos_tec``, ``x0`` e ``passo`` (alterada).
+        xs: as notas X do dono da tela (``corda``, ``x_centro_quadro``).
+
+    Returns:
+        Quantas notas X entraram ou trocaram de rótulo.
+    """
+    passo, x0 = float(meta["passo"]), float(meta["x0"])
+    for x in xs:
+        x_roi = float(x["x_centro_quadro"]) - x0
+        perto = [
+            i
+            for i, n in enumerate(meta["notas"])
+            if int(n["corda"]) == int(x["corda"])
+            and abs(float(n["x_roi"]) - x_roi) <= 0.5 * passo
+        ]
+        if perto:
+            i = min(perto, key=lambda i: abs(float(meta["notas"][i]["x_roi"]) - x_roi))
+            meta["notas"][i]["casa"] = "x"
+            meta["alvos_tec"][i] = (False, None)
+        else:
+            meta["notas"].append({"corda": int(x["corda"]), "casa": "x", "x_roi": x_roi})
+            meta["alvos_tec"].append((False, None))
+    return len(xs)
+
+
+def casa_do_cache(casa: int | str) -> str:
+    """Casa de uma nota do cache como rótulo do detector ("7", "x").
+
+    Args:
+        casa: a casa como está no cache (número, ou "x" depois do ``com_x_dono``).
+
+    Returns:
+        O rótulo em texto.
+    """
+    return "x" if str(casa).lower() in ("x", "xs") else str(int(casa))
+
+
 def carregar_telas(
     excluir: tuple[str, ...],
     ignorar_x: bool = False,
@@ -140,6 +187,7 @@ def carregar_telas(
     t83_toda: bool = False,
     t84: bool = False,
     t85: bool = False,
+    x_dono: bool = False,
 ) -> list[dict]:
     """Lê o cache, tirando os vídeos da dobra.
 
@@ -153,11 +201,13 @@ def carregar_telas(
         t83_toda: soma as duas metades de ``CACHE_T83`` (rodada 0214).
         t84: soma as telas de ``CACHE_T84`` (rodada 0214; existe só com o recorte alto).
         t85: soma as telas de ``CACHE_T85`` (rodada 0215; existe só com o recorte alto).
+        x_dono: põe as notas X do dono de ``X_DONO`` (rodada 0218).
 
     Returns:
         Lista de dicts do cache, com a imagem BGR em "img".
     """
     telas = []
+    xs_dono = json.loads(X_DONO.read_text(encoding="utf-8"))["treino"] if x_dono else {}
     def pasta(p: Path) -> Path:
         return p.with_name(p.name + "_alto") if alto else p
 
@@ -186,6 +236,9 @@ def carregar_telas(
         )
         meta["alvos_tec"] = (
             alvos_tec(meta) if ataque else [(False, None)] * len(meta["notas"])
+        )
+        meta["x_dono"] = com_x_dono(
+            meta, xs_dono.get(meta["slug"], {}).get(str(meta["tela"]), [])
         )
         telas.append(meta)
     return telas
@@ -258,7 +311,7 @@ def amostra_real(tela: dict, rng: random.Random) -> tuple[np.ndarray, ...]:
     if w3 > w2:
         arr = np.pad(arr, ((0, 0), (0, w3 - w2)), mode="edge")
     notas = [
-        (int(n["corda"]), str(int(n["casa"])), float(n["x_roi"]) * escala * s)
+        (int(n["corda"]), casa_do_cache(n["casa"]), float(n["x_roi"]) * escala * s)
         for n in tela["notas"]
     ]
     centro_c, classe_c = alvos_reais(notas, w3 // D.STRIDE)
@@ -380,6 +433,7 @@ def main() -> int:
     ap.add_argument("--t83-toda", action="store_true", help="T8.3 inteira no treino (0214)")
     ap.add_argument("--t84", action="store_true", help="telas da T8.4 no treino (0214)")
     ap.add_argument("--t85", action="store_true", help="telas da T8.5 no treino (0215)")
+    ap.add_argument("--x-dono", action="store_true", help="X do dono no treino (0218)")
     args = ap.parse_args()
     comando = "python /app/data/saida/n4/treinar_ft.py " + " ".join(sys.argv[1:])
     fora = DOBRAS[args.dobra]
@@ -387,7 +441,7 @@ def main() -> int:
         raise SystemExit("--t84 e --t85 só existem com --recorte-alto")
     telas = carregar_telas(
         fora, args.ignorar_x, args.ataque, args.t82, args.t83_metade, args.recorte_alto,
-        args.t83_toda, args.t84, args.t85,
+        args.t83_toda, args.t84, args.t85, args.x_dono,
     )
     if not telas:
         raise SystemExit("sem telas de treino")
@@ -398,6 +452,7 @@ def main() -> int:
     pasta.mkdir(parents=True, exist_ok=True)
     log(f"dobra {args.dobra}: fora={fora} | telas reais de treino={len(telas)}")
     log(f"regiões de X ignoradas: {sum(len(t['regioes_x']) for t in telas)}")
+    log(f"notas X do dono: {sum(t['x_dono'] for t in telas)}")
     sup = contar_alvos(telas)
     log(f"notas reais com técnica supervisionada: {sup}")
 
@@ -487,6 +542,7 @@ def main() -> int:
         "t83_toda": args.t83_toda,
         "t84": args.t84,
         "t85": args.t85,
+        "x_dono": args.x_dono,
         "notas_supervisionadas": sup,
         "tempo_s": round(tempo, 1),
     }

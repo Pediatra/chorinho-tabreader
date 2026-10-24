@@ -100,6 +100,13 @@ P_CASA_ALTA = 0.15
 P_MUDO = 0.05
 #: Chance de uma coluna ter uma nota só (o resto tem 2 a 6 cordas).
 P_UMA_NOTA_COLUNA = 0.5
+#: G17 (rodada 0218): chance de uma coluna ser de X empilhado (2 a 6 cordas vizinhas
+#: abafadas, como no rasgueado). Com o X sorteado nota a nota (``P_MUDO``), a coluna de X
+#: quase não nascia, e o produto lia 0 de 486 cordas de X empilhado (``gap_x``).
+P_COLUNA_X = 0.06
+#: Quantas cordas a coluna de X cobre (2 a 6) e o peso de cada; mais chance para 3 a 6.
+CORDAS_COLUNA_X = (2, 3, 4, 5, 6)
+PESOS_COLUNA_X = (0.10, 0.30, 0.25, 0.15, 0.20)
 #: Chance de uma nota ser harmônico `<n>`.
 P_HARMONICO = 0.06
 #: Chance de uma nota vir entre parênteses `(n)`: nota opcional ou fantasma, atacada
@@ -383,7 +390,7 @@ def _sortear_rotulo(rng: random.Random) -> str:
 
 
 def _sortear_grade(rng: random.Random, n_col: int) -> dict[tuple[int, int], dict]:
-    """Sorteia as notas de cada coluna, com acordes empilhados.
+    """Sorteia as notas de cada coluna, com acordes empilhados e colunas de X (G17).
 
     Args:
         rng: gerador aleatório.
@@ -394,6 +401,12 @@ def _sortear_grade(rng: random.Random, n_col: int) -> dict[tuple[int, int], dict
     """
     grade: dict[tuple[int, int], dict] = {}
     for c in range(n_col):
+        if rng.random() < P_COLUNA_X:
+            n = rng.choices(CORDAS_COLUNA_X, weights=PESOS_COLUNA_X)[0]
+            ini = rng.randint(0, 6 - n)
+            for s in range(ini, ini + n):
+                grade[(c, s)] = {"rotulo": "x", "tecnica": None}
+            continue
         if rng.random() < P_UMA_NOTA_COLUNA:
             cordas = [rng.randrange(6)]
         else:

@@ -465,6 +465,7 @@ def main() -> int:
             "atqb",
             "atqr",
             "atqs",
+            "atqx",
         ),
         required=True,
     )
