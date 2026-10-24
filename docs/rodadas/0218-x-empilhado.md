@@ -37,12 +37,17 @@ casa nem o rótulo de ataque?
 1. **Gerador G17** (`tab/tablatura/treino/sintetico_sistema.py`): uma coluna pode virar uma
    **coluna de X**. Com probabilidade `P_COLUNA_X = 0,06` por coluna, 2 a 6 cordas
    vizinhas recebem X. Os pesos dão mais chance a 3–6, o rasgueado.
-   - A amostra do gerador é medida antes de treinar (AGENTS §7, regra 2): quantas colunas de X
-     nascem em 2.000 sistemas.
-   - Um mosaico de exemplos fica em `tab_rotulo/r6/`.
+   - A amostra do gerador foi medida antes de treinar (AGENTS §7, regra 2; `r6/amostra.py`).
+     Em 2.000 sistemas:
+     - 762 sistemas têm ao menos uma coluna de X;
+     - são 921 colunas de X: 211 de 2 cordas, 242 de 3, 206 de 4, 145 de 5 e 117 de 6;
+     - 4.836 notas X no total.
+   - Os exemplos ficam em `tab_rotulo/r6/exemplos/`.
 2. **Os X do dono no ajuste fino** (`n4/treinar_ft.py --x-dono`):
    - as notas X das telas conferidas (casa `x`, e também `xs`) entram como alvo da casa,
-     lidas de `correcoes/x_dono.json`;
+     lidas de `correcoes/x_dono.json` (`correcoes/x_dono.py`). São 300 no treino da dobra 0
+     e 170 na dobra 4, que deixa o EOB e o Room 335 de fora. A T8.6 fica num bloco à parte
+     (`prova`) e não entra;
    - a nota do cache que o dono trocou de número para X troca de rótulo;
    - o X **não** ganha rótulo de ataque inferido: fica sem alvo de ataque, como nota sem
      gabarito de ataque (AGENTS §8: o agente não converte rótulo).
@@ -69,7 +74,8 @@ ficarem dentro dos tetos. Se não seguir, não há prova: o resultado vai para "
 - **O que se mede**: as 28 telas conferidas da T8.6 e os seus 35 X.
 - **Por que serve de prova**: a T8.6 nunca entrou em treino. Ela já foi gasta como prova do
   rótulo de ataque (0215), mas os X dela foram marcados depois disso e nunca escolheram nada.
-- **Uma medida só**, com a semente 1, liberada por `r6/t86_x_liberada.json` depois da escolha:
+- **Uma medida só**, com as 3 sementes somadas (como na 0215), liberada por
+  `r6/t86_x_liberada.json` depois da escolha (`r6/medir_x.py t86`):
   1. **X lido ≥ 50 %** dos 35;
   2. **X falso** (X lido onde o dono tem um número) ≤ **1 %** das notas numéricas;
   3. casa nas notas numéricas ≥ a do `_atqs` − 0,3 ponto;
