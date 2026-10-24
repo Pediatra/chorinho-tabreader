@@ -43,6 +43,7 @@ from tab.maos.base import (
     caixa_em,
     corpo_da_maior,
     dentro_do_quadro,
+    distancia_na_celula,
     eventos,
     intervalos,
     melhor_mao,
@@ -327,6 +328,62 @@ def montar(video: str, produto_caminho: Path, audio_caminho: Path, saida: Path) 
     return relatorio
 
 
+def _quadro_da_k2(
+    arr: dict, ev: dict, trastes: np.ndarray, c1: np.ndarray, c6: np.ndarray
+) -> int:
+    """O quadro da janela em que uma ponta da mão do braço fica mais perto da célula.
+
+    Args:
+        arr: o denso.
+        ev: o evento (com ``janela``, ``corda`` e ``casa``).
+        trastes: ``(25, 2)`` do quadro de braço usado pela K2.
+        c1: reta da corda 1.
+        c6: reta da corda 6.
+
+    Returns:
+        O índice do quadro; o mais perto de ``t_som`` se nenhuma ponta cai na casa.
+    """
+    melhor, indice = np.inf, int(np.argmin(np.abs(arr["pts"] - ev["t_som"])))
+    for i in range(ev["janela"][0], ev["janela"][1]):
+        for ponta in PONTAS:
+            ponto = arr["maos"][i, 0, ponta, :2]
+            if not np.all(np.isfinite(ponto)):
+                continue
+            d = distancia_na_celula(trastes, c1, c6, ev["corda"], ev["casa"], ponto)
+            if d < melhor:
+                melhor, indice = d, i
+    return indice
+
+
+def _celula_na_corda(
+    trastes: np.ndarray, a: np.ndarray, b: np.ndarray, casa: int
+) -> tuple[tuple[int, int], tuple[int, int]] | None:
+    """O trecho da reta da corda que a K2 aceita (traste ``casa − 1`` a ``casa`` + folga).
+
+    Args:
+        trastes: ``(25, 2)`` (0 = nut).
+        a: um ponto da reta da corda.
+        b: outro ponto da reta da corda.
+        casa: ≥ 1.
+
+    Returns:
+        Os dois extremos em pixels, ou ``None`` sem os trastes.
+    """
+    t0, t1 = trastes[casa - 1], trastes[casa]
+    if not (np.all(np.isfinite(t0)) and np.all(np.isfinite(t1))):
+        return None
+    eixo = t1 - t0
+    passo = float((b - a) @ eixo)
+    if passo == 0:
+        return None
+    extremos = []
+    for s in (0.0, 1.0 + FOLGA_CASA):
+        t = (s * float(eixo @ eixo) - float((a - t0) @ eixo)) / passo
+        q = a + t * (b - a)
+        extremos.append((int(q[0]), int(q[1])))
+    return extremos[0], extremos[1]
+
+
 def folha(caminho_json: Path) -> Path:
     """Folha de ``N_FOLHA`` eventos ouro sorteados: braço, célula e pontas desenhados.
 
@@ -342,17 +399,22 @@ def folha(caminho_json: Path) -> Path:
     ouro = [e for e in doc["eventos"] if e["nivel"] == "ouro"]
     escolhidos = random.Random(SEMENTE_FOLHA).sample(ouro, min(N_FOLHA, len(ouro)))
     celulas = []
+    entregues = np.flatnonzero(arr["braco_achou"] & (arr["braco_conf"] == 1.0))
     for ev in escolhidos:
-        i = int(np.argmin(np.abs(arr["pts"] - ev["t_som"])))
+        j = int(entregues[np.argmin(np.abs(arr["pts"][entregues] - ev["t_som"]))])
+        trastes, c1, c6 = (
+            arr["braco_trastes"][j],
+            arr["braco_corda1"][j],
+            arr["braco_corda6"][j],
+        )
+        i = _quadro_da_k2(arr, ev, trastes, c1, c6)
         bgr = leitor.quadro_em(
             str(acervo() / doc["video"]["arquivo"]), float(arr["pts"][i])
         )
-        entregues = np.flatnonzero(arr["braco_achou"] & (arr["braco_conf"] == 1.0))
-        j = int(entregues[np.argmin(np.abs(arr["pts"][entregues] - ev["t_som"]))])
-        for p in arr["braco_trastes"][j]:
+        for p in trastes:
             if np.all(np.isfinite(p)):
                 cv2.circle(bgr, (int(p[0]), int(p[1])), 5, (0, 255, 0), -1)
-        for c in (arr["braco_corda1"][j], arr["braco_corda6"][j]):
+        for c in (c1, c6):
             cv2.line(
                 bgr,
                 tuple(int(v) for v in c[0]),
@@ -361,19 +423,14 @@ def folha(caminho_json: Path) -> Path:
                 1,
             )
         f = (ev["corda"] - 1) / 5.0
-        c1, c6 = arr["braco_corda1"][j], arr["braco_corda6"][j]
         a = c1[0] + (c6[0] - c1[0]) * f
         b = c1[1] + (c6[1] - c1[1]) * f
         cv2.line(
             bgr, tuple(int(v) for v in a), tuple(int(v) for v in b), (0, 200, 255), 2
         )
-        t0, t1 = (
-            arr["braco_trastes"][j][ev["casa"] - 1],
-            arr["braco_trastes"][j][ev["casa"]],
-        )
-        cv2.line(
-            bgr, tuple(int(v) for v in t0), tuple(int(v) for v in t1), (0, 0, 255), 3
-        )
+        celula = _celula_na_corda(trastes, a, b, ev["casa"])
+        if celula is not None:
+            cv2.line(bgr, celula[0], celula[1], (0, 0, 255), 6)
         mao = arr["maos"][i, 0]
         for ponta in PONTAS:
             if np.all(np.isfinite(mao[ponta, :2])):

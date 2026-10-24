@@ -92,3 +92,62 @@ Um evento por nota do produto, com a chave do `chorinho/video@1`.
 - O braço a 1 qps supõe o braço parado por até 0,5 s; no sky guitar a câmera é fixa.
 - K2 com 1 vão de folga não separa a corda vizinha: ele confere a associação nota ↔ mão, não
   a corda.
+
+## Resultado (2026-10-24, código bb61507a)
+
+Duas execuções completas (`data/saida/maos/m49/mvp/rodar.sh`), relógio 20.493 s e 19.220 s.
+A 1ª começou antes do capo do dono entrar no código (`CAPO_DONO`), então o `montar` (sem GPU)
+foi refeito nas duas pastas com o mesmo código; o denso bruto não depende do capo.
+
+| item | resultado |
+| --- | --- |
+| **validade** | o validador aceita o par (0 erros) |
+| **determinismo** | `denso_bruto.npz`, `.maos.npz` e `.maos.json` **idênticos byte a byte** nas duas execuções (sha256) |
+| **custo** | mãos 1.254 s + braço 19.224 s de GPU para 679 s de vídeo (4.364 quadros; braço em 437) = **~30 h de GPU por hora de vídeo**; o braço é 94 % (44 s por quadro, o dobro dos ~20 s da sondagem, com a GPU dividida) |
+
+**Níveis** (763 eventos): **449 ouro, 295 prata, 19 recusados**.
+
+| | ouro | prata | recusado |
+| --- | --- | --- | --- |
+| presa (casa > 0), 536 | 449 | 68 (K2 falhou 67; sem braço a ≤ 0,5 s 1) | 19 (sem `t_audio`) |
+| solta, 227 | — | 227 (K2 não se aplica) | 0 |
+| passagem 1, 728 | 431 | 278 | 19 |
+| passagem 2, 35 | 18 | 17 | 0 |
+
+- Das presas com som, **449 de 517 (86,8 %)** passam na K2. Das 67 que falham, 27 têm a ponta
+  a 1–2 vãos da corda e 40 a mais de 2 vãos ou fora da casa.
+- O braço: 435 de 437 quadros achados, os 435 entregues, 0 sinalizados (câmera fixa, sem capo).
+- A mão do braço está em 4.308 de 4.364 quadros (4.306 pelo Wholebody), a do ataque em 4.346.
+- **K3 e K4 não separam nada neste vídeo**: K3 = 1,0 em todos os eventos com som, e a maior
+  distância de corte é 0,16 (limiar 0,30). Câmera fixa e mãos sempre visíveis; elas vão
+  pesar em outros vídeos, não aqui.
+- Contagens: `data/saida/maos/m49/mvp/contagens.py`.
+
+**Leitura pela regra da rodada**: válido e determinístico, mas **caro** (30 h ≫ 2 h de GPU por
+hora de vídeo). Ação pré-registrada: baixar o custo do braço antes do piloto e medir de novo
+aqui. Só o ganho de velocidade sem mudar a resposta (tarefa delegada
+`docs/pesquisa/maos-gap-custo-do-braco.md`, meta 3×) leva a ~11 h por hora de vídeo, ainda
+acima de 2 h: o piloto vai precisar também de **menos hipóteses ou menos quadros de braço**,
+e isso muda a resposta, então é rodada nova com prova.
+
+### Olhar (a folha de 20 ouro, semente 20261049; não é medida de contaminação)
+
+- A 1ª versão da folha desenhava a casa sobre a linha dos pontos de traste (o meio do braço),
+  não sobre a corda da nota: em corda 1 a célula parecia vazia. Corrigido só no desenho
+  (`folha`): a célula vai sobre a reta da corda, com a mesma conta da K2 (`distancia_na_celula`),
+  e o quadro mostrado é o da janela em que a ponta chega mais perto da célula. As checagens
+  não mudaram.
+- Triagem por Haiku célula a célula, com a 01 conferida por mim: **20 de 20 com uma ponta do
+  detector sobre a célula e um dedo de verdade ali**; braço certo em 20 de 20; mão trocada em 0.
+- O vídeo é de **tela dividida**: a mão do ataque vem de uma câmera (painel esquerdo) e o
+  braço de outra (painel direito). As coordenadas das duas mãos não estão no mesmo espaço
+  físico; para o modelo futuro isso é entrada como ela é, mas a geometria entre as mãos não
+  vale neste vídeo (a tarefa delegada da troca de mãos precisa saber disto).
+- Na 01 (corda 3 casa 4), o quadro em que a ponta cai na célula está ~0,3 s antes do som, com o
+  cursor da tela ainda na coluna anterior: o dedo já se prepara para a nota seguinte. A K2
+  passa por isso com a janela de ±0,5 s; é o risco da nota vizinha, medido na tarefa delegada
+  `docs/pesquisa/maos-gap-k2-nota-vizinha.md` antes do piloto.
+
+**Próximo**: o piloto de 20 vídeos espera (1) o custo do braço (tarefa delegada) e uma rodada
+de corte de custo que mude a resposta (menos pares ou braço a menos qps), com prova; (2) a
+resposta da nota vizinha, que pode estreitar a janela da K2.

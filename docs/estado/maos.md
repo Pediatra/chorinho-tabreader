@@ -374,3 +374,16 @@ em `docs/rodadas/10NN-*`.
   100 % dos vídeos no censo M0, tablatura conferida): M12 (mãos e braço em todos os quadros),
   M13 (o `t_audio` da trilha do áudio), M14 (eventos com K1–K4 e a auditoria de 100 eventos
   do dono). Começa pelo vídeo do MVP (*retrato brasileiro*), que já tem produto e som.
+
+### 2026-10-24 — 1049: a base das mãos de ponta a ponta no vídeo do MVP
+
+- **Válida e determinística**: o validador aceita o par; duas execuções dão `.maos.json` e
+  `.maos.npz` idênticos byte a byte.
+- **763 eventos: 449 ouro, 295 prata, 19 recusados** (sem `t_audio`). Das presas com som,
+  449 de 517 (86,8 %) passam na K2; as 227 soltas ficam prata (K2 não se aplica). K3 e K4 não
+  separam nada aqui (câmera fixa).
+- **Cara**: ~30 h de GPU por hora de vídeo (limite pré-registrado: 2 h); o braço é 94 % (44 s
+  por quadro, a 1 qps). Piloto de 20 vídeos parado até o custo baixar.
+- Folha de 20 ouro: 20 de 20 com a ponta na célula (desenho da célula corrigido); o vídeo é de
+  tela dividida (mão do ataque e braço em câmeras diferentes); um caso mostra o dedo já na
+  nota seguinte 0,3 s antes do som (risco da nota vizinha, em medição delegada).
